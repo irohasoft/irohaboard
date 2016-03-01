@@ -1,0 +1,142 @@
+/**
+ * @author   Nicolas Rod <nico@alaxos.com>
+ * @license  http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @link     http://www.alaxos.ch
+ */
+ 
+#plugin_acl
+{
+	background-color:#ffffff;
+	padding:5px;
+	margin:5px auto 5px auto;
+	/*max-width:600px;*/
+}
+#plugin_acl tr
+{
+	margin:0px;
+}
+#plugin_acl th, #plugin_acl td
+{
+	padding:0px 5px;
+	margin:10px;
+	line-height:25px;
+	min-width:38px;
+	text-align:left;
+}
+#plugin_acl td img
+{
+    vertical-align: middle;
+}
+#plugin_acl p
+{
+	margin:5px 0px;
+}
+.acl_links
+{
+	margin:15px 0px;
+}
+ul.acl_links
+{
+	list-style: none ;
+	margin: 0 ;
+	padding: 0 ;
+	overflow: hidden ;
+}
+ul.acl_links li
+{
+	float: left ;
+	/*width: 150px ;*/
+	/*border: 1px solid #600 ;*/
+	margin-right: 1px ;
+	color: #fff ;
+	/*background: #c00 ;*/
+}
+ul.acl_links li a 
+{
+	display: block ;
+	background:#3F3834;
+	color: #fff ;
+	font: 1em "Trebuchet MS", Arial, sans-serif;
+	line-height: 1em ;
+	padding: 4px 10px ;
+	text-align: center ;
+	text-decoration: none ;
+	-webkit-border-radius: 5px;
+	   -moz-border-radius: 5px;
+	        border-radius: 5px;
+}
+ul.acl_links a:hover, ul.acl_links li a:focus, ul.acl_links li a:active 
+{
+	background: #900 ;
+	text-decoration: underline ;
+}
+ul.acl_links li a.selected
+{
+	background: #900;
+}
+
+.separator
+{
+	height:20px;
+}
+.pointer
+{
+	cursor: pointer;
+}
+.color1
+{
+	background-color:#ffffff;
+}
+tr.color1:hover
+{
+	background-color:#cccccc;
+}
+.color2
+{
+	background-color:#cccccc;
+}
+tr.color2:hover
+{
+	background-color:#ffffff;
+}
+tr.title
+{
+	background-color:#444444;
+	color:#ffffff;
+}
+.line_warning
+{
+	background-image: url('../img/design/warning_small.png');
+	background-repeat: no-repeat;
+	background-position: right;
+	overflow:visible;
+	color:red;
+}
+.warning
+{
+	background-image: url('../img/design/warning_medium.gif');
+	background-repeat: no-repeat;
+	padding-left:40px;
+	color:red;
+	line-height:32px;
+}
+#pluginAclflashMessage.message
+{
+	width:300px;
+	margin-top:10px;
+	margin-bottom:10px;
+	margin-left:auto;
+	margin-right:auto;
+	color:#04AF0D;
+	text-align:center;
+}
+#pluginAclflashMessage.error
+{
+	width:300px;
+	margin-top:10px;
+	margin-bottom:10px;
+	margin-left:auto;
+	margin-right:auto;
+	color:#ff0000;
+	text-align:center;
+}

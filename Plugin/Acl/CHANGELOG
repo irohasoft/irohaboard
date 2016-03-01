@@ -1,0 +1,143 @@
+ACL Plugin for CakePHP 2.x
+==========================
+
+Website: http://www.alaxos.net/blaxos/pages/view/plugin_acl_2.0
+Author: Nicolas Rod <nico@alaxos.com>
+License: http://www.opensource.org/licenses/mit-license.php The MIT License
+
+Version: 2.3.0
+--------------
+Date: 2013-05-02
+
+- corrected code to support CakePHP 2.3 find() function that returns an empty array instead of 'false' when no records are found in the datasource
+- updated the creation of ACOs to be more efficient when there are many records in the 'acos' datatable
+
+Version: 2.2.0
+--------------
+Date: 2012-09-24
+
+- corrected some functions to be fully compatible with CakePHP 2.1 and above to allow the use of E_STRICT error reporting level
+- As a side effect, E_STRICT error reporting level is not possible anymore when using CakePHP 2.0
+- better support of controller names containing an underscore
+- ACO records that are not controllers or actions are not detected as ACO to prune anymore
+- corrected a bug in AclRouter making the aco_path() function fail when the Cake app is at the domain root level
+- added a response->render() to be sure to see the alert when some controllers have been updated
+- corrected a App:uses to prevent an HtmlHelper not found error
+
+Version: 2.1.0
+--------------
+Date: 2012-02-04
+
+- Corrected a security bug allowing any authenticated user to access the Acl plugin
+- Obsolete ACO nodes are now removed from the database when the ACO datatable is synchronized with the application
+- Plugins default controllers are now supported by the plugin, allowing to set permissions for their actions
+- New beta AclHtmlHelper containing a link() function that returns an HTML link only if its url points to an action 
+  that the current authenticated user can access (works only if the AclManagerComponent->set_session_permissions() was called before)      
+- Some minor design updates
+
+Version: 2.0.0
+--------------
+Date: 2011-12-15
+
+- As no problems have been signaled with the 2.0.0-RC6 version, it finally becomes the 2.0.0
+
+Version: 2.0.0-RC6
+------------------
+Date: 2011-12-09
+
+- Corrected a bug preventing the retrieval of plugin controllers methods when a PluginAppController exists
+
+Version: 2.0.0-RC5
+------------------
+Date: 2011-12-07
+
+- Added the RequestHandler component in AclAppController to make the plugin work even if the AppController does not use it already
+
+Version: 2.0.0-RC4
+------------------
+Date: 2011-11-26
+
+- Removed plugin named parameter from Ajax requests when plugin is empty
+- Removed doubled slashes from icons src urls
+
+  Special thanks to Dave and Sam Sherlock for their feedbacks and ideas   
+
+Version: 2.0.0-RC3
+------------------
+Date: 2011-11-01
+
+- Removed RequestHandler from ArosController as its method isAjax() is deprecated (use $this->request->is('ajax') instead)
+
+Version: 2.0.0-beta
+-------------------
+Date: 2011-09-19
+
+- Adaptation for CakePHP 2.0
+
+    No new functionnalities in this version, but the code has been updated for the new Cake 2.0-RC1
+    Renamed classes, use App::uses() instead of old App::import(), updated forms url, etc.
+
+
+Version: 1.0.7
+----------------
+Date: 2011-07-18
+
+- the aros/users_permissions action can now be loaded through Ajax to prevent a request timeout when there are too many permissions to check
+- added an indication when a user have specific permissions. New action to delete these specific permissions.
+- corrected the way to get the plugins' paths in order to support custom paths added to App::path('plugins');
+- corrected the way the plugins parent ACO are generated to support camel cased plugin names 
+- added a parameter in bootstrap.php to support roles and users primary keys' names that do not follow CakePHP conventions
+- eventual errors raised by the user model when updating the users role are now displayed for a better understanding of the problem
+- new brazilian portuguese (pt_BR) translation
+- performance improvements in find queries by limiting retrieved data
+
+Credit:
+
+- Elias Farah 
+    
+    For the brazilian portuguese translation po file and for his help to add the possibility to customize the roles and users primary keys' names
+    
+- Paul Marshall (http://www.paulmarshall.us)
+    
+    For pointing out a better way the get the plugins' paths and for ideas to improve performance in queries  
+        
+- Ilya (http://www.skychip.ru) and Gregorz
+    
+    For identifying a bug with camel cased plugins' names and pointing out the solution
+    
+
+Version: 1.0.6
+----------------
+Date: 2011-04-27
+
+- added a parameter in bootstrap.php to support role foreign key's names that do not follow CakePHP conventions
+
+Version: 1.0.5
+----------------
+Date: 2011-02-19
+
+- bug correction: the role foreign key is now created by using the Inflector class to be correctly generated even for camelcased role model names
+- bug correcton: updated the way the roles and users display names are configured to prevent some situations where the use of an existing database field 
+  was not possible. It also improves performance by creating new virtual fields only if necessary.
+
+Credit: thanks to Paul Marshall for his help on this version (http://www.paulmarshall.us)
+
+Version: 1.0.4
+----------------
+Date: 2011-01-22
+
+- the aros/role_permissions action can now be loaded through Ajax to prevent a request timeout when there are too many permissions to check
+- new search filters on users roles page and users permissions page
+- updated the way new controller and/or actions detection is done to allow to see the warning even after a redirection from /admin/acl
+- replaced $html and $form by $this->Html and $this->Form in views to respect CakePHP best practices
+
+Version: 1.0.3
+----------------
+Date: 2010-12-05
+
+- Added support of plugins placed in ROOT/plugins
+- Corrected a bug preventing to set a user specific permission in some cases
+- Added automatic verification that the user and role models act as ACL requesters
+- No writable 'tmp' folder needed anymore 
+- Some code refactoring (moved functions from the AclAppController to new components)
+- Added this CHANGELOG file... ;-)

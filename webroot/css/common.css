@@ -1,0 +1,165 @@
+/**
+ * iroha Board Project
+ *
+ * @author        Kotaro Miura
+ * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
+ * @link          http://irohasoft.jp/irohaboard
+ * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ */
+
+@CHARSET "UTF-8";
+
+body
+{
+	font-family: 'Apple TP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+#content
+{
+	text-align			: left;
+	min-height			: 600px;
+	max-width			: 1200px;
+	margin				: auto;
+}
+
+div.buttons_container
+{
+	padding				: 10px;
+	text-align			: right;
+}
+
+
+#flashMessage
+{
+/*
+*/
+	position			: absolute;
+	top					: 50px;
+	margin				: auto 25px;
+	width				: 1150px;
+	z-index				: 999999;
+}
+
+#header
+{
+}
+
+.form-signin
+{
+	max-width			: 600px;
+	margin				: 0 auto;
+	margin-top			: 60px;
+}
+
+.form-signin .form-control
+{
+	position			: relative;
+	height				: auto;
+	-webkit-box-sizing	: border-box;
+	-moz-box-sizing		: border-box;
+	box-sizing			: border-box;
+	padding				: 20px;
+	font-size			: 16px;
+}
+
+.form-signin .btn
+{
+	padding: 20px;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+
+form .required .control-label:after
+{
+	border-radius: 0.25em;
+	color: #fff;
+	display: inline;
+	font-size: 75%;
+	font-weight: 700;
+	line-height: 1;
+	padding: 0.1em 0.5em;
+	margin-left: 0.7em;
+	text-align: center;
+	vertical-align: baseline;
+	white-space: nowrap;
+	background-color: #d9534f;
+	content: '必須';
+}
+
+.ib-navi-item
+{
+	padding				: 5px;
+	font-size			: 16px;
+}
+
+.ib-navi-item a
+{
+	color				: #fff;
+}
+
+.ib-navi-sepa
+{
+	height				: 24px;
+	border-right		: 1px solid #ccc;
+	width				: 1px;
+	margin				: 5px;
+	padding				: 0px;
+}
+
+.ib-left
+{
+	float				: left;
+}
+
+.ib-right
+{
+	float				: right;
+}
+
+.ib-logo
+{
+	font-size: 22px;
+	font-family:'Arial';
+	padding-left: 15px;
+	font-weight: bold;
+}
+
+.ib-page-title
+{
+	font-size: 24px;
+	float: left;
+}
+
+.ib-breadcrumb
+{
+	width				: 100%;
+}
+
+.ib-col-date
+{
+	width				: 120px;
+}
+
+.ib-horizontal .input
+{
+	width				: 200px;
+	float				: left;
+}
+
+.ib-horizontal label
+{
+	float				: left;
+	text-align			: right;
+	padding-top			: 15px;
+}
+
+.ib-horizontal .submit
+{
+	padding: 12px;
+}
+
+.well
+{
+    background-color: #fafafa;
+}

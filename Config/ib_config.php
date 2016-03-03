@@ -22,7 +22,7 @@ $config['content_kind']		= array(
 );
 $config['record_result'] = array('1' => '合格', '0' => '不合格');
 $config['record_complete'] = array('1' => '完了', '0' => '未完了');
-$config['record_understanding'] = array('1' => '', '2' => '×', '3' => '△', '4' => '〇', '4' => '◎');
+$config['record_understanding'] = array('1' => '', '2' => '×', '3' => '△', '4' => '〇', '5' => '◎');
 $config['user_role'] = array('admin' => '管理者', 'user' => '受講者');
 
 

@@ -16,6 +16,14 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+if (version_compare(PHP_VERSION, '5.3.0') <= 0) {
+	echo 'iroha Board の動作には 5.3.0 以上が必要です。現在のバージョンは ' . PHP_VERSION . " です。\n";
+	exit;
+}
+
+// タイムゾーンの設定
+date_default_timezone_set('Asia/Tokyo');
+
 /**
  * Use the DS to separate the directories in other defines
  */
@@ -34,6 +42,9 @@ if (!defined('DS')) {
  */
 if (!defined('ROOT')) {
 	define('ROOT', dirname(dirname(dirname(__FILE__))));
+	
+	// webroot と app フォルダと分離する場合
+	//define('ROOT', dirname(dirname(__FILE__)).DS.'cake');
 }
 
 /**
@@ -41,6 +52,9 @@ if (!defined('ROOT')) {
  */
 if (!defined('APP_DIR')) {
 	define('APP_DIR', basename(dirname(dirname(__FILE__))));
+
+	// webroot と app フォルダと分離する場合
+	//define('APP_DIR', 'app');
 }
 
 /**
@@ -57,7 +71,12 @@ if (!defined('APP_DIR')) {
  * The following line differs from its sibling
  * /app/webroot/index.php
  */
-define('CAKE_CORE_INCLUDE_PATH', 'C:' . DS . 'Users' . DS . 'miura' . DS . 'Dropbox' . DS . 'www' . DS . 'cakephp' . DS . 'lib');
+
+if (!defined('CAKE_CORE_INCLUDE_PATH')) {
+	define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'cakephp' . DS . 'lib');
+	// webroot と app フォルダと分離する場合
+	//define('CAKE_CORE_INCLUDE_PATH', ROOT.DS.'lib');
+}
 
 /**
  * This auto-detects CakePHP as a composer installed library.
@@ -80,6 +99,7 @@ if (!defined('WWW_ROOT')) {
 	define('WWW_ROOT', dirname(__FILE__) . DS);
 }
 
+
 // For the built-in server
 if (PHP_SAPI === 'cli-server') {
 	if ($_SERVER['REQUEST_URI'] !== '/' && file_exists(WWW_ROOT . $_SERVER['PHP_SELF'])) {
@@ -96,6 +116,7 @@ if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 		$failed = true;
 	}
 } elseif (!include CAKE_CORE_INCLUDE_PATH . DS . 'Cake' . DS . 'bootstrap.php') {
+echo CAKE_CORE_INCLUDE_PATH;
 	$failed = true;
 }
 if (!empty($failed)) {

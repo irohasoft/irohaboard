@@ -163,3 +163,11 @@ form .required .control-label:after
 {
     background-color: #fafafa;
 }
+
+.ib-col-date,
+.ib-col-datetime,
+.ib-col-action
+{
+	width				: 160px;
+}
+

@@ -48,7 +48,7 @@ if (!defined('APP_DIR')) {
  * The following line differs from its sibling
  * /app/webroot/test.php
  */
-define('CAKE_CORE_INCLUDE_PATH', 'C:' . DS . 'Users' . DS . 'miura' . DS . 'Dropbox' . DS . 'www' . DS . 'cakephp' . DS . 'lib');
+define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'cakephp' . DS . 'lib');
 
 /**
  * This auto-detects CakePHP as a composer installed library.

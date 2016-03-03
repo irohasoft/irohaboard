@@ -9,6 +9,7 @@
  */
 
 App::uses('Controller', 'Controller');
+App::import('Vendor', 'Utils');
 
 /**
  * Application Controller
@@ -83,7 +84,7 @@ class AppController extends Controller
 					'admin' => true
 			);
 			$this->Auth->loginRedirect = array(
-					'controller' => 'groups',
+					'controller' => 'users',
 					'action' => 'index',
 					'admin' => true
 			);

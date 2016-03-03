@@ -7,7 +7,7 @@
 	</style>
 	<?php echo $this->Html->css( 'jquery-ui.css');?>
 	<?php echo $this->Html->css( 'bootstrap.min.css');?>
-	<?php echo $this->Html->script( 'jquery-1.9.0.min.js');?>
+	<?php echo $this->Html->script( 'jquery-1.9.1.min.js');?>
 	<?php echo $this->Html->script( 'bootstrap.min.js');?>
 	<script>
 	function finish(val)

@@ -75,7 +75,7 @@
 <div class="contents index">
 	<div class="ib-breadcrumb">
 	<?php
-	$this->Html->addCrumb('コース一覧', array(
+	$this->Html->addCrumb('<< コース一覧', array(
 			'controller' => 'users_courses',
 			'action' => 'index'
 	));

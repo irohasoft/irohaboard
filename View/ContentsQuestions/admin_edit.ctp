@@ -130,41 +130,50 @@ $(document).ready(function(){
 
 </script>
 <?php $this->end(); ?>
-<?php echo $this->Form->create('ContentsQuestion'); ?>
-	<fieldset>
-		<legend><?php echo ($this->action == 'admin_edit') ? __('編集') :  __('新規問題'); ?></legend>
-	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('title',	array('label' => __('タイトル')));
-		echo $this->Form->input('body',		array('label' => __('問題文')));
-		echo $this->Form->input('image',	array('label' => __('画像URL')));
-	?>
-	<div class="input text required">
-		<label for="ContentsQuestionOptions">選択肢／正解</label><br>
-		「＋」で選択肢の追加、「－」で選択された選択肢を削除します。（※最大10まで）<br>
-		また選択された選択肢が正解となります。<br>
-		<input type="text" size="20" name="option" style="width:200px;">
-		<button class="btn" onclick="add_option();return false;">＋</button>
-		<button class="btn" onclick="del_option();return false;">－</button><br>
-		<!--
-		<select size="5" id="lstOptions" onchange="update_correct()" style="width: 200px;"></select>
-		-->
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<?php echo ($this->action == 'admin_edit') ? __('編集') :  __('新規問題'); ?>
+		</div>
+		<div class="panel-body">
+			<?php echo $this->Form->create('ContentsQuestion', Configure::read('form_defaults')); ?>
+			<?php
+				echo $this->Form->input('id');
+				echo $this->Form->input('title',	array('label' => __('タイトル')));
+				echo $this->Form->input('body',		array('label' => __('問題文')));
+				echo $this->Form->input('image',	array('label' => __('画像URL')));
+
+			?>
+			<div class="input text required">
+				<label for="ContentsQuestionOptions" class="col col-md-3 col-sm-4 control-label">選択肢／正解</label>
+				<div class="col col-md-9 col-sm-8 required">
+				「＋」で選択肢の追加、「－」で選択された選択肢を削除します。（※最大10まで）<br>
+				また選択された選択肢が正解となります。<br>
+				<input type="text" size="20" name="option" style="width:200px;">
+				<button class="btn" onclick="add_option();return false;">＋</button>
+				<button class="btn" onclick="del_option();return false;">－</button><br>
+			<?php
+				echo $this->Form->input('option_list',	array('label' => __('選択肢／正解'), 
+					'type' => 'select',
+					'label' => false,
+					'size' => 5,
+					'onchange' => 'update_correct()'
+				));
+				echo $this->Form->hidden('options',	array('label' => __('選択肢')));
+			?>
+				</div>
+			<?php
+				echo "<div class='' style='display:none;'>";
+				echo $this->Form->input('correct',	array('label' => __('正解')));
+				echo "</div>";
+				echo $this->Form->input('score',	array('label' => __('得点')));
+				echo $this->Form->input('comment',	array('label' => __('備考')));
+			?>
+			</div>
+			<div class="form-group">
+				<div class="col col-md-9 col-md-offset-3">
+					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
+				</div>
+			</div>
+		</div>
 	</div>
-	<?php
-		echo $this->Form->input('option_list',	array('label' => __('選択肢／正解'), 
-			'type' => 'select',
-			'label' => false,
-			'size' => 5,
-			'onchange' => 'update_correct()'
-		));
-		echo $this->Form->hidden('options',	array('label' => __('選択肢')));
-		
-		echo "<div class='' style='display:none;'>";
-		echo $this->Form->input('correct',	array('label' => __('正解')));
-		echo "</div>";
-		echo $this->Form->input('score',	array('label' => __('得点')));
-		echo $this->Form->input('comment',	array('label' => __('備考')));
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('保存')); ?>
 </div>

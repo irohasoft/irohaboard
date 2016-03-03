@@ -18,14 +18,13 @@ App::uses('AppController', 'Controller');
  */
 class UsersCoursesController extends AppController
 {
-
 	public $components = array(
 			'Paginator'
 	);
 
 	public function index()
 	{
-		// �S�̂̂��m�点�̎擾
+		// 全体のお知らせの取得
 		App::import('Model', 'Setting');
 		$this->Setting = new Setting();
 		
@@ -38,7 +37,7 @@ class UsersCoursesController extends AppController
 		
 		$this->set('info', $info[0]);
 		
-		// ��u�R�[�X���̎擾
+		// 受講コース情報の取得
 		$this->UsersCourse->recursive = 0;
 		$usersCourses = $this->UsersCourse->find('all', 
 				array(
@@ -50,10 +49,13 @@ class UsersCoursesController extends AppController
 		$data = $this->UsersCourse->getCourseRecord($this->Session->read('Auth.User.Group.id'), 
 				$this->Session->read('Auth.User.id'));
 		
-		// debug($usersCourses);
-		// debug($data);
+		$no_records = "";
 		
-		$this->set('usersCourses', $data);
+		if(count($data)==0)
+			$no_records = "受講可能なコースはありません";
+		
+		$this->set('usersCourses',  $data);
+		$this->set('no_records',    $no_records);
 	}
 
 	public function view($id = null)

@@ -24,7 +24,7 @@
 				echo $this->Form->input('name',					array('label' => '氏名'));
 				echo $this->Form->input('role',	array(
 					'type' => 'radio',
-					'before' => '<label class="col col-md-3 control-label">公開設定</label>',
+					'before' => '<label class="col col-md-3 control-label">権限</label>',
 					'separator'=>"　", 
 					'disabled'=>false, 
 					'legend' => false,

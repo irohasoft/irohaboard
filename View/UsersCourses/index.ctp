@@ -12,7 +12,7 @@
 	</div>
 	<?}?>
 	<div class="panel panel-info">
-	<div class="panel-heading"><?php echo __('受講可能なコース一覧'); ?></div>
+	<div class="panel-heading"><?php echo __('コース一覧'); ?></div>
 	<div class="panel-body">
 		<ul class="list-group">
 		<?php foreach ($usersCourses as $usersCourse): ?>
@@ -28,6 +28,7 @@
 				</p>
 			</a>
 		<?php endforeach; ?>
+		<?php echo $no_records;?>
 		</ul>
 	</div>
 	</div>

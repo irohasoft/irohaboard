@@ -29,8 +29,8 @@
 		<td><?php echo h($user['User']['email']); ?>&nbsp;</td>
 		<td><?php echo h($user['UserGroup']['group_count']); ?>&nbsp;</td>
 		<td><?php echo h($user['UserCourse']['course_count']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['last_logined']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['created']); ?>&nbsp;</td>
+		<td><?php echo h(Utils::getYMDHN($user['User']['last_logined'])); ?>&nbsp;</td>
+		<td><?php echo h(Utils::getYMDHN($user['User']['created'])); ?>&nbsp;</td>
 
 		<td class="actions">
 			<button type="button" class="btn btn-success"

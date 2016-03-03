@@ -56,7 +56,8 @@ class UsersCourse extends AppModel
 	public function getCourseRecord($group_id, $user_id)
 	{
 		$sql = <<<EOF
- SELECT UsersCourse.*, Course.id, Course.title, first_date, last_date, (content_cnt - study_cnt) as left_cnt,
+ SELECT UsersCourse.*, Course.id, Course.title, first_date, last_date,
+       (ifnull(content_cnt, 0) - ifnull(study_cnt, 0) ) as left_cnt,
        (SELECT understanding
           FROM ib_records h1
          WHERE h1.course_id = UsersCourse.course_id

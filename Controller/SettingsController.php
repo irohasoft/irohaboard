@@ -28,9 +28,7 @@ class SettingsController extends AppController {
 	{
 		if ($this->request->is(array('post', 'put')))
 		{
-			echo "test";
-			
-			debug($this->request->data);
+			//debug($this->request->data);
 			
 			$this->Setting->setSettings($this->request->data);
 			

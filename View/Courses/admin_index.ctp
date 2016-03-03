@@ -9,10 +9,10 @@
 	<thead>
 	<tr>
 			<th><?php echo $this->Paginator->sort('title', 'コース名'); ?></th>
-			<th><?php echo $this->Paginator->sort('opened', '公開日時'); ?></th>
-			<th><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified', '更新日時'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
+			<th class="ib-col-date"><?php echo $this->Paginator->sort('opened', '公開日時'); ?></th>
+			<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
+			<th class="ib-col-datetime"><?php echo $this->Paginator->sort('modified', '更新日時'); ?></th>
+			<th class="ib-col-action"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -21,9 +21,9 @@
 		<td>
 			<?php echo $this->Html->link($course['Course']['title'], array('controller' => 'contents', 'action' => 'index', $course['Course']['id'])); ?>
 		</td>
-		<td><?php echo h($course['Course']['opened']); ?>&nbsp;</td>
-		<td><?php echo h($course['Course']['created']); ?>&nbsp;</td>
-		<td><?php echo h($course['Course']['modified']); ?>&nbsp;</td>
+		<td><?php echo h(Utils::getYMD($course['Course']['opened'])); ?>&nbsp;</td>
+		<td><?php echo h(Utils::getYMDHN($course['Course']['created'])); ?>&nbsp;</td>
+		<td><?php echo h(Utils::getYMDHN($course['Course']['modified'])); ?>&nbsp;</td>
 		<td class="actions">
 			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $course['Course']['id'])) ?>'">編集</button>
 			<?php echo $this->Form->postLink(__('削除'),

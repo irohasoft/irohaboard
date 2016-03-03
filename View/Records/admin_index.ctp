@@ -25,7 +25,6 @@
 			<th><?php echo $this->Paginator->sort('understanding', '理解度'); ?></th>
 			<th><?php echo $this->Paginator->sort('study_sec', '学習時間'); ?></th>
 			<th><?php echo $this->Paginator->sort('created', '学習日時'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -41,14 +40,6 @@
 		<td><?php echo h(Configure::read('record_understanding.'.$record['Record']['understanding'])); ?>&nbsp;</td>
 		<td><?php echo h($record['Record']['study_sec']); ?>&nbsp;</td>
 		<td><?php echo h($record['Record']['created']); ?>&nbsp;</td>
-		<td class="actions">
-			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $record['Record']['id'])) ?>'">編集</button>
-			<?php echo $this->Form->postLink(__('削除'), 
-					array('action' => 'delete', $record['Record']['id']), 
-					array('class'=>'btn btn-danger'), 
-					__('この履歴を削除してもよろしいですか?')
-			); ?>
-		</td>
 	</tr>
 <?php endforeach; ?>
 	</tbody>

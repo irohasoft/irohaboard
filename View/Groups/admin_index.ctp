@@ -21,8 +21,8 @@
 		<td>
 			<?php echo $this->Html->link($group['Group']['title'], array('action' => 'change', $group['Group']['id'])); ?>
 		</td>
-		<td><?php echo h($group['Group']['created']); ?>&nbsp;</td>
-		<td><?php echo h($group['Group']['modified']); ?>&nbsp;</td>
+		<td><?php echo h(Utils::getYMDHN($group['Group']['created'])); ?>&nbsp;</td>
+		<td><?php echo h(Utils::getYMDHN($group['Group']['modified'])); ?>&nbsp;</td>
 		<td><?php echo h(Configure::read('group_status.'.$group['Group']['status'])); ?>&nbsp;</td>
 		<td class="actions">
 			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $group['Group']['id'])) ?>'">編集</button>

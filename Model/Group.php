@@ -80,4 +80,17 @@ class Group extends AppModel
 					'counterQuery' => ''
 			)
 	);
+	
+	public function getGroupList()
+	{
+		$groups = $this->find('all');
+		$data   = array("0" => "全て");
+		
+		for($i=0; $i< count($groups); $i++)
+		{
+			$data[''.$groups[$i]['Group']['id']] = $groups[$i]['Group']['title'];
+		}
+		
+		return $data;
+	}
 }

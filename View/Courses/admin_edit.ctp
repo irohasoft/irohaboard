@@ -10,6 +10,7 @@
 			<?php
 				echo $this->Form->input('id');
 				echo $this->Form->input('title',	array('label' => __('コース名')));
+				/*
 				echo $this->Form->input('opened', array(
 					'type' => 'datetime',
 					'dateFormat' => 'YMD',
@@ -19,6 +20,7 @@
 					'label'=> '公開日時 : ',
 					'style' => 'width:initial; display: inline;'
 				));
+				*/
 				echo $this->Form->input('comment',	array('label' => __('備考')));
 			?>
 			<div class="form-group">

@@ -14,6 +14,7 @@
 				echo $this->Form->input('id');
 				echo $this->Form->input('title',	array('label' => __('タイトル')));
 				echo $this->Form->input('body',		array('label' => __('本文')));
+				/*
 				echo $this->Form->input('opened', array(
 					'type' => 'date',
 					'dateFormat' => 'YMD',
@@ -33,6 +34,7 @@
 					'label'=> '公開終了日 : ',
 					'style' => 'width:initial; display: inline;'
 				));
+				*/
 
 			?>
 			<div class="form-group">

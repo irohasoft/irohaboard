@@ -1,14 +1,46 @@
 <?php echo $this->element('admin_menu');?>
+<style>
+.btn-primary
+{
+	margin-top:10px;
+}
+</style>
 <div class="records index">
-	<div class="ib-page-title"><?php echo __('成績一覧'); ?></div>
+	<div class="ib-page-title"><?php echo __('学習履歴一覧'); ?></div>
 	<div class="ib-horizontal">
 		<?php
 			echo $this->Form->create();
-			echo $this->Form->input('username', array('label' => 'ユーザ名:'));
-			echo $this->Form->input('coursetitle', array('label' => 'コース名:'));
-			echo $this->Form->input('contenttitle', array('label' => 'コンテンツ名:'));
-			//echo $this->Form->input('group_id', array('label' => '所属グループ', 'options'=>$groups));
-			echo $this->Form->submit(__('検索'));
+			echo $this->Form->input('course_id',	array('label' => 'コース:', 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false));
+			echo $this->Form->input('group_id',		array('label' => 'グループ:', 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false));
+			echo $this->Form->input('user_id',		array('label' => 'ユーザ:', 'options'=>$users, 'selected'=>$user_id, 'empty' => '全て', 'required'=>false));
+			echo $this->Form->input('contenttitle',	array('label' => 'コンテンツ名:'));
+			echo "<div style='width:500px;'>";
+			echo $this->Form->input('from_date', array(
+				'type' => 'date',
+				'dateFormat' => 'YMD',
+				'monthNames' => false,
+				'timeFormat' => '24',
+				'minYear' => date('Y') - 5,
+				'maxYear' => date('Y'),
+				'separator' => ' / ',
+				'label'=> '対象日時 : ',
+				'style' => 'width:initial; display: inline;',
+				'value' => $from_date
+			));
+			echo $this->Form->input('to_date', array(
+				'type' => 'date',
+				'dateFormat' => 'YMD',
+				'monthNames' => false,
+				'timeFormat' => '24',
+				'minYear' => date('Y') - 5,
+				'maxYear' => date('Y'),
+				'separator' => ' / ',
+				'label'=> '～',
+				'style' => 'width:initial; display: inline;',
+				'value' => $to_date
+			));
+			echo "</div>";
+			echo $this->Form->submit(__('検索'), Configure::read('form_submit_defaults'));
 			echo $this->Form->end();
 		?>
 	</div>
@@ -24,7 +56,7 @@
 			<th><?php echo $this->Paginator->sort('is_complete', '完了'); ?></th>
 			<th><?php echo $this->Paginator->sort('understanding', '理解度'); ?></th>
 			<th><?php echo $this->Paginator->sort('study_sec', '学習時間'); ?></th>
-			<th><?php echo $this->Paginator->sort('created', '学習日時'); ?></th>
+			<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', '学習日時'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -39,7 +71,7 @@
 		<td><?php echo h(Configure::read('record_complete.'.$record['Record']['is_complete'])); ?>&nbsp;</td>
 		<td><?php echo h(Configure::read('record_understanding.'.$record['Record']['understanding'])); ?>&nbsp;</td>
 		<td><?php echo h($record['Record']['study_sec']); ?>&nbsp;</td>
-		<td><?php echo h($record['Record']['created']); ?>&nbsp;</td>
+		<td class="ib-col-date"><?php echo h(Utils::getYMDHN($record['Record']['created'])); ?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 	</tbody>

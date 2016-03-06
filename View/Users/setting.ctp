@@ -23,7 +23,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-8">
-					<?php echo $this->Form->end(array('label' => '保存', 'class'=>'btn btn-default')); ?>
+					<?php echo $this->Form->end(array('label' => '保存', 'class'=>'btn btn-primary')); ?>
 				</div>
 			</div>
 		</div>

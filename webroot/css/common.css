@@ -169,5 +169,6 @@ form .required .control-label:after
 .ib-col-action
 {
 	width				: 160px;
+	text-align			: center;
 }
 

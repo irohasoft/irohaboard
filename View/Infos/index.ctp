@@ -8,14 +8,14 @@
 	<thead>
 	<tr>
 		<th><?php echo $this->Paginator->sort('title',   __('タイトル')); ?></th>
-		<th width="200"><?php echo $this->Paginator->sort('opend',   __('作成日時')); ?></th>
+		<th class="ib-col-date"><?php echo $this->Paginator->sort('opend',   __('作成日')); ?></th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php foreach ($infos as $info): ?>
 	<tr>
 		<td><?php echo $this->Html->link($info['Info']['title'], array('action' => 'view', $info['Info']['id'])); ?>&nbsp;</td>
-		<td><?php echo h($info['Info']['created']); ?>&nbsp;</td>
+		<td><?php echo h(Utils::getYMD($info['Info']['created'])); ?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 	</tbody>

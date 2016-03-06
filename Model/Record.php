@@ -135,6 +135,24 @@ class Record extends AppModel
 			)
 	);
 	
+	public function getUserIdByGroupID($group_id)
+	{
+		$sql = "SELECT user_id FROM ib_users_groups WHERE group_id = :group_id";
+		
+		$params = array('group_id' => $group_id);
+		
+		$data = $this->query($sql, $params);
+		//debug($data);
+		$list = array();
+		
+		for($i=0; $i< count($data); $i++)
+		{
+			$list[$i] = $data[$i]['ib_users_groups']['user_id'];
+		}
+		
+		return $list;
+	}
+	
 	// 検索用
 	public $actsAs = array(
 			'Search.Searchable'

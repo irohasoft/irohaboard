@@ -8,20 +8,18 @@
 	<thead>
 	<tr>
 			<th><?php echo $this->Paginator->sort('title',   __('タイトル')); ?></th>
-			<th width="200"><?php echo $this->Paginator->sort('opened',		__('公開開始日')); ?></th>
-			<th width="200"><?php echo $this->Paginator->sort('closed',		__('公開終了日')); ?></th>
-			<th width="200"><?php echo $this->Paginator->sort('created',	__('作成日時')); ?></th>
-			<th width="200" class="actions"><?php echo __('Actions'); ?></th>
+			<th class="ib-col-date"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
+			<th class="ib-col-date"><?php echo $this->Paginator->sort('modified', '更新日時'); ?></th>
+			<th class="ib-col-action"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php foreach ($infos as $info): ?>
 	<tr>
 		<td><?php echo h($info['Info']['title']); ?>&nbsp;</td>
-		<td><?php echo Utils::getYMD($info['Info']['opened']); ?>&nbsp;</td>
-		<td><?php echo Utils::getYMD($info['Info']['closed']); ?>&nbsp;</td>
-		<td><?php echo Utils::getYMDHN($info['Info']['created']); ?>&nbsp;</td>
-		<td class="actions">
+		<td class="ib-col-date"><?php echo Utils::getYMDHN($info['Info']['created']); ?>&nbsp;</td>
+		<td class="ib-col-date"><?php echo Utils::getYMDHN($info['Info']['modified']); ?>&nbsp;</td>
+		<td class="ib-col-action">
 			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $info['Info']['id'])) ?>'">編集</button>
 			<?php echo $this->Form->postLink(__('削除'), 
 					array('action' => 'delete', $info['Info']['id']), 

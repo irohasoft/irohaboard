@@ -15,9 +15,9 @@
 				<th><?php echo $this->Paginator->sort('email', 'メールアドレス'); ?></th>
 				<th><?php echo $this->Paginator->sort('UserGroup.group_count', '所属グループ数'); ?></th>
 				<th><?php echo $this->Paginator->sort('UserCourse.course_count', '受講コース数'); ?></th>
-				<th><?php echo $this->Paginator->sort('last_logined', '最終ログイン日時'); ?></th>
-				<th><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
-				<th class="actions"><?php echo __('Actions'); ?></th>
+				<th class="ib-col-datetime"><?php echo $this->Paginator->sort('last_logined', '最終ログイン日時'); ?></th>
+				<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
+				<th class="ib-col-action"><?php echo __('Actions'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -29,10 +29,9 @@
 		<td><?php echo h($user['User']['email']); ?>&nbsp;</td>
 		<td><?php echo h($user['UserGroup']['group_count']); ?>&nbsp;</td>
 		<td><?php echo h($user['UserCourse']['course_count']); ?>&nbsp;</td>
-		<td><?php echo h(Utils::getYMDHN($user['User']['last_logined'])); ?>&nbsp;</td>
-		<td><?php echo h(Utils::getYMDHN($user['User']['created'])); ?>&nbsp;</td>
-
-		<td class="actions">
+		<td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['last_logined'])); ?>&nbsp;</td>
+		<td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['created'])); ?>&nbsp;</td>
+		<td class="ib-col-action">
 			<button type="button" class="btn btn-success"
 				onclick="location.href='<?php echo Router::url(array('action' => 'edit', $user['User']['id'])) ?>'">編集</button>
 			<?php

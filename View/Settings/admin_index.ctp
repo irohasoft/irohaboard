@@ -5,43 +5,15 @@
 			<?php echo __('システム設定'); ?>
 		</div>
 		<div class="panel-body">
-			<?php echo $this->Form->create('Setting', array('class' => 'form-horizontal')); ?>
-			
+			<?php echo $this->Form->create('Setting', Configure::read('form_defaults')); ?>
+			<?php
+				echo $this->Form->input('title',		array('label' => 'システム名', 'value'=>h(SessionHelper::read('Setting.title'))));
+				echo $this->Form->input('copyright',	array('label' => 'コピーライト', 'value'=>h(SessionHelper::read('Setting.copyright'))));
+				echo $this->Form->input('color',		array('label' => 'テーマカラー', 'options'=>$colors, 'selected'=>$color));
+				echo $this->Form->input('information',	array('label' => '全体からのお知らせ', 'value'=>h(SessionHelper::read('Setting.information')), 'type' => 'textarea'));
+			?>
 			<div class="form-group">
-				<label for="vs1" class="control-label col-sm-2">システム名</label>
-				<div class="col-sm-8">
-					<input type="text" class="form-control" name="title" value="<?php echo h(SessionHelper::read('Setting.title'))?>">
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="vs1" class="control-label col-sm-2">コピーライト</label>
-				<div class="col-sm-8">
-					<input type="text" class="form-control" name="copyright" value="<?php echo h(SessionHelper::read('Setting.copyright'))?>">
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="vs1" class="control-label col-sm-2">テーマカラー</label>
-				<div class="col-sm-8">
-					<select class="form-control" name="color">
-						<option value="#337ab7">default</option>
-						<option value="royalblue">royalblue</option>
-						<option value="darkgreen">darkgreen</option>
-						<option value="crimson">crimson</option>
-					</select>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label for="vs1" class="control-label col-sm-2">全体のお知らせ</label>
-				<div class="col-sm-8">
-					<textarea class="form-control" name="information"><?php echo h(SessionHelper::read('Setting.information'))?></textarea>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-8">
+				<div class="col-sm-offset-3 col col-md-9 col-sm-8">
 					<?php echo $this->Form->end(array('label' => __('保存'), 'class' => 'btn btn-primary')); ?>
 				</div>
 			</div>

@@ -5,8 +5,7 @@
 		<p><?php
 			$info = $info['Setting']['setting_value'];
 			$info = $this->Text->autoLinkUrls($info);
-			$info = str_replace(array("\n"),"<br />", $info);
-
+			$info = nl2br($info);
 			echo $info?>
 		</p>
 	</div>

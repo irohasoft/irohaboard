@@ -89,7 +89,7 @@ class CoursesController extends AppController
 		{
 			if ($this->Course->save($this->request->data))
 			{
-				$this->Flash->success(__('The course has been saved.'));
+				$this->Flash->success(__('コースが保存されました'));
 				return $this->redirect(array(
 						'action' => 'index'
 				));
@@ -123,7 +123,7 @@ class CoursesController extends AppController
 		$this->request->allowMethod('post', 'delete');
 		if ($this->Course->delete())
 		{
-			$this->Flash->success(__('The course has been deleted.'));
+			$this->Flash->success(__('コースが削除されました'));
 		}
 		else
 		{

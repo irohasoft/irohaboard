@@ -92,7 +92,7 @@ class InfosController extends AppController
 		{
 			if ($this->Info->save($this->request->data))
 			{
-				$this->Flash->success(__('The info has been saved.'));
+				$this->Flash->success(__('お知らせが保存されました'));
 				return $this->redirect(array(
 						'action' => 'index'
 				));
@@ -133,7 +133,7 @@ class InfosController extends AppController
 		$this->request->allowMethod('post', 'delete');
 		if ($this->Info->delete())
 		{
-			$this->Flash->success(__('The info has been deleted.'));
+			$this->Flash->success(__('お知らせが削除されました'));
 		}
 		else
 		{

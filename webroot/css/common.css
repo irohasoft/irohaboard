@@ -1,3 +1,4 @@
+@CHARSET "UTF-8";
 /**
  * iroha Board Project
  *
@@ -6,8 +7,6 @@
  * @link          http://irohasoft.jp/irohaboard
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
-
-@CHARSET "UTF-8";
 
 body
 {
@@ -136,6 +135,10 @@ form .required .control-label:after
 	width				: 100%;
 }
 
+.breadcrumb
+{
+	padding				: 10px;
+}
 .ib-col-date
 {
 	width				: 120px;

@@ -1,11 +1,13 @@
 <div class="contentsQuestions form">
 	<ol class="breadcrumb">
-<?php 
+<?php
+	$course_url = array('controller' => 'contents', 'action' => 'index', $this->Session->read('Iroha.course_id'));
+	
 	$this->Html->addCrumb('コース一覧', array('controller' => 'users_courses', 'action' => 'index'));
-	$this->Html->addCrumb('コース : '.$course_name, array('controller' => 'contents', 'action' => 'index', $this->Session->read('Iroha.course_id')));
+	$this->Html->addCrumb('コース : '.$course_name, $course_url);
 	$this->Html->addCrumb($contentsQuestions[0]['Content']['title']);
 	
-	echo $this->Html->getCrumbs();
+	echo $this->Html->getCrumbs(' / ');
 ?>
 	</ol>
 <div class="ib-page-title"><?php echo $contentsQuestions[0]['Content']['title']; ?></div>
@@ -13,10 +15,25 @@
 <style type='text/css'>
 	.radio-group
 	{
-	    font-size:22px;
+		font-size:18px;
+		padding:10px;
+		line-height: 180%;
+	}
+	
+	input[type=radio]
+	{
+		padding:10px;
 	}
 </style>
 <?php $this->end(); ?>
+<?php $this->start('script-embedded'); ?>
+<script>
+	$(document).ready(function()
+	{
+	});
+</script>
+<?php $this->end(); ?>
+
 <?php
 	$index = 1;
 ?>
@@ -27,9 +44,15 @@
 	<div class="panel-body">
 		<h4><?php echo h($contentsQuestion['ContentsQuestion']['title']); ?></h4>
 		
+		<?php
+			$image = $contentsQuestion['ContentsQuestion']['image'];
+			$image = ($image=="") ? "" : '<div><img src="'.$image.'"/></div>';
+		
+		?>
+		
 		<p class="bg-warning">
-			<?php echo h($contentsQuestion['ContentsQuestion']['body']); ?>
-			<?php echo h($contentsQuestion['ContentsQuestion']['image']); ?>
+			<?php echo nl2br(h($contentsQuestion['ContentsQuestion']['body'])); ?>
+			<?php echo $image; ?>
 		</p>
 		
 		<div class="radio-group">
@@ -46,7 +69,7 @@
 					$is_checked = (@$record['RecordsQuestion'][$index-1]['answer']==$val) ? " checked" : "";
 					
 					echo '<input type="radio" value="'.$val.'" name="data[answer_'.$id.']" '.
-						$is_checked.$is_disabled.'>'.$option.'<br>';
+						$is_checked.$is_disabled.'> '.$option.'<br>';
 					$val++;
 				}
 				
@@ -83,8 +106,11 @@
 	if ($this->action != 'record')
 	{
 		$comment = __('採点してよろしいですか？', true);
+		echo '<div class="form-inline">';
 		echo $this->Form->submit(__('採点', true), array('name'=>'complete', 'class' => 'btn btn-primary btn-lg', 'onClick'=>"return confirm('$comment')"));
+		echo $this->Form->button(__('採点', true), array('name'=>'cancel', 'class' => 'btn btn-default btn-lg', 'onClick'=>"return confirm('$comment')"));
 		echo $this->Form->end();
+		echo '</div>';
 	}
 ?>
 <br>

@@ -72,11 +72,11 @@ class UsersController extends AppController
 		$this->request->allowMethod('post', 'delete');
 		if ($this->User->delete())
 		{
-			$this->Flash->success(__('The user has been deleted.'));
+			$this->Flash->success(__('ユーザが削除されました'));
 		}
 		else
 		{
-			$this->Flash->error(__('The user could not be deleted. Please, try again.'));
+			$this->Flash->error(__('ユーザを削除できませんでした'));
 		}
 		return $this->redirect(array(
 				'action' => 'index'
@@ -115,8 +115,8 @@ class UsersController extends AppController
 
 		if ($this->request->is('post'))
 		{
-			debug($this->request->data);
-			debug($this->Auth->login());
+			//debug($this->request->data);
+			//debug($this->Auth->login());
 			// debug($this->Auth);
 			if ($this->Auth->login())
 			{
@@ -128,7 +128,7 @@ class UsersController extends AppController
 			}
 			else
 			{
-				$this->Flash->error(__('Invalid username or password, try again'));
+				$this->Flash->error(__('入力されたID、もしくはパスワードが正しくありません'));
 			}
 		}
 	}
@@ -258,10 +258,17 @@ class UsersController extends AppController
 		{
 			//debug($this->request->data);
 			$this->request->data['User']['id'] = $this->Session->read('Auth.User.id');
+			
+			if($this->request->data['User']['new_password'] != $this->request->data['User']['new_password2'])
+			{
+				$this->Flash->success(__('入力された「パスワード」と「パスワード（確認用）」が一致しません'));
+				return;
+			}
 
-			if ($this->request->data['User']['new_password'] !== '')
+			if($this->request->data['User']['new_password'] !== '')
 			{
 				$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
+				
 				if ($this->User->save($this->request->data))
 				{
 					$this->Flash->success(__('パスワードが保存されました'));

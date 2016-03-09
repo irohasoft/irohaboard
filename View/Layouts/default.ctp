@@ -69,7 +69,7 @@
 		echo '<div class="ib-navi-sepa ib-right"></div>';
 		echo '<div class="ib-navi-item ib-right">'.$this->Html->link(__('設定'), array('controller' => 'users', 'action' => 'setting')).'</div>';
 		echo '<div class="ib-navi-sepa ib-right"></div>';
-		echo '<div class="ib-navi-item ib-right">ようこそ '.$loginedUser["username"].' さん </div>';
+		echo '<div class="ib-navi-item ib-right">ようこそ '.$loginedUser["name"].' さん </div>';
 	}else{
 		echo $this->Html->link('ログイン',	 $loginURL);
 	}

@@ -15,7 +15,7 @@
 	<?php foreach ($infos as $info): ?>
 	<tr>
 		<td><?php echo $this->Html->link($info['Info']['title'], array('action' => 'view', $info['Info']['id'])); ?>&nbsp;</td>
-		<td><?php echo h(Utils::getYMD($info['Info']['created'])); ?>&nbsp;</td>
+		<td class="ib-col-date"><?php echo h(Utils::getYMD($info['Info']['created'])); ?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 	</tbody>

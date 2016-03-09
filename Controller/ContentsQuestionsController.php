@@ -212,7 +212,7 @@ class ContentsQuestionsController extends AppController
 			
 			if ($this->ContentsQuestion->save($this->request->data))
 			{
-				$this->Flash->success(__('The contents question has been saved.'));
+				$this->Flash->success(__('問題が保存されました'));
 				return $this->redirect(
 						array(
 								'controller' => 'contents_questions',
@@ -256,7 +256,7 @@ class ContentsQuestionsController extends AppController
 		$this->request->allowMethod('post', 'delete');
 		if ($this->ContentsQuestion->delete())
 		{
-			$this->Flash->success(__('The contents question has been deleted.'));
+			$this->Flash->success(__('問題が削除されました'));
 			return $this->redirect(
 					array(
 							'controller' => 'contents_questions',

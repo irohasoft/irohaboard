@@ -5,25 +5,22 @@
 			設定
 		</div>
 		<div class="panel-body">
-			<?php echo $this->Form->create('User'); ?>
+			<?php
+				echo $this->Form->create('User', Configure::read('form_defaults'));
+				echo $this->Form->input('User.new_password', array(
+					'label' => 'パスワード',
+					'type' => 'password',
+					'autocomplete' => 'off'
+				));
+				echo $this->Form->input('User.new_password2', array(
+					'label' => 'パスワード (確認用)',
+					'type' => 'password',
+					'autocomplete' => 'off'
+				));
+			?>
 			<div class="form-group">
-				<label for="vs1" class="control-label col-sm-2">パスワード</label>
-				<div class="col-sm-8">
-					<?php 
-					echo $this->Form->input('User.new_password', 
-					array(
-						'label' => false,
-						'div' => false,
-						'type' => 'password',
-						'autocomplete' => 'off',
-						'class' => 'form-control'
-					));
-					?>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-8">
-					<?php echo $this->Form->end(array('label' => '保存', 'class'=>'btn btn-primary')); ?>
+				<div class="col col-md-9 col-md-offset-3">
+					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>
 		</div>

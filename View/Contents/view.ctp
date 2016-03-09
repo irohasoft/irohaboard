@@ -3,7 +3,7 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $this->fetch('title'); ?>
+		<?php echo $content['Content']['title']; ?>
 	</title>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<?php
@@ -43,13 +43,44 @@
 	{
 		margin:0px;
 		padding:0px;
-
 	}
-
+	
 	.content-title
 	{
 		font-size	: 18px;
 		font-weight	: bold;
+	}
+	
+	.for-spn
+	{
+		display: none;
+	}
+	
+	.select-message
+	{
+		padding-bottom	: 10px;
+	}
+	
+	@media only screen and (max-width:800px)
+	{
+		button
+		{
+			margin			: 5px;
+		}
+		
+		.select-message
+		{
+			padding:0px;
+		}
+		
+		.for-pc
+		{
+			display: none;
+		}
+		.for-spn
+		{
+			display: block;
+		}
 	}
 
 	</style>
@@ -109,11 +140,19 @@
 	<tr height="60">
 		<td align="center">
 			<div>
-				※ 理解度を選んで終了して下さい。<br>
+				<div class="select-message">※ 理解度を選んで終了して下さい。</div>
+				<span class='for-pc'>
 				<button type="button" class="btn btn-success" onclick="finish(5)">◎よく理解できた</button>
 				<button type="button" class="btn btn-success" onclick="finish(4)">〇まあまあ理解できた</button>
 				<button type="button" class="btn btn-success" onclick="finish(3)">△あまりよく理解できなかった</button>
 				<button type="button" class="btn btn-success" onclick="finish(2)">✕全く理解できなかった</button>
+				</span>
+				<span class='for-spn'>
+				<button type="button" class="btn btn-success" onclick="finish(5)">◎</button>
+				<button type="button" class="btn btn-success" onclick="finish(4)">〇</button>
+				<button type="button" class="btn btn-success" onclick="finish(3)">△</button>
+				<button type="button" class="btn btn-success" onclick="finish(2)">✕</button>
+				</span>
 				<button type="button" class="btn btn-danger" onclick="interrupt()">中断</button>
 				<button type="button" class="btn btn-primary" onclick="cancel()">学習履歴を残さずに終了</button>
 			</div>

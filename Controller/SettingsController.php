@@ -30,15 +30,21 @@ class SettingsController extends AppController {
 		{
 			//debug($this->request->data);
 			
-			$this->Setting->setSettings($this->request->data);
+			$this->Setting->setSettings($this->request->data['Setting']);
 			
-			foreach ($this->request->data as $key => $value)
+			foreach ($this->request->data['Setting'] as $key => $value)
 			{
 				$this->Session->Write('Setting.'.$key, $value);
 			}
 		}
 		
+		$color = $this->Session->read('Setting.color');
+		
+		//debug($color);
+		
 		$this->Setting->recursive = 0;
-		$this->set('settings', $this->Paginator->paginate());
+		$this->set('settings',		$this->Paginator->paginate());
+		$this->set('colors',		Configure::read('theme_colors'));
+		$this->set('color',			$color);
 	}
 }

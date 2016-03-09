@@ -46,7 +46,7 @@
 		<div class="panel-body">
 			アップロードするファイルを指定して、アップロードボタンをクリックしてください。<br><br>
 			<h4>アップロード可能拡張子</h4>
-			<?php echo join(', ', (array)Configure::read('upload_extensions'));?>
+			<?php echo $upload_extensions;?>
 
 			<h4>アップロード可能ファイルサイズ</h4>
 			最大 : <?php echo Configure::read('upload_maxsize');?>バイト

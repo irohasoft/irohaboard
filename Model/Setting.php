@@ -59,7 +59,7 @@ EOF;
 		$data = $this->query($sql, $params);
 		
 		
-		debug($data);
+		//debug($data);
 		/*
 		if(count($data) > 0)
 			$setting_value = $data['Setting'][0]['setting_value'];
@@ -79,7 +79,7 @@ EOF;
 			$result[$setting['ib_settings']['setting_key']] = $setting['ib_settings']['setting_value'];
 		}
 		
-		debug($result);
+		//debug($result);
 		
 		return $result;
 	}

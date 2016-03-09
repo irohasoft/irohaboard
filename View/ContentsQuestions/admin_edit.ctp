@@ -20,7 +20,13 @@
 		color: #444455;
 		width: 160px;
 		margin:6px;
-	    padding: 5px;
+		padding: 5px;
+	}
+	
+	input[name="data[ContentsQuestion][image]"]
+	{
+		display:inline-block;
+		width:85%;
 	}
 </style>
 <?php $this->end(); ?>
@@ -116,12 +122,37 @@ function init()
 		var isSelected = ($('#ContentsQuestionCorrect').val()==(i+1));
 		
 		$option = $('<option>')
-	        .val(options[i])
-	        .text(options[i])
-	        .prop('selected', isSelected);
-        
+			.val(options[i])
+			.text(options[i])
+			.prop('selected', isSelected);
+		
 		$("#ContentsQuestionOptionList").append($option);
 	}
+	
+	$url = $('input[name="data[ContentsQuestion][image]"]');
+
+	$url.after('<input id="btnPreview" type="button" value="プレビュー">');
+	$("#btnPreview").click(function(){
+
+		if($url=="")
+		{
+			alert("URLが入力されていません");
+			return;
+		}
+
+		window.open($url.val());
+	});
+}
+
+function openUploader()
+{
+	window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/image', '_upload', 'width=600,height=500,resizable=no');
+	return false;
+}
+
+function setURL(url)
+{
+	$('input[name="data[ContentsQuestion][image]"]').val(url);
 }
 
 $(document).ready(function(){
@@ -141,6 +172,7 @@ $(document).ready(function(){
 				echo $this->Form->input('title',	array('label' => __('タイトル')));
 				echo $this->Form->input('body',		array('label' => __('問題文')));
 				echo $this->Form->input('image',	array('label' => __('画像URL')));
+				echo $this->Form->input('アップロード', array('label'=>'', 'type'=>'button', 'value'=>'アップロード', 'onclick' => 'openUploader(); return false;' ));
 
 			?>
 			<div class="input text required">

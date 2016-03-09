@@ -22,7 +22,7 @@ $config['content_kind']		= array(
 );
 $config['record_result'] = array('1' => '合格', '0' => '不合格');
 $config['record_complete'] = array('1' => '完了', '0' => '未完了');
-$config['record_understanding'] = array('1' => '', '2' => '×', '3' => '△', '4' => '〇', '5' => '◎');
+$config['record_understanding'] = array('1' => '', '2' => '✖', '3' => '△', '4' => '〇', '5' => '◎');
 $config['user_role'] = array('admin' => '管理者', 'user' => '受講者');
 
 
@@ -45,7 +45,23 @@ $config['upload_extensions'] = array(
 	'.asx',
 );
 
+$config['upload_image_extensions'] = array(
+	'.png',
+	'.gif',
+	'.jpg',
+	'.jpeg',
+);
+
+$config['upload_movie_extensions'] = array(
+	'.mov',
+	'.mp4',
+	'.wmv',
+	'.asx',
+);
+
 $config['upload_maxsize'] = 2000000;
+$config['upload_image_maxsize'] = 2000000;
+$config['upload_movie_maxsize'] = 10000000;
 
 // フォームのスタイル(BoostCake)の基本設定
 $config['form_defaults'] = array(
@@ -64,3 +80,12 @@ $config['form_submit_defaults'] = array(
 	'div' => false,
 	'class' => 'btn btn-primary'
 );
+
+
+$config['theme_colors']   = array(
+	'#337ab7' => 'default',
+	'royalblue' => 'royalblue',
+	'darkgreen' => 'darkgreen',
+	'crimson' => 'crimson',
+);
+

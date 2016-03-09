@@ -33,19 +33,19 @@ class FileUpload
 	//------------------------------//
 	//	ファイルの読み込み			//
 	//------------------------------//
-	public function read_file( $file )
+	public function readFile( $file )
 	{
 		$this->_file			= $file['tmp_name'];							//	ファイルの実体を取得
 		$this->_file_name 		= $file['name'];								//	ファイルの名前の取得
-		$this->_file_name_ext 	= $this->get_extension( $this->_file_name );	//	ファイルの拡張子を取得
+		$this->_file_name_ext 	= $this->getExtension( $this->_file_name );	//	ファイルの拡張子を取得
 		$this->_file_size 		= $file['size'];								//	ファイルサイズの取得
 	}
 
 	//------------------------------//
 	//	ファイルの保存				//
 	//------------------------------//
-	public function save_file( $file_path ) {
-		if( $this->check_extenstion() )											//	拡張子のチェック
+	public function saveFile( $file_path ) {
+		if( $this->checkExtenstion() )											//	拡張子のチェック
 		{
 			if( $this->_file_size < $this->max_size )							//	ファイルサイズのチェック
 			{
@@ -66,7 +66,7 @@ class FileUpload
 	//------------------------------//
 	//	ファイルの拡張子チェック	//
 	//------------------------------//
-	public function check_extenstion() {
+	public function checkExtenstion() {
 		$extension = $this->_file_name_ext;										//	拡張子の取得
 		$ext_array = $this->extensions;											//	許可拡張子を配列で取得
 
@@ -83,7 +83,7 @@ class FileUpload
 	//------------------------------//
 	//	ディレクトリ存在確認		//
 	//------------------------------//
-	public function check_dir()
+	public function checkDir()
 	{
 		if( !is_dir( $this->upload_dir ) )
 		{
@@ -98,10 +98,26 @@ class FileUpload
 	//------------------------------//
 	//	拡張子の取得				//
 	//------------------------------//
-	public function get_extension( $from_file )
+	public function getExtension( $from_file )
 	{
 		$ext = strtolower( strrchr( $from_file, "." ) );
 		return $ext;
+	}
+
+	//------------------------------//
+	//	拡張子の設定				//
+	//------------------------------//
+	public function setExtension( $extensions )
+	{
+		$this->extensions = $extensions;
+	}
+
+	//------------------------------//
+	//	最大ファイルサイズの設定	//
+	//------------------------------//
+	public function setMaxSize( $max_size )
+	{
+		$this->max_size = $max_size;
 	}
 
 	//------------------------------//

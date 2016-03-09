@@ -53,7 +53,6 @@
 		display:inline-block;
 		width:85%;
 	}
-
 </style>
 <script>
 	//$('input[name="data[Content][kind]"]:radio').val(['text']);
@@ -90,7 +89,12 @@
 
 	function openUploader()
 	{
-		window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>', '_upload', 'width=600,height=500,resizable=no');
+		var val = $('input[name="data[Content][kind]"]:checked').val();
+		
+		if(val=='url')
+			val = 'file';
+		
+		window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/'+val, '_upload', 'width=600,height=500,resizable=no');
 		return false;
 	}
 

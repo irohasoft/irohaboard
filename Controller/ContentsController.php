@@ -89,7 +89,7 @@ class ContentsController extends AppController
 		$this->request->allowMethod('post', 'delete');
 		if ($this->Content->delete())
 		{
-			$this->Flash->success(__('The content has been deleted.'));
+			$this->Flash->success(__('コンテンツが削除されました'));
 		}
 		else
 		{
@@ -178,34 +178,6 @@ class ContentsController extends AppController
 	{
 		$this->admin_edit();
 		$this->render('admin_edit');
-
-		/*
-		if ($this->request->is('post'))
-		{
-			$this->Content->create();
-
-			$this->request->data['Content']['user_id'] = $this->Session->read('Auth.User.id');
-			$this->request->data['Content']['group_id'] = $this->Session->read('Iroha.group_id');
-			$this->request->data['Content']['course_id'] = $this->Session->read('Iroha.course_id');
-
-			if ($this->Content->save($this->request->data))
-			{
-				$this->Flash->success(__('The content has been saved.'));
-				return $this->redirect(
-						array(
-								'action' => 'index/' . $this->Session->read('Iroha.course_id')
-						));
-			}
-			else
-			{
-				$this->Flash->error(__('The content could not be saved. Please, try again.'));
-			}
-		}
-		$groups = $this->Content->Group->find('list');
-		$courses = $this->Content->Course->find('list');
-		$users = $this->Content->User->find('list');
-		$this->set(compact('groups', 'courses', 'users'));
-		*/
 	}
 
 	public function admin_edit($id = null)
@@ -228,7 +200,7 @@ class ContentsController extends AppController
 
 			if ($this->Content->save($this->request->data))
 			{
-				$this->Flash->success(__('The content has been saved.'));
+				$this->Flash->success(__('コンテンツが保存されました'));
 				return $this->redirect(
 						array(
 								'action' => 'index/' . $this->Session->read('Iroha.course_id')
@@ -254,7 +226,7 @@ class ContentsController extends AppController
 		$this->set(compact('groups', 'courses', 'users'));
 	}
 
-	public function admin_upload()
+	public function admin_upload($file_type)
 	{
 		$this->layout = "";
 		App::import ( "Vendor", "FileUpload" );
@@ -263,17 +235,36 @@ class ContentsController extends AppController
 
 		$mode = '';
 		$file_url = '';
-
+		
+		switch ($file_type)
+		{
+			case 'file' :
+				$upload_extensions = (array)Configure::read('upload_extensions');
+				$upload_maxsize = Configure::read('upload_maxsize');
+				break;
+			case 'image' :
+				$upload_extensions = (array)Configure::read('upload_image_extensions');
+				$upload_maxsize = Configure::read('upload_image_maxsize');
+				break;
+			case 'movie' :
+				$upload_extensions = (array)Configure::read('upload_movie_extensions');
+				$upload_maxsize = Configure::read('upload_movie_maxsize');
+				break;
+		}
+		
+		$fileUpload->setExtension($upload_extensions);
+		$fileUpload->setMaxSize($upload_maxsize);
+		
 		if ($this->request->is('post') || $this->request->is('put'))
 		{
-			$fileUpload->read_file( $this->request->data['Content']['file'] );											//	ファイルの読み込み
+			$fileUpload->readFile( $this->request->data['Content']['file'] );											//	ファイルの読み込み
 
-			$new_name = date("YmdHis").$fileUpload->get_extension( $fileUpload->get_file_name() );	//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
+			$new_name = date("YmdHis").$fileUpload->getExtension( $fileUpload->get_file_name() );	//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
 
 			$file_name = WWW_ROOT.DS."uploads".DS.$new_name;										//	ファイル格納フォルダ
 			$file_url = $this->webroot.'/uploads/'.$new_name;
 
-			$result = $fileUpload->save_file( $file_name );											//	ファイルの保存
+			$result = $fileUpload->saveFile( $file_name );											//	ファイルの保存
 
 			if($result)																			//	結果によってメッセージを設定
 			{
@@ -289,8 +280,10 @@ class ContentsController extends AppController
 			}
 		}
 
-		$this->set('mode', $mode);
-		$this->set('file_url', $file_url);
+		$this->set('mode',					$mode);
+		$this->set('file_url',				$file_url);
+		$this->set('upload_extensions',		join(', ', $upload_extensions));
+		$this->set('upload_maxsize',		$upload_maxsize);
 	}
 
 	public function admin_order()

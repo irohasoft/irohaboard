@@ -20,6 +20,17 @@ $config['content_kind']		= array(
 	'file'		=> '配布資料',
 	'test'		=> 'テスト'
 );
+
+$config['content_kind_comment']		= array(
+	'label'		=> 'ラベル <span>(実際の学習項目とならない章名の表示などに使用します)</span>',
+	'text'		=> 'テキスト <span>(テキスト文章のみで学習項目を作成します。)</span>',
+	'html'		=> 'HTML <span>(HTML形式で学習項目を作成します。動画の埋め込みなどにも使用可能です。)</span>',
+	'movie'		=> '動画 <span>(動画をアップロードします。VIDEOタグで再生できるものに限られます。)</span>',
+	'url'		=> 'URL <span>(外部のWebページを学習項目として追加します。)</span>',
+	'file'		=> '配布資料 <span>(配布したいファイルをアップロードします。)</span>',
+	'test'		=> 'テスト <span>(テスト問題を作成します。)'
+);
+
 $config['record_result'] = array('1' => '合格', '0' => '不合格');
 $config['record_complete'] = array('1' => '完了', '0' => '未完了');
 $config['record_understanding'] = array('1' => '', '2' => '✖', '3' => '△', '4' => '〇', '5' => '◎');

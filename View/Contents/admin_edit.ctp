@@ -1,4 +1,13 @@
 <?php echo $this->element('admin_menu');?>
+<?php $this->start('css-embedded'); ?>
+<style type='text/css'>
+	label span
+	{
+		font-weight: normal;
+	}
+</style>
+<?php $this->end(); ?>
+
 <div class="contents form">
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index/'.$this->Session->read('Iroha.course_id')))?>
 	<div class="panel panel-default">
@@ -13,11 +22,11 @@
 				echo $this->Form->input('kind',	array(
 					'type' => 'radio',
 					'before' => '<label class="col col-md-3 control-label">コンテンツの種類</label>',
-					'separator'=>"　",
+					'separator'=>"<br>",
 					'disabled'=>false,
 					'legend' => false,
 					'class' => false,
-					'options' => Configure::read('content_kind')
+					'options' => Configure::read('content_kind_comment')
 					)
 				);
 
@@ -31,8 +40,8 @@
 				echo "</div>";
 
 				echo "<span class='kind kind-test'>";
-				echo $this->Form->input('timelimit', array('label' => '制限時間 (0-100)単位:分'));
-				echo $this->Form->input('pass_rate', array('label' => '合格とする得点率 (0-100)'));
+				echo $this->Form->input('timelimit', array('label' => '制限時間 (0-100分)'));
+				echo $this->Form->input('pass_rate', array('label' => '合格とする得点率 (0-100%)'));
 				echo "</span>";
 
 				echo "<span class='kind kind-text kind-html kind-movie kind-url kind-file kind-test'>";

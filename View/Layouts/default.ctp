@@ -30,7 +30,7 @@
 		echo $this->Html->script('jquery-ui-1.9.2.min.js');
 		echo $this->Html->script('bootstrap.min.js');
 		echo $this->Html->script('common.js');
-		echo $this->Html->script('demo.js');
+		//echo $this->Html->script('demo.js');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

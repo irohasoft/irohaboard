@@ -1,9 +1,30 @@
 <?php echo $this->element('admin_menu');?>
+<?php $this->start('css-embedded'); ?>
+<?php $this->end(); ?>
 <div class="users index">
 	<div class="ib-page-title"><?php echo __('ユーザ一覧'); ?></div>
 	<div class="buttons_container">
-		<button type="button" class="btn btn-primary btn-add"
-			onclick="location.href='<?php echo Router::url(array('action' => 'add')) ?>'">+ 追加</button>
+		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add')) ?>'">+ 追加</button>
+	</div>
+	<div class="ib-horizontal">
+		<?php
+			echo $this->Form->create();
+			echo $this->Form->input('group_id',		array(
+				'label' => 'グループ : ', 
+				'options'=>$groups, 
+				'selected'=>$group_id, 
+				'empty' => '全て', 
+				'required'=>false, 
+				'class' => 'form-control',
+				'onchange' => '$("#UserAdminIndexForm").submit();'
+			));
+			echo $this->Form->input('username',		array('label' => 'ログインID : ', 'required' => false));
+			echo $this->Form->input('name',			array('label' => 'ユーザ名 : ', 'required' => false));
+		?>
+		<input type="submit" class="btn btn-info btn-add" value="検索">
+		<?php
+			echo $this->Form->end();
+		?>
 	</div>
 	<table>
 		<thead>
@@ -11,7 +32,6 @@
 				<th><?php echo $this->Paginator->sort('username', 'ログインID'); ?></th>
 				<th><?php echo $this->Paginator->sort('name', '氏名'); ?></th>
 				<th><?php echo $this->Paginator->sort('role', 'ロール'); ?></th>
-				<th><?php echo $this->Paginator->sort('email', 'メールアドレス'); ?></th>
 				<th><?php echo $this->Paginator->sort('UserGroup.group_count', '所属グループ数'); ?></th>
 				<th><?php echo $this->Paginator->sort('UserCourse.course_count', '受講コース数'); ?></th>
 				<th class="ib-col-datetime"><?php echo $this->Paginator->sort('last_logined', '最終ログイン日時'); ?></th>
@@ -25,7 +45,6 @@
 		<td><?php echo h($user['User']['username']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['name']); ?></td>
 		<td><?php echo h(Configure::read('user_role.'.$user['User']['role'])); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['email']); ?>&nbsp;</td>
 		<td><?php echo h($user['UserGroup']['group_count']); ?>&nbsp;</td>
 		<td><?php echo h($user['UserCourse']['course_count']); ?>&nbsp;</td>
 		<td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['last_logined'])); ?>&nbsp;</td>
@@ -47,5 +66,7 @@ echo $this->Form->postLink(__('削除'), array(
 <?php endforeach; ?>
 	</tbody>
 	</table>
-	<?php echo $this->Paginator->pagination(array('ul' => 'pagination')); ?>
+	<div class="text-center">
+		<?php echo $this->Paginator->pagination(array('ul' => 'pagination')); ?>
+	</div>
 </div>

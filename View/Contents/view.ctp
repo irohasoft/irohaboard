@@ -103,28 +103,29 @@
 </head>
 <body>
 <?php
-	//debug($content);
+	
 	$td_style = '';
-
+	
 	switch($content['Content']['kind'])
 	{
 		case 'url':
-			$output = '<iframe id="contentFrame" width="100%" height="100%" scrolling="yes" src="'.h($content['Content']['url']).'"></iframe>';
+			$body = '<iframe id="contentFrame" width="100%" height="100%" scrolling="yes" src="'.h($content['Content']['url']).'"></iframe>';
 			break;
 		case 'movie':
-			$output = '<video src="'.h($content['Content']['url']).'" controls width="100%"></video>';
+			$body = '<video src="'.h($content['Content']['url']).'" controls width="100%"></video>';
 			$td_style = 'vertical-align: middle;';
 			break;
 		case 'text':
-			$output = h($content['Content']['body']);
+			$body = h($content['Content']['body']);
+			$body = $this->Text->autoLinkUrls($body);
+			$body = nl2br($body);
 			$td_style = 'vertical-align: top;';
+			break;
 		case 'html':
-			$output = $content['Content']['body'];
+			$body = $content['Content']['body'];
 			$td_style = 'vertical-align: top;';
 			break;
 	}
-
-
 ?>
 <table width="100%" height="99%">
 	<tr height="30">
@@ -134,7 +135,7 @@
 	</tr>
 	<tr>
 		<td style="<?php echo $td_style?>">
-			<?php echo $output;?>
+			<?php echo $body;?>
 		</td>
 	</tr>
 	<tr height="60">

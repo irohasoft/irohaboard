@@ -24,7 +24,7 @@ class AppController extends Controller
 {
 
 	public $components = array(
-			//'DebugKit.Toolbar',
+			'DebugKit.Toolbar',
 			'Session',
 			'Flash',
 			'Auth' => array(
@@ -37,7 +37,7 @@ class AppController extends Controller
 							'action' => 'login',
 							'home'
 					),
-					'authError' => 'ログインして下さい'
+					'authError' => false
 			)
 	);
 	

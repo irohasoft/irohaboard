@@ -61,7 +61,7 @@ class GroupsController extends AppController
 		{
 			if ($this->Group->save($this->request->data))
 			{
-				$this->Flash->success(__('グループ情報を保存しました'));
+				$this->Flash->success(__('繧ｰ繝ｫ繝ｼ繝玲ュ蝣ｱ繧剃ｿ晏ｭ倥＠縺ｾ縺励◆'));
 				return $this->redirect(array(
 						'action' => 'index'
 				));
@@ -80,7 +80,10 @@ class GroupsController extends AppController
 			);
 			$this->request->data = $this->Group->find('first', $options);
 		}
-		$users = $this->Group->User->find('list');
+		
+		$this->loadModel('User');
+		
+		$users = $this->User->find('list');
 		$this->set(compact('users'));
 	}
 
@@ -94,7 +97,7 @@ class GroupsController extends AppController
 		$this->request->allowMethod('post', 'delete');
 		if ($this->Group->delete())
 		{
-			$this->Flash->success(__('グループ情報を削除しました'));
+			$this->Flash->success(__('繧ｰ繝ｫ繝ｼ繝玲ュ蝣ｱ繧貞炎髯､縺励∪縺励◆'));
 		}
 		else
 		{

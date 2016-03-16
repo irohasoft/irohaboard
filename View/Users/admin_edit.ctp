@@ -32,12 +32,11 @@
 					'options' => Configure::read('user_role')
 					)
 				);
-
 				
 				echo $this->Form->input('email',				array('label' => 'メールアドレス'));
 				echo $this->Form->input('comment',				array('label' => '備考'));
 				echo $this->Form->input('Group',				array('label' => '所属グループ',	'size' => 20));
-				echo $this->Form->input('Course',				array('label' => '受講コース', 'size' => 20));
+				echo $this->Form->input('Course',				array('label' => '受講コース',		'size' => 20));
 			?>
 			<div class="form-group">
 				<div class="col col-md-9 col-md-offset-3">

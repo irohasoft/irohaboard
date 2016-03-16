@@ -1,4 +1,4 @@
-@CHARSET "UTF-8";
+@charset "utf-8";
 /**
  * iroha Board Project
  *
@@ -146,20 +146,47 @@ form .required .control-label:after
 
 .ib-horizontal .input
 {
+	/*
 	width				: 200px;
+	*/
 	float				: left;
+	padding-left		: 10px;
+	padding-right		: 20px;
+	padding-top			: 0px;
+	padding-bottom		: 10px;
 }
 
 .ib-horizontal label
 {
 	float				: left;
 	text-align			: right;
+	padding-top			: 5px;
+/*
 	padding-top			: 15px;
+*/
+}
+
+.ib-horizontal .text
+{
+	width				: 160px;
 }
 
 .ib-horizontal .submit
 {
+	/*
 	padding: 12px;
+	*/
+}
+
+.ib-search-date-container
+{
+	width				: 800px;
+	height				: 60px;
+}
+
+.ib-search-date-container .date
+{
+	font-size			: 20px;
 }
 
 .well
@@ -167,11 +194,16 @@ form .required .control-label:after
     background-color: #fafafa;
 }
 
-.ib-col-date,
+.ib-col-date
+{
+	width				: 180px;
+	text-align			: center;
+}
+
 .ib-col-datetime,
 .ib-col-action
 {
-	width				: 160px;
+	width				: 180px;
 	text-align			: center;
 }
 

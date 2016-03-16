@@ -9,6 +9,7 @@
  */
 
 App::uses('AppController', 'Controller');
+App::uses('Group', 'Group');
 
 /**
  * Users Controller
@@ -22,6 +23,7 @@ class UsersController extends AppController
 	public $components = array(
 			'Session',
 			'Paginator',
+			'Search.Prg',
 			'Auth' => array(
 					'allowedActions' => array(
 							'index',
@@ -139,24 +141,40 @@ class UsersController extends AppController
 		$this->render('admin_edit');
 	}
 
+	// 検索対象のフィルタ設定
+	/*
+	 * public $filterArgs = array( array('name' => 'name', 'type' => 'value',
+	 * 'field' => 'User.name'), array('name' => 'username', 'type' => 'like',
+	 * 'field' => 'User.username'), array('name' => 'title', 'type' => 'like',
+	 * 'field' => 'Content.title') );
+	 */
 	public function admin_index()
 	{
-		$this->User->recursive = 0;
-
-		/*
-		$conditions = array(
-				'User.group_id' => $this->Session->read("Iroha.group_id")
-		);
-
-		$this->set('users', $this->Paginator->paginate($conditions));
-		*/
-
+		// 検索条件設定
+		$this->Prg->commonProcess();
+		
+		$conditions = $this->User->parseCriteria($this->Prg->parsedParams());
+		
+		$group_id	= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
+		$username	= (isset($this->request->query['username'])) ? $this->request->query['username'] : "";
+		$name		= (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
+		
+		$conditions = array();
+		if($group_id != "")
+			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
+		
+		if($username != "")
+			$conditions['User.username like'] = '%'.$username.'%';
+		
+		if($name != "")
+			$conditions['User.name like'] = '%'.$name.'%';
+		
 		$this->paginate = array(
 			'User' => array(
 				'fields' => array('*', 'UserGroup.group_count', 'UserCourse.course_count'),
-				'conditions' => array(),
+				'conditions' => $conditions,
 				'limit' => 10,
-				'order' => 'group_count',
+				'order' => 'username',
 				'joins' => array(
 					array('type' => 'LEFT OUTER', 'alias' => 'UserGroup',
 							'table' => '(SELECT user_id, COUNT(*) as group_count FROM ib_users_groups GROUP BY user_id)',
@@ -191,7 +209,10 @@ class UsersController extends AppController
 
 		//debug($result);
 
-		$this->set('users', $result);
+		$this->Group = new Group();
+		$this->set('groups',   $this->Group->find('list'));
+		$this->set('users',    $result);
+		$this->set('group_id', $group_id);
 
 		//debug($this->Paginator->paginate());
 	}
@@ -244,8 +265,11 @@ class UsersController extends AppController
 			$this->request->data = $this->User->find('first', $options);
 		}
 
+		$this->Group = new Group();
+		//debug($this->Group);
+		
 		$courses = $this->User->Course->find('list');
-		$groups = $this->User->Group->find('list');
+		$groups = $this->Group->find('list');
 		$this->set(compact('courses', 'groups'));
 	}
 

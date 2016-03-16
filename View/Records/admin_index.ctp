@@ -1,20 +1,15 @@
 <?php echo $this->element('admin_menu');?>
-<style>
-.btn-primary
-{
-	margin-top:10px;
-}
-</style>
 <div class="records index">
 	<div class="ib-page-title"><?php echo __('学習履歴一覧'); ?></div>
 	<div class="ib-horizontal">
 		<?php
 			echo $this->Form->create();
-			echo $this->Form->input('course_id',	array('label' => 'コース:', 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false));
-			echo $this->Form->input('group_id',		array('label' => 'グループ:', 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false));
-			echo $this->Form->input('user_id',		array('label' => 'ユーザ:', 'options'=>$users, 'selected'=>$user_id, 'empty' => '全て', 'required'=>false));
-			echo $this->Form->input('contenttitle',	array('label' => 'コンテンツ名:'));
-			echo "<div style='width:500px;'>";
+			echo $this->Form->input('course_id',	array('label' => 'コース :', 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
+			echo $this->Form->input('group_id',		array('label' => 'グループ :', 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
+			echo $this->Form->input('user_id',		array('label' => 'ユーザ :', 'options'=>$users, 'selected'=>$user_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
+			echo $this->Form->input('contenttitle',	array('label' => 'コンテンツ名 :'));
+			echo $this->Form->submit(__('検索'),	array('class' => 'btn btn-info'));
+			echo '<div class="ib-search-date-container">';
 			echo $this->Form->input('from_date', array(
 				'type' => 'date',
 				'dateFormat' => 'YMD',
@@ -24,6 +19,7 @@
 				'maxYear' => date('Y'),
 				'separator' => ' / ',
 				'label'=> '対象日時 : ',
+				'class'=>'form-control',
 				'style' => 'width:initial; display: inline;',
 				'value' => $from_date
 			));
@@ -36,11 +32,11 @@
 				'maxYear' => date('Y'),
 				'separator' => ' / ',
 				'label'=> '～',
+				'class'=>'form-control',
 				'style' => 'width:initial; display: inline;',
 				'value' => $to_date
 			));
-			echo "</div>";
-			echo $this->Form->submit(__('検索'), Configure::read('form_submit_defaults'));
+			echo '</div>';
 			echo $this->Form->end();
 		?>
 	</div>

@@ -22,6 +22,7 @@ $(function (event)
 	
 	$('.btn-primary[value="+ 追加"]').prop('disabled', false);
 	$('.btn-primary[value="追加"]').prop('disabled', false);
+	$('.btn-primary[value="検索"]').prop('disabled', false);
 	$('.btn-add').prop('disabled', false);
 	$('.btn[value="ログイン"]').prop('disabled', false);
 });

@@ -18,7 +18,6 @@ App::uses('AppModel', 'Model');
  * @property Course $Course
  * @property Record $Record
  * @property User $User
- * @property User $User
  */
 class Group extends AppModel
 {
@@ -65,6 +64,7 @@ class Group extends AppModel
 	 *
 	 * @var array
 	 */
+	/*
 	public $hasMany = array(
 			'User' => array(
 					'className' => 'User',
@@ -80,6 +80,25 @@ class Group extends AppModel
 					'counterQuery' => ''
 			)
 	);
+	*/
+	
+	public function getUserIdByGroupID($group_id)
+	{
+		$sql = "SELECT user_id FROM ib_users_groups WHERE group_id = :group_id";
+		
+		$params = array('group_id' => $group_id);
+		
+		$data = $this->query($sql, $params);
+		//debug($data);
+		$list = array();
+		
+		for($i=0; $i< count($data); $i++)
+		{
+			$list[$i] = $data[$i]['ib_users_groups']['user_id'];
+		}
+		
+		return $list;
+	}
 	
 	public function getGroupList()
 	{

@@ -165,7 +165,7 @@ class User extends AppModel
 					'limit' => '',
 					'offset' => '',
 					'finderQuery' => ''
-			)
+	 		)
 	);
 
 	/*
@@ -189,4 +189,28 @@ class User extends AppModel
 		}
 		return true;
 	}
+
+	// 検索用
+	public $actsAs = array(
+			'Search.Searchable'
+	);
+
+	public $filterArgs = array(
+			'username' => array(
+					'type' => 'like',
+					'field' => 'User.name'
+			),
+			'coursetitle' => array(
+					'type' => 'like',
+					'field' => 'Course.title'
+			),
+			'contenttitle' => array(
+					'type' => 'like',
+					'field' => 'Content.title'
+			),
+			'active' => array(
+					'type' => 'value'
+			)
+	);
+
 }

@@ -13,6 +13,7 @@ App::uses('RecordsQuestion',	'RecordsQuestion');
 App::uses('UsersGroup',			'UsersGroup');
 App::uses('Course', 'Course');
 App::uses('User',   'User');
+App::uses('Group',  'Group');
 
 /**
  * Records Controller
@@ -51,7 +52,7 @@ class RecordsController extends AppController
 		$user_id	= (isset($this->request->query['user_id'])) ? $this->request->query['user_id'] : "";
 		
 		if($group_id != "")
-			$conditions['User.id'] = $this->Record->getUserIdByGroupID($group_id);
+			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 		
 		if($course_id != "")
 			$conditions['Course.id'] = $course_id;
@@ -82,35 +83,16 @@ class RecordsController extends AppController
 		);
 		
 		$this->Paginator->settings['conditions'] = $conditions;
-		//debug($this->request->query['from_date']);
-		
-		// 検索条件取得
-		// $conditions = $this->Record->parseCriteria($this->passedArgs);
-		
-		/*
-		$this->Paginator->settings = array(
-			"conditions" => array
-				(
-					"AND" => array
-						(
-							"User.name LIKE" => "%".$this->request->data["Record"]["username"]."%",
-							"Course.title LIKE" => "%".$this->request->data["Record"]["coursetitle"]."%",
-							"Content.title LIKE" => "%".$this->request->data["Record"]["contenttitle"]."%"
-						)
-				),
-			'limit' => 10
-		);
-		*/
 		$this->Record->recursive = 0;
 		$this->set('records', $this->Paginator->paginate());
 		
-		$groups = $this->Group->getGroupList();
+		//$groups = $this->Group->getGroupList();
 		
+		$this->Group = new Group();
 		$this->Course = new Course();
 		$this->User = new User();
 		//debug($this->User);
 		
-		//$this->set('groups',   $groups);
 		$this->set('groups',  $this->Group->find('list'));
 		$this->set('courses',  $this->Course->find('list'));
 		$this->set('users',    $this->User->find('list'));

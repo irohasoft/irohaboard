@@ -85,14 +85,21 @@
 
 	</style>
 	<script>
+	var studySec = 0;
+	
+	$(document).ready(function()
+	{
+		setInterval("studySec++;", 1000);
+	});
+
 	function finish(val)
 	{
-		location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 1))?>/' + val;
+		location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 1))?>/' + studySec + '/' + val;
 	}
 
 	function interrupt()
 	{
-		location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 0))?>/0';
+		location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 0))?>/' + studySec + '/0';
 	}
 
 	function cancel()

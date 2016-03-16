@@ -97,14 +97,13 @@ class ContentsQuestionsController extends AppController
 					'pass_score' => $pass_score,
 					'score' => $my_score,
 					'is_passed' => ($pass_score >= $my_score) ? 0 : 1,
-					'study_sec' => 0
+					'study_sec' => $this->request->data['ContentsQuestion']['study_sec']
 			);
 			
 			$this->loadModel('Record');
 			$this->Record->create();
 			
 			// debug($this->Record);
-			
 			$data = array(
 //					'group_id' => $this->Session->read('Auth.User.Group.id'),
 					'user_id' => $this->Session->read('Auth.User.id'),

@@ -117,7 +117,7 @@ class RecordsController extends AppController
 		$this->set('record', $this->Record->find('first', $options));
 	}
 
-	public function add($id, $is_complete, $understanding)
+	public function add($id, $is_complete, $study_sec, $understanding)
 	{
 		$this->Record->create();
 		$data = array(
@@ -125,6 +125,7 @@ class RecordsController extends AppController
 				'user_id' => $this->Session->read('Auth.User.id'),
 				'course_id' => $this->Session->read('Iroha.course_id'),
 				'content_id' => $id,
+				'study_sec' => $study_sec,
 				'understanding' => $understanding,
 				'is_complete' => $is_complete
 		);

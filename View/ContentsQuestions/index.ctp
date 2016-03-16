@@ -24,13 +24,26 @@
 	{
 		padding:10px;
 	}
+	
+	.form-inline
+	{
+	}
 </style>
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
 <script>
+	var studySec = 0;
+	
 	$(document).ready(function()
 	{
+		setInterval("setStudySec();", 1000);
 	});
+	
+	function setStudySec()
+	{
+		studySec++;
+		$("#ContentsQuestionStudySec").val(studySec);
+	}
 </script>
 <?php $this->end(); ?>
 
@@ -107,8 +120,16 @@
 	{
 		$comment = __('採点してよろしいですか？', true);
 		echo '<div class="form-inline">';
-		echo $this->Form->submit(__('採点', true), array('name'=>'complete', 'class' => 'btn btn-primary btn-lg', 'onClick'=>"return confirm('$comment')"));
-		echo $this->Form->button(__('採点', true), array('name'=>'cancel', 'class' => 'btn btn-default btn-lg', 'onClick'=>"return confirm('$comment')"));
+		echo $this->Form->hidden('study_sec');
+		echo $this->Form->submit(__('採点', true), array(
+			'name'=>'complete',
+			'class' => 'btn btn-primary btn-lg',
+			'div' => false,
+			'onClick'=>"return confirm('$comment')")
+		);
+		echo '&nbsp;';
+		$url = Router::url($course_url);
+		echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\''.$url.'\'">';
 		echo $this->Form->end();
 		echo '</div>';
 	}

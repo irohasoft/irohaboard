@@ -27,6 +27,17 @@ class Utils
 	{
 		return substr($str, 0, 16);
 	}
+	
+	public static function getHNSBySec($sec)
+	{
+		$hour	= floor($sec / 3600);
+		$min	= floor(($sec / 60) % 60);
+		$sec	= $sec % 60;
+		
+		$hms = sprintf("%02d:%02d:%02d", $hour, $min, $sec);
+		
+		return $hms;
+	}
 
 }
 

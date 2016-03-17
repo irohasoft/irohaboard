@@ -127,6 +127,7 @@ class RecordsController extends AppController
 				'content_id' => $id,
 				'study_sec' => $study_sec,
 				'understanding' => $understanding,
+				'is_passed' => -1,
 				'is_complete' => $is_complete
 		);
 		

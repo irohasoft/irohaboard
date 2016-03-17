@@ -93,10 +93,10 @@
 		<thead>
 			<tr>
 				<th><?php echo __('コンテンツ名'); ?></th>
-				<th><?php echo __('種別'); ?></th>
-				<th><?php echo __('学習開始日'); ?></th>
-				<th><?php echo __('最終学習日'); ?></th>
-				<th><?php echo __('理解度'); ?></th>
+				<th class="ib-col-center"><?php echo __('種別'); ?></th>
+				<th class="ib-col-date"><?php echo __('学習開始日'); ?></th>
+				<th class="ib-col-date"><?php echo __('最終学習日'); ?></th>
+				<th class="ib-col-date"><?php echo __('理解度'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -111,24 +111,24 @@
 		{
 			if ($content['Content']['kind'] == 'test')
 			{
-				echo "<td>" .
+				echo '<td>' .
 						$this->Html->link($content['Content']['title'],
 								array(
 										'controller' => 'contents_questions',
 										'action' => 'index',
 										$content['Content']['id']
 								)) . "</td>";
-				echo "<td>テスト</td>";
+				echo '<td class="ib-col-center">テスト</td>';
 			}
 			else if($content['Content']['kind'] == 'file')
 			{
-				echo "<td>" .
+				echo '<td>' .
 						$this->Html->link($content['Content']['title'], $content['Content']['url'], array('target'=>'_blank')). "</td>";
-				echo "<td>配布資料</td>";
+				echo '<td class="ib-col-center">配布資料</td>';
 			}
 			else
 			{
-				echo "<td>" .
+				echo '<td>' .
 						$this->Html->link($content['Content']['title'],
 								array(
 										'controller' => 'contents',
@@ -136,14 +136,14 @@
 										$content['Content']['id']
 								)) . "</td>";
 
-				echo "<td>学習</td>";
+				echo '<td class="ib-col-center">学習</td>';
 			}
 
 			//debug($content);
 			?>
-			<td><?php echo h($content['Record']['first_date']); ?>&nbsp;</td>
-					<td><?php echo h($content['Record']['last_date']); ?>&nbsp;</td>
-					<td>
+			<td class="ib-col-center"><?php echo h($content['Record']['first_date']); ?>&nbsp;</td>
+			<td class="ib-col-date"><?php echo h($content['Record']['last_date']); ?>&nbsp;</td>
+			<td class="ib-col-date">
 			<?php
 			if ($content['Content']['kind'] == 'test')
 			{

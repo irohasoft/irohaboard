@@ -7,7 +7,7 @@
 			'action' => 'index'
 	));
 
-	echo $this->Html->getCrumbs();
+	echo $this->Html->getCrumbs(' / ');
 	
 	$info = h($info['Info']['body']);
 	$info = $this->Text->autoLinkUrls($info);

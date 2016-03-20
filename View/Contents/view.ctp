@@ -94,17 +94,41 @@
 
 	function finish(val)
 	{
-		location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 1))?>/' + studySec + '/' + val;
+		// プレビューの場合
+		if(location.href.indexOf('preview') > 0)
+		{
+			window.close();
+			return;
+		}
+		
+		// 学習履歴を残して終了
+		if(val==0)
+		{
+			location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 1))?>/' + studySec + '/' + val;
+			return;
+		}
+		
+		// 中断
+		if(val==0)
+		{
+			location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 0))?>/' + studySec + '/0';
+			return;
+		}
+		
+		// 学習履歴を残さずに終了
+		if(val==-1)
+		{
+			location.href = '<?php echo Router::url(array('action' => 'index', $this->Session->read('Iroha.course_id')))?>';
+			return;
+		}
 	}
 
 	function interrupt()
 	{
-		location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 0))?>/' + studySec + '/0';
 	}
 
 	function cancel()
 	{
-		location.href = '<?php echo Router::url(array('action' => 'index', $this->Session->read('Iroha.course_id')))?>';
 	}
 </script>
 </head>
@@ -161,8 +185,8 @@
 				<button type="button" class="btn btn-success" onclick="finish(3)">△</button>
 				<button type="button" class="btn btn-success" onclick="finish(2)">✕</button>
 				</span>
-				<button type="button" class="btn btn-danger" onclick="interrupt()">中断</button>
-				<button type="button" class="btn btn-primary" onclick="cancel()">学習履歴を残さずに終了</button>
+				<button type="button" class="btn btn-danger" onclick="finish(0)">中断</button>
+				<button type="button" class="btn btn-primary" onclick="finish(-1)">学習履歴を残さずに終了</button>
 			</div>
 		</td>
 	</tr>

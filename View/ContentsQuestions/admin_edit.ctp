@@ -161,6 +161,15 @@ $(document).ready(function(){
 
 </script>
 <?php $this->end(); ?>
+	<div class="ib-breadcrumb">
+	<?php 
+		$this->Html->addCrumb('コース一覧',  array('controller' => 'courses', 'action' => 'index'));
+		$this->Html->addCrumb($course_name,  array('controller' => 'contents', 'action' => 'index', $this->Session->read('Iroha.course_id')));
+		$this->Html->addCrumb($content_name, array('controller' => 'contents_questions', 'action' => 'index', $this->Session->read('Iroha.content_id')));
+		
+		echo $this->Html->getCrumbs(' / ');
+	?>
+	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<?php echo ($this->action == 'admin_edit') ? __('編集') :  __('新規問題'); ?>
@@ -175,12 +184,12 @@ $(document).ready(function(){
 				echo $this->Form->input('アップロード', array('label'=>'', 'type'=>'button', 'value'=>'アップロード', 'onclick' => 'openUploader(); return false;' ));
 
 			?>
-			<div class="input text required">
+			<div class="form-group required">
 				<label for="ContentsQuestionOptions" class="col col-md-3 col-sm-4 control-label">選択肢／正解</label>
 				<div class="col col-md-9 col-sm-8 required">
 				「＋」で選択肢の追加、「－」で選択された選択肢を削除します。（※最大10まで）<br>
 				また選択された選択肢が正解となります。<br>
-				<input type="text" size="20" name="option" style="width:200px;">
+				<input type="text" size="20" name="option" style="width:200px;display:inline-block;">
 				<button class="btn" onclick="add_option();return false;">＋</button>
 				<button class="btn" onclick="del_option();return false;">－</button><br>
 			<?php
@@ -193,6 +202,7 @@ $(document).ready(function(){
 				echo $this->Form->hidden('options',	array('label' => __('選択肢')));
 			?>
 				</div>
+			</div>
 			<?php
 				echo "<div class='' style='display:none;'>";
 				echo $this->Form->input('correct',	array('label' => __('正解')));
@@ -200,7 +210,6 @@ $(document).ready(function(){
 				echo $this->Form->input('score',	array('label' => __('得点')));
 				echo $this->Form->input('comment',	array('label' => __('備考')));
 			?>
-			</div>
 			<div class="form-group">
 				<div class="col col-md-9 col-md-offset-3">
 					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>

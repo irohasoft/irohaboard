@@ -1,4 +1,5 @@
 <?php echo $this->element('menu');?>
+<?php $this->start('css-embedded'); ?>
 <!--[if !IE]><!-->
 <style>
 @media only screen and (max-width:800px){
@@ -56,6 +57,13 @@
 	.responsive-table tbody td:nth-of-type(3):before { content: "学習開始日 : "; }
 	.responsive-table tbody td:nth-of-type(4):before { content: "最終学習日 : "; }
 	.responsive-table tbody td:nth-of-type(5):before { content: "理解度 : "; }
+	
+	.ib-col-center,
+	.ib-col-date
+	{
+		text-align: left;
+		width:100%;
+	}
 
 }
 .content-label
@@ -71,7 +79,7 @@
 
 </style>
 <!--<![endif]-->
-
+<?php $this->end(); ?>
 <div class="contents index">
 	<div class="ib-breadcrumb">
 	<?php
@@ -80,7 +88,7 @@
 			'action' => 'index'
 	));
 
-	echo $this->Html->getCrumbs();
+	echo $this->Html->getCrumbs(' / ');
 	//debug($contents);
 
 	?>

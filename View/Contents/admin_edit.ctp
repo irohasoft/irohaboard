@@ -1,11 +1,108 @@
 <?php echo $this->element('admin_menu');?>
 <?php $this->start('css-embedded'); ?>
 <style type='text/css'>
+	input[name="data[Content][url]"]
+	{
+		display:inline-block;
+		margin-right:10px;
+	}
 	label span
 	{
 		font-weight: normal;
 	}
 </style>
+<?php $this->end(); ?>
+<?php $this->start('script-embedded'); ?>
+<script>
+	//$('input[name="data[Content][kind]"]:radio').val(['text']);
+	$(document).ready(function()
+	{
+		$url = $('input[name="data[Content][url]"]');
+
+		$url.after('<input id="btnUpload" type="button" value="アップロード">');
+
+		$("#btnUpload").click(function(){
+			var val = $('input[name="data[Content][kind]"]:checked').val();
+			
+			if(!val)
+				return false;
+			
+			if(
+				(val=='text')||
+				(val=='test')
+			)
+				return false;
+			
+			if(val=='url')
+				val = 'file';
+			
+			window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/'+val, '_upload', 'width=600,height=500,resizable=no');
+			return false;
+		});
+
+		$('input[name="data[Content][kind]"]:radio').change( function() {
+			render();
+		});
+
+		render();
+	});
+
+	function render()
+	{
+		var val = $('input[name="data[Content][kind]"]:checked').val();
+		$(".kind").hide();
+		$(".kind-"+val).show();
+		
+		if(val=='url')
+		{
+			$("input[name='data[Content][url]']").css('width', '100%');
+			$("#btnUpload").hide();
+		}
+		else
+		{
+			$("input[name='data[Content][url]']").css('width', '85%');
+			$("#btnUpload").show();
+		}
+
+	}
+
+	function preview()
+	{
+		var val = $('input[name="data[Content][kind]"]:checked').val();
+		
+		if(val=='label')
+		{
+			alert('ラベルはプレビューできません');
+			return;
+		}
+		
+		$.ajax({
+			url: "<?php echo Router::url(array('action' => 'preview')) ?>",
+			type: "POST",
+			data: {
+				content_title : $("#ContentTitle").val(),
+				content_kind  : $('input[name="data[Content][kind]"]:checked').val(),
+				content_url   : $("#ContentUrl").val(),
+				content_body  : $("#ContentBody").val(),
+			},
+			dataType: "text",
+			success : function(response){
+				//通信成功時の処理
+				//alert(response);
+				window.open('../../../contents/preview', '_preview', 'width=1000,height=700,resizable=no');
+			},
+			error: function(){
+				//通信失敗時の処理
+				//alert('通信失敗');
+			}
+		});
+	}
+
+	function setURL(url)
+	{
+		$('input[name="data[Content][url]"]').val(url);
+	}
+</script>
 <?php $this->end(); ?>
 
 <div class="contents form">
@@ -32,7 +129,6 @@
 
 				echo "<div class='kind kind-movie kind-url kind-file'>";
 				echo $this->Form->input('url',		array('label' => 'URL'));
-				echo $this->Form->input('アップロード', array('label'=>'', 'type'=>'button', 'value'=>'アップロード', 'onclick' => 'openUploader(); return false;' ));
 				echo "</div>";
 
 				echo "<div class='kind kind-text kind-html'>";
@@ -50,65 +146,10 @@
 			?>
 			<div class="form-group">
 				<div class="col col-md-9 col-md-offset-3">
+					<button class="btn btn-default" value="プレビュー" onclick="preview(); return false;" type="submit">プレビュー</button>
 					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<style>
-	input[name="data[Content][url]"]
-	{
-		display:inline-block;
-		width:85%;
-	}
-</style>
-<script>
-	//$('input[name="data[Content][kind]"]:radio').val(['text']);
-	$(document).ready(function()
-	{
-		$url = $('input[name="data[Content][url]"]');
-
-		$url.after('<input id="btnPreview" type="button" value="プレビュー">');
-
-		$("#btnPreview").click(function(){
-
-			if($url=="")
-			{
-				alert("URLが入力されていません");
-				return;
-			}
-
-			window.open($url.val());
-		});
-
-		render();
-	});
-
-	$('input[name="data[Content][kind]"]:radio').change( function() {
-		render();
-	});
-
-	function render()
-	{
-		var val = $('input[name="data[Content][kind]"]:checked').val();
-		$(".kind").hide();
-		$(".kind-"+val).show();
-	}
-
-	function openUploader()
-	{
-		var val = $('input[name="data[Content][kind]"]:checked').val();
-		
-		if(val=='url')
-			val = 'file';
-		
-		window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/'+val, '_upload', 'width=600,height=500,resizable=no');
-		return false;
-	}
-
-	function setURL(url)
-	{
-		$('input[name="data[Content][url]"]').val(url);
-	}
-</script>

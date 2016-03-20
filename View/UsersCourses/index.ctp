@@ -1,4 +1,25 @@
 <?php echo $this->element('menu');?>
+<?php $this->start('css-embedded'); ?>
+<style>
+.btn-rest
+{
+	float: right;
+}
+
+@media only screen and (max-width:800px)
+{
+	a
+	{
+		display: block;
+	}
+	
+	.list-group-item-text span
+	{
+		display: block;
+	}
+}
+</style>
+<?php $this->end(); ?>
 <div class="usersCourses index">
 	<?php if($info['Setting']['setting_value']!=""){?>
 	<div class="well">
@@ -22,8 +43,8 @@
 				<?php }?>
 				<h4 class="list-group-item-heading"><?php echo h($usersCourse['Course']['title']);?></h4>
 				<p class="list-group-item-text">
-					学習開始日: <?php echo h($usersCourse['Record']['first_date']); ?>
-					最終学習日: <?php echo h($usersCourse['Record']['last_date']); ?>
+					<span>学習開始日: <?php echo h($usersCourse['Record']['first_date']); ?></span>
+					<span>最終学習日: <?php echo h($usersCourse['Record']['last_date']); ?></span>
 				</p>
 			</a>
 		<?php endforeach; ?>
@@ -32,14 +53,3 @@
 	</div>
 	</div>
 </div>
-<style>
-	.btn-rest
-	{
-		float: right;
-	}
-	a
-	{
-		display: block;
-	}
-
-</style>

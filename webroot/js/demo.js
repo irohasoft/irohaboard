@@ -25,5 +25,16 @@ $(function (event)
 	$('.btn-primary[value="検索"]').prop('disabled', false);
 	$('.btn-add').prop('disabled', false);
 	$('.btn[value="ログイン"]').prop('disabled', false);
+	
+	if(location.href.indexOf('admin') > 0)
+	{
+		$("#UserUsername").val("root");
+		$("#UserPassword").val("irohaboard");
+	}
+	else
+	{
+		$("#UserUsername").val("demo001");
+		$("#UserPassword").val("pass");
+	}
 });
 

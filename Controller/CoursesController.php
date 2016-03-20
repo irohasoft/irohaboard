@@ -31,13 +31,6 @@ class CoursesController extends AppController
 	public function admin_index()
 	{
 		$this->Course->recursive = 0;
-		/*
-		$conditions = array(
-				'Course.group_id' => $this->Session->read("Iroha.group_id")
-		);
-
-		$this->set('courses', $this->Paginator->paginate($conditions));
-		*/
 		$this->paginate = array(
 			'Course' => array(
 				'fields' => array('Course.*', 'UserCourse.course_count'),
@@ -108,9 +101,7 @@ class CoursesController extends AppController
 			);
 			$this->request->data = $this->Course->find('first', $options);
 		}
-		$groups = $this->Course->Group->find('list');
 		$users = $this->Course->User->find('list');
-		$this->set(compact('groups', 'users'));
 	}
 
 	public function admin_delete($id = null)

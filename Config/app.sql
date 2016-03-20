@@ -99,7 +99,6 @@ CREATE TABLE `ib_records_questions` (
 -- ----------------------------
 CREATE TABLE `ib_records` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
-  `group_id` int(8) NOT NULL DEFAULT '0',
   `course_id` int(8) NOT NULL DEFAULT '0',
   `user_id` int(8) NOT NULL DEFAULT '0',
   `content_id` int(8) NOT NULL,
@@ -131,7 +130,6 @@ CREATE TABLE `ib_infos` (
   `created` datetime DEFAULT NULL,
   `modified` datetime NOT NULL,
   `user_id` int(8) NOT NULL,
-  `group_id` int(8) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -161,26 +159,10 @@ CREATE TABLE `ib_groups` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `ib_courses_contents`
--- ----------------------------
-CREATE TABLE `ib_courses_contents` (
-  `id` int(8) NOT NULL AUTO_INCREMENT,
-  `course_id` int(8) NOT NULL,
-  `content_id` int(8) NOT NULL,
-  `label` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ib_courses_contents
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `ib_courses`
 -- ----------------------------
 CREATE TABLE `ib_courses` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
-  `group_id` int(8) NOT NULL DEFAULT '0',
   `title` varchar(200) NOT NULL DEFAULT '',
   `opened` datetime DEFAULT NULL,
   `created` datetime NOT NULL,
@@ -201,7 +183,6 @@ CREATE TABLE `ib_courses` (
 -- ----------------------------
 CREATE TABLE `ib_contents_questions` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
-  `group_id` int(8) NOT NULL DEFAULT '0',
   `content_id` int(8) NOT NULL DEFAULT '0',
   `question_type` varchar(20) NOT NULL DEFAULT '',
   `title` varchar(200) NOT NULL DEFAULT '',
@@ -227,7 +208,6 @@ CREATE TABLE `ib_contents_questions` (
 -- ----------------------------
 CREATE TABLE `ib_contents` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
-  `group_id` int(8) NOT NULL DEFAULT '0',
   `course_id` int(8) NOT NULL DEFAULT '0',
   `user_id` int(8) NOT NULL,
   `title` varchar(200) NOT NULL DEFAULT '',

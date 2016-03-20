@@ -30,7 +30,7 @@ class ContentsQuestionsController extends AppController
 		$contentsQuestions = $this->ContentsQuestion->find('all', 
 				array(
 						'conditions' => array(
-								'contentsQuestion.content_id' => $id
+								'content_id' => $id
 						)
 				));
 		
@@ -105,7 +105,6 @@ class ContentsQuestionsController extends AppController
 			
 			// debug($this->Record);
 			$data = array(
-//					'group_id' => $this->Session->read('Auth.User.Group.id'),
 					'user_id' => $this->Session->read('Auth.User.id'),
 					'course_id' => $this->Session->read('Iroha.course_id'),
 					'content_id' => $id,
@@ -155,15 +154,24 @@ class ContentsQuestionsController extends AppController
 		$contentsQuestions = $this->ContentsQuestion->find('all', 
 				array(
 						'conditions' => array(
-								'contentsQuestion.content_id' => $id
+								'content_id' => $id
 						)
 				));
 		
-		$this->Session->write('Iroha.content_id', $id);
-		// $this->Session->write('Iroha.content_name',
-		// $contentsQuestions['ContentsQuestion']['title']);
+		// コースの情報を取得
+		$this->loadModel('Content');
 		
-		$this->set('course_name', $this->Session->read('Iroha.course_name'));
+		$content = $this->Content->find('first',
+				array(
+						'conditions' => array(
+								'Content.id' => $id
+						)
+				));
+		
+		$this->Session->write('Iroha.content_id',   $id);
+		$this->Session->write('Iroha.content_name', $content['Content']['title']);
+		
+		$this->set('course_name',   $this->Session->read('Iroha.course_name'));
 		$this->set('contentsQuestions', $contentsQuestions);
 	}
 
@@ -201,13 +209,14 @@ class ContentsQuestionsController extends AppController
 			if ($id == null)
 			{
 				$this->request->data['ContentsQuestion']['user_id'] = $this->Session->read('Auth.User.id');
-				$this->request->data['ContentsQuestion']['group_id'] = $this->Session->read('Iroha.group_id');
 				$this->request->data['ContentsQuestion']['content_id'] = $this->Session->read('Iroha.content_id');
 			}
 			
 			echo "test";
 			if (! $this->ContentsQuestion->validates())
 				return;
+			
+			debug($this->request->data);
 			
 			if ($this->ContentsQuestion->save($this->request->data))
 			{
@@ -233,9 +242,9 @@ class ContentsQuestionsController extends AppController
 			);
 			$this->request->data = $this->ContentsQuestion->find('first', $options);
 		}
-		$groups = $this->ContentsQuestion->Group->find('list');
-		// $courses = $this->ContentsQuestion->Course->find('list');
-		$this->set(compact('groups', 'courses'));
+		
+		$this->set('course_name',   $this->Session->read('Iroha.course_name'));
+		$this->set('content_name',  $this->Session->read('Iroha.content_name'));
 	}
 
 	/**

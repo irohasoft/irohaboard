@@ -1,33 +1,27 @@
 <?php
 /**
- * The Front Controller for handling every request
+ * iroha Board Project
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.webroot
- * @since         CakePHP(tm) v 0.2.9
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @author        Kotaro Miura
+ * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
+ * @link          http://irohasoft.jp/irohaboard
+ * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-if (version_compare(PHP_VERSION, '5.3.0') <= 0) {
-	echo 'iroha Board �̓���ɂ� 5.3.0 �ȏオ�K�v�ł��B���݂̃o�[�W������ ' . PHP_VERSION . " �ł��B\n";
+if (version_compare(PHP_VERSION, '5.3.0') <= 0)
+{
+	echo "ERROR-001 : iroha Board の動作には 5.3.0 以上が必要です。現在のバージョンは " . PHP_VERSION . " です。\n";
 	exit;
 }
 
-// �^�C���]�[���̐ݒ�
+// タイムゾーンの設定
 date_default_timezone_set('Asia/Tokyo');
 
 /**
  * Use the DS to separate the directories in other defines
  */
-if (!defined('DS')) {
+if (!defined('DS'))
+{
 	define('DS', DIRECTORY_SEPARATOR);
 }
 
@@ -38,43 +32,46 @@ if (!defined('DS')) {
  */
 
 /**
- * The full path to the directory which holds "app", WITHOUT a trailing DS.
+ * 1. ルートフォルダの設定
  */
-if (!defined('ROOT')) {
+if (!defined('ROOT'))
+{
+	// webroot と app フォルダ同一の階層に存在する場合
 	define('ROOT', dirname(dirname(dirname(__FILE__))));
 	
-	// webroot �� app �t�H���_�ƕ�������ꍇ
+	// webroot と app フォルダと分離する場合 (cake フォルが1階層上の場合)
 	//define('ROOT', dirname(dirname(__FILE__)).DS.'cake');
+	
+	// webroot と app フォルダと分離する場合 (cake フォルが2階層上の場合)
+	//define('ROOT', dirname(dirname(dirname(__FILE__))).DS.'cake');
+}
+
+if(!file_exists(ROOT))
+{
+	echo "ERROR-002 : cakeフォルダが見つかりません\n index.php の ROOT の設定を確認して下さい。";
+	exit;
 }
 
 /**
- * The actual directory name for the "app".
+ * 2. アプリケーションフォルダの設定
  */
-if (!defined('APP_DIR')) {
+if (!defined('APP_DIR'))
+{
+	// webroot と app フォルダと同一フォルダに存在する場合
 	define('APP_DIR', basename(dirname(dirname(__FILE__))));
 
-	// webroot �� app �t�H���_�ƕ�������ꍇ
+	// webroot と app フォルダと分離する場合
 	//define('APP_DIR', 'app');
 }
 
 /**
- * The absolute path to the "cake" directory, WITHOUT a trailing DS.
- *
- * Un-comment this line to specify a fixed path to CakePHP.
- * This should point at the directory containing `Cake`.
- *
- * For ease of development CakePHP uses PHP's include_path. If you
- * cannot modify your include_path set this value.
- *
- * Leaving this constant undefined will result in it being defined in Cake/bootstrap.php
- *
- * The following line differs from its sibling
- * /app/webroot/index.php
+ * 2. CakePHP のライブラリフォルダの設定
  */
-
 if (!defined('CAKE_CORE_INCLUDE_PATH')) {
-	define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'cakephp' . DS . 'lib');
-	// webroot �� app �t�H���_�ƕ�������ꍇ
+	// webroot と app フォルダと同一フォルダに存在する場合
+	define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'cake' . DS . 'lib');
+
+	// webroot と app フォルダと分離する場合
 	//define('CAKE_CORE_INCLUDE_PATH', ROOT.DS.'lib');
 }
 
@@ -82,7 +79,7 @@ if (!defined('CAKE_CORE_INCLUDE_PATH')) {
  * This auto-detects CakePHP as a composer installed library.
  * You may remove this if you are not planning to use composer (not recommended, though).
  */
-$vendorPath = ROOT . DS . APP_DIR . DS . 'Vendor' . DS . 'cakephp' . DS . 'cakephp' . DS . 'lib';
+$vendorPath = ROOT . DS . APP_DIR . DS . 'Vendor' . DS . 'cake' . DS . 'lib';
 $dispatcher = 'Cake' . DS . 'Console' . DS . 'ShellDispatcher.php';
 if (!defined('CAKE_CORE_INCLUDE_PATH') && file_exists($vendorPath . DS . $dispatcher)) {
 	define('CAKE_CORE_INCLUDE_PATH', $vendorPath);

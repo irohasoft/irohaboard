@@ -112,8 +112,6 @@ class InfosController extends AppController
 			$this->request->data = $this->Info->find('first', $options);
 		}
 		$users = $this->Info->User->find('list');
-		$groups = $this->Info->Group->find('list');
-		$this->set(compact('users', 'groups'));
 	}
 
 	/**

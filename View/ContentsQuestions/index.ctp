@@ -4,7 +4,7 @@
 	$course_url = array('controller' => 'contents', 'action' => 'index', $this->Session->read('Iroha.course_id'));
 	
 	$this->Html->addCrumb('コース一覧', array('controller' => 'users_courses', 'action' => 'index'));
-	$this->Html->addCrumb('コース : '.$course_name, $course_url);
+	$this->Html->addCrumb($course_name, $course_url);
 	$this->Html->addCrumb($contentsQuestions[0]['Content']['title']);
 	
 	echo $this->Html->getCrumbs(' / ');

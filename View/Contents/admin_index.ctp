@@ -4,7 +4,7 @@
 	<?php
 		$this->Html->addCrumb('コース一覧', array('controller' => 'courses', 'action' => 'index'));
 
-		echo $this->Html->getCrumbs();
+		echo $this->Html->getCrumbs(' / ');
 	?>
 	</div>
 	<div class="ib-page-title"><?php echo __($course_name . ' : コンテンツ一覧 '); ?></div>
@@ -16,10 +16,9 @@
 	<tr>
 		<th>コンテンツ名</th>
 		<th>コンテンツ種別</th>
-		<th>公開日</th>
-		<th>作成日</th>
-		<th>更新日</th>
-		<th class="actions"><?php echo __('Actions'); ?></th>
+		<th class="ib-col-date">作成日時</th>
+		<th class="ib-col-date">更新日時</th>
+		<th class="ib-col-action"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -35,15 +34,13 @@
 				{
 					echo $content['Content']['title'];
 				}
-
 				echo $this->Form->hidden('id', array('id'=>'', 'class'=>'content_id', 'value'=>$content['Content']['id']));
 			?>
 		</td>
 		<td><?php echo h(Configure::read('content_kind.'.$content['Content']['kind'])); ?>&nbsp;</td>
-		<td><?php echo h($content['Content']['opened']); ?>&nbsp;</td>
-		<td><?php echo h($this->Time->format($content['Content']['created'], '%Y/%m/%d')); ?>&nbsp;</td>
-		<td><?php echo h($this->Time->format($content['Content']['modified'], '%Y/%m/%d')); ?>&nbsp;</td>
-		<td class="actions">
+		<td class="ib-col-date"><?php echo Utils::getYMDHN($content['Content']['created']); ?>&nbsp;</td>
+		<td class="ib-col-date"><?php echo Utils::getYMDHN($content['Content']['modified']); ?>&nbsp;</td>
+		<td class="ib-col-action">
 			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $content['Content']['id'])) ?>'">編集</button>
 			<?php echo $this->Form->postLink(__('削除'),
 					array('action' => 'delete', $content['Content']['id']),

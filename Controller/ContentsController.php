@@ -76,10 +76,37 @@ class ContentsController extends AppController
 						'Content.' . $this->Content->primaryKey => $id
 				)
 		);
+		
 		$this->set('content', $this->Content->find('first', $options));
 	}
 
-	public function delete($id = null)
+	public function admin_preview()
+	{
+		$this->autoRender = FALSE;
+		if($this->request->is('ajax'))
+		{
+			$data = array(
+				'Content' => array(
+					'id'     => 0,
+					'title'  => $this->data['content_title'],
+					'kind'   => $this->data['content_kind'],
+					'url'    => $this->data['content_url'],
+					'body'  => $this->data['content_body']
+				)
+			);
+			
+			$this->Session->write("Iroha.preview_content", $data);
+		}
+	}
+
+	public function preview()
+	{
+		$this->layout = "";
+		$this->set('content', $this->Session->read('Iroha.preview_content'));
+		$this->render('view');
+	}
+
+	public function admin_delete($id = null)
 	{
 		$this->Content->id = $id;
 		if (! $this->Content->exists())
@@ -95,9 +122,11 @@ class ContentsController extends AppController
 		{
 			$this->Flash->error(__('The content could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array(
-				'action' => 'index'
-		));
+		
+		return $this->redirect(
+				array(
+						'action' => 'index/' . $this->Session->read('Iroha.course_id')
+				));
 	}
 
 	public function head($id = null)
@@ -194,7 +223,6 @@ class ContentsController extends AppController
 			if($this->action == 'admin_add')
 			{
 				$this->request->data['Content']['user_id'] = $this->Session->read('Auth.User.id');
-				//$this->request->data['Content']['group_id'] = $this->Session->read('Iroha.group_id');
 				$this->request->data['Content']['course_id'] = $this->Session->read('Iroha.course_id');
 			}
 

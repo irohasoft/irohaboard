@@ -25,19 +25,6 @@ class ContentsQuestion extends AppModel
 	 * @var array
 	 */
 	public $validate = array(
-			'group_id' => array(
-					'numeric' => array(
-							'rule' => array(
-									'numeric'
-							)
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										)
-			),
 			'content_id' => array(
 					'numeric' => array(
 							'rule' => array(
@@ -155,13 +142,6 @@ class ContentsQuestion extends AppModel
 	 * @var array
 	 */
 	public $belongsTo = array(
-			'Group' => array(
-					'className' => 'Group',
-					'foreignKey' => 'group_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			),
 			'Content' => array(
 					'className' => 'Content',
 					'foreignKey' => 'content_id',

@@ -45,9 +45,14 @@ class ContentsQuestionsController extends AppController
 							)
 					));
 			
+			$this->set('mode',   "record");
 			$this->set('record', $record);
 			// debug($record);
 			// echo "get record";
+		}
+		else
+		{
+			$this->set('mode',   "test");
 		}
 		
 		// 採点処理
@@ -138,7 +143,18 @@ class ContentsQuestionsController extends AppController
 			}
 		}
 		
-		$this->set('course_name', $this->Session->read('Iroha.course_name'));
+		$this->loadModel('Content');
+		$content = $this->Content->find('first', 
+				array(
+						'conditions' => array(
+								'Content.id' => $id
+						)
+				));
+		
+		
+		$this->set('course_name',       $this->Session->read('Iroha.course_name'));
+		$this->set('content_title',     $content['Content']['title']);
+		$this->set('content_timelimit', $content['Content']['timelimit']);
 		$this->set('contentsQuestions', $contentsQuestions);
 	}
 

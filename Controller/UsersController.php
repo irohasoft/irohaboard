@@ -144,8 +144,8 @@ class UsersController extends AppController
 	// 検索対象のフィルタ設定
 	/*
 	 * public $filterArgs = array( array('name' => 'name', 'type' => 'value',
-	 * 'field' => 'User.name'), array('name' => 'username', 'type' => 'like',
-	 * 'field' => 'User.username'), array('name' => 'title', 'type' => 'like',
+	 * 'field' => 'User.name'), array('name' => 'name', 'type' => 'like',
+	 * 'field' => 'User.username'), array('name' => 'username', 'type' => 'like',
 	 * 'field' => 'Content.title') );
 	 */
 	public function admin_index()
@@ -157,7 +157,7 @@ class UsersController extends AppController
 		
 		$group_id	= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
 		$username	= (isset($this->request->query['username'])) ? $this->request->query['username'] : "";
-		$name		= (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
+		$name		= (isset($this->request->query['name']))     ? $this->request->query['name'] : "";
 		
 		$conditions = array();
 		if($group_id != "")
@@ -174,7 +174,7 @@ class UsersController extends AppController
 				'fields' => array('*', 'UserGroup.group_count', 'UserCourse.course_count'),
 				'conditions' => $conditions,
 				'limit' => 10,
-				'order' => 'username',
+				'order' => 'created desc',
 				'joins' => array(
 					array('type' => 'LEFT OUTER', 'alias' => 'UserGroup',
 							'table' => '(SELECT user_id, COUNT(*) as group_count FROM ib_users_groups GROUP BY user_id)',
@@ -213,6 +213,7 @@ class UsersController extends AppController
 		$this->set('groups',   $this->Group->find('list'));
 		$this->set('users',    $result);
 		$this->set('group_id', $group_id);
+		$this->set('name',     $name);
 
 		//debug($this->Paginator->paginate());
 	}

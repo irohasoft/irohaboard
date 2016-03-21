@@ -76,6 +76,18 @@
 			return;
 		}
 		
+		if(val=='file')
+		{
+			alert('配布資料はプレビューできません');
+			return;
+		}
+		
+		if(val=='test')
+		{
+			alert('テストはプレビューできません');
+			return;
+		}
+		
 		$.ajax({
 			url: "<?php echo Router::url(array('action' => 'preview')) ?>",
 			type: "POST",
@@ -89,7 +101,9 @@
 			success : function(response){
 				//通信成功時の処理
 				//alert(response);
-				window.open('../../../contents/preview', '_preview', 'width=1000,height=700,resizable=no');
+				var url = '<?php echo Router::url(array('controller' => 'contents', 'action' => 'preview'))?>'.replace('admin/', '');
+				
+				window.open(url, '_preview', 'width=1000,height=700,resizable=no');
 			},
 			error: function(){
 				//通信失敗時の処理

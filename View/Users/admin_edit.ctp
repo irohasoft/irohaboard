@@ -3,8 +3,8 @@
 <?php echo $this->Html->script( 'select2.min.js');?>
 <?php $this->Html->scriptStart(array('inline' => false)); ?>
 	$(function (e) {
-		$('#GroupGroup').select2();
-		$('#CourseCourse').select2();
+		$('#GroupGroup').select2({placeholder:   "所属するグループを選択して下さい。(複数選択可)",});
+		$('#CourseCourse').select2({placeholder: "受講するコースを選択して下さい。(複数選択可)",});
 		// パスワードの自動復元を防止
 		setTimeout('$("#UserNewPassword").val("");',100);
 	});

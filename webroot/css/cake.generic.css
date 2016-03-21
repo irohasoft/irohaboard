@@ -164,10 +164,10 @@ th a {
 	text-decoration: none;
 }
 th a.asc:after {
-	content: ' ⇣';
+	content: ' ▼';
 }
 th a.desc:after {
-	content: ' ⇡';
+	content: ' ▲';
 }
 table tr td {
 	padding: 10px;

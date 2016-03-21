@@ -94,33 +94,30 @@
 
 	function finish(val)
 	{
-		// プレビューの場合
+		// プレビューの場合、学習履歴を保存しない
 		if(location.href.indexOf('preview') > 0)
 		{
 			window.close();
 			return;
 		}
 		
-		// 学習履歴を残して終了
-		if(val==0)
-		{
-			location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 1))?>/' + studySec + '/' + val;
-			return;
-		}
-		
-		// 中断
+		// 中断の場合
 		if(val==0)
 		{
 			location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 0))?>/' + studySec + '/0';
 			return;
 		}
 		
-		// 学習履歴を残さずに終了
+		// 学習履歴を残さずに終了の場合
 		if(val==-1)
 		{
 			location.href = '<?php echo Router::url(array('action' => 'index', $this->Session->read('Iroha.course_id')))?>';
 			return;
 		}
+		
+		// 学習履歴を残して終了の場合
+		location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 1))?>/' + studySec + '/' + val;
+		return;
 	}
 
 	function interrupt()

@@ -161,7 +161,7 @@
 				}
 				else
 				{
-					$result = ($content['Record']['is_passed'] == 1) ? '合格' : '不合格';
+					$result = ($content[0]['is_passed'] == 1) ? '合格' : '不合格';
 
 					echo $this->Html->link($result,
 							array(

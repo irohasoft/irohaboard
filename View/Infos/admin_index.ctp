@@ -31,5 +31,5 @@
 <?php endforeach; ?>
 	</tbody>
 	</table>
-	<?php echo $this->Paginator->pagination(array('ul' => 'pagination')); ?>
+	<?php echo $this->element('paging');?>
 </div>

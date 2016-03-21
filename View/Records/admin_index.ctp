@@ -1,4 +1,21 @@
 <?php echo $this->element('admin_menu');?>
+<?php $this->start('css-embedded'); ?>
+<style type='text/css'>
+	#RecordFromDateYear,
+	#RecordToDateYear
+	{
+		width		: 100px;
+	}
+	
+	#RecordFromDateMonth,
+	#RecordToDateMonth,
+	#RecordFromDateDay,
+	#RecordToDateDay
+	{
+		width		: 80px;
+	}
+</style>
+<?php $this->end(); ?>
 <div class="records index">
 	<div class="ib-page-title"><?php echo __('学習履歴一覧'); ?></div>
 	<div class="ib-horizontal">
@@ -7,7 +24,7 @@
 			echo $this->Form->input('course_id',	array('label' => 'コース :', 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
 			echo $this->Form->input('group_id',		array('label' => 'グループ :', 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
 			echo $this->Form->input('user_id',		array('label' => 'ユーザ :', 'options'=>$users, 'selected'=>$user_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
-			echo $this->Form->input('contenttitle',	array('label' => 'コンテンツ名 :'));
+			echo $this->Form->input('contenttitle',	array('label' => 'コンテンツ名 :', 'value'=>$contenttitle));
 			echo $this->Form->submit(__('検索'),	array('class' => 'btn btn-info'));
 			echo '<div class="ib-search-date-container">';
 			echo $this->Form->input('from_date', array(
@@ -20,7 +37,7 @@
 				'separator' => ' / ',
 				'label'=> '対象日時 : ',
 				'class'=>'form-control',
-				'style' => 'width:initial; display: inline;',
+				'style' => 'display: inline;',
 				'value' => $from_date
 			));
 			echo $this->Form->input('to_date', array(
@@ -33,7 +50,7 @@
 				'separator' => ' / ',
 				'label'=> '～',
 				'class'=>'form-control',
-				'style' => 'width:initial; display: inline;',
+				'style' => 'display: inline;',
 				'value' => $to_date
 			));
 			echo '</div>';
@@ -72,7 +89,5 @@
 <?php endforeach; ?>
 	</tbody>
 	</table>
-	<div class="text-center">
-		<?php echo $this->Paginator->pagination(array('ul' => 'pagination')); ?>
-	</div>
+	<?php echo $this->element('paging');?>
 </div>

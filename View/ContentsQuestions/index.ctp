@@ -5,12 +5,12 @@
 	
 	$this->Html->addCrumb('コース一覧', array('controller' => 'users_courses', 'action' => 'index'));
 	$this->Html->addCrumb($course_name, $course_url);
-	$this->Html->addCrumb($contentsQuestions[0]['Content']['title']);
+	$this->Html->addCrumb($content_title);
 	
 	echo $this->Html->getCrumbs(' / ');
 ?>
 	</ol>
-<div class="ib-page-title"><?php echo $contentsQuestions[0]['Content']['title']; ?></div>
+<div class="ib-page-title"><?php echo $content_title; ?></div>
 <?php $this->start('css-embedded'); ?>
 <style type='text/css'>
 	.radio-group
@@ -28,21 +28,77 @@
 	.form-inline
 	{
 	}
+	
+	#lblStudySec
+	{
+		position: fixed;
+		top: 50px;
+		right: 20px;
+		display: none;
+	}
+	
+	.question-text,
+	.correct-text
+	{
+		padding: 10px;
+		border-radius: 6px;
+	}
+	
+	img{
+		max-width: 100%;
+	}
+	
 </style>
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
 <script>
-	var studySec = 0;
+	var studySec  = 0;
+	var timeLimit = <?php echo $content_timelimit ?>;
+	var mode      = '<?php echo $mode ?>';
+	var timerID   = null;
 	
 	$(document).ready(function()
 	{
-		setInterval("setStudySec();", 1000);
+		if(mode=='test')
+		{
+			setStudySec();
+			timerID = setInterval("setStudySec();", 1000);
+		}
 	});
 	
 	function setStudySec()
 	{
-		studySec++;
+		$("#lblStudySec").show();
+		
+		if(timeLimit > 0)
+		{
+			if( studySec > (timeLimit*60) )
+			{
+				clearInterval(timerID);
+				alert("制限時間を過ぎましたので自動採点を行います。");
+				$("form").submit();
+			}
+			
+			var rest_sec = ( (timeLimit * 60) - studySec );
+			var rest = moment("2000/01/01").add('seconds', rest_sec ).format('HH:mm:ss');
+			
+			$("#lblStudySec").text("残り時間 : " + rest);
+			
+			if(rest_sec < 60)
+			{
+				$("#lblStudySec").removeClass('btn-info');
+				$("#lblStudySec").addClass('btn-danger');
+			}
+		}
+		else
+		{
+			var passed = moment("2000/01/01").add('seconds', studySec ).format('HH:mm:ss');
+			
+			$("#lblStudySec").text("経過: " + passed);
+		}
+		
 		$("#ContentsQuestionStudySec").val(studySec);
+		studySec++;
 	}
 </script>
 <?php $this->end(); ?>
@@ -63,7 +119,7 @@
 		
 		?>
 		
-		<p class="bg-warning">
+		<p class="question-text bg-warning">
 			<?php echo nl2br(h($contentsQuestion['ContentsQuestion']['body'])); ?>
 			<?php echo $image; ?>
 		</p>
@@ -92,7 +148,8 @@
 				{
 					$result_img = ($record['RecordsQuestion'][$index-1]['is_correct']=='1') ? 'correct.png' : 'wrong.png';
 					$correct = $list[$contentsQuestion['ContentsQuestion']['correct']-1];
-					echo '正解 : '.$correct;
+					echo '<p class="correct-text bg-success">正解 : '.$correct.'</p>';
+					echo $this->Html->image($result_img, array('width'=>'60','height'=>'60'));
 				}
 						
 				echo $this->Form->hidden(
@@ -104,9 +161,6 @@
 			?>
 		</div>
 		<?php if ($this->action == 'record') {?>
-		<p>
-			<?php echo $this->Html->image($result_img, array('width'=>'60','height'=>'60')); ?>
-		</p>
 		<p class="bg-danger">
 			<?php echo h($contentsQuestion['ContentsQuestion']['explain']); ?>
 		</p>
@@ -128,12 +182,14 @@
 			'onClick'=>"return confirm('$comment')")
 		);
 		echo '&nbsp;';
-		$url = Router::url($course_url);
-		echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\''.$url.'\'">';
-		echo $this->Form->end();
-		echo '</div>';
 	}
+	
+	$url = Router::url($course_url);
+	echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\''.$url.'\'">';
+	echo $this->Form->end();
+	echo '</div>';
 ?>
 <br>
 </div>
 
+<div id="lblStudySec" class="btn btn-info"></div>

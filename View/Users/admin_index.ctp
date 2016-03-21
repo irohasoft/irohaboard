@@ -19,7 +19,7 @@
 				'onchange' => '$("#UserAdminIndexForm").submit();'
 			));
 			echo $this->Form->input('username',		array('label' => 'ログインID : ', 'required' => false));
-			echo $this->Form->input('name',			array('label' => 'ユーザ名 : ', 'required' => false));
+			echo $this->Form->input('name',			array('label' => 'ユーザ名 : '  , 'required' => false, 'value'=>$name));
 		?>
 		<input type="submit" class="btn btn-info btn-add" value="検索">
 		<?php
@@ -66,7 +66,5 @@ echo $this->Form->postLink(__('削除'), array(
 <?php endforeach; ?>
 	</tbody>
 	</table>
-	<div class="text-center">
-		<?php echo $this->Paginator->pagination(array('ul' => 'pagination')); ?>
-	</div>
+	<?php echo $this->element('paging');?>
 </div>

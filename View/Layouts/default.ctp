@@ -29,10 +29,17 @@
 		echo $this->Html->script('jquery-1.9.1.min.js');
 		echo $this->Html->script('jquery-ui-1.9.2.min.js');
 		echo $this->Html->script('bootstrap.min.js');
+		echo $this->Html->script('moment.js');
 		echo $this->Html->script('common.js');
 		
-		if($_SERVER['SERVER_NAME']=='irohasoft.com')
+		if(
+			($_SERVER['SERVER_NAME']=='irohasoft.com')&&
+			(strpos($_SERVER['REQUEST_URI'], 'demo'))
+		)
+		{
+			// デモ実施用JavaScript
 			echo $this->Html->script('demo.js');
+		}
 		
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -74,7 +81,7 @@
 		echo '<div class="ib-navi-sepa ib-right"></div>';
 		echo '<div class="ib-navi-item ib-right">ようこそ '.$loginedUser["name"].' さん </div>';
 	}else{
-		echo $this->Html->link('ログイン',	 $loginURL);
+		//echo $this->Html->link('ログイン',	 $loginURL);
 	}
 ?>
 			</div>

@@ -121,7 +121,7 @@ class InfosController extends AppController
 	 * @param string $id        	
 	 * @return void
 	 */
-	public function delete($id = null)
+	public function admin_delete($id = null)
 	{
 		$this->Info->id = $id;
 		if (! $this->Info->exists())

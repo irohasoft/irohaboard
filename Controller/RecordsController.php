@@ -29,10 +29,26 @@ class RecordsController extends AppController
 			'Search.Prg'
 	);
 
-	public $presetVars = true;
+	//public $presetVars = true;
 
 	public $paginate = array();
 	
+	public $presetVars = array(
+		array(
+			'name' => 'name', 
+			'type' => 'value',
+			'field' => 'User.name'
+		), 
+		array(
+			'name' => 'username',
+			'type' => 'like',
+			'field' => 'User.username'
+		), 
+		array(
+			'name' => 'contenttitle', 'type' => 'like',
+			'field' => 'Content.title'
+		)
+	);
 	// 検索対象のフィルタ設定
 	/*
 	 * public $filterArgs = array( array('name' => 'name', 'type' => 'value',
@@ -47,9 +63,10 @@ class RecordsController extends AppController
 		
 		$conditions = $this->Record->parseCriteria($this->Prg->parsedParams());
 		
-		$group_id	= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
-		$course_id	= (isset($this->request->query['course_id'])) ? $this->request->query['course_id'] : "";
-		$user_id	= (isset($this->request->query['user_id'])) ? $this->request->query['user_id'] : "";
+		$group_id		= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
+		$course_id		= (isset($this->request->query['course_id'])) ? $this->request->query['course_id'] : "";
+		$user_id		= (isset($this->request->query['user_id'])) ? $this->request->query['user_id'] : "";
+		$contenttitle	= (isset($this->request->query['contenttitle'])) ? $this->request->query['contenttitle'] : "";
 		
 		if($group_id != "")
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
@@ -82,7 +99,11 @@ class RecordsController extends AppController
 			implode("/", $to_date).' 23:59:59'
 		);
 		
+		if($contenttitle != "")
+			$conditions['Content.title like'] = '%'.$contenttitle.'%';
+		
 		$this->Paginator->settings['conditions'] = $conditions;
+		$this->Paginator->settings['order']      = 'Record.created desc';
 		$this->Record->recursive = 0;
 		$this->set('records', $this->Paginator->paginate());
 		
@@ -93,12 +114,13 @@ class RecordsController extends AppController
 		$this->User = new User();
 		//debug($this->User);
 		
-		$this->set('groups',  $this->Group->find('list'));
-		$this->set('courses',  $this->Course->find('list'));
-		$this->set('users',    $this->User->find('list'));
-		$this->set('group_id', $group_id);
-		$this->set('course_id', $course_id);
-		$this->set('user_id', $user_id);
+		$this->set('groups',     $this->Group->find('list'));
+		$this->set('courses',    $this->Course->find('list'));
+		$this->set('users',      $this->User->find('list'));
+		$this->set('group_id',   $group_id);
+		$this->set('course_id',  $course_id);
+		$this->set('user_id',    $user_id);
+		$this->set('contenttitle', $contenttitle);
 		$this->set('from_date', $from_date);
 		$this->set('to_date', $to_date);
 	}

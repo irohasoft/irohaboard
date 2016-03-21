@@ -1,4 +1,4 @@
-	<p>
+	<div class="text-center">
 	<?php
 	/*
 	echo $this->Paginator->counter(array(
@@ -6,13 +6,11 @@
 	));
 	*/
 	echo $this->Paginator->counter(array(
-		'format' => __('合計件数:{:count}　{:page} / {:pages}ページ')
+		'format' => __('合計 : {:count}件　{:page} / {:pages}ページ')
 	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('前へ'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('次へ') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
+	<div class="text-center">
+		<?php echo $this->Paginator->pagination(array('ul' => 'pagination')); ?>
+	</div>
+

@@ -248,7 +248,6 @@ class ContentsController extends AppController
 			);
 			$this->request->data = $this->Content->find('first', $options);
 		}
-		$groups = $this->Content->Group->find('list');
 		$courses = $this->Content->Course->find('list');
 		$users = $this->Content->User->find('list');
 		$this->set(compact('groups', 'courses', 'users'));

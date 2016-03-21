@@ -110,19 +110,24 @@ class Content extends AppModel
 	public function getContentRecord($user_id, $course_id)
 	{
 		$sql = <<<EOF
- SELECT Content.*, first_date, last_date, is_passed, record_id,
+ SELECT Content.*, first_date, last_date, record_id,
        (SELECT understanding
           FROM ib_records h1
          WHERE h1.content_id = Content.id
            AND h1.user_id    =:user_id
          ORDER BY created
-          DESC LIMIT 1) as understanding
+          DESC LIMIT 1) as understanding,
+       (SELECT ifnull(is_passed, 0)
+          FROM ib_records h1
+         WHERE h1.content_id = Content.id
+           AND h1.user_id    =:user_id
+         ORDER BY created
+          DESC LIMIT 1) as is_passed
    FROM ib_contents Content
    LEFT OUTER JOIN
        (SELECT h.content_id, h.user_id,
                MAX(DATE_FORMAT(created, '%Y/%m/%d')) as last_date,
                MIN(DATE_FORMAT(created, '%Y/%m/%d')) as first_date,
-			   MAX(is_passed) as is_passed,
 			   MAX(id) as record_id
 		 FROM ib_records h
          WHERE h.user_id    =:user_id
@@ -191,18 +196,5 @@ EOF;
 	 * @var array
 	 */
 	public $hasMany = array(
-			'Record' => array(
-					'className' => 'Record',
-					'foreignKey' => 'content_id',
-					'dependent' => false,
-					'conditions' => '',
-					'fields' => '',
-					'order' => '',
-					'limit' => '',
-					'offset' => '',
-					'exclusive' => '',
-					'finderQuery' => '',
-					'counterQuery' => ''
-			)
 	);
 }

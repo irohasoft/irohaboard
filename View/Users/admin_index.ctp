@@ -8,7 +8,7 @@
 	</div>
 	<div class="ib-horizontal">
 		<?php
-			echo $this->Form->create();
+			echo $this->Form->create('User', array('action' => 'index'));
 			echo $this->Form->input('group_id',		array(
 				'label' => 'グループ : ', 
 				'options'=>$groups, 
@@ -16,7 +16,7 @@
 				'empty' => '全て', 
 				'required'=>false, 
 				'class' => 'form-control',
-				'onchange' => '$("#UserAdminIndexForm").submit();'
+				'onchange' => '$("#UserIndexForm").submit();'
 			));
 			echo $this->Form->input('username',		array('label' => 'ログインID : ', 'required' => false));
 			echo $this->Form->input('name',			array('label' => 'ユーザ名 : '  , 'required' => false, 'value'=>$name));

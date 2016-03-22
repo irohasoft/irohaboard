@@ -95,8 +95,16 @@ $config['form_submit_defaults'] = array(
 
 $config['theme_colors']   = array(
 	'#337ab7' => 'default',
-	'royalblue' => 'royalblue',
-	'darkgreen' => 'darkgreen',
-	'crimson' => 'crimson',
+	'#006888' => 'marine blue',
+	'#003f8e' => 'ink blue',
+	'#00a960' => 'green',
+	'#288c66' => 'forest green',
+	'#006948' => 'holly green',
+	'#ea5550' => 'red',
+	'#ea5550' => 'poppy red',
+	'#ee7800' => 'orange',
+	'#fcc800' => 'chrome yellow',
+	'black' => 'black',
+	'#7d7d7d' => 'gray'
 );
 

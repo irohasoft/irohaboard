@@ -62,8 +62,13 @@ class InfosController extends AppController
 
 	public function admin_index()
 	{
-		$this->Info->recursive = 0;
-		$this->set('infos', $this->Paginator->paginate());
+		$this->Paginator->settings = array(
+			'limit' => 10,
+			'order' => 'Info.created desc',
+		);
+		
+		$result = $this->paginate();
+		$this->set('infos', $result);
 	}
 
 	public function admin_add()

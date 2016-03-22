@@ -20,7 +20,7 @@
 	<div class="ib-page-title"><?php echo __('学習履歴一覧'); ?></div>
 	<div class="ib-horizontal">
 		<?php
-			echo $this->Form->create();
+			echo $this->Form->create('Record', array('action' => 'index'));
 			echo $this->Form->input('course_id',	array('label' => 'コース :', 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
 			echo $this->Form->input('group_id',		array('label' => 'グループ :', 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
 			echo $this->Form->input('user_id',		array('label' => 'ユーザ :', 'options'=>$users, 'selected'=>$user_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));

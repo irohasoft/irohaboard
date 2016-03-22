@@ -27,6 +27,7 @@
 	{
 		display:inline-block;
 		width:85%;
+		margin-right:10px;
 	}
 </style>
 <?php $this->end(); ?>
@@ -112,6 +113,14 @@ function update_correct()
 
 function init()
 {
+	$url = $('input[name="data[ContentsQuestion][image]"]');
+	
+	$url.after('<input id="btnUpload" type="button" value="アップロード">');
+	$("#btnUpload").click(function(){
+		window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/image', '_upload', 'width=650,height=500,resizable=no');
+		return false;
+	});
+	
 	if($("#ContentsQuestionOptions").val()=="")
 		return;
 	
@@ -128,26 +137,6 @@ function init()
 		
 		$("#ContentsQuestionOptionList").append($option);
 	}
-	
-	$url = $('input[name="data[ContentsQuestion][image]"]');
-
-	$url.after('<input id="btnPreview" type="button" value="プレビュー">');
-	$("#btnPreview").click(function(){
-
-		if($url=="")
-		{
-			alert("URLが入力されていません");
-			return;
-		}
-
-		window.open($url.val());
-	});
-}
-
-function openUploader()
-{
-	window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/image', '_upload', 'width=600,height=500,resizable=no');
-	return false;
 }
 
 function setURL(url)
@@ -181,8 +170,6 @@ $(document).ready(function(){
 				echo $this->Form->input('title',	array('label' => __('タイトル')));
 				echo $this->Form->input('body',		array('label' => __('問題文')));
 				echo $this->Form->input('image',	array('label' => __('画像URL')));
-				echo $this->Form->input('アップロード', array('label'=>'', 'type'=>'button', 'value'=>'アップロード', 'onclick' => 'openUploader(); return false;' ));
-
 			?>
 			<div class="form-group required">
 				<label for="ContentsQuestionOptions" class="col col-md-3 col-sm-4 control-label">選択肢／正解</label>

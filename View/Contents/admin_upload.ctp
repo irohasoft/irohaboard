@@ -44,18 +44,25 @@
 			ファイルのアップロード
 		</div>
 		<div class="panel-body">
-			アップロードするファイルを指定して、アップロードボタンをクリックしてください。<br><br>
-			<h4>アップロード可能拡張子</h4>
-			<?php echo $upload_extensions;?>
+			<div class="alert alert-warning">アップロードするファイルを指定して、アップロードボタンをクリックしてください。</div>
+			<div class="form-group">
+				<h4>アップロード可能拡張子</h4>
+				<?php echo $upload_extensions;?>
+			</div>
 
-			<h4>アップロード可能ファイルサイズ</h4>
-			最大 : <?php echo Configure::read('upload_maxsize');?>バイト
+			<div class="form-group">
+				<h4>アップロード可能ファイルサイズ</h4>
+				最大 : <?php echo Configure::read('upload_maxsize');?>バイト
+			</div>
 
-			<?php echo $this->Form->create('Content', array('type'=>'file', 'enctype' => 'multipart/form-data')); ?>
-				<input type="file" name="data[Content][file]" multiple="multiple" id="ContentFile">
-				<input type="submit" id="btnUpload"  class="btn btn-primary" value="アップロード">　
-				<input type="button"  class="btn"  value=" 閉じる " onclick="window.close();">
-			<?php echo $this->Form->end(); ?>
+			<div class="form-group">
+				<?php echo $this->Form->create('Content', array('type'=>'file', 'enctype' => 'multipart/form-data')); ?>
+					<input type="file" name="data[Content][file]" multiple="multiple" id="ContentFile" class="form-control">
+					<br>
+					<input type="submit" id="btnUpload"  class="btn btn-primary" value="アップロード">　
+					<input type="button"  class="btn"  value=" 閉じる " onclick="window.close();">
+				<?php echo $this->Form->end(); ?>
+			</div>
 		</div>
 	</div>
 </body>

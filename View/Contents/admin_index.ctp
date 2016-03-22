@@ -11,6 +11,7 @@
 	<div class="buttons_container">
 		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add')) ?>'">+ 追加</button>
 	</div>
+	<div class="alert alert-warning">ドラッグアンドドロップでコンテンツの並び順が変更できます。</div>
 	<table id='sortable-table'>
 	<thead>
 	<tr>

@@ -2,7 +2,8 @@
 <?php $this->start('css-embedded'); ?>
 <!--[if !IE]><!-->
 <style>
-@media only screen and (max-width:800px){
+@media only screen and (max-width:800px)
+{
 	.responsive-table
 	{
 		display: block;

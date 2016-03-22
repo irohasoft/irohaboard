@@ -36,6 +36,7 @@ class CoursesController extends AppController
 				'fields' => array('Course.*', 'UserCourse.course_count'),
 				'conditions' => array(),
 				'limit' => 10,
+				'order' => 'created desc',
 				'joins' => array(
 					array('type' => 'LEFT OUTER', 'alias' => 'UserCourse',
 							'table' => '(SELECT course_id, COUNT(*) as course_count FROM ib_users_courses GROUP BY course_id)',

@@ -22,7 +22,8 @@ class GroupsController extends AppController
 		$this->Group->recursive = 0;
 		
 		$this->Paginator->settings = array(
-			'limit' => 10
+			'limit' => 10,
+			'order' => 'created desc',
 		);
 		
 		$this->set('groups', $this->Paginator->paginate());

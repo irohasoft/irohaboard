@@ -15,10 +15,18 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $this->fetch('title'); ?>
+		<?php echo SessionHelper::read('Setting.title')?>
 	</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1">
+	
 	<?php
+		if(
+			($this->params['admin']!=1)||
+			($this->params['action']=='admin_login')
+		)
+		{
+			echo '<meta name="viewport" content="width=device-width,initial-scale=1">';
+		}
+		
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
@@ -32,14 +40,9 @@
 		echo $this->Html->script('moment.js');
 		echo $this->Html->script('common.js');
 		
-		if(
-			($_SERVER['SERVER_NAME']=='irohasoft.com')&&
-			(strpos($_SERVER['REQUEST_URI'], 'demo'))
-		)
-		{
-			// デモ実施用JavaScript
+		// デモ実施用JavaScript
+		if(strpos(FULL_BASE_URL, 'demo') > 0)
 			echo $this->Html->script('demo.js');
-		}
 		
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

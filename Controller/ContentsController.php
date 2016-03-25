@@ -289,7 +289,7 @@ class ContentsController extends AppController
 			$new_name = date("YmdHis").$fileUpload->getExtension( $fileUpload->get_file_name() );	//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
 
 			$file_name = WWW_ROOT.DS."uploads".DS.$new_name;										//	ファイル格納フォルダ
-			$file_url = $this->webroot.'/uploads/'.$new_name;
+			$file_url = $this->webroot.'uploads/'.$new_name;
 
 			$result = $fileUpload->saveFile( $file_name );											//	ファイルの保存
 

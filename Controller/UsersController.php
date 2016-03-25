@@ -125,6 +125,7 @@ class UsersController extends AppController
 				$this->User->id = $this->Auth->user('id');
 				// 最終ログイン日時を保存
 				$this->User->saveField('last_logined', date(DATE_ATOM));
+				$this->writeLog('user_logined', '');
 				$this->Session->delete('Auth.redirect');
 				$this->redirect($this->Auth->redirect());
 			}

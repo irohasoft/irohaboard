@@ -133,4 +133,21 @@ class AppController extends Controller
 			// AuthComponent::$sessionKey = "Auth.User";
 		}
 	}
+
+	function writeLog($log_type, $log_content)
+	{
+		$data = array(
+			'log_type'    => $log_type,
+			'log_content' => $log_content,
+			'user_id'     => $this->Session->read('Auth.User.id'),
+			'user_ip'     => $_SERVER['REMOTE_ADDR'],
+			'user_agent'  => $_SERVER['HTTP_USER_AGENT']
+		);
+		
+		
+		$this->loadModel('Log');
+		$this->Log->create();
+		$this->Log->save($data);
+	}
+
 }

@@ -33,7 +33,9 @@ $(function (event)
 	}
 	else
 	{
-		$("#UserUsername").val("demo001");
+		var day = ((new Date()).getDay()+1);
+		
+		$("#UserUsername").val("demo00" + day);
 		$("#UserPassword").val("pass");
 	}
 });

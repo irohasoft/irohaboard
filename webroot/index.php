@@ -32,7 +32,7 @@ if (!defined('DS'))
  */
 
 /**
- * 1. ルートフォルダの設定
+ * 1. ルートフォルダのパスの設定
  */
 if (!defined('ROOT'))
 {
@@ -48,12 +48,12 @@ if (!defined('ROOT'))
 
 if(!file_exists(ROOT))
 {
-	echo "ERROR-002 : cakeフォルダが見つかりません\n index.php の ROOT の設定を確認して下さい。";
+	echo "ERROR-002 : 指定されたパスにcakeフォルダが見つかりません\n index.php の ROOT の設定を確認して下さい。";
 	exit;
 }
 
 /**
- * 2. アプリケーションフォルダの設定
+ * 2. アプリケーションフォルダ名の設定
  */
 if (!defined('APP_DIR'))
 {
@@ -64,8 +64,15 @@ if (!defined('APP_DIR'))
 	//define('APP_DIR', 'app');
 }
 
+if(!file_exists(ROOT.DS.APP_DIR))
+{
+	echo "ERROR-003 : アプリケーションフォルダが見つかりません\n index.php の APP_DIR の設定を確認して下さい。\n";
+	echo "現在の指定 : ".APP_DIR;
+	exit;
+}
+
 /**
- * 2. CakePHP のライブラリフォルダの設定
+ * 2. CakePHP のライブラリフォルダのパスの設定
  */
 if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 	// webroot と app フォルダと同一フォルダに存在する場合
@@ -73,6 +80,12 @@ if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 
 	// webroot と app フォルダと分離する場合
 	//define('CAKE_CORE_INCLUDE_PATH', ROOT.DS.'lib');
+}
+
+if(!file_exists(CAKE_CORE_INCLUDE_PATH))
+{
+	echo "ERROR-004 : 指定されたパスにlibフォルダが見つかりません\n index.php の CAKE_CORE_INCLUDE_PATH の設定を確認して下さい。";
+	exit;
 }
 
 /**
@@ -96,6 +109,11 @@ if (!defined('WWW_ROOT')) {
 	define('WWW_ROOT', dirname(__FILE__) . DS);
 }
 
+if(!file_exists(ROOT.DS.APP_DIR.DS.WEBROOT_DIR))
+{
+	echo "ERROR-005 : WEBROOTフォルダが見つかりません\n index.php の WEBROOT_DIR の設定を確認して下さい。";
+	exit;
+}
 
 // For the built-in server
 if (PHP_SAPI === 'cli-server') {

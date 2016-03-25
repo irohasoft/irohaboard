@@ -126,45 +126,42 @@
 		
 		<div class="radio-group">
 			<?php
-				$list = explode('|', $contentsQuestion['ContentsQuestion']['options']);
+			$list = explode('|', $contentsQuestion['ContentsQuestion']['options']);
+			
+			$val = 1;
+			
+			$id = $contentsQuestion['ContentsQuestion']['id'];
+			
+			foreach($list as $option) {
+				$options[$val] = $option;
+				$is_disabled = ($this->action == 'record') ? " disabled" : "";
+				$is_checked = (@$record['RecordsQuestion'][$index-1]['answer']==$val) ? " checked" : "";
 				
-				$val = 1;
-				
-				$id = $contentsQuestion['ContentsQuestion']['id'];
-				
-				foreach($list as $option) {
-					$options[$val] = $option;
-					$is_disabled = ($this->action == 'record') ? " disabled" : "";
-					$is_checked = (@$record['RecordsQuestion'][$index-1]['answer']==$val) ? " checked" : "";
-					
-					echo '<input type="radio" value="'.$val.'" name="data[answer_'.$id.']" '.
-						$is_checked.$is_disabled.'> '.$option.'<br>';
-					$val++;
-				}
-				
-				//debug($contentsQuestion);
-				
-				if ($this->action == 'record')
-				{
-					$result_img = ($record['RecordsQuestion'][$index-1]['is_correct']=='1') ? 'correct.png' : 'wrong.png';
-					$correct = $list[$contentsQuestion['ContentsQuestion']['correct']-1];
-					echo '<p class="correct-text bg-success">正解 : '.$correct.'</p>';
-					echo $this->Html->image($result_img, array('width'=>'60','height'=>'60'));
-				}
-						
-				echo $this->Form->hidden(
-					'correct_'.$id,
-					array('value' => $contentsQuestion['ContentsQuestion']['correct'])
-				);
-
-				$index++;
+				echo '<input type="radio" value="'.$val.'" name="data[answer_'.$id.']" '.
+					$is_checked.$is_disabled.'> '.$option.'<br>';
+				$val++;
+			}
 			?>
 		</div>
-		<?php if ($this->action == 'record') {?>
-		<p class="bg-danger">
-			<?php echo h($contentsQuestion['ContentsQuestion']['explain']); ?>
-		</p>
-		<?php }?>
+		<?php
+		if ($this->action == 'record')
+		{
+			$result_img = ($record['RecordsQuestion'][$index-1]['is_correct']=='1') ? 'correct.png' : 'wrong.png';
+			$correct = $list[$contentsQuestion['ContentsQuestion']['correct']-1];
+			echo '<p class="correct-text bg-success">正解 : '.$correct.'</p>';
+			echo '<p>'.$this->Html->image($result_img, array('width'=>'60','height'=>'60')).'</p>';
+			
+			if($contentsQuestion['ContentsQuestion']['explain']!='')
+				echo '<p class="correct-text bg-danger">'.nl2br(h($contentsQuestion['ContentsQuestion']['explain'])).'</p>';
+			
+			echo $this->Form->hidden(
+				'correct_'.$id,
+				array('value' => $contentsQuestion['ContentsQuestion']['correct'])
+			);
+
+			$index++;
+		}
+		?>
 	</div>
 </div>
 <?php endforeach; ?>

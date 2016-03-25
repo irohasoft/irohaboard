@@ -112,13 +112,13 @@
 	<?php foreach ($contents as $content): ?>
 	<tr>
 		<?php
-		if($content['Content']['kind']=='label')
+		if($content['Content']['kind']=='label') // ラベル
 		{
 			echo '<td colspan="5" class="content-label">'.h($content['Content']['title']).'</td>';
 		}
 		else
 		{
-			if ($content['Content']['kind'] == 'test')
+			if ($content['Content']['kind'] == 'test') // テスト
 			{
 				echo '<td>' .
 						$this->Html->link($content['Content']['title'],
@@ -129,10 +129,17 @@
 								)) . "</td>";
 				echo '<td class="ib-col-center">テスト</td>';
 			}
-			else if($content['Content']['kind'] == 'file')
+			else if($content['Content']['kind'] == 'file') // 配布資料
 			{
+				// 配布資料のURL
+				$url = $content['Content']['url'];
+				
+				// 相対URLの場合、絶対URLに変更する
+				if(mb_substr($url, 0, 1)=='/')
+					$url = FULL_BASE_URL.$url;
+				
 				echo '<td>' .
-						$this->Html->link($content['Content']['title'], $content['Content']['url'], array('target'=>'_blank')). "</td>";
+						$this->Html->link($content['Content']['title'], $url, array('target'=>'_blank')). "</td>";
 				echo '<td class="ib-col-center">配布資料</td>';
 			}
 			else

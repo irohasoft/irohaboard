@@ -195,6 +195,7 @@ $(document).ready(function(){
 				echo $this->Form->input('correct',	array('label' => __('正解')));
 				echo "</div>";
 				echo $this->Form->input('score',	array('label' => __('得点')));
+				echo $this->Form->input('explain',	array('label' => __('解説')));
 				echo $this->Form->input('comment',	array('label' => __('備考')));
 			?>
 			<div class="form-group">

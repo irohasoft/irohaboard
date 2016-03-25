@@ -1,4 +1,18 @@
 <?php echo $this->element('admin_menu');?>
+<?php $this->start('css-embedded'); ?>
+<style type='text/css'>
+.td-reader{
+	width:200px;
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+}
+table{
+  table-layout:fixed;
+}
+
+</style>
+<?php $this->end(); ?>
 <div class="contentsQuestions index">
 	<div class="ib-breadcrumb">
 	<?php 
@@ -17,7 +31,8 @@
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
-		<th><?php echo $this->Paginator->sort('title',		'問題タイトル'); ?></th>
+		<th><?php echo $this->Paginator->sort('title',		'タイトル'); ?></th>
+		<th><?php echo $this->Paginator->sort('body',		'問題文'); ?></th>
 		<th><?php echo $this->Paginator->sort('options',	'選択肢'); ?></th>
 		<th><?php echo $this->Paginator->sort('correct',	'正解'); ?></th>
 		<th><?php echo $this->Paginator->sort('score',		'得点'); ?></th>
@@ -29,8 +44,9 @@
 	<tbody>
 	<?php foreach ($contentsQuestions as $contentsQuestion): ?>
 	<tr>
-		<td><?php echo h($contentsQuestion['ContentsQuestion']['title']); ?>&nbsp;</td>
-		<td><?php echo h($contentsQuestion['ContentsQuestion']['options']); ?>&nbsp;</td>
+		<td class="td-reader"><?php echo h($contentsQuestion['ContentsQuestion']['title']); ?>&nbsp;</td>
+		<td class="td-reader"><?php echo h($contentsQuestion['ContentsQuestion']['body']); ?>&nbsp;</td>
+		<td class="td-reader"><?php echo h($contentsQuestion['ContentsQuestion']['options']); ?>&nbsp;</td>
 		<td><?php echo h($contentsQuestion['ContentsQuestion']['correct']); ?>&nbsp;</td>
 		<td><?php echo h($contentsQuestion['ContentsQuestion']['score']); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($contentsQuestion['ContentsQuestion']['created']); ?>&nbsp;</td>

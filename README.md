@@ -17,7 +17,7 @@ CakePHP : 2.7.x
 https://github.com/cakephp/cakephp/releases/tag/2.7.11
 * Webサーバ上の非公開ディレクトリに cake フォルダを作成し、CakePHP 2.7 のソースを全てアップロードします。
 * 公開ディレクトリに irohaBoard をアップロードします。
-* データベース(Config/database.php)の設定を行います。
+* データベース(Config/database.php)の設定を行います。  
   事前に空のデータベースの作成しておく必要があります。(推奨文字コード : UTF-8)  
 * ディレクトリ構成が以下のようになっていない場合、設定ファイル(webroot/index.php)を書き換えます。  
 /cake  
@@ -27,6 +27,7 @@ https://github.com/cakephp/cakephp/releases/tag/2.7.11
 ┣ /Controller  
 ┣ /Model  
 ┗ /webroot  
-* /install を実行します。
+* ブラウザを開き、http://(your-domain-name)/install にてインストールを実行します。  
+画面上にインストール完了のメッセージが表示されればインストールは完了です。
 
   

@@ -1,4 +1,60 @@
 <?php echo $this->element('admin_menu');?>
+<?php $this->start('css-embedded'); ?>
+	<style>
+		#sortable-table tbody
+		{
+			cursor: move;
+		}
+	</style>
+<?php $this->end(); ?>
+<?php $this->start('script-embedded'); ?>
+	<script>
+		$(function(){
+			$('#sortable-table tbody').sortable(
+			{
+				helper: function(event, ui)
+				{
+					var children = ui.children();
+					var clone = ui.clone();
+
+					clone.children().each(function(index)
+					{
+						$(this).width(children.eq(index).width());
+					});
+					return clone;
+				},
+				update: function(event, ui)
+				{
+					var id_list = new Array();
+
+					$('.content_id').each(function(index)
+					{
+						console.log(this);
+						id_list[id_list.length] = $(this).val();
+					});
+
+					$.ajax({
+						url: "<?php echo Router::url(array('action' => 'order')) ?>",
+						type: "POST",
+						data: { id_list : id_list },
+						dataType: "text",
+						success : function(response){
+							//通信成功時の処理
+							//alert(response);
+						},
+						error: function(){
+							//通信失敗時の処理
+							//alert('通信失敗');
+						}
+					});
+				},
+				cursor: "move",
+				opacity: 0.5
+			});
+		});
+	</script>
+<?php $this->end(); ?>
+
 <div class="contents index">
 	<div class="ib-breadcrumb">
 	<?php
@@ -53,55 +109,4 @@
 	<?php endforeach; ?>
 	</tbody>
 	</table>
-	<style>
-		#sortable-table tbody
-		{
-			cursor: move;
-		}
-	</style>
-	<script>
-		$(function(){
-			$('#sortable-table tbody').sortable(
-			{
-				helper: function(event, ui)
-				{
-					var children = ui.children();
-					var clone = ui.clone();
-
-					clone.children().each(function(index)
-					{
-						$(this).width(children.eq(index).width());
-					});
-					return clone;
-				},
-				update: function(event, ui)
-				{
-					var id_list = new Array();
-
-					$('.content_id').each(function(index)
-					{
-						console.log(this);
-						id_list[id_list.length] = $(this).val();
-					});
-
-					$.ajax({
-						url: "<?php echo Router::url(array('action' => 'order')) ?>",
-						type: "POST",
-						data: { id_list : id_list },
-						dataType: "text",
-						success : function(response){
-							//通信成功時の処理
-							//alert(response);
-						},
-						error: function(){
-							//通信失敗時の処理
-							//alert('通信失敗');
-						}
-					});
-				},
-				cursor: "move",
-				opacity: 0.5
-			});
-		});
-	</script>
 </div>

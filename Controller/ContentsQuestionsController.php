@@ -171,7 +171,8 @@ class ContentsQuestionsController extends AppController
 				array(
 						'conditions' => array(
 								'content_id' => $id
-						)
+						),
+						'order' => array('ContentsQuestion.sort_no' => 'asc')
 				));
 		
 		// コースの情報を取得
@@ -295,5 +296,15 @@ class ContentsQuestionsController extends AppController
 		return $this->redirect(array(
 				'action' => 'index'
 		));
+	}
+
+	public function admin_order()
+	{
+		$this->autoRender = FALSE;
+		if($this->request->is('ajax'))
+		{
+			$this->ContentsQuestion->setOrder($this->data['id_list']);
+			return "OK";
+		}
 	}
 }

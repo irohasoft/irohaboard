@@ -158,9 +158,8 @@
 				'correct_'.$id,
 				array('value' => $contentsQuestion['ContentsQuestion']['correct'])
 			);
-
-			$index++;
 		}
+		$index++;
 		?>
 	</div>
 </div>

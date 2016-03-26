@@ -319,7 +319,7 @@ class ContentsController extends AppController
 		if($this->request->is('ajax'))
 		{
 			$this->Content->setOrder($this->data['id_list']);
-			return $this->data['id_list']."さん、こんにちは";   //echoでもOK
+			return "OK";
 		}
 	}
 }

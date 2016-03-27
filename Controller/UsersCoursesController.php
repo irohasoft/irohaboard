@@ -46,8 +46,7 @@ class UsersCoursesController extends AppController
 						)
 				));
 		
-		$data = $this->UsersCourse->getCourseRecord($this->Session->read('Auth.User.Group.id'), 
-				$this->Session->read('Auth.User.id'));
+		$data = $this->UsersCourse->getCourseRecord( $this->Session->read('Auth.User.id') );
 		
 		$no_records = "";
 		

@@ -53,7 +53,7 @@ class UsersCourse extends AppModel
 			)
 	);
 
-	public function getCourseRecord($group_id, $user_id)
+	public function getCourseRecord($user_id)
 	{
 		$sql = <<<EOF
  SELECT UsersCourse.*, Course.id, Course.title, first_date, last_date,
@@ -61,7 +61,6 @@ class UsersCourse extends AppModel
        (SELECT understanding
           FROM ib_records h1
          WHERE h1.course_id = UsersCourse.course_id
-           AND h1.group_id      =:group_id
            AND h1.user_id     	=:user_id
          ORDER BY created
           DESC LIMIT 1) as understanding
@@ -69,12 +68,12 @@ class UsersCourse extends AppModel
   INNER JOIN ib_courses Course
 		ON Course.id = UsersCourse.course_id
    LEFT OUTER JOIN
-       (SELECT h.course_id, h.group_id, h.user_id,
+       (SELECT h.course_id, h.user_id,
                MAX(DATE_FORMAT(created, '%Y/%m/%d')) as last_date,
                MIN(DATE_FORMAT(created, '%Y/%m/%d')) as first_date
           FROM ib_records h
          WHERE h.user_id =:user_id
-         GROUP BY h.course_id, h.group_id, h.user_id) Record
+         GROUP BY h.course_id, h.user_id) Record
      ON Record.course_id   = UsersCourse.course_id
     AND Record.user_id     =:user_id
    LEFT OUTER JOIN
@@ -99,7 +98,6 @@ EOF;
 		// debug($user_id);
 
 		$params = array(
-				'group_id' => $group_id,
 				'user_id' => $user_id
 		);
 

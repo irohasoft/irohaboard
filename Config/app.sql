@@ -10,11 +10,7 @@ CREATE TABLE `ib_users_groups` (
   `modified` datetime DEFAULT NULL,
   `comment` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=118 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ib_users_groups
--- ----------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `ib_users_courses`
@@ -29,11 +25,7 @@ CREATE TABLE `ib_users_courses` (
   `modified` datetime DEFAULT NULL,
   `comment` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=537 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ib_users_courses
--- ----------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `ib_users`
@@ -54,11 +46,7 @@ CREATE TABLE `ib_users` (
   `deleted` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login_id` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=214 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ib_users
--- ----------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `ib_settings`
@@ -69,11 +57,7 @@ CREATE TABLE `ib_settings` (
   `setting_name` varchar(100) NOT NULL,
   `setting_value` varchar(1000) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ib_settings
--- ----------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `ib_records_questions`
@@ -88,11 +72,7 @@ CREATE TABLE `ib_records_questions` (
   `score` int(8) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17627 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ib_records_questions
--- ----------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `ib_records`
@@ -112,11 +92,7 @@ CREATE TABLE `ib_records` (
   `study_sec` int(3) DEFAULT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=537 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ib_records
--- ----------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `ib_infos`
@@ -131,11 +107,7 @@ CREATE TABLE `ib_infos` (
   `modified` datetime NOT NULL,
   `user_id` int(8) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ib_infos
--- ----------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `ib_groups`
@@ -152,11 +124,7 @@ CREATE TABLE `ib_groups` (
   `copyright` varchar(200) DEFAULT NULL,
   `module` varchar(50) DEFAULT '00000000',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ib_groups
--- ----------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `ib_courses`
@@ -172,11 +140,7 @@ CREATE TABLE `ib_courses` (
   `comment` text,
   `user_id` int(8) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ib_courses
--- ----------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `ib_contents_questions`
@@ -197,11 +161,22 @@ CREATE TABLE `ib_contents_questions` (
   `modified` datetime DEFAULT NULL,
   `sort_no` int(8) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=696 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of ib_contents_questions
+-- Table structure for `ib_logs`
 -- ----------------------------
+CREATE TABLE `ib_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `log_type` varchar(50) DEFAULT NULL,
+  `log_content` varchar(1000) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `user_ip` varchar(50) DEFAULT NULL,
+  `user_agent` varchar(1000) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- ----------------------------
 -- Table structure for `ib_contents`
@@ -223,11 +198,7 @@ CREATE TABLE `ib_contents` (
   `sort_no` int(8) NOT NULL DEFAULT '0',
   `comment` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=368 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ib_contents
--- ----------------------------
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `ib_cake_sessions`
@@ -238,11 +209,6 @@ CREATE TABLE `ib_cake_sessions` (
   `expires` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ib_cake_sessions
--- ----------------------------
-
 
 INSERT INTO `ib_settings` VALUES ('1', 'title', 'システム名', 'iroha Board');
 INSERT INTO `ib_settings` VALUES ('2', 'copyright', 'コピーライト', 'Copyright (C) 2016 iroha Soft Co.,Ltd. All rights reserved.');

@@ -32,60 +32,68 @@ if (!defined('DS'))
  */
 
 /**
- * 1. ルートフォルダのパスの設定
+ * 1. ルートディレクトリのパスの設定
  */
 if (!defined('ROOT'))
 {
-	// webroot と app フォルダ同一の階層に存在する場合
+	// webroot ディレクトリがアプリケーションディレクトリ内に存在する場合
 	define('ROOT', dirname(dirname(dirname(__FILE__))));
 	
-	// webroot と app フォルダと分離する場合 (cake フォルが1階層上の場合)
+	// webroot と app ディレクトリを分離する場合 (cake フォルが1階層上の場合)
 	//define('ROOT', dirname(dirname(__FILE__)).DS.'cake');
 	
-	// webroot と app フォルダと分離する場合 (cake フォルが2階層上の場合)
+	// webroot と app ディレクトリを分離する場合 (cake フォルが2階層上の場合)
 	//define('ROOT', dirname(dirname(dirname(__FILE__))).DS.'cake');
 }
 
 if(!file_exists(ROOT))
 {
-	echo "ERROR-002 : 指定されたパスにcakeフォルダが見つかりません\n index.php の ROOT の設定を確認して下さい。";
+	echo "ERROR-002 : ROOTディレクトリが見つかりません\n index.php の ROOT の設定を確認して下さい。";
 	exit;
 }
 
 /**
- * 2. アプリケーションフォルダ名の設定
+ * 2. アプリケーションディレクトリ名の設定
  */
 if (!defined('APP_DIR'))
 {
-	// webroot と app フォルダと同一フォルダに存在する場合
+	// webroot ディレクトリがアプリケーションディレクトリ内に存在する場合
 	define('APP_DIR', basename(dirname(dirname(__FILE__))));
 
-	// webroot と app フォルダと分離する場合
+	// webroot と app ディレクトリと分離する場合
 	//define('APP_DIR', 'app');
 }
 
 if(!file_exists(ROOT.DS.APP_DIR))
 {
-	echo "ERROR-003 : アプリケーションフォルダが見つかりません\n index.php の APP_DIR の設定を確認して下さい。\n";
+	echo "ERROR-003 : アプリケーションディレクトリが見つかりません\n index.php の APP_DIR の設定を確認して下さい。\n";
 	echo "現在の指定 : ".APP_DIR;
 	exit;
 }
 
 /**
- * 2. CakePHP のライブラリフォルダのパスの設定
+ * 2. CakePHP のライブラリディレクトリのパスの設定
  */
 if (!defined('CAKE_CORE_INCLUDE_PATH')) {
-	// webroot と app フォルダと同一フォルダに存在する場合
+	// webroot ディレクトリがアプリケーションディレクトリ内に存在する場合
 	define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'cake' . DS . 'lib');
 
-	// webroot と app フォルダと分離する場合
+	// webroot と app ディレクトリを分離する場合
 	//define('CAKE_CORE_INCLUDE_PATH', ROOT.DS.'lib');
 }
 
 if(!file_exists(CAKE_CORE_INCLUDE_PATH))
 {
-	echo "ERROR-004 : 指定されたパスにlibフォルダが見つかりません\n index.php の CAKE_CORE_INCLUDE_PATH の設定を確認して下さい。";
+	echo "ERROR-004 : libディレクトリが見つかりません\n index.php の CAKE_CORE_INCLUDE_PATH の設定を確認して下さい。";
 	exit;
+}
+
+// tmpディレクトリが存在しない場合、作成
+if(!file_exists(ROOT.DS.APP_DIR.'/tmp'))
+{
+	mkdir(ROOT.DS.APP_DIR.'/tmp');
+	mkdir(ROOT.DS.APP_DIR.'/tmp/cache');
+	mkdir(ROOT.DS.APP_DIR.'/tmp/logs');
 }
 
 /**
@@ -111,7 +119,7 @@ if (!defined('WWW_ROOT')) {
 
 if(!file_exists(ROOT.DS.APP_DIR.DS.WEBROOT_DIR))
 {
-	echo "ERROR-005 : WEBROOTフォルダが見つかりません\n index.php の WEBROOT_DIR の設定を確認して下さい。";
+	echo "ERROR-005 : WEBROOTディレクトリが見つかりません\n index.php の WEBROOT_DIR の設定を確認して下さい。";
 	exit;
 }
 

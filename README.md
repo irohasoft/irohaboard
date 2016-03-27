@@ -50,3 +50,6 @@ https://github.com/cakephp/cakephp/releases/tag/2.7.11
 * 学習履歴の閲覧
 * システム設定
   
+
+## License
+GPLv3

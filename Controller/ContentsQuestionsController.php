@@ -229,11 +229,8 @@ class ContentsQuestionsController extends AppController
 				$this->request->data['ContentsQuestion']['content_id'] = $this->Session->read('Iroha.content_id');
 			}
 			
-			echo "test";
 			if (! $this->ContentsQuestion->validates())
 				return;
-			
-			debug($this->request->data);
 			
 			if ($this->ContentsQuestion->save($this->request->data))
 			{

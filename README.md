@@ -7,6 +7,9 @@ iroha Board とはオープンソースのeラーニングシステム(LMS)で�
 ## 公式サイト
 http://irohaboard.irohasoft.jp/
 
+## デモサイト
+http://demoib.irohasoft.com/
+
 ##動作環境
 PHP : 5.3.7以上  
 MySQL : 5.1以上  

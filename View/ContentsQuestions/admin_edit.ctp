@@ -1,5 +1,6 @@
 <?php echo $this->element('admin_menu');?>
 <div class="contentsQuestions form">
+<link rel="stylesheet" type="text/css" href="/irohaboard/css/summernote.css"/>
 <?php $this->start('css-embedded'); ?>
 <style type='text/css'>
 	#ContentsQuestionOptionList
@@ -32,122 +33,126 @@
 </style>
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
+<script type="text/javascript" src="/irohaboard/js/summernote.min.js"></script>
 <script>
-function add_option()
-{
-	txt	= document.all("option");
-	opt	= document.all("data[ContentsQuestion][option_list]").options;
-	
-	if(txt.value=="")
+	$(document).ready(function()
 	{
-		alert("選択肢を入力してください");
-		return false;
-	}
-	
-	if(txt.value.length > 50)
-	{
-		alert("選択肢は50文字以内で入力してください");
-		return false;
-	}
-	
-	if(opt.length==10)
-	{
-		alert("選択肢の数が最大値を超えています");
-		return false;
-	}
-	
-	opt[opt.length] = new Option( txt.value, txt.value )
-	txt.value = "";
-	update_options();
-	update_correct();
+		init();
+	});
 
-	return false;
-}
-
-function del_option()
-{
-	var opt = document.all("data[ContentsQuestion][option_list]").options;
-	
-	if( opt.selectedIndex > -1 )
+	function add_option()
 	{
-		opt[opt.selectedIndex] = null;
-		update_options();
-		update_correct();
-	}
-}
-
-function update_options()
-{
-	var opt = document.all("data[ContentsQuestion][option_list]").options;
-	var txt = document.all("ContentsQuestionOptions");
-	
-	txt.value = "";
-	
-	for(var i=0; i<opt.length; i++)
-	{
+		txt	= document.all("option");
+		opt	= document.all("data[ContentsQuestion][option_list]").options;
+		
 		if(txt.value=="")
 		{
-			txt.value = opt[i].value;
+			alert("選択肢を入力してください");
+			return false;
+		}
+		
+		if(txt.value.length > 50)
+		{
+			alert("選択肢は50文字以内で入力してください");
+			return false;
+		}
+		
+		if(opt.length==10)
+		{
+			alert("選択肢の数が最大値を超えています");
+			return false;
+		}
+		
+		opt[opt.length] = new Option( txt.value, txt.value )
+		txt.value = "";
+		update_options();
+		update_correct();
+
+		return false;
+	}
+
+	function del_option()
+	{
+		var opt = document.all("data[ContentsQuestion][option_list]").options;
+		
+		if( opt.selectedIndex > -1 )
+		{
+			opt[opt.selectedIndex] = null;
+			update_options();
+			update_correct();
+		}
+	}
+
+	function update_options()
+	{
+		var opt = document.all("data[ContentsQuestion][option_list]").options;
+		var txt = document.all("ContentsQuestionOptions");
+		
+		txt.value = "";
+		
+		for(var i=0; i<opt.length; i++)
+		{
+			if(txt.value=="")
+			{
+				txt.value = opt[i].value;
+			}
+			else
+			{
+				txt.value += "|" + opt[i].value;
+			}
+		}
+		
+	}
+
+	function update_correct()
+	{
+		var opt = document.all("data[ContentsQuestion][option_list]").options;
+		
+		if( opt.selectedIndex < 0 )
+		{
+			document.all("ContentsQuestionCorrect").value = "";
 		}
 		else
 		{
-			txt.value += "|" + opt[i].value;
+			document.all("ContentsQuestionCorrect").value = opt.selectedIndex + 1;
 		}
 	}
-	
-}
 
-function update_correct()
-{
-	var opt = document.all("data[ContentsQuestion][option_list]").options;
-	
-	if( opt.selectedIndex < 0 )
+	function init()
 	{
-		document.all("ContentsQuestionCorrect").value = "";
-	}
-	else
-	{
-		document.all("ContentsQuestionCorrect").value = opt.selectedIndex + 1;
-	}
-}
-
-function init()
-{
-	$url = $('input[name="data[ContentsQuestion][image]"]');
-	
-	$url.after('<input id="btnUpload" type="button" value="アップロード">');
-	$("#btnUpload").click(function(){
-		window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/image', '_upload', 'width=650,height=500,resizable=no');
-		return false;
-	});
-	
-	if($("#ContentsQuestionOptions").val()=="")
-		return;
-	
-	var options = $("#ContentsQuestionOptions").val().split('|');
-	
-	for(var i=0; i<options.length; i++)
-	{
-		var isSelected = ($('#ContentsQuestionCorrect').val()==(i+1));
+		$url = $('input[name="data[ContentsQuestion][image]"]');
 		
-		$option = $('<option>')
-			.val(options[i])
-			.text(options[i])
-			.prop('selected', isSelected);
+		$url.after('<input id="btnUpload" type="button" value="アップロード">');
+		$("#btnUpload").click(function(){
+			window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/image', '_upload', 'width=650,height=500,resizable=no');
+			return false;
+		});
 		
-		$("#ContentsQuestionOptionList").append($option);
+		$("#ContentsQuestionBody").summernote();
+		$("#ContentsQuestionExplain").summernote();
+		
+		if($("#ContentsQuestionOptions").val()=="")
+			return;
+		
+		var options = $("#ContentsQuestionOptions").val().split('|');
+		
+		for(var i=0; i<options.length; i++)
+		{
+			var isSelected = ($('#ContentsQuestionCorrect').val()==(i+1));
+			
+			$option = $('<option>')
+				.val(options[i])
+				.text(options[i])
+				.prop('selected', isSelected);
+			
+			$("#ContentsQuestionOptionList").append($option);
+		}
 	}
-}
 
-function setURL(url)
-{
-	$('input[name="data[ContentsQuestion][image]"]').val(url);
-}
-
-$(document).ready(function(){
-	init();
-});
-
+	function setURL(url)
+	{
+		$('input[name="data[ContentsQuestion][image]"]').val(url);
+	}
 </script>
 <?php $this->end(); ?>
 	<div class="ib-breadcrumb">
@@ -169,7 +174,7 @@ $(document).ready(function(){
 				echo $this->Form->input('id');
 				echo $this->Form->input('title',	array('label' => __('タイトル')));
 				echo $this->Form->input('body',		array('label' => __('問題文')));
-				echo $this->Form->input('image',	array('label' => __('画像URL')));
+				//echo $this->Form->input('image',	array('label' => __('画像URL')));
 			?>
 			<div class="form-group required">
 				<label for="ContentsQuestionOptions" class="col col-md-3 col-sm-4 control-label">選択肢／正解</label>

@@ -86,6 +86,10 @@ form .required .control-label:after
 	content: '必須';
 }
 
+.note-editor .modal-body
+{
+	margin				: 20px;
+}
 .ib-navi-item
 {
 	padding				: 5px;

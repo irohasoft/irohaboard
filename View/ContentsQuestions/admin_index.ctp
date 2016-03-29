@@ -101,7 +101,7 @@
 	<?php foreach ($contentsQuestions as $contentsQuestion): ?>
 	<tr>
 		<td class="td-reader"><?php echo h($contentsQuestion['ContentsQuestion']['title']); ?>&nbsp;</td>
-		<td class="td-reader"><?php echo h($contentsQuestion['ContentsQuestion']['body']); ?>&nbsp;</td>
+		<td class="td-reader"><?php echo h(strip_tags($contentsQuestion['ContentsQuestion']['body'])); ?>&nbsp;</td>
 		<td class="td-reader"><?php echo h($contentsQuestion['ContentsQuestion']['options']); ?>&nbsp;</td>
 		<td><?php echo h($contentsQuestion['ContentsQuestion']['correct']); ?>&nbsp;</td>
 		<td><?php echo h($contentsQuestion['ContentsQuestion']['score']); ?>&nbsp;</td>

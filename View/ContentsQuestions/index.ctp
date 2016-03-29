@@ -119,10 +119,10 @@
 		
 		?>
 		
-		<p class="question-text bg-warning">
-			<?php echo nl2br(h($contentsQuestion['ContentsQuestion']['body'])); ?>
+		<div class="question-text bg-warning">
+			<?php echo $contentsQuestion['ContentsQuestion']['body']; ?>
 			<?php echo $image; ?>
-		</p>
+		</div>
 		
 		<div class="radio-group">
 			<?php
@@ -152,7 +152,7 @@
 			echo '<p>'.$this->Html->image($result_img, array('width'=>'60','height'=>'60')).'</p>';
 			
 			if($contentsQuestion['ContentsQuestion']['explain']!='')
-				echo '<p class="correct-text bg-danger">'.nl2br(h($contentsQuestion['ContentsQuestion']['explain'])).'</p>';
+				echo '<div class="correct-text bg-danger">'.$contentsQuestion['ContentsQuestion']['explain'].'</div>';
 			
 			echo $this->Form->hidden(
 				'correct_'.$id,

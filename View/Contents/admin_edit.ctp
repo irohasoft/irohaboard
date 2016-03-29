@@ -1,5 +1,6 @@
 <?php echo $this->element('admin_menu');?>
 <?php $this->start('css-embedded'); ?>
+<link rel="stylesheet" type="text/css" href="/irohaboard/css/summernote.css"/>
 <style type='text/css'>
 	input[name="data[Content][url]"]
 	{
@@ -13,8 +14,11 @@
 </style>
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
+<script type="text/javascript" src="/irohaboard/js/summernote.min.js"></script>
 <script>
 	//$('input[name="data[Content][kind]"]:radio').val(['text']);
+	var _editor;
+	
 	$(document).ready(function()
 	{
 		$url = $('input[name="data[Content][url]"]');
@@ -46,7 +50,7 @@
 
 		render();
 	});
-
+	
 	function render()
 	{
 		var val = $('input[name="data[Content][kind]"]:checked').val();
@@ -63,7 +67,15 @@
 			$("input[name='data[Content][url]']").css('width', '85%');
 			$("#btnUpload").show();
 		}
-
+		
+		if(val=='html')
+		{
+			$("#ContentBody").summernote();
+		}
+		else
+		{
+			$("#ContentBody").summernote('destroy');
+		}
 	}
 
 	function preview()

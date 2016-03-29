@@ -16,7 +16,6 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
  *
  * @property Group $Group
  * @property Content $Content
- * @property Record $Record
  * @property Course $Course
  * @property Group $Group
  */
@@ -108,19 +107,6 @@ class User extends AppModel
 	public $hasMany = array(
 			'Content' => array(
 					'className' => 'Content',
-					'foreignKey' => 'user_id',
-					'dependent' => false,
-					'conditions' => '',
-					'fields' => '',
-					'order' => '',
-					'limit' => '',
-					'offset' => '',
-					'exclusive' => '',
-					'finderQuery' => '',
-					'counterQuery' => ''
-			),
-			'Record' => array(
-					'className' => 'Record',
 					'foreignKey' => 'user_id',
 					'dependent' => false,
 					'conditions' => '',

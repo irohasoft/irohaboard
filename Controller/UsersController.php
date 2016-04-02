@@ -24,6 +24,7 @@ class UsersController extends AppController
 			'Session',
 			'Paginator',
 			'Search.Prg',
+			'Cookie',
 			'Auth' => array(
 					'allowedActions' => array(
 							'index',
@@ -87,11 +88,28 @@ class UsersController extends AppController
 
 	public function logout()
 	{
+		$this->Cookie->delete('Auth');
 		$this->redirect($this->Auth->logout());
 	}
 
 	public function login()
 	{
+		// Check cookie's login info.
+		if ( $this->Cookie->check('Auth') )
+		{
+			$this->request->data = $this->Cookie->read('Auth');
+			
+			if ( $this->Auth->login() )
+			{
+				return $this->redirect( $this->Auth->redirect());
+			}
+			else
+			{
+				// Delete cookies
+				$this->Cookie->delete('Auth');
+			}
+		}
+		
 		$options = array(
 			'conditions' => array(
 					'User.username' => 'root'
@@ -117,11 +135,18 @@ class UsersController extends AppController
 
 		if ($this->request->is('post'))
 		{
-			//debug($this->request->data);
-			//debug($this->Auth->login());
-			// debug($this->Auth);
 			if ($this->Auth->login())
 			{
+				if (isset($this->data['User']['remember_me']))
+				{
+					// Remove remember_me data.
+					unset( $this->request->data['User']['remember_me']);
+					
+					// Save login info to cookie.
+					$cookie = $this->request->data;
+					$this->Cookie->write( 'Auth', $cookie, true, '+2 weeks');
+				}
+				
 				$this->User->id = $this->Auth->user('id');
 				// 最終ログイン日時を保存
 				$this->User->saveField('last_logined', date(DATE_ATOM));

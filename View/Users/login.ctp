@@ -1,3 +1,11 @@
+<?php $this->start('css-embedded'); ?>
+	<style type='text/css'>
+		#remember_me
+		{
+			margin-left	: 10px;
+		}
+	</style>
+<?php $this->end(); ?>
 <div class="users form">
 	<div class="panel panel-info form-signin">
 		<div class="panel-heading">
@@ -9,10 +17,11 @@
 			<?php echo $this->Form->create('User'); ?>
 			
 			<div class="form-group">
-				<?php echo $this->Form->input('username', array('label' => 'ユーザID', 'class'=>'form-control')); ?>
+				<?php echo $this->Form->input('username', array('label' => __('ユーザID'), 'class'=>'form-control')); ?>
 			</div>
 			<div class="form-group">
-				<?php echo $this->Form->input('password', array('label' => 'パスワード', 'class'=>'form-control'));?>
+				<?php echo $this->Form->input('password', array('label' => __('パスワード'), 'class'=>'form-control'));?>
+				<input type="checkbox" name="data[User][remember_me]" checked="checked" value="1" id="remember_me"><?php echo __('ログイン状態を保持')?>
 			</div>
 			<?php echo $this->Form->end(array('label' => 'ログイン', 'class'=>'btn btn-lg btn-primary btn-block')); ?>
 		</div>

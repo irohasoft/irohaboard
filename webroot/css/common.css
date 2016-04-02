@@ -13,6 +13,12 @@ body
 	font-family: 'Apple TP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.header
+{
+	width				: 100%;
+	display				: inline-block;
+}
+
 #content
 {
 	text-align			: left;
@@ -212,3 +218,19 @@ form .required .control-label:after
 	text-align			: center;
 }
 
+/* start メニューの自動ボタン化を抑止 */
+.nav>li
+{
+	float: left;
+	display: inline-block;
+}
+.navbar-nav
+{
+	margin: 0;
+}
+.navbar-nav>li>a
+{
+	padding-top: 14.5px;
+	padding-bottom: 14.5px;
+}
+/* end */

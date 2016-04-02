@@ -64,30 +64,26 @@
 	</style>
 </head>
 <body>
+	<div class="header ib-theme-color">
+		<div class="ib-logo ib-left">
+			<?php echo SessionHelper::read('Setting.title')?>
+		</div>
+<?php
+		if($loginedUser)
+		{
+			echo '<div class="ib-navi-item ib-right">'.$this->Html->link('ログアウト', $logoutURL).'</div>';
+			echo '<div class="ib-navi-sepa ib-right"></div>';
+			echo '<div class="ib-navi-item ib-right">'.$this->Html->link(__('設定'), array('controller' => 'users', 'action' => 'setting')).'</div>';
+			echo '<div class="ib-navi-sepa ib-right"></div>';
+			echo '<div class="ib-navi-item ib-right">ようこそ '.$loginedUser["name"].' さん </div>';
+		}else{
+			//echo $this->Html->link('ログイン',	 $loginURL);
+		}
+?>
+	</div>
+	
 	<div id="container">
 		<div id="header" class="row">
-			<!--
-			<div class="col-xs-4 col-sm-3 bg-success">
-				<?php echo $this->Html->image('irohaboard.jpg'); ?>
-			</div>
-			-->
-			<div class="col-xs-12 col-sm-12 ib-theme-color">
-				<div class="ib-logo ib-left">
-					<?php echo SessionHelper::read('Setting.title')?>
-				</div>
-<?php
-	if($loginedUser)
-	{
-		echo '<div class="ib-navi-item ib-right">'.$this->Html->link('ログアウト', $logoutURL).'</div>';
-		echo '<div class="ib-navi-sepa ib-right"></div>';
-		echo '<div class="ib-navi-item ib-right">'.$this->Html->link(__('設定'), array('controller' => 'users', 'action' => 'setting')).'</div>';
-		echo '<div class="ib-navi-sepa ib-right"></div>';
-		echo '<div class="ib-navi-item ib-right">ようこそ '.$loginedUser["name"].' さん </div>';
-	}else{
-		//echo $this->Html->link('ログイン',	 $loginURL);
-	}
-?>
-			</div>
 		</div>
 		<div id="content" class="row">
 			<?php echo $this->Session->flash(); ?>
@@ -95,11 +91,13 @@
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer" class="row">
-			<div class="col-xs-12 col-sm-12 ib-theme-color text-center">
-				<?php echo SessionHelper::read('Setting.copyright')?>
-			</div>
 		</div>
 	</div>
+	
+	<div class="footer ib-theme-color text-center">
+		<?php echo SessionHelper::read('Setting.copyright')?>
+	</div>
+	
 	<?php echo $this->element('sql_dump'); ?>
 </body>
 </html>

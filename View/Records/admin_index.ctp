@@ -14,6 +14,17 @@
 	{
 		width		: 80px;
 	}
+	
+	input[type='text'], textarea,
+	.form-control, 
+	label
+	{
+		font-size	: 12px;
+		font-weight	: normal;
+		height		: 30px;
+		padding		: 4px;
+	}
+	
 </style>
 <?php $this->end(); ?>
 <div class="records index">
@@ -24,7 +35,7 @@
 			echo $this->Form->input('course_id',	array('label' => 'コース :', 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
 			echo $this->Form->input('group_id',		array('label' => 'グループ :', 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
 			echo $this->Form->input('user_id',		array('label' => 'ユーザ :', 'options'=>$users, 'selected'=>$user_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
-			echo $this->Form->input('contenttitle',	array('label' => 'コンテンツ名 :', 'value'=>$contenttitle));
+			echo $this->Form->input('contenttitle',	array('label' => 'コンテンツ名 :', 'value'=>$contenttitle, 'class'=>'form-control'));
 			echo $this->Form->submit(__('検索'),	array('class' => 'btn btn-info'));
 			echo '<div class="ib-search-date-container">';
 			echo $this->Form->input('from_date', array(

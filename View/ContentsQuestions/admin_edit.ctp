@@ -1,6 +1,6 @@
 <?php echo $this->element('admin_menu');?>
 <div class="contentsQuestions form">
-<link rel="stylesheet" type="text/css" href="/irohaboard/css/summernote.css"/>
+<?php echo $this->Html->css('summernote.css');?>
 <?php $this->start('css-embedded'); ?>
 <style type='text/css'>
 	#ContentsQuestionOptionList
@@ -33,7 +33,7 @@
 </style>
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
-<script type="text/javascript" src="/irohaboard/js/summernote.min.js"></script>
+<?php echo $this->Html->script('summernote.min.js');?>
 <script>
 	$(document).ready(function()
 	{

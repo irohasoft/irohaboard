@@ -1,6 +1,6 @@
 <?php echo $this->element('admin_menu');?>
 <?php $this->start('css-embedded'); ?>
-<link rel="stylesheet" type="text/css" href="/irohaboard/css/summernote.css"/>
+<?php echo $this->Html->css('summernote.css');?>
 <style type='text/css'>
 	input[name="data[Content][url]"]
 	{
@@ -14,7 +14,7 @@
 </style>
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
-<script type="text/javascript" src="/irohaboard/js/summernote.min.js"></script>
+<?php echo $this->Html->script('summernote.min.js');?>
 <script>
 	//$('input[name="data[Content][kind]"]:radio').val(['text']);
 	var _editor;
@@ -75,6 +75,10 @@
 		else
 		{
 			$("#ContentBody").summernote('destroy');
+			
+			// remove HTML tags
+			if($($("#ContentBody").val()).text()=="")
+				$("#ContentBody").val("");
 		}
 	}
 

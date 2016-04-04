@@ -234,3 +234,14 @@ form .required .control-label:after
 	padding-bottom: 14.5px;
 }
 /* end */
+
+
+@media only screen and (max-width:800px)
+{
+	#flashMessage
+	{
+		width				: initial;
+		right				: 0px;
+		left				: 0px;
+	}
+}

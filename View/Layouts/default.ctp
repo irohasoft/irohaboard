@@ -61,12 +61,18 @@
 			background-color	: <?php echo SessionHelper::read('Setting.color')?>;
 			color				: white;
 		}
+		
+		.ib-logo a
+		{
+			color				: white;
+			text-decoration		: none;
+		}
 	</style>
 </head>
 <body>
 	<div class="header ib-theme-color">
 		<div class="ib-logo ib-left">
-			<?php echo SessionHelper::read('Setting.title')?>
+			<a href="<?php echo $this->Html->url('/')?>"><?php echo SessionHelper::read('Setting.title')?></a>
 		</div>
 <?php
 		if($loginedUser)
@@ -76,8 +82,6 @@
 			echo '<div class="ib-navi-item ib-right">'.$this->Html->link(__('設定'), array('controller' => 'users', 'action' => 'setting')).'</div>';
 			echo '<div class="ib-navi-sepa ib-right"></div>';
 			echo '<div class="ib-navi-item ib-right">ようこそ '.$loginedUser["name"].' さん </div>';
-		}else{
-			//echo $this->Html->link('ログイン',	 $loginURL);
 		}
 ?>
 	</div>

@@ -16,7 +16,8 @@ MySQL : 5.1以上
 CakePHP : 2.7.x  
 
 ##インストール方法
-1. iroha Board のソースをダウンロードし、解凍します。
+1. iroha Board のソースをダウンロードし、解凍します。  
+https://github.com/irohasoft/irohaboard/releases
 * CakePHP 2.7 のソースをダウンロードし、解凍します。  
 https://github.com/cakephp/cakephp/releases/tag/2.7.11
 * Webサーバ上の非公開ディレクトリに cake フォルダを作成し、CakePHP 2.7 のソースを全てアップロードします。
@@ -30,6 +31,8 @@ https://github.com/cakephp/cakephp/releases/tag/2.7.11
 ┣ /Config  
 ┣ /Controller  
 ┣ /Model  
+┣ ・・・  
+┣ /View  
 ┗ /webroot  
 * ブラウザを開き、http://(your-domain-name)/install にてインストールを実行します。  
 画面上にインストール完了のメッセージが表示されればインストールは完了です。

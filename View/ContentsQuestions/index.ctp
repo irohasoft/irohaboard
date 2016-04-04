@@ -43,11 +43,23 @@
 		.correct-text
 		{
 			padding: 10px;
-			border-radius: 6px;
+			border-radius	: 6px;
 		}
 		
 		img{
-			max-width: 100%;
+			max-width		: 100%;
+		}
+		
+		.result-table
+		{
+			width			: 250px;
+		}
+		
+		.result-table caption
+		{
+			/*
+			text-align		: center;
+			*/
 		}
 		
 	</style>
@@ -55,7 +67,7 @@
 	<?php $this->start('script-embedded'); ?>
 	<script>
 		var studySec  = 0;
-		var timeLimit = <?php echo $content_timelimit ?>;
+		var timeLimit = parseInt('<?php echo $content_timelimit ?>');
 		var mode      = '<?php echo $mode ?>';
 		var timerID   = null;
 		
@@ -108,6 +120,34 @@
 	<?php
 		$index = 1;
 	?>
+	<?php if($this->action == 'record'){ ?>
+		<table class="result-table">
+			<caption><?php echo __('テスト結果'); ?></caption>
+			<tr>
+				<td><?php echo __('合否'); ?></td>
+				<td><?php 
+					if ($record['Record']['is_passed']==1)
+					{
+						echo '<div class="text-primary">'.__('合格').'</div>';
+					}
+					else
+					{
+						echo '<div class="text-danger">'.__('不合格').'</div>';
+					}
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td><?php echo __('得点'); ?></td>
+				<td><?php echo $record['Record']['score'].' / '.$record['Record']['full_score']; ?></td>
+			</tr>
+			<tr>
+				<td><?php echo __('合格基準得点'); ?></td>
+				<td><?php echo $record['Record']['pass_score']; ?></td>
+			</tr>
+		</table>
+	<?php }?>
+	
 	<?php echo $this->Form->create('ContentsQuestion'); ?>
 		<?php foreach ($contentsQuestions as $contentsQuestion): ?>
 			<div class="panel panel-info">
@@ -171,6 +211,7 @@
 			echo '<div class="form-inline"><!--start-->';
 			if ($this->action != 'record')
 			{
+				echo $this->Form->hidden('study_sec');
 				echo '<input type="button" value="採点" class="btn btn-primary btn-lg" onclick="$(\'#confirmModal\').modal()">';
 				echo '&nbsp;';
 			}

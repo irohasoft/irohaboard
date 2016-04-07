@@ -82,9 +82,9 @@ class ContentsQuestion extends AppModel
 			'score' => array(
 					'numeric' => array(
 							'rule' => array(
-									'numeric'
-							)
-					// 'message' => 'Your custom message here',
+									'range', 0, 100
+							),
+					'message' => '0-100の整数で入力して下さい。',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule

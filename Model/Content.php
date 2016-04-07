@@ -66,6 +66,28 @@ class Content extends AppModel
 					// 'update' operations
 										)
 			),
+			'timelimit' => array(
+					'numeric' => array(
+						'rule' => array('range', 0, 100),
+						'message' => '0-100の整数で入力して下さい。',
+						'allowEmpty' => true,
+					// 'required' => false,
+					// 'last' => false, // Stop validation after this rule
+					// 'on' => 'create', // Limit validation to 'create' or
+					// 'update' operations
+										)
+			),
+			'pass_rate' => array(
+					'numeric' => array(
+						'rule' => array('range', 0, 100),
+						'message' => '0-100の整数で入力して下さい。',
+						'allowEmpty' => true,
+					// 'required' => false,
+					// 'last' => false, // Stop validation after this rule
+					// 'on' => 'create', // Limit validation to 'create' or
+					// 'update' operations
+										)
+			),
 			'kind' => array(
 					'notBlank' => array(
 							'rule' => array(
@@ -94,15 +116,15 @@ class Content extends AppModel
 			),
 			'file'=>array(
 					'rule1' => array(
-					 //�g���q�̎w��
+					 //・ｽg・ｽ・ｽ・ｽq・ｽﾌ指・ｽ・ｽ
 					 'rule' => array('extension',array('jpg','jpeg','gif','png')),
-					 'message' => '�摜�ł͂���܂���B',
+					 'message' => '・ｽ鞫懶ｿｽﾅはゑｿｽ・ｽ・ｽﾜゑｿｽ・ｽ・ｽB',
 					 'allowEmpty' => true,
 						),
 					'rule2' => array(
-					 //�摜�T�C�Y�̐���
+					 //・ｽ鞫懶ｿｽT・ｽC・ｽY・ｽﾌ撰ｿｽ・ｽ・ｽ
 					 'rule' => array('fileSize', '<=', '500000'),
-					 'message' => '�摜�T�C�Y��500KB�ȉ��ł��肢���܂�',
+					 'message' => '・ｽ鞫懶ｿｽT・ｽC・ｽY・ｽ・ｽ500KB・ｽﾈ会ｿｽ・ｽﾅゑｿｽ・ｽ閧｢・ｽ・ｽ・ｽﾜゑｿｽ',
 					)
 			),
 	);

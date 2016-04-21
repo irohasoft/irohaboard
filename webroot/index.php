@@ -102,7 +102,8 @@ if(!file_exists(ROOT.DS.APP_DIR.'/tmp'))
  */
 $vendorPath = ROOT . DS . APP_DIR . DS . 'Vendor' . DS . 'cake' . DS . 'lib';
 $dispatcher = 'Cake' . DS . 'Console' . DS . 'ShellDispatcher.php';
-if (!defined('CAKE_CORE_INCLUDE_PATH') && file_exists($vendorPath . DS . $dispatcher)) {
+if (!defined('CAKE_CORE_INCLUDE_PATH') && file_exists($vendorPath . DS . $dispatcher))
+{
 	define('CAKE_CORE_INCLUDE_PATH', $vendorPath);
 }
 
@@ -110,10 +111,16 @@ if (!defined('CAKE_CORE_INCLUDE_PATH') && file_exists($vendorPath . DS . $dispat
  * Editing below this line should NOT be necessary.
  * Change at your own risk.
  */
-if (!defined('WEBROOT_DIR')) {
+if (!defined('WEBROOT_DIR'))
+{
+	// webroot ディレクトリがアプリケーションディレクトリ内に存在する場合
 	define('WEBROOT_DIR', basename(dirname(__FILE__)));
+	
+	// webroot と app ディレクトリを分離する場合
+	// define('WEBROOT_DIR', '');
 }
-if (!defined('WWW_ROOT')) {
+if (!defined('WWW_ROOT'))
+{
 	define('WWW_ROOT', dirname(__FILE__) . DS);
 }
 

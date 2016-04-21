@@ -132,7 +132,7 @@ class Content extends AppModel
 	public function getContentRecord($user_id, $course_id)
 	{
 		$sql = <<<EOF
- SELECT Content.*, first_date, last_date, record_id,
+ SELECT Content.*, first_date, last_date, record_id, Record.study_sec, Record.study_count,
        (SELECT understanding
           FROM ib_records h1
          WHERE h1.content_id = Content.id
@@ -150,8 +150,10 @@ class Content extends AppModel
        (SELECT h.content_id, h.user_id,
                MAX(DATE_FORMAT(created, '%Y/%m/%d')) as last_date,
                MIN(DATE_FORMAT(created, '%Y/%m/%d')) as first_date,
-			   MAX(id) as record_id
-		 FROM ib_records h
+			   MAX(id) as record_id,
+			   SUM(ifnull(study_sec, 0)) as study_sec,
+			   COUNT(*) as study_count
+		  FROM ib_records h
          WHERE h.user_id    =:user_id
 		   AND h.course_id  =:course_id
          GROUP BY h.content_id, h.user_id) Record

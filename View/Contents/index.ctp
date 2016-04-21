@@ -56,8 +56,10 @@
 	.responsive-table tbody td:before { width: 100px; display: inline-block;}
 	.responsive-table tbody td:nth-of-type(2):before { width: 100px; display: inline-block; content: "種別 : ";}
 	.responsive-table tbody td:nth-of-type(3):before { content: "学習開始日 : "; }
-	.responsive-table tbody td:nth-of-type(4):before { content: "最終学習日 : "; }
-	.responsive-table tbody td:nth-of-type(5):before { content: "理解度 : "; }
+	.responsive-table tbody td:nth-of-type(4):before { content: "前回学習日 : "; }
+	.responsive-table tbody td:nth-of-type(5):before { content: "学習時間 : "; }
+	.responsive-table tbody td:nth-of-type(6):before { content: "学習回数 : "; }
+	.responsive-table tbody td:nth-of-type(7):before { content: "理解度 : "; }
 	
 	.ib-col-center,
 	.ib-col-date
@@ -104,8 +106,10 @@
 				<th><?php echo __('コンテンツ名'); ?></th>
 				<th class="ib-col-center"><?php echo __('種別'); ?></th>
 				<th class="ib-col-date"><?php echo __('学習開始日'); ?></th>
-				<th class="ib-col-date"><?php echo __('最終学習日'); ?></th>
-				<th class="ib-col-date"><?php echo __('理解度'); ?></th>
+				<th class="ib-col-date"><?php echo __('前回学習日'); ?></th>
+				<th class="ib-col-center"><?php echo __('学習時間'); ?></th>
+				<th class="ib-col-center"><?php echo __('学習回数'); ?></th>
+				<th class="ib-col-center"><?php echo __('理解度'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -114,7 +118,7 @@
 		<?php
 		if($content['Content']['kind']=='label') // ラベル
 		{
-			echo '<td colspan="5" class="content-label">'.h($content['Content']['title']).'</td>';
+			echo '<td colspan="7" class="content-label">'.h($content['Content']['title']).'</td>';
 		}
 		else
 		{
@@ -140,7 +144,7 @@
 				
 				echo '<td>' .
 						$this->Html->link($content['Content']['title'], $url, array('target'=>'_blank')). "</td>";
-				echo '<td class="ib-col-center">配布資料</td>';
+				echo '<td class="ib-col-center" nowrap>配布資料</td>';
 			}
 			else
 			{
@@ -159,7 +163,9 @@
 			?>
 			<td class="ib-col-center"><?php echo h($content['Record']['first_date']); ?>&nbsp;</td>
 			<td class="ib-col-date"><?php echo h($content['Record']['last_date']); ?>&nbsp;</td>
-			<td class="ib-col-date">
+			<td class="ib-col-center"><?php echo h(Utils::getHNSBySec($content['Record']['study_sec'])); ?>&nbsp;</td>
+			<td class="ib-col-center"><?php echo h($content['Record']['study_count']); ?>&nbsp;</td>
+			<td class="ib-col-center">
 			<?php
 			if ($content['Content']['kind'] == 'test')
 			{

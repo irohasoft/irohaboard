@@ -101,7 +101,7 @@ class ContentsQuestionsController extends AppController
 					'full_score' => $full_score,
 					'pass_score' => $pass_score,
 					'score' => $my_score,
-					'is_passed' => ($pass_score >= $my_score) ? 0 : 1,
+					'is_passed' => ($my_score >= $pass_score) ? 1 : 0,
 					'study_sec' => $this->request->data['ContentsQuestion']['study_sec']
 			);
 			

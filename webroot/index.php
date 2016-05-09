@@ -89,11 +89,11 @@ if(!file_exists(CAKE_CORE_INCLUDE_PATH))
 }
 
 // tmpディレクトリが存在しない場合、作成
-if(!file_exists(ROOT.DS.APP_DIR.'/tmp'))
+if(!file_exists(ROOT.DS.APP_DIR.DS.'tmp'))
 {
-	mkdir(ROOT.DS.APP_DIR.'/tmp');
-	mkdir(ROOT.DS.APP_DIR.'/tmp/cache');
-	mkdir(ROOT.DS.APP_DIR.'/tmp/logs');
+	mkdir(ROOT.DS.APP_DIR.DS.'tmp');
+	mkdir(ROOT.DS.APP_DIR.DS.'tmp'.DS.'cache');
+	mkdir(ROOT.DS.APP_DIR.DS.'tmp'.DS.'logs');
 }
 
 /**
@@ -128,6 +128,12 @@ if(!file_exists(ROOT.DS.APP_DIR.DS.WEBROOT_DIR))
 {
 	echo "ERROR-005 : WEBROOTディレクトリが見つかりません\n index.php の WEBROOT_DIR の設定を確認して下さい。";
 	exit;
+}
+
+// uploadsディレクトリが存在しない場合、作成
+if(!file_exists(ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'/uploads'))
+{
+	mkdir(ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'/uploads');
 }
 
 // For the built-in server

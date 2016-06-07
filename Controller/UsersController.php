@@ -110,29 +110,6 @@ class UsersController extends AppController
 			}
 		}
 		
-		$options = array(
-			'conditions' => array(
-					'User.username' => 'root'
-			)
-		);
-
-		$data = $this->User->find('first', $options);
-
-		if(!$data)
-		{
-			// 管理者アカウントが存在しない場合、管理者アカウントを作成
-			$data = array(
-				'course_id' => $this->Session->read('Iroha.course_id'),
-				'username' => 'root',
-				'password' => 'irohaboard',
-				'name' => 'root',
-				'role' => 'admin',
-				'email' => 'info@example.com'
-			);
-
-			$this->User->save($data);
-		}
-
 		if ($this->request->is('post'))
 		{
 			if ($this->Auth->login())
@@ -253,7 +230,9 @@ class UsersController extends AppController
 		{
 			throw new NotFoundException(__('Invalid user'));
 		}
-
+		
+		$username = "";
+		
 		if ($this->request->is(array(
 				'post',
 				'put'
@@ -290,14 +269,17 @@ class UsersController extends AppController
 					)
 			);
 			$this->request->data = $this->User->find('first', $options);
+			
+			if($this->request->data)
+				$username = $this->request->data['User']['username'];
 		}
 
 		$this->Group = new Group();
-		//debug($this->Group);
 		
 		$courses = $this->User->Course->find('list');
 		$groups = $this->Group->find('list');
-		$this->set(compact('courses', 'groups'));
+		
+		$this->set(compact('courses', 'groups', 'username'));
 	}
 
 	public function admin_setting()
@@ -347,6 +329,30 @@ class UsersController extends AppController
 
 	public function admin_login()
 	{
+		// 初期アカウント作成確認
+		$options = array(
+			'conditions' => array(
+					'User.role' => 'admin'
+			)
+		);
+
+		$data = $this->User->find('first', $options);
+
+		if(!$data)
+		{
+			// 管理者アカウントが存在しない場合、管理者アカウントを作成
+			$data = array(
+				'course_id' => $this->Session->read('Iroha.course_id'),
+				'username' => 'root',
+				'password' => 'irohaboard',
+				'name' => 'root',
+				'role' => 'admin',
+				'email' => 'info@example.com'
+			);
+
+			$this->User->save($data);
+		}
+
 		$this->login();
 	}
 

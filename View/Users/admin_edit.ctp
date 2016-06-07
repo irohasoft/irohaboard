@@ -22,11 +22,15 @@
 				echo $this->Form->input('username',				array('label' => 'ログインID'));
 				echo $this->Form->input('User.new_password',	array('label' => 'パスワード', 'type' => 'password', 'autocomplete' => 'off'));
 				echo $this->Form->input('name',					array('label' => '氏名'));
+				
+				// root アカウント場合、権限変更を許可しない
+				$disabled = ($username == 'root');
+				
 				echo $this->Form->input('role',	array(
 					'type' => 'radio',
 					'before' => '<label class="col col-md-3 col-sm-4 control-label">権限</label>',
 					'separator'=>"　", 
-					'disabled'=>false, 
+					'disabled'=>$disabled, 
 					'legend' => false,
 					'class' => false,
 					'options' => Configure::read('user_role')

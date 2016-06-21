@@ -1,5 +1,6 @@
 # iroha Board
-iroha Board is a Simple and Easy-to-Use Open Source LMS.
+iroha Board is a Simple and Easy-to-Use Open Source LMS.  
+[日本語](/README.jp.md)
 
 #Project website
 http://irohaboard.irohasoft.jp/

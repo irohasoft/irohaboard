@@ -12,7 +12,7 @@ http://demoib.irohasoft.com/
 * MySQL : 5.1 or later
 * CakePHP : 2.7.x
 
-#Instlation
+#Installation
 1. Download the source of iroha Board.
 https://github.com/irohasoft/irohaboard/releases
 * Download the source of CakePHP.

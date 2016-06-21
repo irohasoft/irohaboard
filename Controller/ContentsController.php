@@ -32,7 +32,7 @@ class ContentsController extends AppController
 			)
 	);
 
-	public function index($id)
+	public function index($id, $user_id = null)
 	{
 		$this->Content->recursive = 0;
 		$contents = $this->Content->find('all',
@@ -50,10 +50,23 @@ class ContentsController extends AppController
 								'Course.id' => $id
 						)
 				));
-
-		$data = $this->Content->getContentRecord($this->Session->read('Auth.User.id'), $id);
-
-		// debug($data);
+		
+		// ロールを取得
+		$role = $this->Session->read('Auth.User.role');
+		
+		// 管理者かつ、学習履歴表示モードの場合、
+		if(
+			($role == 'admin')&&
+			($this->action == 'admin_record')
+		)
+		{
+			$data = $this->Content->getContentRecord($user_id, $id);
+		}
+		else
+		{
+			$data = $this->Content->getContentRecord($this->Session->read('Auth.User.id'), $id);
+		}
+		
 
 		$this->Session->write('Iroha.course_id', $id);
 		$this->Session->write('Iroha.course_name', $course['Course']['title']);
@@ -321,5 +334,11 @@ class ContentsController extends AppController
 			$this->Content->setOrder($this->data['id_list']);
 			return "OK";
 		}
+	}
+
+	public function admin_record($course_id, $user_id)
+	{
+		$this->index($course_id, $user_id);
+		$this->render('index');
 	}
 }

@@ -27,6 +27,18 @@
 	
 </style>
 <?php $this->end(); ?>
+<?php $this->start('script-embedded'); ?>
+<script>
+	function openRecord(course_id, user_id)
+	{
+		window.open(
+			'<?php echo Router::url(array('controller' => 'contents', 'action' => 'record')) ?>/'+course_id+'/'+user_id,
+			'irohaboard_record',
+			'width=1000, height=700, menubar=no, toolbar=no, scrollbars=yes'
+		);
+	}
+</script>
+<?php $this->end(); ?>
 <div class="records index">
 	<div class="ib-page-title"><?php echo __('学習履歴一覧'); ?></div>
 	<div class="ib-horizontal">
@@ -71,22 +83,22 @@
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
-			<th><?php echo $this->Paginator->sort('course_id', 'コース'); ?></th>
-			<th><?php echo $this->Paginator->sort('content_id', 'コンテンツ'); ?></th>
-			<th><?php echo $this->Paginator->sort('user_id', '氏名'); ?></th>
-			<th class="ib-col-center"><?php echo $this->Paginator->sort('score', '得点'); ?></th>
-			<th class="ib-col-center"><?php echo $this->Paginator->sort('pass_score', '合格点'); ?></th>
-			<th class="ib-col-center"><?php echo $this->Paginator->sort('is_passed', '結果'); ?></th>
-			<th class="ib-col-center"><?php echo $this->Paginator->sort('is_complete', '完了'); ?></th>
-			<th class="ib-col-center"><?php echo $this->Paginator->sort('understanding', '理解度'); ?></th>
-			<th class="ib-col-center"><?php echo $this->Paginator->sort('study_sec', '学習時間'); ?></th>
-			<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', '学習日時'); ?></th>
+		<th><?php echo $this->Paginator->sort('course_id', 'コース'); ?></th>
+		<th><?php echo $this->Paginator->sort('content_id', 'コンテンツ'); ?></th>
+		<th><?php echo $this->Paginator->sort('user_id', '氏名'); ?></th>
+		<th class="ib-col-center"><?php echo $this->Paginator->sort('score', '得点'); ?></th>
+		<th class="ib-col-center"><?php echo $this->Paginator->sort('pass_score', '合格点'); ?></th>
+		<th class="ib-col-center"><?php echo $this->Paginator->sort('is_passed', '結果'); ?></th>
+		<th class="ib-col-center"><?php echo $this->Paginator->sort('is_complete', '完了'); ?></th>
+		<th class="ib-col-center"><?php echo $this->Paginator->sort('understanding', '理解度'); ?></th>
+		<th class="ib-col-center"><?php echo $this->Paginator->sort('study_sec', '学習時間'); ?></th>
+		<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', '学習日時'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php foreach ($records as $record): ?>
 	<tr>
-		<td><?php echo h($record['Course']['title']); ?>&nbsp;</td>
+		<td><a href="javascript:openRecord(<?php echo h($record['Course']['id']); ?>, <?php echo h($record['User']['id']); ?>);"><?php echo h($record['Course']['title']); ?></a></td>
 		<td><?php echo h($record['Content']['title']); ?>&nbsp;</td>
 		<td><?php echo h($record['User']['name']); ?>&nbsp;</td>
 		<td class="ib-col-center"><?php echo h($record['Record']['score']); ?>&nbsp;</td>

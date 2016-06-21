@@ -1,4 +1,4 @@
-<?php echo $this->element('menu');?>
+<?php echo ($this->action=='admin_record') ? '' : $this->element('menu');?>
 <?php $this->start('css-embedded'); ?>
 <!--[if !IE]><!-->
 <style>
@@ -86,10 +86,14 @@
 <div class="contents index">
 	<div class="ib-breadcrumb">
 	<?php
-	$this->Html->addCrumb('<< コース一覧', array(
-			'controller' => 'users_courses',
-			'action' => 'index'
-	));
+	
+	if($this->action!='admin_record')
+	{
+		$this->Html->addCrumb('<< '.__('コース一覧'), array(
+				'controller' => 'users_courses',
+				'action' => 'index'
+		));
+	}
 
 	echo $this->Html->getCrumbs(' / ');
 	//debug($contents);
@@ -122,41 +126,50 @@
 		}
 		else
 		{
-			if ($content['Content']['kind'] == 'test') // テスト
-			{
-				echo '<td>' .
-						$this->Html->link($content['Content']['title'],
-								array(
-										'controller' => 'contents_questions',
-										'action' => 'index',
-										$content['Content']['id']
-								)) . "</td>";
-				echo '<td class="ib-col-center">テスト</td>';
-			}
-			else if($content['Content']['kind'] == 'file') // 配布資料
-			{
-				// 配布資料のURL
-				$url = $content['Content']['url'];
-				
-				// 相対URLの場合、絶対URLに変更する
-				if(mb_substr($url, 0, 1)=='/')
-					$url = FULL_BASE_URL.$url;
-				
-				echo '<td>' .
-						$this->Html->link($content['Content']['title'], $url, array('target'=>'_blank')). "</td>";
-				echo '<td class="ib-col-center" nowrap>配布資料</td>';
+			if($this->action=='admin_record')
+			{// 学習履歴表示モードの場合
+				echo 
+					'<td>'.h($content['Content']['title']).'</td>'.
+					'<td>'.h(Configure::read('content_kind.'.$content['Content']['kind'])).'</td>';
 			}
 			else
 			{
-				echo '<td>' .
-						$this->Html->link($content['Content']['title'],
-								array(
-										'controller' => 'contents',
-										'action' => 'view',
-										$content['Content']['id']
-								)) . "</td>";
+				if ($content['Content']['kind'] == 'test') // テスト
+				{
+					echo '<td>' .
+							$this->Html->link($content['Content']['title'],
+									array(
+											'controller' => 'contents_questions',
+											'action' => 'index',
+											$content['Content']['id']
+									)) . "</td>";
+					echo '<td class="ib-col-center">テスト</td>';
+				}
+				else if($content['Content']['kind'] == 'file') // 配布資料
+				{
+					// 配布資料のURL
+					$url = $content['Content']['url'];
+					
+					// 相対URLの場合、絶対URLに変更する
+					if(mb_substr($url, 0, 1)=='/')
+						$url = FULL_BASE_URL.$url;
+					
+					echo '<td>' .
+							$this->Html->link($content['Content']['title'], $url, array('target'=>'_blank')). "</td>";
+					echo '<td class="ib-col-center" nowrap>配布資料</td>';
+				}
+				else
+				{
+					echo '<td>' .
+							$this->Html->link($content['Content']['title'],
+									array(
+											'controller' => 'contents',
+											'action' => 'view',
+											$content['Content']['id']
+									)) . "</td>";
 
-				echo '<td class="ib-col-center">学習</td>';
+					echo '<td class="ib-col-center">学習</td>';
+				}
 			}
 
 			//debug($content);
@@ -175,15 +188,22 @@
 				}
 				else
 				{
-					$result = ($content[0]['is_passed'] == 1) ? '合格' : '不合格';
-
-					echo $this->Html->link($result,
-							array(
-									'controller' => 'contents_questions',
-									'action' => 'record',
-									$content['Content']['id'],
-									$content['Record']['record_id']
-							));
+					$result = ($content[0]['is_passed'] == 1) ? __('合格') : __('不合格');
+					
+					if($this->action=='admin_record')
+					{// 学習履歴表示モードの場合
+						echo $result;
+					}
+					else
+					{// 通常の学習の場合
+						echo $this->Html->link($result,
+								array(
+										'controller' => 'contents_questions',
+										'action' => 'record',
+										$content['Content']['id'],
+										$content['Record']['record_id']
+								));
+					}
 				}
 			}
 			else

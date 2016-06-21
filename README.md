@@ -18,7 +18,7 @@ https://github.com/irohasoft/irohaboard/releases
 * Download the source of CakePHP.
 https://github.com/cakephp/cakephp/releases/tag/2.7.11
 * Make [cake] directory on your web server and upload the source of CakePHP.
-* Upload the source of iroha Board to public direcotry on your web server.
+* Upload the source of iroha Board to public direcotry on your web server.  
 /cake  
 ┗ /lib  
 /public_html  

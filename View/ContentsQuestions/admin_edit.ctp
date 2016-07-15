@@ -34,6 +34,7 @@
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
 <?php echo $this->Html->script('summernote.min.js');?>
+<?php echo $this->Html->script('lang/summernote-ja-JP.js');?>
 <script>
 	$(document).ready(function()
 	{
@@ -128,8 +129,8 @@
 			return false;
 		});
 		
-		$("#ContentsQuestionBody").summernote();
-		$("#ContentsQuestionExplain").summernote();
+		CommonUtil.setRichTextEditor("#ContentsQuestionBody");
+		CommonUtil.setRichTextEditor("#ContentsQuestionExplain");
 		
 		if($("#ContentsQuestionOptions").val()=="")
 			return;

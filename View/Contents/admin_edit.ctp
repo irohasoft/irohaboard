@@ -15,6 +15,7 @@
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
 <?php echo $this->Html->script('summernote.min.js');?>
+<?php echo $this->Html->script('lang/summernote-ja-JP.js');?>
 <script>
 	//$('input[name="data[Content][kind]"]:radio').val(['text']);
 	var _editor;
@@ -70,7 +71,7 @@
 		
 		if(val=='html')
 		{
-			$("#ContentBody").summernote();
+			CommonUtil.setRichTextEditor("#ContentBody");
 		}
 		else
 		{

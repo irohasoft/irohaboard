@@ -30,7 +30,7 @@
 			echo $info?>
 		</p>
 	</div>
-	<?}?>
+	<?php }?>
 	<div class="panel panel-info">
 	<div class="panel-heading"><?php echo __('コース一覧'); ?></div>
 	<div class="panel-body">

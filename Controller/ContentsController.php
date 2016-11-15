@@ -34,22 +34,15 @@ class ContentsController extends AppController
 
 	public function index($id, $user_id = null)
 	{
-		$this->Content->recursive = 0;
-		$contents = $this->Content->find('all',
-				array(
-						'conditions' => array(
-								'Content.course_id' => $id
-						)
-				));
-
 		// コースの情報を取得
-		$this->Course = new Course();
+		$this->loadModel('Course');
 		$course = $this->Course->find('first',
 				array(
 						'conditions' => array(
 								'Course.id' => $id
 						)
 				));
+		$course_name = $course['Course']['title'];
 		
 		// ロールを取得
 		$role = $this->Session->read('Auth.User.role');
@@ -60,19 +53,18 @@ class ContentsController extends AppController
 			($this->action == 'admin_record')
 		)
 		{
-			$data = $this->Content->getContentRecord($user_id, $id);
+			$contents = $this->Content->getContentRecord($user_id, $id);
 		}
 		else
 		{
-			$data = $this->Content->getContentRecord($this->Session->read('Auth.User.id'), $id);
+			$contents = $this->Content->getContentRecord($this->Session->read('Auth.User.id'), $id);
 		}
 		
 
 		$this->Session->write('Iroha.course_id', $id);
-		$this->Session->write('Iroha.course_name', $course['Course']['title']);
-
-		$this->set('course_name', $course['Course']['title']);
-		$this->set('contents', $data);
+		$this->Session->write('Iroha.course_name', $course_name);
+		
+		$this->set(compact('course_name', 'contents'));
 	}
 
 	public function view($id = null)
@@ -194,12 +186,12 @@ class ContentsController extends AppController
 
 		$this->set('course_name', $course['Course']['title']);
 
-		$this->Paginator->settings = array(
+		$contents = $this->Content->find('all', array(
 			'conditions' => array('Content.course_id' => $id),
 			'order' => array('Content.sort_no' => 'asc')
-		);
+		));
 
-		$this->set('contents', $this->Paginator->paginate());
+		$this->set(compact('contents'));
 	}
 
 	public function admin_view($id = null)
@@ -268,7 +260,7 @@ class ContentsController extends AppController
 
 	public function admin_upload($file_type)
 	{
-		$this->layout = "";
+		//$this->layout = "";
 		App::import ( "Vendor", "FileUpload" );
 
 		$fileUpload = new FileUpload();
@@ -308,14 +300,14 @@ class ContentsController extends AppController
 
 			if($result)																			//	結果によってメッセージを設定
 			{
-				$this->Session->setFlash('ファイルのアップロードが完了いたしました');
+				$this->Flash->success('ファイルのアップロードが完了いたしました');
 				$mode = 'complete';
 
 				//$url = G_ROOT_URL."/../uploads/".$new_name;							//	アップロードしたファイルのURL
 			}
 			else
 			{
-				$this->Session->setFlash('ファイルのアップロードに失敗しました');
+				$this->Flash->error('ファイルのアップロードに失敗しました');
 				$mode = 'error';
 			}
 		}

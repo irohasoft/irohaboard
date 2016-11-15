@@ -117,6 +117,13 @@ class FileUpload
 	//------------------------------//
 	public function setMaxSize( $max_size )
 	{
+		/*
+		ini_set('upload_max_filesize', $max_size);
+		ini_set('post_max_size',       $max_size);
+		
+		echo ini_get('upload_max_filesize');
+		echo ini_get('post_max_size');
+		*/
 		$this->max_size = $max_size;
 	}
 

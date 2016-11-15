@@ -210,7 +210,7 @@ CREATE TABLE `ib_cake_sessions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `ib_settings` VALUES ('1', 'title', '�V�X�e����', 'iroha Board');
-INSERT INTO `ib_settings` VALUES ('2', 'copyright', '�R�s�[���C�g', 'Copyright (C) 2016 iroha Soft Co.,Ltd. All rights reserved.');
-INSERT INTO `ib_settings` VALUES ('3', 'color', '�e�[�}�J���[', '#337ab7');
-INSERT INTO `ib_settings` VALUES ('4', 'information', '���m�点', '�S�̂̂��m�点��\�����܂��B\r\n���̂��m�点�͊Ǘ��@�\�́u�V�X�e���ݒ�v�ɂĕύX�\�ł��B\r\n�w�K�����͓��t���ς��Ǝ����I�Ƀ��Z�b�g����܂��B\r\n\r\nURL�͈ȉ��̂悤�Ɏ����I�Ƀ����N�ƂȂ�܂��B\r\nhttp://irohasoft.jp/\r\n');
+INSERT INTO `ib_settings` VALUES ('1', 'title', 'システム名', 'iroha Board');
+INSERT INTO `ib_settings` VALUES ('2', 'copyright', 'コピーライト', 'Copyright (C) 2016 iroha Soft Co.,Ltd. All rights reserved.');
+INSERT INTO `ib_settings` VALUES ('3', 'color', 'テーマカラー', '#337ab7');
+INSERT INTO `ib_settings` VALUES ('4', 'information', 'お知らせ', '全体のお知らせを表示します。\r\nこのお知らせは管理機能の「システム設定」にて変更可能です。\r\n学習履歴は日付が変わると自動的にリセットされます。\r\n\r\nURLは以下のように自動的にリンクとなります。\r\nhttp://irohasoft.jp/\r\n');

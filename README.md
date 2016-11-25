@@ -8,7 +8,7 @@ http://irohaboard.irohasoft.jp/
 http://demoib.irohasoft.com/
 
 #System Requirements
-* PHP : 5.3.7 or later
+* PHP : 5.3.7 or later (Non-Support PHP7)
 * MySQL : 5.1 or later
 * CakePHP : 2.7.x
 

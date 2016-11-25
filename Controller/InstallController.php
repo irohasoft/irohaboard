@@ -42,7 +42,7 @@ class InstallController extends AppController
 			$cdd = new DATABASE_CONFIG();
 			
 			//debug($db);
-			$sql = "SHOW TABLES FROM ".$cdd->default['database']." LIKE 'ib_users'";
+			$sql = "SHOW TABLES FROM `".$cdd->default['database']."` LIKE 'ib_users'";
 			$data = $db->query($sql);
 			
 			if (count($data) > 0)

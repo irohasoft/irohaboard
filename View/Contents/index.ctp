@@ -79,6 +79,12 @@
 	padding-bottom: 0px;
 }
 
+<?php if($this->action=='admin_record'){?>
+.ib-navi-item
+{
+	display: none;
+}
+<?php }?>
 
 </style>
 <!--<![endif]-->

@@ -15,6 +15,16 @@
 		width		: 80px;
 	}
 	
+	#RecordCourseId
+	{
+		max-width	: 200px;
+	}
+	
+	#RecordGroupId
+	{
+		max-width	: 150px;
+	}
+	
 	input[type='text'], textarea,
 	.form-control, 
 	label
@@ -25,6 +35,15 @@
 		padding		: 4px;
 	}
 	
+	.ib-search-buttons
+	{
+		float		: right;
+	}
+	
+	.ib-search-buttons .btn
+	{
+		margin-right: 10px;
+	}
 </style>
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
@@ -37,6 +56,14 @@
 			'width=1000, height=700, menubar=no, toolbar=no, scrollbars=yes'
 		);
 	}
+	
+	function downloadCSV()
+	{
+		var url = '<?php echo Router::url(array('action' => 'csv')) ?>/' + $('#MembersEventEventId').val() + '/' + $('#MembersEventStatus').val() + '/' + $('#MembersEventUsername').val();
+		$("#RecordCmd").val("csv");
+		$("#RecordIndexForm").submit();
+		$("#RecordCmd").val("");
+	}
 </script>
 <?php $this->end(); ?>
 <div class="records index">
@@ -44,11 +71,15 @@
 	<div class="ib-horizontal">
 		<?php
 			echo $this->Form->create('Record', array('action' => 'index'));
+			echo '<div class="ib-search-buttons">';
+			echo $this->Form->submit(__('検索'),	array('class' => 'btn btn-info', 'div' => false));
+			echo $this->Form->hidden('cmd');
+			echo '<button type="button" class="btn btn-default" onclick="downloadCSV()">'.__('CSV出力').'</button>';
+			echo '</div>';
 			echo $this->Form->input('course_id',	array('label' => 'コース :', 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
 			echo $this->Form->input('group_id',		array('label' => 'グループ :', 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
 			echo $this->Form->input('user_id',		array('label' => 'ユーザ :', 'options'=>$users, 'selected'=>$user_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
 			echo $this->Form->input('contenttitle',	array('label' => 'コンテンツ名 :', 'value'=>$contenttitle, 'class'=>'form-control'));
-			echo $this->Form->submit(__('検索'),	array('class' => 'btn btn-info'));
 			echo '<div class="ib-search-date-container">';
 			echo $this->Form->input('from_date', array(
 				'type' => 'date',

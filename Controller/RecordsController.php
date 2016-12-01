@@ -85,13 +85,9 @@ class RecordsController extends AppController
 					'day' => date('d', strtotime("-1 month"))
 				);
 		
-		// debug($from_date);
-		
 		$to_date	= (isset($this->request->query['to_date'])) ? 
 			$this->request->query['to_date'] : 
 				array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
-		
-		// debug($to_date);
 		
 		// 学習日付による絞り込み
 		$conditions['Record.created BETWEEN ? AND ?'] = array(
@@ -102,27 +98,76 @@ class RecordsController extends AppController
 		if($contenttitle != "")
 			$conditions['Content.title like'] = '%'.$contenttitle.'%';
 		
-		$this->Paginator->settings['conditions'] = $conditions;
-		$this->Paginator->settings['order']      = 'Record.created desc';
-		$this->Record->recursive = 0;
-		$this->set('records', $this->Paginator->paginate());
-		
-		//$groups = $this->Group->getGroupList();
-		
-		$this->Group = new Group();
-		$this->Course = new Course();
-		$this->User = new User();
-		//debug($this->User);
-		
-		$this->set('groups',     $this->Group->find('list'));
-		$this->set('courses',    $this->Course->find('list'));
-		$this->set('users',      $this->User->find('list'));
-		$this->set('group_id',   $group_id);
-		$this->set('course_id',  $course_id);
-		$this->set('user_id',    $user_id);
-		$this->set('contenttitle', $contenttitle);
-		$this->set('from_date', $from_date);
-		$this->set('to_date', $to_date);
+		// CSV出力モードの場合
+		if(@$this->request->query['cmd']=='csv')
+		{
+			$this->autoRender = false;
+
+			//Content-Typeを指定
+			$this->response->type('csv');
+
+			header('Content-Type: text/csv');
+			header('Content-Disposition: attachment; filename="user_records.csv"');
+			
+			$fp = fopen('php://output','w');
+			
+			// イベント申込状況を取得
+			$options = array(
+				'conditions' => $conditions
+			);
+			
+			$rows = $this->Record->find('all', $options);
+			
+			$header = array("コース", "コンテンツ", "氏名", "得点", "合格点", "結果", "完了", "理解度", "学習時間", "学習日時");
+			
+			mb_convert_variables("SJIS", "UTF-8", $header);
+			fputcsv($fp, $header);
+			
+			foreach($rows as $row)
+			{
+				$row = array(
+					$row['Course']['title'], 
+					$row['User']['name'], 
+					$row['Record']['score'], 
+					$row['Record']['pass_score'], 
+					Configure::read('record_result.'.$row['Record']['is_passed']), 
+					Configure::read('record_complete.'.$row['Record']['is_complete']), 
+					Configure::read('record_understanding.'.$row['Record']['understanding']), 
+					Utils::getHNSBySec($row['Record']['study_sec']), 
+					Utils::getYMDHN($row['Record']['created']),
+				);
+				
+				mb_convert_variables("SJIS", "UTF-8", $row);
+				
+				fputcsv($fp, $row);
+			}
+			
+			fclose($fp);
+		}
+		else
+		{
+			$this->Paginator->settings['conditions'] = $conditions;
+			$this->Paginator->settings['order']      = 'Record.created desc';
+			$this->Record->recursive = 0;
+			$this->set('records', $this->Paginator->paginate());
+			
+			//$groups = $this->Group->getGroupList();
+			
+			$this->Group = new Group();
+			$this->Course = new Course();
+			$this->User = new User();
+			//debug($this->User);
+			
+			$this->set('groups',     $this->Group->find('list'));
+			$this->set('courses',    $this->Course->find('list'));
+			$this->set('users',      $this->User->find('list'));
+			$this->set('group_id',   $group_id);
+			$this->set('course_id',  $course_id);
+			$this->set('user_id',    $user_id);
+			$this->set('contenttitle', $contenttitle);
+			$this->set('from_date', $from_date);
+			$this->set('to_date', $to_date);
+		}
 	}
 
 	public function view($id = null)

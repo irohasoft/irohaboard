@@ -127,6 +127,7 @@ class RecordsController extends AppController
 			{
 				$row = array(
 					$row['Course']['title'], 
+					$row['Content']['title'], 
 					$row['User']['name'], 
 					$row['Record']['score'], 
 					$row['Record']['pass_score'], 

@@ -120,7 +120,7 @@ class RecordsController extends AppController
 			
 			$header = array("コース", "コンテンツ", "氏名", "得点", "合格点", "結果", "完了", "理解度", "学習時間", "学習日時");
 			
-			mb_convert_variables("SJIS", "UTF-8", $header);
+			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
 			fputcsv($fp, $header);
 			
 			foreach($rows as $row)
@@ -138,7 +138,7 @@ class RecordsController extends AppController
 					Utils::getYMDHN($row['Record']['created']),
 				);
 				
-				mb_convert_variables("SJIS", "UTF-8", $row);
+				mb_convert_variables("SJIS-WIN", "UTF-8", $row);
 				
 				fputcsv($fp, $row);
 			}

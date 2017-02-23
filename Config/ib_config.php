@@ -74,6 +74,9 @@ $config['upload_maxsize'] = 2000000;
 $config['upload_image_maxsize'] = 2000000;
 $config['upload_movie_maxsize'] = 10000000;
 
+// select2 項目選択時の自動クローズの設定
+$config['close_on_select'] = true;
+
 // フォームのスタイル(BoostCake)の基本設定
 $config['form_defaults'] = array(
 	'inputDefaults' => array(

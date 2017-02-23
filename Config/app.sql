@@ -109,6 +109,21 @@ CREATE TABLE `ib_infos` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+-- ----------------------------
+-- Table structure for `ib_infos_groups`
+-- ----------------------------
+CREATE TABLE `ib_infos_groups` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `info_id` int(8) NOT NULL DEFAULT '0',
+  `group_id` int(8) NOT NULL DEFAULT '0',
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `comment` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 -- ----------------------------
 -- Table structure for `ib_groups`
 -- ----------------------------

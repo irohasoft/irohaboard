@@ -20,7 +20,8 @@ class InstallController extends AppController
 			'Auth' => array(
 					'allowedActions' => array(
 							'index',
-							'Installed',
+							'installed',
+							'update',
 							'complete',
 							'error',
 							'add'
@@ -68,6 +69,14 @@ class InstallController extends AppController
 	{
 		$this->set('loginURL', "/users/login/");
 		$this->set('loginedUser', $this->Auth->user());
+	}
+	
+	function update()
+	{
+		App::import('Model','ConnectionManager');
+
+		$db = ConnectionManager::getDataSource('default');
+		$this->__executeSQLScript($db, APP.DS.'Config'.DS.'update.sql');
 	}
 	
 	function complete()

@@ -30,6 +30,7 @@ class CoursesController extends AppController
 
 	public function admin_index()
 	{
+		/*
 		$this->Course->recursive = 0;
 		$this->paginate = array(
 			'Course' => array(
@@ -45,9 +46,9 @@ class CoursesController extends AppController
 		);
 
 		$result = $this->paginate();
-
-		//debug($this->paginate);
-		$this->set('courses', $result);
+		*/
+		
+		$this->set('courses', $this->Course->find('all', array('order' => array('Course.sort_no' => 'asc'))));
 	}
 
 	public function view($id = null)

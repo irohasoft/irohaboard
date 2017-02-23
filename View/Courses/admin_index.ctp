@@ -56,10 +56,10 @@
 	<table id='sortable-table'>
 	<thead>
 	<tr>
-			<th><?php echo $this->Paginator->sort('title', 'コース名'); ?></th>
-			<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
-			<th class="ib-col-datetime"><?php echo $this->Paginator->sort('modified', '更新日時'); ?></th>
-			<th class="ib-col-action"><?php echo __('Actions'); ?></th>
+		<th><?php echo __('コース名'); ?></th>
+		<th class="ib-col-datetime"><?php echo __('作成日時'); ?></th>
+		<th class="ib-col-datetime"><?php echo __('更新日時'); ?></th>
+		<th class="ib-col-action"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -85,5 +85,4 @@
 <?php endforeach; ?>
 	</tbody>
 	</table>
-	<?php echo $this->element('paging');?>
 </div>

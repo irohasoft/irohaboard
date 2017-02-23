@@ -61,13 +61,39 @@ class Info extends AppModel
 	 *
 	 * @var array
 	 */
-	public $belongsTo = array(
-			'User' => array(
-					'className' => 'User',
-					'foreignKey' => 'user_id',
+	public $hasAndBelongsToMany = array(
+			'Group' => array(
+					'className' => 'Group',
+					'joinTable' => 'infos_groups',
+					'foreignKey' => 'info_id',
+					'associationForeignKey' => 'group_id',
+					'unique' => 'keepExisting',
 					'conditions' => '',
 					'fields' => '',
-					'order' => ''
-			),
+					'order' => '',
+					'limit' => '',
+					'offset' => '',
+					'finderQuery' => ''
+	 		)
 	);
+	
+	/*
+	public function getGroupInfos($user_id)
+	{
+		$sql = <<<EOF
+		SELECT *, ig.group_id info_group_id
+		  FROM ib_infos i
+		  LEFT OUTER JOIN ib_infos_groups ig on i.id = ig.info_id
+		 WHERE ig.group_id IS NULL OR ig.group_id IN (select group_id from ib_users_groups where user_id = :user_id)
+EOF;
+
+		$params = array(
+				'user_id' => $user_id
+		);
+
+		$data = $this->query($sql, $params);
+
+		return $data;
+	}
+	*/
 }

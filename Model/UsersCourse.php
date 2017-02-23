@@ -93,7 +93,7 @@ class UsersCourse extends AppModel
 		  GROUP BY course_id) ContentCount
      ON ContentCount.course_id   = UsersCourse.course_id
   WHERE UsersCourse.user_id     =:user_id
-  ORDER BY UsersCourse.course_id
+  ORDER BY Course.sort_no asc
 EOF;
 		// debug($user_id);
 

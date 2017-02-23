@@ -108,4 +108,19 @@ class Course extends AppModel
 					'finderQuery' => ''
 			)
 	);
+
+	public function setOrder($id_list)
+	{
+		for($i=0; $i< count($id_list); $i++)
+		{
+			$sql = "UPDATE ib_courses SET sort_no = :sort_no WHERE id= :id";
+
+			$params = array(
+					'sort_no' => ($i+1),
+					'id' => $id_list[$i]
+			);
+
+			$this->query($sql, $params);
+		}
+	}
 }

@@ -38,14 +38,6 @@ class UsersCoursesController extends AppController
 		$this->set('info', $info[0]);
 		
 		// 受講コース情報の取得
-		$this->UsersCourse->recursive = 0;
-		$usersCourses = $this->UsersCourse->find('all', 
-				array(
-						'conditions' => array(
-								'UsersCourse.user_id ' => $this->Session->read('Auth.User.id')
-						)
-				));
-		
 		$data = $this->UsersCourse->getCourseRecord( $this->Session->read('Auth.User.id') );
 		
 		$no_records = "";

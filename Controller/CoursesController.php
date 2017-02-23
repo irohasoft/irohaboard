@@ -36,7 +36,7 @@ class CoursesController extends AppController
 				'fields' => array('Course.*', 'UserCourse.course_count'),
 				'conditions' => array(),
 				'limit' => 10,
-				'order' => 'created desc',
+				'order' => array('Course.sort_no' => 'asc'),
 				'joins' => array(
 					array('type' => 'LEFT OUTER', 'alias' => 'UserCourse',
 							'table' => '(SELECT course_id, COUNT(*) as course_count FROM ib_users_courses GROUP BY course_id)',
@@ -124,5 +124,15 @@ class CoursesController extends AppController
 		return $this->redirect(array(
 				'action' => 'index'
 		));
+	}
+
+	public function admin_order()
+	{
+		$this->autoRender = FALSE;
+		if($this->request->is('ajax'))
+		{
+			$this->Course->setOrder($this->data['id_list']);
+			return "OK";
+		}
 	}
 }

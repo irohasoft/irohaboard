@@ -82,7 +82,7 @@ class ContentsQuestion extends AppModel
 			'score' => array(
 					'numeric' => array(
 							'rule' => array(
-									'range', 0, 100
+									'range', -1, 101
 							),
 					'message' => '0-100の整数で入力して下さい。',
 					// 'allowEmpty' => false,

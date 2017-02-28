@@ -68,7 +68,7 @@ class Content extends AppModel
 			),
 			'timelimit' => array(
 					'numeric' => array(
-						'rule' => array('range', 0, 100),
+						'rule' => array('range', -1, 101),
 						'message' => '0-100の整数で入力して下さい。',
 						'allowEmpty' => true,
 					// 'required' => false,
@@ -79,7 +79,7 @@ class Content extends AppModel
 			),
 			'pass_rate' => array(
 					'numeric' => array(
-						'rule' => array('range', 0, 100),
+						'rule' => array('range', -1, 101),
 						'message' => '0-100の整数で入力して下さい。',
 						'allowEmpty' => true,
 					// 'required' => false,

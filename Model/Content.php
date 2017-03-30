@@ -114,19 +114,6 @@ class Content extends AppModel
 					// 'update' operations
 										)
 			),
-			'file'=>array(
-					'rule1' => array(
-					 //・ｽg・ｽ・ｽ・ｽq・ｽﾌ指・ｽ・ｽ
-					 'rule' => array('extension',array('jpg','jpeg','gif','png')),
-					 'message' => '・ｽ鞫懶ｿｽﾅはゑｿｽ・ｽ・ｽﾜゑｿｽ・ｽ・ｽB',
-					 'allowEmpty' => true,
-						),
-					'rule2' => array(
-					 //・ｽ鞫懶ｿｽT・ｽC・ｽY・ｽﾌ撰ｿｽ・ｽ・ｽ
-					 'rule' => array('fileSize', '<=', '500000'),
-					 'message' => '・ｽ鞫懶ｿｽT・ｽC・ｽY・ｽ・ｽ500KB・ｽﾈ会ｿｽ・ｽﾅゑｿｽ・ｽ閧｢・ｽ・ｽ・ｽﾜゑｿｽ',
-					)
-			),
 	);
 
 	public function getContentRecord($user_id, $course_id)

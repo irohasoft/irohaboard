@@ -181,11 +181,11 @@
 			<div class="form-group required">
 				<label for="ContentsQuestionOptions" class="col col-md-3 col-sm-4 control-label">選択肢／正解</label>
 				<div class="col col-md-9 col-sm-8 required">
-				「＋」で選択肢の追加、「－」で選択された選択肢を削除します。（※最大10まで）<br>
+				「＋」で選択肢の追加、「−」で選択された選択肢を削除します。（※最大10まで）<br>
 				また選択された選択肢が正解となります。<br>
 				<input type="text" size="20" name="option" style="width:200px;display:inline-block;">
 				<button class="btn" onclick="add_option();return false;">＋</button>
-				<button class="btn" onclick="del_option();return false;">－</button><br>
+				<button class="btn" onclick="del_option();return false;">−</button><br>
 			<?php
 				echo $this->Form->input('option_list',	array('label' => __('選択肢／正解'), 
 					'type' => 'select',

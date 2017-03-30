@@ -7,7 +7,9 @@
  * @link          http://irohaboard.irohasoft.jp
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
+ini_set('short_open_tag', '0');
 
+echo ini_get('short_open_tag');
 if (version_compare(PHP_VERSION, '5.3.0') <= 0)
 {
 	echo "ERROR-001 : iroha Board の動作には 5.3.0 以上が必要です。現在のバージョンは " . PHP_VERSION . " です。\n";

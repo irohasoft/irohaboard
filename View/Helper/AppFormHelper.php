@@ -4,8 +4,8 @@
  class AppFormHelper extends FormHelper
  {
 	 /**
-	  * ‚±‚±‚É‹Lq‚µ‚½ƒL[‚ª $options ‚É‚ ‚Á‚½ê‡A
-	  * ƒR[ƒ‹ƒoƒbƒN‚ğÀs
+	  * ã“ã“ã«è¨˜è¿°ã—ãŸã‚­ãƒ¼ãŒ $options ã«ã‚ã£ãŸå ´åˆã€
+	  * ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’å®Ÿè¡Œ
 	  *
 	  * @var array
 	  */
@@ -14,8 +14,8 @@
 	 );
   
 	 /**
-	  * $options ‚É self::$app_tags ‚Å’è‹`‚³‚ê‚½ƒL[‚ª‚ ‚Á‚½ê‡A
-	  * self::$key()‚ğÀs‚·‚é
+	  * $options ã« self::$app_tags ã§å®šç¾©ã•ã‚ŒãŸã‚­ãƒ¼ãŒã‚ã£ãŸå ´åˆã€
+	  * self::$key()ã‚’å®Ÿè¡Œã™ã‚‹
 	  *
 	  * @param string $fieldName
 	  * @param array $options
@@ -29,7 +29,7 @@
 				 if (method_exists($this, $key)) {
 					 $options = call_user_func(array($this, $key), $options);
 				 } else {
-					 throw new Exception(sprintf('AppFormHelper::%s()‚ª‚ ‚è‚Ü‚¹‚ñB', $key));
+					 throw new Exception(sprintf('AppFormHelper::%s()ãŒã‚ã‚Šã¾ã›ã‚“ã€‚', $key));
 				 }
 			 }
 		 }
@@ -47,10 +47,10 @@
 	
 
 	 /**
-	  * ƒwƒ‹ƒv‚Ìo—Í
+	  * ãƒ˜ãƒ«ãƒ—ã®å‡ºåŠ›
 	  *
-	  * $options['help'] ‚ª ”z—ñ‚Ìê‡ self::helpList()
-	  * ‚»‚êˆÈŠO‚Ìê‡ self::helpText() ‚ğÀs‚·‚é
+	  * $options['help'] ãŒ é…åˆ—ã®å ´åˆ self::helpList()
+	  * ãã‚Œä»¥å¤–ã®å ´åˆ self::helpText() ã‚’å®Ÿè¡Œã™ã‚‹
 	  *
 	  * @param array $options
 	  * @return array
@@ -69,10 +69,10 @@
 		 return $options;
 	 }
 	 /**
-	  * “ü—Í‚É‚Â‚¢‚Ä‚Ì’ˆÓ–€
+	  * å…¥åŠ›ã«ã¤ã„ã¦ã®æ³¨æ„äº‹é …
 	  *
-	  * $options['helpText']‚Ì“à—e‚ğ pƒ^ƒO‚Åƒ‰ƒbƒv‚µ‚Ä
-	  * after ‚É“ü‚ê‘Ö‚¦‚é
+	  * $options['helpText']ã®å†…å®¹ã‚’ pã‚¿ã‚°ã§ãƒ©ãƒƒãƒ—ã—ã¦
+	  * after ã«å…¥ã‚Œæ›¿ãˆã‚‹
 	  *
 	  * @param array $options
 	  * @return array
@@ -91,10 +91,10 @@
 	 }
   
 	 /**
-	  * “ü—Í‚É‚Â‚¢‚Ä‚Ì’ˆÓ–€ •¡”
+	  * å…¥åŠ›ã«ã¤ã„ã¦ã®æ³¨æ„äº‹é … è¤‡æ•°
 	  *
-	  * $options['helpText']‚Ì“à—e‚ğ ulƒ^ƒO‚Åƒ‰ƒbƒv‚µ‚Ä
-	  * after ‚É“ü‚ê‘Ö‚¦‚é
+	  * $options['helpText']ã®å†…å®¹ã‚’ ulã‚¿ã‚°ã§ãƒ©ãƒƒãƒ—ã—ã¦
+	  * after ã«å…¥ã‚Œæ›¿ãˆã‚‹
 	  *
 	  * @param array $options
 	  * @return array
@@ -115,19 +115,19 @@
 	 }
   
 	 /**
-	  * “ü—Í—á‚ğ’Ç‰Á
+	  * å…¥åŠ›ä¾‹ã‚’è¿½åŠ 
 	  *
-	  * $options['example']‚Ì“à—e‚ğ pƒ^ƒO‚Åƒ‰ƒbƒv‚µ‚Ä
-	  * after ‚É“ü‚ê‘Ö‚¦‚éBinputƒ^ƒO‚Ì’¼Œã‚É•\¦‚³‚ê‚éB
+	  * $options['example']ã®å†…å®¹ã‚’ pã‚¿ã‚°ã§ãƒ©ãƒƒãƒ—ã—ã¦
+	  * after ã«å…¥ã‚Œæ›¿ãˆã‚‹ã€‚inputã‚¿ã‚°ã®ç›´å¾Œã«è¡¨ç¤ºã•ã‚Œã‚‹ã€‚
 	  *
 	  * @param array $options
 	  * @return array
 	  */
 	 protected function example(Array $options)
 	 {
-		 $text = String::insert('<p class="example">“ü—Í—á) :text</p>', array('text' => $options['example']));
+		 $text = String::insert('<p class="example">å…¥åŠ›ä¾‹) :text</p>', array('text' => $options['example']));
 		 if (array_key_exists('after', $options)) {
-			 // “ü—Í—á‚Íinput‚Ì’¼Œã‚É•\¦
+			 // å…¥åŠ›ä¾‹ã¯inputã®ç›´å¾Œã«è¡¨ç¤º
 			 $options['after'] = $text . $options['after'];
 		 } else {
 			 $options['after'] = $text;

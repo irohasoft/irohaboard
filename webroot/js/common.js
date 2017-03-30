@@ -10,13 +10,30 @@
 
 function CommonUtility() {}
 
-// ˜A‘z”z—ñ‚ğ“Á’è‚ÌƒL[‚Åƒ\[ƒg
-CommonUtility.prototype.setRichTextEditor = function (selector)
+// ãƒªãƒƒãƒãƒ†ã‚­ã‚¹ãƒˆã‚¨ãƒ‡ã‚£ã‚¿ã®è¨­å®š
+CommonUtility.prototype.setRichTextEditor = function (selector, use_upload_image, base_url)
 {
 	$(selector).summernote({
 		lang: "ja-JP",
 		maximumImageFileSize: 102400,
 		callbacks: {
+			onImageUpload: function(files)
+			{
+				var data = new FormData();
+				data.append("file", files[0]);
+				
+				$.ajax({
+					data: data,
+					type: 'POST',
+					url: base_url + 'admin/contents/upload_image',
+					cache: false,
+					contentType: false,
+					processData: false,
+					success: function(url) {
+						$(selector).summernote('insertImage', JSON.parse(url)[0], 'image');
+					}
+				});
+			},
 			onImageUploadError: function(e)
 			{
 				alert(e);

@@ -255,6 +255,7 @@ class ContentsController extends AppController
 		}
 		$courses = $this->Content->Course->find('list');
 		$users = $this->Content->User->find('list');
+		
 		$this->set(compact('groups', 'courses', 'users'));
 	}
 
@@ -318,6 +319,36 @@ class ContentsController extends AppController
 		$this->set('upload_maxsize',		$upload_maxsize);
 	}
 
+	public function admin_upload_image()
+	{
+		$this->autoRender = FALSE;
+		
+		if ($this->request->is('post') || $this->request->is('put'))
+		{
+			App::import ( "Vendor", "FileUpload" );
+			$fileUpload = new FileUpload();
+			
+			$upload_extensions = (array)Configure::read('upload_image_extensions');
+			$upload_maxsize = Configure::read('upload_image_maxsize');
+			
+			//debug($this->request->params['form']['file']);
+			
+			$fileUpload->readFile( $this->request->params['form']['file'] );									//	ファイルの読み込み
+			
+			$new_name = date("YmdHis").$fileUpload->getExtension( $fileUpload->get_file_name() );	//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
+
+			$file_name = WWW_ROOT.DS."uploads".DS.$new_name;										//	ファイル格納フォルダ
+			$file_url = $this->webroot.'uploads/'.$new_name;
+
+			$result = $fileUpload->saveFile( $file_name );											//	ファイルの保存
+			
+			//debug($result);
+			
+			$response = ($result) ? array($file_url) : array(false);
+			echo json_encode($response);
+		}
+	}
+	
 	public function admin_order()
 	{
 		$this->autoRender = FALSE;

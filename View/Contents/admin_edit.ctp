@@ -71,7 +71,8 @@
 		
 		if(val=='html')
 		{
-			CommonUtil.setRichTextEditor("#ContentBody");
+			// リッチテキストエディタを起動
+			CommonUtil.setRichTextEditor('#ContentBody', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
 		}
 		else
 		{

@@ -129,8 +129,9 @@
 			return false;
 		});
 		
-		CommonUtil.setRichTextEditor("#ContentsQuestionBody");
-		CommonUtil.setRichTextEditor("#ContentsQuestionExplain");
+		// リッチテキストエディタを起動
+		CommonUtil.setRichTextEditor('#ContentsQuestionBody', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
+		CommonUtil.setRichTextEditor('#ContentsQuestionExplain', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
 		
 		if($("#ContentsQuestionOptions").val()=="")
 			return;

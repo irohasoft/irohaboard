@@ -74,8 +74,12 @@ $config['upload_maxsize'] = 2000000;
 $config['upload_image_maxsize'] = 2000000;
 $config['upload_movie_maxsize'] = 10000000;
 
-// select2 項目選択時の自動クローズの設定
+// select2 項目選択時の自動クローズの設定 (true ; 自動的にメニューを閉じる, false : 閉じない)
 $config['close_on_select'] = true;
+
+// リッチテキストエディタの画像アップロード機能の設定 (true ; 使用する, false : 使用しない)
+$config['use_upload_image'] = true;
+
 
 // フォームのスタイル(BoostCake)の基本設定
 $config['form_defaults'] = array(

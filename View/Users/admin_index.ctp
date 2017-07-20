@@ -1,5 +1,24 @@
 <?php echo $this->element('admin_menu');?>
 <?php $this->start('css-embedded'); ?>
+<style>
+	p
+	{
+		margin: 0;
+	}
+	
+	.reader
+	{
+		overflow: hidden;
+		width: 100%;
+	}
+	
+	.reader p
+	{
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+</style>
 <?php $this->end(); ?>
 <div class="users index">
 	<div class="ib-page-title"><?php echo __('ユーザ一覧'); ?></div>
@@ -19,7 +38,7 @@
 				'onchange' => '$("#UserIndexForm").submit();'
 			));
 			echo $this->Form->input('username',		array('label' => 'ログインID : ', 'required' => false));
-			echo $this->Form->input('name',			array('label' => 'ユーザ名 : '  , 'required' => false, 'value'=>$name));
+			echo $this->Form->input('name',			array('label' => '氏名 : '  , 'required' => false, 'value'=>$name));
 		?>
 		<input type="submit" class="btn btn-info btn-add" value="検索">
 		<?php
@@ -32,8 +51,8 @@
 				<th><?php echo $this->Paginator->sort('username', 'ログインID'); ?></th>
 				<th><?php echo $this->Paginator->sort('name', '氏名'); ?></th>
 				<th><?php echo $this->Paginator->sort('role', 'ロール'); ?></th>
-				<th><?php echo $this->Paginator->sort('UserGroup.group_count', '所属グループ数'); ?></th>
-				<th><?php echo $this->Paginator->sort('UserCourse.course_count', '受講コース数'); ?></th>
+				<th><?php echo $this->Paginator->sort('UserGroup.group_title', '所属グループ'); ?></th>
+				<th class="ib-col-datetime"><?php echo $this->Paginator->sort('UserCourse.course_title', '受講コース'); ?></th>
 				<th class="ib-col-datetime"><?php echo $this->Paginator->sort('last_logined', '最終ログイン日時'); ?></th>
 				<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
 				<th class="ib-col-action"><?php echo __('Actions'); ?></th>
@@ -45,21 +64,23 @@
 		<td><?php echo h($user['User']['username']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['name']); ?></td>
 		<td><?php echo h(Configure::read('user_role.'.$user['User']['role'])); ?>&nbsp;</td>
-		<td><?php echo h($user['UserGroup']['group_count']); ?>&nbsp;</td>
-		<td><?php echo h($user['UserCourse']['course_count']); ?>&nbsp;</td>
+		<td><div class="reader"><p><?php echo h($user['UserGroup']['group_title']); ?>&nbsp;</p></td>
+		<td><div class="reader"><p><?php echo h($user['UserCourse']['course_title']); ?>&nbsp;</p></div></td>
 		<td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['last_logined'])); ?>&nbsp;</td>
 		<td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['created'])); ?>&nbsp;</td>
 		<td class="ib-col-action">
 			<button type="button" class="btn btn-success"
 				onclick="location.href='<?php echo Router::url(array('action' => 'edit', $user['User']['id'])) ?>'">編集</button>
 			<?php
-
-echo $this->Form->postLink(__('削除'), array(
-				'action' => 'delete',
-				$user['User']['id']
-		), array(
-				'class' => 'btn btn-danger'
-		), __('[%s] を削除してもよろしいですか?', $user['User']['name']));
+			if($loginedUser['role']=='admin')
+			{
+	echo $this->Form->postLink(__('削除'), array(
+					'action' => 'delete',
+					$user['User']['id']
+			), array(
+					'class' => 'btn btn-danger'
+			), __('[%s] を削除してもよろしいですか?', $user['User']['name']));
+			}
 		?>
 		</td>
 	</tr>

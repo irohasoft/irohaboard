@@ -178,43 +178,32 @@ class UsersController extends AppController
 		
 		$this->paginate = array(
 			'User' => array(
-				'fields' => array('*', 'UserGroup.group_count', 'UserCourse.course_count'),
+				'fields' => array('*', 'UserGroup.group_title', 'UserCourse.course_title'),
 				'conditions' => $conditions,
-				'limit' => 10,
+				'limit' => 20,
 				'order' => 'created desc',
 				'joins' => array(
 					array('type' => 'LEFT OUTER', 'alias' => 'UserGroup',
-							'table' => '(SELECT user_id, COUNT(*) as group_count FROM ib_users_groups GROUP BY user_id)',
+							'table' => '(SELECT ug.user_id, group_concat(g.title order by g.id SEPARATOR \', \') as group_title FROM ib_users_groups ug INNER JOIN ib_groups g ON g.id = ug.group_id GROUP BY ug.user_id)',
 							'conditions' => 'User.id = UserGroup.user_id'),
 					array('type' => 'LEFT OUTER', 'alias' => 'UserCourse',
-							'table' => '(SELECT user_id, COUNT(*) as course_count FROM ib_users_courses GROUP BY user_id)',
+							'table' => '(SELECT uc.user_id, group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id  GROUP BY uc.user_id)',
 							'conditions' => 'User.id = UserCourse.user_id')
 				))
 		);
 
-
-
-// 		if (isset($this->request->named['sort']) && $this->request->named['sort'] == 'UserGroup.group_count')
-// 		{
-// 			debug(array('UserGroup.group_count' => $this->request->named['dir']));
-
-// 			$this->paginate['order'] = 'UserGroup.group_count';
-// 		}
-
 		$result = $this->paginate();
 
 		// 独自カラムの場合、自動でソートされないため、個別の実装が必要
-		if (isset($this->request->named['sort']) && $this->request->named['sort'] == 'UserGroup.group_count')
+		if (isset($this->request->named['sort']) && $this->request->named['sort'] == 'UserGroup.group_title')
 		{
-			$result = Set::sort($result, '/UserGroup/group_count', $this->request->named['direction']);
+			$result = Set::sort($result, '/UserGroup/group_title', $this->request->named['direction']);
 		}
 
-		if (isset($this->request->named['sort']) && $this->request->named['sort'] == 'UserCourse.course_count')
+		if (isset($this->request->named['sort']) && $this->request->named['sort'] == 'UserCourse.course_title')
 		{
-			$result = Set::sort($result, '/UserCourse/course_count', $this->request->named['direction']);
+			$result = Set::sort($result, '/UserCourse/course_title', $this->request->named['direction']);
 		}
-
-		//debug($result);
 
 		$this->Group = new Group();
 		$this->set('groups',   $this->Group->find('list'));

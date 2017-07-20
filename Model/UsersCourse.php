@@ -56,17 +56,15 @@ class UsersCourse extends AppModel
 	public function getCourseRecord($user_id)
 	{
 		$sql = <<<EOF
- SELECT UsersCourse.*, Course.id, Course.title, first_date, last_date,
+ SELECT Course.*, Course.id, Course.title, first_date, last_date,
        (ifnull(content_cnt, 0) - ifnull(study_cnt, 0) ) as left_cnt,
        (SELECT understanding
           FROM ib_records h1
-         WHERE h1.course_id = UsersCourse.course_id
+         WHERE h1.course_id = Course.id
            AND h1.user_id     	=:user_id
          ORDER BY created
           DESC LIMIT 1) as understanding
-   FROM ib_users_courses UsersCourse
-  INNER JOIN ib_courses Course
-		ON Course.id = UsersCourse.course_id
+   FROM ib_courses Course
    LEFT OUTER JOIN
        (SELECT h.course_id, h.user_id,
                MAX(DATE_FORMAT(created, '%Y/%m/%d')) as last_date,
@@ -74,7 +72,7 @@ class UsersCourse extends AppModel
           FROM ib_records h
          WHERE h.user_id =:user_id
          GROUP BY h.course_id, h.user_id) Record
-     ON Record.course_id   = UsersCourse.course_id
+     ON Record.course_id   = Course.id
     AND Record.user_id     =:user_id
    LEFT OUTER JOIN
 		(SELECT course_id, COUNT(*) as study_cnt
@@ -85,14 +83,15 @@ class UsersCourse extends AppModel
 			  WHERE r.user_id = :user_id
 			  GROUP BY r.course_id, r.content_id) as c
 		 GROUP BY course_id) StudyCount
-     ON StudyCount.course_id   = UsersCourse.course_id
+     ON StudyCount.course_id   = Course.id
    LEFT OUTER JOIN
 		(SELECT course_id, COUNT(*) as content_cnt
 		   FROM ib_contents
 		  WHERE kind NOT IN ('label', 'file')
 		  GROUP BY course_id) ContentCount
-     ON ContentCount.course_id   = UsersCourse.course_id
-  WHERE UsersCourse.user_id     =:user_id
+     ON ContentCount.course_id   = Course.id
+  WHERE id IN (SELECT course_id FROM ib_users_groups ug INNER JOIN ib_groups_courses gc ON ug.group_id = gc.group_id WHERE user_id = :user_id)
+     OR id IN (SELECT course_id FROM ib_users_courses WHERE user_id = :user_id)
   ORDER BY Course.sort_no asc
 EOF;
 		// debug($user_id);

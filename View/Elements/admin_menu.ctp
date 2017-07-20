@@ -29,8 +29,11 @@ echo '<li class="'.$is_active.'">'.$this->Html->link(__('お知らせ'), array('
 $is_active = ($this->name=='Records') ? ' active' : '';
 echo '<li class="'.$is_active.'">'.$this->Html->link(__('学習履歴'), array('controller' => 'records', 'action' => 'index')).'</li>';
 
-$is_active = ($this->name=='Settings') ? ' active' : '';
-echo '<li class="'.$is_active.'">'.$this->Html->link(__('システム設定'), array('controller' => 'settings', 'action' => 'index')).'</li>';
+if($loginedUser['role']=='admin')
+{
+	$is_active = ($this->name=='Settings') ? ' active' : '';
+	echo '<li class="'.$is_active.'">'.$this->Html->link(__('システム設定'), array('controller' => 'settings', 'action' => 'index')).'</li>';
+}
 ?>
         </ul>
       </div><!--/.nav-collapse -->

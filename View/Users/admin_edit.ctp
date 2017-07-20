@@ -23,8 +23,8 @@
 				echo $this->Form->input('User.new_password',	array('label' => 'パスワード', 'type' => 'password', 'autocomplete' => 'off'));
 				echo $this->Form->input('name',					array('label' => '氏名'));
 				
-				// root アカウント場合、権限変更を許可しない
-				$disabled = ($username == 'root');
+				// root アカウント、もしくは admin 権限以外の場合、権限変更を許可しない
+				$disabled = (($username == 'root')||($loginedUser['role']!='admin'));
 				
 				echo $this->Form->input('role',	array(
 					'type' => 'radio',

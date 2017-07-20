@@ -30,24 +30,6 @@ class CoursesController extends AppController
 
 	public function admin_index()
 	{
-		/*
-		$this->Course->recursive = 0;
-		$this->paginate = array(
-			'Course' => array(
-				'fields' => array('Course.*', 'UserCourse.course_count'),
-				'conditions' => array(),
-				'limit' => 10,
-				'order' => array('Course.sort_no' => 'asc'),
-				'joins' => array(
-					array('type' => 'LEFT OUTER', 'alias' => 'UserCourse',
-							'table' => '(SELECT course_id, COUNT(*) as course_count FROM ib_users_courses GROUP BY course_id)',
-							'conditions' => 'Course.id = UserCourse.course_id')
-				))
-		);
-
-		$result = $this->paginate();
-		*/
-		
 		$this->set('courses', $this->Course->find('all', array('order' => array('Course.sort_no' => 'asc'))));
 	}
 
@@ -103,7 +85,6 @@ class CoursesController extends AppController
 			);
 			$this->request->data = $this->Course->find('first', $options);
 		}
-		$users = $this->Course->User->find('list');
 	}
 
 	public function admin_delete($id = null)

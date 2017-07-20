@@ -110,12 +110,15 @@
 		<td class="actions text-center">
 			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $contentsQuestion['ContentsQuestion']['id'])) ?>'">編集</button>
 			<?php
-			echo $this->Form->postLink(__('削除'), 
-					array('action' => 'delete', $contentsQuestion['ContentsQuestion']['id']), 
-					array('class'=>'btn btn-danger'), 
-					__('[%s] を削除してもよろしいですか?', $contentsQuestion['ContentsQuestion']['title'])
-			); 
-			echo $this->Form->hidden('id', array('id'=>'', 'class'=>'target_id', 'value'=>$contentsQuestion['ContentsQuestion']['id']));
+			if($loginedUser['role']=='admin')
+			{
+				echo $this->Form->postLink(__('削除'), 
+						array('action' => 'delete', $contentsQuestion['ContentsQuestion']['id']), 
+						array('class'=>'btn btn-danger'), 
+						__('[%s] を削除してもよろしいですか?', $contentsQuestion['ContentsQuestion']['title'])
+				); 
+				echo $this->Form->hidden('id', array('id'=>'', 'class'=>'target_id', 'value'=>$contentsQuestion['ContentsQuestion']['id']));
+			}
 			?>
 		</td>
 	</tr>

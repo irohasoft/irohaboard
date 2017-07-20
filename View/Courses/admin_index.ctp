@@ -75,11 +75,15 @@
 		<td class="ib-col-date"><?php echo h(Utils::getYMDHN($course['Course']['modified'])); ?>&nbsp;</td>
 		<td class="ib-col-action">
 			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $course['Course']['id'])) ?>'">編集</button>
-			<?php echo $this->Form->postLink(__('削除'),
+			<?php
+			if($loginedUser['role']=='admin')
+			{
+				echo $this->Form->postLink(__('削除'),
 					array('action' => 'delete', $course['Course']['id']),
 					array('class'=>'btn btn-danger'),
 					__('[%s] を削除してもよろしいですか?', $course['Course']['title'])
-			); ?>
+				);
+			}?>
 		</td>
 	</tr>
 <?php endforeach; ?>

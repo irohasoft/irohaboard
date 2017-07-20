@@ -71,7 +71,11 @@ class AppController extends Controller
 			// roleがadminもしくは manager以外の場合、強制ログアウトする
 			if($this->Auth->user())
 			{
-				if($this->Auth->user('role')!='admin')
+				if(
+					($this->Auth->user('role')!='admin')&&
+					($this->Auth->user('role')!='teacher')&&
+					($this->Auth->user('role')!='editor')
+				)
 				{
 					 $this->redirect($this->Auth->logout());
 					return;

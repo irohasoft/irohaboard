@@ -9,7 +9,7 @@
 			<?php echo $this->Form->create('User'); ?>
 			
 			<div class="form-group">
-				<?php echo $this->Form->input('username', array('label' => 'ユーザID', 'class'=>'form-control')); ?>
+				<?php echo $this->Form->input('username', array('label' => 'ログインID', 'class'=>'form-control')); ?>
 			</div>
 			<div class="form-group">
 				<?php echo $this->Form->input('password', array('label' => 'パスワード', 'class'=>'form-control'));?>

@@ -17,7 +17,7 @@
 			<?php echo $this->Form->create('User'); ?>
 			
 			<div class="form-group">
-				<?php echo $this->Form->input('username', array('label' => __('ユーザID'), 'class'=>'form-control')); ?>
+				<?php echo $this->Form->input('username', array('label' => __('ログインID'), 'class'=>'form-control')); ?>
 			</div>
 			<div class="form-group">
 				<?php echo $this->Form->input('password', array('label' => __('パスワード'), 'class'=>'form-control'));?>

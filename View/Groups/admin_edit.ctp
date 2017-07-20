@@ -1,4 +1,11 @@
 <?php echo $this->element('admin_menu');?>
+<?php echo $this->Html->css( 'select2.min.css');?>
+<?php echo $this->Html->script( 'select2.min.js');?>
+<?php $this->Html->scriptStart(array('inline' => false)); ?>
+	$(function (e) {
+		$('#CourseCourse').select2({placeholder: "受講するコースを選択して下さい。(複数選択可)", closeOnSelect: <?php echo (Configure::read('close_on_select') ? 'true' : 'false'); ?>,});
+	});
+<?php $this->Html->scriptEnd(); ?>
 <div class="groups form">
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
 	<div class="panel panel-default">
@@ -10,6 +17,7 @@
 			<?php
 				echo $this->Form->input('id');
 				echo $this->Form->input('title',	array('label' => __('グループ名')));
+				echo $this->Form->input('Course',	array('label' => __('受講コース'),		'size' => 20));
 				echo $this->Form->input('comment',	array('label' => __('備考')));
 				/*
 				echo $this->Form->input('status',	array(

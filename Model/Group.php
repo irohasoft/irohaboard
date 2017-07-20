@@ -81,6 +81,21 @@ class Group extends AppModel
 			)
 	);
 	*/
+	public $hasAndBelongsToMany = array(
+			'Course' => array(
+					'className' => 'Course',
+					'joinTable' => 'groups_courses',
+					'foreignKey' => 'group_id',
+					'associationForeignKey' => 'course_id',
+					'unique' => 'keepExisting',
+					'conditions' => '',
+					'fields' => '',
+					'order' => '',
+					'limit' => '',
+					'offset' => '',
+					'finderQuery' => ''
+			),
+	);
 	
 	public function getUserIdByGroupID($group_id)
 	{

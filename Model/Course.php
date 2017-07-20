@@ -93,6 +93,7 @@ class Course extends AppModel
 	 *
 	 * @var array
 	 */
+	 /*
 	public $hasAndBelongsToMany = array(
 			'User' => array(
 					'className' => 'User',
@@ -108,6 +109,7 @@ class Course extends AppModel
 					'finderQuery' => ''
 			)
 	);
+	*/
 
 	public function setOrder($id_list)
 	{

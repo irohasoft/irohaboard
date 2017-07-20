@@ -103,7 +103,7 @@ class InfosController extends AppController
 	public function admin_index()
 	{
 		$this->Paginator->settings = array(
-			'limit' => 10,
+			'limit' => 20,
 			'order' => 'Info.created desc',
 		);
 		

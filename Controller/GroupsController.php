@@ -22,7 +22,7 @@ class GroupsController extends AppController
 		$this->Group->recursive = 0;
 		
 		$this->Paginator->settings = array(
-			'limit' => 10,
+			'limit' => 20,
 			'order' => 'created desc',
 		);
 		
@@ -82,10 +82,8 @@ class GroupsController extends AppController
 			$this->request->data = $this->Group->find('first', $options);
 		}
 		
-		$this->loadModel('User');
-		
-		$users = $this->User->find('list');
-		$this->set(compact('users'));
+		$courses = $this->Group->Course->find('list');
+		$this->set(compact('courses'));
 	}
 
 	public function admin_delete($id = null)

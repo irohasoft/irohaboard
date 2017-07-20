@@ -26,10 +26,10 @@ class ContentsController extends AppController
 	);
 
 	public $paginate = array(
-			'limit' => 25,
-			'order' => array(
-					'Post.title' => 'asc'
-			)
+		'limit' => 100,
+		'order' => array(
+			'Post.title' => 'asc'
+		)
 	);
 
 	public function index($id, $user_id = null)

@@ -18,6 +18,11 @@
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 	}
+	
+	.col-width
+	{
+		width : 100px;
+	}
 </style>
 <?php $this->end(); ?>
 <div class="users index">
@@ -49,7 +54,7 @@
 		<thead>
 			<tr>
 				<th><?php echo $this->Paginator->sort('username', 'ログインID'); ?></th>
-				<th><?php echo $this->Paginator->sort('name', '氏名'); ?></th>
+				<th class="col-width"><?php echo $this->Paginator->sort('name', '氏名'); ?></th>
 				<th><?php echo $this->Paginator->sort('role', 'ロール'); ?></th>
 				<th><?php echo $this->Paginator->sort('UserGroup.group_title', '所属グループ'); ?></th>
 				<th class="ib-col-datetime"><?php echo $this->Paginator->sort('UserCourse.course_title', '受講コース'); ?></th>
@@ -74,12 +79,12 @@
 			<?php
 			if($loginedUser['role']=='admin')
 			{
-	echo $this->Form->postLink(__('削除'), array(
+				echo $this->Form->postLink(__('削除'), array(
 					'action' => 'delete',
 					$user['User']['id']
-			), array(
+				), array(
 					'class' => 'btn btn-danger'
-			), __('[%s] を削除してもよろしいですか?', $user['User']['name']));
+				), __('[%s] を削除してもよろしいですか?', $user['User']['name']));
 			}
 		?>
 		</td>

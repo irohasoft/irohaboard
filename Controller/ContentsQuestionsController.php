@@ -31,7 +31,8 @@ class ContentsQuestionsController extends AppController
 				array(
 						'conditions' => array(
 								'content_id' => $id
-						)
+						),
+						'order' => array('ContentsQuestion.sort_no' => 'asc')
 				));
 		
 		// 過去の成績を取得

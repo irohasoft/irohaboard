@@ -14,14 +14,19 @@
 
 	echo $this->Html->getCrumbs(' / ');
 	
-	$info = h($info['Info']['body']);
-	$info = $this->Text->autoLinkUrls($info);
-	$info = nl2br($info);
+	$title = h($info['Info']['title']);
+	$date  = h(Utils::getYMD($info['Info']['created']));
+	$body  = h($info['Info']['body']);
+	$body  = $this->Text->autoLinkUrls($body);
+	$body  = nl2br($body);
 	?>
 	</div>
 
 	<div class="panel panel-success">
-		<div class="panel-heading"><?php echo __('タイトル'); ?></div>
-		<div class="panel-body"><?php echo $info; ?></div>
+		<div class="panel-heading"><?php echo $title; ?></div>
+		<div class="panel-body">
+			<div class="text-right"><?php echo $date; ?></div>
+			<?php echo $body; ?>
+		</div>
 	</div>
 </div>

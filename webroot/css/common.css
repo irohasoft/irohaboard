@@ -251,4 +251,10 @@ form .required .control-label:after
 		right				: 0px;
 		left				: 0px;
 	}
+	
+	.panel
+	{
+		margin				: 0px;
+		margin-bottom		: 10px;
+	}
 }

@@ -19,7 +19,7 @@ App::uses('AppController', 'Controller');
 class UsersCoursesController extends AppController
 {
 	public $components = array(
-			'Paginator'
+		'Paginator'
 	);
 
 	public function index()
@@ -34,117 +34,26 @@ class UsersCoursesController extends AppController
 			)
 		));
 		
-		$info = $data[0];
+		$info = $data[0]['Setting']['setting_value'];
 		
 		// お知らせ一覧を取得
 		$this->loadModel('Info');
-		$infos = $this->Info->getInfos($this->Session->read('Auth.User.id'), 3);
+		$infos = $this->Info->getInfos($this->Session->read('Auth.User.id'), 2);
 		
-		if(count($infos)==0)
-			$no_infos = "お知らせはありません";
+		$no_info = "";
+		
+		// 全体のお知らせもお知らせも存在しない場合
+		if(($info=="") && count($infos)==0)
+			$no_info = "お知らせはありません";
 		
 		// 受講コース情報の取得
-		$usersCourses = $this->UsersCourse->getCourseRecord( $this->Session->read('Auth.User.id') );
+		$courses = $this->UsersCourse->getCourseRecord( $this->Session->read('Auth.User.id') );
 		
-		$no_records = "";
+		$no_record = "";
 		
-		if(count($usersCourses)==0)
-			$no_records = "受講可能なコースはありません";
+		if(count($courses)==0)
+			$no_record = "受講可能なコースはありません";
 		
-		$this->set(compact('usersCourses', 'no_records', 'info', 'infos', 'no_infos'));
-	}
-
-	public function view($id = null)
-	{
-		if (! $this->UsersCourse->exists($id))
-		{
-			throw new NotFoundException(__('Invalid users course'));
-		}
-		$options = array(
-				'conditions' => array(
-						'UsersCourse.' . $this->UsersCourse->primaryKey => $id
-				)
-		);
-		$this->set('usersCourse', $this->UsersCourse->find('first', $options));
-	}
-
-	public function add()
-	{
-		if ($this->request->is('post'))
-		{
-			$this->UsersCourse->create();
-			if ($this->UsersCourse->save($this->request->data))
-			{
-				$this->Flash->success(__('The users course has been saved.'));
-				return $this->redirect(array(
-						'action' => 'index'
-				));
-			}
-			else
-			{
-				$this->Flash->error(__('The users course could not be saved. Please, try again.'));
-			}
-		}
-		$users = $this->UsersCourse->User->find('list');
-		$courses = $this->UsersCourse->Course->find('list');
-		$this->set(compact('users', 'courses'));
-	}
-
-	public function edit($id = null)
-	{
-		if (! $this->UsersCourse->exists($id))
-		{
-			throw new NotFoundException(__('Invalid users course'));
-		}
-		if ($this->request->is(array(
-				'post',
-				'put'
-		)))
-		{
-			if ($this->UsersCourse->save($this->request->data))
-			{
-				$this->Flash->success(__('The users course has been saved.'));
-				return $this->redirect(array(
-						'action' => 'index'
-				));
-			}
-			else
-			{
-				$this->Flash->error(__('The users course could not be saved. Please, try again.'));
-			}
-		}
-		else
-		{
-			$options = array(
-					'conditions' => array(
-							'UsersCourse.' . $this->UsersCourse->primaryKey => $id
-					)
-			);
-			$this->request->data = $this->UsersCourse->find('first', $options);
-		}
-		$users = $this->UsersCourse->User->find('list');
-		$courses = $this->UsersCourse->Course->find('list');
-		$this->set(compact('users', 'courses'));
-	}
-
-	public function delete($id = null)
-	{
-		$this->UsersCourse->id = $id;
-		if (! $this->UsersCourse->exists())
-		{
-			throw new NotFoundException(__('Invalid users course'));
-		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->UsersCourse->delete())
-		{
-			$this->Flash->success(__('The users course has been deleted.'));
-		}
-		else
-		{
-			$this->Flash->error(__('The users course could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array(
-				'action' => 'index'
-		));
+		$this->set(compact('courses', 'no_record', 'info', 'infos', 'no_info'));
 	}
 }

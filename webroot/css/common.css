@@ -254,7 +254,7 @@ form .required .control-label:after
 	
 	.panel
 	{
-		margin				: 0px;
+		margin				: 3px;
 		margin-bottom		: 10px;
 	}
 }

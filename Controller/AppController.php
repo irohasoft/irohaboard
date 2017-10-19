@@ -55,10 +55,19 @@ class AppController extends Controller
 	{
 		$this->set('loginedUser', $this->Auth->user());
 		
+		// 他のサイトの設定が存在する場合、設定情報をクリア
+		if($this->Session->check('Setting'))
+		{
+			if($this->Session->read('Setting.app_dir')!=APP_DIR)
+				$this->Session->delete('Setting');
+		}
+		
 		// データベース内に格納された設定情報をセッションに格納
 		if(!$this->Session->check('Setting'))
 		{
 			$settings = $this->Setting->getSettings();
+			
+			$this->Session->Write('Setting.app_dir', APP_DIR);
 			
 			foreach ($settings as $key => $value)
 			{

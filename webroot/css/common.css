@@ -19,6 +19,20 @@ body
 	display				: inline-block;
 }
 
+.panel
+{
+	margin				: 10px;
+}
+
+@media only screen and (max-width:800px)
+{
+	.panel
+	{
+		margin				: 3px;
+		margin-bottom		: 10px;
+	}
+}
+
 #content
 {
 	text-align			: left;
@@ -202,11 +216,6 @@ form .required .control-label:after
 	margin-bottom		: 10px;
 }
 
-.panel
-{
-	margin				: 10px;
-}
-
 .ib-col-date
 {
 	width				: 180px;
@@ -250,11 +259,5 @@ form .required .control-label:after
 		width				: initial;
 		right				: 0px;
 		left				: 0px;
-	}
-	
-	.panel
-	{
-		margin				: 3px;
-		margin-bottom		: 10px;
 	}
 }

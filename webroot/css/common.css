@@ -197,7 +197,14 @@ form .required .control-label:after
 
 .well
 {
-    background-color: #fafafa;
+	background-color	: #fafafa;
+	padding				: 10px;
+	margin-bottom		: 10px;
+}
+
+.panel
+{
+	margin				: 10px;
 }
 
 .ib-col-date

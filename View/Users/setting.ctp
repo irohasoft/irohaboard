@@ -1,4 +1,4 @@
-<?php echo $this->element('menu');?>
+<?php //echo $this->element('menu');?>
 <div class="users form">
 	<div class="panel panel-default">
 		<div class="panel-heading">

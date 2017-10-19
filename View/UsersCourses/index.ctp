@@ -1,4 +1,4 @@
-<?php echo $this->element('menu');?>
+<?php //echo $this->element('menu');?>
 <?php $this->start('css-embedded'); ?>
 <style>
 .btn-rest
@@ -21,16 +21,31 @@
 </style>
 <?php $this->end(); ?>
 <div class="usersCourses index">
-	<?php if($info['Setting']['setting_value']!=""){?>
-	<div class="well">
-		<p><?php
-			$info = $info['Setting']['setting_value'];
-			$info = $this->Text->autoLinkUrls($info);
-			$info = nl2br($info);
-			echo $info?>
-		</p>
+	<div class="panel panel-success">
+		<div class="panel-heading"><?php echo __('お知らせ'); ?></div>
+		<div class="panel-body">
+			<?php if($info['Setting']['setting_value']!=""){?>
+			<div class="well">
+				<?php
+				$info = $info['Setting']['setting_value'];
+				$info = $this->Text->autoLinkUrls($info);
+				$info = nl2br($info);
+				echo $info;
+				?>
+			</div>
+			<?php }?>
+			<table cellpadding="0" cellspacing="0">
+			<tbody>
+			<?php foreach ($infos as $info): ?>
+			<tr>
+				<td width="100" valign="top"><?php echo h(Utils::getYMD($info['Info']['created'])); ?>&nbsp;</td>
+				<td><?php echo $this->Html->link($info['Info']['title'], array('controller' => 'infos', 'action' => 'view', $info['Info']['id'])); ?>&nbsp;</td>
+			</tr>
+			<?php endforeach; ?>
+			</tbody>
+			</table>
+		</div>
 	</div>
-	<?php }?>
 	<div class="panel panel-info">
 	<div class="panel-heading"><?php echo __('コース一覧'); ?></div>
 	<div class="panel-body">

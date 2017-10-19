@@ -28,25 +28,30 @@ class UsersCoursesController extends AppController
 		App::import('Model', 'Setting');
 		$this->Setting = new Setting();
 		
-		$info = $this->Setting->find('all',
-				array(
-						'conditions' => array(
-								'Setting.setting_key' => 'information'
-						)
-				));
+		$data = $this->Setting->find('all', array(
+			'conditions' => array(
+				'Setting.setting_key' => 'information'
+			)
+		));
 		
-		$this->set('info', $info[0]);
+		$info = $data[0];
+		
+		// お知らせ一覧を取得
+		$this->loadModel('Info');
+		$infos = $this->Info->getInfos($this->Session->read('Auth.User.id'), 3);
+		
+		if(count($infos)==0)
+			$no_infos = "お知らせはありません";
 		
 		// 受講コース情報の取得
-		$data = $this->UsersCourse->getCourseRecord( $this->Session->read('Auth.User.id') );
+		$usersCourses = $this->UsersCourse->getCourseRecord( $this->Session->read('Auth.User.id') );
 		
 		$no_records = "";
 		
-		if(count($data)==0)
+		if(count($usersCourses)==0)
 			$no_records = "受講可能なコースはありません";
 		
-		$this->set('usersCourses',  $data);
-		$this->set('no_records',    $no_records);
+		$this->set(compact('usersCourses', 'no_records', 'info', 'infos', 'no_infos'));
 	}
 
 	public function view($id = null)

@@ -77,6 +77,56 @@ class Info extends AppModel
 	 		)
 	);
 	
+	public function getInfos($user_id, $limit = null)
+	{
+		$infos = $this->find('all', $this->getInfoOption($user_id, $limit));
+		return $infos;
+	}
+	
+	public function getInfoOption($user_id, $limit = null)
+	{
+		App::import('Model', 'UsersGroup');
+		$this->UsersGroup = new UsersGroup();
+		
+		$groups = $this->UsersGroup->find('all', array(
+			'conditions' => array(
+				'user_id' => $user_id
+			)
+		));
+		
+		// 自分自身が所属するグループのIDの配列を作成
+		$group_id_list = array();
+		
+		foreach ($groups as $group)
+		{
+			$group_id_list[count($group_id_list)] = $group['Group']['id'];
+		}
+		
+		$option = array(
+			'fields' => array('*', 'InfoGroup.group_id'),
+			'conditions' => array('OR' => array(
+				array('InfoGroup.group_id' => null), 
+				array('InfoGroup.group_id' => $group_id_list)
+			)),
+			'joins' => array(
+				array(
+					'type' => 'LEFT OUTER',
+					'alias' => 'InfoGroup',
+					'table' => 'ib_infos_groups',
+					'conditions' => 'Info.id = InfoGroup.info_id'
+				),
+			),
+			'group' => array('Info.id'),
+			'order' => array('Info.created' => 'desc'),
+		);
+		
+		if($limit)
+			$option['limit'] = $limit;
+		
+		return $option;
+	}
+	
+	
 	/*
 	public function getGroupInfos($user_id)
 	{

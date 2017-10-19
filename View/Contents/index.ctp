@@ -1,4 +1,4 @@
-<?php echo ($this->action=='admin_record') ? '' : $this->element('menu');?>
+<?php //echo ($this->action=='admin_record') ? '' : $this->element('menu');?>
 <?php $this->start('css-embedded'); ?>
 <!--[if !IE]><!-->
 <style>
@@ -95,7 +95,7 @@
 	
 	if($this->action!='admin_record')
 	{
-		$this->Html->addCrumb('<< '.__('コース一覧'), array(
+		$this->Html->addCrumb('<< TOP', array(
 				'controller' => 'users_courses',
 				'action' => 'index'
 		));

@@ -1,4 +1,11 @@
-<?php echo $this->element('menu');?>
+<?php //echo $this->element('menu');?>
+<?php
+	$this->Html->addCrumb('<< TOP', array(
+		'controller' => 'users_courses',
+		'action' => 'index'
+	));
+	echo $this->Html->getCrumbs(' / ');
+?>
 <div class="infos index">
 	<div class="panel panel-success">
 		<div class="panel-heading"><?php echo __('お知らせ一覧'); ?></div>

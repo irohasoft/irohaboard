@@ -57,10 +57,15 @@ class ContentsController extends AppController
 		}
 		else
 		{
+			// コースの閲覧権限の確認
+			if(! $this->Course->hasRight($this->Session->read('Auth.User.id'), $id))
+			{
+				throw new NotFoundException(__('Invalid access'));
+			}
+			
 			$contents = $this->Content->getContentRecord($this->Session->read('Auth.User.id'), $id);
 		}
 		
-
 		$this->Session->write('Iroha.course_id', $id);
 		$this->Session->write('Iroha.course_name', $course_name);
 		
@@ -82,7 +87,17 @@ class ContentsController extends AppController
 				)
 		);
 		
-		$this->set('content', $this->Content->find('first', $options));
+		$content = $this->Content->find('first', $options);
+		
+		// コンテンツの閲覧権限の確認
+		$this->loadModel('Course');
+		
+		if(! $this->Course->hasRight($this->Session->read('Auth.User.id'), $content['Content']['course_id']))
+		{
+			throw new NotFoundException(__('Invalid access'));
+		}
+		
+		$this->set(compact('content'));
 	}
 
 	public function admin_preview()

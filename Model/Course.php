@@ -125,4 +125,39 @@ class Course extends AppModel
 			$this->query($sql, $params);
 		}
 	}
+	
+	// コースへのアクセス権限チェック
+	public function hasRight($user_id, $course_id)
+	{
+		$has_right = false;
+		
+		$params = array(
+			'user_id'   => $user_id,
+			'course_id' => $course_id
+		);
+		
+		$sql = <<<EOF
+SELECT count(*) as cnt
+  FROM ib_users_courses
+ WHERE course_id = :course_id
+   AND user_id   = :user_id
+EOF;
+		$data = $this->query($sql, $params);
+		
+		if($data[0][0]["cnt"] > 0)
+			$has_right = true;
+		
+		$sql = <<<EOF
+SELECT count(*) as cnt
+  FROM ib_groups_courses gc
+ INNER JOIN ib_users_groups ug ON gc.group_id = ug.group_id AND ug.user_id   = :user_id
+ WHERE gc.course_id = :course_id
+EOF;
+		$data = $this->query($sql, $params);
+		
+		if($data[0][0]["cnt"] > 0)
+			$has_right = true;
+		
+		return $has_right;
+	}
 }

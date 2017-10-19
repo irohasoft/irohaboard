@@ -80,7 +80,7 @@
 	<div class="ib-page-title"><?php echo __('学習履歴一覧'); ?></div>
 	<div class="ib-horizontal">
 		<?php
-			echo $this->Form->create('Record', array('action' => 'index'));
+			echo $this->Form->create('Record');
 			echo '<div class="ib-search-buttons">';
 			echo $this->Form->submit(__('検索'),	array('class' => 'btn btn-info', 'div' => false));
 			echo $this->Form->hidden('cmd');

@@ -32,7 +32,7 @@
 	</div>
 	<div class="ib-horizontal">
 		<?php
-			echo $this->Form->create('User', array('action' => 'index'));
+			echo $this->Form->create('User');
 			echo $this->Form->input('group_id',		array(
 				'label' => 'グループ : ', 
 				'options'=>$groups, 

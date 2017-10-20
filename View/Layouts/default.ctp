@@ -40,8 +40,8 @@
 		echo $this->Html->script('moment.js');
 		echo $this->Html->script('common.js');
 		
-		// デモ実施用JavaScript
-		if(strpos(FULL_BASE_URL, 'demo') > 0)
+		// デモモード用JavaScript
+		if(Configure::read('demo_mode'))
 			echo $this->Html->script('demo.js');
 		
 		echo $this->fetch('meta');

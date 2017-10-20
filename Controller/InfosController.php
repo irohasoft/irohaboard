@@ -101,6 +101,9 @@ class InfosController extends AppController
 				'put'
 		)))
 		{
+			if(Configure::read('demo_mode'))
+				return;
+			
 			if ($this->Info->save($this->request->data))
 			{
 				$this->Flash->success(__('お知らせが保存されました'));
@@ -116,9 +119,9 @@ class InfosController extends AppController
 		else
 		{
 			$options = array(
-					'conditions' => array(
-							'Info.' . $this->Info->primaryKey => $id
-					)
+				'conditions' => array(
+					'Info.' . $this->Info->primaryKey => $id
+				)
 			);
 			$this->request->data = $this->Info->find('first', $options);
 		}

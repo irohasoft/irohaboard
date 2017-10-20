@@ -46,20 +46,6 @@ class UsersController extends AppController
 		$this->redirect("/users_courses");
 	}
 
-	public function view($id = null)
-	{
-		if (! $this->User->exists($id))
-		{
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$options = array(
-				'conditions' => array(
-						'User.' . $this->User->primaryKey => $id
-				)
-		);
-		$this->set('user', $this->User->find('first', $options));
-	}
-
 	public function setting()
 	{
 		$this->admin_setting();
@@ -67,6 +53,9 @@ class UsersController extends AppController
 
 	public function admin_delete($id = null)
 	{
+		if(Configure::read('demo_mode'))
+			return;
+		
 		$this->User->id = $id;
 		if (! $this->User->exists())
 		{
@@ -94,6 +83,9 @@ class UsersController extends AppController
 
 	public function login()
 	{
+		$username = "";
+		$password = "";
+		
 		// Check cookie's login info.
 		if ( $this->Cookie->check('Auth') )
 		{
@@ -136,6 +128,17 @@ class UsersController extends AppController
 				$this->Flash->error(__('入力されたID、もしくはパスワードが正しくありません'));
 			}
 		}
+		else
+		{
+			if(Configure::read('demo_mode'))
+			{
+				$username = Configure::read('demo_login_id');
+				$password = Configure::read('demo_password');
+				//debug($username);
+			}
+		}
+		
+		$this->set(compact('username', 'password'));
 	}
 
 	public function admin_add()
@@ -231,11 +234,9 @@ class UsersController extends AppController
 				'put'
 		)))
 		{
-			if($this->action == 'admin_add')
-			{
-				//$this->request->data['User']['group_id'] = $this->Session->read('Iroha.group_id');
-			}
-
+			if(Configure::read('demo_mode'))
+				return;
+			
 			if ($this->request->data['User']['new_password'] !== '')
 				$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
 
@@ -257,9 +258,9 @@ class UsersController extends AppController
 		else
 		{
 			$options = array(
-					'conditions' => array(
-							'User.' . $this->User->primaryKey => $id
-					)
+				'conditions' => array(
+					'User.' . $this->User->primaryKey => $id
+				)
 			);
 			$this->request->data = $this->User->find('first', $options);
 			
@@ -282,6 +283,9 @@ class UsersController extends AppController
 				'put'
 		)))
 		{
+			if(Configure::read('demo_mode'))
+				return;
+			
 			//debug($this->request->data);
 			$this->request->data['User']['id'] = $this->Session->read('Auth.User.id');
 			

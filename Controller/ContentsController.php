@@ -36,12 +36,11 @@ class ContentsController extends AppController
 	{
 		// コースの情報を取得
 		$this->loadModel('Course');
-		$course = $this->Course->find('first',
-				array(
-						'conditions' => array(
-								'Course.id' => $id
-						)
-				));
+		$course = $this->Course->find('first', array(
+			'conditions' => array(
+				'Course.id' => $id
+			)
+		));
 		$course_name = $course['Course']['title'];
 		
 		// ロールを取得
@@ -82,9 +81,9 @@ class ContentsController extends AppController
 		$this->layout = "";
 
 		$options = array(
-				'conditions' => array(
-						'Content.' . $this->Content->primaryKey => $id
-				)
+			'conditions' => array(
+				'Content.' . $this->Content->primaryKey => $id
+			)
 		);
 		
 		$content = $this->Content->find('first', $options);
@@ -128,6 +127,9 @@ class ContentsController extends AppController
 
 	public function admin_delete($id = null)
 	{
+		if(Configure::read('demo_mode'))
+			return;
+		
 		$this->Content->id = $id;
 		if (! $this->Content->exists())
 		{
@@ -174,9 +176,9 @@ class ContentsController extends AppController
 
 		$this->layout = "";
 		$options = array(
-				'conditions' => array(
-						'Content.' . $this->Content->primaryKey => $id
-				)
+			'conditions' => array(
+				'Content.' . $this->Content->primaryKey => $id
+			)
 		);
 		$this->set('content', $this->Content->find('first', $options));
 	}
@@ -189,12 +191,11 @@ class ContentsController extends AppController
 
 		// コースの情報を取得
 		$this->Course = new Course();
-		$course = $this->Course->find('first',
-				array(
-						'conditions' => array(
-								'Course.id' => $id
-						)
-				));
+		$course = $this->Course->find('first', array(
+			'conditions' => array(
+				'Course.id' => $id
+			)
+		));
 
 		$this->Session->write('Iroha.course_id', $id);
 		$this->Session->write('Iroha.course_name', $course['Course']['title']);
@@ -216,9 +217,9 @@ class ContentsController extends AppController
 			throw new NotFoundException(__('Invalid content'));
 		}
 		$options = array(
-				'conditions' => array(
-						'Content.' . $this->Content->primaryKey => $id
-				)
+			'conditions' => array(
+				'Content.' . $this->Content->primaryKey => $id
+			)
 		);
 		$this->set('content', $this->Content->find('first', $options));
 	}
@@ -240,6 +241,9 @@ class ContentsController extends AppController
 				'put'
 		)))
 		{
+			if(Configure::read('demo_mode'))
+				return;
+			
 			if($this->action == 'admin_add')
 			{
 				$this->request->data['Content']['user_id'] = $this->Session->read('Auth.User.id');
@@ -249,10 +253,9 @@ class ContentsController extends AppController
 			if ($this->Content->save($this->request->data))
 			{
 				$this->Flash->success(__('コンテンツが保存されました'));
-				return $this->redirect(
-						array(
-								'action' => 'index/' . $this->Session->read('Iroha.course_id')
-						));
+				return $this->redirect( array(
+					'action' => 'index/' . $this->Session->read('Iroha.course_id')
+				));
 			}
 			else
 			{
@@ -305,7 +308,10 @@ class ContentsController extends AppController
 		
 		if ($this->request->is('post') || $this->request->is('put'))
 		{
-			$fileUpload->readFile( $this->request->data['Content']['file'] );											//	ファイルの読み込み
+			if(Configure::read('demo_mode'))
+				return;
+			
+			$fileUpload->readFile( $this->request->data['Content']['file'] );						//	ファイルの読み込み
 
 			$new_name = date("YmdHis").$fileUpload->getExtension( $fileUpload->get_file_name() );	//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
 
@@ -314,12 +320,12 @@ class ContentsController extends AppController
 
 			$result = $fileUpload->saveFile( $file_name );											//	ファイルの保存
 
-			if($result)																			//	結果によってメッセージを設定
+			if($result)																				//	結果によってメッセージを設定
 			{
 				$this->Flash->success('ファイルのアップロードが完了いたしました');
 				$mode = 'complete';
 
-				//$url = G_ROOT_URL."/../uploads/".$new_name;							//	アップロードしたファイルのURL
+				//$url = G_ROOT_URL."/../uploads/".$new_name;										//	アップロードしたファイルのURL
 			}
 			else
 			{
@@ -333,7 +339,7 @@ class ContentsController extends AppController
 		$this->set('upload_extensions',		join(', ', $upload_extensions));
 		$this->set('upload_maxsize',		$upload_maxsize);
 	}
-
+	
 	public function admin_upload_image()
 	{
 		$this->autoRender = FALSE;
@@ -348,7 +354,7 @@ class ContentsController extends AppController
 			
 			//debug($this->request->params['form']['file']);
 			
-			$fileUpload->readFile( $this->request->params['form']['file'] );									//	ファイルの読み込み
+			$fileUpload->readFile( $this->request->params['form']['file'] );						//	ファイルの読み込み
 			
 			$new_name = date("YmdHis").$fileUpload->getExtension( $fileUpload->get_file_name() );	//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
 

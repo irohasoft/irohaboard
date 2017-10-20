@@ -80,6 +80,12 @@ $config['close_on_select'] = true;
 // リッチテキストエディタの画像アップロード機能の設定 (true ; 使用する, false : 使用しない)
 $config['use_upload_image'] = true;
 
+// デモモード (true ; 設定する, false : 設定しない)
+$config['demo_mode'] = false;
+
+// デモユーザのログインIDとパスワード
+$config['demo_login_id'] = "demo001";
+$config['demo_password'] = "pass";
 
 // フォームのスタイル(BoostCake)の基本設定
 $config['form_defaults'] = array(

@@ -33,20 +33,6 @@ class CoursesController extends AppController
 		$this->set('courses', $this->Course->find('all', array('order' => array('Course.sort_no' => 'asc'))));
 	}
 
-	public function view($id = null)
-	{
-		if (! $this->Course->exists($id))
-		{
-			throw new NotFoundException(__('Invalid course'));
-		}
-		$options = array(
-				'conditions' => array(
-						'Course.' . $this->Course->primaryKey => $id
-				)
-		);
-		$this->set('course', $this->Course->find('first', $options));
-	}
-
 	public function admin_add()
 	{
 		$this->admin_edit();
@@ -64,11 +50,14 @@ class CoursesController extends AppController
 				'put'
 		)))
 		{
+			if(Configure::read('demo_mode'))
+				return;
+			
 			if ($this->Course->save($this->request->data))
 			{
 				$this->Flash->success(__('コースが保存されました'));
 				return $this->redirect(array(
-						'action' => 'index'
+					'action' => 'index'
 				));
 			}
 			else
@@ -79,9 +68,9 @@ class CoursesController extends AppController
 		else
 		{
 			$options = array(
-					'conditions' => array(
-							'Course.' . $this->Course->primaryKey => $id
-					)
+				'conditions' => array(
+					'Course.' . $this->Course->primaryKey => $id
+				)
 			);
 			$this->request->data = $this->Course->find('first', $options);
 		}
@@ -89,6 +78,9 @@ class CoursesController extends AppController
 
 	public function admin_delete($id = null)
 	{
+		if(Configure::read('demo_mode'))
+			return;
+		
 		$this->Course->id = $id;
 		if (! $this->Course->exists())
 		{

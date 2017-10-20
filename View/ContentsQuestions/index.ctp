@@ -212,7 +212,7 @@
 			if ($this->action != 'record')
 			{
 				echo $this->Form->hidden('study_sec');
-				echo '<input type="button" value="採点" class="btn btn-primary btn-lg" onclick="$(\'#confirmModal\').modal()">';
+				echo '<input type="button" value="採点" class="btn btn-primary btn-lg btn-score" onclick="$(\'#confirmModal\').modal()">';
 				echo '&nbsp;';
 			}
 			
@@ -235,7 +235,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
-				<button type="button" class="btn btn-primary" onclick="$('form').submit();">採点</button>
+				<button type="button" class="btn btn-primary btn-score" onclick="$('form').submit();">採点</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

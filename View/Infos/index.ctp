@@ -1,11 +1,13 @@
 <?php //echo $this->element('menu');?>
+	<ol class="breadcrumb">
 <?php
-	$this->Html->addCrumb('<< TOP', array(
+	$this->Html->addCrumb('HOME', array(
 		'controller' => 'users_courses',
 		'action' => 'index'
 	));
 	echo $this->Html->getCrumbs(' / ');
 ?>
+	</ol>
 <div class="infos index">
 	<div class="panel panel-success">
 		<div class="panel-heading"><?php echo __('お知らせ一覧'); ?></div>

@@ -1,15 +1,15 @@
 <?php //echo $this->element('menu');?>
 <div class="infos view">
-	<div class="ib-breadcrumb">
+	<div class="breadcrumb">
 	<?php
-	$this->Html->addCrumb('<< TOP', array(
+	$this->Html->addCrumb('HOME', array(
 			'controller' => 'users_courses',
 			'action' => 'index'
 	));
 
 	$this->Html->addCrumb('お知らせ一覧', array(
-			'controller' => 'infos',
-			'action' => 'index'
+		'controller' => 'infos',
+		'action' => 'index'
 	));
 
 	echo $this->Html->getCrumbs(' / ');

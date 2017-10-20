@@ -32,7 +32,7 @@ https://github.com/cakephp/cakephp/releases/tag/2.7.11
 Make sure you have created an empty database on you MySQL server.
 6. Open http://(your-domain-name)/install on your web browser.
 
-# Features
+## Features
 
 ### For students.
 

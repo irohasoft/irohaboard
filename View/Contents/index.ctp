@@ -90,12 +90,12 @@
 <!--<![endif]-->
 <?php $this->end(); ?>
 <div class="contents index">
-	<div class="ib-breadcrumb">
+	<div class="breadcrumb">
 	<?php
 	
 	if($this->action!='admin_record')
 	{
-		$this->Html->addCrumb('<< TOP', array(
+		$this->Html->addCrumb('コース一覧', array(
 				'controller' => 'users_courses',
 				'action' => 'index'
 		));

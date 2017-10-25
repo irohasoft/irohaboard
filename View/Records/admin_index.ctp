@@ -71,7 +71,7 @@
 	{
 		var url = '<?php echo Router::url(array('action' => 'csv')) ?>/' + $('#MembersEventEventId').val() + '/' + $('#MembersEventStatus').val() + '/' + $('#MembersEventUsername').val();
 		$("#RecordCmd").val("csv");
-		$("#RecordIndexForm").submit();
+		$("#RecordAdminIndexForm").submit();
 		$("#RecordCmd").val("");
 	}
 </script>

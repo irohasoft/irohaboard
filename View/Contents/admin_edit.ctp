@@ -141,7 +141,7 @@
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index/'.$this->Session->read('Iroha.course_id')))?>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<?php echo ($this->action == 'admin_edit') ? __('編集') :  __('新規グループ'); ?>
+			<?php echo ($this->action == 'admin_edit') ? __('編集') :  __('新規コンテンツ'); ?>
 		</div>
 		<div class="panel-body">
 			<?php echo $this->Form->create('Content', Configure::read('form_defaults')); ?>

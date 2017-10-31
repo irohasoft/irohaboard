@@ -13,7 +13,7 @@
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<?php echo ($this->action == 'admin_edit') ? __('編集') :  __('新規グループ'); ?>
+			<?php echo ($this->action == 'admin_edit') ? __('編集') :  __('新規ユーザ'); ?>
 		</div>
 		<div class="panel-body">
 			<?php echo $this->Form->create('User', Configure::read('form_defaults')); ?>

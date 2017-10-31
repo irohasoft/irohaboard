@@ -55,7 +55,7 @@
 			<tr>
 				<th><?php echo $this->Paginator->sort('username', 'ログインID'); ?></th>
 				<th class="col-width"><?php echo $this->Paginator->sort('name', '氏名'); ?></th>
-				<th><?php echo $this->Paginator->sort('role', 'ロール'); ?></th>
+				<th><?php echo $this->Paginator->sort('role', '権限'); ?></th>
 				<th><?php echo $this->Paginator->sort('UserGroup.group_title', '所属グループ'); ?></th>
 				<th class="ib-col-datetime"><?php echo $this->Paginator->sort('UserCourse.course_title', '受講コース'); ?></th>
 				<th class="ib-col-datetime"><?php echo $this->Paginator->sort('last_logined', '最終ログイン日時'); ?></th>

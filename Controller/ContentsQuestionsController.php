@@ -35,14 +35,17 @@ class ContentsQuestionsController extends AppController
 						'order' => array('ContentsQuestion.sort_no' => 'asc')
 				));
 		
-		// コンテンツの閲覧権限の確認
-		$this->loadModel('Course');
-		
-		if(count($contentsQuestions) > 0)
+		// 管理者以外の場合、コンテンツの閲覧権限の確認
+		if($this->Session->read('Auth.User.role') != 'admin')
 		{
-			if(! $this->Course->hasRight($this->Session->read('Auth.User.id'), $contentsQuestions[0]['Content']['course_id']))
+			$this->loadModel('Course');
+			
+			if(count($contentsQuestions) > 0)
 			{
-				throw new NotFoundException(__('Invalid access'));
+				if(! $this->Course->hasRight($this->Session->read('Auth.User.id'), $contentsQuestions[0]['Content']['course_id']))
+				{
+					throw new NotFoundException(__('Invalid access'));
+				}
 			}
 		}
 		

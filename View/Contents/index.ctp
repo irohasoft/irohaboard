@@ -143,12 +143,11 @@
 				if ($content['Content']['kind'] == 'test') // テスト
 				{
 					echo '<td>' .
-							$this->Html->link($content['Content']['title'],
-									array(
-											'controller' => 'contents_questions',
-											'action' => 'index',
-											$content['Content']['id']
-									)) . "</td>";
+					$this->Html->link($content['Content']['title'], array(
+						'controller' => 'contents_questions',
+						'action' => 'index',
+						$content['Content']['id']
+					)) . '</td>';
 					echo '<td class="ib-col-center">テスト</td>';
 				}
 				else if($content['Content']['kind'] == 'file') // 配布資料
@@ -167,12 +166,11 @@
 				else
 				{
 					echo '<td>' .
-							$this->Html->link($content['Content']['title'],
-									array(
-											'controller' => 'contents',
-											'action' => 'view',
-											$content['Content']['id']
-									)) . "</td>";
+					$this->Html->link($content['Content']['title'], array(
+						'controller' => 'contents',
+						'action' => 'view',
+						$content['Content']['id']
+					)) . "</td>";
 
 					echo '<td class="ib-col-center">学習</td>';
 				}
@@ -194,22 +192,14 @@
 				}
 				else
 				{
-					$result = ($content[0]['is_passed'] == 1) ? __('合格') : __('不合格');
+					$result = Configure::read('record_result.'.$content[0]['is_passed']);
 					
-					if($this->action=='admin_record')
-					{// 学習履歴表示モードの場合
-						echo $result;
-					}
-					else
-					{// 通常の学習の場合
-						echo $this->Html->link($result,
-								array(
-										'controller' => 'contents_questions',
-										'action' => 'record',
-										$content['Content']['id'],
-										$content['Record']['record_id']
-								));
-					}
+					echo $this->Html->link($result, array(
+						'controller' => 'contents_questions',
+						'action' => 'record',
+						$content['Content']['id'],
+						$content['Record']['record_id']
+					));
 				}
 			}
 			else

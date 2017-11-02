@@ -164,13 +164,22 @@ class ContentsQuestionsController extends AppController
 				));
 		
 		
+		$is_record = (($this->action == 'record') || ($this->action == 'admin_record'));
+		
 		$this->set('course_name',       $this->Session->read('Iroha.course_name'));
 		$this->set('content_title',     $content['Content']['title']);
 		$this->set('content_timelimit', $content['Content']['timelimit']);
 		$this->set('contentsQuestions', $contentsQuestions);
+		$this->set('is_record',         $is_record);
 	}
 
 	public function record($id, $record_id)
+	{
+		$this->index($id, $record_id);
+		$this->render('index');
+	}
+
+	public function admin_record($id, $record_id)
 	{
 		$this->index($id, $record_id);
 		$this->render('index');

@@ -1,13 +1,16 @@
 <div class="contentsQuestions form">
 	<ol class="breadcrumb">
 <?php
-	$course_url = array('controller' => 'contents', 'action' => 'index', $this->Session->read('Iroha.course_id'));
-	
-	$this->Html->addCrumb('コース一覧', array('controller' => 'users_courses', 'action' => 'index'));
-	$this->Html->addCrumb($course_name, $course_url);
-	$this->Html->addCrumb($content_title);
-	
-	echo $this->Html->getCrumbs(' / ');
+	if($this->action!='admin_record')
+	{
+		$course_url = array('controller' => 'contents', 'action' => 'index', $this->Session->read('Iroha.course_id'));
+		
+		$this->Html->addCrumb('コース一覧', array('controller' => 'users_courses', 'action' => 'index'));
+		$this->Html->addCrumb($course_name, $course_url);
+		$this->Html->addCrumb($content_title);
+		
+		echo $this->Html->getCrumbs(' / ');
+	}
 ?>
 	</ol>
 	
@@ -52,16 +55,16 @@
 		
 		.result-table
 		{
+			margin			: 10px;
 			width			: 250px;
 		}
 		
-		.result-table caption
+		<?php if($this->action=='admin_record'){?>
+		.ib-navi-item
 		{
-			/*
-			text-align		: center;
-			*/
+			display: none;
 		}
-		
+		<?php }?>
 	</style>
 	<?php $this->end(); ?>
 	<?php $this->start('script-embedded'); ?>
@@ -120,7 +123,7 @@
 	<?php
 		$index = 1;
 	?>
-	<?php if($this->action == 'record'){ ?>
+	<?php if($is_record){ ?>
 		<table class="result-table">
 			<caption><?php echo __('テスト結果'); ?></caption>
 			<tr>
@@ -157,7 +160,7 @@
 					
 					<?php
 						$image = $contentsQuestion['ContentsQuestion']['image'];
-						$image = ($image=="") ? "" : '<div><img src="'.$image.'"/></div>';
+						$image = ($image=='') ? '' : '<div><img src="'.$image.'"/></div>';
 					
 					?>
 					
@@ -176,7 +179,7 @@
 						
 						foreach($list as $option) {
 							$options[$val] = $option;
-							$is_disabled = ($this->action == 'record') ? " disabled" : "";
+							$is_disabled = ($is_record) ? " disabled" : "";
 							$is_checked = (@$record['RecordsQuestion'][$index-1]['answer']==$val) ? " checked" : "";
 							
 							echo '<input type="radio" value="'.$val.'" name="data[answer_'.$id.']" '.
@@ -186,7 +189,7 @@
 						?>
 					</div>
 					<?php
-					if ($this->action == 'record')
+					if ($is_record)
 					{
 						$result_img = ($record['RecordsQuestion'][$index-1]['is_correct']=='1') ? 'correct.png' : 'wrong.png';
 						$correct = $list[$contentsQuestion['ContentsQuestion']['correct']-1];
@@ -209,14 +212,22 @@
 
 		<?php
 			echo '<div class="form-inline"><!--start-->';
-			if ($this->action != 'record')
+			if (!$is_record)
 			{
 				echo $this->Form->hidden('study_sec');
 				echo '<input type="button" value="採点" class="btn btn-primary btn-lg btn-score" onclick="$(\'#confirmModal\').modal()">';
 				echo '&nbsp;';
 			}
 			
-			echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\''.Router::url($course_url).'\'">';
+			if($this->action == 'admin_record')
+			{
+				echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\'javascript:history.back();\'">';
+			}
+			else
+			{
+				echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\''.Router::url($course_url).'\'">';
+			}
+			
 			echo '</div><!--end-->';
 			echo $this->Form->end();
 		?>

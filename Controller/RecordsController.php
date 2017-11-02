@@ -63,10 +63,11 @@ class RecordsController extends AppController
 		
 		$conditions = $this->Record->parseCriteria($this->Prg->parsedParams());
 		
-		$group_id		= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
-		$course_id		= (isset($this->request->query['course_id'])) ? $this->request->query['course_id'] : "";
-		$user_id		= (isset($this->request->query['user_id'])) ? $this->request->query['user_id'] : "";
-		$contenttitle	= (isset($this->request->query['contenttitle'])) ? $this->request->query['contenttitle'] : "";
+		$group_id			= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
+		$course_id			= (isset($this->request->query['course_id'])) ? $this->request->query['course_id'] : "";
+		$user_id			= (isset($this->request->query['user_id'])) ? $this->request->query['user_id'] : "";
+		$content_category	= (isset($this->request->query['content_category'])) ? $this->request->query['content_category'] : "";
+		$contenttitle		= (isset($this->request->query['contenttitle'])) ? $this->request->query['contenttitle'] : "";
 		
 		if($group_id != "")
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
@@ -76,6 +77,14 @@ class RecordsController extends AppController
 		
 		if($user_id != "")
 			$conditions['User.id'] = $user_id;
+		
+		// コンテンツ種別：学習の場合
+		if($content_category == "study")
+			$conditions['Content.kind'] = array('text', 'html', 'movie', 'url');
+		
+		// コンテンツ種別：テストの場合
+		if($content_category == "test")
+			$conditions['Content.kind'] = array('test');
 		
 		$from_date	= (isset($this->request->query['from_date'])) ? 
 			$this->request->query['from_date'] : 
@@ -165,6 +174,7 @@ class RecordsController extends AppController
 			$this->set('group_id',   $group_id);
 			$this->set('course_id',  $course_id);
 			$this->set('user_id',    $user_id);
+			$this->set('content_category', $content_category);
 			$this->set('contenttitle', $contenttitle);
 			$this->set('from_date', $from_date);
 			$this->set('to_date', $to_date);

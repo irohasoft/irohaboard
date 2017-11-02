@@ -54,6 +54,12 @@
 	{
 		padding		: 5px;
 	}
+	
+	.ib-row
+	{
+		width: 100%;
+		height: 40px;
+	}
 </style>
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
@@ -62,6 +68,15 @@
 	{
 		window.open(
 			'<?php echo Router::url(array('controller' => 'contents', 'action' => 'record')) ?>/'+course_id+'/'+user_id,
+			'irohaboard_record',
+			'width=1000, height=700, menubar=no, toolbar=no, scrollbars=yes'
+		);
+	}
+	
+	function openTestRecord(content_id, record_id)
+	{
+		window.open(
+			'<?php echo Router::url(array('controller' => 'contents_questions', 'action' => 'record')) ?>/'+content_id+'/'+record_id,
 			'irohaboard_record',
 			'width=1000, height=700, menubar=no, toolbar=no, scrollbars=yes'
 		);
@@ -86,10 +101,18 @@
 			echo $this->Form->hidden('cmd');
 			echo '<button type="button" class="btn btn-default" onclick="downloadCSV()">'.__('CSV出力').'</button>';
 			echo '</div>';
-			echo $this->Form->input('course_id',	array('label' => 'コース :', 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
+			
+			echo '<div class="ib-row">';
+			echo $this->Form->input('course_id',			array('label' => 'コース :', 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
+			echo $this->Form->input('content_category',	array('label' => 'コンテンツ種別 :', 'options'=>Configure::read('content_category'), 'selected'=>$content_category, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
+			echo $this->Form->input('contenttitle',			array('label' => 'コンテンツ名 :', 'value'=>$contenttitle, 'class'=>'form-control'));
+			echo '</div>';
+			
+			echo '<div class="ib-row">';
 			echo $this->Form->input('group_id',		array('label' => 'グループ :', 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
 			echo $this->Form->input('user_id',		array('label' => 'ユーザ :', 'options'=>$users, 'selected'=>$user_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
-			echo $this->Form->input('contenttitle',	array('label' => 'コンテンツ名 :', 'value'=>$contenttitle, 'class'=>'form-control'));
+			echo '</div>';
+			
 			echo '<div class="ib-search-date-container">';
 			echo $this->Form->input('from_date', array(
 				'type' => 'date',
@@ -144,7 +167,7 @@
 		<td><?php echo h($record['User']['name']); ?>&nbsp;</td>
 		<td class="ib-col-center"><?php echo h($record['Record']['score']); ?>&nbsp;</td>
 		<td class="ib-col-center"><?php echo h($record['Record']['pass_score']); ?>&nbsp;</td>
-		<td class="ib-col-center"><?php echo h(Configure::read('record_result.'.$record['Record']['is_passed'])); ?>&nbsp;</td>
+		<td class="ib-col-center"><a href="javascript:openTestRecord(<?php echo h($record['Content']['id']); ?>, <?php echo h($record['Record']['id']); ?>);"><?php echo Configure::read('record_result.'.$record['Record']['is_passed']); ?></a></td>
 		<td class="ib-col-center"><?php echo h(Configure::read('record_complete.'.$record['Record']['is_complete'])); ?>&nbsp;</td>
 		<td class="ib-col-center"><?php echo h(Configure::read('record_understanding.'.$record['Record']['understanding'])); ?>&nbsp;</td>
 		<td class="ib-col-center"><?php echo h(Utils::getHNSBySec($record['Record']['study_sec'])); ?>&nbsp;</td>

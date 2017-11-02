@@ -8,7 +8,6 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-
 $config['group_status']		= array('1' => '公開', '0' => '非公開');
 $config['course_status']	= array('1' => '有効', '0' => '無効');
 $config['content_kind']		= array(
@@ -29,6 +28,11 @@ $config['content_kind_comment']		= array(
 	'url'		=> 'URL <span>(外部のWebページを学習項目として追加します。)</span>',
 	'file'		=> '配布資料 <span>(配布したいファイルをアップロードします。)</span>',
 	'test'		=> 'テスト <span>(テストを作成します。問題はテスト作成後、別画面にて追加します。)'
+);
+
+$config['content_category']	= array(
+	'study'		=> '学習',
+	'test'		=> 'テスト'
 );
 
 $config['record_result'] = array('-1' => '', '1' => '合格', '0' => '不合格');

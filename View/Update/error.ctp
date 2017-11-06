@@ -5,8 +5,7 @@
 		</div>
 		<div class="panel-body">
 			<p style="margin:20px">
-				データベースへの接続に失敗しました。<br>
-				Config / database.php ファイル内のデータベースの設定を確認して下さい。
+				<?php echo $body; ?>
 			</p>
 		</div>
 	</div>

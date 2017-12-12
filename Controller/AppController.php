@@ -55,11 +55,22 @@ class AppController extends Controller
 	{
 		$this->set('loginedUser', $this->Auth->user());
 		
-		// 他のサイトの設定が存在する場合、設定情報をクリア
+		// 他のサイトの設定が存在する場合、設定情報及びログイン情報をクリア
 		if($this->Session->check('Setting'))
 		{
 			if($this->Session->read('Setting.app_dir')!=APP_DIR)
+			{
+				// セッション内の設定情報を削除
 				$this->Session->delete('Setting');
+				
+				// 他のサイトとのログイン情報の混合を避けるため、強制ログアウト
+				if($this->Auth->user())
+				{
+					$this->Cookie->delete('Auth');
+					$this->redirect($this->Auth->logout());
+					return;
+				}
+			}
 		}
 		
 		// データベース内に格納された設定情報をセッションに格納
@@ -77,16 +88,18 @@ class AppController extends Controller
 		
 		if (isset($this->request->params['admin']))
 		{
-			// roleがadminもしくは manager以外の場合、強制ログアウトする
+			// role が admin, manager, editor, teacher以外の場合、強制ログアウトする
 			if($this->Auth->user())
 			{
 				if(
 					($this->Auth->user('role')!='admin')&&
-					($this->Auth->user('role')!='teacher')&&
-					($this->Auth->user('role')!='editor')
+					($this->Auth->user('role')!='manager')&&
+					($this->Auth->user('role')!='editor')&&
+					($this->Auth->user('role')!='teacher')
 				)
 				{
-					 $this->redirect($this->Auth->logout());
+					$this->Cookie->delete('Auth');
+					$this->redirect($this->Auth->logout());
 					return;
 				}
 			}

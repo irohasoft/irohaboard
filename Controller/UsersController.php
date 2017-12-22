@@ -291,7 +291,7 @@ class UsersController extends AppController
 			
 			if($this->request->data['User']['new_password'] != $this->request->data['User']['new_password2'])
 			{
-				$this->Flash->success(__('入力された「パスワード」と「パスワード（確認用）」が一致しません'));
+				$this->Flash->error(__('入力された「パスワード」と「パスワード（確認用）」が一致しません'));
 				return;
 			}
 

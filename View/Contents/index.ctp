@@ -90,14 +90,14 @@
 <!--<![endif]-->
 <?php $this->end(); ?>
 <div class="contents index">
-	<div class="breadcrumb">
+	<div class="ib-breadcrumb">
 	<?php
 	
 	if($this->action!='admin_record')
 	{
-		$this->Html->addCrumb('コース一覧', array(
-				'controller' => 'users_courses',
-				'action' => 'index'
+		$this->Html->addCrumb('<< '.__('コース一覧'), array(
+			'controller' => 'users_courses',
+			'action' => 'index'
 		));
 	}
 
@@ -142,12 +142,12 @@
 			{
 				if ($content['Content']['kind'] == 'test') // テスト
 				{
-					echo '<td>' .
-					$this->Html->link($content['Content']['title'], array(
+					echo '<td><span class="glyphicon glyphicon-edit text-danger"></span> ' .
+						$this->Html->link($content['Content']['title'], array(
 						'controller' => 'contents_questions',
 						'action' => 'index',
 						$content['Content']['id']
-					)) . '</td>';
+					)) . "</td>";
 					echo '<td class="ib-col-center">テスト</td>';
 				}
 				else if($content['Content']['kind'] == 'file') // 配布資料
@@ -159,18 +159,20 @@
 					if(mb_substr($url, 0, 1)=='/')
 						$url = FULL_BASE_URL.$url;
 					
-					echo '<td>' .
+					echo '<td><span class="glyphicon glyphicon-file text-success"></span> ' .
 							$this->Html->link($content['Content']['title'], $url, array('target'=>'_blank')). "</td>";
 					echo '<td class="ib-col-center" nowrap>配布資料</td>';
 				}
 				else
 				{
-					echo '<td>' .
-					$this->Html->link($content['Content']['title'], array(
-						'controller' => 'contents',
-						'action' => 'view',
-						$content['Content']['id']
-					)) . "</td>";
+					$icon_tag = '<span class="glyphicon glyphicon-play-circle text-info"></span> ';
+					
+					echo '<td>'.$icon_tag.
+						$this->Html->link($content['Content']['title'], array(
+							'controller' => 'contents',
+							'action' => 'view',
+							$content['Content']['id']
+						)) . "</td>";
 
 					echo '<td class="ib-col-center">学習</td>';
 				}

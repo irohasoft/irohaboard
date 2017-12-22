@@ -125,25 +125,4 @@ class Info extends AppModel
 		
 		return $option;
 	}
-	
-	
-	/*
-	public function getGroupInfos($user_id)
-	{
-		$sql = <<<EOF
-		SELECT *, ig.group_id info_group_id
-		  FROM ib_infos i
-		  LEFT OUTER JOIN ib_infos_groups ig on i.id = ig.info_id
-		 WHERE ig.group_id IS NULL OR ig.group_id IN (select group_id from ib_users_groups where user_id = :user_id)
-EOF;
-
-		$params = array(
-				'user_id' => $user_id
-		);
-
-		$data = $this->query($sql, $params);
-
-		return $data;
-	}
-	*/
 }

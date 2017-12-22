@@ -20,14 +20,14 @@
 	<style type='text/css'>
 		.radio-group
 		{
-			font-size:18px;
-			padding:10px;
-			line-height: 180%;
+			font-size		: 18px;
+			padding			: 10px;
+			line-height		: 180%;
 		}
 		
 		input[type=radio]
 		{
-			padding:10px;
+			padding			: 10px;
 		}
 		
 		.form-inline
@@ -36,16 +36,16 @@
 		
 		#lblStudySec
 		{
-			position: fixed;
-			top: 50px;
-			right: 20px;
-			display: none;
+			position		: fixed;
+			top				: 50px;
+			right			: 20px;
+			display			: none;
 		}
 		
 		.question-text,
 		.correct-text
 		{
-			padding: 10px;
+			padding			: 10px;
 			border-radius	: 6px;
 		}
 		

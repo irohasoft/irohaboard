@@ -66,7 +66,7 @@ class AppController extends Controller
 				// 他のサイトとのログイン情報の混合を避けるため、強制ログアウト
 				if($this->Auth->user())
 				{
-					$this->Cookie->delete('Auth');
+					//$this->Cookie->delete('Auth');
 					$this->redirect($this->Auth->logout());
 					return;
 				}

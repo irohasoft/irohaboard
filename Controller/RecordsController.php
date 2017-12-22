@@ -187,10 +187,11 @@ class RecordsController extends AppController
 		{
 			throw new NotFoundException(__('Invalid record'));
 		}
+		
 		$options = array(
-				'conditions' => array(
-						'Record.' . $this->Record->primaryKey => $id
-				)
+			'conditions' => array(
+				'Record.' . $this->Record->primaryKey => $id
+			)
 		);
 		$this->set('record', $this->Record->find('first', $options));
 	}

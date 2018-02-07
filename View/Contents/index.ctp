@@ -79,13 +79,17 @@
 	padding-bottom: 0px;
 }
 
-<?php if($this->action=='admin_record'){?>
+<?php if($this->action=='admin_record') {?>
 .ib-navi-item
 {
 	display: none;
 }
-<?php }?>
 
+.ib-logo a
+{
+	pointer-events: none;
+}
+<?php }?>
 </style>
 <!--<![endif]-->
 <?php $this->end(); ?>

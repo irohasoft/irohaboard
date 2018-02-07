@@ -1,15 +1,23 @@
 <div class="contentsQuestions form">
 	<ol class="breadcrumb">
 <?php
-	if($this->action!='admin_record')
+	// 学習履歴 > コース名 > コンテンツから場合
+	if($this->action=='admin_record')
 	{
-		$course_url = array('controller' => 'contents', 'action' => 'index', $this->Session->read('Iroha.course_id'));
-		
-		$this->Html->addCrumb('コース一覧', array('controller' => 'users_courses', 'action' => 'index'));
-		$this->Html->addCrumb($course_name, $course_url);
-		$this->Html->addCrumb($content_title);
-		
-		echo $this->Html->getCrumbs(' / ');
+		echo $this->Html->link(__('<< 戻る'), 'javascript:history.back();');
+	}
+	else
+	{
+		if(!$is_admin)
+		{
+			$course_url = array('controller' => 'contents', 'action' => 'index', $this->Session->read('Iroha.course_id'));
+			
+			$this->Html->addCrumb('コース一覧', array('controller' => 'users_courses', 'action' => 'index'));
+			$this->Html->addCrumb($course_name, $course_url);
+			$this->Html->addCrumb($content_title);
+			
+			echo $this->Html->getCrumbs(' / ');
+		}
 	}
 ?>
 	</ol>
@@ -59,10 +67,15 @@
 			width			: 250px;
 		}
 		
-		<?php if($this->action=='admin_record'){?>
+		<?php if($is_admin) {?>
 		.ib-navi-item
 		{
 			display: none;
+		}
+		
+		.ib-logo a
+		{
+			pointer-events: none;
 		}
 		<?php }?>
 	</style>
@@ -225,7 +238,8 @@
 			}
 			else
 			{
-				echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\''.Router::url($course_url).'\'">';
+				if(!$is_admin)
+					echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\''.Router::url($course_url).'\'">';
 			}
 			
 			echo '</div><!--end-->';

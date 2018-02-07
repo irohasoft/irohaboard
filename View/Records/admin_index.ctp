@@ -69,16 +69,16 @@
 		window.open(
 			'<?php echo Router::url(array('controller' => 'contents', 'action' => 'record')) ?>/'+course_id+'/'+user_id,
 			'irohaboard_record',
-			'width=1000, height=700, menubar=no, toolbar=no, scrollbars=yes'
+			'width=1100, height=700, menubar=no, toolbar=no, scrollbars=yes'
 		);
 	}
 	
 	function openTestRecord(content_id, record_id)
 	{
 		window.open(
-			'<?php echo Router::url(array('controller' => 'contents_questions', 'action' => 'record')) ?>/'+content_id+'/'+record_id,
+			'<?php echo Router::url(array('controller' => 'contents_questions', 'action' => 'record_each')) ?>/'+content_id+'/'+record_id,
 			'irohaboard_record',
-			'width=1000, height=700, menubar=no, toolbar=no, scrollbars=yes'
+			'width=1100, height=700, menubar=no, toolbar=no, scrollbars=yes'
 		);
 	}
 	

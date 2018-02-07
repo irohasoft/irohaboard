@@ -14,10 +14,9 @@
 <html>
 <head>
 	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo SessionHelper::read('Setting.title')?>
-	</title>
 	
+	<title><?php echo SessionHelper::read('Setting.title')?></title>
+	<meta name="application-name" content="iroha Board">
 	<?php
 		if(
 			($this->params['admin']!=1)||
@@ -100,6 +99,10 @@
 	
 	<div class="footer ib-theme-color text-center">
 		<?php echo SessionHelper::read('Setting.copyright')?>
+	</div>
+	
+	<div class="irohasoft">
+		<a href="http://irohaboard.irohasoft.jp/">iroha Board</a> by <a href="http://irohasoft.jp/">iroha Soft</a>
 	</div>
 	
 	<?php echo $this->element('sql_dump'); ?>

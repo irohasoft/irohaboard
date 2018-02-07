@@ -114,6 +114,15 @@
 	<div class="panel panel-info">
 	<div class="panel-heading"><?php echo $course_name; ?></div>
 	<div class="panel-body">
+	<?php if($introduction!='') {?>
+	<div class="well">
+		<?php
+		$introduction = $this->Text->autoLinkUrls($introduction, array( 'target' => '_blank'));
+		$introduction = nl2br($introduction);
+		echo $introduction;
+	?>
+	</div>
+	<?php }?>
 	<table class="responsive-table">
 		<thead>
 			<tr>

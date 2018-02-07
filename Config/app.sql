@@ -162,6 +162,7 @@ CREATE TABLE IF NOT EXISTS `ib_groups_courses` (
 CREATE TABLE `ib_courses` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL DEFAULT '',
+  `introduction` text,
   `opened` datetime DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,

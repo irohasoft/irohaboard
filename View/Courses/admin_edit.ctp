@@ -11,17 +11,18 @@
 				echo $this->Form->input('id');
 				echo $this->Form->input('title',	array('label' => __('コース名')));
 				/*
-				echo $this->Form->input('opened', array(
+				echo $this->Form->input('opened',	array(
 					'type' => 'datetime',
 					'dateFormat' => 'YMD',
 					'monthNames' => false,
 					'timeFormat' => '24',
 					'separator' => ' - ',
-					'label'=> '公開日時 : ',
+					'label'=> '公開日時',
 					'style' => 'width:initial; display: inline;'
 				));
 				*/
-				echo $this->Form->input('comment',	array('label' => __('備考')));
+				echo $this->Form->input('introduction',	array('label' => __('コース紹介')));
+				echo $this->Form->input('comment',		array('label' => __('備考')));
 			?>
 			<div class="form-group">
 				<div class="col col-md-9 col-md-offset-3">

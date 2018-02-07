@@ -41,7 +41,8 @@ class ContentsController extends AppController
 				'Course.id' => $id
 			)
 		));
-		$course_name = $course['Course']['title'];
+		$course_name  = $course['Course']['title'];
+		$introduction = $course['Course']['introduction'];
 		
 		// ロールを取得
 		$role = $this->Session->read('Auth.User.role');
@@ -68,7 +69,7 @@ class ContentsController extends AppController
 		$this->Session->write('Iroha.course_id', $id);
 		$this->Session->write('Iroha.course_name', $course_name);
 		
-		$this->set(compact('course_name', 'contents'));
+		$this->set(compact('course_name', 'introduction', 'contents'));
 	}
 
 	public function view($id = null)

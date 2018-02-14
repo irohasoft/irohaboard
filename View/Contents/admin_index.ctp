@@ -63,7 +63,7 @@
 		echo $this->Html->getCrumbs(' / ');
 	?>
 	</div>
-	<div class="ib-page-title"><?php echo __($course_name . ' : コンテンツ一覧 '); ?></div>
+	<div class="ib-page-title"><?php echo __(h($course_name) . ' : コンテンツ一覧 '); ?></div>
 	<div class="buttons_container">
 		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add')) ?>'">+ 追加</button>
 	</div>
@@ -89,7 +89,7 @@
 				}
 				else
 				{
-					echo $content['Content']['title'];
+					echo h($content['Content']['title']);
 				}
 				echo $this->Form->hidden('id', array('id'=>'', 'class'=>'content_id', 'value'=>$content['Content']['id']));
 			?>

@@ -15,7 +15,7 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	
-	<title><?php echo SessionHelper::read('Setting.title')?></title>
+	<title><?php echo h(SessionHelper::read('Setting.title')); ?></title>
 	<meta name="application-name" content="iroha Board">
 	<?php
 		if(
@@ -52,7 +52,7 @@
 	<script>
 	setTimeout(function() {
 		$('#flashMessage').fadeOut("slow");
-	}, 1200);
+	}, 1500);
 	</script>
 	<style>
 		.ib-theme-color
@@ -71,7 +71,7 @@
 <body>
 	<div class="header ib-theme-color">
 		<div class="ib-logo ib-left">
-			<a href="<?php echo $this->Html->url('/')?>"><?php echo SessionHelper::read('Setting.title')?></a>
+			<a href="<?php echo $this->Html->url('/')?>"><?php echo h(SessionHelper::read('Setting.title')); ?></a>
 		</div>
 <?php
 		if($loginedUser)
@@ -98,7 +98,7 @@
 	</div>
 	
 	<div class="footer ib-theme-color text-center">
-		<?php echo SessionHelper::read('Setting.copyright')?>
+		<?php echo h(SessionHelper::read('Setting.copyright')); ?>
 	</div>
 	
 	<div class="irohasoft">

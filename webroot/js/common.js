@@ -15,7 +15,7 @@ CommonUtility.prototype.setRichTextEditor = function (selector, use_upload_image
 {
 	$(selector).summernote({
 		lang: "ja-JP",
-		maximumImageFileSize: 102400,
+		maximumImageFileSize: (1024 * 500),
 		callbacks: {
 			onImageUpload: function(files)
 			{

@@ -195,7 +195,15 @@ class UsersController extends AppController
 				))
 		);
 
-		$result = $this->paginate();
+		try
+		{
+			$result = $this->paginate();
+		}
+		catch (Exception $e)
+		{
+			$this->request->params['named']['page']=1;
+			$result = $this->paginate();
+		}
 
 		// 独自カラムの場合、自動でソートされないため、個別の実装が必要
 		if (isset($this->request->named['sort']) && $this->request->named['sort'] == 'UserGroup.group_title')

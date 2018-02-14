@@ -17,7 +17,7 @@
 	<tbody>
 	<?php foreach ($groups as $group): ?>
 	<tr>
-		<td><?php echo $group['Group']['title']; ?></td>
+		<td><?php echo h($group['Group']['title']); ?></td>
 		<td class="ib-col-date"><?php echo h(Utils::getYMDHN($group['Group']['created'])); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo h(Utils::getYMDHN($group['Group']['modified'])); ?>&nbsp;</td>
 		<td class="ib-col-action">

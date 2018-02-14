@@ -112,7 +112,7 @@
 	</div>
 
 	<div class="panel panel-info">
-	<div class="panel-heading"><?php echo $course_name; ?></div>
+	<div class="panel-heading"><?php echo h($course_name); ?></div>
 	<div class="panel-body">
 	<?php if($introduction!='') {?>
 	<div class="well">

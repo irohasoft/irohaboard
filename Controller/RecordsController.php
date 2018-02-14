@@ -159,7 +159,18 @@ class RecordsController extends AppController
 			$this->Paginator->settings['conditions'] = $conditions;
 			$this->Paginator->settings['order']      = 'Record.created desc';
 			$this->Record->recursive = 0;
-			$this->set('records', $this->Paginator->paginate());
+			
+			try
+			{
+				$result = $this->paginate();
+			}
+			catch (Exception $e)
+			{
+				$this->request->params['named']['page']=1;
+				$result = $this->paginate();
+			}
+			
+			$this->set('records', $result);
 			
 			//$groups = $this->Group->getGroupList();
 			

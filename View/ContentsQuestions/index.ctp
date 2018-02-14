@@ -14,7 +14,7 @@
 			
 			$this->Html->addCrumb('コース一覧', array('controller' => 'users_courses', 'action' => 'index'));
 			$this->Html->addCrumb($course_name, $course_url);
-			$this->Html->addCrumb($content_title);
+			$this->Html->addCrumb(h($content_title));
 			
 			echo $this->Html->getCrumbs(' / ');
 		}
@@ -23,7 +23,7 @@
 	</ol>
 	
 	<div id="lblStudySec" class="btn btn-info"></div>
-	<div class="ib-page-title"><?php echo $content_title; ?></div>
+	<div class="ib-page-title"><?php echo h($content_title); ?></div>
 	<?php $this->start('css-embedded'); ?>
 	<style type='text/css'>
 		.radio-group

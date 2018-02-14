@@ -353,6 +353,8 @@ class ContentsController extends AppController
 			$upload_extensions = (array)Configure::read('upload_image_extensions');
 			$upload_maxsize = Configure::read('upload_image_maxsize');
 			
+			$fileUpload->setExtension($upload_extensions);
+			$fileUpload->setMaxSize($upload_maxsize);
 			//debug($this->request->params['form']['file']);
 			
 			$fileUpload->readFile( $this->request->params['form']['file'] );						//	ファイルの読み込み

@@ -163,7 +163,7 @@ class UsersController extends AppController
 		
 		// クラスが指定されている場合、選択中のクラスに設定
 		if(isset($this->request->query['group_id']))
-			$this->Session->write('Iroha.group_id', $this->request->query['group_id']);
+			$this->Session->write('Iroha.group_id', intval($this->request->query['group_id']));
 		
 		$group_id	= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : $this->Session->read('Iroha.group_id');
 		$username	= (isset($this->request->query['username'])) ? $this->request->query['username'] : "";

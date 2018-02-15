@@ -80,7 +80,7 @@
 			echo '<div class="ib-navi-sepa ib-right"></div>';
 			echo '<div class="ib-navi-item ib-right">'.$this->Html->link(__('設定'), array('controller' => 'users', 'action' => 'setting')).'</div>';
 			echo '<div class="ib-navi-sepa ib-right"></div>';
-			echo '<div class="ib-navi-item ib-right">ようこそ '.$loginedUser["name"].' さん </div>';
+			echo '<div class="ib-navi-item ib-right">ようこそ '.h($loginedUser["name"]).' さん </div>';
 		}
 ?>
 	</div>

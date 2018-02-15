@@ -34,6 +34,8 @@ class ContentsController extends AppController
 
 	public function index($id, $user_id = null)
 	{
+		$id = intval($id);
+		
 		// コースの情報を取得
 		$this->loadModel('Course');
 		$course = $this->Course->find('first', array(
@@ -41,6 +43,7 @@ class ContentsController extends AppController
 				'Course.id' => $id
 			)
 		));
+		
 		$course_name  = $course['Course']['title'];
 		$introduction = $course['Course']['introduction'];
 		
@@ -74,6 +77,8 @@ class ContentsController extends AppController
 
 	public function view($id = null)
 	{
+		$id = intval($id);
+		
 		if (! $this->Content->exists($id))
 		{
 			throw new NotFoundException(__('Invalid content'));
@@ -186,6 +191,8 @@ class ContentsController extends AppController
 
 	public function admin_index($id)
 	{
+		$id = intval($id);
+		
 		$this->Content->recursive = 0;
 
 		$course2 = $this->Content->Course->Record;

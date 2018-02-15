@@ -198,6 +198,8 @@ class ContentsQuestionsController extends AppController
 
 	public function admin_index($id)
 	{
+		$id = intval($id);
+		
 		$this->ContentsQuestion->recursive = 0;
 		$contentsQuestions = $this->ContentsQuestion->find('all', 
 				array(

@@ -111,6 +111,8 @@ class GroupsController extends AppController
 	{
 		if ($id)
 		{
+			$id = intval($id);
+			
 			$this->Session->write('Iroha.group_id', $id);
 			$this->redirect(array(
 					'controller' => 'courses',

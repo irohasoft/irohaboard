@@ -14,6 +14,9 @@ class UpdateController extends AppController
 	var $name = 'Update';
 	var $uses = array();
 	var $helpers = array('Html');
+	var $err_msg = '';
+	var $db   = null;
+	var $path = '';
 	
 	public $components = array(
 		'Session',
@@ -31,44 +34,44 @@ class UpdateController extends AppController
 		{
 			App::import('Model','ConnectionManager');
 
-			$db = ConnectionManager::getDataSource('default');
-			$err_statements = $this->__executeSQLScript($db, APP.DS.'Config'.DS.'update.sql');
+			$this->db   = ConnectionManager::getDataSource('default');
+			$this->path = APP.DS.'Config'.DS.'update.sql';
+			$err_statements = $this->__executeSQLScript();
 			
 			if(count($err_statements) > 0)
 			{
-				$body = '以下のクエリの実行中にエラーが発生しました。<ul>';
+				$this->err_msg = 'クエリの実行中にエラーが発生しました。詳細はデバッグログ(tmp/logs/debug.log)をご確認ください。';
 				
 				foreach($err_statements as $err)
 				{
-					$body .= '<li>'.$err.'</li>';
+					$err .= $err."\n";
 				}
 				
-				$body .= '</ul>';
-				
-				$this->error($body);
+				// デバッグログ
+				$this->log($err, LOG_DEBUG);
+				$this->error();
 				$this->render('error');
 				return;
 			}
 		}
 		catch (Exception $e)
 		{
-			$this->error('データベースへの接続に失敗しました。<br>Config / database.php ファイル内のデータベースの設定を確認して下さい。');
+			$this->err_msg = 'データベースへの接続に失敗しました。<br>Config / database.php ファイル内のデータベースの設定を確認して下さい。';
+			$this->error();
 			$this->render('error');
 		}
 	}
 	
-	function error($body)
+	function error()
 	{
 		$this->set('loginURL', "/users/login/");
 		$this->set('loginedUser', $this->Auth->user());
-		$this->set('body', $body);
+		$this->set('body', $this->err_msg);
 	}
 	
-	private function __executeSQLScript($db, $fileName)
+	private function __executeSQLScript()
 	{
-		//echo "__executeSQLScript()<br>";
-		
-		$statements = file_get_contents($fileName);
+		$statements = file_get_contents($this->path);
 		$statements = explode(';', $statements);
 		$err_statements = array();
 		
@@ -78,7 +81,7 @@ class UpdateController extends AppController
 			{
 				try
 				{
-					$db->query($statement);
+					$this->db->query($statement);
 				}
 				catch (Exception $e)
 				{

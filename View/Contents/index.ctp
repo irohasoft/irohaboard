@@ -130,9 +130,9 @@
 				<th class="ib-col-center"><?php echo __('種別'); ?></th>
 				<th class="ib-col-date"><?php echo __('学習開始日'); ?></th>
 				<th class="ib-col-date"><?php echo __('前回学習日'); ?></th>
-				<th class="ib-col-center"><?php echo __('学習時間'); ?></th>
-				<th class="ib-col-center"><?php echo __('学習回数'); ?></th>
-				<th class="ib-col-center"><?php echo __('理解度'); ?></th>
+				<th nowrap class="ib-col-center"><?php echo __('学習時間'); ?></th>
+				<th nowrap class="ib-col-center"><?php echo __('学習回数'); ?></th>
+				<th nowrap class="ib-col-center"><?php echo __('理解度'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -197,7 +197,7 @@
 			<td class="ib-col-date"><?php echo h($content['Record']['last_date']); ?>&nbsp;</td>
 			<td class="ib-col-center"><?php echo h(Utils::getHNSBySec($content['Record']['study_sec'])); ?>&nbsp;</td>
 			<td class="ib-col-center"><?php echo h($content['Record']['study_count']); ?>&nbsp;</td>
-			<td class="ib-col-center">
+			<td nowrap class="ib-col-center">
 			<?php
 			if ($content['Content']['kind'] == 'test')
 			{

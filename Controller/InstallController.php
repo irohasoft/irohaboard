@@ -14,6 +14,8 @@ class InstallController extends AppController
 	var $name = 'Install';
 	var $uses = array();
 	var $helpers = array('Html');
+	var $db   = null;
+	var $path = '';
 	
 	public $components = array(
 			'Session',
@@ -86,22 +88,21 @@ class InstallController extends AppController
 	{
 		App::import('Model','ConnectionManager');
 
-		$db = ConnectionManager::getDataSource('default');
-		$this->__executeSQLScript($db, APP.DS.'Config'.DS.'app.sql');
+		$this->db   = ConnectionManager::getDataSource('default');
+		$this->path = APP.DS.'Config'.DS.'app.sql';
+		$this->__executeSQLScript();
 	}
 	
-	private function __executeSQLScript($db, $fileName)
+	private function __executeSQLScript()
 	{
-		//echo "__executeSQLScript()<br>";
-		
-		$statements = file_get_contents($fileName);
+		$statements = file_get_contents($this->path);
 		$statements = explode(';', $statements);
 
 		foreach ($statements as $statement)
 		{
 			if (trim($statement) != '')
 			{
-				$db->query($statement);
+				$this->db->query($statement);
 			}
 		}
 	}

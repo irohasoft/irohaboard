@@ -196,7 +196,7 @@
 							$is_checked = (@$record['RecordsQuestion'][$index-1]['answer']==$val) ? " checked" : "";
 							
 							echo '<input type="radio" value="'.$val.'" name="data[answer_'.$id.']" '.
-								$is_checked.$is_disabled.'> '.$option.'<br>';
+								$is_checked.$is_disabled.'> '.h($option).'<br>';
 							$val++;
 						}
 						?>

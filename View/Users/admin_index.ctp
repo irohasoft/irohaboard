@@ -53,10 +53,10 @@
 	<table>
 		<thead>
 			<tr>
-				<th><?php echo $this->Paginator->sort('username', 'ログインID'); ?></th>
-				<th class="col-width"><?php echo $this->Paginator->sort('name', '氏名'); ?></th>
-				<th><?php echo $this->Paginator->sort('role', '権限'); ?></th>
-				<th><?php echo $this->Paginator->sort('UserGroup.group_title', '所属グループ'); ?></th>
+				<th nowrap><?php echo $this->Paginator->sort('username', 'ログインID'); ?></th>
+				<th nowrap class="col-width"><?php echo $this->Paginator->sort('name', '氏名'); ?></th>
+				<th nowrap><?php echo $this->Paginator->sort('role', '権限'); ?></th>
+				<th nowrap><?php echo $this->Paginator->sort('UserGroup.group_title', '所属グループ'); ?></th>
 				<th class="ib-col-datetime"><?php echo $this->Paginator->sort('UserCourse.course_title', '受講コース'); ?></th>
 				<th class="ib-col-datetime"><?php echo $this->Paginator->sort('last_logined', '最終ログイン日時'); ?></th>
 				<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
@@ -68,7 +68,7 @@
 	<tr>
 		<td><?php echo h($user['User']['username']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['name']); ?></td>
-		<td><?php echo h(Configure::read('user_role.'.$user['User']['role'])); ?>&nbsp;</td>
+		<td nowrap><?php echo h(Configure::read('user_role.'.$user['User']['role'])); ?>&nbsp;</td>
 		<td><div class="reader" title="<?php echo h($user['UserGroup']['group_title']); ?>"><p><?php echo h($user['UserGroup']['group_title']); ?>&nbsp;</p></td>
 		<td><div class="reader" title="<?php echo h($user['UserCourse']['course_title']); ?>"><p><?php echo h($user['UserCourse']['course_title']); ?>&nbsp;</p></div></td>
 		<td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['last_logined'])); ?>&nbsp;</td>

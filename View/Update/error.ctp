@@ -5,7 +5,7 @@
 		</div>
 		<div class="panel-body">
 			<p style="margin:20px">
-				<?php echo $body; ?>
+				<?php echo h($body); ?>
 			</p>
 		</div>
 	</div>

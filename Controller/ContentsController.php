@@ -25,7 +25,7 @@ class ContentsController extends AppController
 		'Paginator',
 		'Security' => array(
 			'validatePost' => false,
-			'unlockedActions' => array('admin_order', 'admin_preview'),
+			'unlockedActions' => array('admin_order', 'admin_preview', 'admin_upload_image'),
 		),
 	);
 

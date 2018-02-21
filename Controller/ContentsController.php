@@ -22,7 +22,11 @@ class ContentsController extends AppController
 {
 
 	public $components = array(
-			'Paginator'
+		'Paginator',
+		'Security' => array(
+			'validatePost' => false,
+			'unlockedActions' => array('admin_order', 'admin_preview'),
+		),
 	);
 
 	public $paginate = array(

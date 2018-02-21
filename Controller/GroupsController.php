@@ -14,7 +14,8 @@ class GroupsController extends AppController
 {
 
 	public $components = array(
-			'Paginator'
+		'Paginator',
+		'Security'
 	);
 
 	public function admin_index()

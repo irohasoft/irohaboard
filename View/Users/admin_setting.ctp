@@ -23,6 +23,7 @@
 					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>
+			<?php echo $this->Form->end(); ?>
 		</div>
 	</div>
 </div>

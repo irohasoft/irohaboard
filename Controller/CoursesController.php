@@ -19,7 +19,10 @@ class CoursesController extends AppController
 	 * @var array
 	 */
 	public $components = array(
-			'Paginator'
+		'Paginator',
+		'Security' => array(
+			'unlockedActions' => array('admin_order')
+		),
 	);
 
 	public function index()

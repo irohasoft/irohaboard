@@ -23,13 +23,13 @@ class UsersController extends AppController
 	public $components = array(
 			'Session',
 			'Paginator',
+			'Security',
 			'Search.Prg',
 			'Cookie',
 			'Auth' => array(
 					'allowedActions' => array(
 							'index',
-							'login',
-							'add'
+							'login'
 					)
 			)
 	);

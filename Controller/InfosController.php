@@ -25,7 +25,8 @@ class InfosController extends AppController
 	 * @var array
 	 */
 	public $components = array(
-			'Paginator'
+		'Paginator',
+		'Security'
 	);
 
 	/**

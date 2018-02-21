@@ -17,6 +17,7 @@
 					<?php echo $this->Form->end(array('label' => __('保存'), 'class' => 'btn btn-primary')); ?>
 				</div>
 			</div>
+			<?php echo $this->Form->end(); ?>
 		</div>
 	</div>
 	

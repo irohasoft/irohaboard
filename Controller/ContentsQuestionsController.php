@@ -21,7 +21,11 @@ class ContentsQuestionsController extends AppController
 {
 
 	public $components = array(
-			'Paginator'
+		'Paginator',
+		'Security' => array(
+			'validatePost' => false,
+			'unlockedActions' => array('admin_order')
+		),
 	);
 
 	public function index($id, $record_id = null)

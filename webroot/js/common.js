@@ -36,7 +36,7 @@ CommonUtility.prototype.setRichTextEditor = function (selector, use_upload_image
 			},
 			onImageUploadError: function(e)
 			{
-				alert(e);
+				alert('画像のアップロードに失敗しました');
 			}
 		}
 	});

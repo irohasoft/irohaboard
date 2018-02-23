@@ -107,26 +107,4 @@ class GroupsController extends AppController
 				'action' => 'index'
 		));
 	}
-
-	public function admin_change($id = null)
-	{
-		if ($id)
-		{
-			$id = intval($id);
-			
-			$this->Session->write('Iroha.group_id', $id);
-			$this->redirect(array(
-					'controller' => 'courses',
-					'action' => 'index'
-			));
-		}
-		else
-		{
-			$this->Session->delete('Iroha.group_id');
-			$this->redirect(array(
-					'controller' => 'users',
-					'action' => 'welcome'
-			));
-		}
-	}
 }

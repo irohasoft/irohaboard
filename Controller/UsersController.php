@@ -225,9 +225,6 @@ class UsersController extends AppController
 		//debug($this->Paginator->paginate());
 	}
 
-	public function admin_welcome()
-	{}
-
 	public function admin_edit($id = null)
 	{
 		if ($this->action == 'admin_edit' && ! $this->User->exists($id))

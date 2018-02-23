@@ -160,6 +160,14 @@ class AppController extends Controller
 		}
 	}
 
+	public function beforeRender()
+	{
+		//header("X-XSS-Protection: 1; mode=block")
+		
+		// iframeへの埋め込みの禁止
+		header("X-Frame-Options: DENY");
+	}
+
 	function writeLog($log_type, $log_content)
 	{
 		$data = array(

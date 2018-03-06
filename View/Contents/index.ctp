@@ -107,17 +107,18 @@
 
 	echo $this->Html->getCrumbs(' / ');
 	//debug($contents);
+	//debug($course);
 
 	?>
 	</div>
 
 	<div class="panel panel-info">
-	<div class="panel-heading"><?php echo h($course_name); ?></div>
+	<div class="panel-heading"><?php echo h($course['Course']['title']); ?></div>
 	<div class="panel-body">
-	<?php if($introduction!='') {?>
+	<?php if($course['Course']['introduction']!='') {?>
 	<div class="well">
 		<?php
-		$introduction = $this->Text->autoLinkUrls($introduction, array( 'target' => '_blank'));
+		$introduction = $this->Text->autoLinkUrls($course['Course']['introduction'], array( 'target' => '_blank'));
 		$introduction = nl2br($introduction);
 		echo $introduction;
 	?>

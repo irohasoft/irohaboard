@@ -59,13 +59,14 @@
 	<div class="ib-breadcrumb">
 	<?php
 		$this->Html->addCrumb('コース一覧', array('controller' => 'courses', 'action' => 'index'));
+		$this->Html->addCrumb(h($course['Course']['title']));
 
 		echo $this->Html->getCrumbs(' / ');
 	?>
 	</div>
-	<div class="ib-page-title"><?php echo __(h($course_name) . ' : コンテンツ一覧 '); ?></div>
+	<div class="ib-page-title"><?php echo __('コンテンツ一覧'); ?></div>
 	<div class="buttons_container">
-		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add')) ?>'">+ 追加</button>
+		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add', $course['Course']['id'])) ?>'">+ 追加</button>
 	</div>
 	<div class="alert alert-warning">ドラッグアンドドロップでコンテンツの並び順が変更できます。</div>
 	<table id='sortable-table'>
@@ -98,7 +99,7 @@
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($content['Content']['created']); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($content['Content']['modified']); ?>&nbsp;</td>
 		<td class="ib-col-action">
-			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $content['Content']['id'])) ?>'">編集</button>
+			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $course['Course']['id'], $content['Content']['id'])) ?>'">編集</button>
 			<?php
 			if($loginedUser['role']=='admin')
 			{

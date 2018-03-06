@@ -48,9 +48,6 @@ class ContentsController extends AppController
 			)
 		));
 		
-		$course_name  = $course['Course']['title'];
-		$introduction = $course['Course']['introduction'];
-		
 		// ロールを取得
 		$role = $this->Session->read('Auth.User.role');
 		
@@ -74,9 +71,9 @@ class ContentsController extends AppController
 		}
 		
 		$this->Session->write('Iroha.course_id', $id);
-		$this->Session->write('Iroha.course_name', $course_name);
+		//$this->Session->write('Iroha.course_name', $course_name);
 		
-		$this->set(compact('course_name', 'introduction', 'contents'));
+		$this->set(compact('course', 'contents'));
 	}
 
 	public function view($id = null)
@@ -145,7 +142,17 @@ class ContentsController extends AppController
 		{
 			throw new NotFoundException(__('Invalid content'));
 		}
+		
+		// コンテンツ情報を取得
+		$this->loadModel('Content');
+		$content = $this->Content->find('first', array(
+			'conditions' => array(
+				'Content.id' => $id
+			)
+		));
+		
 		$this->request->allowMethod('post', 'delete');
+		
 		if ($this->Content->delete())
 		{
 			$this->Flash->success(__('コンテンツが削除されました'));
@@ -155,10 +162,9 @@ class ContentsController extends AppController
 			$this->Flash->error(__('The content could not be deleted. Please, try again.'));
 		}
 		
-		return $this->redirect(
-				array(
-						'action' => 'index/' . $this->Session->read('Iroha.course_id')
-				));
+		return $this->redirect(array(
+			'action' => 'index/' . $content['Course']['id']
+		));
 	}
 
 	public function head($id = null)
@@ -199,8 +205,6 @@ class ContentsController extends AppController
 		
 		$this->Content->recursive = 0;
 
-		$course2 = $this->Content->Course->Record;
-
 		// コースの情報を取得
 		$this->Course = new Course();
 		$course = $this->Course->find('first', array(
@@ -219,7 +223,14 @@ class ContentsController extends AppController
 			'order' => array('Content.sort_no' => 'asc')
 		));
 
-		$this->set(compact('contents'));
+		// コース情報を取得
+		$course = $this->Content->Course->find('first', array(
+			'conditions' => array(
+				'Course.id' => $id
+			)
+		));
+		
+		$this->set(compact('contents', 'course'));
 	}
 
 	public function admin_view($id = null)
@@ -236,15 +247,17 @@ class ContentsController extends AppController
 		$this->set('content', $this->Content->find('first', $options));
 	}
 
-	public function admin_add()
+	public function admin_add($course_id)
 	{
-		$this->admin_edit();
+		$this->admin_edit($course_id);
 		$this->render('admin_edit');
 	}
 
-	public function admin_edit($id = null)
+	public function admin_edit($course_id, $content_id = null)
 	{
-		if ($this->action == 'admin_edit' && ! $this->Content->exists($id))
+		$course_id = intval($course_id);
+		
+		if ($this->action == 'admin_edit' && ! $this->Content->exists($content_id))
 		{
 			throw new NotFoundException(__('Invalid content'));
 		}
@@ -258,15 +271,15 @@ class ContentsController extends AppController
 			
 			if($this->action == 'admin_add')
 			{
-				$this->request->data['Content']['user_id'] = $this->Session->read('Auth.User.id');
-				$this->request->data['Content']['course_id'] = $this->Session->read('Iroha.course_id');
+				$this->request->data['Content']['user_id']   = $this->Session->read('Auth.User.id');
+				$this->request->data['Content']['course_id'] = $course_id;
 			}
-
+			
 			if ($this->Content->save($this->request->data))
 			{
 				$this->Flash->success(__('コンテンツが保存されました'));
 				return $this->redirect( array(
-					'action' => 'index/' . $this->Session->read('Iroha.course_id')
+					'action' => 'index/' . $course_id
 				));
 			}
 			else
@@ -277,16 +290,24 @@ class ContentsController extends AppController
 		else
 		{
 			$options = array(
-					'conditions' => array(
-							'Content.' . $this->Content->primaryKey => $id
-					)
+				'conditions' => array(
+					'Content.' . $this->Content->primaryKey => $content_id
+				)
 			);
 			$this->request->data = $this->Content->find('first', $options);
 		}
+		
+		// コース情報を取得
+		$course = $this->Content->Course->find('first', array(
+			'conditions' => array(
+				'Course.id' => $course_id
+			)
+		));
+		
 		$courses = $this->Content->Course->find('list');
 		$users = $this->Content->User->find('list');
 		
-		$this->set(compact('groups', 'courses', 'users'));
+		$this->set(compact('groups', 'courses', 'users', 'course'));
 	}
 
 	public function admin_upload($file_type)

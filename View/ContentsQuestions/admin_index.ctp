@@ -72,7 +72,8 @@
 	<div class="ib-breadcrumb">
 	<?php 
 		$this->Html->addCrumb('コース一覧', array('controller' => 'courses', 'action' => 'index'));
-		$this->Html->addCrumb($course_name, array('controller' => 'contents', 'action' => 'index', $this->Session->read('Iroha.course_id')));
+		$this->Html->addCrumb($content['Course']['title'], array('controller' => 'contents', 'action' => 'index', $content['Course']['id']));
+		$this->Html->addCrumb(h($content['Content']['title']));
 		
 		echo $this->Html->getCrumbs(' / ');
 	?>
@@ -80,7 +81,7 @@
 	<div class="ib-page-title"><?php echo __('コンテンツ問題一覧'); ?></div>
 	
 	<div class="buttons_container">
-		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add')) ?>'">+ 追加</button>
+		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add', $content['Content']['id'])) ?>'">+ 追加</button>
 	</div>
 	
 	<div class="alert alert-warning">ドラッグアンドドロップで出題順が変更できます。</div>
@@ -108,7 +109,7 @@
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($contentsQuestion['ContentsQuestion']['created']); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($contentsQuestion['ContentsQuestion']['modified']); ?>&nbsp;</td>
 		<td class="actions text-center">
-			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $contentsQuestion['ContentsQuestion']['id'])) ?>'">編集</button>
+			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $contentsQuestion['Content']['id'], $contentsQuestion['ContentsQuestion']['id'])) ?>'">編集</button>
 			<?php
 			if($loginedUser['role']=='admin')
 			{

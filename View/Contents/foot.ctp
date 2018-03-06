@@ -22,7 +22,7 @@
 	
 	function cancel()
 	{
-		parent.location.href = '<?php echo Router::url(array('action' => 'index', $this->Session->read('Iroha.course_id')))?>';
+		parent.location.href = '<?php echo Router::url(array('action' => 'index', $content['Course']['id']))?>';
 	}
 	</script>
 </head>

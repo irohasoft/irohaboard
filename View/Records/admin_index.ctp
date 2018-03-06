@@ -76,7 +76,7 @@
 	function openTestRecord(content_id, record_id)
 	{
 		window.open(
-			'<?php echo Router::url(array('controller' => 'contents_questions', 'action' => 'record_each')) ?>/'+content_id+'/'+record_id,
+			'<?php echo Router::url(array('controller' => 'contents_questions', 'action' => 'record')) ?>/'+content_id+'/'+record_id,
 			'irohaboard_record',
 			'width=1100, height=700, menubar=no, toolbar=no, scrollbars=yes'
 		);
@@ -173,7 +173,7 @@
 		<td class="ib-col-center"><?php echo h(Utils::getHNSBySec($record['Record']['study_sec'])); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo h(Utils::getYMDHN($record['Record']['created'])); ?>&nbsp;</td>
 	</tr>
-<?php endforeach; ?>
+	<?php endforeach; ?>
 	</tbody>
 	</table>
 	<?php echo $this->element('paging');?>

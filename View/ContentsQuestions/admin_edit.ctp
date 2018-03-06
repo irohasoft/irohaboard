@@ -160,8 +160,8 @@
 	<div class="ib-breadcrumb">
 	<?php 
 		$this->Html->addCrumb('コース一覧',  array('controller' => 'courses', 'action' => 'index'));
-		$this->Html->addCrumb($course_name,  array('controller' => 'contents', 'action' => 'index', $this->Session->read('Iroha.course_id')));
-		$this->Html->addCrumb($content_name, array('controller' => 'contents_questions', 'action' => 'index', $this->Session->read('Iroha.content_id')));
+		$this->Html->addCrumb($content['Course']['title'],  array('controller' => 'contents', 'action' => 'index', $content['Course']['id']));
+		$this->Html->addCrumb($content['Content']['title'], array('controller' => 'contents_questions', 'action' => 'index', $content['Content']['id']));
 		
 		echo $this->Html->getCrumbs(' / ');
 	?>

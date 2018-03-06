@@ -138,7 +138,12 @@
 <?php $this->end(); ?>
 
 <div class="contents form">
-<?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index/'.$this->Session->read('Iroha.course_id')))?>
+	<?php
+		$this->Html->addCrumb('コース一覧', array('controller' => 'courses', 'action' => 'index'));
+		$this->Html->addCrumb(h($course['Course']['title']));
+
+		echo $this->Html->getCrumbs(' / ');
+	?>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<?php echo ($this->action == 'admin_edit') ? __('編集') :  __('新規コンテンツ'); ?>

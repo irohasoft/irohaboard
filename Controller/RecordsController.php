@@ -207,29 +207,36 @@ class RecordsController extends AppController
 		$this->set('record', $this->Record->find('first', $options));
 	}
 
-	public function add($id, $is_complete, $study_sec, $understanding)
+	public function add($content_id, $is_complete, $study_sec, $understanding)
 	{
+		// コンテンツ情報を取得
+		$this->loadModel('Content');
+		$content = $this->Content->find('first', array(
+			'conditions' => array(
+				'Content.id' => $content_id
+			)
+		));
+		
 		$this->Record->create();
 		$data = array(
 //				'group_id' => $this->Session->read('Auth.User.Group.id'),
-				'user_id' => $this->Session->read('Auth.User.id'),
-				'course_id' => $this->Session->read('Iroha.course_id'),
-				'content_id' => $id,
-				'study_sec' => $study_sec,
-				'understanding' => $understanding,
-				'is_passed' => -1,
-				'is_complete' => $is_complete
+			'user_id'		=> $this->Session->read('Auth.User.id'),
+			'course_id'		=> $content['Course']['id'],
+			'content_id'	=> $content_id,
+			'study_sec'		=> $study_sec,
+			'understanding'	=> $understanding,
+			'is_passed'		=> -1,
+			'is_complete'	=> $is_complete
 		);
 		
 		if ($this->Record->save($data))
 		{
 			$this->Flash->success(__('学習履歴を保存しました'));
-			return $this->redirect(
-					array(
-							'controller' => 'contents',
-							'action' => 'index',
-							$this->Session->read('Iroha.course_id')
-					));
+			return $this->redirect(array(
+				'controller' => 'contents',
+				'action' => 'index',
+				$content['Course']['id']
+			));
 		}
 		else
 		{
@@ -237,21 +244,29 @@ class RecordsController extends AppController
 		}
 	}
 
-	public function record($id, $record, $details)
+	public function record($content_id, $record, $details)
 	{
+		// コンテンツ情報を取得
+		$this->loadModel('Content');
+		$content = $this->Content->find('first', array(
+			'conditions' => array(
+				'Content.id' => $content_id
+			)
+		));
+		
 		$this->Record->create();
 		
 		$data = array(
 //				'group_id' => $this->Session->read('Auth.User.Group.id'),
-				'user_id' => $this->Session->read('Auth.User.id'),
-				'course_id' => $this->Session->read('Iroha.course_id'),
-				'content_id' => $id,
-				'full_score' => $record['full_score'],
-				'pass_score' => $record['pass_score'],
-				'score' => $record['score'],
-				'is_passed' => $record['is_passed'],
-				'study_sec' => $record['study_sec'],
-				'is_complete' => 1
+			'user_id'		=> $this->Session->read('Auth.User.id'),
+			'course_id'		=> $content['Course']['id'],
+			'content_id'	=> $content_id,
+			'full_score'	=> $record['full_score'],
+			'pass_score'	=> $record['pass_score'],
+			'score'			=> $record['score'],
+			'is_passed'		=> $record['is_passed'],
+			'study_sec'		=> $record['study_sec'],
+			'is_complete'	=> 1
 		);
 		
 		if ($this->Record->save($data))

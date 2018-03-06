@@ -28,16 +28,15 @@ class ContentsQuestionsController extends AppController
 		),
 	);
 
-	public function index($id, $record_id = null)
+	public function index($content_id, $record_id = null)
 	{
 		$this->ContentsQuestion->recursive = 0;
-		$contentsQuestions = $this->ContentsQuestion->find('all', 
-				array(
-						'conditions' => array(
-								'content_id' => $id
-						),
-						'order' => array('ContentsQuestion.sort_no' => 'asc')
-				));
+		$contentsQuestions = $this->ContentsQuestion->find('all', array(
+			'conditions' => array(
+				'content_id' => $content_id
+			),
+			'order' => array('ContentsQuestion.sort_no' => 'asc')
+		));
 		
 		// 管理者以外の場合、コンテンツの閲覧権限の確認
 		if($this->Session->read('Auth.User.role') != 'admin')
@@ -73,6 +72,14 @@ class ContentsQuestionsController extends AppController
 		{
 			$this->set('mode',   "test");
 		}
+		
+		// コンテンツ情報を取得
+		$this->loadModel('Content');
+		$content = $this->Content->find('first', array(
+			'conditions' => array(
+				'Content.id' => $content_id
+			)
+		));
 		
 		// 採点処理
 		if ($this->request->is('post'))
@@ -129,15 +136,15 @@ class ContentsQuestionsController extends AppController
 			
 			// debug($this->Record);
 			$data = array(
-					'user_id' => $this->Session->read('Auth.User.id'),
-					'course_id' => $this->Session->read('Iroha.course_id'),
-					'content_id' => $id,
-					'full_score' => $record['full_score'],
-					'pass_score' => $record['pass_score'],
-					'score' => $record['score'],
-					'is_passed' => $record['is_passed'],
-					'study_sec' => $record['study_sec'],
-					'is_complete' => 1
+					'user_id'		=> $this->Session->read('Auth.User.id'),
+					'course_id'		=> $content['Course']['id'],
+					'content_id'	=> $content_id,
+					'full_score'	=> $record['full_score'],
+					'pass_score'	=> $record['pass_score'],
+					'score'			=> $record['score'],
+					'is_passed'		=> $record['is_passed'],
+					'study_sec'		=> $record['study_sec'],
+					'is_complete'	=> 1
 			);
 			
 			if ($this->Record->save($data))
@@ -153,30 +160,18 @@ class ContentsQuestionsController extends AppController
 				endforeach
 				;
 				
-				$this->redirect(
-						array(
-								'action' => 'record',
-								$id,
-								$this->Record->getLastInsertID()
-						));
+				$this->redirect(array(
+					'action' => 'record',
+					$content_id,
+					$this->Record->getLastInsertID()
+				));
 			}
 		}
 		
-		$this->loadModel('Content');
-		$content = $this->Content->find('first', 
-				array(
-						'conditions' => array(
-								'Content.id' => $id
-						)
-				));
+		$is_record = (($this->action == 'record') || ($this->action == 'admin_record'));
+		$is_admin  = ($this->action == 'admin_record');
 		
-		
-		$is_record = (($this->action == 'record') || ($this->action == 'admin_record') || ($this->action == 'admin_record_each'));
-		$is_admin  = (($this->action == 'admin_record') || ($this->action == 'admin_record_each'));
-		
-		$this->set('course_name',       $this->Session->read('Iroha.course_name'));
-		$this->set('content_title',     $content['Content']['title']);
-		$this->set('content_timelimit', $content['Content']['timelimit']);
+		$this->set('content',			$content);
 		$this->set('contentsQuestions', $contentsQuestions);
 		$this->set('is_record',         $is_record);
 		$this->set('is_admin',          $is_admin);
@@ -189,12 +184,6 @@ class ContentsQuestionsController extends AppController
 	}
 
 	public function admin_record($id, $record_id)
-	{
-		$this->index($id, $record_id);
-		$this->render('index');
-	}
-
-	public function admin_record_each($id, $record_id)
 	{
 		$this->index($id, $record_id);
 		$this->render('index');
@@ -213,21 +202,19 @@ class ContentsQuestionsController extends AppController
 						'order' => array('ContentsQuestion.sort_no' => 'asc')
 				));
 		
-		// コースの情報を取得
+		// コンテンツ情報を取得
 		$this->loadModel('Content');
 		
-		$content = $this->Content->find('first',
-				array(
-						'conditions' => array(
-								'Content.id' => $id
-						)
-				));
+		$content = $this->Content->find('first', array(
+			'conditions' => array(
+				'Content.id' => $id
+			)
+		));
 		
 		$this->Session->write('Iroha.content_id',   $id);
 		$this->Session->write('Iroha.content_name', $content['Content']['title']);
 		
-		$this->set('course_name',   $this->Session->read('Iroha.course_name'));
-		$this->set('contentsQuestions', $contentsQuestions);
+		$this->set(compact('content', 'contentsQuestions'));
 	}
 
 	public function view($id = null)
@@ -244,18 +231,30 @@ class ContentsQuestionsController extends AppController
 		$this->set('contentsQuestion', $this->ContentsQuestion->find('first', $options));
 	}
 
-	public function admin_add()
+	public function admin_add($content_id)
 	{
-		$this->admin_edit();
+		$this->admin_edit($content_id);
 		$this->render('admin_edit');
 	}
 
-	public function admin_edit($id = null)
+	public function admin_edit($content_id, $id = null)
 	{
+		$content_id = intval($content_id);
+		
 		if ($this->action == 'edit' && ! $this->Post->exists($id))
 		{
 			throw new NotFoundException(__('Invalid contents question'));
 		}
+
+		// コンテンツ情報を取得
+		$this->loadModel('Content');
+		
+		$content = $this->Content->find('first', array(
+			'conditions' => array(
+				'Content.id' => $content_id
+			)
+		));
+		
 		if ($this->request->is(array(
 				'post',
 				'put'
@@ -264,7 +263,7 @@ class ContentsQuestionsController extends AppController
 			if ($id == null)
 			{
 				$this->request->data['ContentsQuestion']['user_id'] = $this->Session->read('Auth.User.id');
-				$this->request->data['ContentsQuestion']['content_id'] = $this->Session->read('Iroha.content_id');
+				$this->request->data['ContentsQuestion']['content_id'] = $content_id;
 			}
 			
 			if (! $this->ContentsQuestion->validates())
@@ -273,12 +272,11 @@ class ContentsQuestionsController extends AppController
 			if ($this->ContentsQuestion->save($this->request->data))
 			{
 				$this->Flash->success(__('問題が保存されました'));
-				return $this->redirect(
-						array(
-								'controller' => 'contents_questions',
-								'action' => 'index',
-								$this->Session->read('Iroha.content_id')
-						));
+				return $this->redirect(array(
+					'controller' => 'contents_questions',
+					'action' => 'index',
+					$content_id
+				));
 			}
 			else
 			{
@@ -287,16 +285,14 @@ class ContentsQuestionsController extends AppController
 		}
 		else
 		{
-			$options = array(
-					'conditions' => array(
-							'ContentsQuestion.' . $this->ContentsQuestion->primaryKey => $id
-					)
-			);
+			$options = array( 'conditions' => array(
+				'ContentsQuestion.' . $this->ContentsQuestion->primaryKey => $id
+			));
+			
 			$this->request->data = $this->ContentsQuestion->find('first', $options);
 		}
 		
-		$this->set('course_name',   $this->Session->read('Iroha.course_name'));
-		$this->set('content_name',  $this->Session->read('Iroha.content_name'));
+		$this->set(compact('content'));
 	}
 
 	/**
@@ -313,16 +309,24 @@ class ContentsQuestionsController extends AppController
 		{
 			throw new NotFoundException(__('Invalid contents question'));
 		}
+		
 		$this->request->allowMethod('post', 'delete');
+		
+		// 問題情報を取得
+		$question = $this->ContentsQuestion->find('first', array(
+			'conditions' => array(
+				'ContentsQuestion.id' => $id
+			)
+		));
+		
 		if ($this->ContentsQuestion->delete())
 		{
 			$this->Flash->success(__('問題が削除されました'));
-			return $this->redirect(
-					array(
-							'controller' => 'contents_questions',
-							'action' => 'index',
-							$this->Session->read('Iroha.content_id')
-					));
+			return $this->redirect(array(
+				'controller' => 'contents_questions',
+				'action' => 'index',
+				$question['ContentsQuestion']['content_id']
+			));
 		}
 		else
 		{

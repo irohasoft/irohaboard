@@ -17,6 +17,7 @@
 		{
 			$('#btnUpload').hide();
 			opener.setURL(file_url);
+			window.close();
 		}
 	});
 </script>

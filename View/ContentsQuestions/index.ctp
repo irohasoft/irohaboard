@@ -1,29 +1,23 @@
 <div class="contentsQuestions form">
 	<ol class="breadcrumb">
 <?php
-	// 学習履歴 > コース名 > コンテンツから場合
-	if($this->action=='admin_record')
+	if($is_admin)
 	{
-		echo $this->Html->link(__('<< 戻る'), 'javascript:history.back();');
+		$course_url = array('controller' => 'contents', 'action' => 'record', $record['Course']['id'], $record['Record']['user_id']);
 	}
 	else
 	{
-		if(!$is_admin)
-		{
-			$course_url = array('controller' => 'contents', 'action' => 'index', $this->Session->read('Iroha.course_id'));
-			
-			$this->Html->addCrumb('コース一覧', array('controller' => 'users_courses', 'action' => 'index'));
-			$this->Html->addCrumb($course_name, $course_url);
-			$this->Html->addCrumb(h($content_title));
-			
-			echo $this->Html->getCrumbs(' / ');
-		}
+		$course_url = array('controller' => 'contents', 'action' => 'index', $content['Course']['id']);
+		$this->Html->addCrumb('コース一覧', array('controller' => 'users_courses', 'action' => 'index'));
 	}
+	
+	$this->Html->addCrumb($content['Course']['title'], $course_url);
+	$this->Html->addCrumb(h($content['Content']['title']));
+	echo $this->Html->getCrumbs(' / ');
 ?>
 	</ol>
 	
 	<div id="lblStudySec" class="btn btn-info"></div>
-	<div class="ib-page-title"><?php echo h($content_title); ?></div>
 	<?php $this->start('css-embedded'); ?>
 	<style type='text/css'>
 		.radio-group
@@ -83,7 +77,7 @@
 	<?php $this->start('script-embedded'); ?>
 	<script>
 		var studySec  = 0;
-		var timeLimit = parseInt('<?php echo $content_timelimit ?>');
+		var timeLimit = parseInt('<?php echo $content['Content']['timelimit'] ?>');
 		var mode      = '<?php echo $mode ?>';
 		var timerID   = null;
 		
@@ -232,16 +226,7 @@
 				echo '&nbsp;';
 			}
 			
-			if($this->action == 'admin_record')
-			{
-				echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\'javascript:history.back();\'">';
-			}
-			else
-			{
-				if(!$is_admin)
-					echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\''.Router::url($course_url).'\'">';
-			}
-			
+			echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\''.Router::url($course_url).'\'">';
 			echo '</div><!--end-->';
 			echo $this->Form->end();
 		?>

@@ -56,6 +56,9 @@ class CoursesController extends AppController
 			if(Configure::read('demo_mode'))
 				return;
 			
+			// 作成者を設定
+			$this->request->data['Course']['user_id'] = $this->Session->read('Auth.User.id');
+			
 			if ($this->Course->save($this->request->data))
 			{
 				$this->Flash->success(__('コースが保存されました'));

@@ -3,8 +3,6 @@
 	RewriteRule ^$ webroot/ [L]
 	RewriteRule (.*) webroot/$1 [L]
 </IfModule>
-#Set the maxsize of uploading files
-php_value upload_max_filesize 128M
 
 #For the avoidance of IE attack
 Header always set X-Content-Type-Options nosniff

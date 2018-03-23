@@ -117,17 +117,9 @@ class Record extends AppModel
 	
 	// 検索用
 	public $actsAs = array(
-			'Search.Searchable'
+		'Search.Searchable'
 	);
 
 	public $filterArgs = array(
-			'username' => array(
-					'type' => 'like',
-					'field' => 'User.username'
-			),
-			'name' => array(
-					'type' => 'like',
-					'field' => 'User.name'
-			)
 	);
 }

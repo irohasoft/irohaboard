@@ -19,7 +19,6 @@ App::uses('Group', 'Group');
  */
 class UsersController extends AppController
 {
-
 	public $components = array(
 			'Session',
 			'Paginator',
@@ -29,17 +28,11 @@ class UsersController extends AppController
 			'Auth' => array(
 					'allowedActions' => array(
 							'index',
-							'login'
+							'login',
+							'logout'
 					)
 			)
 	);
-
-	public function beforeFilter()
-	{
-		parent::beforeFilter();
-		// ユーザー自身による登録とログアウトを許可する
-		$this->Auth->allow('add', 'logout');
-	}
 
 	public function index()
 	{
@@ -86,9 +79,11 @@ class UsersController extends AppController
 		$username = "";
 		$password = "";
 		
+		// 自動ログイン処理
 		// Check cookie's login info.
 		if ( $this->Cookie->check('Auth') )
 		{
+			// クッキー上のアカウントでログイン
 			$this->request->data = $this->Cookie->read('Auth');
 			
 			if ( $this->Auth->login() )
@@ -97,11 +92,12 @@ class UsersController extends AppController
 			}
 			else
 			{
-				// Delete cookies
+				// ログインに失敗した場合、クッキーを削除
 				$this->Cookie->delete('Auth');
 			}
 		}
 		
+		// 通常ログイン処理
 		if ($this->request->is('post'))
 		{
 			if ($this->Auth->login())
@@ -125,11 +121,12 @@ class UsersController extends AppController
 			}
 			else
 			{
-				$this->Flash->error(__('入力されたID、もしくはパスワードが正しくありません'));
+				$this->Flash->error(__('ログインID、もしくはパスワードが正しくありません'));
 			}
 		}
 		else
 		{
+			// デモモードの場合、ログインID、パスワードの初期値を指定
 			if(Configure::read('demo_mode'))
 			{
 				$username = Configure::read('demo_login_id');
@@ -156,28 +153,22 @@ class UsersController extends AppController
 	 */
 	public function admin_index()
 	{
-		// 検索条件設定
+		// SearchPluginの呼び出し
 		$this->Prg->commonProcess();
 		
+		// Model の filterArgs に定義した内容にしたがって検索条件を作成
 		$conditions = $this->User->parseCriteria($this->Prg->parsedParams());
 		
-		// クラスが指定されている場合、選択中のクラスに設定
+		// 選択中のグループをセッションから取得
 		if(isset($this->request->query['group_id']))
 			$this->Session->write('Iroha.group_id', intval($this->request->query['group_id']));
 		
+		// GETパラメータから検索条件を抽出
 		$group_id	= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : $this->Session->read('Iroha.group_id');
-		$username	= (isset($this->request->query['username'])) ? $this->request->query['username'] : "";
-		$name		= (isset($this->request->query['name']))     ? $this->request->query['name'] : "";
 		
-		$conditions = array();
+		// 独自の検索条件を追加（指定したグループに所属するユーザを検索）
 		if($group_id != "")
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
-		
-		if($username != "")
-			$conditions['User.username like'] = '%'.$username.'%';
-		
-		if($name != "")
-			$conditions['User.name like'] = '%'.$name.'%';
 		
 		$this->paginate = array(
 			'User' => array(
@@ -201,6 +192,7 @@ class UsersController extends AppController
 		}
 		catch (Exception $e)
 		{
+			// 指定したページが存在しなかった場合（主に検索条件変更時に発生）、1ページ目を設定
 			$this->request->params['named']['page']=1;
 			$result = $this->paginate();
 		}
@@ -216,11 +208,10 @@ class UsersController extends AppController
 			$result = Set::sort($result, '/UserCourse/course_title', $this->request->named['direction']);
 		}
 
-		$this->Group = new Group();
-		$this->set('groups',   $this->Group->find('list'));
+		$this->set('groups',   $this->User->Group->find('list'));
 		$this->set('users',    $result);
 		$this->set('group_id', $group_id);
-		$this->set('name',     $name);
+		//$this->set('name',     $name);
 
 		//debug($this->Paginator->paginate());
 	}

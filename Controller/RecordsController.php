@@ -58,9 +58,11 @@ class RecordsController extends AppController
 	 */
 	public function admin_index()
 	{
-		// 検索条件設定
+		// SearchPluginの呼び出し
 		$this->Prg->commonProcess();
 		
+		// Model の filterArgs に定義した内容にしたがって検索条件を作成
+		// ただしアソシエーションテーブルには対応していないため、独自に検索条件を設定する必要がある
 		$conditions = $this->Record->parseCriteria($this->Prg->parsedParams());
 		
 		$group_id			= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
@@ -68,6 +70,7 @@ class RecordsController extends AppController
 		$user_id			= (isset($this->request->query['user_id'])) ? $this->request->query['user_id'] : "";
 		$content_category	= (isset($this->request->query['content_category'])) ? $this->request->query['content_category'] : "";
 		$contenttitle		= (isset($this->request->query['contenttitle'])) ? $this->request->query['contenttitle'] : "";
+		
 		
 		if($group_id != "")
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
@@ -98,14 +101,14 @@ class RecordsController extends AppController
 			$this->request->query['to_date'] : 
 				array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
 		
+		if($contenttitle != "")
+			$conditions['Content.title like'] = '%'.$contenttitle.'%';
+		
 		// 学習日付による絞り込み
 		$conditions['Record.created BETWEEN ? AND ?'] = array(
 			implode("/", $from_date), 
 			implode("/", $to_date).' 23:59:59'
 		);
-		
-		if($contenttitle != "")
-			$conditions['Content.title like'] = '%'.$contenttitle.'%';
 		
 		// CSV出力モードの場合
 		if(@$this->request->query['cmd']=='csv')
@@ -185,8 +188,8 @@ class RecordsController extends AppController
 			$this->set('group_id',   $group_id);
 			$this->set('course_id',  $course_id);
 			$this->set('user_id',    $user_id);
-			$this->set('content_category', $content_category);
-			$this->set('contenttitle', $contenttitle);
+			$this->set('content_category',	$content_category);
+			$this->set('contenttitle',		$contenttitle);
 			$this->set('from_date', $from_date);
 			$this->set('to_date', $to_date);
 		}

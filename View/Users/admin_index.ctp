@@ -43,7 +43,7 @@
 				'onchange' => '$("#UserIndexForm").submit();'
 			));
 			echo $this->Form->input('username',		array('label' => 'ログインID : ', 'required' => false));
-			echo $this->Form->input('name',			array('label' => '氏名 : '  , 'required' => false, 'value'=>$name));
+			echo $this->Form->input('name',			array('label' => '氏名 : '  , 'required' => false));
 		?>
 		<input type="submit" class="btn btn-info btn-add" value="検索">
 		<?php

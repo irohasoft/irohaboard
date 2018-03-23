@@ -21,7 +21,6 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
  */
 class User extends AppModel
 {
-
 	public $validate = array(
 		'username' => array(
 				array(
@@ -35,10 +34,10 @@ class User extends AppModel
 				array(
 						'rule' => array(
 								'between',
-								2,
+								4,
 								32
 						),
-						'message' => 'ログインIDは5文字以上32文字以内で入力して下さい'
+						'message' => 'ログインIDは4文字以上32文字以内で入力して下さい'
 				)
 		),
 		'name' => array(
@@ -81,7 +80,6 @@ class User extends AppModel
 								4,
 								32
 						),
-						'required' => false,
 						'message' => 'パスワードは4文字以上32文字以内で入力して下さい',
 						'allowEmpty' => true
 				)
@@ -154,19 +152,6 @@ class User extends AppModel
 	 		)
 	);
 
-	/*
-	function checkCompare($valid_field1, $valid_field2)
-	{
-		$fieldname = key($valid_field1);
-
-		if ($this->data[$this->name][$fieldname] === $this->data[$this->name][$valid_field2])
-		{
-			return true;
-		}
-		return false;
-	}
-	*/
-
 	public function beforeSave($options = array())
 	{
 		if (isset($this->data[$this->alias]['password']))
@@ -178,25 +163,18 @@ class User extends AppModel
 
 	// 検索用
 	public $actsAs = array(
-			'Search.Searchable'
+		'Search.Searchable'
 	);
 
 	public $filterArgs = array(
-			'username' => array(
-					'type' => 'like',
-					'field' => 'User.name'
-			),
-			'coursetitle' => array(
-					'type' => 'like',
-					'field' => 'Course.title'
-			),
-			'contenttitle' => array(
-					'type' => 'like',
-					'field' => 'Content.title'
-			),
-			'active' => array(
-					'type' => 'value'
-			)
+		'username' => array(
+			'type' => 'like',
+			'field' => 'User.username'
+		),
+		'course_id' => array(
+			'type' => 'like',
+			'field' => 'course_id'
+		),
 	);
 
 }

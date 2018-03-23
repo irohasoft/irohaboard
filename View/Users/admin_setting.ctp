@@ -8,12 +8,12 @@
 			<?php
 				echo $this->Form->create('User', Configure::read('form_defaults'));
 				echo $this->Form->input('User.new_password', array(
-					'label' => 'パスワード',
+					'label' => '新しいパスワード',
 					'type' => 'password',
 					'autocomplete' => 'off'
 				));
 				echo $this->Form->input('User.new_password2', array(
-					'label' => 'パスワード (確認用)',
+					'label' => '新しいパスワード (確認用)',
 					'type' => 'password',
 					'autocomplete' => 'off'
 				));

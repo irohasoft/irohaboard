@@ -38,6 +38,12 @@ class Utils
 		
 		return $hms;
 	}
-
+	
+	/*
+	public static function isAllowed($user, $roles)
+	{
+		return (array_search($user['role'], $roles) > -1);
+	}
+	*/
 }
 

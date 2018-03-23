@@ -335,7 +335,6 @@ class UsersController extends AppController
 		{
 			// 管理者アカウントが存在しない場合、管理者アカウントを作成
 			$data = array(
-				'course_id' => $this->Session->read('Iroha.course_id'),
 				'username' => 'root',
 				'password' => 'irohaboard',
 				'name' => 'root',

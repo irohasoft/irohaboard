@@ -111,7 +111,7 @@
 		// 学習履歴を残さずに終了の場合
 		if(val==-1)
 		{
-			location.href = '<?php echo Router::url(array('action' => 'index', $this->Session->read('Iroha.course_id')))?>';
+			location.href = '<?php echo Router::url(array('action' => 'index', $content['Course']['id']))?>';
 			return;
 		}
 		

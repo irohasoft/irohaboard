@@ -98,7 +98,9 @@ class AppController extends Controller
 					($this->Auth->user('role')!='teacher')
 				)
 				{
-					$this->Cookie->delete('Auth');
+					if($this->Cookie)
+						$this->Cookie->delete('Auth');
+					
 					$this->redirect($this->Auth->logout());
 					return;
 				}

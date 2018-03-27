@@ -171,6 +171,10 @@ class User extends AppModel
 			'type' => 'like',
 			'field' => 'User.username'
 		),
+		'name' => array(
+			'type' => 'like',
+			'field' => 'User.name'
+		),
 		'course_id' => array(
 			'type' => 'like',
 			'field' => 'course_id'

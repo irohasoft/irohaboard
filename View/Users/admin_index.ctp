@@ -23,6 +23,11 @@
 	{
 		width : 100px;
 	}
+	
+	#UserGroupId
+	{
+		max-width : 300px;
+	}
 </style>
 <?php $this->end(); ?>
 <div class="users index">

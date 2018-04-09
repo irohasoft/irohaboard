@@ -21,7 +21,6 @@ class ContentsQuestionsController extends AppController
 {
 
 	public $components = array(
-		'Paginator',
 		'Security' => array(
 			'validatePost' => false,
 			'unlockedActions' => array('admin_order')
@@ -52,7 +51,7 @@ class ContentsQuestionsController extends AppController
 			}
 		}
 		
-		// 過去の成績を取得
+		// レコードIDが指定されている場合、成績を取得
 		if ($record_id)
 		{
 			$this->loadModel('Record');
@@ -65,12 +64,6 @@ class ContentsQuestionsController extends AppController
 			
 			$this->set('mode',   "record");
 			$this->set('record', $record);
-			// debug($record);
-			// echo "get record";
-		}
-		else
-		{
-			$this->set('mode',   "test");
 		}
 		
 		// コンテンツ情報を取得
@@ -105,12 +98,7 @@ class ContentsQuestionsController extends AppController
 				
 				if ($is_correct == 1)
 					$my_score += $score;
-					
-					// echo $answer.'<br>';
-					// echo
-					// $this->request->data['ContentsQuestion']['correct_'.$contentsQuestion['ContentsQuestion']['id']].'<br>';
-					// echo $contentsQuestion['ContentsQuestion']['score'];
-					// echo '<hr>';
+				
 				$details[$i] = array(
 						'question_id' => $question_id,
 						'answer' => $answer,
@@ -185,8 +173,7 @@ class ContentsQuestionsController extends AppController
 
 	public function admin_record($id, $record_id)
 	{
-		$this->index($id, $record_id);
-		$this->render('index');
+		$this->record($id, $record_id);
 	}
 
 	public function admin_index($id)
@@ -211,24 +198,7 @@ class ContentsQuestionsController extends AppController
 			)
 		));
 		
-		$this->Session->write('Iroha.content_id',   $id);
-		$this->Session->write('Iroha.content_name', $content['Content']['title']);
-		
 		$this->set(compact('content', 'contentsQuestions'));
-	}
-
-	public function view($id = null)
-	{
-		if (! $this->ContentsQuestion->exists($id))
-		{
-			throw new NotFoundException(__('Invalid contents question'));
-		}
-		$options = array(
-				'conditions' => array(
-						'ContentsQuestion.' . $this->ContentsQuestion->primaryKey => $id
-				)
-		);
-		$this->set('contentsQuestion', $this->ContentsQuestion->find('first', $options));
 	}
 
 	public function admin_add($content_id)

@@ -22,18 +22,10 @@ class ContentsController extends AppController
 {
 
 	public $components = array(
-		'Paginator',
 		'Security' => array(
 			'validatePost' => false,
 			'unlockedActions' => array('admin_order', 'admin_preview', 'admin_upload_image'),
 		),
-	);
-
-	public $paginate = array(
-		'limit' => 100,
-		'order' => array(
-			'Post.title' => 'asc'
-		)
 	);
 
 	public function index($id, $user_id = null)
@@ -70,13 +62,10 @@ class ContentsController extends AppController
 			$contents = $this->Content->getContentRecord($this->Session->read('Auth.User.id'), $id);
 		}
 		
-		$this->Session->write('Iroha.course_id', $id);
-		//$this->Session->write('Iroha.course_name', $course_name);
-		
 		$this->set(compact('course', 'contents'));
 	}
 
-	public function view($id = null)
+	public function view($id)
 	{
 		$id = intval($id);
 		
@@ -85,7 +74,8 @@ class ContentsController extends AppController
 			throw new NotFoundException(__('Invalid content'));
 		}
 
-		$this->layout = "";
+		// ヘッダー、フッターを非表示
+		$this->layout = '';
 
 		$options = array(
 			'conditions' => array(
@@ -127,12 +117,13 @@ class ContentsController extends AppController
 
 	public function preview()
 	{
-		$this->layout = "";
+		// ヘッダー、フッターを非表示
+		$this->layout = '';
 		$this->set('content', $this->Session->read('Iroha.preview_content'));
 		$this->render('view');
 	}
 
-	public function admin_delete($id = null)
+	public function admin_delete($id)
 	{
 		if(Configure::read('demo_mode'))
 			return;
@@ -144,7 +135,6 @@ class ContentsController extends AppController
 		}
 		
 		// コンテンツ情報を取得
-		$this->loadModel('Content');
 		$content = $this->Content->find('first', array(
 			'conditions' => array(
 				'Content.id' => $id
@@ -167,38 +157,6 @@ class ContentsController extends AppController
 		));
 	}
 
-	public function head($id = null)
-	{
-		if (! $this->Content->exists($id))
-		{
-			throw new NotFoundException(__('Invalid content'));
-		}
-
-		$this->layout = "";
-		$options = array(
-				'conditions' => array(
-						'Content.' . $this->Content->primaryKey => $id
-				)
-		);
-		$this->set('content', $this->Content->find('first', $options));
-	}
-
-	public function foot($id = null)
-	{
-		if (! $this->Content->exists($id))
-		{
-			throw new NotFoundException(__('Invalid content'));
-		}
-
-		$this->layout = "";
-		$options = array(
-			'conditions' => array(
-				'Content.' . $this->Content->primaryKey => $id
-			)
-		);
-		$this->set('content', $this->Content->find('first', $options));
-	}
-
 	public function admin_index($id)
 	{
 		$id = intval($id);
@@ -206,17 +164,11 @@ class ContentsController extends AppController
 		$this->Content->recursive = 0;
 
 		// コースの情報を取得
-		$this->Course = new Course();
-		$course = $this->Course->find('first', array(
+		$course = $this->Content->Course->find('first', array(
 			'conditions' => array(
 				'Course.id' => $id
 			)
 		));
-
-		$this->Session->write('Iroha.course_id', $id);
-		$this->Session->write('Iroha.course_name', $course['Course']['title']);
-
-		$this->set('course_name', $course['Course']['title']);
 
 		$contents = $this->Content->find('all', array(
 			'conditions' => array('Content.course_id' => $id),
@@ -233,20 +185,6 @@ class ContentsController extends AppController
 		$this->set(compact('contents', 'course'));
 	}
 
-	public function admin_view($id = null)
-	{
-		if (! $this->Content->exists($id))
-		{
-			throw new NotFoundException(__('Invalid content'));
-		}
-		$options = array(
-			'conditions' => array(
-				'Content.' . $this->Content->primaryKey => $id
-			)
-		);
-		$this->set('content', $this->Content->find('first', $options));
-	}
-
 	public function admin_add($course_id)
 	{
 		$this->admin_edit($course_id);
@@ -261,6 +199,7 @@ class ContentsController extends AppController
 		{
 			throw new NotFoundException(__('Invalid content'));
 		}
+		
 		if ($this->request->is(array(
 				'post',
 				'put'
@@ -269,6 +208,7 @@ class ContentsController extends AppController
 			if(Configure::read('demo_mode'))
 				return;
 			
+			// 新規追加の場合、コンテンツの作成者と所属コースを指定
 			if($this->action == 'admin_add')
 			{
 				$this->request->data['Content']['user_id']   = $this->Session->read('Auth.User.id');
@@ -304,10 +244,7 @@ class ContentsController extends AppController
 			)
 		));
 		
-		$courses = $this->Content->Course->find('list');
-		$users = $this->Content->User->find('list');
-		
-		$this->set(compact('groups', 'courses', 'users', 'course'));
+		$this->set(compact('course'));
 	}
 
 	public function admin_upload($file_type)
@@ -320,6 +257,7 @@ class ContentsController extends AppController
 		$mode = '';
 		$file_url = '';
 		
+		// ファイルの種類によって、アップロード可能な拡張子とファイルサイズを指定
 		switch ($file_type)
 		{
 			case 'file' :
@@ -334,12 +272,17 @@ class ContentsController extends AppController
 				$upload_extensions = (array)Configure::read('upload_movie_extensions');
 				$upload_maxsize = Configure::read('upload_movie_maxsize');
 				break;
+			default :
+				throw new NotFoundException(__('Invalid access'));
 		}
 		
 		$fileUpload->setExtension($upload_extensions);
 		$fileUpload->setMaxSize($upload_maxsize);
 		
-		if ($this->request->is('post') || $this->request->is('put'))
+		if ($this->request->is(array(
+				'post',
+				'put'
+		)))
 		{
 			if(Configure::read('demo_mode'))
 				return;
@@ -348,8 +291,8 @@ class ContentsController extends AppController
 
 			$new_name = date("YmdHis").$fileUpload->getExtension( $fileUpload->get_file_name() );	//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
 
-			$file_name = WWW_ROOT.DS."uploads".DS.$new_name;										//	ファイル格納フォルダ
-			$file_url = $this->webroot.'uploads/'.$new_name;
+			$file_name = WWW_ROOT.DS."uploads".DS.$new_name;										//	ファイルのパス
+			$file_url = $this->webroot.'uploads/'.$new_name;										//	ファイルのURL
 
 			$result = $fileUpload->saveFile( $file_name );											//	ファイルの保存
 
@@ -357,8 +300,6 @@ class ContentsController extends AppController
 			{
 				$this->Flash->success('ファイルのアップロードが完了いたしました');
 				$mode = 'complete';
-
-				//$url = G_ROOT_URL."/../uploads/".$new_name;										//	アップロードしたファイルのURL
 			}
 			else
 			{
@@ -373,11 +314,15 @@ class ContentsController extends AppController
 		$this->set('upload_maxsize',		$upload_maxsize);
 	}
 	
+	// リッチテキストエディタ(Summernote) の画像アップロード機能との連携用
 	public function admin_upload_image()
 	{
 		$this->autoRender = FALSE;
 		
-		if ($this->request->is('post') || $this->request->is('put'))
+		if ($this->request->is(array(
+				'post',
+				'put'
+		)))
 		{
 			App::import ( "Vendor", "FileUpload" );
 			$fileUpload = new FileUpload();
@@ -399,8 +344,7 @@ class ContentsController extends AppController
 			$result = $fileUpload->saveFile( $file_name );											//	ファイルの保存
 			
 			//debug($result);
-			
-			$response = ($result) ? array($file_url) : array(false);
+			$response = $result ? array($file_url) : array(false);
 			echo json_encode($response);
 		}
 	}

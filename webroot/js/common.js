@@ -30,13 +30,23 @@ CommonUtility.prototype.setRichTextEditor = function (selector, use_upload_image
 					contentType: false,
 					processData: false,
 					success: function(url) {
-						$(selector).summernote('insertImage', JSON.parse(url)[0], 'image');
+						if(url)
+						{
+							$(selector).summernote('insertImage', JSON.parse(url)[0], 'image');
+						}
+						else
+						{
+							alert('画像のアップロードに失敗しました');
+						}
+					},
+					error: function(url) {
+						alert('通信中にエラーが発生しました');
 					}
 				});
 			},
 			onImageUploadError: function(e)
 			{
-				alert('画像のアップロードに失敗しました');
+				alert('指定されたファイルはアップロードできません');
 			}
 		}
 	});

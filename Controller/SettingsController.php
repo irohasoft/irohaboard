@@ -30,8 +30,6 @@ class SettingsController extends AppController {
 	{
 		if ($this->request->is(array('post', 'put')))
 		{
-			//debug($this->request->data);
-			
 			$this->Setting->setSettings($this->request->data['Setting']);
 			
 			foreach ($this->request->data['Setting'] as $key => $value)
@@ -42,10 +40,7 @@ class SettingsController extends AppController {
 		
 		$color = $this->Session->read('Setting.color');
 		
-		//debug($color);
-		
 		$this->Setting->recursive = 0;
-		$this->set('settings',		$this->Paginator->paginate());
 		$this->set('colors',		Configure::read('theme_colors'));
 		$this->set('color',			$color);
 	}

@@ -108,6 +108,9 @@ class ContentsController extends AppController
 					'kind'   => $this->data['content_kind'],
 					'url'    => $this->data['content_url'],
 					'body'  => $this->data['content_body']
+				),
+				'Course' => array(
+					'id'     => 0,
 				)
 			);
 			

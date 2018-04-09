@@ -19,7 +19,6 @@ App::uses('AppController', 'Controller');
 class UsersCoursesController extends AppController
 {
 	public $components = array(
-		'Paginator'
 	);
 
 	public function index()

@@ -23,7 +23,6 @@ class SettingsController extends AppController {
  * @var array
  */
 	public $components = array(
-		'Paginator',
 		'Security'
 	);
 

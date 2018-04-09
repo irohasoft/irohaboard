@@ -131,7 +131,6 @@
 </head>
 <body>
 <?php
-	
 	$td_style = '';
 	
 	switch($content['Content']['kind'])
@@ -171,19 +170,19 @@
 			<div>
 				<div class="select-message">※ 理解度を選んで終了して下さい。</div>
 				<span class='for-pc'>
-				<button type="button" class="btn btn-success" onclick="finish(5)">◎よく理解できた</button>
-				<button type="button" class="btn btn-success" onclick="finish(4)">〇まあまあ理解できた</button>
-				<button type="button" class="btn btn-success" onclick="finish(3)">△あまりよく理解できなかった</button>
-				<button type="button" class="btn btn-success" onclick="finish(2)">✕全く理解できなかった</button>
+				<button type="button" class="btn btn-success" onclick="finish(5);">◎よく理解できた</button>
+				<button type="button" class="btn btn-success" onclick="finish(4);">〇まあまあ理解できた</button>
+				<button type="button" class="btn btn-success" onclick="finish(3);">△あまりよく理解できなかった</button>
+				<button type="button" class="btn btn-success" onclick="finish(2);">✕全く理解できなかった</button>
 				</span>
 				<span class='for-spn'>
-				<button type="button" class="btn btn-success" onclick="finish(5)">◎</button>
-				<button type="button" class="btn btn-success" onclick="finish(4)">〇</button>
-				<button type="button" class="btn btn-success" onclick="finish(3)">△</button>
-				<button type="button" class="btn btn-success" onclick="finish(2)">✕</button>
+				<button type="button" class="btn btn-success" onclick="finish(5);">◎</button>
+				<button type="button" class="btn btn-success" onclick="finish(4);">〇</button>
+				<button type="button" class="btn btn-success" onclick="finish(3);">△</button>
+				<button type="button" class="btn btn-success" onclick="finish(2);">✕</button>
 				</span>
-				<button type="button" class="btn btn-danger" onclick="finish(0)">中断</button>
-				<button type="button" class="btn btn-primary" onclick="finish(-1)">学習履歴を残さずに終了</button>
+				<button type="button" class="btn btn-danger" onclick="finish(0);">中断</button>
+				<button type="button" class="btn btn-primary" onclick="finish(-1);">学習履歴を残さずに終了</button>
 			</div>
 		</td>
 	</tr>

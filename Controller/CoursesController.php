@@ -19,17 +19,10 @@ class CoursesController extends AppController
 	 * @var array
 	 */
 	public $components = array(
-		'Paginator',
 		'Security' => array(
 			'unlockedActions' => array('admin_order')
 		),
 	);
-
-	public function index()
-	{
-		$this->Course->recursive = 0;
-		$this->set('courses', $this->Paginator->paginate());
-	}
 
 	public function admin_index()
 	{

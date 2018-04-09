@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `ib_groups_courses` (
   `modified` datetime DEFAULT NULL,
   `comment` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=598 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS=1;
 

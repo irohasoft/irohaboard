@@ -127,25 +127,16 @@
 	</script>
 	<?php $this->end(); ?>
 
-	<?php
-		$index = 1;
-	?>
 	<?php if($is_record){ ?>
+		<?php
+			$result_color  = ($record['Record']['is_passed']==1) ? 'text-primary' : 'text-danger';
+			$result_label  = ($record['Record']['is_passed']==1) ? __('合格') : __('不合格');
+		?>
 		<table class="result-table">
 			<caption><?php echo __('テスト結果'); ?></caption>
 			<tr>
 				<td><?php echo __('合否'); ?></td>
-				<td><?php 
-					if ($record['Record']['is_passed']==1)
-					{
-						echo '<div class="text-primary">'.__('合格').'</div>';
-					}
-					else
-					{
-						echo '<div class="text-danger">'.__('不合格').'</div>';
-					}
-					?>
-				</td>
+				<td><div class="<?php echo $result_color; ?>"><?php echo $result_label; ?></div></td>
 			</tr>
 			<tr>
 				<td><?php echo __('得点'); ?></td>
@@ -158,64 +149,70 @@
 		</table>
 	<?php }?>
 	
+	<?php
+		$index = 0;
+	?>
 	<?php echo $this->Form->create('ContentsQuestion'); ?>
 		<?php foreach ($contentsQuestions as $contentsQuestion): ?>
+			<?php
+			$title = h($contentsQuestion['ContentsQuestion']['title']);
+			$image = $contentsQuestion['ContentsQuestion']['image'];
+			$image = ($image=='') ? '' : '<div><img src="'.$image.'"/></div>';
+			$body  = $contentsQuestion['ContentsQuestion']['body'];
+			$list = explode('|', $contentsQuestion['ContentsQuestion']['options']);
+			
+			$val = 1;
+			$index++;
+			
+			$id = $contentsQuestion['ContentsQuestion']['id'];
+			
+			$option_list = '';
+			foreach($list as $option) {
+				$options[$val] = $option;
+				$is_disabled = ($is_record) ? " disabled" : "";
+				$is_checked = (@$record['RecordsQuestion'][$index-1]['answer']==$val) ? " checked" : "";
+				
+				$option_list .= '<input type="radio" value="'.$val.'" name="data[answer_'.$id.']" '.
+					$is_checked.$is_disabled.'> '.h($option).'<br>';
+				
+				$val++;
+			}
+			
+			$explain_tag = '';
+			$correct_tag = '';
+			
+			// テスト結果表示モードの場合、正解、解説情報を出力
+			if($is_record)
+			{
+				$result_img		= ($record['RecordsQuestion'][$index-1]['is_correct']=='1') ? 'correct.png' : 'wrong.png';
+				$correct		= $list[$contentsQuestion['ContentsQuestion']['correct']-1];
+				$correct_tag	= '<p class="correct-text bg-success">正解 : '.$correct.'</p>'.
+					'<p>'.$this->Html->image($result_img, array('width'=>'60','height'=>'60')).'</p>';
+				
+				if($contentsQuestion['ContentsQuestion']['explain']!='')
+					$explain_tag = '<div class="correct-text bg-danger">'.$contentsQuestion['ContentsQuestion']['explain'].'</div>';
+				
+			}
+			?>
 			<div class="panel panel-info">
 				<div class="panel-heading">問<?php echo $index;?></div>
 				<div class="panel-body">
-					<h4><?php echo h($contentsQuestion['ContentsQuestion']['title']); ?></h4>
-					
-					<?php
-						$image = $contentsQuestion['ContentsQuestion']['image'];
-						$image = ($image=='') ? '' : '<div><img src="'.$image.'"/></div>';
-					
-					?>
-					
+					<h4><?php echo $title ?></h4>
 					<div class="question-text bg-warning">
-						<?php echo $contentsQuestion['ContentsQuestion']['body']; ?>
+						<?php echo $body ?>
 						<?php echo $image; ?>
 					</div>
 					
 					<div class="radio-group">
-						<?php
-						$list = explode('|', $contentsQuestion['ContentsQuestion']['options']);
-						
-						$val = 1;
-						
-						$id = $contentsQuestion['ContentsQuestion']['id'];
-						
-						foreach($list as $option) {
-							$options[$val] = $option;
-							$is_disabled = ($is_record) ? " disabled" : "";
-							$is_checked = (@$record['RecordsQuestion'][$index-1]['answer']==$val) ? " checked" : "";
-							
-							echo '<input type="radio" value="'.$val.'" name="data[answer_'.$id.']" '.
-								$is_checked.$is_disabled.'> '.h($option).'<br>';
-							$val++;
-						}
-						?>
+						<?php echo $option_list; ?>
 					</div>
-					<?php
-					if ($is_record)
-					{
-						$result_img = ($record['RecordsQuestion'][$index-1]['is_correct']=='1') ? 'correct.png' : 'wrong.png';
-						$correct = $list[$contentsQuestion['ContentsQuestion']['correct']-1];
-						echo '<p class="correct-text bg-success">正解 : '.$correct.'</p>';
-						echo '<p>'.$this->Html->image($result_img, array('width'=>'60','height'=>'60')).'</p>';
-						
-						if($contentsQuestion['ContentsQuestion']['explain']!='')
-							echo '<div class="correct-text bg-danger">'.$contentsQuestion['ContentsQuestion']['explain'].'</div>';
-						
-						echo $this->Form->hidden(
-							'correct_'.$id,
-							array('value' => $contentsQuestion['ContentsQuestion']['correct'])
-						);
-					}
-					$index++;
-					?>
+					<?php echo $correct_tag ?>
+					<?php echo $explain_tag ?>
+					<?php echo $this->Form->hidden('correct_'.$id, array('value' => $contentsQuestion['ContentsQuestion']['correct'])); ?>
 				</div>
 			</div>
 		<?php endforeach; ?>
+
 
 		<?php
 			echo '<div class="form-inline"><!--start-->';

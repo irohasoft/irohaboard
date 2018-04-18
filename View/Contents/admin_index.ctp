@@ -81,26 +81,27 @@
 	</thead>
 	<tbody>
 	<?php foreach ($contents as $content): ?>
+	<?php
+		switch($content['Content']['kind'])
+		{
+			case 'test':
+				$title = $this->Html->link($content['Content']['title'], array('controller' => 'contents_questions', 'action' => 'index', $content['Content']['id']));
+				break;
+			default :
+				$title = h($content['Content']['title']);
+				break;
+		}
+	?>
 	<tr>
-		<td>
-			<?php
-				if($content['Content']['kind'] == 'test')
-				{
-					echo $this->Html->link($content['Content']['title'], array('controller' => 'contents_questions', 'action' => 'index', $content['Content']['id']));
-				}
-				else
-				{
-					echo h($content['Content']['title']);
-				}
-				echo $this->Form->hidden('id', array('id'=>'', 'class'=>'content_id', 'value'=>$content['Content']['id']));
-			?>
-		</td>
+		<td><?php echo $title; ?></td>
 		<td><?php echo h(Configure::read('content_kind.'.$content['Content']['kind'])); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($content['Content']['created']); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($content['Content']['modified']); ?>&nbsp;</td>
 		<td class="ib-col-action">
 			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $course['Course']['id'], $content['Content']['id'])) ?>'">編集</button>
 			<?php
+			echo $this->Form->hidden('id', array('id'=>'', 'class'=>'content_id', 'value'=>$content['Content']['id']));
+			
 			if($loginedUser['role']=='admin')
 			{
 				echo $this->Form->postLink(__('削除'),

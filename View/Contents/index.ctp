@@ -106,9 +106,6 @@
 	}
 
 	echo $this->Html->getCrumbs(' / ');
-	//debug($contents);
-	//debug($course);
-
 	?>
 	</div>
 
@@ -138,94 +135,82 @@
 		</thead>
 		<tbody>
 	<?php foreach ($contents as $content): ?>
-	<tr>
 		<?php
-		if($content['Content']['kind']=='label') // ラベル
+		$icon   = ''; // アイコン用クラス
+		$title  = ''; // コンテンツタイトル
+		$kind   = h(Configure::read('content_kind.'.$content['Content']['kind'])); // 学習種別
+		$understanding = ''; // 理解度・テスト結果
+		
+		// コンテンツの種別
+		switch($content['Content']['kind'])
 		{
-			echo '<td colspan="7" class="content-label">'.h($content['Content']['title']).'</td>';
-		}
-		else
-		{
-			if($this->action=='admin_record')
-			{// 学習履歴表示モードの場合
-				echo 
-					'<td>'.h($content['Content']['title']).'</td>'.
-					'<td>'.h(Configure::read('content_kind.'.$content['Content']['kind'])).'</td>';
-			}
-			else
-			{
-				if ($content['Content']['kind'] == 'test') // テスト
-				{
-					echo '<td><span class="glyphicon glyphicon-edit text-danger"></span> ' .
-						$this->Html->link($content['Content']['title'], array(
-						'controller' => 'contents_questions',
-						'action' => 'index',
-						$content['Content']['id']
-					)) . "</td>";
-					echo '<td class="ib-col-center">テスト</td>';
-				}
-				else if($content['Content']['kind'] == 'file') // 配布資料
-				{
-					// 配布資料のURL
-					$url = $content['Content']['url'];
-					
-					// 相対URLの場合、絶対URLに変更する
-					if(mb_substr($url, 0, 1)=='/')
-						$url = FULL_BASE_URL.$url;
-					
-					echo '<td><span class="glyphicon glyphicon-file text-success"></span> ' .
-							$this->Html->link($content['Content']['title'], $url, array('target'=>'_blank')). "</td>";
-					echo '<td class="ib-col-center" nowrap>配布資料</td>';
-				}
-				else
-				{
-					$icon_tag = '<span class="glyphicon glyphicon-play-circle text-info"></span> ';
-					
-					echo '<td>'.$icon_tag.
-						$this->Html->link($content['Content']['title'], array(
-							'controller' => 'contents',
-							'action' => 'view',
-							$content['Content']['id']
-						)) . "</td>";
+			case 'label': // ラベル
+				$title = h($content['Content']['title']);
+				break;
+			case 'test': // テスト
+				$icon  = 'glyphicon glyphicon-edit text-danger';
+				$title = $this->Html->link(
+					$content['Content']['title'], array(
+					'controller' => 'contents_questions',
+					'action' => 'index',
+					$content['Content']['id']
+				));
+				$kind  = h(Configure::read('content_kind.'.$content['Content']['kind']));
 
-					echo '<td class="ib-col-center">学習</td>';
-				}
-			}
-
-			//debug($content);
-			?>
-			<td class="ib-col-center"><?php echo h($content['Record']['first_date']); ?>&nbsp;</td>
-			<td class="ib-col-date"><?php echo h($content['Record']['last_date']); ?>&nbsp;</td>
-			<td class="ib-col-center"><?php echo h(Utils::getHNSBySec($content['Record']['study_sec'])); ?>&nbsp;</td>
-			<td class="ib-col-center"><?php echo h($content['Record']['study_count']); ?>&nbsp;</td>
-			<td nowrap class="ib-col-center">
-			<?php
-			if ($content['Content']['kind'] == 'test')
-			{
-				if ($content['Record']['record_id'] == null)
-				{
-					echo '';
-				}
-				else
+				// テスト結果が存在する場合、テスト結果へのリンクを出力
+				if ($content['Record']['record_id'] != null)
 				{
 					$result = Configure::read('record_result.'.$content[0]['is_passed']);
 					
-					echo $this->Html->link($result, array(
+					$understanding = $this->Html->link(
+						$result, array(
 						'controller' => 'contents_questions',
 						'action' => 'record',
 						$content['Content']['id'],
 						$content['Record']['record_id']
 					));
 				}
-			}
-			else
-			{
-				echo h(Configure::read('record_understanding.'.$content[0]['understanding']));
-			}
-			echo '</td>';
+				break;
+			case 'file': // 配布資料
+				// 配布資料のURL
+				$url = $content['Content']['url'];
+				
+				// 相対URLの場合、絶対URLに変更する
+				if(mb_substr($url, 0, 1)=='/')
+					$url = FULL_BASE_URL.$url;
+				
+				$icon  = 'glyphicon glyphicon-file text-success';
+				$title = $this->Html->link($content['Content']['title'], $url, array('target'=>'_blank'));
+				break;
+			default : // その他（学習）
+				$icon  = 'glyphicon glyphicon-play-circle text-info';
+				$title = $this->Html->link($content['Content']['title'], array(
+							'controller' => 'contents',
+							'action' => 'view',
+							$content['Content']['id']
+						));
+				$kind  =  __('学習'); // 一律学習と表記
+				$understanding = h(Configure::read('record_understanding.'.$content[0]['understanding']));
+				break;
 		}
+		
+		// 学習履歴表示の場合、学習画面へのリンクを出力しない
+		if($this->action=='admin_record')
+			$title = h($content['Content']['title']);
 		?>
-	</tr>
+		<tr>
+			<?php if($content['Content']['kind']=='label') {?>
+			<td colspan="7" class="content-label"><?php echo $title; ?>&nbsp;</td>
+			<?php } else { ?>
+			<td><span class="<?php echo $icon; ?>"></span>&nbsp;<?php echo $title; ?>&nbsp;</td>
+			<td class="ib-col-center" nowrap><?php echo $kind; ?>&nbsp;</td>
+			<td class="ib-col-center"><?php echo h($content['Record']['first_date']); ?>&nbsp;</td>
+			<td class="ib-col-date"><?php echo h($content['Record']['last_date']); ?>&nbsp;</td>
+			<td class="ib-col-center"><?php echo h(Utils::getHNSBySec($content['Record']['study_sec'])); ?>&nbsp;</td>
+			<td class="ib-col-center"><?php echo h($content['Record']['study_count']); ?>&nbsp;</td>
+			<td nowrap class="ib-col-center"><?php echo $understanding; ?></td>
+			<?php } ?>
+		</tr>
 	<?php endforeach; ?>
 	</tbody>
 	</table>

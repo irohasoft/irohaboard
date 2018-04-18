@@ -15,7 +15,7 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	
-	<title><?php echo h(SessionHelper::read('Setting.title')); ?></title>
+	<title><?php echo h($this->Session->read('Setting.title')); ?></title>
 	<meta name="application-name" content="iroha Board">
 	<?php
 		if(
@@ -57,7 +57,7 @@
 	<style>
 		.ib-theme-color
 		{
-			background-color	: <?php echo SessionHelper::read('Setting.color')?>;
+			background-color	: <?php echo h($this->Session->read('Setting.color')); ?>;
 			color				: white;
 		}
 		
@@ -71,7 +71,7 @@
 <body>
 	<div class="header ib-theme-color">
 		<div class="ib-logo ib-left">
-			<a href="<?php echo $this->Html->url('/')?>"><?php echo h(SessionHelper::read('Setting.title')); ?></a>
+			<a href="<?php echo $this->Html->url('/')?>"><?php echo h($this->Session->read('Setting.title')); ?></a>
 		</div>
 <?php
 		if($loginedUser)
@@ -98,7 +98,7 @@
 	</div>
 	
 	<div class="footer ib-theme-color text-center">
-		<?php echo h(SessionHelper::read('Setting.copyright')); ?>
+		<?php echo h($this->Session->read('Setting.copyright')); ?>
 	</div>
 	
 	<div class="irohasoft">

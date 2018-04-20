@@ -148,7 +148,7 @@
 				$title = h($content['Content']['title']);
 				break;
 			case 'test': // テスト
-				$icon  = 'glyphicon glyphicon-edit text-danger';
+				$icon  = 'glyphicon glyphicon-check text-danger';
 				$title = $this->Html->link(
 					$content['Content']['title'], array(
 					'controller' => 'contents_questions',

@@ -123,11 +123,11 @@ class RecordsController extends AppController
 			
 			$fp = fopen('php://output','w');
 			
-			// イベント申込状況を取得
 			$options = array(
 				'conditions' => $conditions
 			);
 			
+			$this->Record->recursive = 0;
 			$rows = $this->Record->find('all', $options);
 			
 			$header = array("コース", "コンテンツ", "氏名", "得点", "合格点", "結果", "完了", "理解度", "学習時間", "学習日時");

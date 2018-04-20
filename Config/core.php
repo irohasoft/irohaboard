@@ -204,12 +204,7 @@
  * the cake shell command: cake schema create Sessions
  */
 	Configure::write('Session', array(
-		'defaults' => 'php',
-		'timeout' => 6 * 60, // 6 hours
-		'autoRegenerate' => true,
-		'ini' => array(
-			'session.gc_maxlifetime' => 6 * 60 * 60, // 6 hours
-		),
+		'defaults' => 'php'
 	));
 
 /**

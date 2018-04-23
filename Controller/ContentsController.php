@@ -24,6 +24,7 @@ class ContentsController extends AppController
 	public $components = array(
 		'Security' => array(
 			'validatePost' => false,
+			'csrfUseOnce' => false,
 			'unlockedActions' => array('admin_order', 'admin_preview', 'admin_upload_image'),
 		),
 	);

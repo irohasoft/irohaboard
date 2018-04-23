@@ -20,6 +20,7 @@ class CoursesController extends AppController
 	 */
 	public $components = array(
 		'Security' => array(
+			'csrfUseOnce' => false,
 			'unlockedActions' => array('admin_order')
 		),
 	);

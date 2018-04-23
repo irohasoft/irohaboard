@@ -23,6 +23,7 @@ class ContentsQuestionsController extends AppController
 	public $components = array(
 		'Security' => array(
 			'validatePost' => false,
+			'csrfUseOnce' => false,
 			'unlockedActions' => array('admin_order')
 		),
 	);

@@ -22,7 +22,9 @@ class UsersController extends AppController
 	public $components = array(
 			'Session',
 			'Paginator',
-			'Security',
+			'Security' => array(
+				'csrfUseOnce' => false,
+			),
 			'Search.Prg',
 			'Cookie',
 			'Auth' => array(

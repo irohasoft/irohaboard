@@ -26,7 +26,9 @@ class InfosController extends AppController
 	 */
 	public $components = array(
 		'Paginator',
-		'Security'
+		'Security' => array(
+			'csrfUseOnce' => false,
+		),
 	);
 
 	/**

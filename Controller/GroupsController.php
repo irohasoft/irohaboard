@@ -15,7 +15,9 @@ class GroupsController extends AppController
 
 	public $components = array(
 		'Paginator',
-		'Security'
+		'Security' => array(
+			'csrfUseOnce' => false,
+		),
 	);
 
 	public function admin_index()

@@ -23,7 +23,9 @@ class SettingsController extends AppController {
  * @var array
  */
 	public $components = array(
-		'Security'
+		'Security' => array(
+			'csrfUseOnce' => false,
+		),
 	);
 
 	public function admin_index()

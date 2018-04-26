@@ -70,6 +70,16 @@ class UsersController extends AppController
 		));
 	}
 
+	public function admin_clear($user_id)
+	{
+		$this->User->deleteUserRecords($user_id);
+		$this->Flash->success(__('学習履歴を削除しました'));
+		return $this->redirect(array(
+			'action' => 'edit',
+			$user_id
+		));
+	}
+
 	public function logout()
 	{
 		$this->Cookie->delete('Auth');
@@ -83,13 +93,16 @@ class UsersController extends AppController
 		
 		// 自動ログイン処理
 		// Check cookie's login info.
-		if ( $this->Cookie->check('Auth') )
+		if($this->Cookie->check('Auth'))
 		{
 			// クッキー上のアカウントでログイン
 			$this->request->data = $this->Cookie->read('Auth');
 			
-			if ( $this->Auth->login() )
+			if($this->Auth->login())
 			{
+				// 最終ログイン日時を保存
+				$this->User->id = $this->Auth->user('id');
+				$this->User->saveField('last_logined', date(DATE_ATOM));
 				return $this->redirect( $this->Auth->redirect());
 			}
 			else
@@ -100,11 +113,11 @@ class UsersController extends AppController
 		}
 		
 		// 通常ログイン処理
-		if ($this->request->is('post'))
+		if($this->request->is('post'))
 		{
-			if ($this->Auth->login())
+			if($this->Auth->login())
 			{
-				if (isset($this->data['User']['remember_me']))
+				if(isset($this->data['User']['remember_me']))
 				{
 					// Remove remember_me data.
 					unset( $this->request->data['User']['remember_me']);
@@ -114,8 +127,8 @@ class UsersController extends AppController
 					$this->Cookie->write( 'Auth', $cookie, true, '+2 weeks');
 				}
 				
-				$this->User->id = $this->Auth->user('id');
 				// 最終ログイン日時を保存
+				$this->User->id = $this->Auth->user('id');
 				$this->User->saveField('last_logined', date(DATE_ATOM));
 				$this->writeLog('user_logined', '');
 				$this->Session->delete('Auth.redirect');
@@ -133,7 +146,6 @@ class UsersController extends AppController
 			{
 				$username = Configure::read('demo_login_id');
 				$password = Configure::read('demo_password');
-				//debug($username);
 			}
 		}
 		
@@ -213,9 +225,6 @@ class UsersController extends AppController
 		$this->set('groups',   $this->User->Group->find('list'));
 		$this->set('users',    $result);
 		$this->set('group_id', $group_id);
-		//$this->set('name',     $name);
-
-		//debug($this->Paginator->paginate());
 	}
 
 	public function admin_edit($id = null)
@@ -284,7 +293,6 @@ class UsersController extends AppController
 			if(Configure::read('demo_mode'))
 				return;
 			
-			//debug($this->request->data);
 			$this->request->data['User']['id'] = $this->Session->read('Auth.User.id');
 			
 			if($this->request->data['User']['new_password'] != $this->request->data['User']['new_password2'])
@@ -327,7 +335,7 @@ class UsersController extends AppController
 		// 初期アカウント作成確認
 		$options = array(
 			'conditions' => array(
-					'User.role' => 'admin'
+				'User.role' => 'admin'
 			)
 		);
 

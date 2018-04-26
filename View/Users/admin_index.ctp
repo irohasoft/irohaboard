@@ -45,7 +45,7 @@
 				'empty' => '全て', 
 				'required'=>false, 
 				'class' => 'form-control',
-				'onchange' => '$("#UserIndexForm").submit();'
+				'onchange' => 'submit(this.form);'
 			));
 			echo $this->Form->input('username',		array('label' => 'ログインID : ', 'required' => false));
 			echo $this->Form->input('name',			array('label' => '氏名 : '  , 'required' => false));

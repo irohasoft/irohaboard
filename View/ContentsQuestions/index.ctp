@@ -154,9 +154,12 @@
 		
 		// 問題IDをキーに問題の成績が参照できる配列を作成
 		$question_records = array();
-		foreach ($record['RecordsQuestion'] as $rec)
+		if($is_record)
 		{
-			$question_records[$rec['question_id']] = $rec;
+			foreach ($record['RecordsQuestion'] as $rec)
+			{
+				$question_records[$rec['question_id']] = $rec;
+			}
 		}
 	?>
 	<?php echo $this->Form->create('ContentsQuestion'); ?>

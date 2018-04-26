@@ -151,6 +151,13 @@
 	
 	<?php
 		$index = 0;
+		
+		// 問題IDをキーに問題の成績が参照できる配列を作成
+		$question_records = array();
+		foreach ($record['RecordsQuestion'] as $rec)
+		{
+			$question_records[$rec['question_id']] = $rec;
+		}
 	?>
 	<?php echo $this->Form->create('ContentsQuestion'); ?>
 		<?php foreach ($contentsQuestions as $contentsQuestion): ?>
@@ -164,15 +171,15 @@
 			$val = 1;
 			$index++;
 			
-			$id = $contentsQuestion['ContentsQuestion']['id'];
+			$question_id = $contentsQuestion['ContentsQuestion']['id'];
 			
 			$option_list = '';
 			foreach($list as $option) {
 				$options[$val] = $option;
 				$is_disabled = ($is_record) ? " disabled" : "";
-				$is_checked = (@$record['RecordsQuestion'][$index-1]['answer']==$val) ? " checked" : "";
+				$is_checked = (@$question_records[$question_id]['answer']==$val) ? " checked" : "";
 				
-				$option_list .= '<input type="radio" value="'.$val.'" name="data[answer_'.$id.']" '.
+				$option_list .= '<input type="radio" value="'.$val.'" name="data[answer_'.$question_id.']" '.
 					$is_checked.$is_disabled.'> '.h($option).'<br>';
 				
 				$val++;
@@ -184,7 +191,7 @@
 			// テスト結果表示モードの場合、正解、解説情報を出力
 			if($is_record)
 			{
-				$result_img		= ($record['RecordsQuestion'][$index-1]['is_correct']=='1') ? 'correct.png' : 'wrong.png';
+				$result_img		= ($question_records[$question_id]['is_correct']=='1') ? 'correct.png' : 'wrong.png';
 				$correct		= $list[$contentsQuestion['ContentsQuestion']['correct']-1];
 				$correct_tag	= '<p class="correct-text bg-success">正解 : '.$correct.'</p>'.
 					'<p>'.$this->Html->image($result_img, array('width'=>'60','height'=>'60')).'</p>';
@@ -208,7 +215,7 @@
 					</div>
 					<?php echo $correct_tag ?>
 					<?php echo $explain_tag ?>
-					<?php echo $this->Form->hidden('correct_'.$id, array('value' => $contentsQuestion['ContentsQuestion']['correct'])); ?>
+					<?php echo $this->Form->hidden('correct_'.$question_id, array('value' => $contentsQuestion['ContentsQuestion']['correct'])); ?>
 				</div>
 			</div>
 		<?php endforeach; ?>

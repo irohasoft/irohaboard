@@ -19,7 +19,7 @@
 	<meta name="application-name" content="iroha Board">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<?php
-		// 受講者向け画面及び、管理システムのログイン画面の場合のみ viewport を設定（スマートフォン対応）
+		// 受講者向け画面及び、管理システムのログイン画面のみ viewport を設定（スマートフォン対応）
 		if(
 			(!$this->params['admin'])||
 			($this->params['action']=='admin_login')
@@ -104,7 +104,7 @@
 	</div>
 	
 	<div class="irohasoft">
-		<a href="http://irohaboard.irohasoft.jp/">iroha Board</a> by <a href="http://irohasoft.jp/">iroha Soft</a>
+		Powered by <a href="http://irohaboard.irohasoft.jp/">iroha Board</a>
 	</div>
 	
 	<?php echo $this->element('sql_dump'); ?>

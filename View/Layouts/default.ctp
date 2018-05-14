@@ -17,6 +17,7 @@
 	
 	<title><?php echo h($this->Session->read('Setting.title')); ?></title>
 	<meta name="application-name" content="iroha Board">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<?php
 		if(
 			($this->params['admin']!=1)||

@@ -91,8 +91,8 @@
 		<th><?php echo $this->Paginator->sort('title',		'タイトル'); ?></th>
 		<th><?php echo $this->Paginator->sort('body',		'問題文'); ?></th>
 		<th><?php echo $this->Paginator->sort('options',	'選択肢'); ?></th>
-		<th><?php echo $this->Paginator->sort('correct',	'正解'); ?></th>
-		<th><?php echo $this->Paginator->sort('score',		'得点'); ?></th>
+		<th width="40" nowap><?php echo $this->Paginator->sort('correct',	'正解'); ?></th>
+		<th width="40" nowap><?php echo $this->Paginator->sort('score',		'得点'); ?></th>
 		<th class="ib-col-date"><?php echo $this->Paginator->sort('created',	'作成日時'); ?></th>
 		<th class="ib-col-date"><?php echo $this->Paginator->sort('modified',	'更新日時'); ?></th>
 		<th class="actions text-center"><?php echo __('Actions'); ?></th>

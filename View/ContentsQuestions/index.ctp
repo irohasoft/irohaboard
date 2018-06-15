@@ -194,7 +194,7 @@
 			// テスト結果表示モードの場合、正解、解説情報を出力
 			if($is_record)
 			{
-				$result_img		= ($question_records[$question_id]['is_correct']=='1') ? 'correct.png' : 'wrong.png';
+				$result_img		= (@$question_records[$question_id]['is_correct']=='1') ? 'correct.png' : 'wrong.png';
 				$correct		= $list[$contentsQuestion['ContentsQuestion']['correct']-1];
 				$correct_tag	= '<p class="correct-text bg-success">正解 : '.$correct.'</p>'.
 					'<p>'.$this->Html->image($result_img, array('width'=>'60','height'=>'60')).'</p>';

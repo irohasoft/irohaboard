@@ -127,12 +127,12 @@ class ContentsController extends AppController
 		$this->render('view');
 	}
 
-	public function admin_delete($id)
+	public function admin_delete($content_id)
 	{
 		if(Configure::read('demo_mode'))
 			return;
 		
-		$this->Content->id = $id;
+		$this->Content->id = $content_id;
 		if (! $this->Content->exists())
 		{
 			throw new NotFoundException(__('Invalid content'));
@@ -141,7 +141,7 @@ class ContentsController extends AppController
 		// コンテンツ情報を取得
 		$content = $this->Content->find('first', array(
 			'conditions' => array(
-				'Content.id' => $id
+				'Content.id' => $content_id
 			)
 		));
 		
@@ -149,6 +149,10 @@ class ContentsController extends AppController
 		
 		if ($this->Content->delete())
 		{
+			// コンテンツに紐づくテスト問題も削除
+			$this->LoadModel('ContentsQuestion');
+			$this->ContentsQuestion->deleteAll(array('ContentsQuestion.content_id' => $content_id), false);
+			$this->request->allowMethod('post', 'delete');
 			$this->Flash->success(__('コンテンツが削除されました'));
 		}
 		else
@@ -248,7 +252,8 @@ class ContentsController extends AppController
 			)
 		));
 		
-		$this->set(compact('course'));
+		$courses = $this->Content->Course->find('list');
+		$this->set(compact('course', 'courses'));
 	}
 
 	public function admin_upload($file_type)

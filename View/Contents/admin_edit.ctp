@@ -49,6 +49,13 @@
 			render();
 		});
 
+		// 保存時、コード表示モードの場合、解除する（編集中の内容を反映するため）
+		$('#ContentAdminEditForm').submit( function() {
+			if ($('#ContentBody').summernote('codeview.isActivated')) {
+				$('#ContentBody').summernote('codeview.deactivate')
+			}
+		});
+
 		render();
 	});
 	
@@ -155,7 +162,7 @@
 				echo $this->Form->input('title',	array('label' => 'コンテンツタイトル'));
 				echo $this->Form->input('kind',	array(
 					'type' => 'radio',
-					'before' => '<label class="col col-md-3 control-label">コンテンツの種類</label>',
+					'before' => '<label class="col col-md-3 control-label">コンテンツ種別</label>',
 					'separator'=>"<br>",
 					'disabled'=>false,
 					'legend' => false,

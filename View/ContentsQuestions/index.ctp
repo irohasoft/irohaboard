@@ -78,12 +78,12 @@
 	<script>
 		var studySec  = 0;
 		var timeLimit = parseInt('<?php echo $content['Content']['timelimit'] ?>');
-		var mode      = '<?php echo $mode ?>';
+		var is_record = '<?php echo $is_record ?>';
 		var timerID   = null;
 		
 		$(document).ready(function()
 		{
-			if(mode=='test')
+			if(!is_record)
 			{
 				setStudySec();
 				timerID = setInterval("setStudySec();", 1000);
@@ -96,7 +96,7 @@
 			
 			if(timeLimit > 0)
 			{
-				if( studySec > (timeLimit*60) )
+				if( studySec > (timeLimit * 60) )
 				{
 					clearInterval(timerID);
 					alert("制限時間を過ぎましたので自動採点を行います。");

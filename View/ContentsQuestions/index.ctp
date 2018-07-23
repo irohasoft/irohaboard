@@ -8,11 +8,11 @@
 	else
 	{
 		$course_url = array('controller' => 'contents', 'action' => 'index', $content['Course']['id']);
-		$this->Html->addCrumb('コース一覧', array('controller' => 'users_courses', 'action' => 'index'));
+		$this->Html->addCrumb(__('コース一覧'), array('controller' => 'users_courses', 'action' => 'index'));
 	}
 	
 	$this->Html->addCrumb($content['Course']['title'], $course_url);
-	$this->Html->addCrumb(h($content['Content']['title']));
+	$this->Html->addCrumb(h($content['Content']['title'])); // addCrumb 内でエスケープされない為、別途エスケープ
 	echo $this->Html->getCrumbs(' / ');
 ?>
 	</ol>
@@ -77,48 +77,52 @@
 	<?php $this->start('script-embedded'); ?>
 	<script>
 		var studySec  = 0;
-		var timeLimit = parseInt('<?php echo $content['Content']['timelimit'] ?>');
-		var is_record = '<?php echo $is_record ?>';
+		var timeLimitSec = parseInt('<?php echo $content['Content']['timelimit'] ?>') * 60; // 制限時間（単位：秒）
+		var is_record = '<?php echo $is_record ?>'; // テスト結果表示フラグ
 		var timerID   = null;
+		var lblStudySec = null;
 		
 		$(document).ready(function()
 		{
+			lblStudySec = $("#lblStudySec");
+			lblStudySec.show();
+			
 			if(!is_record)
 			{
 				setStudySec();
-				timerID = setInterval("setStudySec();", 1000);
+				lblStudySec.show();
+				timerID = setInterval(setStudySec, 1000);
 			}
 		});
 		
 		function setStudySec()
 		{
-			$("#lblStudySec").show();
-			
-			if(timeLimit > 0)
+			if(timeLimitSec > 0)
 			{
-				if( studySec > (timeLimit * 60) )
+				if( studySec > timeLimitSec )
 				{
 					clearInterval(timerID);
 					alert("制限時間を過ぎましたので自動採点を行います。");
 					$("form").submit();
+					return;
 				}
 				
-				var rest_sec = ( (timeLimit * 60) - studySec );
-				var rest = moment("2000/01/01").add('seconds', rest_sec ).format('HH:mm:ss');
+				var restSec = timeLimitSec - studySec;
+				var rest = moment("2000/01/01").add('seconds', restSec ).format('HH:mm:ss');
 				
-				$("#lblStudySec").text("残り時間 : " + rest);
+				lblStudySec.text("残り時間 : " + rest);
 				
-				if(rest_sec < 60)
+				if(restSec < 60)
 				{
-					$("#lblStudySec").removeClass('btn-info');
-					$("#lblStudySec").addClass('btn-danger');
+					if(lblStudySec.hasClass('btn-info'))
+						lblStudySec.removeClass('btn-info').addClass('btn-danger');
 				}
 			}
 			else
 			{
 				var passed = moment("2000/01/01").add('seconds', studySec ).format('HH:mm:ss');
 				
-				$("#lblStudySec").text("経過: " + passed);
+				lblStudySec.text("経過: " + passed);
 			}
 			
 			$("#ContentsQuestionStudySec").val(studySec);
@@ -127,6 +131,7 @@
 	</script>
 	<?php $this->end(); ?>
 
+	<!-- テスト結果ヘッダ表示 -->
 	<?php if($is_record){ ?>
 		<?php
 			$result_color  = ($record['Record']['is_passed']==1) ? 'text-primary' : 'text-danger';
@@ -150,7 +155,7 @@
 	<?php }?>
 	
 	<?php
-		$index = 0;
+		$question_index = 1; // 設問番号
 		
 		// 問題IDをキーに問題の成績が参照できる配列を作成
 		$question_records = array();
@@ -165,67 +170,74 @@
 	<?php echo $this->Form->create('ContentsQuestion'); ?>
 		<?php foreach ($contentsQuestions as $contentsQuestion): ?>
 			<?php
-			$title = h($contentsQuestion['ContentsQuestion']['title']);
-			$image = $contentsQuestion['ContentsQuestion']['image'];
-			$image = ($image=='') ? '' : '<div><img src="'.$image.'"/></div>';
-			$body  = $contentsQuestion['ContentsQuestion']['body'];
-			$list = explode('|', $contentsQuestion['ContentsQuestion']['options']);
+			$title			= $contentsQuestion['ContentsQuestion']['title'];	// 問題のタイトル
+			$body			= $contentsQuestion['ContentsQuestion']['body'];	// 問題文
+			$question_id	= $contentsQuestion['ContentsQuestion']['id'];		// 問題ID
 			
-			$val = 1;
-			$index++;
+			// 問題画像（現在不使用）
+			$image = '';
+			if($contentsQuestion['ContentsQuestion']['image']!='')
+				$image = sprintf('<div><img src="%s"/></div>', $contentsQuestion['ContentsQuestion']['image']);
 			
-			$question_id = $contentsQuestion['ContentsQuestion']['id'];
-			
-			$option_list = '';
-			foreach($list as $option) {
-				$options[$val] = $option;
-				$is_disabled = ($is_record) ? " disabled" : "";
-				$is_checked = (@$question_records[$question_id]['answer']==$val) ? " checked" : "";
+			// 選択肢用の出力タグの生成
+			$option_tag		= ''; // 選択肢用の出力タグ
+			$option_index	= 1; // 選択肢番号
+			$option_list	= explode('|', $contentsQuestion['ContentsQuestion']['options']); // 選択肢リスト
+			foreach($option_list as $option)
+			{
+				$options[$option_index] = $option;
+				$is_disabled = $is_record ? 'disabled' : '';
+				$is_checked = (@$question_records[$question_id]['answer']==$option_index) ? 'checked' : '';
 				
-				$option_list .= '<input type="radio" value="'.$val.'" name="data[answer_'.$question_id.']" '.
-					$is_checked.$is_disabled.'> '.h($option).'<br>';
+				$option_tag .= sprintf('<input type="radio" value="%s" name="data[answer_%s]" %s %s> %s<br>',
+					$option_index, $question_id, $is_checked, $is_disabled, h($option));
 				
-				$val++;
+				$option_index++;
 			}
 			
-			$explain_tag = '';
-			$correct_tag = '';
-			
 			// テスト結果表示モードの場合、正解、解説情報を出力
+			$explain_tag = ''; // 解説用タグ
+			$correct_tag = ''; // 正解用タグ
 			if($is_record)
 			{
 				$result_img		= (@$question_records[$question_id]['is_correct']=='1') ? 'correct.png' : 'wrong.png';
-				$correct		= $list[$contentsQuestion['ContentsQuestion']['correct']-1];
-				$correct_tag	= '<p class="correct-text bg-success">正解 : '.$correct.'</p>'.
-					'<p>'.$this->Html->image($result_img, array('width'=>'60','height'=>'60')).'</p>';
+				$correct		= $option_list[$contentsQuestion['ContentsQuestion']['correct']-1];
+				$correct_tag	= sprintf('<p class="correct-text bg-success">正解 : %s</p><p>%s</p>',
+					$correct, $this->Html->image($result_img, array('width'=>'60','height'=>'60')));
 				
+				// 解説の設定
 				if($contentsQuestion['ContentsQuestion']['explain']!='')
-					$explain_tag = '<div class="correct-text bg-danger">'.$contentsQuestion['ContentsQuestion']['explain'].'</div>';
-				
+				{
+					$explain_tag = sprintf('<div class="correct-text bg-danger">%s</div>',
+						$contentsQuestion['ContentsQuestion']['explain']);
+				}
 			}
 			?>
 			<div class="panel panel-info">
-				<div class="panel-heading">問<?php echo $index;?></div>
+				<div class="panel-heading">問<?php echo $question_index;?></div>
 				<div class="panel-body">
-					<h4><?php echo $title ?></h4>
+					<h4><?php echo h($title) ?></h4>
 					<div class="question-text bg-warning">
 						<?php echo $body ?>
 						<?php echo $image; ?>
 					</div>
 					
 					<div class="radio-group">
-						<?php echo $option_list; ?>
+						<?php echo $option_tag; ?>
 					</div>
 					<?php echo $correct_tag ?>
 					<?php echo $explain_tag ?>
 					<?php echo $this->Form->hidden('correct_'.$question_id, array('value' => $contentsQuestion['ContentsQuestion']['correct'])); ?>
 				</div>
 			</div>
+			<?php $question_index++;?>
 		<?php endforeach; ?>
 
 
 		<?php
 			echo '<div class="form-inline"><!--start-->';
+			
+			// テスト実施の場合のみ、採点ボタンを表示
 			if (!$is_record)
 			{
 				echo $this->Form->hidden('study_sec');

@@ -48,13 +48,17 @@
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
+		echo $this->fetch('css-embedded');
+		echo $this->fetch('script-embedded');
 	?>
-	<?php echo $this -> fetch( 'css-embedded' ); ?>
-	<?php echo $this -> fetch( 'script-embedded' ); ?>
 	<script>
-	setTimeout(function() {
-		$('#flashMessage').fadeOut("slow");
-	}, 1500);
+	// 一定時間経過後、メッセージを閉じる
+	$(document).ready(function()
+	{
+		setTimeout(function() {
+			$('#flashMessage').fadeOut("slow");
+		}, 1500);
+	});
 	</script>
 	<style>
 		.ib-theme-color
@@ -78,11 +82,11 @@
 <?php
 		if($loginedUser)
 		{
-			echo '<div class="ib-navi-item ib-right">'.$this->Html->link('ログアウト', $logoutURL).'</div>';
+			echo '<div class="ib-navi-item ib-right">'.$this->Html->link(__('ログアウト'), $logoutURL).'</div>';
 			echo '<div class="ib-navi-sepa ib-right"></div>';
 			echo '<div class="ib-navi-item ib-right">'.$this->Html->link(__('設定'), array('controller' => 'users', 'action' => 'setting')).'</div>';
 			echo '<div class="ib-navi-sepa ib-right"></div>';
-			echo '<div class="ib-navi-item ib-right">ようこそ '.h($loginedUser["name"]).' さん </div>';
+			echo '<div class="ib-navi-item ib-right">'.__('ようこそ ').h($loginedUser["name"]).' さん </div>';
 		}
 ?>
 	</div>

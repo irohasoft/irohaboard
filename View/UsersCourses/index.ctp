@@ -8,11 +8,6 @@
 
 @media only screen and (max-width:800px)
 {
-	a
-	{
-		display: block;
-	}
-	
 	.list-group-item-text span
 	{
 		display: block;
@@ -45,9 +40,8 @@
 			<?php endforeach; ?>
 			</tbody>
 			</table>
-			<div class="text-right"><a href="<?php echo Router::url(array('controller' => 'infos', 'action' => 'index'));?>">一覧を表示</a></div>
+			<div class="text-right"><?php echo $this->Html->link(__('一覧を表示'), array('controller' => 'infos', 'action' => 'index')); ?></div>
 			<?php }?>
-			
 			<?php echo $no_info;?>
 		</div>
 	</div>
@@ -59,12 +53,12 @@
 		<?php //debug($course)?>
 			<a href="<?php echo Router::url(array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));?>" class="list-group-item">
 				<?php if($course[0]['left_cnt']!=0){?>
-				<button type="button" class="btn btn-danger btn-rest">残り <span class="badge"><?php echo h($course[0]['left_cnt']); ?></span></button>
+				<button type="button" class="btn btn-danger btn-rest"><?php echo __('残り')?> <span class="badge"><?php echo h($course[0]['left_cnt']); ?></span></button>
 				<?php }?>
 				<h4 class="list-group-item-heading"><?php echo h($course['Course']['title']);?></h4>
 				<p class="list-group-item-text">
-					<span>学習開始日: <?php echo h($course['Record']['first_date']); ?></span>
-					<span>最終学習日: <?php echo h($course['Record']['last_date']); ?></span>
+					<span><?php echo __('学習開始日').': '.Utils::getYMD($course['Record']['first_date']); ?></span>
+					<span><?php echo __('最終学習日').': '.Utils::getYMD($course['Record']['last_date']); ?></span>
 				</p>
 			</a>
 		<?php endforeach; ?>

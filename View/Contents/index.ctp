@@ -1,7 +1,7 @@
-<?php //echo ($this->action=='admin_record') ? '' : $this->element('menu');?>
 <?php $this->start('css-embedded'); ?>
 <!--[if !IE]><!-->
 <style>
+/* スマートフォン対応 */
 @media only screen and (max-width:800px)
 {
 	.responsive-table
@@ -54,12 +54,12 @@
 	}
 
 	.responsive-table tbody td:before { width: 100px; display: inline-block;}
-	.responsive-table tbody td:nth-of-type(2):before { width: 100px; display: inline-block; content: "種別 : ";}
-	.responsive-table tbody td:nth-of-type(3):before { content: "学習開始日 : "; }
-	.responsive-table tbody td:nth-of-type(4):before { content: "前回学習日 : "; }
-	.responsive-table tbody td:nth-of-type(5):before { content: "学習時間 : "; }
-	.responsive-table tbody td:nth-of-type(6):before { content: "学習回数 : "; }
-	.responsive-table tbody td:nth-of-type(7):before { content: "理解度 : "; }
+	.responsive-table tbody td:nth-of-type(2):before { width: 100px; display: inline-block; content: "<?php echo __('種別').' : '?>";}
+	.responsive-table tbody td:nth-of-type(3):before { content: "<?php echo __('学習開始日').' : '?>"; }
+	.responsive-table tbody td:nth-of-type(4):before { content: "<?php echo __('前回学習日').' : '?>"; }
+	.responsive-table tbody td:nth-of-type(5):before { content: "<?php echo __('学習時間').' : '?>"; }
+	.responsive-table tbody td:nth-of-type(6):before { content: "<?php echo __('学習回数').' : '?>"; }
+	.responsive-table tbody td:nth-of-type(7):before { content: "<?php echo __('理解度').' : '?>"; }
 	
 	.ib-col-center,
 	.ib-col-date
@@ -67,14 +67,10 @@
 		text-align: left;
 		width:100%;
 	}
-
 }
+
 .content-label
 {
-	/*
-	background: #999;
-	color: #fff;
-	*/
 	font-size: 22px;
 	padding-bottom: 0px;
 }
@@ -96,16 +92,15 @@
 <div class="contents index">
 	<div class="ib-breadcrumb">
 	<?php
-	
+	// 管理者が閲覧する場合、パンくずリストを表示しない
 	if($this->action!='admin_record')
 	{
 		$this->Html->addCrumb('<< '.__('コース一覧'), array(
 			'controller' => 'users_courses',
 			'action' => 'index'
 		));
+		echo $this->Html->getCrumbs(' / ');
 	}
-
-	echo $this->Html->getCrumbs(' / ');
 	?>
 	</div>
 
@@ -136,26 +131,24 @@
 		<tbody>
 	<?php foreach ($contents as $content): ?>
 		<?php
-		$icon   = ''; // アイコン用クラス
-		$title  = ''; // コンテンツタイトル
-		$kind   = h(Configure::read('content_kind.'.$content['Content']['kind'])); // 学習種別
-		$understanding = ''; // 理解度・テスト結果
+		$icon			= ''; // アイコン用クラス
+		$title_link		= ''; // コンテンツタイトル（リンク付き）
+		$kind			= Configure::read('content_kind.'.$content['Content']['kind']); // 学習種別
+		$understanding	= ''; // 理解度・テスト結果
 		
+		//debug($content);
 		// コンテンツの種別
 		switch($content['Content']['kind'])
 		{
-			case 'label': // ラベル
-				$title = h($content['Content']['title']);
-				break;
 			case 'test': // テスト
 				$icon  = 'glyphicon glyphicon-check text-danger';
-				$title = $this->Html->link(
+				$title_link = $this->Html->link(
 					$content['Content']['title'], array(
 					'controller' => 'contents_questions',
 					'action' => 'index',
 					$content['Content']['id']
 				));
-				$kind  = h(Configure::read('content_kind.'.$content['Content']['kind']));
+				$kind  = Configure::read('content_kind.'.$content['Content']['kind']);
 
 				// テスト結果が存在する場合、テスト結果へのリンクを出力
 				if ($content['Record']['record_id'] != null)
@@ -180,15 +173,20 @@
 					$url = FULL_BASE_URL.$url;
 				
 				$icon  = 'glyphicon glyphicon-file text-success';
-				$title = $this->Html->link($content['Content']['title'], $url, array('target'=>'_blank'));
+				$title_link = $this->Html->link(
+					$content['Content']['title'], 
+					$url,
+					array('target'=>'_blank'
+				));
 				break;
 			default : // その他（学習）
 				$icon  = 'glyphicon glyphicon-play-circle text-info';
-				$title = $this->Html->link($content['Content']['title'], array(
-							'controller' => 'contents',
-							'action' => 'view',
-							$content['Content']['id']
-						));
+				$title_link = $this->Html->link(
+					$content['Content']['title'], array(
+					'controller' => 'contents',
+					'action' => 'view',
+					$content['Content']['id']
+				));
 				$kind  =  __('学習'); // 一律学習と表記
 				$understanding = h(Configure::read('record_understanding.'.$content[0]['understanding']));
 				break;
@@ -196,21 +194,23 @@
 		
 		// 学習履歴表示の場合、学習画面へのリンクを出力しない
 		if($this->action=='admin_record')
-			$title = h($content['Content']['title']);
+			$title_link = h($content['Content']['title']);
 		?>
+		<?php if($content['Content']['kind']=='label') { // ラベルの場合、タイトルのみ表示 ?>
 		<tr>
-			<?php if($content['Content']['kind']=='label') {?>
-			<td colspan="7" class="content-label"><?php echo $title; ?>&nbsp;</td>
-			<?php } else { ?>
-			<td><span class="<?php echo $icon; ?>"></span>&nbsp;<?php echo $title; ?>&nbsp;</td>
-			<td class="ib-col-center" nowrap><?php echo $kind; ?>&nbsp;</td>
-			<td class="ib-col-center"><?php echo h($content['Record']['first_date']); ?>&nbsp;</td>
-			<td class="ib-col-date"><?php echo h($content['Record']['last_date']); ?>&nbsp;</td>
+			<td colspan="7" class="content-label"><?php echo h($content['Content']['title']); ?>&nbsp;</td>
+		</tr>
+		<?php }else{?>
+		<tr>
+			<td><span class="<?php echo $icon; ?>"></span>&nbsp;<?php echo $title_link; ?>&nbsp;</td>
+			<td class="ib-col-center" nowrap><?php echo h($kind); ?>&nbsp;</td>
+			<td class="ib-col-date"><?php echo Utils::getYMD($content['Record']['first_date']); ?>&nbsp;</td>
+			<td class="ib-col-date"><?php echo Utils::getYMD($content['Record']['last_date']); ?>&nbsp;</td>
 			<td class="ib-col-center"><?php echo h(Utils::getHNSBySec($content['Record']['study_sec'])); ?>&nbsp;</td>
 			<td class="ib-col-center"><?php echo h($content['Record']['study_count']); ?>&nbsp;</td>
 			<td nowrap class="ib-col-center"><?php echo $understanding; ?></td>
-			<?php } ?>
 		</tr>
+		<?php }?>
 	<?php endforeach; ?>
 	</tbody>
 	</table>

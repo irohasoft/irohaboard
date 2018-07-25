@@ -24,6 +24,7 @@ class UsersController extends AppController
 			'Paginator',
 			'Security' => array(
 				'csrfUseOnce' => false,
+				'unlockedActions' => array('login', 'admin_login'),
 			),
 			'Search.Prg',
 			'Cookie',

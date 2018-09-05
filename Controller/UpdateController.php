@@ -40,7 +40,7 @@ class UpdateController extends AppController
 			
 			if(count($err_statements) > 0)
 			{
-				$this->err_msg = 'クエリの実行中にエラーが発生しました。詳細はデバッグログ(tmp/logs/debug.log)をご確認ください。';
+				$this->err_msg = 'クエリの実行中にエラーが発生しました。詳細はエラーログ(tmp/logs/error.log)をご確認ください。';
 				
 				foreach($err_statements as $err)
 				{
@@ -48,7 +48,7 @@ class UpdateController extends AppController
 				}
 				
 				// デバッグログ
-				$this->log($err, LOG_DEBUG);
+				$this->log($err);
 				$this->error();
 				$this->render('error');
 				return;
@@ -85,7 +85,16 @@ class UpdateController extends AppController
 				}
 				catch (Exception $e)
 				{
-					$err_statements[count($err_statements)] = $statement;
+					// カラム重複追加エラー
+					if($e->errorInfo[0]=='42S21')
+						continue;
+					
+					// ビュー重複追加エラー
+					if($e->errorInfo[0]=='42S01')
+						continue;
+					
+					$error_msg = sprintf("%s\n[Error Code]%s\n[Error Code2]%s\n[SQL]%s", $e->errorInfo[2], $e->errorInfo[0], $e->errorInfo[1], $statement);
+					$err_statements[count($err_statements)] = $error_msg;
 				}
 			}
 		}

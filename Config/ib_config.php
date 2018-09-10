@@ -54,10 +54,14 @@ $config['upload_extensions'] = array(
 	'.docx',
 	'.xls',
 	'.xlsx',
+	'.txt',
 	'.mov',
 	'.mp4',
 	'.wmv',
 	'.asx',
+	'.mp3',
+	'.wma',
+	'.m4a',
 );
 
 $config['upload_image_extensions'] = array(

@@ -2,11 +2,11 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for `ib_users_groups`
 -- ----------------------------
-CREATE TABLE `ib_users_groups` (
+CREATE TABLE IF NOT EXISTS `ib_users_groups` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `user_id` int(8) NOT NULL DEFAULT '0',
   `group_id` int(8) NOT NULL DEFAULT '0',
-  `created` datetime NOT NULL,
+  `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `comment` text,
   PRIMARY KEY (`id`)
@@ -15,13 +15,13 @@ CREATE TABLE `ib_users_groups` (
 -- ----------------------------
 -- Table structure for `ib_users_courses`
 -- ----------------------------
-CREATE TABLE `ib_users_courses` (
+CREATE TABLE IF NOT EXISTS `ib_users_courses` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `user_id` int(8) NOT NULL DEFAULT '0',
   `course_id` int(8) NOT NULL DEFAULT '0',
   `started` date DEFAULT NULL,
   `ended` date DEFAULT NULL,
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `comment` text,
   PRIMARY KEY (`id`)
@@ -30,7 +30,7 @@ CREATE TABLE `ib_users_courses` (
 -- ----------------------------
 -- Table structure for `ib_users`
 -- ----------------------------
-CREATE TABLE `ib_users` (
+CREATE TABLE IF NOT EXISTS `ib_users` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL DEFAULT '',
   `password` varchar(200) NOT NULL DEFAULT '',
@@ -41,7 +41,7 @@ CREATE TABLE `ib_users` (
   `last_logined` datetime DEFAULT NULL,
   `started` datetime DEFAULT NULL,
   `ended` datetime DEFAULT NULL,
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `deleted` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -51,7 +51,7 @@ CREATE TABLE `ib_users` (
 -- ----------------------------
 -- Table structure for `ib_settings`
 -- ----------------------------
-CREATE TABLE `ib_settings` (
+CREATE TABLE IF NOT EXISTS `ib_settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `setting_key` varchar(100) NOT NULL,
   `setting_name` varchar(100) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE `ib_settings` (
 -- ----------------------------
 -- Table structure for `ib_records_questions`
 -- ----------------------------
-CREATE TABLE `ib_records_questions` (
+CREATE TABLE IF NOT EXISTS `ib_records_questions` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `record_id` int(8) NOT NULL DEFAULT '0',
   `question_id` int(8) NOT NULL DEFAULT '0',
@@ -70,14 +70,14 @@ CREATE TABLE `ib_records_questions` (
   `correct` varchar(200) DEFAULT NULL,
   `is_correct` smallint(1) DEFAULT '0',
   `score` int(8) NOT NULL DEFAULT '0',
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `ib_records`
 -- ----------------------------
-CREATE TABLE `ib_records` (
+CREATE TABLE IF NOT EXISTS `ib_records` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `course_id` int(8) NOT NULL DEFAULT '0',
   `user_id` int(8) NOT NULL DEFAULT '0',
@@ -97,7 +97,7 @@ CREATE TABLE `ib_records` (
 -- ----------------------------
 -- Table structure for `ib_infos`
 -- ----------------------------
-CREATE TABLE `ib_infos` (
+CREATE TABLE IF NOT EXISTS `ib_infos` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `body` text,
@@ -113,7 +113,7 @@ CREATE TABLE `ib_infos` (
 -- ----------------------------
 -- Table structure for `ib_infos_groups`
 -- ----------------------------
-CREATE TABLE `ib_infos_groups` (
+CREATE TABLE IF NOT EXISTS `ib_infos_groups` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `info_id` int(8) NOT NULL DEFAULT '0',
   `group_id` int(8) NOT NULL DEFAULT '0',
@@ -127,7 +127,7 @@ CREATE TABLE `ib_infos_groups` (
 -- ----------------------------
 -- Table structure for `ib_groups`
 -- ----------------------------
-CREATE TABLE `ib_groups` (
+CREATE TABLE IF NOT EXISTS `ib_groups` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL DEFAULT '',
   `comment` text,
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `ib_groups_courses` (
   `course_id` int(8) NOT NULL DEFAULT '0',
   `started` date DEFAULT NULL,
   `ended` date DEFAULT NULL,
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `comment` text,
   PRIMARY KEY (`id`)
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `ib_groups_courses` (
 -- ----------------------------
 -- Table structure for `ib_courses`
 -- ----------------------------
-CREATE TABLE `ib_courses` (
+CREATE TABLE IF NOT EXISTS `ib_courses` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL DEFAULT '',
   `introduction` text,
@@ -176,7 +176,7 @@ CREATE TABLE `ib_courses` (
 -- ----------------------------
 -- Table structure for `ib_contents_questions`
 -- ----------------------------
-CREATE TABLE `ib_contents_questions` (
+CREATE TABLE IF NOT EXISTS `ib_contents_questions` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `content_id` int(8) NOT NULL DEFAULT '0',
   `question_type` varchar(20) NOT NULL DEFAULT '',
@@ -197,7 +197,7 @@ CREATE TABLE `ib_contents_questions` (
 -- ----------------------------
 -- Table structure for `ib_logs`
 -- ----------------------------
-CREATE TABLE `ib_logs` (
+CREATE TABLE IF NOT EXISTS `ib_logs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `log_type` varchar(50) DEFAULT NULL,
   `log_content` varchar(1000) DEFAULT NULL,
@@ -212,7 +212,7 @@ CREATE TABLE `ib_logs` (
 -- ----------------------------
 -- Table structure for `ib_contents`
 -- ----------------------------
-CREATE TABLE `ib_contents` (
+CREATE TABLE IF NOT EXISTS `ib_contents` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `course_id` int(8) NOT NULL DEFAULT '0',
   `user_id` int(8) NOT NULL,
@@ -234,7 +234,7 @@ CREATE TABLE `ib_contents` (
 -- ----------------------------
 -- Table structure for `ib_cake_sessions`
 -- ----------------------------
-CREATE TABLE `ib_cake_sessions` (
+CREATE TABLE IF NOT EXISTS `ib_cake_sessions` (
   `id` varchar(255) NOT NULL DEFAULT '',
   `data` text NOT NULL,
   `expires` int(11) DEFAULT NULL,

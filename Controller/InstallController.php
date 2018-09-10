@@ -14,6 +14,7 @@ class InstallController extends AppController
 	var $name = 'Install';
 	var $uses = array();
 	var $helpers = array('Html');
+	var $err_msg = '';
 	var $db   = null;
 	var $path = '';
 	
@@ -36,31 +37,51 @@ class InstallController extends AppController
 	
 	function index()
 	{
-		App::import('Model','ConnectionManager');
-		
 		try
 		{
-			$db = ConnectionManager::getDataSource('default');
+			App::import('Model','ConnectionManager');
+			
+			$this->db   = ConnectionManager::getDataSource('default');
 			$cdd = new DATABASE_CONFIG();
 			
 			//debug($db);
 			$sql = "SHOW TABLES FROM `".$cdd->default['database']."` LIKE 'ib_users'";
-			$data = $db->query($sql);
+			$data = $this->db->query($sql);
 			
 			if (count($data) > 0)
 			{
-				$this->installed();
 				$this->render('installed');
 			}
 			else
 			{
-				$this->__createTables();
-				$this->complete();
-				$this->render('complete');
+				$this->path = APP.DS.'Config'.DS.'app.sql';
+				$err_statements = $this->__executeSQLScript();
+				
+				if(count($err_statements) > 0)
+				{
+					$this->err_msg = 'インストール実行中にエラーが発生しました。詳細はエラーログ(tmp/logs/error.log)をご確認ください。';
+					
+					foreach($err_statements as $err)
+					{
+						$err .= $err."\n";
+					}
+					
+					// デバッグログ
+					$this->log($err);
+					$this->error();
+					$this->render('error');
+					return;
+				}
+				else
+				{
+					$this->complete();
+					$this->render('complete');
+				}
 			}
 		}
 		catch (Exception $e)
 		{
+			$this->err_msg = 'データベースへの接続に失敗しました。<br>Config / database.php ファイル内のデータベースの設定を確認して下さい。';
 			$this->error();
 			$this->render('error');
 		}
@@ -82,6 +103,7 @@ class InstallController extends AppController
 	{
 		$this->set('loginURL', "/users/login/");
 		$this->set('loginedUser', $this->Auth->user());
+		$this->set('body', $this->err_msg);
 	}
 	
 	private function __createTables()
@@ -89,22 +111,41 @@ class InstallController extends AppController
 		App::import('Model','ConnectionManager');
 
 		$this->db   = ConnectionManager::getDataSource('default');
-		$this->path = APP.DS.'Config'.DS.'app.sql';
-		$this->__executeSQLScript();
+		
+		return (count($err_statements) == 0);
 	}
 	
 	private function __executeSQLScript()
 	{
 		$statements = file_get_contents($this->path);
 		$statements = explode(';', $statements);
-
+		$err_statements = array();
+		
 		foreach ($statements as $statement)
 		{
 			if (trim($statement) != '')
 			{
-				$this->db->query($statement);
+				try
+				{
+					$this->db->query($statement);
+				}
+				catch (Exception $e)
+				{
+					// カラム重複追加エラー
+					if($e->errorInfo[0]=='42S21')
+						continue;
+					
+					// ビュー重複追加エラー
+					if($e->errorInfo[0]=='42S01')
+						continue;
+					
+					$error_msg = sprintf("%s\n[Error Code]%s\n[Error Code2]%s\n[SQL]%s", $e->errorInfo[2], $e->errorInfo[0], $e->errorInfo[1], $statement);
+					$err_statements[count($err_statements)] = $error_msg;
+				}
 			}
 		}
+		
+		return $err_statements;
 	}
 }
 ?>

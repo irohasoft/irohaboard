@@ -107,6 +107,9 @@ class InfosController extends AppController
 			if(Configure::read('demo_mode'))
 				return;
 			
+			// 作成者を設定
+			$this->request->data['Info']['user_id'] = $this->Session->read('Auth.User.id');
+			
 			if ($this->Info->save($this->request->data))
 			{
 				$this->Flash->success(__('お知らせが保存されました'));

@@ -84,13 +84,11 @@
 		
 		$(document).ready(function()
 		{
-			lblStudySec = $("#lblStudySec");
-			lblStudySec.show();
-			
 			if(!is_record)
 			{
-				setStudySec();
+				lblStudySec = $("#lblStudySec");
 				lblStudySec.show();
+				setStudySec();
 				timerID = setInterval(setStudySec, 1000);
 			}
 		});

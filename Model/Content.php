@@ -179,6 +179,23 @@ EOF;
 			$this->query($sql, $params);
 		}
 	}
+
+	public function getNextSortNo($course_id)
+	{
+		$options = array(
+			'fields' => 'MAX(Content.sort_no) as sort_no',
+			'conditions' => array(
+				'Content.course_id' => $course_id
+			)
+		);
+		
+		$data = $this->find('first', $options);
+		
+		$sort_no = $data[0]['sort_no'] + 1;
+		
+		return $sort_no;
+	}
+
 	/**
 	 * belongsTo associations
 	 *

@@ -51,8 +51,13 @@
 
 		// 保存時、コード表示モードの場合、解除する（編集中の内容を反映するため）
 		$('#ContentAdminEditForm').submit( function() {
-			if ($('#ContentBody').summernote('codeview.isActivated')) {
-				$('#ContentBody').summernote('codeview.deactivate')
+			var val = $('input[name="data[Content][kind]"]:checked').val();
+			
+			if(val=='html')
+			{
+				if ($('#ContentBody').summernote('codeview.isActivated')) {
+					$('#ContentBody').summernote('codeview.deactivate')
+				}
 			}
 		});
 
@@ -61,53 +66,57 @@
 	
 	function render()
 	{
-		var val = $('input[name="data[Content][kind]"]:checked').val();
+		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
+		
 		$(".kind").hide();
-		$(".kind-"+val).show();
+		$(".kind-"+content_kind).show();
 		
-		if(val=='url')
+		switch(content_kind)
 		{
-			$("input[name='data[Content][url]']").css('width', '100%');
-			$("#btnUpload").hide();
-		}
-		else
-		{
-			$("input[name='data[Content][url]']").css('width', '85%');
-			$("#btnUpload").show();
-		}
-		
-		if(val=='html')
-		{
-			// リッチテキストエディタを起動
-			CommonUtil.setRichTextEditor('#ContentBody', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
-		}
-		else
-		{
-			$("#ContentBody").summernote('destroy');
-			
-			// remove HTML tags
-			if($($("#ContentBody").val()).text()=="")
-				$("#ContentBody").val("");
+			case 'text': // テキスト
+				$("#ContentBody").summernote('destroy');
+				// テキストが存在しない場合、空文字にする。
+				if($('<span>').html($("#ContentBody").val()).text()=="")
+					$("#ContentBody").val("");
+				break;
+			case 'html': // リッチテキスト
+				// リッチテキストエディタを起動
+				CommonUtil.setRichTextEditor('#ContentBody', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
+				break;
+			case 'movie': // 動画
+				$("input[name='data[Content][url]']").css('width', '85%');
+				$("#btnUpload").show();
+				break;
+			case 'url':
+				$("input[name='data[Content][url]']").css('width', '100%');
+				$("#btnUpload").hide();
+				break;
+			case 'file':
+				$("input[name='data[Content][url]']").css('width', '85%');
+				$("#btnUpload").show();
+				break;
+			case 'test':
+				break;
 		}
 	}
 
 	function preview()
 	{
-		var val = $('input[name="data[Content][kind]"]:checked').val();
+		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
 		
-		if(val=='label')
+		if(content_kind=='label')
 		{
 			alert('ラベルはプレビューできません');
 			return;
 		}
 		
-		if(val=='file')
+		if(content_kind=='file')
 		{
 			alert('配布資料はプレビューできません');
 			return;
 		}
 		
-		if(val=='test')
+		if(content_kind=='test')
 		{
 			alert('テストはプレビューできません');
 			return;

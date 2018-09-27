@@ -152,4 +152,20 @@ class ContentsQuestion extends AppModel
 			$this->query($sql, $params);
 		}
 	}
+
+	public function getNextSortNo($content_id)
+	{
+		$options = array(
+			'fields' => 'MAX(ContentsQuestion.sort_no) as sort_no',
+			'conditions' => array(
+				'ContentsQuestion.content_id' => $content_id
+			)
+		);
+		
+		$data = $this->find('first', $options);
+		
+		$sort_no = $data[0]['sort_no'] + 1;
+		
+		return $sort_no;
+	}
 }

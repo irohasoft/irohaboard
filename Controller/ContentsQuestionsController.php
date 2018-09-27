@@ -235,6 +235,7 @@ class ContentsQuestionsController extends AppController
 			{
 				$this->request->data['ContentsQuestion']['user_id'] = $this->Session->read('Auth.User.id');
 				$this->request->data['ContentsQuestion']['content_id'] = $content_id;
+				$this->request->data['ContentsQuestion']['sort_no']   = $this->ContentsQuestion->getNextSortNo($content_id);
 			}
 			
 			if (! $this->ContentsQuestion->validates())

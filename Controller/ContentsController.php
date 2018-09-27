@@ -221,6 +221,7 @@ class ContentsController extends AppController
 			{
 				$this->request->data['Content']['user_id']   = $this->Session->read('Auth.User.id');
 				$this->request->data['Content']['course_id'] = $course_id;
+				$this->request->data['Content']['sort_no']   = $this->Content->getNextSortNo($course_id);
 			}
 			
 			if ($this->Content->save($this->request->data))

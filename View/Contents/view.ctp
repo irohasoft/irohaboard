@@ -81,6 +81,12 @@
 		{
 			display: block;
 		}
+		
+		img,
+		iframe
+		{
+			max-width: 100%;
+		}
 	}
 
 	</style>

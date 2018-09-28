@@ -29,7 +29,6 @@
 
 					$('.content_id').each(function(index)
 					{
-						console.log(this);
 						id_list[id_list.length] = $(this).val();
 					});
 

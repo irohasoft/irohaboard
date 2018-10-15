@@ -25,8 +25,14 @@ class GroupsController extends AppController
 		$this->Group->recursive = 0;
 		
 		$this->Paginator->settings = array(
+			'fields' => array('*', 'GroupCourse.course_title'),
 			'limit' => 20,
 			'order' => 'created desc',
+			'joins' => array(
+				array('type' => 'LEFT OUTER', 'alias' => 'GroupCourse',
+						'table' => '(SELECT gc.group_id, group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_groups_courses gc INNER JOIN ib_courses c ON c.id = gc.course_id  GROUP BY gc.group_id)',
+						'conditions' => 'Group.id = GroupCourse.group_id')
+			)
 		);
 		
 		$this->set('groups', $this->Paginator->paginate());

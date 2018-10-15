@@ -71,8 +71,14 @@ class InfosController extends AppController
 	public function admin_index()
 	{
 		$this->Paginator->settings = array(
+			'fields' => array('*', 'InfoGroup.group_title'),
 			'limit' => 20,
 			'order' => 'Info.created desc',
+			'joins' => array(
+				array('type' => 'LEFT OUTER', 'alias' => 'InfoGroup',
+						'table' => '(SELECT ug.info_id, group_concat(g.title order by g.id SEPARATOR \', \') as group_title FROM ib_infos_groups ug INNER JOIN ib_groups g ON g.id = ug.group_id GROUP BY ug.info_id)',
+						'conditions' => 'Info.id = InfoGroup.info_id'),
+			)
 		);
 		
 		$result = $this->paginate();

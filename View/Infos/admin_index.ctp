@@ -1,4 +1,30 @@
 <?php echo $this->element('admin_menu');?>
+<?php $this->start('css-embedded'); ?>
+<style>
+	p
+	{
+		margin: 0;
+	}
+	
+	.reader
+	{
+		overflow: hidden;
+		width: 100%;
+	}
+	
+	.reader p
+	{
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+	
+	.col-group
+	{
+		width:300px;
+	}
+</style>
+<?php $this->end(); ?>
 <div class="infos index">
 	<div class="ib-page-title"><?php echo __('お知らせ一覧'); ?></div>
 	<div class="buttons_container">
@@ -7,16 +33,18 @@
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
-			<th><?php echo $this->Paginator->sort('title',   __('タイトル')); ?></th>
-			<th class="ib-col-date"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
-			<th class="ib-col-date"><?php echo $this->Paginator->sort('modified', '更新日時'); ?></th>
-			<th class="ib-col-action"><?php echo __('Actions'); ?></th>
+		<th><?php echo $this->Paginator->sort('title',   __('タイトル')); ?></th>
+		<th nowrap><?php echo $this->Paginator->sort('InfoGroup.group_title', '対象グループ'); ?></th>
+		<th class="ib-col-date"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
+		<th class="ib-col-date"><?php echo $this->Paginator->sort('modified', '更新日時'); ?></th>
+		<th class="ib-col-action"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php foreach ($infos as $info): ?>
 	<tr>
 		<td><?php echo h($info['Info']['title']); ?>&nbsp;</td>
+		<td><div class="reader col-group" title="<?php echo h($info['InfoGroup']['group_title']); ?>"><p><?php echo h($info['InfoGroup']['group_title']); ?>&nbsp;</p></td>
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($info['Info']['created']); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($info['Info']['modified']); ?>&nbsp;</td>
 		<td class="ib-col-action">

@@ -103,7 +103,7 @@ class Info extends AppModel
 		}
 		
 		$option = array(
-			'fields' => array('Info.id', 'Info.title', 'Info.created', 'InfoGroup.group_id'),
+			'fields' => array('Info.id', 'Info.title', 'Info.created'),
 			'conditions' => array('OR' => array(
 				array('InfoGroup.group_id' => null), 
 				array('InfoGroup.group_id' => $group_id_list)
@@ -116,7 +116,7 @@ class Info extends AppModel
 					'conditions' => 'Info.id = InfoGroup.info_id'
 				),
 			),
-			'group' => array('Info.id', 'Info.title', 'Info.created', 'InfoGroup.group_id'),
+			'group' => array('Info.id', 'Info.title', 'Info.created'),
 			'order' => array('Info.created' => 'desc'),
 		);
 		

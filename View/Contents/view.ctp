@@ -145,7 +145,7 @@
 			$body = '<iframe id="contentFrame" width="100%" height="100%" scrolling="yes" src="'.h($content['Content']['url']).'"></iframe>';
 			break;
 		case 'movie':
-			$body = '<video src="'.h($content['Content']['url']).'" controls width="100%"></video>';
+			$body = '<video src="'.h($content['Content']['url']).'" controls width="100%" oncontextmenu="return false;"></video>';
 			$td_style = 'vertical-align: middle;';
 			break;
 		case 'text':

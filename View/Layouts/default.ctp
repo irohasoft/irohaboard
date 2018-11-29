@@ -80,7 +80,7 @@
 			<a href="<?php echo $this->Html->url('/')?>"><?php echo h($this->Session->read('Setting.title')); ?></a>
 		</div>
 <?php
-		if($loginedUser)
+		if(@$loginedUser)
 		{
 			echo '<div class="ib-navi-item ib-right">'.$this->Html->link(__('ログアウト'), $logoutURL).'</div>';
 			echo '<div class="ib-navi-sepa ib-right"></div>';

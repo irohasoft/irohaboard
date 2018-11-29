@@ -48,15 +48,18 @@ class InstallController extends AppController
 			$sql = "SHOW TABLES FROM `".$cdd->default['database']."` LIKE 'ib_users'";
 			$data = $this->db->query($sql);
 			
+			// ユーザテーブルが存在する場合、インストール済みと判断
 			if (count($data) > 0)
 			{
 				$this->render('installed');
 			}
 			else
 			{
+				// 各種テーブルの作成
 				$this->path = APP.DS.'Config'.DS.'app.sql';
 				$err_statements = $this->__executeSQLScript();
 				
+				// クエリ実行中にエラーが発生した場合、ログファイルにエラー内容を記録
 				if(count($err_statements) > 0)
 				{
 					$this->err_msg = 'インストール実行中にエラーが発生しました。詳細はエラーログ(tmp/logs/error.log)をご確認ください。';
@@ -78,6 +81,9 @@ class InstallController extends AppController
 					$this->render('complete');
 				}
 			}
+			
+			// 初期管理者アカウントの存在確認および作成
+			$this->__createRootAccount();
 		}
 		catch (Exception $e)
 		{
@@ -109,9 +115,7 @@ class InstallController extends AppController
 	private function __createTables()
 	{
 		App::import('Model','ConnectionManager');
-
 		$this->db   = ConnectionManager::getDataSource('default');
-		
 		return (count($err_statements) == 0);
 	}
 	
@@ -146,6 +150,34 @@ class InstallController extends AppController
 		}
 		
 		return $err_statements;
+	}
+	
+	private function __createRootAccount()
+	{
+		// 管理者アカウントの存在確認
+		$options = array(
+			'conditions' => array(
+				'User.role' => 'admin'
+			)
+		);
+		
+		$this->loadModel('User');
+		$data = $this->User->find('first', $options);
+		
+		//debug($data);
+		if(!$data)
+		{
+			// 管理者アカウントが１つも存在しない場合、初期管理者アカウント root を作成
+			$data = array(
+				'username' => 'root',
+				'password' => 'irohaboard',
+				'name' => 'root',
+				'role' => 'admin',
+				'email' => 'info@example.com'
+			);
+
+			$this->User->save($data);
+		}
 	}
 }
 ?>

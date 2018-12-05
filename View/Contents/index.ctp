@@ -176,8 +176,11 @@
 				$title_link = $this->Html->link(
 					$content['Content']['title'], 
 					$url,
-					array('target'=>'_blank'
-				));
+					array(
+						'target'=>'_blank',
+						'download' => $content['Content']['file_name']
+					)
+				);
 				break;
 			default : // その他（学習）
 				$icon  = 'glyphicon glyphicon-play-circle text-info';

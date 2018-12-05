@@ -25,4 +25,5 @@ CREATE TABLE IF NOT EXISTS `ib_groups_courses` (
 SET FOREIGN_KEY_CHECKS=1;
 
 ALTER TABLE ib_courses ADD COLUMN introduction text AFTER title;
+ALTER TABLE ib_contents ADD COLUMN file_name varchar(200) AFTER url;
 

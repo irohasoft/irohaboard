@@ -289,6 +289,8 @@ class ContentsController extends AppController
 		$fileUpload->setExtension($upload_extensions);
 		$fileUpload->setMaxSize($upload_maxsize);
 		
+		$original_file_name = '';
+		
 		if ($this->request->is(array(
 				'post',
 				'put'
@@ -298,6 +300,8 @@ class ContentsController extends AppController
 				return;
 			
 			$fileUpload->readFile( $this->request->data['Content']['file'] );						//	ファイルの読み込み
+
+			$original_file_name = $this->request->data['Content']['file']['name'];
 
 			$new_name = date("YmdHis").$fileUpload->getExtension( $fileUpload->get_file_name() );	//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
 
@@ -320,6 +324,7 @@ class ContentsController extends AppController
 
 		$this->set('mode',					$mode);
 		$this->set('file_url',				$file_url);
+		$this->set('file_name',				$original_file_name);
 		$this->set('upload_extensions',		join(', ', $upload_extensions));
 		$this->set('upload_maxsize',		$upload_maxsize);
 	}

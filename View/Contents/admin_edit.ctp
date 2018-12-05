@@ -9,6 +9,12 @@
 		widht			: 85%;
 	}
 	
+	.form-control-filename
+	{
+		border			: none !important;
+		box-shadow		: none !important;
+	}
+	
 	label span
 	{
 		font-weight: normal;
@@ -103,7 +109,7 @@
 				break;
 		}
 	}
-
+	
 	function preview()
 	{
 		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
@@ -131,10 +137,13 @@
 			}
 		});
 	}
-
-	function setURL(url)
+	
+	function setURL(url, file_name)
 	{
 		$('.form-control-upload').val(url);
+		
+		if(file_name)
+			$('.form-control-filename').val(file_name);
 	}
 </script>
 <?php $this->end(); ?>
@@ -168,6 +177,10 @@
 
 				echo "<div class='kind kind-movie kind-url kind-file'>";
 				echo $this->Form->input('url',		array('label' => 'URL', 'class' => 'form-control form-control-upload'));
+				echo "</div>";
+				
+				echo "<div class='kind kind-file'>";
+				echo $this->Form->input('file_name', array('label' => 'ファイル名', 'class' => 'form-control-filename', 'readonly' => 'readonly'));
 				echo "</div>";
 
 				echo "<div class='kind kind-text kind-html'>";

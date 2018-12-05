@@ -2,11 +2,13 @@
 <?php $this->start('css-embedded'); ?>
 <?php echo $this->Html->css('summernote.css');?>
 <style type='text/css'>
-	input[name="data[Content][url]"]
+	.form-control-upload
 	{
-		display:inline-block;
-		margin-right:10px;
+		display			: inline-block !important;
+		margin-right	: 10px !important;
+		widht			: 85%;
 	}
+	
 	label span
 	{
 		font-weight: normal;
@@ -22,7 +24,7 @@
 	
 	$(document).ready(function()
 	{
-		$url = $('input[name="data[Content][url]"]');
+		$url = $('.form-control-upload');
 
 		$url.after('<input id="btnUpload" type="button" value="アップロード">');
 
@@ -84,15 +86,15 @@
 				CommonUtil.setRichTextEditor('#ContentBody', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
 				break;
 			case 'movie': // 動画
-				$("input[name='data[Content][url]']").css('width', '85%');
+				$(".form-control-upload").css('width', '85%');
 				$("#btnUpload").show();
 				break;
 			case 'url':
-				$("input[name='data[Content][url]']").css('width', '100%');
+				$(".form-control-upload").css('width', '100%');
 				$("#btnUpload").hide();
 				break;
 			case 'file':
-				$("input[name='data[Content][url]']").css('width', '85%');
+				$(".form-control-upload").css('width', '85%');
 				$("#btnUpload").show();
 				break;
 			case 'test':
@@ -148,7 +150,7 @@
 
 	function setURL(url)
 	{
-		$('input[name="data[Content][url]"]').val(url);
+		$('.form-control-upload').val(url);
 	}
 </script>
 <?php $this->end(); ?>
@@ -181,7 +183,7 @@
 				);
 
 				echo "<div class='kind kind-movie kind-url kind-file'>";
-				echo $this->Form->input('url',		array('label' => 'URL'));
+				echo $this->Form->input('url',		array('label' => 'URL', 'class' => 'form-control form-control-upload'));
 				echo "</div>";
 
 				echo "<div class='kind kind-text kind-html'>";

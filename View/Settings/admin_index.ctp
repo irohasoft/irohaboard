@@ -7,10 +7,10 @@
 		<div class="panel-body">
 			<?php echo $this->Form->create('Setting', Configure::read('form_defaults')); ?>
 			<?php
-				echo $this->Form->input('title',		array('label' => 'システム名', 'value'=>$this->Session->read('Setting.title')));
-				echo $this->Form->input('copyright',	array('label' => 'コピーライト', 'value'=>$this->Session->read('Setting.copyright')));
-				echo $this->Form->input('color',		array('label' => 'テーマカラー', 'options'=>$colors, 'selected'=>$color));
-				echo $this->Form->input('information',	array('label' => '全体のお知らせ', 'value'=>$this->Session->read('Setting.information'), 'type' => 'textarea'));
+				echo $this->Form->input('title',		array('label' => 'システム名',					'value'=>$settings['title']));
+				echo $this->Form->input('copyright',	array('label' => 'コピーライト',				'value'=>$settings['copyright']));
+				echo $this->Form->input('color',		array('label' => 'テーマカラー',				'options'=>$colors, 'selected'=>$settings['color']));
+				echo $this->Form->input('information',	array('label' => '全体のお知らせ',				'value'=>$settings['information'], 'type' => 'textarea'));
 			?>
 			<div class="form-group">
 				<div class="col-sm-offset-3 col col-md-9 col-sm-8">

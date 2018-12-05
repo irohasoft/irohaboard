@@ -16,7 +16,7 @@ class DATABASE_CONFIG {
 		'host' => 'localhost',
 		'login' => 'root',
 		'password' => '',
-		'database' => 'hiiragi2',
+		'database' => 'irohaboard',
 		'prefix' => 'ib_',
 		'encoding' => 'utf8'
 	);

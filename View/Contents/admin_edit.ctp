@@ -19,9 +19,6 @@
 <?php echo $this->Html->script('summernote.min.js');?>
 <?php echo $this->Html->script('lang/summernote-ja-JP.js');?>
 <script>
-	//$('input[name="data[Content][kind]"]:radio').val(['text']);
-	var _editor;
-	
 	$(document).ready(function()
 	{
 		$url = $('.form-control-upload');
@@ -72,6 +69,7 @@
 		
 		$(".kind").hide();
 		$(".kind-"+content_kind).show();
+		$("#btnPreview").hide();
 		
 		switch(content_kind)
 		{
@@ -80,18 +78,22 @@
 				// テキストが存在しない場合、空文字にする。
 				if($('<span>').html($("#ContentBody").val()).text()=="")
 					$("#ContentBody").val("");
+				$("#btnPreview").show();
 				break;
 			case 'html': // リッチテキスト
 				// リッチテキストエディタを起動
 				CommonUtil.setRichTextEditor('#ContentBody', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
+				$("#btnPreview").show();
 				break;
 			case 'movie': // 動画
 				$(".form-control-upload").css('width', '85%');
 				$("#btnUpload").show();
+				$("#btnPreview").show();
 				break;
 			case 'url':
 				$(".form-control-upload").css('width', '100%');
 				$("#btnUpload").hide();
+				$("#btnPreview").show();
 				break;
 			case 'file':
 				$(".form-control-upload").css('width', '85%');
@@ -105,24 +107,6 @@
 	function preview()
 	{
 		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
-		
-		if(content_kind=='label')
-		{
-			alert('ラベルはプレビューできません');
-			return;
-		}
-		
-		if(content_kind=='file')
-		{
-			alert('配布資料はプレビューできません');
-			return;
-		}
-		
-		if(content_kind=='test')
-		{
-			alert('テストはプレビューできません');
-			return;
-		}
 		
 		$.ajax({
 			url: "<?php echo Router::url(array('action' => 'preview')) ?>",
@@ -158,7 +142,7 @@
 <div class="contents form">
 	<?php
 		$this->Html->addCrumb('コース一覧', array('controller' => 'courses', 'action' => 'index'));
-		$this->Html->addCrumb(h($course['Course']['title']));
+		$this->Html->addCrumb($course['Course']['title'],  array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));
 
 		echo $this->Html->getCrumbs(' / ');
 	?>
@@ -201,7 +185,7 @@
 			?>
 			<div class="form-group">
 				<div class="col col-md-9 col-md-offset-3">
-					<button class="btn btn-default" value="プレビュー" onclick="preview(); return false;" type="submit">プレビュー</button>
+					<button id="btnPreview" class="btn btn-default" value="プレビュー" onclick="preview(); return false;" type="submit">プレビュー</button>
 					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>

@@ -10,16 +10,16 @@ http://irohaboard.irohasoft.jp/
 ## デモサイト
 http://demoib.irohasoft.com/
 
-##動作環境
-PHP : 5.3.7以上  
-MySQL : 5.1以上  
-CakePHP : 2.7.x  
+## 動作環境
+PHP : 5.4以上
+MySQL : 5.1以上
+CakePHP : 2.10.x
 
-##インストール方法
-1. iroha Board のソースをダウンロードし、解凍します。  
+## インストール方法
+1. iroha Board のソースをダウンロードし、解凍します。
 https://github.com/irohasoft/irohaboard/releases
-* CakePHP 2.7 のソースをダウンロードし、解凍します。  
-https://github.com/cakephp/cakephp/releases/tag/2.7.11
+* CakePHP 2.10 のソースをダウンロードし、解凍します。
+https://github.com/cakephp/cakephp/releases/tag/2.10.13
 * Webサーバ上の非公開ディレクトリに cake フォルダを作成し、CakePHP 2.7 のソースを全てアップロードします。
 * 公開ディレクトリに irohaBoard をアップロードします。
 * データベース(Config/database.php)の設定を行います。  
@@ -38,14 +38,14 @@ https://github.com/cakephp/cakephp/releases/tag/2.7.11
 画面上にインストール完了のメッセージが表示されればインストールは完了です。
 
 ## 主な機能
-###受講者側
+### 受講者側
 * 学習機能
 * テスト実施機能
 * 自動採点／結果表示機能
 * 学習履歴の表示
 * お知らせの表示
 
-###管理者側
+### 管理者側
 * ユーザ管理
 * グループ管理
 * お知らせ管理

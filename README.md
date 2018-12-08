@@ -8,15 +8,15 @@ http://irohaboard.irohasoft.jp/
 http://demoib.irohasoft.com/
 
 ## System Requirements
-* PHP : 5.3.7 or later (Non-Support PHP7)
+* PHP : 5.4 or later
 * MySQL : 5.1 or later
-* CakePHP : 2.7.x
+* CakePHP : 2.10.x
 
 ## Installation
 1. Download the source of iroha Board.
 https://github.com/irohasoft/irohaboard/releases
 * Download the source of CakePHP.
-https://github.com/cakephp/cakephp/releases/tag/2.7.11
+https://github.com/cakephp/cakephp/releases/tag/2.10.13
 * Make [cake] directory on your web server and upload the source of CakePHP.
 * Upload the source of iroha Board to public direcotry on your web server.  
 /cake  
@@ -53,5 +53,5 @@ Make sure you have created an empty database on you MySQL server.
 ### For administrators.
 - System setting
 
-##License
+## License
 GPLv3

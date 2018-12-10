@@ -20,7 +20,7 @@ CakePHP : 2.10.x
 https://github.com/irohasoft/irohaboard/releases
 * CakePHP 2.10 のソースをダウンロードし、解凍します。
 https://github.com/cakephp/cakephp/releases/tag/2.10.13
-* Webサーバ上の非公開ディレクトリに cake フォルダを作成し、CakePHP 2.7 のソースを全てアップロードします。
+* Webサーバ上の非公開ディレクトリに cake フォルダを作成し、CakePHP 2.10 のソースを全てアップロードします。
 * 公開ディレクトリに irohaBoard をアップロードします。
 * データベース(Config/database.php)の設定を行います。  
   ※事前に空のデータベースを作成しておく必要があります。(推奨文字コード : UTF-8)  

@@ -16,7 +16,7 @@
 		$('#GroupGroup').select2({placeholder:   "所属するグループを選択して下さい。(複数選択可)", closeOnSelect: <?php echo (Configure::read('close_on_select') ? 'true' : 'false'); ?>,});
 		$('#CourseCourse').select2({placeholder: "受講するコースを選択して下さい。(複数選択可)", closeOnSelect: <?php echo (Configure::read('close_on_select') ? 'true' : 'false'); ?>,});
 		// パスワードの自動復元を防止
-		setTimeout('$("#UserNewPassword").val("");',200);
+		setTimeout('$("#UserNewPassword").val("");', 500);
 	});
 <?php $this->Html->scriptEnd(); ?>
 <div class="users form">
@@ -32,7 +32,7 @@
 				
 				echo $this->Form->input('id');
 				echo $this->Form->input('username',				array('label' => 'ログインID'));
-				echo $this->Form->input('User.new_password',	array('label' => $password_label, 'type' => 'password', 'autocomplete' => 'off'));
+				echo $this->Form->input('User.new_password',	array('label' => $password_label, 'type' => 'password', 'autocomplete' => 'new-password'));
 				echo $this->Form->input('name',					array('label' => '氏名'));
 				
 				// root アカウント、もしくは admin 権限以外の場合、権限変更を許可しない

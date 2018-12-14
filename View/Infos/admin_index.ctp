@@ -56,7 +56,7 @@
 			); ?>
 		</td>
 	</tr>
-<?php endforeach; ?>
+	<?php endforeach; ?>
 	</tbody>
 	</table>
 	<?php echo $this->element('paging');?>

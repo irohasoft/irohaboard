@@ -1,49 +1,49 @@
 <?php echo $this->element('admin_menu');?>
 <?php $this->start('script-embedded'); ?>
-	<script>
-		$(function(){
-			$('#sortable-table tbody').sortable(
+<script>
+	$(function(){
+		$('#sortable-table tbody').sortable(
+		{
+			helper: function(event, ui)
 			{
-				helper: function(event, ui)
+				var children = ui.children();
+				var clone = ui.clone();
+
+				clone.children().each(function(index)
 				{
-					var children = ui.children();
-					var clone = ui.clone();
+					$(this).width(children.eq(index).width());
+				});
+				return clone;
+			},
+			update: function(event, ui)
+			{
+				var id_list = new Array();
 
-					clone.children().each(function(index)
-					{
-						$(this).width(children.eq(index).width());
-					});
-					return clone;
-				},
-				update: function(event, ui)
+				$('.course_id').each(function(index)
 				{
-					var id_list = new Array();
+					id_list[id_list.length] = $(this).val();
+				});
 
-					$('.course_id').each(function(index)
-					{
-						id_list[id_list.length] = $(this).val();
-					});
-
-					$.ajax({
-						url: "<?php echo Router::url(array('action' => 'order')) ?>",
-						type: "POST",
-						data: { id_list : id_list },
-						dataType: "text",
-						success : function(response){
-							//通信成功時の処理
-							//alert(response);
-						},
-						error: function(){
-							//通信失敗時の処理
-							//alert('通信失敗');
-						}
-					});
-				},
-				cursor: "move",
-				opacity: 0.5
-			});
+				$.ajax({
+					url: "<?php echo Router::url(array('action' => 'order')) ?>",
+					type: "POST",
+					data: { id_list : id_list },
+					dataType: "text",
+					success : function(response){
+						//通信成功時の処理
+						//alert(response);
+					},
+					error: function(){
+						//通信失敗時の処理
+						//alert('通信失敗');
+					}
+				});
+			},
+			cursor: "move",
+			opacity: 0.5
 		});
-	</script>
+	});
+</script>
 <?php $this->end(); ?>
 <div class="courses index">
 	<div class="ib-page-title"><?php echo __('コース一覧'); ?></div>
@@ -85,7 +85,7 @@
 			}?>
 		</td>
 	</tr>
-<?php endforeach; ?>
+	<?php endforeach; ?>
 	</tbody>
 	</table>
 </div>

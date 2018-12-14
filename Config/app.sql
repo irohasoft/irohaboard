@@ -218,6 +218,7 @@ CREATE TABLE IF NOT EXISTS `ib_contents` (
   `user_id` int(8) NOT NULL,
   `title` varchar(200) NOT NULL DEFAULT '',
   `url` varchar(200) DEFAULT NULL,
+  `file_name` varchar(200) DEFAULT NULL,
   `kind` varchar(20) NOT NULL DEFAULT '',
   `body` text,
   `timelimit` int(8) DEFAULT NULL,

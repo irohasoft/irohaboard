@@ -21,6 +21,7 @@ App::uses('AppModel', 'Model');
  */
 class Course extends AppModel
 {
+	public $order = "Course.sort_no";  
 
 	/**
 	 * Validation rules

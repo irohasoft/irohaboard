@@ -21,6 +21,7 @@ App::uses('AppModel', 'Model');
  */
 class Group extends AppModel
 {
+	public $order = "Group.title";  
 
 	/**
 	 * Validation rules

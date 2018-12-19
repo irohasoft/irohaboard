@@ -130,7 +130,7 @@ class RecordsController extends AppController
 			$this->Record->recursive = 0;
 			$rows = $this->Record->find('all', $options);
 			
-			$header = array("コース", "コンテンツ", "氏名", "得点", "合格点", "結果", "完了", "理解度", "学習時間", "学習日時");
+			$header = array("コース", "コンテンツ", "氏名", "得点", "合格点", "結果", "理解度", "学習時間", "学習日時");
 			
 			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
 			fputcsv($fp, $header);
@@ -144,7 +144,6 @@ class RecordsController extends AppController
 					$row['Record']['score'], 
 					$row['Record']['pass_score'], 
 					Configure::read('record_result.'.$row['Record']['is_passed']), 
-					Configure::read('record_complete.'.$row['Record']['is_complete']), 
 					Configure::read('record_understanding.'.$row['Record']['understanding']), 
 					Utils::getHNSBySec($row['Record']['study_sec']), 
 					Utils::getYMDHN($row['Record']['created']),

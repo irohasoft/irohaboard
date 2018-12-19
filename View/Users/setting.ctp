@@ -19,13 +19,13 @@
 				echo $this->Form->input('User.new_password', array(
 					'label' => '新しいパスワード',
 					'type' => 'password',
-					'autocomplete' => 'off'
+					'autocomplete' => 'new-password'
 				));
 				
 				echo $this->Form->input('User.new_password2', array(
 					'label' => '新しいパスワード (確認用)',
 					'type' => 'password',
-					'autocomplete' => 'off'
+					'autocomplete' => 'new-password'
 				));
 			?>
 			<div class="form-group">

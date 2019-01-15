@@ -32,12 +32,17 @@ class SettingsController extends AppController {
 	{
 		if ($this->request->is(array('post', 'put')))
 		{
+			if(Configure::read('demo_mode'))
+				return;
+			
 			$this->Setting->setSettings($this->request->data['Setting']);
 			
 			foreach ($this->request->data['Setting'] as $key => $value)
 			{
 				$this->Session->Write('Setting.'.$key, $value);
 			}
+			
+			$this->Flash->success(__('設定が保存されました'));
 		}
 		
 		$this->Setting->recursive = 0;

@@ -185,6 +185,9 @@ class UsersController extends AppController
 		if($group_id != "")
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 		
+		$this->User->virtualFields['group_title']  = 'UserGroup.group_title'; // 外部結合テーブルのフィールドによるソート用
+		$this->User->virtualFields['course_title'] = 'UserCourse.course_title'; // 外部結合テーブルのフィールドによるソート用
+		
 		$this->paginate = array(
 			'User' => array(
 				'fields' => array('*', 'UserGroup.group_title', 'UserCourse.course_title'),
@@ -208,19 +211,8 @@ class UsersController extends AppController
 		catch (Exception $e)
 		{
 			// 指定したページが存在しなかった場合（主に検索条件変更時に発生）、1ページ目を設定
-			$this->request->params['named']['page']=1;
+			$this->request->params['named']['page'] = 1;
 			$result = $this->paginate();
-		}
-
-		// 独自カラムの場合、自動でソートされないため、個別の実装が必要
-		if (isset($this->request->named['sort']) && $this->request->named['sort'] == 'UserGroup.group_title')
-		{
-			$result = Set::sort($result, '/UserGroup/group_title', $this->request->named['direction']);
-		}
-
-		if (isset($this->request->named['sort']) && $this->request->named['sort'] == 'UserCourse.course_title')
-		{
-			$result = Set::sort($result, '/UserCourse/course_title', $this->request->named['direction']);
 		}
 
 		$this->set('groups',   $this->User->Group->find('list'));

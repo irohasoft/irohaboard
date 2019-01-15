@@ -70,6 +70,8 @@ class InfosController extends AppController
 
 	public function admin_index()
 	{
+		$this->Info->virtualFields['group_title'] = 'InfoGroup.group_title'; // 外部結合テーブルのフィールドによるソート用
+		
 		$this->Paginator->settings = array(
 			'fields' => array('*', 'InfoGroup.group_title'),
 			'limit' => 20,

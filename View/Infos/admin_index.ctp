@@ -34,7 +34,7 @@
 	<thead>
 	<tr>
 		<th><?php echo $this->Paginator->sort('title',   __('タイトル')); ?></th>
-		<th nowrap><?php echo __('対象グループ'); ?></th>
+		<th nowrap><?php echo $this->Paginator->sort('group_title', '対象グループ'); ?></th>
 		<th class="ib-col-date"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
 		<th class="ib-col-date"><?php echo $this->Paginator->sort('modified', '更新日時'); ?></th>
 		<th class="ib-col-action"><?php echo __('Actions'); ?></th>

@@ -61,8 +61,8 @@
 		<th nowrap><?php echo $this->Paginator->sort('username', 'ログインID'); ?></th>
 		<th nowrap class="col-width"><?php echo $this->Paginator->sort('name', '氏名'); ?></th>
 		<th nowrap><?php echo $this->Paginator->sort('role', '権限'); ?></th>
-		<th nowrap><?php echo __('所属グループ'); ?></th>
-		<th nowrap class="ib-col-datetime"><?php echo __('受講コース'); ?></th>
+		<th nowrap><?php echo $this->Paginator->sort('group_title', '所属グループ'); ?></th>
+		<th nowrap class="ib-col-datetime"><?php echo $this->Paginator->sort('course_title', '受講コース'); ?></th>
 		<th class="ib-col-datetime"><?php echo $this->Paginator->sort('last_logined', '最終ログイン日時'); ?></th>
 		<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
 		<th class="ib-col-action"><?php echo __('Actions'); ?></th>

@@ -124,7 +124,8 @@ class RecordsController extends AppController
 			$fp = fopen('php://output','w');
 			
 			$options = array(
-				'conditions' => $conditions
+				'conditions'	=> $conditions,
+				'order'			=> 'Record.created desc'
 			);
 			
 			$this->Record->recursive = 0;

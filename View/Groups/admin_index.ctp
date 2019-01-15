@@ -35,7 +35,7 @@
 	<thead>
 	<tr>
 		<th><?php echo $this->Paginator->sort('title', 'グループ名'); ?></th>
-		<th nowrap class="col-course"><?php echo __('受講コース'); ?></th>
+		<th nowrap class="col-course"><?php echo $this->Paginator->sort('course_title', '受講コース'); ?></th>
 		<th class="ib-col-date"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
 		<th class="ib-col-date"><?php echo $this->Paginator->sort('modified', '更新日時'); ?></th>
 		<th class="ib-col-action"><?php echo __('Actions'); ?></th>

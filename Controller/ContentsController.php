@@ -29,15 +29,15 @@ class ContentsController extends AppController
 		),
 	);
 
-	public function index($id, $user_id = null)
+	public function index($course_id, $user_id = null)
 	{
-		$id = intval($id);
+		$course_id = intval($course_id);
 		
 		// コースの情報を取得
 		$this->loadModel('Course');
 		$course = $this->Course->find('first', array(
 			'conditions' => array(
-				'Course.id' => $id
+				'Course.id' => $course_id
 			)
 		));
 		
@@ -50,27 +50,27 @@ class ContentsController extends AppController
 			($this->action == 'admin_record')
 		)
 		{
-			$contents = $this->Content->getContentRecord($user_id, $id);
+			$contents = $this->Content->getContentRecord($user_id, $course_id, $role);
 		}
 		else
 		{
 			// コースの閲覧権限の確認
-			if(! $this->Course->hasRight($this->Session->read('Auth.User.id'), $id))
+			if(! $this->Course->hasRight($this->Session->read('Auth.User.id'), $course_id))
 			{
 				throw new NotFoundException(__('Invalid access'));
 			}
 			
-			$contents = $this->Content->getContentRecord($this->Session->read('Auth.User.id'), $id);
+			$contents = $this->Content->getContentRecord($this->Session->read('Auth.User.id'), $course_id, $role);
 		}
 		
 		$this->set(compact('course', 'contents'));
 	}
 
-	public function view($id)
+	public function view($content_id)
 	{
-		$id = intval($id);
+		$content_id = intval($content_id);
 		
-		if (! $this->Content->exists($id))
+		if (! $this->Content->exists($content_id))
 		{
 			throw new NotFoundException(__('Invalid content'));
 		}
@@ -80,7 +80,7 @@ class ContentsController extends AppController
 
 		$options = array(
 			'conditions' => array(
-				'Content.' . $this->Content->primaryKey => $id
+				'Content.' . $this->Content->primaryKey => $content_id
 			)
 		);
 		

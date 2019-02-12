@@ -27,3 +27,5 @@ SET FOREIGN_KEY_CHECKS=1;
 ALTER TABLE ib_courses ADD COLUMN introduction text AFTER title;
 ALTER TABLE ib_contents ADD COLUMN file_name varchar(200) AFTER url;
 
+ALTER TABLE ib_contents ADD COLUMN status int(1) NOT NULL DEFAULT '1' AFTER pass_rate;
+UPDATE ib_contents SET status = 1 WHERE status IS NULL;

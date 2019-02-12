@@ -223,6 +223,7 @@ CREATE TABLE IF NOT EXISTS `ib_contents` (
   `body` text,
   `timelimit` int(8) DEFAULT NULL,
   `pass_rate` int(8) DEFAULT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
   `opened` datetime DEFAULT NULL,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,

@@ -66,6 +66,19 @@ class Content extends AppModel
 					// 'update' operations
 										)
 			),
+			'status' => array(
+					'notBlank' => array(
+							'rule' => array(
+									'notBlank'
+							)
+					// 'message' => 'Your custom message here',
+					// 'allowEmpty' => false,
+					// 'required' => false,
+					// 'last' => false, // Stop validation after this rule
+					// 'on' => 'create', // Limit validation to 'create' or
+					// 'update' operations
+										)
+			),
 			'timelimit' => array(
 					'numeric' => array(
 						'rule' => array('range', -1, 101),
@@ -116,7 +129,7 @@ class Content extends AppModel
 			),
 	);
 
-	public function getContentRecord($user_id, $course_id)
+	public function getContentRecord($user_id, $course_id, $role = 'user')
 	{
 		$sql = <<<EOF
  SELECT Content.*, first_date, last_date, record_id, Record.study_sec, Record.study_count,
@@ -147,6 +160,7 @@ class Content extends AppModel
      ON Record.content_id  = Content.id
     AND Record.user_id     =:user_id
   WHERE Content.course_id  =:course_id
+    AND (status = 1 OR 'admin' = :role)
   ORDER BY Content.sort_no
 EOF;
 		// debug($user_id);
@@ -154,7 +168,8 @@ EOF;
 		$params = array(
 //				'group_id' => $group_id,
 				'user_id' => $user_id,
-				'course_id' => $course_id
+				'course_id' => $course_id,
+				'role' => $role
 		);
 
 		$data = $this->query($sql, $params);

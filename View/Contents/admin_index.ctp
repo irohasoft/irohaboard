@@ -73,6 +73,7 @@
 	<tr>
 		<th>コンテンツ名</th>
 		<th>コンテンツ種別</th>
+		<th>ステータス</th>
 		<th class="ib-col-date">作成日時</th>
 		<th class="ib-col-date">更新日時</th>
 		<th class="ib-col-action"><?php echo __('Actions'); ?></th>
@@ -94,6 +95,7 @@
 	<tr>
 		<td><?php echo $title; ?></td>
 		<td><?php echo h(Configure::read('content_kind.'.$content['Content']['kind'])); ?>&nbsp;</td>
+		<td><?php echo h(Configure::read('content_status.'.$content['Content']['status'])); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($content['Content']['created']); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($content['Content']['modified']); ?>&nbsp;</td>
 		<td class="ib-col-action">

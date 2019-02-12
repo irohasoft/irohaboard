@@ -15,9 +15,10 @@
 		box-shadow		: none !important;
 	}
 	
-	label span
+	label span,
+	.status-exp
 	{
-		font-weight: normal;
+		font-weight		: normal;
 	}
 </style>
 <?php $this->end(); ?>
@@ -191,6 +192,18 @@
 				echo $this->Form->input('timelimit', array('label' => '制限時間 (0-100分)'));
 				echo $this->Form->input('pass_rate', array('label' => '合格とする得点率 (0-100%)'));
 				echo "</span>";
+
+				echo $this->Form->input('status',	array(
+					'type' => 'radio',
+					'before' => '<label class="col col-md-3 col-sm-4 control-label">ステータス</label>',
+					'after' => '<div class="col col-md-3 col-sm-4"></div><span class="status-exp">　非公開と設定した場合、管理者権限でログインした場合のみ表示されます。</span>',
+					'separator' => '　', 
+					'legend' => false,
+					'class' => false,
+					'default' => 1,
+					'options' => Configure::read('content_status')
+					)
+				);
 
 				echo "<span class='kind kind-text kind-html kind-movie kind-url kind-file kind-test'>";
 				echo $this->Form->input('comment', array('label' => '備考'));

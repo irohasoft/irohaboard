@@ -167,7 +167,7 @@
 				echo $this->Form->input('title',	array('label' => 'コンテンツタイトル'));
 				echo $this->Form->input('kind',	array(
 					'type' => 'radio',
-					'before' => '<label class="col col-md-3 control-label">コンテンツ種別</label>',
+					'before' => '<label class="col col-md-3 col-sm-4 control-label">コンテンツ種別</label>',
 					'separator'=>"<br>",
 					'disabled'=>false,
 					'legend' => false,

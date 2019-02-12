@@ -164,6 +164,11 @@ form .required .control-label:after
 	padding				: 10px;
 }
 
+.ib-horizontal
+{
+	min-width: 1100px;
+}
+
 .ib-horizontal .input
 {
 	/*

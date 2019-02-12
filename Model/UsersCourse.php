@@ -81,6 +81,7 @@ class UsersCourse extends AppModel
 			   FROM ib_records r
 			  INNER JOIN ib_contents c ON r.content_id = c.id
 			  WHERE r.user_id = :user_id
+			    AND status = 1
 			  GROUP BY r.course_id, r.content_id) as c
 		 GROUP BY course_id) StudyCount
      ON StudyCount.course_id   = Course.id
@@ -88,6 +89,7 @@ class UsersCourse extends AppModel
 		(SELECT course_id, COUNT(*) as content_cnt
 		   FROM ib_contents
 		  WHERE kind NOT IN ('label', 'file')
+		    AND status = 1
 		  GROUP BY course_id) ContentCount
      ON ContentCount.course_id   = Course.id
   WHERE id IN (SELECT course_id FROM ib_users_groups ug INNER JOIN ib_groups_courses gc ON ug.group_id = gc.group_id WHERE user_id = :user_id)

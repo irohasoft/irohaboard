@@ -1,0 +1,56 @@
+@charset "utf-8";
+/**
+ * iroha Board Project
+ *
+ * @author        Kotaro Miura
+ * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
+ * @link          http://irohaboard.irohasoft.jp
+ * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ */
+
+#container,
+.header,
+.footer
+{
+	min-width			: 1100px;
+}
+
+.navbar-toggle
+{
+	display: none;
+}
+
+.collapse
+{
+	display: block;
+	border-color:transparent;
+}
+
+.navbar-right
+{
+	float: right;
+}
+
+.navbar-header
+{
+	float: left;
+}
+
+.navbar-nav
+{
+	margin:0 -15px 0 0;
+}
+
+.navbar-nav>li>a
+{
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+@media (min-width: 768px)
+{
+	.container
+	{
+		width: initial;
+	}
+}

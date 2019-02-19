@@ -19,21 +19,22 @@
 	<meta name="application-name" content="iroha Board">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<?php
+		// 管理画面フラグ
+		$is_admin_page = (($this->params['admin']==1)&&($this->params['action']!='admin_login'));
+		
 		// 受講者向け画面及び、管理システムのログイン画面のみ viewport を設定（スマートフォン対応）
-		if(
-			(!$this->params['admin'])||
-			($this->params['action']=='admin_login')
-		)
-		{
+		if(!$is_admin_page)
 			echo '<meta name="viewport" content="width=device-width,initial-scale=1">';
-		}
 		
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('jquery-ui');
 		echo $this->Html->css('bootstrap.min');
-		echo $this->Html->css('common');
+		echo $this->Html->css('common.css');
+		
+		if($is_admin_page)
+			echo $this->Html->css('admin.css');
 
 		echo $this->Html->script('jquery-1.9.1.min.js');
 		echo $this->Html->script('jquery-ui-1.9.2.min.js');

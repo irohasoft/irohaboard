@@ -98,8 +98,12 @@
 		setInterval("studySec++;", 1000);
 	});
 
+	// 学習終了
 	function finish(val)
 	{
+		// 学習履歴の重複記録防止の為、ボタンを無効化
+		$('.btn').prop('disabled', true);
+		
 		// プレビューの場合、学習履歴を保存しない
 		if(location.href.indexOf('preview') > 0)
 		{

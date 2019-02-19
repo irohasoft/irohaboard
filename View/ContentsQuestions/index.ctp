@@ -93,6 +93,7 @@
 			}
 		});
 		
+		// 学習時間の更新
 		function setStudySec()
 		{
 			if(timeLimitSec > 0)
@@ -125,6 +126,16 @@
 			
 			$("#ContentsQuestionStudySec").val(studySec);
 			studySec++;
+		}
+		
+		// 採点
+		function sendData()
+		{
+			// 重複送信防止の為、ボタンを無効化
+			$('.btn').prop('disabled', true);
+			
+			$('form').submit();
+			return;
 		}
 	</script>
 	<?php $this->end(); ?>
@@ -262,7 +273,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
-				<button type="button" class="btn btn-primary btn-score" onclick="$('form').submit();">採点</button>
+				<button type="button" class="btn btn-primary btn-score" onclick="sendData();">採点</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

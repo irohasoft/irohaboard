@@ -19,21 +19,9 @@
 				echo $this->Form->input('title',	array('label' => __('グループ名')));
 				echo $this->Form->input('Course',	array('label' => __('受講コース'),		'size' => 20));
 				echo $this->Form->input('comment',	array('label' => __('備考')));
-				/*
-				echo $this->Form->input('status',	array(
-					'type' => 'radio',
-					'before' => '<label class="col col-md-3 control-label">公開設定</label>',
-					'separator'=>"　", 
-					'disabled'=>false, 
-					'legend' => false,
-					'class' => false,
-					'options' => Configure::read('group_status')
-					)
-				);
-				*/
 			?>
 			<div class="form-group">
-				<div class="col col-md-9 col-md-offset-3">
+				<div class="col col-sm-9 col-sm-offset-3">
 					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>

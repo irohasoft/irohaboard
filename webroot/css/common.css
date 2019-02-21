@@ -55,7 +55,8 @@ div.buttons_container
 	position			: absolute;
 	top					: 50px;
 	margin				: auto 25px;
-	width				: 1150px;
+	width				: 95%;
+	max-width			: 1150px;
 	z-index				: 999999;
 }
 
@@ -162,11 +163,6 @@ form .required .control-label:after
 .breadcrumb
 {
 	padding				: 10px;
-}
-
-.ib-horizontal
-{
-	min-width: 1100px;
 }
 
 .ib-horizontal .input

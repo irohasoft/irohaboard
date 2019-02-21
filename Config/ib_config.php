@@ -102,9 +102,9 @@ $config['form_defaults'] = array(
 	'inputDefaults' => array(
 		'div' => 'form-group',
 		'label' => array(
-			'class' => 'col col-md-3 col-sm-4 control-label'
+			'class' => 'col col-sm-3 control-label'
 		),
-		'wrapInput' => 'col col-md-9 col-sm-8',
+		'wrapInput' => 'col col-sm-9',
 		'class' => 'form-control'
 	),
 	'class' => 'form-horizontal'

@@ -19,7 +19,7 @@
 				));
 			?>
 			<div class="form-group">
-				<div class="col col-md-9 col-md-offset-3">
+				<div class="col col-sm-9 col-sm-offset-3">
 					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>

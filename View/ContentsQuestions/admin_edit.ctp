@@ -179,8 +179,8 @@
 				//echo $this->Form->input('image',	array('label' => __('画像URL')));
 			?>
 			<div class="form-group required">
-				<label for="ContentsQuestionOptions" class="col col-md-3 col-sm-4 control-label">選択肢／正解</label>
-				<div class="col col-md-9 col-sm-8 required">
+				<label for="ContentsQuestionOptions" class="col col-sm-3 control-label">選択肢／正解</label>
+				<div class="col col-sm-9 required">
 				「＋」で選択肢の追加、「−」で選択された選択肢を削除します。（※最大10まで）<br>
 				また選択された選択肢が正解となります。<br>
 				<input type="text" size="20" name="option" style="width:200px;display:inline-block;">
@@ -206,7 +206,7 @@
 				echo $this->Form->input('comment',	array('label' => __('備考')));
 			?>
 			<div class="form-group">
-				<div class="col col-md-9 col-md-offset-3">
+				<div class="col col-sm-9 col-sm-offset-3">
 					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>

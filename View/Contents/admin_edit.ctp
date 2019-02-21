@@ -167,7 +167,7 @@
 				echo $this->Form->input('title',	array('label' => 'コンテンツタイトル'));
 				echo $this->Form->input('kind',	array(
 					'type' => 'radio',
-					'before' => '<label class="col col-md-3 col-sm-4 control-label">コンテンツ種別</label>',
+					'before' => '<label class="col col-sm-3 control-label">コンテンツ種別</label>',
 					'separator'=>"<br>",
 					'disabled'=>false,
 					'legend' => false,
@@ -195,8 +195,8 @@
 
 				echo $this->Form->input('status',	array(
 					'type' => 'radio',
-					'before' => '<label class="col col-md-3 col-sm-4 control-label">ステータス</label>',
-					'after' => '<div class="col col-md-3 col-sm-4"></div><span class="status-exp">　非公開と設定した場合、管理者権限でログインした場合のみ表示されます。</span>',
+					'before' => '<label class="col col-sm-3 control-label">ステータス</label>',
+					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　非公開と設定した場合、管理者権限でログインした場合のみ表示されます。</span>',
 					'separator' => '　', 
 					'legend' => false,
 					'class' => false,
@@ -210,7 +210,7 @@
 				echo "</span>";
 			?>
 			<div class="form-group">
-				<div class="col col-md-9 col-md-offset-3">
+				<div class="col col-sm-9 col-sm-offset-3">
 					<button id="btnPreview" class="btn btn-default" value="プレビュー" onclick="preview(); return false;" type="submit">プレビュー</button>
 					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 				</div>

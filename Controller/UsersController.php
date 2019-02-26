@@ -204,20 +204,22 @@ class UsersController extends AppController
 				))
 		);
 
+		// ユーザ一覧を取得
 		try
 		{
-			$result = $this->paginate();
+			$users = $this->paginate();
 		}
 		catch (Exception $e)
 		{
 			// 指定したページが存在しなかった場合（主に検索条件変更時に発生）、1ページ目を設定
 			$this->request->params['named']['page'] = 1;
-			$result = $this->paginate();
+			$users = $this->paginate();
 		}
-
-		$this->set('groups',   $this->User->Group->find('list'));
-		$this->set('users',    $result);
-		$this->set('group_id', $group_id);
+		
+		// グループ一覧を取得
+		$groups = $this->Group->find('list');
+		
+		$this->set(compact('groups', 'users', 'group_id'));
 	}
 
 	public function admin_edit($id = null)

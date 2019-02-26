@@ -23,6 +23,8 @@ class UsersCoursesController extends AppController
 
 	public function index()
 	{
+		$user_id = $this->Session->read('Auth.User.id');
+		
 		// 全体のお知らせの取得
 		App::import('Model', 'Setting');
 		$this->Setting = new Setting();
@@ -37,7 +39,7 @@ class UsersCoursesController extends AppController
 		
 		// お知らせ一覧を取得
 		$this->loadModel('Info');
-		$infos = $this->Info->getInfos($this->Session->read('Auth.User.id'), 2);
+		$infos = $this->Info->getInfos($user_id, 2);
 		
 		$no_info = "";
 		
@@ -46,7 +48,7 @@ class UsersCoursesController extends AppController
 			$no_info = "お知らせはありません";
 		
 		// 受講コース情報の取得
-		$courses = $this->UsersCourse->getCourseRecord( $this->Session->read('Auth.User.id') );
+		$courses = $this->UsersCourse->getCourseRecord($user_id);
 		
 		$no_record = "";
 		

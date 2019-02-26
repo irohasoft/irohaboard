@@ -124,18 +124,8 @@ class AppController extends Controller
 			$this->set('loginURL', "/admin/users/login/");
 			$this->set('logoutURL', "/admin/users/logout/");
 			
-			// グループ一覧を共通で保持する
+			// グループモデルを共通で保持する
 			$this->loadModel('Group');
-			$group_list = $this->Group->find('all');
-			
-			$this->set('group_list', 
-					$this->Group->find('list', 
-							array(
-									'fields' => array(
-											'id',
-											'title'
-									)
-							)));
 		}
 		else
 		{

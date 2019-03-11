@@ -2,9 +2,10 @@
 <html>
 <head>
 	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo $content['Content']['title']; ?>
-	</title>
+	
+	<title><?php echo $content['Content']['title']; ?></title>
+	<meta name="application-name" content="iroha Board">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<?php
 		echo $this->Html->meta('icon');
@@ -12,7 +13,7 @@
 		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('jquery-ui');
 		echo $this->Html->css('bootstrap.min');
-		echo $this->Html->css('common');
+		echo $this->Html->css('common.css');
 
 		echo $this->Html->script('jquery-1.9.1.min.js');
 		echo $this->Html->script('jquery-ui-1.9.2.min.js');
@@ -22,9 +23,9 @@
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
+		echo $this->fetch('css-embedded');
+		echo $this->fetch('script-embedded');
 	?>
-	<?php echo $this -> fetch( 'css-embedded' ); ?>
-	<?php echo $this -> fetch( 'script-embedded' ); ?>
 	<style>
 	html, body
 	{

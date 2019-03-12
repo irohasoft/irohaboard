@@ -8,9 +8,11 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-if (version_compare(PHP_VERSION, '5.3.0') <= 0)
+// PHPのバージョンチェック
+if (version_compare(PHP_VERSION, '5.4.0') <= 0)
 {
-	echo "ERROR-001 : iroha Board の動作には 5.3.0 以上が必要です。現在のバージョンは " . PHP_VERSION . " です。\n";
+	header('Content-Type: text/html; charset=UTF-8');
+	echo "ERROR-001 : iroha Board の動作には 5.4.0 以上が必要です。現在のバージョンは " . PHP_VERSION . " です。\n";
 	exit;
 }
 
@@ -32,23 +34,23 @@ if (!defined('DS'))
  */
 
 /**
- * 1. ルートディレクトリのパスの設定
+ * 1. iroha Board のルートディレクトリのパスの設定
  */
 if (!defined('ROOT'))
 {
-	// webroot ディレクトリがアプリケーションディレクトリ内に存在する場合
+	// webroot ディレクトリがアプリケーションディレクトリ(Model, Contoller, View などを格納しているディレクトリ)内に存在する場合
 	define('ROOT', dirname(dirname(dirname(__FILE__))));
 	
-	// webroot と app ディレクトリを分離する場合 (cake フォルが1階層上の場合)
-	//define('ROOT', dirname(dirname(__FILE__)).DS.'cake');
-	
-	// webroot と app ディレクトリを分離する場合 (cake フォルが2階層上の場合)
-	//define('ROOT', dirname(dirname(dirname(__FILE__))).DS.'cake');
+	// webroot と app ディレクトリを分離する場合
+	//define('ROOT', dirname(dirname(__FILE__)));
 }
 
 if(!file_exists(ROOT))
 {
-	echo "ERROR-002 : ROOTディレクトリが見つかりません\n index.php の ROOT の設定を確認して下さい。";
+	header('Content-Type: text/html; charset=UTF-8');
+	echo "ERROR-002 : ROOTディレクトリが見つかりません\n index.php の ROOT の設定を確認して下さい。<br>";
+	echo "現在の設定<br>".
+		"ROOT : ".ROOT."<br>".
 	exit;
 }
 
@@ -66,25 +68,33 @@ if (!defined('APP_DIR'))
 
 if(!file_exists(ROOT.DS.APP_DIR))
 {
-	echo "ERROR-003 : アプリケーションディレクトリが見つかりません\n index.php の APP_DIR の設定を確認して下さい。\n";
-	echo "現在の指定 : ".APP_DIR;
+	header('Content-Type: text/html; charset=UTF-8');
+	echo "ERROR-003 : アプリケーションディレクトリが見つかりません\n index.php の APP_DIR の設定を確認して下さい。<br>";
+	echo "現在の設定<br>".
+		"ROOT : ".ROOT."<br>".
+		"APP_DIR : ".APP_DIR."<br>";
 	exit;
 }
 
 /**
- * 2. CakePHP のライブラリディレクトリのパスの設定
+ * 2. CakePHP のライブラリディレクトリ(cake/lib)のパスの設定
  */
 if (!defined('CAKE_CORE_INCLUDE_PATH')) {
-	// webroot ディレクトリがアプリケーションディレクトリ内に存在する場合
-	define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'cake' . DS . 'lib');
-
-	// webroot と app ディレクトリを分離する場合
-	//define('CAKE_CORE_INCLUDE_PATH', ROOT.DS.'lib');
+	// cake フォルダが webroot の1階層上に存在する場合
+	define('CAKE_CORE_INCLUDE_PATH', dirname(dirname(dirname(__FILE__))).DS.'cake'.DS.'lib');
+	
+	// cake フォルダが webroot の2階層上に存在する場合
+	//define('CAKE_CORE_INCLUDE_PATH', dirname(dirname(dirname(dirname(__FILE__)))).DS.'cake'.DS.'lib');
 }
 
 if(!file_exists(CAKE_CORE_INCLUDE_PATH))
 {
-	echo "ERROR-004 : libディレクトリが見つかりません\n index.php の CAKE_CORE_INCLUDE_PATH の設定を確認して下さい。";
+	header('Content-Type: text/html; charset=UTF-8');
+	echo "ERROR-004 : libディレクトリが見つかりません\n index.php の CAKE_CORE_INCLUDE_PATH の設定を確認して下さい。<br>";
+	echo "現在の設定<br>".
+		"ROOT : ".ROOT."<br>".
+		"APP_DIR : ".APP_DIR."<br>".
+		"CAKE_CORE_INCLUDE_PATH : ".CAKE_CORE_INCLUDE_PATH."<br>";
 	exit;
 }
 
@@ -117,8 +127,9 @@ if (!defined('WEBROOT_DIR'))
 	define('WEBROOT_DIR', basename(dirname(__FILE__)));
 	
 	// webroot と app ディレクトリを分離する場合
-	// define('WEBROOT_DIR', '');
+	//define('WEBROOT_DIR', '');
 }
+
 if (!defined('WWW_ROOT'))
 {
 	define('WWW_ROOT', dirname(__FILE__) . DS);
@@ -126,7 +137,13 @@ if (!defined('WWW_ROOT'))
 
 if(!file_exists(ROOT.DS.APP_DIR.DS.WEBROOT_DIR))
 {
-	echo "ERROR-005 : WEBROOTディレクトリが見つかりません\n index.php の WEBROOT_DIR の設定を確認して下さい。";
+	header('Content-Type: text/html; charset=UTF-8');
+	echo "ERROR-005 : WEBROOTディレクトリが見つかりません\n index.php の WEBROOT_DIR の設定を確認して下さい。<br>";
+	echo "現在の設定<br>".
+		"ROOT : ".ROOT."<br>".
+		"APP_DIR : ".APP_DIR."<br>".
+		"CAKE_CORE_INCLUDE_PATH : ".CAKE_CORE_INCLUDE_PATH."<br>".
+		"WEBROOT_DIR : ".WEBROOT_DIR."<br>";
 	exit;
 }
 

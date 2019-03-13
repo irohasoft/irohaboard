@@ -116,18 +116,26 @@ $config['form_submit_defaults'] = array(
 );
 
 
-$config['theme_colors']   = array(
+$config['theme_colors'] = array(
 	'#337ab7' => 'default',
-	'#006888' => 'marine blue',
 	'#003f8e' => 'ink blue',
+	'#4169e1' => 'royal blue',
+	'#006888' => 'marine blue',
+	'#00bfff' => 'deep sky blue',
+	'#483d8b' => 'dark slate blue',
 	'#00a960' => 'green',
-	'#288c66' => 'forest green',
 	'#006948' => 'holly green',
-	'#ea5550' => 'red',
-	'#ea5550' => 'poppy red',
+	'#288c66' => 'forest green',
+	'#556b2f' => 'dark olive green',
+	'#8b0000' => 'dark red',
+	'#d84450' => 'poppy red',
+	'#c71585' => 'medium violet red',
+	'#a52a2a' => 'brown',
 	'#ee7800' => 'orange',
 	'#fcc800' => 'chrome yellow',
-	'black' => 'black',
-	'#7d7d7d' => 'gray'
+	'#7d7d7d' => 'gray',
+	'#696969' => 'dim gray',
+	'#2f4f4f' => 'dark slate gray',
+	'#000000' => 'black'
 );
 

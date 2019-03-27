@@ -92,11 +92,11 @@
 
 	</style>
 	<script>
-	var studySec = 0;
+	var _studySec = 0;
 	
 	$(document).ready(function()
 	{
-		setInterval("studySec++;", 1000);
+		setInterval("_studySec++;", 1000);
 	});
 
 	// 学習終了
@@ -106,7 +106,7 @@
 		$('.btn').prop('disabled', true);
 		
 		// プレビューの場合、学習履歴を保存しない
-		if(location.href.indexOf('preview') > 0)
+		if(location.href.split('/')[location.href.split('/').length - 1] == 'preview')
 		{
 			window.close();
 			return;
@@ -115,7 +115,7 @@
 		// 中断の場合
 		if(val==0)
 		{
-			location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 0))?>/' + studySec + '/0';
+			location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 0))?>/' + _studySec + '/0';
 			return;
 		}
 		
@@ -127,7 +127,7 @@
 		}
 		
 		// 学習履歴を残して終了の場合
-		location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 1))?>/' + studySec + '/' + val;
+		location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 1))?>/' + _studySec + '/' + val;
 		return;
 	}
 

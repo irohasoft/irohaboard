@@ -138,6 +138,11 @@ class ContentsQuestion extends AppModel
 			)
 	);
 
+	/**
+	 * 問題の並べ替え
+	 * 
+	 * @param array $id_list 問題のIDリスト（並び順）
+	 */
 	public function setOrder($id_list)
 	{
 		for($i=0; $i< count($id_list); $i++)
@@ -153,6 +158,12 @@ class ContentsQuestion extends AppModel
 		}
 	}
 
+	/**
+	 * 新規追加時の問題のソート番号を取得
+	 * 
+	 * @param array $content_id コンテンツ(テスト)のID
+	 * @return int ソート番号
+	 */
 	public function getNextSortNo($content_id)
 	{
 		$options = array(

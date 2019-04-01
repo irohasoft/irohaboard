@@ -98,6 +98,12 @@ class Group extends AppModel
 			),
 	);
 	
+	/**
+	 * 指定したグループに所属するユーザIDリストを取得
+	 * 
+	 * @param int $group_id グループID
+	 * @return array ユーザIDリスト
+	 */
 	public function getUserIdByGroupID($group_id)
 	{
 		$sql = "SELECT user_id FROM ib_users_groups WHERE group_id = :group_id";
@@ -105,7 +111,7 @@ class Group extends AppModel
 		$params = array('group_id' => $group_id);
 		
 		$data = $this->query($sql, $params);
-		//debug($data);
+		
 		$list = array();
 		
 		for($i=0; $i< count($data); $i++)
@@ -116,6 +122,11 @@ class Group extends AppModel
 		return $list;
 	}
 	
+	/**
+	 * グループ一覧を取得
+	 * 
+	 * @return array グループ一覧
+	 */
 	public function getGroupList()
 	{
 		$groups = $this->find('all');

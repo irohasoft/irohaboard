@@ -53,6 +53,38 @@ class UsersCourse extends AppModel
 			)
 	);
 
+	// The Associations below have been created with all possible keys, those
+	// that are not needed can be removed
+
+	/**
+	 * belongsTo associations
+	 *
+	 * @var array
+	 */
+	public $belongsTo = array(
+			'User' => array(
+					'className' => 'User',
+					'foreignKey' => 'user_id',
+					'conditions' => '',
+					'fields' => '',
+					'order' => ''
+			),
+			'Course' => array(
+					'className' => 'Course',
+					'foreignKey' => 'course_id',
+					'conditions' => '',
+					'fields' => '',
+					'order' => ''
+			)
+	);
+
+
+	/**
+	 * 学習履歴付き受講コース一覧を取得
+	 * 
+	 * @param int $user_id ユーザのID
+	 * @return array 受講コース一覧
+	 */
 	public function getCourseRecord($user_id)
 	{
 		$sql = <<<EOF
@@ -96,38 +128,13 @@ class UsersCourse extends AppModel
      OR id IN (SELECT course_id FROM ib_users_courses WHERE user_id = :user_id)
   ORDER BY Course.sort_no asc
 EOF;
-		// debug($user_id);
 
 		$params = array(
-				'user_id' => $user_id
+			'user_id' => $user_id
 		);
 
 		$data = $this->query($sql, $params);
 
 		return $data;
 	}
-	// The Associations below have been created with all possible keys, those
-	// that are not needed can be removed
-
-	/**
-	 * belongsTo associations
-	 *
-	 * @var array
-	 */
-	public $belongsTo = array(
-			'User' => array(
-					'className' => 'User',
-					'foreignKey' => 'user_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			),
-			'Course' => array(
-					'className' => 'Course',
-					'foreignKey' => 'course_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			)
-	);
 }

@@ -115,7 +115,9 @@ class Record extends AppModel
 			)
 	);
 	
-	// 検索用
+	/**
+	 * 検索用
+	 */
 	public $actsAs = array(
 		'Search.Searchable'
 	);

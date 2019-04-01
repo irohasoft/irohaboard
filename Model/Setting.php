@@ -43,6 +43,11 @@ class Setting extends AppModel {
 		),
 	);
 	
+	/**
+	 * システム設定の値を取得
+	 * @param int $setting_key 設定キー
+	 * @return string 設定値
+	 */
 	public function getSettingValue($setting_key)
 	{
 		$setting_value = "";
@@ -59,15 +64,13 @@ EOF;
 		$data = $this->query($sql, $params);
 		
 		
-		//debug($data);
-		/*
-		if(count($data) > 0)
-			$setting_value = $data['Setting'][0]['setting_value'];
-		*/
-		
 		return $setting_value;
 	}
 	
+	/**
+	 * システム設定の値のリストを取得
+	 * @return array 設定値リスト（連想配列）
+	 */
 	public function getSettings()
 	{
 		$result = array();
@@ -79,11 +82,13 @@ EOF;
 			$result[$setting['ib_settings']['setting_key']] = $setting['ib_settings']['setting_value'];
 		}
 		
-		//debug($result);
-		
 		return $result;
 	}
 	
+	/**
+	 * システム設定を保存
+	 * @param array 保存する設定値リスト（連想配列）
+	 */
 	public function setSettings($settings)
 	{
 		foreach ($settings as $key => $value)

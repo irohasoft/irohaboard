@@ -163,7 +163,9 @@ class User extends AppModel
 		return true;
 	}
 
-	// 検索用
+	/**
+	 * 検索用
+	 */
 	public $actsAs = array(
 		'Search.Searchable'
 	);
@@ -183,6 +185,11 @@ class User extends AppModel
 		),
 	);
 
+	/**
+	 * 学習履歴の削除
+	 * 
+	 * @param int array $user_id 学習履歴を削除するユーザのID
+	 */
 	public function deleteUserRecords($user_id)
 	{
 		$sql = 'DELETE FROM ib_records_questions WHERE record_id IN (SELECT id FROM ib_records WHERE user_id = :user_id)';

@@ -140,12 +140,46 @@ class Content extends AppModel
 			),
 	);
 
+	// The Associations below have been created with all possible keys, those
+	// that are not needed can be removed
+
+	/**
+	 * belongsTo associations
+	 *
+	 * @var array
+	 */
+	public $belongsTo = array(
+			'Course' => array(
+					'className' => 'Course',
+					'foreignKey' => 'course_id',
+					'conditions' => '',
+					'fields' => '',
+					'order' => ''
+			),
+			'User' => array(
+					'className' => 'User',
+					'foreignKey' => 'user_id',
+					'conditions' => '',
+					'fields' => '',
+					'order' => ''
+			)
+	);
+
+	/**
+	 * hasMany associations
+	 *
+	 * @var array
+	 */
+	public $hasMany = array(
+	);
+
 	/**
 	 * 学習履歴付きコンテンツ一覧を取得
-	 * @user_id int 取得対象のユーザID
-	 * @course_id int 取得対象のコースID
-	 * @role int 取得者の権限（admin の場合、非公開のコンテンツも取得）
-	 * @var array
+	 * 
+	 * @param int $user_id   取得対象のユーザID
+	 * @param int $course_id 取得対象のコースID
+	 * @param string $role   取得者の権限（admin の場合、非公開のコンテンツも取得）
+	 * @var array 学習履歴付きコンテンツ一覧
 	 */
 	public function getContentRecord($user_id, $course_id, $role = 'user')
 	{
@@ -181,7 +215,6 @@ class Content extends AppModel
     AND (status = 1 OR 'admin' = :role)
   ORDER BY Content.sort_no
 EOF;
-		// debug($user_id);
 
 		$params = array(
 				'user_id' => $user_id,
@@ -194,6 +227,11 @@ EOF;
 		return $data;
 	}
 
+	/**
+	 * コンテンツの並べ替え
+	 * 
+	 * @param array $id_list コンテンツのIDリスト（並び順）
+	 */
 	public function setOrder($id_list)
 	{
 		for($i=0; $i< count($id_list); $i++)
@@ -209,6 +247,12 @@ EOF;
 		}
 	}
 
+	/**
+	 * 新規追加時のコンテンツのソート番号を取得
+	 * 
+	 * @param array $course_id コースID
+	 * @return int ソート番号
+	 */
 	public function getNextSortNo($course_id)
 	{
 		$options = array(
@@ -224,37 +268,4 @@ EOF;
 		
 		return $sort_no;
 	}
-
-	// The Associations below have been created with all possible keys, those
-	// that are not needed can be removed
-
-	/**
-	 * belongsTo associations
-	 *
-	 * @var array
-	 */
-	public $belongsTo = array(
-			'Course' => array(
-					'className' => 'Course',
-					'foreignKey' => 'course_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			),
-			'User' => array(
-					'className' => 'User',
-					'foreignKey' => 'user_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			)
-	);
-
-	/**
-	 * hasMany associations
-	 *
-	 * @var array
-	 */
-	public $hasMany = array(
-	);
 }

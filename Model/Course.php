@@ -112,6 +112,11 @@ class Course extends AppModel
 	);
 	*/
 
+	/**
+	 * コースの並べ替え
+	 * 
+	 * @param array $id_list コースのIDリスト（並び順）
+	 */
 	public function setOrder($id_list)
 	{
 		for($i=0; $i< count($id_list); $i++)
@@ -127,7 +132,13 @@ class Course extends AppModel
 		}
 	}
 	
-	// コースへのアクセス権限チェック
+	/**
+	 * コースへのアクセス権限チェック
+	 * 
+	 * @param int $user_id   アクセス者のユーザID
+	 * @param int $course_id アクセス先のコースのID
+	 * @return bool          true: アクセス可能, false : アクセス不可
+	 */
 	public function hasRight($user_id, $course_id)
 	{
 		$has_right = false;

@@ -1,7 +1,7 @@
 <div class="contentsQuestions form">
 	<ol class="breadcrumb">
 <?php
-	if($is_admin)
+	if($this->action == 'admin_record')
 	{
 		$course_url = array('controller' => 'contents', 'action' => 'record', $record['Course']['id'], $record['Record']['user_id']);
 	}
@@ -61,7 +61,7 @@
 			width			: 250px;
 		}
 		
-		<?php if($is_admin) {?>
+		<?php if($this->action == 'admin_record') {?>
 		.ib-navi-item
 		{
 			display: none;
@@ -76,14 +76,15 @@
 	<?php $this->end(); ?>
 	<?php $this->start('script-embedded'); ?>
 	<script>
-		var studySec  = 0;
-		var timeLimitSec = parseInt('<?php echo $content['Content']['timelimit'] ?>') * 60; // 制限時間（単位：秒）
-		var is_record = '<?php echo $is_record ?>'; // テスト結果表示フラグ
-		var timerID   = null;
-		var lblStudySec = null;
+		var studySec		= 0;
+		var timeLimitSec	= parseInt('<?php echo $content['Content']['timelimit'] ?>') * 60;	// 制限時間（単位：秒）
+		var is_record		= '<?php echo $is_record ?>';										// テスト結果表示フラグ
+		var timerID			= null;																// 制限時間タイマーID
+		var lblStudySec		= null;																// 制限時間表示ラベル
 		
 		$(document).ready(function()
 		{
+			// テスト結果表示モード以外の場合、制限時間を表示
 			if(!is_record)
 			{
 				lblStudySec = $("#lblStudySec");
@@ -177,72 +178,81 @@
 		}
 	?>
 	<?php echo $this->Form->create('ContentsQuestion'); ?>
-		<?php foreach ($contentsQuestions as $contentsQuestion): ?>
+		<?php foreach ($contentsQuestions as $contentsQuestion){ ?>
 			<?php
-			$title			= $contentsQuestion['ContentsQuestion']['title'];	// 問題のタイトル
-			$body			= $contentsQuestion['ContentsQuestion']['body'];	// 問題文
-			$question_id	= $contentsQuestion['ContentsQuestion']['id'];		// 問題ID
+			$question		= $contentsQuestion['ContentsQuestion'];	// 問題情報
+			$title			= $question['title'];						// 問題のタイトル
+			$body			= $question['body'];						// 問題文
+			$question_id	= $question['id'];							// 問題ID
 			
-			// 問題画像（現在不使用）
-			$image = '';
-			if($contentsQuestion['ContentsQuestion']['image']!='')
-				$image = sprintf('<div><img src="%s"/></div>', $contentsQuestion['ContentsQuestion']['image']);
+			//------------------------------//
+			//	選択肢用の出力タグの生成	//
+			//------------------------------//
+			$option_tag		= '';										// 選択肢用の出力タグ
+			$option_index	= 1;										// 選択肢番号
+			$option_list	= explode('|', $question['options']);		// 選択肢リスト
 			
-			// 選択肢用の出力タグの生成
-			$option_tag		= ''; // 選択肢用の出力タグ
-			$option_index	= 1; // 選択肢番号
-			$option_list	= explode('|', $contentsQuestion['ContentsQuestion']['options']); // 選択肢リスト
 			foreach($option_list as $option)
 			{
-				$options[$option_index] = $option;
+				// テスト結果履歴モードの場合、ラジオボタンを無効化
 				$is_disabled = $is_record ? 'disabled' : '';
+				
+				// テスト結果履歴モードの場合、選択した選択肢をチャック
 				$is_checked = (@$question_records[$question_id]['answer']==$option_index) ? 'checked' : '';
 				
+				// 選択肢ラジオボタン
 				$option_tag .= sprintf('<input type="radio" value="%s" name="data[answer_%s]" %s %s> %s<br>',
 					$option_index, $question_id, $is_checked, $is_disabled, h($option));
 				
 				$option_index++;
 			}
 			
-			// テスト結果表示モードの場合、正解、解説情報を出力
+			//------------------------------//
+			//	正解、解説情報を出力		//
+			//------------------------------//
 			$explain_tag = ''; // 解説用タグ
 			$correct_tag = ''; // 正解用タグ
+			
+			// テスト結果表示モードの場合
 			if($is_record)
 			{
 				$result_img		= (@$question_records[$question_id]['is_correct']=='1') ? 'correct.png' : 'wrong.png';
-				$correct		= $option_list[$contentsQuestion['ContentsQuestion']['correct']-1];
+				$correct		= $option_list[$question['correct']-1];
 				$correct_tag	= sprintf('<p class="correct-text bg-success">正解 : %s</p><p>%s</p>',
 					$correct, $this->Html->image($result_img, array('width'=>'60','height'=>'60')));
 				
 				// 解説の設定
-				if($contentsQuestion['ContentsQuestion']['explain']!='')
+				if($question['explain']!='')
 				{
 					$explain_tag = sprintf('<div class="correct-text bg-danger">%s</div>',
-						$contentsQuestion['ContentsQuestion']['explain']);
+						$question['explain']);
 				}
 			}
 			?>
 			<div class="panel panel-info">
 				<div class="panel-heading">問<?php echo $question_index;?></div>
 				<div class="panel-body">
+					<!--問題タイトル-->
 					<h4><?php echo h($title) ?></h4>
 					<div class="question-text bg-warning">
+						<!--問題文-->
 						<?php echo $body ?>
-						<?php echo $image; ?>
 					</div>
 					
 					<div class="radio-group">
+						<!--選択肢-->
 						<?php echo $option_tag; ?>
 					</div>
+					<!--正誤画像-->
 					<?php echo $correct_tag ?>
+					<!--解説文-->
 					<?php echo $explain_tag ?>
-					<?php echo $this->Form->hidden('correct_'.$question_id, array('value' => $contentsQuestion['ContentsQuestion']['correct'])); ?>
+					<?php echo $this->Form->hidden('correct_'.$question_id, array('value' => $question['correct'])); ?>
 				</div>
 			</div>
 			<?php $question_index++;?>
-		<?php endforeach; ?>
-
-
+		<?php } ?>
+		
 		<?php
 			echo '<div class="form-inline"><!--start-->';
 			
@@ -261,6 +271,7 @@
 	<br>
 </div>
 
+<!--採点確認ダイアログ-->
 <div class="modal fade" id="confirmModal">
 	<div class="modal-dialog">
 		<div class="modal-content">

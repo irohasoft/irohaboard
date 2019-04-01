@@ -180,19 +180,35 @@
 				echo $this->Form->input('url',		array('label' => 'URL', 'class' => 'form-control form-control-upload'));
 				echo "</div>";
 				
+				// 配布資料
 				echo "<div class='kind kind-file'>";
 				echo $this->Form->input('file_name', array('label' => 'ファイル名', 'class' => 'form-control-filename', 'readonly' => 'readonly'));
 				echo "</div>";
 
+				// テキスト・リッチテキスト
 				echo "<div class='kind kind-text kind-html'>";
 				echo $this->Form->input('body',		array('label' => '内容'));
 				echo "</div>";
 
+				// テスト
 				echo "<span class='kind kind-test'>";
-				echo $this->Form->input('timelimit', array('label' => '制限時間 (0-100分)'));
-				echo $this->Form->input('pass_rate', array('label' => '合格とする得点率 (0-100%)'));
+				echo $this->Form->input('timelimit', array(
+					'label' => '制限時間 (1-100分)',
+					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　指定した場合、制限時間に達すると無条件に採点されます。</span>',
+				));
+				
+				echo $this->Form->input('pass_rate', array(
+					'label' => '合格とする得点率 (1-100%)',
+				));
+				
+				echo $this->Form->input('question_count', array(
+					'label' => '出題数 (1-100問)',
+					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　指定した場合、登録した問題中からランダムに出題されます。</span>',
+				));
 				echo "</span>";
-
+				
+				
+				// ステータス
 				echo $this->Form->input('status',	array(
 					'type' => 'radio',
 					'before' => '<label class="col col-sm-3 control-label">ステータス</label>',

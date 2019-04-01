@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `ib_groups_courses` (
   `course_id` int(8) NOT NULL DEFAULT '0',
   `started` date DEFAULT NULL,
   `ended` date DEFAULT NULL,
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `comment` text,
   PRIMARY KEY (`id`)
@@ -28,4 +28,6 @@ ALTER TABLE ib_courses ADD COLUMN introduction text AFTER title;
 ALTER TABLE ib_contents ADD COLUMN file_name varchar(200) AFTER url;
 
 ALTER TABLE ib_contents ADD COLUMN status int(1) NOT NULL DEFAULT '1' AFTER pass_rate;
+ALTER TABLE ib_contents ADD question_count int(8) AFTER pass_rate;
+
 UPDATE ib_contents SET status = 1 WHERE status IS NULL;

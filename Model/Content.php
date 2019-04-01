@@ -81,8 +81,8 @@ class Content extends AppModel
 			),
 			'timelimit' => array(
 					'numeric' => array(
-						'rule' => array('range', -1, 101),
-						'message' => '0-100の整数で入力して下さい。',
+						'rule' => array('range', 0, 101),
+						'message' => '1-100の整数で入力して下さい。',
 						'allowEmpty' => true,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
@@ -92,8 +92,19 @@ class Content extends AppModel
 			),
 			'pass_rate' => array(
 					'numeric' => array(
-						'rule' => array('range', -1, 101),
-						'message' => '0-100の整数で入力して下さい。',
+						'rule' => array('range', 0, 101),
+						'message' => '1-100の整数で入力して下さい。',
+						'allowEmpty' => true,
+					// 'required' => false,
+					// 'last' => false, // Stop validation after this rule
+					// 'on' => 'create', // Limit validation to 'create' or
+					// 'update' operations
+										)
+			),
+			'question_count' => array(
+					'numeric' => array(
+						'rule' => array('range', 0, 101),
+						'message' => '1-100の整数で入力して下さい。',
 						'allowEmpty' => true,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
@@ -129,6 +140,13 @@ class Content extends AppModel
 			),
 	);
 
+	/**
+	 * 学習履歴付きコンテンツ一覧を取得
+	 * @user_id int 取得対象のユーザID
+	 * @course_id int 取得対象のコースID
+	 * @role int 取得者の権限（admin の場合、非公開のコンテンツも取得）
+	 * @var array
+	 */
 	public function getContentRecord($user_id, $course_id, $role = 'user')
 	{
 		$sql = <<<EOF
@@ -166,7 +184,6 @@ EOF;
 		// debug($user_id);
 
 		$params = array(
-//				'group_id' => $group_id,
 				'user_id' => $user_id,
 				'course_id' => $course_id,
 				'role' => $role
@@ -176,9 +193,6 @@ EOF;
 
 		return $data;
 	}
-	// The Associations below have been created with all possible keys, those
-	// that are not needed can be removed
-
 
 	public function setOrder($id_list)
 	{
@@ -210,6 +224,9 @@ EOF;
 		
 		return $sort_no;
 	}
+
+	// The Associations below have been created with all possible keys, those
+	// that are not needed can be removed
 
 	/**
 	 * belongsTo associations

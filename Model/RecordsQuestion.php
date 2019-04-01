@@ -18,6 +18,7 @@ App::uses('AppModel', 'Model');
  */
 class RecordsQuestion extends AppModel
 {
+	public $order = "RecordsQuestion.id";  
 
 	/**
 	 * Validation rules

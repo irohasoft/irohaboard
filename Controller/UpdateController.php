@@ -28,6 +28,9 @@ class UpdateController extends AppController
 		)
 	);
 	
+	/**
+	 * アップデート
+	 */
 	function index()
 	{
 		try
@@ -62,6 +65,9 @@ class UpdateController extends AppController
 		}
 	}
 	
+	/**
+	 * アップデートエラーメッセージを表示
+	 */
 	function error()
 	{
 		$this->set('loginURL', "/users/login/");
@@ -69,6 +75,9 @@ class UpdateController extends AppController
 		$this->set('body', $this->err_msg);
 	}
 	
+	/**
+	 * update.sql のクエリを実行
+	 */
 	private function __executeSQLScript()
 	{
 		$statements = file_get_contents($this->path);

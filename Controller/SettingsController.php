@@ -28,6 +28,9 @@ class SettingsController extends AppController {
 		),
 	);
 
+	/**
+	 * システム設定項目を表示
+	 */
 	public function admin_index()
 	{
 		if ($this->request->is(array('post', 'put')))

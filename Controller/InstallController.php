@@ -31,10 +31,9 @@ class InstallController extends AppController
 			)
 	);
 	
-	function beforeFilter()
-	{
-	}
-	
+	/**
+	 * インストール
+	 */
 	function index()
 	{
 		try
@@ -93,18 +92,27 @@ class InstallController extends AppController
 		}
 	}
 	
+	/**
+	 * インストール済みメッセージを表示
+	 */
 	function installed()
 	{
 		$this->set('loginURL', "/users/login/");
 		$this->set('loginedUser', $this->Auth->user());
 	}
 	
+	/**
+	 * インストール完了メッセージを表示
+	 */
 	function complete()
 	{
 		$this->set('loginURL', "/users/login/");
 		$this->set('loginedUser', $this->Auth->user());
 	}
 	
+	/**
+	 * インストールエラーメッセージを表示
+	 */
 	function error()
 	{
 		$this->set('loginURL', "/users/login/");
@@ -112,13 +120,9 @@ class InstallController extends AppController
 		$this->set('body', $this->err_msg);
 	}
 	
-	private function __createTables()
-	{
-		App::import('Model','ConnectionManager');
-		$this->db   = ConnectionManager::getDataSource('default');
-		return (count($err_statements) == 0);
-	}
-	
+	/**
+	 * app.sql のクエリの実行
+	 */
 	private function __executeSQLScript()
 	{
 		$statements = file_get_contents($this->path);
@@ -152,6 +156,9 @@ class InstallController extends AppController
 		return $err_statements;
 	}
 	
+	/**
+	 * rootアカウントの作成
+	 */
 	private function __createRootAccount()
 	{
 		// 管理者アカウントの存在確認

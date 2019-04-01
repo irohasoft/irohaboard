@@ -32,9 +32,7 @@ class InfosController extends AppController
 	);
 
 	/**
-	 * index method
-	 *
-	 * @return void
+	 * お知らせ一覧を表示（受講者側）
 	 */
 	public function index()
 	{
@@ -48,26 +46,26 @@ class InfosController extends AppController
 	}
 
 	/**
-	 * view method
-	 *
-	 * @throws NotFoundException
-	 * @param string $id        	
-	 * @return void
+	 * お知らせの内容を表示
+	 * @param string $info_id 表示するお知らせのID
 	 */
-	public function view($id = null)
+	public function view($info_id = null)
 	{
-		if (! $this->Info->exists($id))
+		if (! $this->Info->exists($info_id))
 		{
 			throw new NotFoundException(__('Invalid info'));
 		}
 		$options = array(
 			'conditions' => array(
-				'Info.' . $this->Info->primaryKey => $id
+				'Info.' . $this->Info->primaryKey => $info_id
 			)
 		);
 		$this->set('info', $this->Info->find('first', $options));
 	}
 
+	/**
+	 * お知らせ一覧を表示
+	 */
 	public function admin_index()
 	{
 		$this->Info->virtualFields['group_title'] = 'InfoGroup.group_title'; // 外部結合テーブルのフィールドによるソート用
@@ -88,6 +86,9 @@ class InfosController extends AppController
 		$this->set('infos', $result);
 	}
 
+	/**
+	 * お知らせの追加
+	 */
 	public function admin_add()
 	{
 		$this->admin_edit();
@@ -95,15 +96,12 @@ class InfosController extends AppController
 	}
 
 	/**
-	 * edit method
-	 *
-	 * @throws NotFoundException
-	 * @param string $id        	
-	 * @return void
+	 * お知らせの編集
+	 * @param int $info_id 編集するお知らせのID
 	 */
-	public function admin_edit($id = null)
+	public function admin_edit($info_id = null)
 	{
-		if ($this->action == 'admin_edit' && ! $this->Info->exists($id))
+		if ($this->action == 'admin_edit' && ! $this->Info->exists($info_id))
 		{
 			throw new NotFoundException(__('Invalid info'));
 		}
@@ -134,7 +132,7 @@ class InfosController extends AppController
 		{
 			$options = array(
 				'conditions' => array(
-					'Info.' . $this->Info->primaryKey => $id
+					'Info.' . $this->Info->primaryKey => $info_id
 				)
 			);
 			$this->request->data = $this->Info->find('first', $options);
@@ -148,15 +146,12 @@ class InfosController extends AppController
 	}
 
 	/**
-	 * delete method
-	 *
-	 * @throws NotFoundException
-	 * @param string $id        	
-	 * @return void
+	 * お知らせを削除
+	 * @param int $info_id 削除するお知らせのID
 	 */
-	public function admin_delete($id = null)
+	public function admin_delete($info_id = null)
 	{
-		$this->Info->id = $id;
+		$this->Info->id = $info_id;
 		if (! $this->Info->exists())
 		{
 			throw new NotFoundException(__('Invalid info'));

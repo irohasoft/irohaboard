@@ -25,26 +25,36 @@ class CoursesController extends AppController
 		),
 	);
 
+	/**
+	 * コース一覧を表示
+	 */
 	public function admin_index()
 	{
 		$this->set('courses', $this->Course->find('all', array('order' => array('Course.sort_no' => 'asc'))));
 	}
 
+	/**
+	 * コースの追加
+	 */
 	public function admin_add()
 	{
 		$this->admin_edit();
 		$this->render('admin_edit');
 	}
 
-	public function admin_edit($id = null)
+	/**
+	 * コースの編集
+	 * @param int $course_id コースID
+	 */
+	public function admin_edit($course_id = null)
 	{
-		if ($this->action == 'edit' && ! $this->Course->exists($id))
+		if ($this->action == 'edit' && ! $this->Course->exists($course_id))
 		{
 			throw new NotFoundException(__('Invalid course'));
 		}
 		if ($this->request->is(array(
-				'post',
-				'put'
+			'post',
+			'put'
 		)))
 		{
 			if(Configure::read('demo_mode'))
@@ -69,19 +79,23 @@ class CoursesController extends AppController
 		{
 			$options = array(
 				'conditions' => array(
-					'Course.' . $this->Course->primaryKey => $id
+					'Course.' . $this->Course->primaryKey => $course_id
 				)
 			);
 			$this->request->data = $this->Course->find('first', $options);
 		}
 	}
 
-	public function admin_delete($id = null)
+	/**
+	 * コースの削除
+	 * @param int $course_id コースID
+	 */
+	public function admin_delete($course_id = null)
 	{
 		if(Configure::read('demo_mode'))
 			return;
 		
-		$this->Course->id = $id;
+		$this->Course->id = $course_id;
 		if (! $this->Course->exists())
 		{
 			throw new NotFoundException(__('Invalid course'));
@@ -100,6 +114,11 @@ class CoursesController extends AppController
 		));
 	}
 
+	/**
+	 * Ajax によるコースの並び替え
+	 *
+	 * @return string 実行結果
+	 */
 	public function admin_order()
 	{
 		$this->autoRender = FALSE;

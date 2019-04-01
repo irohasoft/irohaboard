@@ -49,12 +49,9 @@ class RecordsController extends AppController
 			'field' => 'Content.title'
 		)
 	);
-	// 検索対象のフィルタ設定
-	/*
-	 * public $filterArgs = array( array('name' => 'name', 'type' => 'value',
-	 * 'field' => 'User.name'), array('name' => 'username', 'type' => 'like',
-	 * 'field' => 'User.username'), array('name' => 'title', 'type' => 'like',
-	 * 'field' => 'Content.title') );
+
+	/**
+	 * 学習履歴一覧を表示
 	 */
 	public function admin_index()
 	{
@@ -195,6 +192,14 @@ class RecordsController extends AppController
 		}
 	}
 
+	/**
+	 * 学習履歴を追加
+	 * 
+	 * @param int $content_id    コンテンツID
+	 * @param int $is_complete   完了フラグ
+	 * @param int $study_sec     学習時間
+	 * @param int $understanding 理解度
+	 */
 	public function add($content_id, $is_complete, $study_sec, $understanding)
 	{
 		// コンテンツ情報を取得

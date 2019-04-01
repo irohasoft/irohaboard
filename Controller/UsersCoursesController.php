@@ -21,6 +21,9 @@ class UsersCoursesController extends AppController
 	public $components = array(
 	);
 
+	/**
+	 * 受講コース一覧（ホーム画面）を表示
+	 */
 	public function index()
 	{
 		$user_id = $this->Session->read('Auth.User.id');
@@ -45,7 +48,7 @@ class UsersCoursesController extends AppController
 		
 		// 全体のお知らせもお知らせも存在しない場合
 		if(($info=="") && count($infos)==0)
-			$no_info = "お知らせはありません";
+			$no_info = __('お知らせはありません');
 		
 		// 受講コース情報の取得
 		$courses = $this->UsersCourse->getCourseRecord($user_id);
@@ -53,7 +56,7 @@ class UsersCoursesController extends AppController
 		$no_record = "";
 		
 		if(count($courses)==0)
-			$no_record = "受講可能なコースはありません";
+			$no_record = __('受講可能なコースはありません');
 		
 		$this->set(compact('courses', 'no_record', 'info', 'infos', 'no_info'));
 	}

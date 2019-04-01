@@ -28,6 +28,11 @@ class ContentsQuestionsController extends AppController
 		),
 	);
 
+	/**
+	 * 問題を出題
+	 * @param int $content_id 表示するコンテンツ(テスト)のID
+	 * @param int $record_id 履歴ID (テスト結果表示の場合、指定)
+	 */
 	public function index($content_id, $record_id = null)
 	{
 		$this->ContentsQuestion->recursive = 0;
@@ -219,25 +224,39 @@ class ContentsQuestionsController extends AppController
 		$this->set(compact('content', 'contentsQuestions', 'record', 'is_record'));
 	}
 
-	public function record($id, $record_id)
+	/**
+	 * テスト結果を表示
+	 * @param int $content_id 表示するコンテンツ(テスト)のID
+	 * @param int $record_id 履歴ID
+	 */
+	public function record($content_id, $record_id)
 	{
-		$this->index($id, $record_id);
+		$this->index($content_id, $record_id);
 		$this->render('index');
 	}
 
-	public function admin_record($id, $record_id)
+	/**
+	 * テスト結果を表示
+	 * @param int $content_id 表示するコンテンツ(テスト)のID
+	 * @param int $record_id 履歴ID
+	 */
+	public function admin_record($content_id, $record_id)
 	{
-		$this->record($id, $record_id);
+		$this->record($content_id, $record_id);
 	}
 
-	public function admin_index($id)
+	/**
+	 * 問題一覧を表示
+	 * @param int $content_id 表示するコンテンツ(テスト)のID
+	 */
+	public function admin_index($content_id)
 	{
-		$id = intval($id);
+		$content_id = intval($content_id);
 		
 		$this->ContentsQuestion->recursive = 0;
 		$contentsQuestions = $this->ContentsQuestion->find('all', array(
 			'conditions' => array(
-				'content_id' => $id
+				'content_id' => $content_id
 			),
 			'order' => array('ContentsQuestion.sort_no' => 'asc')
 		));
@@ -247,24 +266,33 @@ class ContentsQuestionsController extends AppController
 		
 		$content = $this->Content->find('first', array(
 			'conditions' => array(
-				'Content.id' => $id
+				'Content.id' => $content_id
 			)
 		));
 		
 		$this->set(compact('content', 'contentsQuestions'));
 	}
 
+	/**
+	 * 問題を追加
+	 * @param int $content_id 追加対象のコンテンツ(テスト)のID
+	 */
 	public function admin_add($content_id)
 	{
 		$this->admin_edit($content_id);
 		$this->render('admin_edit');
 	}
 
-	public function admin_edit($content_id, $id = null)
+	/**
+	 * 問題を編集
+	 * @param int $content_id 追加対象のコンテンツ(テスト)のID
+	 * @param int $question_id 編集対象の問題のID
+	 */
+	public function admin_edit($content_id, $question_id = null)
 	{
 		$content_id = intval($content_id);
 		
-		if ($this->action == 'edit' && ! $this->Post->exists($id))
+		if ($this->action == 'edit' && ! $this->Post->exists($question_id))
 		{
 			throw new NotFoundException(__('Invalid contents question'));
 		}
@@ -283,7 +311,7 @@ class ContentsQuestionsController extends AppController
 				'put'
 		)))
 		{
-			if ($id == null)
+			if ($question_id == null)
 			{
 				$this->request->data['ContentsQuestion']['user_id'] = $this->Session->read('Auth.User.id');
 				$this->request->data['ContentsQuestion']['content_id'] = $content_id;
@@ -310,7 +338,7 @@ class ContentsQuestionsController extends AppController
 		else
 		{
 			$options = array( 'conditions' => array(
-				'ContentsQuestion.' . $this->ContentsQuestion->primaryKey => $id
+				'ContentsQuestion.' . $this->ContentsQuestion->primaryKey => $question_id
 			));
 			
 			$this->request->data = $this->ContentsQuestion->find('first', $options);
@@ -320,15 +348,12 @@ class ContentsQuestionsController extends AppController
 	}
 
 	/**
-	 * delete method
-	 *
-	 * @throws NotFoundException
-	 * @param string $id        	
-	 * @return void
+	 * 問題を削除
+	 * @param int $question_id 削除対象の問題のID
 	 */
-	public function admin_delete($id = null)
+	public function admin_delete($question_id = null)
 	{
-		$this->ContentsQuestion->id = $id;
+		$this->ContentsQuestion->id = $question_id;
 		if (! $this->ContentsQuestion->exists())
 		{
 			throw new NotFoundException(__('Invalid contents question'));
@@ -339,7 +364,7 @@ class ContentsQuestionsController extends AppController
 		// 問題情報を取得
 		$question = $this->ContentsQuestion->find('first', array(
 			'conditions' => array(
-				'ContentsQuestion.id' => $id
+				'ContentsQuestion.id' => $question_id
 			)
 		));
 		
@@ -361,6 +386,11 @@ class ContentsQuestionsController extends AppController
 		));
 	}
 
+	/**
+	 * Ajax によるコンテンツの並び替え
+	 *
+	 * @return string 実行結果
+	 */
 	public function admin_order()
 	{
 		$this->autoRender = FALSE;

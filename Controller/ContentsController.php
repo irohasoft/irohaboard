@@ -29,6 +29,11 @@ class ContentsController extends AppController
 		),
 	);
 
+	/**
+	 * 学習コンテンツ一覧を表示
+	 * @param int $course_id コースID
+	 * @param int $user_id 学習履歴を表示するユーザのID
+	 */
 	public function index($course_id, $user_id = null)
 	{
 		$course_id = intval($course_id);
@@ -66,6 +71,10 @@ class ContentsController extends AppController
 		$this->set(compact('course', 'contents'));
 	}
 
+	/**
+	 * コンテンツの表示
+	 * @param int $content_id 表示するコンテンツのID
+	 */
 	public function view($content_id)
 	{
 		$content_id = intval($content_id);
@@ -97,6 +106,9 @@ class ContentsController extends AppController
 		$this->set(compact('content'));
 	}
 
+	/**
+	 * コンテンツのプレビュー
+	 */
 	public function admin_preview()
 	{
 		$this->autoRender = FALSE;
@@ -119,14 +131,11 @@ class ContentsController extends AppController
 		}
 	}
 
-	public function preview()
-	{
-		// ヘッダー、フッターを非表示
-		$this->layout = '';
-		$this->set('content', $this->Session->read('Iroha.preview_content'));
-		$this->render('view');
-	}
-
+	/**
+	 * コンテンツの削除
+	 *
+	 * @param int $content_id 削除するコンテンツのID
+	 */
 	public function admin_delete($content_id)
 	{
 		if(Configure::read('demo_mode'))
@@ -165,40 +174,56 @@ class ContentsController extends AppController
 		));
 	}
 
-	public function admin_index($id)
+	/**
+	 * コンテンツ一覧の表示
+	 *
+	 * @param int $course_id コースID
+	 */
+	public function admin_index($course_id)
 	{
-		$id = intval($id);
+		$course_id = intval($course_id);
 		
 		$this->Content->recursive = 0;
 
 		// コースの情報を取得
 		$course = $this->Content->Course->find('first', array(
 			'conditions' => array(
-				'Course.id' => $id
+				'Course.id' => $course_id
 			)
 		));
 
 		$contents = $this->Content->find('all', array(
-			'conditions' => array('Content.course_id' => $id),
+			'conditions' => array('Content.course_id' => $course_id),
 			'order' => array('Content.sort_no' => 'asc')
 		));
 
 		// コース情報を取得
 		$course = $this->Content->Course->find('first', array(
 			'conditions' => array(
-				'Course.id' => $id
+				'Course.id' => $course_id
 			)
 		));
 		
 		$this->set(compact('contents', 'course'));
 	}
 
+	/**
+	 * コンテンツの追加
+	 *
+	 * @param int $course_id コースID
+	 */
 	public function admin_add($course_id)
 	{
 		$this->admin_edit($course_id);
 		$this->render('admin_edit');
 	}
 
+	/**
+	 * コンテンツの編集
+	 *
+	 * @param int $course_id 所属するコースのID
+	 * @param int $content_id 編集するコンテンツのID (指定しない場合、追加)
+	 */
 	public function admin_edit($course_id, $content_id = null)
 	{
 		$course_id = intval($course_id);
@@ -257,6 +282,11 @@ class ContentsController extends AppController
 		$this->set(compact('course', 'courses'));
 	}
 
+	/**
+	 * ファイル（配布資料、動画）のアップロード
+	 *
+	 * @param int $file_type ファイルの種類
+	 */
 	public function admin_upload($file_type)
 	{
 		//$this->layout = "";
@@ -329,7 +359,11 @@ class ContentsController extends AppController
 		$this->set('upload_maxsize',		$upload_maxsize);
 	}
 	
-	// リッチテキストエディタ(Summernote) の画像アップロード機能との連携用
+	/**
+	 * リッチテキストエディタ(Summernote) からPOSTされた画像を保存
+	 *
+	 * @return string アップロードした画像のURL(JSON形式)
+	 */
 	public function admin_upload_image()
 	{
 		$this->autoRender = FALSE;
@@ -364,6 +398,11 @@ class ContentsController extends AppController
 		}
 	}
 	
+	/**
+	 * Ajax によるコンテンツの並び替え
+	 *
+	 * @return string 実行結果
+	 */
 	public function admin_order()
 	{
 		$this->autoRender = FALSE;
@@ -374,6 +413,11 @@ class ContentsController extends AppController
 		}
 	}
 
+	/**
+	 * 学習履歴の表示
+     * @param int $course_id
+     * @param int $user_id
+	 */
 	public function admin_record($course_id, $user_id)
 	{
 		$this->index($course_id, $user_id);

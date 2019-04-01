@@ -36,23 +36,26 @@ class UsersController extends AppController
 					)
 			)
 	);
-
+	
+	/**
+	 * ホーム画面（受講コース一覧）へリダイレクト
+	 */
 	public function index()
 	{
 		$this->redirect("/users_courses");
 	}
 
-	public function setting()
-	{
-		$this->admin_setting();
-	}
-
-	public function admin_delete($id = null)
+	/**
+	 * ユーザの削除
+	 *
+	 * @param int $user_id 削除するユーザのID
+	 */
+	public function admin_delete($user_id = null)
 	{
 		if(Configure::read('demo_mode'))
 			return;
 		
-		$this->User->id = $id;
+		$this->User->id = $user_id;
 		if (! $this->User->exists())
 		{
 			throw new NotFoundException(__('Invalid user'));
@@ -71,8 +74,14 @@ class UsersController extends AppController
 		));
 	}
 
+	/**
+	 * ユーザの学習履歴のクリア
+	 *
+	 * @param int $user_id 学習履歴をクリアするユーザのID
+	 */
 	public function admin_clear($user_id)
 	{
+		$this->request->allowMethod('post', 'delete');
 		$this->User->deleteUserRecords($user_id);
 		$this->Flash->success(__('学習履歴を削除しました'));
 		return $this->redirect(array(
@@ -81,12 +90,18 @@ class UsersController extends AppController
 		));
 	}
 
+	/**
+	 * ログアウト
+	 */
 	public function logout()
 	{
 		$this->Cookie->delete('Auth');
 		$this->redirect($this->Auth->logout());
 	}
 
+	/**
+	 * ログイン
+	 */
 	public function login()
 	{
 		$username = "";
@@ -153,18 +168,17 @@ class UsersController extends AppController
 		$this->set(compact('username', 'password'));
 	}
 
+	/**
+	 * ユーザを追加（編集画面へ）
+	 */
 	public function admin_add()
 	{
 		$this->admin_edit();
 		$this->render('admin_edit');
 	}
 
-	// 検索対象のフィルタ設定
-	/*
-	 * public $filterArgs = array( array('name' => 'name', 'type' => 'value',
-	 * 'field' => 'User.name'), array('name' => 'name', 'type' => 'like',
-	 * 'field' => 'User.username'), array('name' => 'username', 'type' => 'like',
-	 * 'field' => 'Content.title') );
+	/**
+	 * ユーザ一覧を表示
 	 */
 	public function admin_index()
 	{
@@ -185,8 +199,8 @@ class UsersController extends AppController
 		if($group_id != "")
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 		
-		$this->User->virtualFields['group_title']  = 'UserGroup.group_title'; // 外部結合テーブルのフィールドによるソート用
-		$this->User->virtualFields['course_title'] = 'UserCourse.course_title'; // 外部結合テーブルのフィールドによるソート用
+		$this->User->virtualFields['group_title']  = 'UserGroup.group_title';		// 外部結合テーブルのフィールドによるソート用
+		$this->User->virtualFields['course_title'] = 'UserCourse.course_title';		// 外部結合テーブルのフィールドによるソート用
 		
 		$this->paginate = array(
 			'User' => array(
@@ -195,9 +209,11 @@ class UsersController extends AppController
 				'limit' => 20,
 				'order' => 'created desc',
 				'joins' => array(
+					// 受講コースをカンマ区切りで取得
 					array('type' => 'LEFT OUTER', 'alias' => 'UserGroup',
 							'table' => '(SELECT ug.user_id, group_concat(g.title order by g.id SEPARATOR \', \') as group_title FROM ib_users_groups ug INNER JOIN ib_groups g ON g.id = ug.group_id GROUP BY ug.user_id)',
 							'conditions' => 'User.id = UserGroup.user_id'),
+					// 所属グループをカンマ区切りで取得
 					array('type' => 'LEFT OUTER', 'alias' => 'UserCourse',
 							'table' => '(SELECT uc.user_id, group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id  GROUP BY uc.user_id)',
 							'conditions' => 'User.id = UserCourse.user_id')
@@ -222,9 +238,13 @@ class UsersController extends AppController
 		$this->set(compact('groups', 'users', 'group_id'));
 	}
 
-	public function admin_edit($id = null)
+	/**
+	 * ユーザ情報編集
+	 * @param int $user_id 編集対象のユーザのID
+	 */
+	public function admin_edit($user_id = null)
 	{
-		if ($this->action == 'admin_edit' && ! $this->User->exists($id))
+		if ($this->action == 'admin_edit' && ! $this->User->exists($user_id))
 		{
 			throw new NotFoundException(__('Invalid user'));
 		}
@@ -261,7 +281,7 @@ class UsersController extends AppController
 		{
 			$options = array(
 				'conditions' => array(
-					'User.' . $this->User->primaryKey => $id
+					'User.' . $this->User->primaryKey => $user_id
 				)
 			);
 			$this->request->data = $this->User->find('first', $options);
@@ -278,7 +298,10 @@ class UsersController extends AppController
 		$this->set(compact('courses', 'groups', 'username'));
 	}
 
-	public function admin_setting()
+	/**
+	 * パスワード変更
+	 */
+	public function setting()
 	{
 		if ($this->request->is(array(
 				'post',
@@ -325,11 +348,25 @@ class UsersController extends AppController
 		}
 	}
 
+	/**
+	 * パスワード変更
+	 */
+	public function admin_setting()
+	{
+		$this->setting();
+	}
+
+	/**
+	 * ログイン
+	 */
 	public function admin_login()
 	{
 		$this->login();
 	}
 
+	/**
+	 * ログアウト
+	 */
 	public function admin_logout()
 	{
 		$this->logout();

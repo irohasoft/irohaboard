@@ -1,15 +1,3 @@
-<?php
-/**
- * iroha Board Project
- *
- * @author        Kotaro Miura
- * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
- * @link          http://irohaboard.irohasoft.jp
- * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
- */
-
-//$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +19,7 @@
 		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('jquery-ui');
 		echo $this->Html->css('bootstrap.min');
-		echo $this->Html->css('common.css');
+		echo $this->Html->css('common.css?20190401');
 		
 		if($is_admin_page)
 			echo $this->Html->css('admin.css');
@@ -40,7 +28,7 @@
 		echo $this->Html->script('jquery-ui-1.9.2.min.js');
 		echo $this->Html->script('bootstrap.min.js');
 		echo $this->Html->script('moment.js');
-		echo $this->Html->script('common.js');
+		echo $this->Html->script('common.js?20190401');
 		
 		// デモモード用JavaScript
 		if(Configure::read('demo_mode'))
@@ -52,15 +40,6 @@
 		echo $this->fetch('css-embedded');
 		echo $this->fetch('script-embedded');
 	?>
-	<script>
-	// 一定時間経過後、メッセージを閉じる
-	$(document).ready(function()
-	{
-		setTimeout(function() {
-			$('#flashMessage').fadeOut("slow");
-		}, 1500);
-	});
-	</script>
 	<style>
 		.ib-theme-color
 		{
@@ -80,16 +59,13 @@
 		<div class="ib-logo ib-left">
 			<a href="<?php echo $this->Html->url('/')?>"><?php echo h($this->Session->read('Setting.title')); ?></a>
 		</div>
-<?php
-		if(@$loginedUser)
-		{
-			echo '<div class="ib-navi-item ib-right">'.$this->Html->link(__('ログアウト'), $logoutURL).'</div>';
-			echo '<div class="ib-navi-sepa ib-right"></div>';
-			echo '<div class="ib-navi-item ib-right">'.$this->Html->link(__('設定'), array('controller' => 'users', 'action' => 'setting')).'</div>';
-			echo '<div class="ib-navi-sepa ib-right"></div>';
-			echo '<div class="ib-navi-item ib-right">'.__('ようこそ ').h($loginedUser["name"]).' さん </div>';
-		}
-?>
+		<?php if(@$loginedUser) {?>
+		<div class="ib-navi-item ib-right"><?php echo $this->Html->link(__('ログアウト'), $logoutURL); ?></div>
+		<div class="ib-navi-sepa ib-right"></div>
+		<div class="ib-navi-item ib-right"><?php echo $this->Html->link(__('設定'), array('controller' => 'users', 'action' => 'setting')); ?></div>
+		<div class="ib-navi-sepa ib-right"></div>
+		<div class="ib-navi-item ib-right"><?php echo __('ようこそ ').h($loginedUser["name"]); ?> さん </div>
+		<?php }?>
 	</div>
 	
 	<div id="container">
@@ -104,7 +80,7 @@
 		</div>
 	</div>
 	
-	<div class="footer ib-theme-color text-center">
+	<div class="ib-theme-color text-center">
 		<?php echo h($this->Session->read('Setting.copyright')); ?>
 	</div>
 	

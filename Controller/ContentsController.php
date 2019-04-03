@@ -107,7 +107,7 @@ class ContentsController extends AppController
 	}
 
 	/**
-	 * コンテンツのプレビュー
+	 * プレビュー用に入力内容をセッションに保存
 	 */
 	public function admin_preview()
 	{
@@ -130,6 +130,19 @@ class ContentsController extends AppController
 			$this->Session->write("Iroha.preview_content", $data);
 		}
 	}
+
+	/**
+	 * セッションに保存された情報を元にプレビュー
+	 */
+	public function preview()
+	{
+		// ヘッダー、フッターを非表示
+		$this->layout = '';
+		$this->set('content', $this->Session->read('Iroha.preview_content'));
+		$this->render('view');
+	}
+
+
 
 	/**
 	 * コンテンツの削除

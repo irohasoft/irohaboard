@@ -6,7 +6,16 @@
  * @link          http://irohaboard.irohasoft.jp
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
- 
+
+
+// 一定時間経過後、メッセージを閉じる
+$(document).ready(function()
+{
+	setTimeout(function() {
+		$('#flashMessage').fadeOut("slow");
+	}, 1500);
+});
+
 
 function CommonUtility() {}
 

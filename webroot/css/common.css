@@ -24,15 +24,6 @@ body
 	margin				: 10px;
 }
 
-@media only screen and (max-width:800px)
-{
-	.panel
-	{
-		margin				: 3px;
-		margin-bottom		: 10px;
-	}
-}
-
 #content
 {
 	text-align			: left;
@@ -92,19 +83,19 @@ div.buttons_container
 
 form .required .control-label:after
 {
-	border-radius: 0.25em;
-	color: #fff;
-	display: inline;
-	font-size: 75%;
-	font-weight: 700;
-	line-height: 1;
-	padding: 0.1em 0.5em;
-	margin-left: 0.7em;
-	text-align: center;
-	vertical-align: baseline;
-	white-space: nowrap;
-	background-color: #d9534f;
-	content: '必須';
+	border-radius		: 0.25em;
+	color				: #fff;
+	display				: inline;
+	font-size			: 75%;
+	font-weight			: 700;
+	line-height			: 1;
+	padding				: 0.1em 0.5em;
+	margin-left			: 0.7em;
+	text-align			: center;
+	vertical-align		: baseline;
+	white-space			: nowrap;
+	background-color	: #d9534f;
+	content				: '必須';
 }
 
 .note-editor .modal-body
@@ -143,16 +134,16 @@ form .required .control-label:after
 
 .ib-logo
 {
-	font-size: 22px;
-	font-family:'Arial';
-	padding-left: 15px;
-	font-weight: bold;
+	font-size			: 22px;
+	font-family			:'Arial';
+	padding-left		: 15px;
+	font-weight			: bold;
 }
 
 .ib-page-title
 {
-	font-size: 24px;
-	float: left;
+	font-size			: 24px;
+	float				: left;
 }
 
 .ib-breadcrumb
@@ -167,9 +158,6 @@ form .required .control-label:after
 
 .ib-horizontal .input
 {
-	/*
-	width				: 200px;
-	*/
 	float				: left;
 	padding-left		: 10px;
 	padding-right		: 20px;
@@ -182,21 +170,11 @@ form .required .control-label:after
 	float				: left;
 	text-align			: right;
 	padding-top			: 5px;
-/*
-	padding-top			: 15px;
-*/
 }
 
 .ib-horizontal .text
 {
 	width				: 160px;
-}
-
-.ib-horizontal .submit
-{
-	/*
-	padding: 12px;
-	*/
 }
 
 .ib-search-date-container
@@ -238,33 +216,91 @@ form .required .control-label:after
 /* start メニューの自動ボタン化を抑止 */
 .nav>li
 {
-	float: left;
-	display: inline-block;
+	float				: left;
+	display				: inline-block;
 }
 .navbar-nav
 {
-	margin: 0;
+	margin				: 0;
 }
 .navbar-nav>li>a
 {
-	padding-top: 14.5px;
-	padding-bottom: 14.5px;
+	padding-top			: 14.5px;
+	padding-bottom		: 14.5px;
 }
 /* end */
 
 .irohasoft
 {
-	font-size: 10px;
-	color: #aaa;
-	text-align: center;
+	font-size			: 10px;
+	color				: #aaa;
+	text-align			: center;
 }
 
 .irohasoft a
 {
-	color: #9ab;
-	display: initial;
+	color				: #9ab;
+	display				: initial;
 }
 
+#sortable-table tbody
+{
+	cursor				: move;
+}
+
+.content-label
+{
+	font-size			: 22px;
+	padding-bottom		: 0px;
+}
+
+.btn-rest
+{
+	float: right;
+}
+
+.contents_questions_index .radio-group
+{
+	font-size			: 18px;
+	padding				: 10px;
+	line-height			: 180%;
+}
+
+.contents_questions_index input[type=radio]
+{
+	padding				: 10px;
+}
+
+.form-inline
+{
+}
+
+.contents_questions_index #lblStudySec
+{
+	position			: fixed;
+	top					: 50px;
+	right				: 20px;
+	display				: none;
+}
+
+.contents_questions_index .question-text,
+.contents_questions_index .correct-text
+{
+	padding				: 10px;
+	border-radius		: 6px;
+}
+
+.contents_questions_index img{
+	max-width			: 100%;
+}
+
+.contents_questions_index .result-table
+{
+	margin				: 10px;
+	width				: 250px;
+}
+
+/* スマートフォン用 */
 @media only screen and (max-width:800px)
 {
 	#flashMessage
@@ -272,5 +308,74 @@ form .required .control-label:after
 		width				: initial;
 		right				: 0px;
 		left				: 0px;
+	}
+
+	.panel
+	{
+		margin				: 3px;
+		margin-bottom		: 10px;
+	}
+
+	.list-group-item-text span
+	{
+		display				: block;
+	}
+
+	.responsive-table
+	{
+		display				: block;
+	}
+
+	.responsive-table thead
+	{
+		display				: none;
+	}
+
+	.responsive-table tbody
+	{
+		display				: block;
+	}
+
+	.responsive-table tbody tr
+	{
+		display				: block;
+		margin-bottom		: 1.5em;
+	}
+
+	.responsive-table tbody th,
+	.responsive-table tbody td
+	{
+		display				: list-item;
+		list-style			: none;
+		border				: none;
+	}
+
+	.responsive-table tbody th
+	{
+		margin-bottom		: 5px;
+		list-style-type		: none;
+		color				: #fff;
+		background			: #000;
+	}
+
+	.responsive-table tbody td
+	{
+		margin-left			: 10px;
+		padding				: 0;
+	}
+
+	.responsive-table a
+	{
+		font-size			: 18px;
+		font-weight			: bold;
+	}
+
+	.responsive-table tbody td:before { width: 100px; display: inline-block;}
+	
+	.ib-col-center,
+	.ib-col-date
+	{
+		text-align			: left;
+		width				: 100%;
 	}
 }

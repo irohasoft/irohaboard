@@ -1,10 +1,6 @@
 <?php echo $this->element('admin_menu');?>
 <?php $this->start('css-embedded'); ?>
 <style>
-	#sortable-table tbody
-	{
-		cursor: move;
-	}
 </style>
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>

@@ -13,11 +13,6 @@
 		{
 			table-layout:fixed;
 		}
-		
-		#sortable-table tbody
-		{
-			cursor: move;
-		}
 	</style>
 <?php $this->end(); ?>
 <?php $this->start('css-embedded'); ?>

@@ -1,6 +1,7 @@
-<div class="contentsQuestions form">
-	<ol class="breadcrumb">
-<?php
+<div class="contents_questions_index">
+	<div class="breadcrumb">
+	<?php
+	// 管理者による学習履歴表示モードの場合、コース一覧リンクを表示しない
 	if($this->action == 'admin_record')
 	{
 		$course_url = array('controller' => 'contents', 'action' => 'record', $record['Course']['id'], $record['Record']['user_id']);
@@ -14,54 +15,13 @@
 	$this->Html->addCrumb($content['Course']['title'], $course_url);
 	$this->Html->addCrumb(h($content['Content']['title'])); // addCrumb 内でエスケープされない為、別途エスケープ
 	echo $this->Html->getCrumbs(' / ');
-?>
-	</ol>
+	?>
+	</div>
 	
 	<div id="lblStudySec" class="btn btn-info"></div>
 	<?php $this->start('css-embedded'); ?>
 	<style type='text/css'>
-		.radio-group
-		{
-			font-size		: 18px;
-			padding			: 10px;
-			line-height		: 180%;
-		}
-		
-		input[type=radio]
-		{
-			padding			: 10px;
-		}
-		
-		.form-inline
-		{
-		}
-		
-		#lblStudySec
-		{
-			position		: fixed;
-			top				: 50px;
-			right			: 20px;
-			display			: none;
-		}
-		
-		.question-text,
-		.correct-text
-		{
-			padding			: 10px;
-			border-radius	: 6px;
-		}
-		
-		img{
-			max-width		: 100%;
-		}
-		
-		.result-table
-		{
-			margin			: 10px;
-			width			: 250px;
-		}
-		
-		<?php if($this->action == 'admin_record') {?>
+		<?php if($this->action == 'admin_record') { // 管理者による学習履歴表示モードの場合、ロゴのリンクを無効化 ?>
 		.ib-navi-item
 		{
 			display: none;
@@ -74,73 +34,15 @@
 		<?php }?>
 	</style>
 	<?php $this->end(); ?>
+	
 	<?php $this->start('script-embedded'); ?>
 	<script>
-		var studySec		= 0;
-		var timeLimitSec	= parseInt('<?php echo $content['Content']['timelimit'] ?>') * 60;	// 制限時間（単位：秒）
-		var is_record		= '<?php echo $is_record ?>';										// テスト結果表示フラグ
-		var timerID			= null;																// 制限時間タイマーID
-		var lblStudySec		= null;																// 制限時間表示ラベル
-		
-		$(document).ready(function()
-		{
-			// テスト結果表示モード以外の場合、制限時間を表示
-			if(!is_record)
-			{
-				lblStudySec = $("#lblStudySec");
-				lblStudySec.show();
-				setStudySec();
-				timerID = setInterval(setStudySec, 1000);
-			}
-		});
-		
-		// 学習時間の更新
-		function setStudySec()
-		{
-			if(timeLimitSec > 0)
-			{
-				if( studySec > timeLimitSec )
-				{
-					clearInterval(timerID);
-					alert("制限時間を過ぎましたので自動採点を行います。");
-					$("form").submit();
-					return;
-				}
-				
-				var restSec = timeLimitSec - studySec;
-				var rest = moment("2000/01/01").add('seconds', restSec ).format('HH:mm:ss');
-				
-				lblStudySec.text("残り時間 : " + rest);
-				
-				if(restSec < 60)
-				{
-					if(lblStudySec.hasClass('btn-info'))
-						lblStudySec.removeClass('btn-info').addClass('btn-danger');
-				}
-			}
-			else
-			{
-				var passed = moment("2000/01/01").add('seconds', studySec ).format('HH:mm:ss');
-				
-				lblStudySec.text("経過: " + passed);
-			}
-			
-			$("#ContentsQuestionStudySec").val(studySec);
-			studySec++;
-		}
-		
-		// 採点
-		function sendData()
-		{
-			// 重複送信防止の為、ボタンを無効化
-			$('.btn').prop('disabled', true);
-			
-			$('form').submit();
-			return;
-		}
+	var TIMELIMIT_SEC	= parseInt('<?php echo $content['Content']['timelimit'] ?>') * 60;	// 制限時間（単位：秒）
+	var IS_RECORD		= '<?php echo $is_record ?>';										// テスト結果表示フラグ
 	</script>
+	<?php echo $this->Html->script('contents_questions.js?20190401');?>
 	<?php $this->end(); ?>
-
+	
 	<!-- テスト結果ヘッダ表示 -->
 	<?php if($is_record){ ?>
 		<?php

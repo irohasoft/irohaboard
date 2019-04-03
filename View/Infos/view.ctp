@@ -1,4 +1,3 @@
-<?php //echo $this->element('menu');?>
 <div class="infos view">
 	<div class="breadcrumb">
 	<?php

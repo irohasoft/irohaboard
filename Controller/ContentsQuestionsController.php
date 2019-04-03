@@ -38,23 +38,6 @@ class ContentsQuestionsController extends AppController
 		$this->ContentsQuestion->recursive = 0;
 		
 		//------------------------------//
-		//	権限チェック				//
-		//------------------------------//
-		// 管理者以外の場合、コンテンツの閲覧権限の確認
-		if($this->Session->read('Auth.User.role') != 'admin')
-		{
-			$this->loadModel('Course');
-			
-			if(count($contentsQuestions) > 0)
-			{
-				if(! $this->Course->hasRight($this->Session->read('Auth.User.id'), $contentsQuestions[0]['Content']['course_id']))
-				{
-					throw new NotFoundException(__('Invalid access'));
-				}
-			}
-		}
-		
-		//------------------------------//
 		//	コンテンツ情報を取得		//
 		//------------------------------//
 		$this->loadModel('Content');
@@ -63,6 +46,18 @@ class ContentsQuestionsController extends AppController
 				'Content.id' => $content_id
 			)
 		));
+		
+		//------------------------------//
+		//	権限チェック				//
+		//------------------------------//
+		// 管理者以外の場合、コンテンツの閲覧権限の確認
+		if($this->Session->read('Auth.User.role') != 'admin')
+		{
+			$this->loadModel('Course');
+			
+			if(! $this->Course->hasRight($this->Session->read('Auth.User.id'), $content['Content']['course_id']))
+				throw new NotFoundException(__('Invalid access'));
+		}
 		
 		//------------------------------//
 		//	問題情報を取得				//

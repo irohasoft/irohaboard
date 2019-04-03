@@ -1,89 +1,24 @@
 <?php $this->start('css-embedded'); ?>
 <!--[if !IE]><!-->
 <style>
-/* スマートフォン対応 */
 @media only screen and (max-width:800px)
-{
-	.responsive-table
-	{
-		display: block;
-	}
-
-	.responsive-table thead
-	{
-		display: none;
-	}
-
-	.responsive-table tbody
-	{
-		display: block;
-	}
-
-	.responsive-table tbody tr
-	{
-		display: block;
-		margin-bottom: 1.5em;
-	}
-
-	.responsive-table tbody th,
-	.responsive-table tbody td
-	{
-		display: list-item;
-		list-style: none;
-		border: none;
-	}
-
-	.responsive-table tbody th
-	{
-		margin-bottom: 5px;
-		list-style-type: none;
-		color: #fff;
-		background: #000;
-	}
-
-	.responsive-table tbody td
-	{
-		margin-left: 10px;
-		padding: 0;
-	}
-
-	.responsive-table a
-	{
-		font-size: 18px;
-		font-weight: bold;
-	}
-
-	.responsive-table tbody td:before { width: 100px; display: inline-block;}
-	.responsive-table tbody td:nth-of-type(2):before { width: 100px; display: inline-block; content: "<?php echo __('種別').' : '?>";}
+{	.responsive-table tbody td:nth-of-type(2):before { width: 100px; display: inline-block; content: "<?php echo __('種別').' : '?>";}
 	.responsive-table tbody td:nth-of-type(3):before { content: "<?php echo __('学習開始日').' : '?>"; }
 	.responsive-table tbody td:nth-of-type(4):before { content: "<?php echo __('前回学習日').' : '?>"; }
 	.responsive-table tbody td:nth-of-type(5):before { content: "<?php echo __('学習時間').' : '?>"; }
 	.responsive-table tbody td:nth-of-type(6):before { content: "<?php echo __('学習回数').' : '?>"; }
 	.responsive-table tbody td:nth-of-type(7):before { content: "<?php echo __('理解度').' : '?>"; }
-	
-	.ib-col-center,
-	.ib-col-date
-	{
-		text-align: left;
-		width:100%;
-	}
 }
 
-.content-label
-{
-	font-size: 22px;
-	padding-bottom: 0px;
-}
-
-<?php if($this->action=='admin_record') {?>
+<?php if($this->action=='admin_record') { // 学習履歴表示モードの場合、メニューを表示しない ?>
 .ib-navi-item
 {
-	display: none;
+	display					: none;
 }
 
 .ib-logo a
 {
-	pointer-events: none;
+	pointer-events			: none;
 }
 <?php }?>
 </style>
@@ -92,7 +27,7 @@
 <div class="contents index">
 	<div class="ib-breadcrumb">
 	<?php
-	// 管理者が閲覧する場合、パンくずリストを表示しない
+	// 管理者による学習履歴表示の場合、パンくずリストを表示しない
 	if($this->action!='admin_record')
 	{
 		$this->Html->addCrumb('<< '.__('コース一覧'), array(
@@ -129,14 +64,14 @@
 			</tr>
 		</thead>
 		<tbody>
-	<?php foreach ($contents as $content): ?>
-		<?php
+	<?php
+	foreach ($contents as $content)
+	{
 		$icon			= ''; // アイコン用クラス
 		$title_link		= ''; // コンテンツタイトル（リンク付き）
 		$kind			= Configure::read('content_kind.'.$content['Content']['kind']); // 学習種別
 		$understanding	= ''; // 理解度・テスト結果
 		
-		//debug($content);
 		// コンテンツの種別
 		switch($content['Content']['kind'])
 		{
@@ -195,9 +130,10 @@
 				break;
 		}
 		
-		// 学習履歴表示の場合、学習画面へのリンクを出力しない
+		// 管理者による学習履歴表示の場合、学習画面へのリンクを出力しない
 		if($this->action=='admin_record')
 			$title_link = h($content['Content']['title']);
+		
 		?>
 		<?php if($content['Content']['kind']=='label') { // ラベルの場合、タイトルのみ表示 ?>
 		<tr>
@@ -213,8 +149,10 @@
 			<td class="ib-col-center"><?php echo h($content['Record']['study_count']); ?>&nbsp;</td>
 			<td nowrap class="ib-col-center"><?php echo $understanding; ?></td>
 		</tr>
-		<?php }?>
-	<?php endforeach; ?>
+		<?php
+		}
+	}
+	?>
 	</tbody>
 	</table>
 

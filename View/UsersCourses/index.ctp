@@ -1,20 +1,3 @@
-<?php //echo $this->element('menu');?>
-<?php $this->start('css-embedded'); ?>
-<style>
-.btn-rest
-{
-	float: right;
-}
-
-@media only screen and (max-width:800px)
-{
-	.list-group-item-text span
-	{
-		display: block;
-	}
-}
-</style>
-<?php $this->end(); ?>
 <div class="courses index">
 	<div class="panel panel-success">
 		<div class="panel-heading"><?php echo __('お知らせ'); ?></div>

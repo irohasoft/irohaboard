@@ -14,11 +14,13 @@
 		echo $this->Html->css('jquery-ui');
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('common.css');
+		echo $this->Html->css('contents_view.css');
 
 		echo $this->Html->script('jquery-1.9.1.min.js');
 		echo $this->Html->script('jquery-ui-1.9.2.min.js');
 		echo $this->Html->script('bootstrap.min.js');
 		echo $this->Html->script('common.js');
+		echo $this->Html->script('contents_view.js');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -26,119 +28,10 @@
 		echo $this->fetch('css-embedded');
 		echo $this->fetch('script-embedded');
 	?>
-	<style>
-	html, body
-	{
-		margin				:0px;
-		padding				:0px;
-		height				:100%;
-		background-color	:#EDEFF1;
-	}
-
-	#contentFrame
-	{
-		min-height	: 600px;
-		border		: 1px;
-	}
-	table, td, tr
-	{
-		margin:0px;
-		padding:0px;
-	}
-	
-	.content-title
-	{
-		font-size	: 18px;
-		font-weight	: bold;
-	}
-	
-	.for-spn
-	{
-		display: none;
-	}
-	
-	.select-message
-	{
-		padding-bottom	: 10px;
-	}
-	
-	@media only screen and (max-width:800px)
-	{
-		button
-		{
-			margin			: 5px;
-		}
-		
-		.select-message
-		{
-			padding:0px;
-		}
-		
-		.for-pc
-		{
-			display: none;
-		}
-		.for-spn
-		{
-			display: block;
-		}
-		
-		img,
-		iframe
-		{
-			max-width: 100%;
-		}
-	}
-
-	</style>
 	<script>
-	var _studySec = 0;
-	
-	$(document).ready(function()
-	{
-		setInterval("_studySec++;", 1000);
-	});
-
-	// 学習終了
-	function finish(val)
-	{
-		// 学習履歴の重複記録防止の為、ボタンを無効化
-		$('.btn').prop('disabled', true);
-		
-		// プレビューの場合、学習履歴を保存しない
-		if(location.href.split('/')[location.href.split('/').length - 1] == 'preview')
-		{
-			window.close();
-			return;
-		}
-		
-		// 中断の場合
-		if(val==0)
-		{
-			location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 0))?>/' + _studySec + '/0';
-			return;
-		}
-		
-		// 学習履歴を残さずに終了の場合
-		if(val==-1)
-		{
-			location.href = '<?php echo Router::url(array('action' => 'index', $content['Course']['id']))?>';
-			return;
-		}
-		
-		// 学習履歴を残して終了の場合
-		location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id'], 1))?>/' + _studySec + '/' + val;
-		return;
-	}
-
-	function interrupt()
-	{
-	}
-
-	function cancel()
-	{
-	}
-</script>
+	var URL_RECORDS_ADD		= '<?php echo Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id']))?>'; // 学習履歴保存用URL
+	var URL_CONTNES_INDEX	= '<?php echo Router::url(array('action' => 'index', $content['Course']['id']))?>'; // コンテンツ一覧画面
+	</script>
 </head>
 <body>
 <?php
@@ -146,20 +39,20 @@
 	
 	switch($content['Content']['kind'])
 	{
-		case 'url':
+		case 'url': // URLコンテンツ
 			$body = '<iframe id="contentFrame" width="100%" height="100%" scrolling="yes" src="'.h($content['Content']['url']).'"></iframe>';
 			break;
-		case 'movie':
+		case 'movie': // 動画コンテンツ
 			$body = '<video src="'.h($content['Content']['url']).'" controls width="100%" oncontextmenu="return false;"></video>';
 			$td_style = 'vertical-align: middle;';
 			break;
-		case 'text':
+		case 'text': // テキスト型コンテンツ
 			$body = h($content['Content']['body']);
 			$body = $this->Text->autoLinkUrls($body);
 			$body = nl2br($body);
 			$td_style = 'vertical-align: top;';
 			break;
-		case 'html':
+		case 'html': // リッチテキストコンテンツ
 			$body = $content['Content']['body'];
 			$td_style = 'vertical-align: top;';
 			break;

@@ -41,6 +41,15 @@ Cache::config('default', array('engine' => 'File'));
  * ));
  */
 
+App::build(
+	array(
+		'Model'			=> array(APP.'Custom'.DS.'Model'.DS),
+		'Controller'	=> array(APP.'Custom'.DS.'Controller'.DS),
+		'View'			=> array(APP.'Custom'.DS.'View'.DS),
+		'Vendor'		=> array(APP.'Custom'.DS.'Vendor'.DS),
+	)
+);
+
 /**
  * Custom Inflector rules can be set to correctly pluralize or singularize table, model, controller names or whatever other
  * string is passed to the inflection functions
@@ -97,5 +106,10 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
-// iroha Board �ݒ�t�@�C�������[�h
+// iroha Board 設定ファイルをロード
 Configure::load("ib_config");
+
+// カスタマイズ用設定ファイルをロード
+Configure::config('default', new PhpReader(APP.'Custom'.DS.'Config'.DS));
+Configure::load("config");
+

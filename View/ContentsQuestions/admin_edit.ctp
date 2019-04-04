@@ -176,7 +176,6 @@
 				echo $this->Form->input('id');
 				echo $this->Form->input('title',	array('label' => __('タイトル')));
 				echo $this->Form->input('body',		array('label' => __('問題文')));
-				//echo $this->Form->input('image',	array('label' => __('画像URL')));
 			?>
 			<div class="form-group required">
 				<label for="ContentsQuestionOptions" class="col col-sm-3 control-label">選択肢／正解</label>

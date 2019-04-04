@@ -38,8 +38,17 @@ class UpdateController extends AppController
 			App::import('Model','ConnectionManager');
 
 			$this->db   = ConnectionManager::getDataSource('default');
-			$this->path = APP.DS.'Config'.DS.'update.sql';
-			$err_statements = $this->__executeSQLScript();
+
+			// パッケージアップデート用クエリ
+			$this->path = APP.'Config'.DS.'Schema'.DS.'update.sql';
+			$err_update = $this->__executeSQLScript();
+			
+			// カスタマイズ用クエリ
+			$this->path = APP.'Custom'.DS.'Config'.DS.'custom.sql';
+			$err_custom = $this->__executeSQLScript();
+			
+			$err_statements = array_merge($err_update, $err_custom);
+			
 			
 			if(count($err_statements) > 0)
 			{

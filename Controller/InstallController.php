@@ -55,7 +55,7 @@ class InstallController extends AppController
 			else
 			{
 				// 各種テーブルの作成
-				$this->path = APP.DS.'Config'.DS.'app.sql';
+				$this->path = APP.'Config'.DS.'Schema'.DS.'app.sql';
 				$err_statements = $this->__executeSQLScript();
 				
 				// クエリ実行中にエラーが発生した場合、ログファイルにエラー内容を記録

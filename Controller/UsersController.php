@@ -210,13 +210,13 @@ class UsersController extends AppController
 				'order' => 'created desc',
 				'joins' => array(
 					// 受講コースをカンマ区切りで取得
-					array('type' => 'LEFT OUTER', 'alias' => 'UserGroup',
-							'table' => '(SELECT ug.user_id, group_concat(g.title order by g.id SEPARATOR \', \') as group_title FROM ib_users_groups ug INNER JOIN ib_groups g ON g.id = ug.group_id GROUP BY ug.user_id)',
-							'conditions' => 'User.id = UserGroup.user_id'),
-					// 所属グループをカンマ区切りで取得
 					array('type' => 'LEFT OUTER', 'alias' => 'UserCourse',
 							'table' => '(SELECT uc.user_id, group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id  GROUP BY uc.user_id)',
-							'conditions' => 'User.id = UserCourse.user_id')
+							'conditions' => 'User.id = UserCourse.user_id'),
+					// 所属グループをカンマ区切りで取得
+					array('type' => 'LEFT OUTER', 'alias' => 'UserGroup',
+							'table' => '(SELECT ug.user_id, group_concat(g.title order by g.id SEPARATOR \', \') as group_title FROM ib_users_groups ug INNER JOIN ib_groups g ON g.id = ug.group_id GROUP BY ug.user_id)',
+							'conditions' => 'User.id = UserGroup.user_id')
 				))
 		);
 

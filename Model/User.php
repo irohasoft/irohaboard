@@ -46,7 +46,8 @@ class User extends AppModel
 			'notBlank' => array(
 				'rule' => array(
 						'notBlank'
-				)
+				),
+				'message' => '氏名が入力されていません'
 			)
 		),
 		'role' => array(

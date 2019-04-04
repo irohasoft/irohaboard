@@ -1,5 +1,4 @@
 <?php $this->start('css-embedded'); ?>
-<!--[if !IE]><!-->
 <style>
 @media only screen and (max-width:800px)
 {	.responsive-table tbody td:nth-of-type(2):before { width: 100px; display: inline-block; content: "<?php echo __('種別').' : '?>";}
@@ -22,7 +21,6 @@
 }
 <?php }?>
 </style>
-<!--<![endif]-->
 <?php $this->end(); ?>
 <div class="contents index">
 	<div class="ib-breadcrumb">

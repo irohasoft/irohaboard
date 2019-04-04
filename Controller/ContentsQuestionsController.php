@@ -215,8 +215,9 @@ class ContentsQuestionsController extends AppController
 		}
 		
 		$is_record = (($this->action == 'record') || ($this->action == 'admin_record'));	// テスト結果表示フラグ
+		$is_admin_record = ($this->action == 'admin_record');
 		
-		$this->set(compact('content', 'contentsQuestions', 'record', 'is_record'));
+		$this->set(compact('content', 'contentsQuestions', 'record', 'is_record', 'is_admin_record'));
 	}
 
 	/**

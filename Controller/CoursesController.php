@@ -30,7 +30,10 @@ class CoursesController extends AppController
 	 */
 	public function admin_index()
 	{
-		$this->set('courses', $this->Course->find('all', array('order' => array('Course.sort_no' => 'asc'))));
+		$courses = $this->Course->find('all', array(
+			'order' => array('Course.sort_no' => 'asc')
+		));
+		$this->set(compact('courses'));
 	}
 
 	/**
@@ -100,15 +103,11 @@ class CoursesController extends AppController
 		{
 			throw new NotFoundException(__('Invalid course'));
 		}
+
 		$this->request->allowMethod('post', 'delete');
-		if ($this->Course->delete())
-		{
-			$this->Flash->success(__('コースが削除されました'));
-		}
-		else
-		{
-			$this->Flash->error(__('The course could not be deleted. Please, try again.'));
-		}
+		$this->Course->deleteCourse($course_id);
+		$this->Flash->success(__('コースが削除されました'));
+
 		return $this->redirect(array(
 				'action' => 'index'
 		));

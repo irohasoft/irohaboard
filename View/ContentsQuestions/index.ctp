@@ -2,7 +2,7 @@
 	<div class="breadcrumb">
 	<?php
 	// 管理者による学習履歴表示モードの場合、コース一覧リンクを表示しない
-	if($this->action == 'admin_record')
+	if($is_admin_record)
 	{
 		$course_url = array('controller' => 'contents', 'action' => 'record', $record['Course']['id'], $record['Record']['user_id']);
 	}
@@ -21,7 +21,7 @@
 	<div id="lblStudySec" class="btn btn-info"></div>
 	<?php $this->start('css-embedded'); ?>
 	<style type='text/css'>
-		<?php if($this->action == 'admin_record') { // 管理者による学習履歴表示モードの場合、ロゴのリンクを無効化 ?>
+		<?php if($is_admin_record) { // 管理者による学習履歴表示モードの場合、ロゴのリンクを無効化 ?>
 		.ib-navi-item
 		{
 			display: none;

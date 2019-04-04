@@ -172,4 +172,24 @@ EOF;
 		
 		return $has_right;
 	}
+	
+	// コースの削除
+	public function deleteCourse($course_id)
+	{
+		$params = array(
+			'course_id' => $course_id
+		);
+		
+		// テスト問題の削除
+		$sql = "DELETE FROM ib_contents_questions WHERE content_id IN (SELECT id FROM  ib_contents WHERE course_id = :course_id);";
+		$this->query($sql, $params);
+		
+		// コンテンツの削除
+		$sql = "DELETE FROM ib_contents WHERE course_id = :course_id;";
+		$this->query($sql, $params);
+		
+		// コースの削除
+		$sql = "DELETE FROM ib_courses WHERE id = :course_id;";
+		$this->query($sql, $params);
+	}
 }

@@ -10,7 +10,3 @@
 
 // Custom Config
 $config['dummy']		= array();
-
-$config['import_group_count']  = 5;
-$config['import_course_count'] = 10;
-

@@ -35,15 +35,21 @@
 		if($is_admin_page)
 			echo $this->Html->css('admin.css');
 
+		// カスタマイズ用CSS
+		echo $this->Html->css('custom.css?20190401');
+		
 		echo $this->Html->script('jquery-1.9.1.min.js');
 		echo $this->Html->script('jquery-ui-1.9.2.min.js');
 		echo $this->Html->script('bootstrap.min.js');
 		echo $this->Html->script('moment.js');
 		echo $this->Html->script('common.js?20190401');
 		
-		// デモモード用JavaScript
+		// デモモード用スクリプト
 		if(Configure::read('demo_mode'))
 			echo $this->Html->script('demo.js');
+		
+		// カスタマイズ用スクリプト
+		echo $this->Html->script('custom.js?20190401');
 		
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

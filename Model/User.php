@@ -54,7 +54,8 @@ class User extends AppModel
 			'notBlank' => array(
 				'rule' => array(
 						'notBlank'
-				)
+				),
+				'message' => '権限が指定されていません'
 			)
 		),
 		'password' => array(

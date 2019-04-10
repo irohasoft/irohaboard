@@ -33,7 +33,11 @@
 <div class="users index">
 	<div class="ib-page-title"><?php echo __('ユーザ一覧'); ?></div>
 	<div class="buttons_container">
+		<?php if($loginedUser['role']=='admin'){ ?>
+		<button type="button" class="btn btn-primary" onclick="if(confirm('ユーザ情報をCSV形式でダウンロードしてよろしいですか?')){location.href='<?php echo Router::url(array('action' => 'export')) ?>'}">エクスポート</button>
+		<button type="button" class="btn btn-primary" onclick="location.href='<?php echo Router::url(array('action' => 'import')) ?>'">インポート</button>
 		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add')) ?>'">+ 追加</button>
+		<?php }?>
 	</div>
 	<div class="ib-horizontal">
 		<?php

@@ -213,6 +213,18 @@ form .required .control-label:after
 	text-align			: center;
 }
 
+.ib-table-csv
+{
+	width				: 90%;
+}
+
+.ib-table-csv th
+{
+	border				: 1px solid;
+	min-width			: 100px;
+	padding				: 5px;
+}
+
 /* start メニューの自動ボタン化を抑止 */
 .nav>li
 {

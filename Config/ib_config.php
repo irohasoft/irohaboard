@@ -139,3 +139,6 @@ $config['theme_colors'] = array(
 	'#000000' => 'black'
 );
 
+$config['import_group_count']  = 10;
+$config['import_course_count'] = 20;
+

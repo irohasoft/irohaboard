@@ -41,12 +41,27 @@ Cache::config('default', array('engine' => 'File'));
  * ));
  */
 
+
+// カスタマイズ用ディレクトリの登録（このディレクトリに格納されたソースを優先して読み込む）
 App::build(
 	array(
-		'Model'			=> array(APP.'Custom'.DS.'Model'.DS),
-		'Controller'	=> array(APP.'Custom'.DS.'Controller'.DS),
-		'View'			=> array(APP.'Custom'.DS.'View'.DS),
-		'Vendor'		=> array(APP.'Custom'.DS.'Vendor'.DS),
+		'Model'                     => array(APP.'Custom'.DS.'Model'.DS),
+		'Model/Behavior'            => array(APP.'Custom'.DS.'Model'.DS.'Behavior'.DS),
+		'Model/Datasource'          => array(APP.'Custom'.DS.'Model'.DS.'Datasource'.DS),
+		'Model/Datasource/Database' => array(APP.'Custom'.DS.'Model'.DS.'Datasource'.DS.'Database'.DS),
+		'Model/Datasource/Session'  => array(APP.'Custom'.DS.'Model'.DS.'Datasource'.DS.'Session'.DS),
+		'Controller'                => array(APP.'Custom'.DS.'Controller'.DS),
+		'Controller/Component'      => array(APP.'Custom'.DS.'Controller'.DS.'Component'.DS),
+		'Controller/Component/Auth' => array(APP.'Custom'.DS.'Controller'.DS.'Component'.DS.'Auth'.DS),
+		'Controller/Component/Acl'  => array(APP.'Custom'.DS.'Controller'.DS.'Component'.DS.'Acl'.DS),
+		'View'                      => array(APP.'Custom'.DS.'View'.DS),
+		'View/Helper'               => array(APP.'Custom'.DS.'View'.DS.'Helper'.DS),
+		'Console'                   => array(APP.'Custom'.DS.'Console'.DS),
+		'Console/Command'           => array(APP.'Custom'.DS.'Console'.DS.'Command'.DS),
+		'Lib'                       => array(APP.'Custom'.DS.'Lib'.DS),
+		'Locale'                    => array(APP.'Custom'.DS.'Locale'.DS),
+		'Vendor'                    => array(APP.'Custom'.DS.'Vendor'.DS),
+		'Plugin'                    => array(APP.'Custom'.DS.'Plugin'.DS),
 	)
 );
 

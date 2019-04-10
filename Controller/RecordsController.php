@@ -69,6 +69,7 @@ class RecordsController extends AppController
 		$contenttitle		= (isset($this->request->query['contenttitle'])) ? $this->request->query['contenttitle'] : "";
 		
 		
+		// グループが指定されている場合、指定したグループに所属するユーザの履歴を抽出
 		if($group_id != "")
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 		

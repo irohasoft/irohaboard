@@ -194,7 +194,7 @@
 				echo "<span class='kind kind-test'>";
 				echo $this->Form->input('timelimit', array(
 					'label' => '制限時間 (1-100分)',
-					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　指定した場合、制限時間に達すると無条件に採点されます。</span>',
+					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　指定した場合、制限時間を過ぎると自動的に採点されます。</span>',
 				));
 				
 				echo $this->Form->input('pass_rate', array(
@@ -203,7 +203,7 @@
 				
 				echo $this->Form->input('question_count', array(
 					'label' => '出題数 (1-100問)',
-					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　指定した場合、登録した問題中からランダムに出題されます。</span>',
+					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　指定した場合、登録した問題の中からランダムに出題されます。</span>',
 				));
 				echo "</span>";
 				

@@ -44,7 +44,7 @@
 	function add_option()
 	{
 		txt	= document.all("option");
-		opt	= document.all("data[ContentsQuestion][option_list]").options;
+		opt	= document.all("data[ContentsQuestion][option_list][]").options;
 		
 		if(txt.value=="")
 		{
@@ -74,7 +74,7 @@
 
 	function del_option()
 	{
-		var opt = document.all("data[ContentsQuestion][option_list]").options;
+		var opt = document.all("data[ContentsQuestion][option_list][]").options;
 		
 		if( opt.selectedIndex > -1 )
 		{
@@ -86,7 +86,7 @@
 
 	function update_options()
 	{
-		var opt = document.all("data[ContentsQuestion][option_list]").options;
+		var opt = document.all("data[ContentsQuestion][option_list][]").options;
 		var txt = document.all("ContentsQuestionOptions");
 		
 		txt.value = "";
@@ -107,7 +107,7 @@
 
 	function update_correct()
 	{
-		var opt = document.all("data[ContentsQuestion][option_list]").options;
+		var opt = document.all("data[ContentsQuestion][option_list][]").options;
 		
 		if( opt.selectedIndex < 0 )
 		{
@@ -115,7 +115,15 @@
 		}
 		else
 		{
-			document.all("ContentsQuestionCorrect").value = opt.selectedIndex + 1;
+			var corrects = new Array();
+			
+			for(var i=0; i<opt.length; i++)
+			{
+				if(opt[i].selected)
+					corrects.push(i+1);
+			}
+			
+			document.all("ContentsQuestionCorrect").value = corrects.join(',');
 		}
 	}
 
@@ -137,10 +145,12 @@
 			return;
 		
 		var options = $("#ContentsQuestionOptions").val().split('|');
+		var corrects = $("#ContentsQuestionCorrect").val().split(',');
 		
 		for(var i=0; i<options.length; i++)
 		{
-			var isSelected = ($('#ContentsQuestionCorrect').val()==(i+1));
+			var no = (i+1).toString();
+			var isSelected = (corrects.indexOf(no) >= 0);
 			
 			$option = $('<option>')
 				.val(options[i])
@@ -180,8 +190,8 @@
 			<div class="form-group required">
 				<label for="ContentsQuestionOptions" class="col col-sm-3 control-label">選択肢／正解</label>
 				<div class="col col-sm-9 required">
-				「＋」で選択肢の追加、「−」で選択された選択肢を削除します。（※最大10まで）<br>
-				また選択された選択肢が正解となります。<br>
+				「＋」で選択肢の追加、「−」で選択された選択肢を削除します。（※最大10個まで）<br>
+				また選択された選択肢が正解となります。Ctrlキーを押下したまま選択することで、複数の正解の設定も可能です。<br>
 				<input type="text" size="20" name="option" style="width:200px;display:inline-block;">
 				<button class="btn" onclick="add_option();return false;">＋</button>
 				<button class="btn" onclick="del_option();return false;">−</button><br>
@@ -189,10 +199,11 @@
 				echo $this->Form->input('option_list',	array('label' => __('選択肢／正解'), 
 					'type' => 'select',
 					'label' => false,
+					'multiple' => true,
 					'size' => 5,
 					'onchange' => 'update_correct()'
 				));
-				echo $this->Form->hidden('options',	array('label' => __('選択肢')));
+				echo $this->Form->hidden('options',		array('label' => __('選択肢')));
 			?>
 				</div>
 			</div>

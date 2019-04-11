@@ -283,6 +283,11 @@ form .required .control-label:after
 	padding				: 10px;
 }
 
+.contents_questions_index input[type=checkbox]
+{
+	float				: none;
+}
+
 .form-inline
 {
 }

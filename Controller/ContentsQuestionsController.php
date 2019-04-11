@@ -144,9 +144,25 @@ class ContentsQuestionsController extends AppController
 				$question_id	= $contentsQuestion['ContentsQuestion']['id'];		// 問題ID
 				$answer			= @$this->request->data['answer_' . $question_id];	// 解答
 				$correct		= $contentsQuestion['ContentsQuestion']['correct'];	// 正解
+				$corrects		= split(',', $correct);								// 複数選択
+				
 				$is_correct		= ($answer == $correct) ? 1 : 0;					// 正誤判定
 				$score			= $contentsQuestion['ContentsQuestion']['score'];	// 配点
 				$full_score += $score;												// 合計点（配点の合計）
+				
+				// 複数選択問題の場合
+				if(count($corrects) > 1)
+				{
+					$answers	= @$this->request->data['answer_'.$question_id];
+					$answer		= @implode(',', $answers);
+					$is_correct	= $this->isMultiCorrect($answers, $corrects) ? 1 : 0;
+					//debug($is_correct);
+				}
+				else
+				{
+					$answer		= @$this->request->data['answer_'.$question_id];
+					$is_correct	= ($answer == $correct) ? 1 : 0;
+				}
 				
 				if ($is_correct == 1)
 					$my_score += $score;
@@ -157,7 +173,7 @@ class ContentsQuestionsController extends AppController
 					'answer'		=> $answer,			// 解答
 					'correct'		=> $correct,		// 正解
 					'is_correct'	=> $is_correct,		// 正誤
-					'score'			=> $score			// 配点
+					'score'			=> $score,			// 配点
 				);
 				$i++;
 			}
@@ -395,5 +411,23 @@ class ContentsQuestionsController extends AppController
 			$this->ContentsQuestion->setOrder($this->data['id_list']);
 			return "OK";
 		}
+	}
+
+	// 複数選択問題の正誤判定
+	private function isMultiCorrect($answers, $corrects)
+	{
+		// 解答数と正解数が一致しない場合、不合格
+		if(count($answers)!=count($corrects))
+			return false;
+		
+		// 解答が正解に含まれるか確認
+		for($i =0; $i < count($answers); $i++)
+		{
+			if(!in_array($answers[$i], $corrects))
+				return false;
+		}
+		
+		// 全て含まれていれば正解
+		return true;
 	}
 }

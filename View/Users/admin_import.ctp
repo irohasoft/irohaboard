@@ -20,8 +20,8 @@
 					<th>権限 (受講者 / 管理者)*</th>
 					<th>メールアドレス</th>
 					<th>備考</th>
-					<th>所属グループ・・・<?php echo Configure::read('import_course_count');?>列</th>
-					<th>受講コース・・・<?php echo Configure::read('import_group_count');?>列</th>
+					<th>所属グループ・・・<?php echo Configure::read('import_group_count');?>列</th>
+					<th>受講コース・・・<?php echo Configure::read('import_course_count');?>列</th>
 				</tr>
 			</table>
 			<?php

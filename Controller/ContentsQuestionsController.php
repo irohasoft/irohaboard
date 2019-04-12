@@ -24,7 +24,7 @@ class ContentsQuestionsController extends AppController
 		'Security' => array(
 			'validatePost' => false,
 			'csrfUseOnce' => false,
-			'unlockedActions' => array('admin_order')
+			'unlockedActions' => array('admin_order', 'index')
 		),
 	);
 

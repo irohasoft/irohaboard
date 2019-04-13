@@ -1,5 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<div class="settings index">
+<div class="admin-settings-index">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<?php echo __('システム設定'); ?>

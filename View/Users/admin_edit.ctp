@@ -19,7 +19,7 @@
 		setTimeout('$("#UserNewPassword").val("");', 500);
 	});
 <?php $this->Html->scriptEnd(); ?>
-<div class="users form">
+<div class="admin-users-edit">
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
 	<div class="panel panel-default">
 		<div class="panel-heading">

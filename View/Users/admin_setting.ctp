@@ -1,5 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<div class="users form">
+<div class="admin-users-setting">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			設定

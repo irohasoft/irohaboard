@@ -1,5 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<div class="contentsQuestions form">
+<div class="admin-contents-questions-edit">
 <?php echo $this->Html->css('summernote.css');?>
 <?php $this->start('css-embedded'); ?>
 <style type='text/css'>

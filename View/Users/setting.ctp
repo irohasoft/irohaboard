@@ -1,4 +1,4 @@
-<div class="users form">
+<div class="users-setting">
 	<div class="breadcrumb">
 	<?php
 	$this->Html->addCrumb('HOME', array(

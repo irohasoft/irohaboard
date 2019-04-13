@@ -6,7 +6,7 @@
 		}
 	</style>
 <?php $this->end(); ?>
-<div class="users form">
+<div class="users-login">
 	<div class="panel panel-info form-signin">
 		<div class="panel-heading">
 			受講者ログイン

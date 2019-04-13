@@ -1,4 +1,4 @@
-<div class="infos view">
+<div class="infos-view">
 	<div class="breadcrumb">
 	<?php
 	$this->Html->addCrumb('HOME', array(

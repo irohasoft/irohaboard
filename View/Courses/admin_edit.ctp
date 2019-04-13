@@ -1,5 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<div class="groups form">
+<div class="admin-courses-edit">
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
 	<div class="panel panel-default">
 		<div class="panel-heading">

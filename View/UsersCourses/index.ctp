@@ -1,4 +1,4 @@
-<div class="courses index">
+<div class="users-courses-index">
 	<div class="panel panel-success">
 		<div class="panel-heading"><?php echo __('お知らせ'); ?></div>
 		<div class="panel-body">

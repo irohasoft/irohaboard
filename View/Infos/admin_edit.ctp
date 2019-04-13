@@ -7,7 +7,7 @@
 	});
 <?php $this->Html->scriptEnd(); ?>
 
-<div class="infos form">
+<div class="admin-infos-edit">
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
 	<div class="panel panel-default">
 		<div class="panel-heading">

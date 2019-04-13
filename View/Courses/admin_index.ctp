@@ -45,7 +45,7 @@
 	});
 </script>
 <?php $this->end(); ?>
-<div class="courses index">
+<div class="admin-courses-index">
 	<div class="ib-page-title"><?php echo __('コース一覧'); ?></div>
 	<div class="buttons_container">
 		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add')) ?>'">+ 追加</button>

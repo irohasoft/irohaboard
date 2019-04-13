@@ -1,4 +1,4 @@
-<div class="contents_questions_index">
+<div class="contents-questions-index">
 	<div class="breadcrumb">
 	<?php
 	// 管理者による学習履歴表示モードの場合、コース一覧リンクを表示しない

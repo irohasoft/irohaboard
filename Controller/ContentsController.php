@@ -436,4 +436,65 @@ class ContentsController extends AppController
 		$this->index($course_id, $user_id);
 		$this->render('index');
 	}
+
+	/**
+	 * コンテンツのコピー
+     * @param int $course_id コピー先のコースのID
+     * @param int $content_id コピーするコンテンツのID
+	 */
+	public function admin_copy($course_id, $content_id)
+	{
+		$options = array(
+			'conditions' => array(
+				'Content.' . $this->Content->primaryKey => $content_id
+			)
+		);
+		
+		// コンテンツのコピー
+		$data = $this->Content->find('first', $options);
+		$row  = $this->Content->find('first', array("fields" => "MAX(Content.id) as max_id"));
+		$new_content_id = $row[0]['max_id'] + 1;
+		
+		$data['Content']['id'] = $new_content_id;
+		$data['Content']['created'] = null;
+		$data['Content']['modified'] = null;
+		$data['Content']['status'] = 0;
+		$data['Content']['title'] .= 'の複製';
+		
+		$this->Content->save($data);
+		
+		// テスト問題のコピー
+		$this->LoadModel('ContentsQuestion');
+		$contentsQuestions = $this->ContentsQuestion->find('all', array(
+			'conditions' => array(
+				'content_id' => $content_id
+			),
+			'order' => array('ContentsQuestion.sort_no' => 'asc')
+		));
+		
+		$sort_no = 1;
+		foreach ($contentsQuestions as $contentsQuestion)
+		{
+			$row = $this->ContentsQuestion->find('first', array("fields" => "MAX(ContentsQuestion.id) as max_id"));
+			$new_question_id = $row[0]['max_id'] + 1;
+			
+			$contentsQuestion['ContentsQuestion']['id']			= null;
+			$contentsQuestion['ContentsQuestion']['created']	= null;
+			$contentsQuestion['ContentsQuestion']['modified']	= null;
+			$contentsQuestion['ContentsQuestion']['content_id']	= $new_content_id;
+			$contentsQuestion['ContentsQuestion']['sort_no']	= $sort_no;
+			
+			$this->ContentsQuestion->validate = null;
+			
+			$this->ContentsQuestion->create($contentsQuestion);
+			$this->ContentsQuestion->save();
+			
+			$sort_no++;
+		}
+		
+		return $this->redirect(array(
+			'action' => 'index',
+			$course_id
+		));
+	}
 }

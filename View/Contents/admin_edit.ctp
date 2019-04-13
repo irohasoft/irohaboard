@@ -149,7 +149,7 @@
 </script>
 <?php $this->end(); ?>
 
-<div class="contents form">
+<div class="admin-contents-edit">
 	<?php
 		$this->Html->addCrumb('コース一覧', array('controller' => 'courses', 'action' => 'index'));
 		$this->Html->addCrumb($course['Course']['title'],  array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));
@@ -206,8 +206,7 @@
 					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　指定した場合、登録した問題の中からランダムに出題されます。</span>',
 				));
 				echo "</span>";
-				
-				
+
 				// ステータス
 				echo $this->Form->input('status',	array(
 					'type' => 'radio',
@@ -220,6 +219,15 @@
 					'options' => Configure::read('content_status')
 					)
 				);
+
+				if(($this->action == 'admin_edit'))
+				{
+					echo $this->Form->input('course_id', array(
+						'label' => '所属コース',
+						'value'=>$course['Course']['id'],
+						'after' => '<div class="col col-sm-3"></div><span class="status-exp">　変更することで他のコースにコンテンツを移動できます。</span>',
+					));
+				}
 
 				echo "<span class='kind kind-text kind-html kind-movie kind-url kind-file kind-test'>";
 				echo $this->Form->input('comment', array('label' => '備考'));

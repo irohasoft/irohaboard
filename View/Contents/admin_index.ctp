@@ -1,6 +1,10 @@
 <?php echo $this->element('admin_menu');?>
 <?php $this->start('css-embedded'); ?>
 <style>
+		.ib-col-action
+		{
+			width: 200px;
+		}
 </style>
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
@@ -50,7 +54,7 @@
 </script>
 <?php $this->end(); ?>
 
-<div class="contents index">
+<div class="admin-contents-index">
 	<div class="ib-breadcrumb">
 	<?php
 		$this->Html->addCrumb('コース一覧', array('controller' => 'courses', 'action' => 'index'));
@@ -69,7 +73,7 @@
 	<tr>
 		<th>コンテンツ名</th>
 		<th nowrap>コンテンツ種別</th>
-		<th class="ib-col-date">ステータス</th>
+		<th class="text-center">ステータス</th>
 		<th class="ib-col-date">作成日時</th>
 		<th class="ib-col-date">更新日時</th>
 		<th class="ib-col-action"><?php echo __('Actions'); ?></th>
@@ -91,11 +95,12 @@
 	<tr>
 		<td><?php echo $title; ?></td>
 		<td><?php echo h(Configure::read('content_kind.'.$content['Content']['kind'])); ?>&nbsp;</td>
-		<td class="ib-col-date"><?php echo h(Configure::read('content_status.'.$content['Content']['status'])); ?>&nbsp;</td>
+		<td class="text-center"><?php echo h(Configure::read('content_status.'.$content['Content']['status'])); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($content['Content']['created']); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($content['Content']['modified']); ?>&nbsp;</td>
 		<td class="ib-col-action">
 			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $course['Course']['id'], $content['Content']['id'])) ?>'">編集</button>
+			<button type="button" class="btn btn-info" onclick="location.href='<?php echo Router::url(array('action' => 'copy', $course['Course']['id'], $content['Content']['id'])) ?>'">複製</button>
 			<?php
 			echo $this->Form->hidden('id', array('id'=>'', 'class'=>'content_id', 'value'=>$content['Content']['id']));
 			

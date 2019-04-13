@@ -271,19 +271,25 @@ form .required .control-label:after
 	float: right;
 }
 
-.contents_questions_index .radio-group
+.status-closed
+{
+	color				: #666;
+	font-size			: 12px;
+}
+
+.contents-questions-index .radio-group
 {
 	font-size			: 18px;
 	padding				: 10px;
 	line-height			: 180%;
 }
 
-.contents_questions_index input[type=radio]
+.contents-questions-index input[type=radio]
 {
 	padding				: 10px;
 }
 
-.contents_questions_index input[type=checkbox]
+.contents-questions-index input[type=checkbox]
 {
 	float				: none;
 }
@@ -292,7 +298,7 @@ form .required .control-label:after
 {
 }
 
-.contents_questions_index #lblStudySec
+.contents-questions-index #lblStudySec
 {
 	position			: fixed;
 	top					: 50px;
@@ -300,18 +306,18 @@ form .required .control-label:after
 	display				: none;
 }
 
-.contents_questions_index .question-text,
-.contents_questions_index .correct-text
+.contents-questions-index .question-text,
+.contents-questions-index .correct-text
 {
 	padding				: 10px;
 	border-radius		: 6px;
 }
 
-.contents_questions_index img{
+.contents-questions-index img{
 	max-width			: 100%;
 }
 
-.contents_questions_index .result-table
+.contents-questions-index .result-table
 {
 	margin				: 10px;
 	width				: 250px;

@@ -22,11 +22,13 @@
 <?php }?>
 </style>
 <?php $this->end(); ?>
-<div class="contents index">
+<div class="contents-index">
 	<div class="ib-breadcrumb">
 	<?php
+	$is_admin_record = ($this->action=='admin_record');
+	
 	// 管理者による学習履歴表示の場合、パンくずリストを表示しない
-	if($this->action!='admin_record')
+	if($is_admin_record)
 	{
 		$this->Html->addCrumb('<< '.__('コース一覧'), array(
 			'controller' => 'users_courses',
@@ -129,8 +131,11 @@
 		}
 		
 		// 管理者による学習履歴表示の場合、学習画面へのリンクを出力しない
-		if($this->action=='admin_record')
+		if($is_admin_record)
 			$title_link = h($content['Content']['title']);
+		
+		if($content['Content']['status']==0)
+			$title_link .= ' <span class="status-closed">(非公開)</span>';
 		
 		?>
 		<?php if($content['Content']['kind']=='label') { // ラベルの場合、タイトルのみ表示 ?>

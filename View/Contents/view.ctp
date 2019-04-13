@@ -14,13 +14,13 @@
 		echo $this->Html->css('jquery-ui');
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('common.css');
-		echo $this->Html->css('contents_view.css');
+		echo $this->Html->css('contents_view.css?20190401');
 
 		echo $this->Html->script('jquery-1.9.1.min.js');
 		echo $this->Html->script('jquery-ui-1.9.2.min.js');
 		echo $this->Html->script('bootstrap.min.js');
 		echo $this->Html->script('common.js');
-		echo $this->Html->script('contents_view.js');
+		echo $this->Html->script('contents_view.js?20190401');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -35,8 +35,6 @@
 </head>
 <body>
 <?php
-	$td_style = '';
-	
 	switch($content['Content']['kind'])
 	{
 		case 'url': // URLコンテンツ
@@ -44,42 +42,39 @@
 			break;
 		case 'movie': // 動画コンテンツ
 			$body = '<video src="'.h($content['Content']['url']).'" controls width="100%" oncontextmenu="return false;"></video>';
-			$td_style = 'vertical-align: middle;';
 			break;
 		case 'text': // テキスト型コンテンツ
 			$body = h($content['Content']['body']);
 			$body = $this->Text->autoLinkUrls($body);
 			$body = nl2br($body);
-			$td_style = 'vertical-align: top;';
 			break;
 		case 'html': // リッチテキストコンテンツ
 			$body = $content['Content']['body'];
-			$td_style = 'vertical-align: top;';
 			break;
 	}
 ?>
-<table width="100%" height="99%">
-	<tr height="30">
+<table class="content-table">
+	<tr class="top-row">
 		<td>
 			<div class='content-title'><?php echo h($content['Content']['title'])?></div>
 		</td>
 	</tr>
 	<tr>
-		<td style="<?php echo $td_style?>">
+		<td class="content-<?php echo $content['Content']['kind']?>">
 			<?php echo $body;?>
 		</td>
 	</tr>
-	<tr height="60">
-		<td align="center">
+	<tr class="bottom-row">
+		<td>
 			<div>
 				<div class="select-message">※ 理解度を選んで終了して下さい。</div>
-				<span class='for-pc'>
+				<span class='buttons-container-pc'>
 				<button type="button" class="btn btn-success" onclick="finish(5);">◎よく理解できた</button>
 				<button type="button" class="btn btn-success" onclick="finish(4);">〇まあまあ理解できた</button>
 				<button type="button" class="btn btn-success" onclick="finish(3);">△あまりよく理解できなかった</button>
 				<button type="button" class="btn btn-success" onclick="finish(2);">✕全く理解できなかった</button>
 				</span>
-				<span class='for-spn'>
+				<span class='buttons-container-spn'>
 				<button type="button" class="btn btn-success" onclick="finish(5);">◎</button>
 				<button type="button" class="btn btn-success" onclick="finish(4);">〇</button>
 				<button type="button" class="btn btn-success" onclick="finish(3);">△</button>

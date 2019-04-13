@@ -28,13 +28,13 @@ table, td, tr
 	padding:0px;
 }
 
-.content-title
+.buttons-container-title
 {
 	font-size			: 18px;
 	font-weight			: bold;
 }
 
-.for-spn
+.buttons-container-spn
 {
 	display				: none;
 }
@@ -42,6 +42,38 @@ table, td, tr
 .select-message
 {
 	padding-bottom		: 10px;
+}
+
+.content-table
+{
+	width				: 100%;
+	height				: 99%;
+}
+
+.top-row
+{
+	height				: 30px;
+}
+
+.content-movie
+{
+	vertical-align		: middle;
+}
+
+.content-text,
+.content-html
+{
+	vertical-align		: top;
+}
+
+.bottom-row
+{
+	height				: 60px;
+}
+
+.bottom-row td
+{
+	text-align			: center;
 }
 
 @media only screen and (max-width:800px)
@@ -56,11 +88,11 @@ table, td, tr
 		padding			: 0px;
 	}
 	
-	.for-pc
+	.buttons-container-pc
 	{
 		display			: none;
 	}
-	.for-spn
+	.buttons-container-spn
 	{
 		display			: block;
 	}

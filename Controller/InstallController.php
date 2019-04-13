@@ -47,6 +47,50 @@ class InstallController extends AppController
 			$sql = "SHOW TABLES FROM `".$cdd->default['database']."` LIKE 'ib_users'";
 			$data = $this->db->query($sql);
 			
+			// apache_get_modules が存在する場合のみ、Apache のモジュールチェックを行う
+			if (function_exists('apache_get_modules'))
+			{
+				// mod_rewrite 存在チェック
+				if(!$this->__apache_module_loaded('mod_rewrite'))
+				{
+					// エラー出力
+					$this->err_msg = 'Apache モジュール mod_rewrite がロードされていません';
+					$this->error();
+					$this->render('error');
+					return;
+				}
+				
+				// mod_headers 存在チェック
+				if(!$this->__apache_module_loaded('mod_headers'))
+				{
+					// エラー出力
+					$this->err_msg = 'Apache モジュール mod_headers がロードされていません';
+					$this->error();
+					$this->render('error');
+					return;
+				}
+			}
+			
+			// mbstring 存在チェック
+			if(!extension_loaded('mbstring'))
+			{
+				// エラー出力
+				$this->err_msg = 'PHP モジュール mbstring がロードされていません';
+				$this->error();
+				$this->render('error');
+				return;
+			}
+			
+			// mysqli 存在チェック
+			if(!extension_loaded('mysqli'))
+			{
+				// エラー出力
+				$this->err_msg = 'PHP モジュール mysqli がロードされていません';
+				$this->error();
+				$this->render('error');
+				return;
+			}
+			
 			// ユーザテーブルが存在する場合、インストール済みと判断
 			if (count($data) > 0)
 			{
@@ -68,7 +112,7 @@ class InstallController extends AppController
 						$err .= $err."\n";
 					}
 					
-					// デバッグログ
+					// エラー出力
 					$this->log($err);
 					$this->error();
 					$this->render('error');
@@ -185,6 +229,19 @@ class InstallController extends AppController
 
 			$this->User->save($data);
 		}
+	}
+	
+	private function __apache_module_loaded($module_name)
+	{
+		$modules = apache_get_modules();
+		
+		foreach($modules as $module)
+		{
+			if($module == $module_name)
+				return true;
+		}
+		
+		return false;
 	}
 }
 ?>

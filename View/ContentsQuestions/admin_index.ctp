@@ -1,21 +1,5 @@
 <?php echo $this->element('admin_menu');?>
 <?php $this->start('css-embedded'); ?>
-	<style type='text/css'>
-		.td-reader
-		{
-			width:200px;
-			text-overflow:ellipsis;
-			overflow:hidden;
-			white-space:nowrap;
-		}
-		
-		table
-		{
-			table-layout:fixed;
-		}
-	</style>
-<?php $this->end(); ?>
-<?php $this->start('css-embedded'); ?>
 	<script>
 		$(function(){
 			$('#sortable-table tbody').sortable(

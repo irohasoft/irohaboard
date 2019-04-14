@@ -1,12 +1,4 @@
 <?php echo $this->element('admin_menu');?>
-<?php $this->start('css-embedded'); ?>
-<style>
-		.ib-col-action
-		{
-			width: 200px;
-		}
-</style>
-<?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
 <script>
 	$(function(){

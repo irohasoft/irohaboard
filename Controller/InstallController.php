@@ -81,11 +81,11 @@ class InstallController extends AppController
 				return;
 			}
 			
-			// mysqli 存在チェック
-			if(!extension_loaded('mysqli'))
+			// pdo_mysql 存在チェック
+			if(!extension_loaded('pdo_mysql'))
 			{
 				// エラー出力
-				$this->err_msg = 'PHP モジュール mysqli がロードされていません';
+				$this->err_msg = 'PHP モジュール pdo_mysql がロードされていません';
 				$this->error();
 				$this->render('error');
 				return;

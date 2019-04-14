@@ -1,37 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<div class="admin-contents-questions-edit">
 <?php echo $this->Html->css('summernote.css');?>
-<?php $this->start('css-embedded'); ?>
-<style type='text/css'>
-	#ContentsQuestionOptionList
-	{
-	    width: 200px;
-	}
-	
-	#ContentsQuestionOptionList option
-	{
-		border-top:    2px double #ccc;
-		border-right:  2px double #aaa;
-		border-bottom: 2px double #aaa;
-		border-left:   2px double #ccc;
-		/*
-		background-color: #fff;
-		font-family: Verdana, Geneva, sans-serif;
-		*/
-		color: #444455;
-		width: 160px;
-		margin:6px;
-		padding: 5px;
-	}
-	
-	input[name="data[ContentsQuestion][image]"]
-	{
-		display:inline-block;
-		width:85%;
-		margin-right:10px;
-	}
-</style>
-<?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
 <?php echo $this->Html->script('summernote.min.js');?>
 <?php echo $this->Html->script('lang/summernote-ja-JP.js');?>
@@ -167,6 +135,7 @@
 	}
 </script>
 <?php $this->end(); ?>
+<div class="admin-contents-questions-edit">
 	<div class="ib-breadcrumb">
 	<?php 
 		$this->Html->addCrumb('コース一覧',  array('controller' => 'courses', 'action' => 'index'));

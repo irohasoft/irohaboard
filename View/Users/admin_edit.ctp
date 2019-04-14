@@ -1,16 +1,6 @@
 <?php echo $this->element('admin_menu');?>
 <?php echo $this->Html->css( 'select2.min.css');?>
 <?php echo $this->Html->script( 'select2.min.js');?>
-<?php $this->start('css-embedded'); ?>
-<style>
-	.btn-clear
-	{
-		position: relative;
-		right: 50px;
-		top: -50px;
-	}
-</style>
-<?php $this->end(); ?>
 <?php $this->Html->scriptStart(array('inline' => false)); ?>
 	$(function (e) {
 		$('#GroupGroup').select2({placeholder:   "所属するグループを選択して下さい。(複数選択可)", closeOnSelect: <?php echo (Configure::read('close_on_select') ? 'true' : 'false'); ?>,});

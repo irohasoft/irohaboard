@@ -15,12 +15,14 @@
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('common.css');
 		echo $this->Html->css('contents_view.css?20190401');
+		echo $this->Html->css('custom.css');
 
 		echo $this->Html->script('jquery-1.9.1.min.js');
 		echo $this->Html->script('jquery-ui-1.9.2.min.js');
 		echo $this->Html->script('bootstrap.min.js');
 		echo $this->Html->script('common.js');
 		echo $this->Html->script('contents_view.js?20190401');
+		echo $this->Html->css('custom.js');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

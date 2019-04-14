@@ -1,5 +1,4 @@
 <?php echo $this->element('admin_menu');?>
-
 <div class="admin-users-import">
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
 	<div class="panel panel-default">

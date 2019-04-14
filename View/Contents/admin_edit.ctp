@@ -1,26 +1,6 @@
 <?php echo $this->element('admin_menu');?>
 <?php $this->start('css-embedded'); ?>
 <?php echo $this->Html->css('summernote.css');?>
-<style type='text/css'>
-	.form-control-upload
-	{
-		display			: inline-block !important;
-		margin-right	: 10px !important;
-		widht			: 85%;
-	}
-	
-	.form-control-filename
-	{
-		border			: none !important;
-		box-shadow		: none !important;
-	}
-	
-	label span,
-	.status-exp
-	{
-		font-weight		: normal;
-	}
-</style>
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
 <?php echo $this->Html->script('summernote.min.js');?>
@@ -201,6 +181,7 @@
 					'label' => '合格とする得点率 (1-100%)',
 				));
 				
+				// ランダム出題用
 				echo $this->Form->input('question_count', array(
 					'label' => '出題数 (1-100問)',
 					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　指定した場合、登録した問題の中からランダムに出題されます。</span>',
@@ -220,6 +201,7 @@
 					)
 				);
 
+				// コンテンツ移動用
 				if(($this->action == 'admin_edit'))
 				{
 					echo $this->Form->input('course_id', array(

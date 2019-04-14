@@ -32,8 +32,9 @@
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('common.css?20190401');
 		
+		// 管理画面用CSS
 		if($is_admin_page)
-			echo $this->Html->css('admin.css');
+			echo $this->Html->css('admin.css?20190401');
 
 		// カスタマイズ用CSS
 		echo $this->Html->css('custom.css?20190401');
@@ -43,6 +44,10 @@
 		echo $this->Html->script('bootstrap.min.js');
 		echo $this->Html->script('moment.js');
 		echo $this->Html->script('common.js?20190401');
+		
+		// 管理画面用スクリプト
+		if($is_admin_page)
+			echo $this->Html->script('admin.js?20190401');
 		
 		// デモモード用スクリプト
 		if(Configure::read('demo_mode'))

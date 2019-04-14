@@ -1,35 +1,4 @@
 <?php echo $this->element('admin_menu');?>
-<?php $this->start('css-embedded'); ?>
-<style>
-	p
-	{
-		margin: 0;
-	}
-	
-	.reader
-	{
-		overflow: hidden;
-		width: 100%;
-	}
-	
-	.reader p
-	{
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-	}
-	
-	.col-width
-	{
-		width : 100px;
-	}
-	
-	#UserGroupId
-	{
-		max-width : 300px;
-	}
-</style>
-<?php $this->end(); ?>
 <div class="admin-users-index">
 	<div class="ib-page-title"><?php echo __('ユーザ一覧'); ?></div>
 	<div class="buttons_container">

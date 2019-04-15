@@ -22,7 +22,7 @@
 		echo $this->Html->script('bootstrap.min.js');
 		echo $this->Html->script('common.js');
 		echo $this->Html->script('contents_view.js?20190401');
-		echo $this->Html->css('custom.js');
+		echo $this->Html->script('custom.js');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');

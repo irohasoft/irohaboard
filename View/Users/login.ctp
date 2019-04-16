@@ -1,11 +1,3 @@
-<?php $this->start('css-embedded'); ?>
-	<style type='text/css'>
-		#remember_me
-		{
-			margin-left	: 10px;
-		}
-	</style>
-<?php $this->end(); ?>
 <div class="users-login">
 	<div class="panel panel-info form-signin">
 		<div class="panel-heading">

@@ -277,6 +277,11 @@ form .required .control-label:after
 	font-size			: 12px;
 }
 
+.users-login #remember_me
+{
+	margin-left			: 10px;
+}
+
 .contents-questions-index .radio-group
 {
 	font-size			: 18px;

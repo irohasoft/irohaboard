@@ -87,6 +87,29 @@
 	top				: -50px;
 }
 
+.admin-groups-index p
+{
+	margin			: 0;
+}
+
+.admin-groups-index .reader
+{
+	overflow		: hidden;
+	width			: 100%;
+}
+
+.admin-groups-index .reader p
+{
+	display			: -webkit-box;
+	-webkit-box-orient : vertical;
+	-webkit-line-clamp : 2;
+}
+
+.admin-groups-index .col-course
+{
+	width			:300px;
+}
+
 .admin-contents-edit .form-control-upload
 {
 	display			: inline-block !important;

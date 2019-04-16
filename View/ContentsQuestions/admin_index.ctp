@@ -1,5 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<?php $this->start('css-embedded'); ?>
+<?php $this->start('script-embedded'); ?>
 	<script>
 		$(function(){
 			$('#sortable-table tbody').sortable(

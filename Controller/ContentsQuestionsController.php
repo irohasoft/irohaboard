@@ -144,7 +144,7 @@ class ContentsQuestionsController extends AppController
 				$question_id	= $contentsQuestion['ContentsQuestion']['id'];		// 問題ID
 				$answer			= @$this->request->data['answer_' . $question_id];	// 解答
 				$correct		= $contentsQuestion['ContentsQuestion']['correct'];	// 正解
-				$corrects		= split(',', $correct);								// 複数選択
+				$corrects		= explode(',', $correct);							// 複数選択
 				
 				$is_correct		= ($answer == $correct) ? 1 : 0;					// 正誤判定
 				$score			= $contentsQuestion['ContentsQuestion']['score'];	// 配点

@@ -1,4 +1,4 @@
-<div class="form">
+<div class="install-error">
 	<div class="panel panel-danger" style="margin:20px;">
 		<div class="panel-heading">
 			iroha Board Installer

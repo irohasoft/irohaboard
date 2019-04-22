@@ -598,10 +598,6 @@ class UsersController extends AppController
 		
 		$fp = fopen('php://output','w');
 		
-		// ユーザ情報を取得
-		$this->User->recursive = 1;
-		$rows = $this->User->find('all');
-		
 		//------------------------------//
 		//	ヘッダー行の作成			//
 		//------------------------------//
@@ -636,8 +632,6 @@ class UsersController extends AppController
 		$limit      = 500;
 		$user_count = $this->User->find('count');	// ユーザ数を取得
 		$page_size  = ceil($user_count / $limit);	// ページ数（ユーザ数 / ページ単位）
-		
-		$this->loadModel('UsersPresent');
 		
 		// ページ単位でユーザを取得
 		for($page=1; $page <= $page_size; $page++)

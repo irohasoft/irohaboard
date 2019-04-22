@@ -83,8 +83,8 @@ class RecordsQuestion extends AppModel
 					'fields' => '',
 					'order' => ''
 			),
-			'Question' => array(
-					'className' => 'Question',
+			'ContentsQuestion' => array(
+					'className' => 'ContentsQuestion',
 					'foreignKey' => 'question_id',
 					'conditions' => '',
 					'fields' => '',

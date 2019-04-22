@@ -32,6 +32,13 @@ class InstallController extends AppController
 	);
 	
 	/**
+	 * AppController の beforeFilter をオーバーライド ※インストールできなくなる為、この function を消さないこと
+	 */
+	function beforeFilter()
+	{
+	}
+	
+	/**
 	 * インストール
 	 */
 	function index()

@@ -8,9 +8,9 @@
  */
 
 
-// 一定時間経過後、メッセージを閉じる
 $(document).ready(function()
 {
+	// 一定時間経過後、メッセージを閉じる
 	setTimeout(function() {
 		$('#flashMessage').fadeOut("slow");
 	}, 1500);

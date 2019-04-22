@@ -2,7 +2,7 @@
 $url = Router::url(array('controller' => 'users', 'action' => 'login'));
 $url = str_replace('/users/', '/admin/users/', $url);
 ?>
-<div class="form">
+<div class="install-installed">
 	<div class="panel panel-info" style="margin:20px;">
 		<div class="panel-heading">
 			iroha Board Installer

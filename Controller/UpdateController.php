@@ -111,6 +111,10 @@ class UpdateController extends AppController
 					if($e->errorInfo[0]=='42S01')
 						continue;
 					
+					// インデックス重複追加エラー
+					if($e->errorInfo[0]=='42000')
+						continue;
+					
 					$error_msg = sprintf("%s\n[Error Code]%s\n[Error Code2]%s\n[SQL]%s", $e->errorInfo[2], $e->errorInfo[0], $e->errorInfo[1], $statement);
 					$err_statements[count($err_statements)] = $error_msg;
 				}

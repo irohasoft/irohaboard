@@ -89,13 +89,7 @@ class UsersCourse extends AppModel
 	{
 		$sql = <<<EOF
  SELECT Course.*, Course.id, Course.title, first_date, last_date,
-       (ifnull(content_cnt, 0) - ifnull(study_cnt, 0) ) as left_cnt,
-       (SELECT understanding
-          FROM ib_records h1
-         WHERE h1.course_id = Course.id
-           AND h1.user_id     	=:user_id
-         ORDER BY created
-          DESC LIMIT 1) as understanding
+       (ifnull(content_cnt, 0) - ifnull(study_cnt, 0) ) as left_cnt
    FROM ib_courses Course
    LEFT OUTER JOIN
        (SELECT h.course_id, h.user_id,

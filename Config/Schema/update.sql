@@ -31,3 +31,9 @@ ALTER TABLE ib_contents ADD COLUMN status int(1) NOT NULL DEFAULT '1' AFTER pass
 ALTER TABLE ib_contents ADD question_count int(8) AFTER pass_rate;
 
 UPDATE ib_contents SET status = 1 WHERE status IS NULL;
+
+ALTER TABLE ib_users_groups  ADD INDEX idx_user_group_id(user_id, group_id);
+ALTER TABLE ib_users_courses ADD INDEX idx_user_course_id(user_id, course_id);
+ALTER TABLE ib_records ADD INDEX idx_group_course_user_content_id(group_id, course_id, user_id, content_id);
+ALTER TABLE ib_records ADD INDEX idx_created(created);
+

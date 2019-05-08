@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `ib_records` (
   `study_sec` int(3) DEFAULT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `idx_group_course_user_content_id` (`group_id`,`course_id`,`user_id`,`content_id`),
+  KEY `idx_course_user_content_id` (`course_id`,`user_id`,`content_id`),
   KEY `idx_created` (`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

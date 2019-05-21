@@ -318,7 +318,7 @@ class UsersController extends AppController
 			if(Configure::read('demo_mode'))
 				return;
 			
-			$this->request->data['User']['id'] = $this->Session->read('Auth.User.id');
+			$this->request->data['User']['id'] = $this->Auth->user('id');
 			
 			if($this->request->data['User']['new_password'] != $this->request->data['User']['new_password2'])
 			{
@@ -348,7 +348,7 @@ class UsersController extends AppController
 		{
 			$options = array(
 				'conditions' => array(
-						'User.' . $this->User->primaryKey => $this->Session->read('Auth.User.id')
+						'User.' . $this->User->primaryKey => $this->Auth->user('id')
 				)
 			);
 			$this->request->data = $this->User->find('first', $options);

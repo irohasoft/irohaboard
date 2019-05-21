@@ -214,7 +214,7 @@ class RecordsController extends AppController
 		$this->Record->create();
 		$data = array(
 //				'group_id' => $this->Session->read('Auth.User.Group.id'),
-			'user_id'		=> $this->Session->read('Auth.User.id'),
+			'user_id'		=> $this->Auth->user('id'),
 			'course_id'		=> $content['Course']['id'],
 			'content_id'	=> $content_id,
 			'study_sec'		=> $study_sec,

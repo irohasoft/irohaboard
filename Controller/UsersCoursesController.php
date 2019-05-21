@@ -26,7 +26,7 @@ class UsersCoursesController extends AppController
 	 */
 	public function index()
 	{
-		$user_id = $this->Session->read('Auth.User.id');
+		$user_id = $this->Auth->user('id');
 		
 		// 全体のお知らせの取得
 		App::import('Model', 'Setting');

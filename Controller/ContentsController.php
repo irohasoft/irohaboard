@@ -47,25 +47,22 @@ class ContentsController extends AppController
 		));
 		
 		// ロールを取得
-		$role = $this->Session->read('Auth.User.role');
+		$role = $this->Auth->user('role');
 		
 		// 管理者かつ、学習履歴表示モードの場合、
-		if(
-			($role == 'admin')&&
-			($this->action == 'admin_record')
-		)
+		if($this->action == 'admin_record')
 		{
 			$contents = $this->Content->getContentRecord($user_id, $course_id, $role);
 		}
 		else
 		{
 			// コースの閲覧権限の確認
-			if(! $this->Course->hasRight($this->Session->read('Auth.User.id'), $course_id))
+			if(! $this->Course->hasRight($this->Auth->user('id'), $course_id))
 			{
 				throw new NotFoundException(__('Invalid access'));
 			}
 			
-			$contents = $this->Content->getContentRecord($this->Session->read('Auth.User.id'), $course_id, $role);
+			$contents = $this->Content->getContentRecord($this->Auth->user('id'), $course_id, $role);
 		}
 		
 		$this->set(compact('course', 'contents'));
@@ -98,7 +95,7 @@ class ContentsController extends AppController
 		// コンテンツの閲覧権限の確認
 		$this->loadModel('Course');
 		
-		if(! $this->Course->hasRight($this->Session->read('Auth.User.id'), $content['Content']['course_id']))
+		if(! $this->Course->hasRight($this->Auth->user('id'), $content['Content']['course_id']))
 		{
 			throw new NotFoundException(__('Invalid access'));
 		}
@@ -257,7 +254,7 @@ class ContentsController extends AppController
 			// 新規追加の場合、コンテンツの作成者と所属コースを指定
 			if($this->action == 'admin_add')
 			{
-				$this->request->data['Content']['user_id']   = $this->Session->read('Auth.User.id');
+				$this->request->data['Content']['user_id']   = $this->Auth->user('id');
 				$this->request->data['Content']['course_id'] = $course_id;
 				$this->request->data['Content']['sort_no']   = $this->Content->getNextSortNo($course_id);
 			}

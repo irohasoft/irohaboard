@@ -51,11 +51,11 @@ class ContentsQuestionsController extends AppController
 		//	権限チェック				//
 		//------------------------------//
 		// 管理者以外の場合、コンテンツの閲覧権限の確認
-		if($this->Session->read('Auth.User.role') != 'admin')
+		if($this->Auth->user('role') != 'admin')
 		{
 			$this->loadModel('Course');
 			
-			if(! $this->Course->hasRight($this->Session->read('Auth.User.id'), $content['Content']['course_id']))
+			if(! $this->Course->hasRight($this->Auth->user('id'), $content['Content']['course_id']))
 				throw new NotFoundException(__('Invalid access'));
 		}
 		
@@ -192,7 +192,7 @@ class ContentsQuestionsController extends AppController
 			
 			// 追加する成績情報
 			$data = array(
-				'user_id'		=> $this->Session->read('Auth.User.id'),		// ログインユーザのユーザID
+				'user_id'		=> $this->Auth->user('id'),						// ログインユーザのユーザID
 				'course_id'		=> $content['Course']['id'],					// コースID
 				'content_id'	=> $content_id,									// コンテンツID
 				'full_score'	=> $full_score,									// 合計点
@@ -325,7 +325,7 @@ class ContentsQuestionsController extends AppController
 		{
 			if ($question_id == null)
 			{
-				$this->request->data['ContentsQuestion']['user_id'] = $this->Session->read('Auth.User.id');
+				$this->request->data['ContentsQuestion']['user_id'] = $this->Auth->user('id');
 				$this->request->data['ContentsQuestion']['content_id'] = $content_id;
 				$this->request->data['ContentsQuestion']['sort_no']   = $this->ContentsQuestion->getNextSortNo($content_id);
 			}

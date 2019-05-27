@@ -38,7 +38,7 @@ class InfosController extends AppController
 	{
 		// お知らせ一覧を取得
 		$this->loadModel('Info');
-		$this->paginate = $this->Info->getInfoOption($this->Session->read('Auth.User.id'));
+		$this->paginate = $this->Info->getInfoOption($this->Auth->user('id'));
 		
 		$infos = $this->paginate();
 		
@@ -114,7 +114,7 @@ class InfosController extends AppController
 				return;
 			
 			// 作成者を設定
-			$this->request->data['Info']['user_id'] = $this->Session->read('Auth.User.id');
+			$this->request->data['Info']['user_id'] = $this->Auth->user('id');
 			
 			if ($this->Info->save($this->request->data))
 			{

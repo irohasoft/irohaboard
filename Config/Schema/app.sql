@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS `ib_users_groups` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `comment` text,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_user_group_id` (`user_id`,`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -24,7 +25,8 @@ CREATE TABLE IF NOT EXISTS `ib_users_courses` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `comment` text,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_user_course_id` (`user_id`,`course_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -91,7 +93,9 @@ CREATE TABLE IF NOT EXISTS `ib_records` (
   `understanding` smallint(1) DEFAULT NULL,
   `study_sec` int(3) DEFAULT NULL,
   `created` datetime NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_course_user_content_id` (`course_id`,`user_id`,`content_id`),
+  KEY `idx_created` (`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

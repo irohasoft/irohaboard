@@ -64,7 +64,7 @@ class CoursesController extends AppController
 				return;
 			
 			// 作成者を設定
-			$this->request->data['Course']['user_id'] = $this->Session->read('Auth.User.id');
+			$this->request->data['Course']['user_id'] = $this->Auth->user('id');
 			
 			if ($this->Course->save($this->request->data))
 			{

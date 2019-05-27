@@ -40,9 +40,9 @@
 				);
 				
 				echo $this->Form->input('email',				array('label' => 'メールアドレス'));
-				echo $this->Form->input('comment',				array('label' => '備考'));
 				echo $this->Form->input('Group',				array('label' => '所属グループ',	'size' => 20));
 				echo $this->Form->input('Course',				array('label' => '受講コース',		'size' => 20));
+				echo $this->Form->input('comment',				array('label' => '備考'));
 			?>
 			<div class="form-group">
 				<div class="col col-sm-9 col-sm-offset-3">

@@ -47,7 +47,7 @@
 			
 			echo '<div class="ib-row">';
 			echo $this->Form->input('group_id',		array('label' => 'グループ :', 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
-			echo $this->Form->input('user_id',		array('label' => 'ユーザ :', 'options'=>$users, 'selected'=>$user_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
+			echo $this->Form->input('name',			array('label' => '氏名 :', 'value'=>$name, 'class'=>'form-control'));
 			echo '</div>';
 			
 			echo '<div class="ib-search-date-container">';

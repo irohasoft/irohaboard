@@ -64,7 +64,7 @@ class RecordsController extends AppController
 		
 		$group_id			= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
 		$course_id			= (isset($this->request->query['course_id'])) ? $this->request->query['course_id'] : "";
-		$user_id			= (isset($this->request->query['user_id'])) ? $this->request->query['user_id'] : "";
+		$name				= (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
 		$content_category	= (isset($this->request->query['content_category'])) ? $this->request->query['content_category'] : "";
 		$contenttitle		= (isset($this->request->query['contenttitle'])) ? $this->request->query['contenttitle'] : "";
 		
@@ -76,8 +76,8 @@ class RecordsController extends AppController
 		if($course_id != "")
 			$conditions['Course.id'] = $course_id;
 		
-		if($user_id != "")
-			$conditions['User.id'] = $user_id;
+		if($name != "")
+			$conditions['User.name like'] = '%'.$name.'%';
 		
 		// コンテンツ種別：学習の場合
 		if($content_category == "study")
@@ -185,7 +185,7 @@ class RecordsController extends AppController
 			$this->set('users',      $this->User->find('list'));
 			$this->set('group_id',   $group_id);
 			$this->set('course_id',  $course_id);
-			$this->set('user_id',    $user_id);
+			$this->set('name',       $name);
 			$this->set('content_category',	$content_category);
 			$this->set('contenttitle',		$contenttitle);
 			$this->set('from_date', $from_date);

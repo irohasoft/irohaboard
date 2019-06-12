@@ -113,7 +113,11 @@ class RecordsController extends AppController
 		{
 			$this->autoRender = false;
 
-			//Content-Typeを指定
+			// メモリサイズ、タイムアウト時間を設定
+			ini_set("memory_limit", '512M');
+			ini_set("max_execution_time", (60 * 10));
+
+			// Content-Typeを指定
 			$this->response->type('csv');
 
 			header('Content-Type: text/csv');

@@ -20,10 +20,11 @@ $(function (event)
 	$('.btn-primary').prop('disabled', true);
 	$('.btn-score').prop('disabled', false);
 	$('.btn-danger').attr("onclick", 'alert("デモモードの為、削除できません");');
+	$('.admin-users-edit .btn-default').attr("onclick", 'alert("デモモードの為、削除できません");');
+	$('.admin-contents-index .btn-info').attr("onclick", 'alert("デモモードの為、複製できません");');
 	
-	$('.btn-primary[value="+ 追加"]').prop('disabled', false);
-	$('.btn-primary[value="追加"]').prop('disabled', false);
-	$('.btn-primary[value="検索"]').prop('disabled', false);
+	$('.admin-users-index .btn-import').prop('disabled', false); // ユーザインポートボタン
+	
 	$('.btn-add').prop('disabled', false);
 	$('.btn[value="ログイン"]').prop('disabled', false);
 	

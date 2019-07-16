@@ -328,6 +328,22 @@ form .required .control-label:after
 	width				: 250px;
 }
 
+.install-index .panel-info,
+.install-installed .panel-info,
+.install-complete .panel-info,
+.install-error .panel-danger
+{
+	margin:20px;
+}
+
+.install-index p.msg,
+.install-installed p.msg,
+.install-complete p.msg,
+.install-error p.msg
+{
+	margin:10px;
+}
+
 /* スマートフォン用 */
 @media only screen and (max-width:800px)
 {

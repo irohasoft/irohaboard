@@ -105,7 +105,7 @@ class UsersCourse extends AppModel
 		   FROM
 			(SELECT r.course_id, r.content_id, COUNT(*)
 			   FROM ib_records r
-			  INNER JOIN ib_contents c ON r.content_id = c.id
+			  INNER JOIN ib_contents c ON r.content_id = c.id AND r.course_id = c.course_id
 			  WHERE r.user_id = :user_id
 			    AND status = 1
 			  GROUP BY r.course_id, r.content_id) as c

@@ -105,39 +105,42 @@ class InstallController extends AppController
 			}
 			else
 			{
-				// 各種テーブルの作成
-				$this->path = APP.'Config'.DS.'Schema'.DS.'app.sql';
-				$err_statements = $this->__executeSQLScript();
-				
-				// クエリ実行中にエラーが発生した場合、ログファイルにエラー内容を記録
-				if(count($err_statements) > 0)
+				if($this->request->data)
 				{
-					$this->err_msg = 'インストール実行中にエラーが発生しました。詳細はエラーログ(tmp/logs/error.log)をご確認ください。';
+					$password	= $this->request->data['User']['password'];
+					$password2	= $this->request->data['User']['password2'];
 					
-					foreach($err_statements as $err)
+					if((strlen($password) < 4)||(strlen($password) > 32))
 					{
-						$err .= $err."\n";
+						// エラー出力
+						$this->Flash->error('ログインIDは4文字以上32文字以内で入力して下さい');
+						return;
 					}
 					
-					// エラー出力
-					$this->log($err);
-					$this->error();
-					$this->render('error');
-					return;
-				}
-				else
-				{
-					$this->complete();
-					$this->render('complete');
+					if($password!=$password2)
+					{
+						// エラー出力
+						$this->Flash->error('パスワードと確認用パスワードが一致しません');
+						return;
+					}
+					
+					if(!preg_match("/^[a-zA-Z0-9]+$/", $password))
+					{
+						$this->Flash->error('パスワードは英数字で入力して下さい');
+						return;
+					}
+					
+					// インストールの実行
+					$this->__install();
+					
+					// 初期管理者アカウントの存在確認および作成
+					$this->__createRootAccount($password);
 				}
 			}
-			
-			// 初期管理者アカウントの存在確認および作成
-			$this->__createRootAccount();
 		}
 		catch (Exception $e)
 		{
-			$this->err_msg = 'データベースへの接続に失敗しました。<br>Config / database.php ファイル内のデータベースの設定を確認して下さい。';
+			$this->err_msg = 'データベースへの接続に失敗しました。データベース設定ファイル(Config/database.php)をご確認ください。';
 			$this->error();
 			$this->render('error');
 		}
@@ -169,6 +172,39 @@ class InstallController extends AppController
 		$this->set('loginURL', "/users/login/");
 		$this->set('loginedUser', $this->Auth->user());
 		$this->set('body', $this->err_msg);
+	}
+	
+	
+	/**
+	 * インストールの実行
+	 */
+	private function __install()
+	{
+		// 各種テーブルの作成
+		$this->path = APP.'Config'.DS.'Schema'.DS.'app.sql';
+		$err_statements = $this->__executeSQLScript();
+		
+		// クエリ実行中にエラーが発生した場合、ログファイルにエラー内容を記録
+		if(count($err_statements) > 0)
+		{
+			$this->err_msg = 'インストール実行中にエラーが発生しました。詳細はエラーログ(tmp/logs/error.log)をご確認ください。';
+			
+			foreach($err_statements as $err)
+			{
+				$err .= $err."\n";
+			}
+			
+			// エラー出力
+			$this->log($err);
+			$this->error();
+			$this->render('error');
+			return;
+		}
+		else
+		{
+			$this->complete();
+			$this->render('complete');
+		}
 	}
 	
 	/**
@@ -210,7 +246,7 @@ class InstallController extends AppController
 	/**
 	 * rootアカウントの作成
 	 */
-	private function __createRootAccount()
+	private function __createRootAccount($password)
 	{
 		// 管理者アカウントの存在確認
 		$options = array(
@@ -228,7 +264,7 @@ class InstallController extends AppController
 			// 管理者アカウントが１つも存在しない場合、初期管理者アカウント root を作成
 			$data = array(
 				'username' => 'root',
-				'password' => 'irohaboard',
+				'password' => $password,
 				'name' => 'root',
 				'role' => 'admin',
 				'email' => 'info@example.com'

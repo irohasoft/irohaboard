@@ -18,6 +18,9 @@
 			$is_active = ($this->name=='Records') ? ' active' : '';
 			echo '<li class="'.$is_active.'">'.$this->Html->link(__('学習履歴'), array('controller' => 'records', 'action' => 'index')).'</li>';
 
+			$is_active = ($this->name=='SOAP') ? ' active' : '';
+			echo '<li class="'.$is_active.'">'.$this->Html->link(__('SOAP記入'), array('controller' => 'soaps', 'action' => 'index')).'</li>';
+
 			if($loginedUser['role']=='admin')
 			{
 				$is_active = ($this->name=='Settings') ? ' active' : '';

@@ -1,0 +1,121 @@
+@charset "utf-8";
+/*
+ * Ripple  Project
+ *
+ * @author        Osamu Miyazawa
+ * @copyright     NPO Organization uec support
+ * @link          http://uecsupport.dip.jp/
+ * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ */
+
+.admin-group_view-index{}
+
+.admin-student_view-index{}
+
+.member-view {
+  display: grid; width: 800px; height: 650px;
+  grid-template-areas: "a b c" "d d d";
+  grid-template-columns: 250px 150px 400px;
+  grid-template-rows: 150px 500px }
+.member-name     { grid-area: a; padding: 1em ; font-size: 20px }
+.member-photo    { grid-area: b; padding: 0em }
+.member-progress { grid-area: c; padding: 1em }
+.member-soaps    { grid-area: d; padding: 1em }
+
+.soap-view {
+  display: grid; width 800px; height 100px;
+  grid-template-areas: "a b c";
+  grid-template-columns: 50px 100px 1fr;
+  grid-template-rows: 100px;
+}
+.soap-date     { grid-area: a; padding: 1em }
+.soap-material { grid-area: b; padding: 1em }
+.soap-record   { grid-area: c; padding: 1em }
+
+.under-element{
+  clear: both;
+}
+
+.user_name{
+
+  font-size: 20px;
+  float : left;
+  height: 400px;
+  width : 250px;
+  padding-right : 50px;
+}
+
+.group-block{
+  padding-top : 100px;
+  padding-left : 100px;
+  width  : 800px;
+  height : 400px;
+}
+
+.group-btn{
+  width : 200px;
+}
+
+.group-btn-block{
+  width : 300px;
+  padding-right : 100px;
+  float : left;
+  height : 50px;
+}
+
+.student-search-block{
+  float  : left;
+  width  : 800px;
+  height : 50px;
+}
+
+.index-block{
+  float  : left;
+  width  : 800px;
+}
+
+.student-block{
+  float : left;
+  width : 200px;
+  height : 200px;
+  padding-bottom : 50px;
+}
+
+.pic-block{
+  padding-left : 25px;
+  padding-right: 25px;
+  width : 150px;
+  height: 150px;
+}
+
+.number-block{
+  text-align: center;
+}
+
+.name-block{
+  text-align: center;
+}
+
+.student-search-input-label{
+  float : left;
+  height : 40px;
+  padding-left : 100px;
+  padding-top : 5px;
+}
+
+.student-search-input{
+  float : left;
+  width : 100px;
+}
+
+.student-search-input-btn{
+  position : relative;
+  top : 10px;
+  left : 10px;
+}
+
+.white-width{
+  float : left;
+  padding-right : 100px;
+  padding-top : 40px;
+}

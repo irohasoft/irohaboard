@@ -3,6 +3,12 @@
 		<div class="navbar-collapse collapse">
 		<ul class="nav navbar-nav">
 			<?php
+			$is_active = ($this->name=='RecentStates') ? ' active' : '';
+			echo '<li class="'.$is_active.'">'.$this->Html->link(__('近況状況'), array('controller' => 'recentstates', 'action' => 'index')).'</li>';
+
+			$is_active = ($this->name=='SOAP') ? ' active' : '';
+			echo '<li class="'.$is_active.'">'.$this->Html->link(__('SOAP記入'), array('controller' => 'soaps', 'action' => 'index')).'</li>';
+
 			$is_active = (($this->name=='Users')&&($this->params["action"]!='admin_password')) ? ' active' : '';
 			echo '<li class="'.$is_active.'">'.$this->Html->link(__('ユーザ'), array('controller' => 'users', 'action' => 'index')).'</li>';
 
@@ -17,9 +23,6 @@
 
 			$is_active = ($this->name=='Records') ? ' active' : '';
 			echo '<li class="'.$is_active.'">'.$this->Html->link(__('学習履歴'), array('controller' => 'records', 'action' => 'index')).'</li>';
-
-			$is_active = ($this->name=='SOAP') ? ' active' : '';
-			echo '<li class="'.$is_active.'">'.$this->Html->link(__('SOAP記入'), array('controller' => 'soaps', 'action' => 'index')).'</li>';
 
 			if($loginedUser['role']=='admin')
 			{

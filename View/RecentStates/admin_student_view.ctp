@@ -1,6 +1,7 @@
 <?php echo $this->element('admin_menu');?>
 <?php echo $this->Html->css('recentstate');?>
 <div class = "admin-student_view-index">
+
   <div class = "member-view">
     <div class = "member-name">
       <!--<div class = "user_name">-->

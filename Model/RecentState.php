@@ -86,4 +86,13 @@ class RecentState extends AppModel
     return $data;
   }
 
+	public function findRecentSoaps($user_id){
+		$sql = "SELECT id, user_id, current_status, S, O, A, P, created FROM ib_soaps
+				WHERE (user_id = '$user_id')
+				ORDER BY created DESC
+				LIMIT 4";
+		$data = $this->query($sql);
+		return $data;
+	}
+
 }

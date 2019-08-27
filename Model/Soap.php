@@ -3,7 +3,7 @@
  * Ripple  Project
  *
  * @author        Enfu Guo
- * @copyright     NPO Organization uec support 
+ * @copyright     NPO Organization uec support
  * @link          http://uecsupport.dip.jp/
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
@@ -67,7 +67,7 @@ class Soap extends AppModel
 										)
 			)
 	);
-	
+
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
 	public $hasMany = array(
@@ -114,7 +114,7 @@ class Soap extends AppModel
 					'order' => ''
 			)
 	);
-	
+
 	/**
 	 * 検索用
 	 */
@@ -169,7 +169,7 @@ class Soap extends AppModel
       $username = "%".$username."%";
       $name = "%".$name."%";
     }
-    $sql = "SELECT id, username, name, pic_path FROM ib_users 
+    $sql = "SELECT id, username, name, pic_path FROM ib_users
         WHERE (username LIKE '$username'
           OR name LIKE '$name')
           AND (role = 'user')
@@ -178,5 +178,14 @@ class Soap extends AppModel
     $data = $this->query($sql);
     return $data;
   }
+
+	public function findRecentSoaps($user_id){
+		$sql = "SELECT id, user_id, current_status, S, O, A, P, created FROM ib_soaps
+				WHERE (user_id = '$user_id')
+				ORDER BY created DESC
+				LIMIT 4";
+		$data = $this->query($sql);
+		return $data;
+	}
 
 }

@@ -1,6 +1,6 @@
 <?php echo $this->element('admin_menu');?>
-<?php echo $this->Html->css( 'select2.min.css');?>
 <?php echo $this->Html->script( 'select2.min.js');?>
+<?php echo $this->Html->css('users_admin_edit')?>
 <?php $this->Html->scriptStart(array('inline' => false)); ?>
 	$(function (e) {
 		$('#GroupGroup').select2({placeholder:   "所属するグループを選択して下さい。(複数選択可)", closeOnSelect: <?php echo (Configure::read('close_on_select') ? 'true' : 'false'); ?>,});
@@ -9,26 +9,83 @@
 		setTimeout('$("#UserNewPassword").val("");', 500);
 	});
 <?php $this->Html->scriptEnd(); ?>
-<div class="admin-users-edit">
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<?php echo ($this->request->data) ? __('編集') :  __('新規ユーザ'); ?>
-		</div>
-		<div class="panel-body">
-			<?php echo $this->Form->create('User', Configure::read('form_defaults')); ?>
-			<?php
-				$password_label = ($this->request->data) ? __('新しいパスワード') : __('パスワード');
-				
-				echo $this->Form->input('id');
-				echo $this->Form->input('username',				array('label' => 'ログインID'));
-				echo $this->Form->input('User.new_password',	array('label' => $password_label, 'type' => 'password', 'autocomplete' => 'new-password'));
-				echo $this->Form->input('name',					array('label' => '氏名'));
-				
-				// root アカウント、もしくは admin 権限以外の場合、権限変更を許可しない
-				$disabled = (($username == 'root')||($loginedUser['role']!='admin'));
-				
-				echo $this->Form->input('role',	array(
+<div class = "admin-users-edit">
+  <div class = "index-block">
+    <?php echo ($this->request->data) ? __('Edit') : __('New');?>
+  </div>
+  <div class = "pic-block">
+    <?php 
+      echo $this->Form->create('User',array(
+        'type' => 'file',
+        'enctype' => 'multipart/form-data'
+      ));
+      echo $this->Form->input('id');
+      echo $this->Form->input('front_image',array(
+        'div' => false,
+        'class' => false,
+        'label' => 'PIC',
+        'type' => 'file', 'multiple'
+      ));
+    ?>
+  </div>
+  <div class = "info-input-block">
+  <?php
+    $password_label = ($this->request->data) ? __('新しいパスワード') : __('パスワード');
+    echo "<div class = info-input>";
+    echo $this->Form->input('name',	array(
+        'label' => array(
+          'text' => '氏名：',
+          'class' => 'info-input-label'
+        ),
+        'required' => false,
+        'div' => false,
+        'class' => false 
+        ));
+    echo "</div>";
+    
+    echo "<div class = info-input>";
+    echo $this->Form->input('username',	array(
+        'label' => array(
+          'text' => '学籍番号（ログインID）：',
+          'class' => 'info-input-label'
+        ),
+        'required' => false,
+        'div' => false,
+        'class' => false 
+        ));
+    echo "</div>";
+
+    echo "<div class = info-input>";
+    echo $this->Form->input('birthyear',	array(
+        'label' => array(
+          'text' => '生まれた年度：',
+          'class' => 'info-input-label'
+        ),
+        'required' => false,
+        'div' => false,
+        'class' => false 
+        ));
+    echo "</div>";
+    
+    //Password
+		$password_label = ($this->request->data) ? __('新しいパスワード') : __('パスワード');
+    echo "<div class = info-input>";
+    echo $this->Form->input('User.new_password',	array(
+        'label' => array(
+          'text' => $password_label."：",
+          'class' => 'info-input-lable'
+        ),
+        'type' => 'password', 
+        'autocomplete' => 'new-password'
+      ));
+    echo "</div>";
+
+		// root アカウント、もしくは admin 権限以外の場合、権限変更を許可しない
+    $disabled = (($username == 'root')||($loginedUser['role']!='admin'));
+    
+    echo "<div class = info-input>";
+    echo $this->Form->input('role',	array(
 					'type' => 'radio',
 					'before' => '<label class="col col-sm-3 control-label">権限</label>',
 					'separator'=>"　", 
@@ -38,17 +95,66 @@
 					'options' => Configure::read('user_role')
 					)
 				);
-				
-				echo $this->Form->input('email',				array('label' => 'メールアドレス'));
-				echo $this->Form->input('Group',				array('label' => '所属グループ',	'size' => 20));
-				echo $this->Form->input('Course',				array('label' => '受講コース',		'size' => 20));
-				echo $this->Form->input('comment',				array('label' => '備考'));
-			?>
-			<div class="form-group">
-				<div class="col col-sm-9 col-sm-offset-3">
-					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
-				</div>
-			</div>
+    echo "</div>";
+
+    //email
+    echo "<div class = info-input>";
+    echo $this->Form->input('email',	array(
+        'label' => array(
+          'text' => 'メールアドレス：',
+          'class' => 'info-input-label'
+        ),
+        'required' => false,
+        'div' => false,
+        'class' => false 
+        ));
+    echo "</div>";
+
+    echo "<div class = info-input>";
+    echo $this->Form->input('os_type',	array(
+        'label' => array(
+          'text' => 'OS種類：',
+          'class' => 'info-input-label'
+        ),
+        'required' => false,
+        'options' => $os_list,
+        'selected' => $os_id,
+        'empty' => ''
+        ));
+    echo "</div>";
+
+    echo "<div class = info-input>";
+    echo $this->Form->input('period',	array(
+        'label' => array(
+          'text' => '受講時間帯：',
+          'class' => 'info-input-label'
+        ),
+        'required' => false,
+        'div' => false,
+        'class' => false,
+        'options' => array('1限','2限'),
+        'selected' => $time_id,
+        'empty' => ''
+        ));
+    echo "</div>";
+
+    echo "<div class = info-input>";
+    echo $this->Form->input('group_id',	array(
+        'label' => array(
+          'text' => '所属グループ：',
+          'class' => 'info-input-label'
+        ),
+        'required' => false,
+        'div' => false,
+        'class' => false,
+        'options' => $group_list,
+        'selected' => $group_id,
+        'empty' => ''
+        ));
+    echo "</div>";
+  ?>
+      <div class = "info-input">
+			<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 			<?php echo $this->Form->end(); ?>
 			<?php
 			if($this->request->data)
@@ -57,10 +163,10 @@
 					'action' => 'clear',
 					$this->request->data['User']['id']
 				), array(
-					'class' => 'btn btn-default pull-right btn-clear'
+					'class' => 'btn btn-default  btn-delete'
 				), __('学習履歴を削除してもよろしいですか？', $this->request->data['User']['name']));
 			}
 			?>
-		</div>
-	</div>
+			</div>
+  </div>
 </div>

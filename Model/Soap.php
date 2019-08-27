@@ -146,7 +146,7 @@ class Soap extends AppModel
   }
 
   public function getUserList(){
-    $sql = "SELECT id, username, name FROM ib_users WHERE role = 'user' ORDER BY username ASC";
+    $sql = "SELECT id, username, name, pic_path FROM ib_users WHERE role = 'user' ORDER BY username ASC";
     $data = $this->query($sql);
     return $data;
   }
@@ -169,7 +169,7 @@ class Soap extends AppModel
       $username = "%".$username."%";
       $name = "%".$name."%";
     }
-    $sql = "SELECT id,username, name FROM ib_users 
+    $sql = "SELECT id, username, name, pic_path FROM ib_users 
         WHERE (username LIKE '$username'
           OR name LIKE '$name')
           AND (role = 'user')

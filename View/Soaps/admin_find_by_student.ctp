@@ -54,7 +54,13 @@
     <div class = "student-block">
       <div class = "pic-block">
       <?php
-        echo $this->Html->image('student_img/test-man.jpeg', 
+        if($user['ib_users']['pic_path'] !== ''){
+          $pic_path = $user['ib_users']['pic_path'];
+        }else{
+          $pic_path = 'student_img/noPic.png';
+        }
+
+        echo $this->Html->image($pic_path, 
             array(
               'width' => '150',
               'height'=> '150',

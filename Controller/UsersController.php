@@ -255,6 +255,22 @@ class UsersController extends AppController
 		{
 			throw new NotFoundException(__('Invalid user'));
 		}
+
+    $group_list = $this->Group->find('list'); 
+    //$this->log($group_list);
+    $this->set('group_list',$group_list);
+
+    $rows =  $this->User->getOsList();
+    //$this->log($rows);
+
+    $os_list = [];
+    foreach ($rows as $row){
+      $os_id = $row['ib_os_types']['id'];
+      $os_type = $row['ib_os_types']['type'];
+      $os_list[$os_id] = $os_type;
+    }
+    //$this->log($os_list);
+    $this->set('os_list',$os_list);
 		
 		$username = '';
 		
@@ -268,6 +284,23 @@ class UsersController extends AppController
 			
 			if ($this->request->data['User']['new_password'] !== '')
 				$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
+
+      //画像アップロード
+      if($this->request->data['User']['front_image'] !== ''){
+        $tmp = $this->request->data;
+        //$this->log($tmp);
+        $fileName = $tmp['User']['front_image'];
+        $path = '../webroot/img/student_img/';
+
+        $newName = $fileName['name'];
+        $picPath = "student_img/".$newName;
+
+        move_uploaded_file($fileName['tmp_name'],$path.$newName);
+      }
+      
+      if($this->User->updatePicPath($user_id, $picPath) !== 1){
+        $this->Flash->error(__('The user could not be saved. Please, try again.'));
+      }
 
 			if ($this->User->save($this->request->data))
 			{

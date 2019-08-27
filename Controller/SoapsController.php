@@ -25,22 +25,18 @@ class SoapsController extends AppController{
     $this->set('groupData', $groupData);
   }
   public function admin_find_by_student(){
-    //$this->log("Studnet");
     $this->loadModel('User');
 
     if($this->request->is('post')){
       $conditions = $this->request->data;
-      //$this->log($conditions);
       $username = $conditions['Search']['username'];
-      //$this->log($username);
       $name = $conditions['Search']['name'];
-      $this->log($name);
+
+      //$this->log($name);
       $user_list = $this->Soap->findUserList($username, $name);
-      //$this->log($user_list);
+
     }else{
       $user_list = $this->Soap->getUserList();
-      //$this->log($user_list);
-      //$user_list = $this->User->find('list');
     }
     $this->set('user_list', $user_list);
   }

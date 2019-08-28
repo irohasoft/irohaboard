@@ -106,7 +106,7 @@ class Group extends AppModel
 	 */
 	public function getUserIdByGroupID($group_id)
 	{
-		$sql = "SELECT user_id FROM ib_users_groups WHERE group_id = :group_id";
+		$sql = "SELECT id FROM ib_users WHERE group_id = :group_id";
 		
 		$params = array('group_id' => $group_id);
 		
@@ -116,7 +116,7 @@ class Group extends AppModel
 		
 		for($i=0; $i< count($data); $i++)
 		{
-			$list[$i] = $data[$i]['ib_users_groups']['user_id'];
+			$list[$i] = $data[$i]['ib_users']['id'];
 		}
 		
 		return $list;

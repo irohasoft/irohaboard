@@ -27,23 +27,19 @@ class RecentStatesController extends AppController{
     $this->set('groupData', $groupData);
   }
   public function admin_find_by_student(){
-    //$this->log("Studnet");
     $this->loadModel('User');
     $this->loadModel('Soap');
 
     if($this->request->is('post')){
       $conditions = $this->request->data;
-      //$this->log($conditions);
       $username = $conditions['Search']['username'];
-      //$this->log($username);
       $name = $conditions['Search']['name'];
-      $this->log($name);
+
+      //$this->log($name);
       $user_list = $this->Soap->findUserList($username, $name);
-      //$this->log($user_list);
+
     }else{
       $user_list = $this->Soap->getUserList();
-      //$this->log($user_list);
-      //$user_list = $this->User->find('list');
     }
     $this->set('user_list', $user_list);
   }
@@ -60,14 +56,14 @@ class RecentStatesController extends AppController{
     //$this->log($members);
     $this->set('members', $members);
 
+    // user_idとpic_pathの配列
+    $group_pic_paths = $this->User->findGroupPicPaths($members);
+    $this->log($group_pic_paths);
+    $this->set('group_pic_paths', $group_pic_paths);
+
     // user_idと過去4回分SOAPの配列を作る
-    $members_recent_soaps = array();
-    foreach($members as $member):
-      $user_id = $member['ib_users_groups']['user_id'];
-      $recent_soaps = $this->Soap->findRecentSoaps($user_id);
-      $members_recent_soaps += [$user_id => $recent_soaps];
-    endforeach;
-    //$this->log($members_recent_soaps);
+    $members_recent_soaps = $this->Soap->findGroupRecentSoaps($members);
+    $this->log($members_recent_soaps);
     $this->set('members_recent_soaps', $members_recent_soaps);
   }
 
@@ -79,6 +75,9 @@ class RecentStatesController extends AppController{
     //$this->log($user_list);
     $this->set('user_list', $user_list);
     $this->set('user_id', $user_id);
+
+    $pic_path = $this->User->findUserPicPath($user_id);
+    $this->set('pic_path', $pic_path);
 
     // 過去四回のSOAPを検索
     $recent_soaps = $this->Soap->findRecentSoaps($user_id);

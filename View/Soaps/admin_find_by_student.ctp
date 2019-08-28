@@ -1,4 +1,4 @@
-<?php 
+<?php
   echo $this->element('admin_menu');
   echo $this->Html->css('soap');
   echo $this->Html->css('bootstrap.min');
@@ -40,16 +40,16 @@
     ?>
     <div class = "white-width">
     </div>
-    <div class = "student-search-submit-btn"> 
+    <div class = "student-search-submit-btn">
     <input type = "submit" class = "" value = "検索">
     </div>
     <?php
       echo $this->Form->end();
-    ?> 
+    ?>
   </div>
   <div class = "index-block">
   <?php
-    foreach ($user_list as $user):  
+    foreach ($user_list as $user):
   ?>
     <div class = "student-block">
       <div class = "pic-block">
@@ -60,24 +60,24 @@
           $pic_path = 'student_img/noPic.png';
         }
 
-        echo $this->Html->image($pic_path, 
+        echo $this->Html->image($pic_path,
             array(
               'width' => '150',
               'height'=> '150',
-              'alt' => 'test-man',
+              'alt' => $pic_path,
               'url' => array(
                   'controller' => 'soaps',
                   'action' => 'student_edit',$user['ib_users']['id']
-                
+
                   )
-            )); 
+            ));
       ?>
       </div>
       <div class = "number-block">
-        <?php echo h($user['ib_users']['username']);?> 
+        <?php echo h($user['ib_users']['username']);?>
       </div>
       <div class = "name-block">
-        <?php echo h($user['ib_users']['name']);?> 
+        <?php echo h($user['ib_users']['name']);?>
       </div>
 
     </div>

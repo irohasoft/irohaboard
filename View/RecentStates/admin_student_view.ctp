@@ -12,11 +12,11 @@
     </div>
     <div class = "member-photo">
       <?php
-        echo $this->Html->image('student_img/test-man.jpeg',
+        echo $this->Html->image($pic_path,
           array(
             'width' => '150',
             'height'=> '150',
-            'alt' => 'test-man'
+            'alt' => $pic_path,
           ));
       ?>
     </div>

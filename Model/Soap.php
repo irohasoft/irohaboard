@@ -188,4 +188,16 @@ class Soap extends AppModel
 		return $data;
 	}
 
+	// user_idと過去4回分SOAPの配列を作る
+	public function findGroupRecentSoaps($members){
+		if (empty($members)){ return NULL; }
+		$members_recent_soaps = array();
+		foreach($members as $member):
+			$user_id = $member['ib_users_groups']['user_id'];
+			$recent_soaps = $this->findRecentSoaps($user_id);
+			$members_recent_soaps += [$user_id => $recent_soaps];
+		endforeach;
+		return $members_recent_soaps;
+	}
+
 }

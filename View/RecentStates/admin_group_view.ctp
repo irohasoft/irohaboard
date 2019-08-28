@@ -14,11 +14,16 @@
     </div>
     <div class = "member-photo">
       <?php
-        echo $this->Html->image('student_img/test-man.jpeg',
+        if($group_pic_paths[$user_id] !== ''){
+          $pic_path = $group_pic_paths[$user_id];
+        } else {
+          $pic_path = 'student_img/noPic.png';
+        }
+        echo $this->Html->image($pic_path,
           array(
             'width' => '150',
             'height'=> '150',
-            'alt' => 'test-man'
+            'alt' => $pic_path
           ));
       ?>
     </div>

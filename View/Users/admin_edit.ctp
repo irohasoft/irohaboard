@@ -9,6 +9,31 @@
 		setTimeout('$("#UserNewPassword").val("");', 500);
 	});
 <?php $this->Html->scriptEnd(); ?>
+<script>
+$(function(){
+  $('#myfile').change(function(e){
+    //ファイルオブジェクトを取得する
+    var file = e.target.files[0];
+    var reader = new FileReader();
+ 
+    //画像でない場合は処理終了
+    if(file.type.indexOf("image") < 0){
+      alert("画像ファイルを指定してください。");
+      return false;
+    }
+ 
+    //アップロードした画像を設定する
+    reader.onload = (function(file){
+      return function(e){
+        $("#img1").attr("src", e.target.result);
+        $("#img1").attr("title", file.name);
+      };
+    })(file);
+    reader.readAsDataURL(file);
+ 
+  });
+});
+</script>
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
 <div class = "admin-users-edit">
   <div class = "index-block">
@@ -22,13 +47,16 @@
       ));
       echo $this->Form->input('id');
       echo $this->Form->input('front_image',array(
+        'id' => 'myfile',
         'div' => false,
         'class' => false,
         'label' => 'PIC',
         'type' => 'file', 'multiple'
       ));
     ?>
+  <img id="img1" style="width:300px;height:300px;" />
   </div>
+
   <div class = "info-input-block">
   <?php
     $password_label = ($this->request->data) ? __('新しいパスワード') : __('パスワード');

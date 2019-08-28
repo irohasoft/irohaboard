@@ -31,6 +31,7 @@
 	<table>
 	<thead>
 	<tr>
+    <th nowrap><?php echo __('写真'); ?></th>
 		<th nowrap><?php echo $this->Paginator->sort('username', 'ログインID'); ?></th>
 		<th nowrap class="col-width"><?php echo $this->Paginator->sort('name', '氏名'); ?></th>
 		<th nowrap><?php echo $this->Paginator->sort('role', '権限'); ?></th>
@@ -44,12 +45,37 @@
 	</tr>
 	</thead>
 	<tbody>
+  <?php $this->log($users);?>
 	<?php foreach ($users as $user): ?>
 	<tr>
+    <td>
+    <?php
+      if($user['User']['pic_path'] !== ''){
+        $pic_path = $user['User']['pic_path'];
+      }else{
+        $pic_path = 'student_img/noPic.png';
+      }
+      echo $this->Html->image($pic_path, 
+            array(
+              'width' => '50',
+              'height'=> '50',
+              'alt' => 'pic',
+              'url' => array(
+                  'controller' => 'users',
+                  'action' => 'admin_edit',$user['User']['id']
+                
+                  )
+            ));
+    ?>
+    </td>
 		<td><?php echo h($user['User']['username']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['name']); ?></td>
 		<td nowrap><?php echo h(Configure::read('user_role.'.$user['User']['role'])); ?>&nbsp;</td>
-		<td><div class="reader" title="<?php echo h($user[0]['group_title']); ?>"><p><?php echo h($user[0]['group_title']); ?>&nbsp;</p></td>
+		<td><div class="reader" title="<?php echo h($user[0]['group_title']); ?>"><p><?php 
+    $group_id = $user['User']['group_id'];
+    echo h($groups[$group_id]); 
+
+    ?>&nbsp;</p></td>
 		<td><div class="reader" title="<?php echo h($user[0]['course_title']); ?>"><p><?php echo h($user[0]['course_title']); ?>&nbsp;</p></div></td>
 		<td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['last_logined'])); ?>&nbsp;</td>
 		<td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['created'])); ?>&nbsp;</td>

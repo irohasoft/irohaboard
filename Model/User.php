@@ -21,7 +21,7 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
  */
 class User extends AppModel
 {
-	public $order = "User.name"; 
+	public $order = "User.name";
 
 	public $validate = array(
 		'username' => array(
@@ -189,19 +189,19 @@ class User extends AppModel
 
 	/**
 	 * 学習履歴の削除
-	 * 
+	 *
 	 * @param int array $user_id 学習履歴を削除するユーザのID
 	 */
 	public function deleteUserRecords($user_id)
 	{
 		$sql = 'DELETE FROM ib_records_questions WHERE record_id IN (SELECT id FROM ib_records WHERE user_id = :user_id)';
-		
+
 		$params = array(
 			'user_id' => $user_id,
 		);
-		
+
 		$this->query($sql, $params);
-		
+
 		App::import('Model', 'Record');
 		$this->Record = new Record();
 		$this->Record->deleteAll(array('Record.user_id' => $user_id), false);
@@ -220,6 +220,35 @@ class User extends AppModel
     $data = $this->query($sql);
     return $data;
   }
+
+	public function findUserPicPath($user_id){
+		$sql = "SELECT id, pic_path FROM ib_users WHERE id = $user_id";
+		$data = $this->query($sql)['0']['ib_users']['pic_path'];
+		return $data;
+	}
+
+	public function findGroupPicPaths($members){
+		if (empty($members)){ return NULL; }
+		
+		$conditions = array();
+		foreach($members as $member):
+			$user_id = $member['ib_users_groups']['user_id'];
+			array_push($conditions, "id=$user_id");
+		endforeach;
+		$where_clause = join(' or ', $conditions);
+
+		$sql = "SELECT id, pic_path FROM ib_users WHERE $where_clause";
+		//$this->log($sql);
+		$data = $this->query($sql);
+		//$this->log($data);
+
+		$result = array();
+		foreach ($data as $datum) {
+			$result += [$datum['ib_users']['id'] => $datum['ib_users']['pic_path']];
+		}
+		//$this->log($result);
+		return $result;
+	}
 
   public function getOsList(){
     $sql = "SELECT * FROM ib_os_types";

@@ -206,4 +206,24 @@ class User extends AppModel
 		$this->Record = new Record();
 		$this->Record->deleteAll(array('Record.user_id' => $user_id), false);
 	}
+
+  ///写真パスを更新する
+  public function updatePicPath($user_id,$newPath){
+    $sql = "UPDATE ib_users SET pic_path = '$newPath' WHERE id = $user_id";
+    $this->query($sql);
+    return 1;
+  }
+
+  //全て写真パスをGet
+  public function getAllPicPath(){
+    $sql = "SELECT id, pic_path FROM ib_users";
+    $data = $this->query($sql);
+    return $data;
+  }
+
+  public function getOsList(){
+    $sql = "SELECT * FROM ib_os_types";
+    $data = $this->query($sql);
+    return $data;
+  }
 }

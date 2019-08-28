@@ -1,9 +1,9 @@
-<?php 
+<?php
   echo $this->element('admin_menu');
-  echo $this->Html->css('soap');
+  echo $this->Html->css('recentstate');
   echo $this->Html->css('bootstrap.min');
 ?>
-<div class = "admin-soap-findByStudent">
+<div class = "admin-recentstate-findByStudent">
   <div class = "ib-page-title">
     <?php echo __('受講生一覧');?>
   </div>
@@ -40,44 +40,38 @@
     ?>
     <div class = "white-width">
     </div>
-    <div class = "student-search-submit-btn"> 
+    <div class = "student-search-submit-btn">
     <input type = "submit" class = "" value = "検索">
     </div>
     <?php
       echo $this->Form->end();
-    ?> 
+    ?>
   </div>
   <div class = "index-block">
   <?php
-    foreach ($user_list as $user):  
+    foreach ($user_list as $user):
   ?>
     <div class = "student-block">
       <div class = "pic-block">
       <?php
-        if($user['ib_users']['pic_path'] !== ''){
-          $pic_path = $user['ib_users']['pic_path'];
-        }else{
-          $pic_path = 'student_img/noPic.png';
-        }
-
-        echo $this->Html->image($pic_path, 
+        echo $this->Html->image('student_img/test-man.jpeg',
             array(
               'width' => '150',
               'height'=> '150',
               'alt' => 'test-man',
               'url' => array(
-                  'controller' => 'soaps',
-                  'action' => 'student_edit',$user['ib_users']['id']
-                
+                  'controller' => 'recentstates',
+                  'action' => 'student_view',$user['ib_users']['id']
+
                   )
-            )); 
+            ));
       ?>
       </div>
       <div class = "number-block">
-        <?php echo h($user['ib_users']['username']);?> 
+        <?php echo h($user['ib_users']['username']);?>
       </div>
       <div class = "name-block">
-        <?php echo h($user['ib_users']['name']);?> 
+        <?php echo h($user['ib_users']['name']);?>
       </div>
 
     </div>

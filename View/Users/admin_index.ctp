@@ -45,12 +45,12 @@
 	</tr>
 	</thead>
 	<tbody>
-  <?php $this->log($users);?>
+  <?php //$this->log($users);?>
 	<?php foreach ($users as $user): ?>
 	<tr>
     <td>
     <?php
-      if($user['User']['pic_path'] !== ''){
+      if($user['User']['pic_path'] !== '' && $user['User']['pic_path'] != 'student_img/'){
         $pic_path = $user['User']['pic_path'];
       }else{
         $pic_path = 'student_img/noPic.png';

@@ -55,15 +55,15 @@ $(function(){
         'type' => 'file', 'multiple'
       ));
     ?>
-  <img id="img1" style="width:300px;height:300px;" />
+  	<img id="img1" style="width:300px;height:300px;" />
   </div>
 
   <div class = "info-input-block">
-  <?php
-    $password_label = ($this->request->data) ? __('新しいパスワード') : __('パスワード');
-    echo "<div class = info-input>";
-    echo $this->Form->input('name',	array(
-        'label' => array(
+  	<?php $password_label = ($this->request->data) ? __('新しいパスワード') : __('パスワード'); ?>
+    <div class = "info-input">
+			<?php
+      echo $this->Form->input('name',	array(
+      	'label' => array(
           'text' => '氏名：',
           'class' => 'info-input-label'
         ),
@@ -71,50 +71,63 @@ $(function(){
         'div' => false,
         'class' => false
         ));
-    echo "</div>";
+			?>
+    </div>
 
-    echo "<div class = info-input>";
-    echo $this->Form->input('username',	array(
-        'label' => array(
-          'text' => '学籍番号（ログインID）：',
-          'class' => 'info-input-label'
-        ),
-        'required' => false,
-        'div' => false,
-        'class' => false
+    <div class = "info-input">
+			<?php
+    		echo $this->Form->input('username',	array(
+        	'label' => array(
+          	'text' => '学籍番号（ログインID）：',
+          	'class' => 'info-input-label'
+        	),
+        	'required' => false,
+        	'div' => false,
+        	'class' => false
         ));
-    echo "</div>";
+			?>
+    </div>
 
-    echo "<div class = info-input>";
-    echo $this->Form->input('birthyear',	array(
-        'label' => array(
-          'text' => '生まれた年度：',
-          'class' => 'info-input-label'
-        ),
-        'required' => false,
-        'div' => false,
-        'class' => false
+    <div class = "info-input">
+			<?php
+    		echo $this->Form->input('birthyear',	array(
+        	'label' => array(
+          	'text' => '生まれた年度：',
+          	'class' => 'info-input-label'
+        	),
+        	'required' => false,
+        	'div' => false,
+        	'class' => false
         ));
-    echo "</div>";
+			?>
+    </div>
 
-    //Password
-		$password_label = ($this->request->data) ? __('新しいパスワード') : __('パスワード');
-    echo "<div class = info-input>";
-    echo $this->Form->input('User.new_password',	array(
-        'label' => array(
-          'text' => $password_label."：",
-          'class' => 'info-input-lable'
-        ),
-        'type' => 'password',
-        'autocomplete' => 'new-password'
-      ));
-    echo "</div>";
+		<?php
+    	//Password
+			$password_label = ($this->request->data) ? __('新しいパスワード') : __('パスワード');
+		?>
 
-		// root アカウント、もしくは admin 権限以外の場合、権限変更を許可しない
-    $disabled = (($username == 'root')||($loginedUser['role']!='admin'));
+    <div class = "info-input">
+			<?php
+    		echo $this->Form->input('User.new_password',	array(
+        	'label' => array(
+          	'text' => $password_label."：",
+          	'class' => 'info-input-lable'
+        	),
+        	'type' => 'password',
+        	'autocomplete' => 'new-password'
+      	));
+			?>
+    </div>
 
-    echo "<div class = info-input>";
-    echo $this->Form->input('role',	array(
+		<?php
+			// root アカウント、もしくは admin 権限以外の場合、権限変更を許可しない
+    	$disabled = (($username == 'root')||($loginedUser['role']!='admin'));
+		?>
+
+    <div class = "info-input">
+			<?php
+    		echo $this->Form->input('role',	array(
 					'type' => 'radio',
 					'before' => '<label class="col col-sm-3 control-label">権限</label>',
 					'separator'=>"　",
@@ -122,85 +135,91 @@ $(function(){
 					'legend' => false,
 					'class' => false,
 					'options' => Configure::read('user_role')
-					)
-				);
-    echo "</div>";
+				));
+			?>
+    </div>
 
-    //email
-    echo "<div class = info-input>";
-    echo $this->Form->input('email',	array(
-        'label' => array(
-          'text' => 'メールアドレス：',
-          'class' => 'info-input-label'
-        ),
-        'required' => false,
-        'div' => false,
-        'class' => false
+    <!-- email -->
+    <div class = "info-input">
+			<?php
+    		echo $this->Form->input('email',	array(
+        	'label' => array(
+          	'text' => 'メールアドレス：',
+          	'class' => 'info-input-label'
+        	),
+        	'required' => false,
+        	'div' => false,
+        	'class' => false
         ));
-    echo "</div>";
+			?>
+    </div>
 
-    echo "<div class = info-input>";
-    echo $this->Form->input('os_type',	array(
-        'label' => array(
-          'text' => 'OS種類：',
-          'class' => 'info-input-label'
-        ),
-        'required' => false,
-        'options' => $os_list,
-        'selected' => $os_id,
-        'empty' => ''
+    <div class = "info-input">
+			<?php
+    		echo $this->Form->input('os_type',	array(
+        	'label' => array(
+          	'text' => 'OS種類：',
+          	'class' => 'info-input-label'
+        	),
+        	'required' => false,
+        	'options' => $os_list,
+        	'selected' => $os_id,
+        	'empty' => ''
         ));
-    echo "</div>";
+			?>
+    </div>
 
-    echo "<div class = info-input>";
-    echo $this->Form->input('period',	array(
-        'label' => array(
-          'text' => '受講時間帯：',
-          'class' => 'info-input-label'
-        ),
-        'required' => false,
-        'div' => false,
-        'class' => false,
-        'options' => array('1限','2限'),
-        'selected' => $time_id,
-        'empty' => ''
+    <div class = "info-input">
+			<?php
+    		echo $this->Form->input('period',	array(
+        	'label' => array(
+          	'text' => '受講時間帯：',
+          	'class' => 'info-input-label'
+        	),
+        	'required' => false,
+        	'div' => false,
+        	'class' => false,
+        	'options' => array('1限','2限'),
+        	'selected' => $time_id,
+        	'empty' => ''
         ));
-    echo "</div>";
-		?>
+			?>
+    </div>
 
-		<div class="info-input">
-		<?php
-		 echo $this->Form->input('Course', array(
-			 	 'label' => array(
-				   'text' => '受講コース',
-				   'class' => 'info-input-label'
-			 	 ),
-				 'required' => false,
-				 'div' => false,
-				 'class' => 'form-control',
-				 'size' => 20,
-				 'options' => $courses
-			   ));
-		?>
+		<div class = "info-input">
+			<?php
+		 		echo $this->Form->input('Course', array(
+			 	 	'label' => array(
+				   	'text' => '受講コース',
+				   	'class' => 'info-input-label'
+			 	 	),
+				 	'required' => false,
+				 	'div' => false,
+				 	'class' => 'form-control',
+				 	'size' => 20,
+				 	'options' => $courses
+			  ));
+			?>
 		</div>
 
-		<?php
-    echo "<div class = info-input>";
-    echo $this->Form->input('group_id',	array(
-        'label' => array(
-          'text' => '所属グループ：',
-          'class' => 'info-input-label'
-        ),
-        'required' => false,
-        'div' => false,
-        'class' => false,
-        'options' => $group_list,
-        'selected' => $group_id,
-        'empty' => ''
+    <div class = "info-input">
+			<?php
+    		echo $this->Form->input('group_id',	array(
+        	'label' => array(
+          	'text' => '所属グループ：',
+          	'class' => 'info-input-label'
+        	),
+        	'required' => false,
+        	'div' => false,
+        	'class' => false,
+        	'options' => $group_list,
+        	'selected' => $group_id,
+        	'empty' => ''
         ));
-    	echo "</div>";
-  		?>
-      <div class = "info-input">
+			?>
+    </div>
+
+    <div class = "info-input">
 			<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 			<?php echo $this->Form->end(); ?>
 			<?php
@@ -214,6 +233,6 @@ $(function(){
 				), __('学習履歴を削除してもよろしいですか？', $this->request->data['User']['name']));
 			}
 			?>
-			</div>
+		</div>
   </div>
 </div>

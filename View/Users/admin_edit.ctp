@@ -1,5 +1,6 @@
 <?php echo $this->element('admin_menu');?>
 <?php echo $this->Html->script( 'select2.min.js');?>
+<?php echo $this->Html->css('select2.min.css')?>
 <?php echo $this->Html->css('users_admin_edit')?>
 <?php $this->Html->scriptStart(array('inline' => false)); ?>
 	$(function (e) {
@@ -15,13 +16,13 @@ $(function(){
     //ファイルオブジェクトを取得する
     var file = e.target.files[0];
     var reader = new FileReader();
- 
+
     //画像でない場合は処理終了
     if(file.type.indexOf("image") < 0){
       alert("画像ファイルを指定してください。");
       return false;
     }
- 
+
     //アップロードした画像を設定する
     reader.onload = (function(file){
       return function(e){
@@ -30,7 +31,7 @@ $(function(){
       };
     })(file);
     reader.readAsDataURL(file);
- 
+
   });
 });
 </script>
@@ -40,7 +41,7 @@ $(function(){
     <?php echo ($this->request->data) ? __('Edit') : __('New');?>
   </div>
   <div class = "pic-block">
-    <?php 
+    <?php
       echo $this->Form->create('User',array(
         'type' => 'file',
         'enctype' => 'multipart/form-data'
@@ -68,10 +69,10 @@ $(function(){
         ),
         'required' => false,
         'div' => false,
-        'class' => false 
+        'class' => false
         ));
     echo "</div>";
-    
+
     echo "<div class = info-input>";
     echo $this->Form->input('username',	array(
         'label' => array(
@@ -80,7 +81,7 @@ $(function(){
         ),
         'required' => false,
         'div' => false,
-        'class' => false 
+        'class' => false
         ));
     echo "</div>";
 
@@ -92,10 +93,10 @@ $(function(){
         ),
         'required' => false,
         'div' => false,
-        'class' => false 
+        'class' => false
         ));
     echo "</div>";
-    
+
     //Password
 		$password_label = ($this->request->data) ? __('新しいパスワード') : __('パスワード');
     echo "<div class = info-input>";
@@ -104,20 +105,20 @@ $(function(){
           'text' => $password_label."：",
           'class' => 'info-input-lable'
         ),
-        'type' => 'password', 
+        'type' => 'password',
         'autocomplete' => 'new-password'
       ));
     echo "</div>";
 
 		// root アカウント、もしくは admin 権限以外の場合、権限変更を許可しない
     $disabled = (($username == 'root')||($loginedUser['role']!='admin'));
-    
+
     echo "<div class = info-input>";
     echo $this->Form->input('role',	array(
 					'type' => 'radio',
 					'before' => '<label class="col col-sm-3 control-label">権限</label>',
-					'separator'=>"　", 
-					'disabled'=>$disabled, 
+					'separator'=>"　",
+					'disabled'=>$disabled,
 					'legend' => false,
 					'class' => false,
 					'options' => Configure::read('user_role')
@@ -134,7 +135,7 @@ $(function(){
         ),
         'required' => false,
         'div' => false,
-        'class' => false 
+        'class' => false
         ));
     echo "</div>";
 
@@ -165,7 +166,25 @@ $(function(){
         'empty' => ''
         ));
     echo "</div>";
+		?>
 
+		<div class="info-input">
+		<?php
+		 echo $this->Form->input('Course', array(
+			 	 'label' => array(
+				   'text' => '受講コース',
+				   'class' => 'info-input-label'
+			 	 ),
+				 'required' => false,
+				 'div' => false,
+				 'class' => 'form-control',
+				 'size' => 20,
+				 'options' => $courses
+			   ));
+		?>
+		</div>
+
+		<?php
     echo "<div class = info-input>";
     echo $this->Form->input('group_id',	array(
         'label' => array(
@@ -179,8 +198,8 @@ $(function(){
         'selected' => $group_id,
         'empty' => ''
         ));
-    echo "</div>";
-  ?>
+    	echo "</div>";
+  		?>
       <div class = "info-input">
 			<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 			<?php echo $this->Form->end(); ?>

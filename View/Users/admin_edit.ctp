@@ -186,22 +186,6 @@ $(function(){
 			?>
     </div>
 
-		<div class = "info-input">
-			<?php
-		 		echo $this->Form->input('Course', array(
-			 	 	'label' => array(
-				   	'text' => '受講コース',
-				   	'class' => 'info-input-label'
-			 	 	),
-				 	'required' => false,
-				 	'div' => false,
-				 	'class' => 'form-control',
-				 	'size' => 20,
-				 	'options' => $courses
-			  ));
-			?>
-		</div>
-
     <div class = "info-input">
 			<?php
     		echo $this->Form->input('group_id',	array(

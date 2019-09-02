@@ -26,6 +26,7 @@ class Content extends AppModel
 	 *
 	 * @var array
 	 */
+
 	public $validate = array(
 			'course_id' => array(
 					'numeric' => array(
@@ -266,4 +267,22 @@ EOF;
 		
 		return $sort_no;
 	}
+
+  public function getContentInfo($content_id){
+    $sql = "SELECT * FROM ib_contents WHERE id = $content_id";
+    $data = $this->query($sql);
+    return $data[0];
+  }
+
+  public function getContentList($course_id){
+    $sql = "SELECT id, title FROM ib_contents WHERE course_id = $course_id ORDER BY id DESC";
+    $data = $this->query($sql);
+    $content_list = [];
+    foreach($data as $row){
+      $id = $row['ib_contents']['id'];
+      $title = $row['ib_contents']['title'];
+      $content_list[$id] = $title;
+    }
+    return $content_list;
+  }
 }

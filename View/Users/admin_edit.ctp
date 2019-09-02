@@ -54,8 +54,15 @@ $(function(){
         'label' => 'PIC',
         'type' => 'file', 'multiple'
       ));
-    ?>
-  	<img id="img1" style="width:300px;height:300px;" />
+
+			echo $this->Html->image($pic_path,
+				array(
+					'id' => 'img1',
+					'width' => '300',
+					'height'=> '300',
+					'alt' => $pic_path,
+				));
+		?>
   </div>
 
   <div class = "info-input-block">

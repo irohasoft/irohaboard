@@ -224,12 +224,15 @@ class User extends AppModel
 	public function findUserPicPath($user_id){
 		$sql = "SELECT id, pic_path FROM ib_users WHERE id = $user_id";
 		$data = $this->query($sql)['0']['ib_users']['pic_path'];
+		if($data === '' or $data === 'student_img/'){
+			$data = 'student_img/noPic.png';
+		}
 		return $data;
 	}
 
 	public function findGroupPicPaths($members){
 		if (empty($members)){ return NULL; }
-		
+
 		$conditions = array();
 		foreach($members as $member):
 			$user_id = $member['ib_users_groups']['user_id'];

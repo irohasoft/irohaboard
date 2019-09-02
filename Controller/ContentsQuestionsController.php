@@ -46,6 +46,16 @@ class ContentsQuestionsController extends AppController
 				'Content.id' => $content_id
 			)
 		));
+    //$this->log($content);
+    $url = $content['Content']['text_url'];
+				
+		// 相対URLの場合、絶対URLに変更する
+		if(mb_substr($url, 0, 1)=='/'){
+		  $url = FULL_BASE_URL.$url;
+    }
+    //$url = urlencode($url);
+    $this->set('text_url',$url);
+    //$this->log($url);
 		
 		//------------------------------//
 		//	権限チェック				//

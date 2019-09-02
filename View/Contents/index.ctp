@@ -106,6 +106,8 @@
 				// 相対URLの場合、絶対URLに変更する
 				if(mb_substr($url, 0, 1)=='/')
 					$url = FULL_BASE_URL.$url;
+
+        //$this->log($url);
 				
 				$icon  = 'glyphicon glyphicon-file text-success';
 				$title_link = $this->Html->link(

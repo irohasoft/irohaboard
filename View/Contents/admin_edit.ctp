@@ -88,6 +88,10 @@
 				break;
 			case 'test':
 				break;
+      case 'textAndTest':
+        CommonUtil.setRichTextEditor('#ContentBody', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
+				$("#btnPreview").show();
+        break;
 		}
 	}
 	
@@ -141,7 +145,19 @@
 			<?php echo ($this->action == 'admin_edit') ? __('編集') :  __('新規コンテンツ'); ?>
 		</div>
 		<div class="panel-body">
-			<?php echo $this->Form->create('Content', Configure::read('form_defaults')); ?>
+			<?php echo $this->Form->create('Content',array(
+        'inputDefaults' => array(
+		      'div' => 'form-group',
+		      'label' => array(
+			      'class' => 'col col-sm-3 control-label'
+		      ),
+		      'wrapInput' => 'col col-sm-9',
+		      'class' => 'form-control'
+	      ),
+	        'class' => 'form-horizontal',
+          'type' => 'file',
+          'enctype' => 'multipart/form-data'
+        ));?>
 			<?php
 				echo $this->Form->input('id');
 				echo $this->Form->input('title',	array('label' => 'コンテンツタイトル'));
@@ -172,6 +188,14 @@
 
 				// テスト
 				echo "<span class='kind kind-test'>";
+        echo $this->Form->input('form_text_url',array(
+          'label' => 'ファイル名',
+          'type'  => 'file',
+          'class' => 'status-exp',
+          'after' => '<div class = "text-url-input"></div><span class="status-exp">アップロード済みファイル:'.h($exists_url).'</span>',
+          'multiple'
+        ));
+    
 				echo $this->Form->input('timelimit', array(
 					'label' => '制限時間 (1-100分)',
 					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　指定した場合、制限時間を過ぎると自動的に採点されます。</span>',
@@ -201,6 +225,11 @@
 					)
 				);
 
+        //textAndTest
+        echo "<div class='kind  kind-html'>";
+				echo $this->Form->input('body',		array('label' => '内容'));
+				echo "</div>";
+
 				// コンテンツ移動用
 				if(($this->action == 'admin_edit'))
 				{
@@ -210,10 +239,7 @@
 						'after' => '<div class="col col-sm-3"></div><span class="status-exp">　変更することで他のコースにコンテンツを移動できます。</span>',
 					));
 				}
-
-				echo "<span class='kind kind-text kind-html kind-movie kind-url kind-file kind-test'>";
-				echo $this->Form->input('comment', array('label' => '備考'));
-				echo "</span>";
+	
 			?>
 			<div class="form-group">
 				<div class="col col-sm-9 col-sm-offset-3">

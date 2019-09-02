@@ -79,6 +79,10 @@
 			}
 		}
 	?>
+  <div class = "text-block">
+  <object data="<?php echo h($text_url);?>" type="application/pdf"
+width="1000" height="600"></object>
+  </div>
 	<?php echo $this->Form->create('ContentsQuestion'); ?>
 		<?php foreach ($contentsQuestions as $contentsQuestion){ ?>
 			<?php

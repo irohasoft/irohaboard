@@ -7,7 +7,7 @@
   <?php foreach($members as $member):?>
   <div class = "member-input">
     <?php 
-      $user_id = $member['ib_users_groups']['user_id'];
+      $user_id = $member['ib_users']['id'];
     ?>
     <div class = "user_name">
       <td><?php echo h($user_list[$user_id]);?>&nbsp;</td>
@@ -15,8 +15,8 @@
     <div class = "soap">
     <?php 
 		  echo $this->Form->create("$user_id");
-			echo $this->Form->hidden('user_id',array('value' => $member['ib_users_groups']['user_id'])); 
-			echo $this->Form->hidden('group_id',array('value' => $member['ib_users_groups']['group_id'])); 
+			echo $this->Form->hidden('user_id',array('value' => $member['ib_users']['id'])); 
+			echo $this->Form->hidden('group_id',array('value' => $member['ib_users']['group_id'])); 
       ?>
       <div class = "soap_teacher">
       <?php
@@ -26,7 +26,7 @@
 						'class' => 'soap_teacher',
 						'options' => $group_list,
 						'empty' => '',
-            'value' => $member['ib_users_groups']['group_id'],
+            'value' => $member['ib_users']['group_id'],
 						'style' => ''
 					 ));
       ?>

@@ -53,6 +53,7 @@ class ContentsController extends AppController
 		if($this->action == 'admin_record')
 		{
 			$contents = $this->Content->getContentRecord($user_id, $course_id, $role);
+      //$this->log($contents);
 		}
 		else
 		{
@@ -242,6 +243,14 @@ class ContentsController extends AppController
 		{
 			throw new NotFoundException(__('Invalid content'));
 		}
+
+    //追加の場合
+    if($content_id != null){
+      $ContentInfo = $this->Content->getContentInfo($content_id);
+      $exists_url = $ContentInfo['ib_contents']['text_url'];
+      //$this->log($exits_url);
+      $this->set('exists_url', $exists_url);
+    }
 		
 		if ($this->request->is(array(
 				'post',
@@ -254,11 +263,35 @@ class ContentsController extends AppController
 			// 新規追加の場合、コンテンツの作成者と所属コースを指定
 			if($this->action == 'admin_add')
 			{
+        //text-upload && quiz
+        
+        
 				$this->request->data['Content']['user_id']   = $this->Auth->user('id');
 				$this->request->data['Content']['course_id'] = $course_id;
 				$this->request->data['Content']['sort_no']   = $this->Content->getNextSortNo($course_id);
 			}
-			
+
+      //$this->log($this->request->data);
+      //前提となるコンテンツを追加する．
+			$content_list = $this->Content->getContentList($course_id);
+      $this->log($content_list);
+
+
+      if($this->request->data['Content']['form_text_url']['name'] !== ''){
+      
+        $file_name = $this->request->data['Content']['form_text_url']['name'];
+        $file_tmp_name = $this->request->data['Content']['form_text_url']['tmp_name'];
+        
+			  $file_url = $this->webroot.'text/'.$file_name; //	ファイルのURL
+
+        $file_path = '../webroot/text/';
+        move_uploaded_file($file_tmp_name, $file_path.$file_name);
+        
+        $this->request->data['Content']['text_url'] = $file_url;
+      }
+
+      
+
 			if ($this->Content->save($this->request->data))
 			{
 				$this->Flash->success(__('コンテンツが保存されました'));

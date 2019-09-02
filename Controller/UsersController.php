@@ -305,14 +305,14 @@ class UsersController extends AppController
 				$this->request->data['User']['pic_path'] = $picPath;
       }
 
-/*
-      if($this->User->updatePicPath($user_id, $picPath) !== 1){
-        $this->Flash->error(__('The user could not be saved. Please, try again.'));
-      }
- */
-
 			if ($this->User->save($this->request->data))
 			{
+        //$this->log($picPath);
+        /*
+        if($this->User->updatePicPath($user_id, $picPath) !== 1){
+          $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        }
+        */
 				$this->Flash->success(__('ユーザ情報が保存されました'));
 
 				unset($this->request->data['User']['new_password']);

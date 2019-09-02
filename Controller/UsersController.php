@@ -36,7 +36,7 @@ class UsersController extends AppController
 					)
 			)
 	);
-	
+
 	/**
 	 * ホーム画面（受講コース一覧）へリダイレクト
 	 */
@@ -54,7 +54,7 @@ class UsersController extends AppController
 	{
 		if(Configure::read('demo_mode'))
 			return;
-		
+
 		$this->User->id = $user_id;
 		if (! $this->User->exists())
 		{
@@ -106,14 +106,14 @@ class UsersController extends AppController
 	{
 		$username = "";
 		$password = "";
-		
+
 		// 自動ログイン処理
 		// Check cookie's login info.
 		if($this->Cookie->check('Auth'))
 		{
 			// クッキー上のアカウントでログイン
 			$this->request->data = $this->Cookie->read('Auth');
-			
+
 			if($this->Auth->login())
 			{
 				// 最終ログイン日時を保存
@@ -127,7 +127,7 @@ class UsersController extends AppController
 				$this->Cookie->delete('Auth');
 			}
 		}
-		
+
 		// 通常ログイン処理
 		if($this->request->is('post'))
 		{
@@ -137,12 +137,12 @@ class UsersController extends AppController
 				{
 					// Remove remember_me data.
 					unset( $this->request->data['User']['remember_me']);
-					
+
 					// Save login info to cookie.
 					$cookie = $this->request->data;
 					$this->Cookie->write( 'Auth', $cookie, true, '+2 weeks');
 				}
-				
+
 				// 最終ログイン日時を保存
 				$this->User->id = $this->Auth->user('id');
 				$this->User->saveField('last_logined', date(date('Y-m-d H:i:s')));
@@ -164,7 +164,7 @@ class UsersController extends AppController
 				$password = Configure::read('demo_password');
 			}
 		}
-		
+
 		$this->set(compact('username', 'password'));
 	}
 
@@ -184,24 +184,24 @@ class UsersController extends AppController
 	{
 		// SearchPluginの呼び出し
 		$this->Prg->commonProcess();
-		
+
 		// Model の filterArgs に定義した内容にしたがって検索条件を作成
 		$conditions = $this->User->parseCriteria($this->Prg->parsedParams());
-		
+
 		// 選択中のグループをセッションから取得
 		if(isset($this->request->query['group_id']))
 			$this->Session->write('Iroha.group_id', intval($this->request->query['group_id']));
-		
+
 		// GETパラメータから検索条件を抽出
 		$group_id	= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : $this->Session->read('Iroha.group_id');
-		
+
 		// 独自の検索条件を追加（指定したグループに所属するユーザを検索）
 		if($group_id != "")
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
-		
+
 		//$this->User->virtualFields['group_title']  = 'group_title';		// 外部結合テーブルのフィールドによるソート用
 		//$this->User->virtualFields['course_title'] = 'course_title';		// 外部結合テーブルのフィールドによるソート用
-		
+
 		$this->paginate = array(
 			'User' => array(
 				'fields' => array('*',
@@ -238,11 +238,11 @@ class UsersController extends AppController
 			$this->request->params['named']['page'] = 1;
 			$users = $this->paginate();
 		}
-		
+
 		// グループ一覧を取得
 		$groups = $this->Group->find('list');
     //$this->log($groups);
-		
+
 		$this->set(compact('groups', 'users', 'group_id'));
 	}
 
@@ -257,7 +257,10 @@ class UsersController extends AppController
 			throw new NotFoundException(__('Invalid user'));
 		}
 
-    $group_list = $this->Group->find('list'); 
+		$pic_path = $this->User->findUserPicPath($user_id);
+		$this->set('pic_path', $pic_path);
+
+    $group_list = $this->Group->find('list');
     //$this->log($group_list);
     $this->set('group_list',$group_list);
 
@@ -272,9 +275,9 @@ class UsersController extends AppController
     }
     //$this->log($os_list);
     $this->set('os_list',$os_list);
-		
+
 		$username = '';
-		
+
 		if ($this->request->is(array(
 				'post',
 				'put'
@@ -282,12 +285,14 @@ class UsersController extends AppController
 		{
 			if(Configure::read('demo_mode'))
 				return;
-			
+
 			if ($this->request->data['User']['new_password'] !== '')
 				$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
 
       //画像アップロード
-      if($this->request->data['User']['front_image'] !== ''){
+      //if($this->request->data['User']['front_image'] !== '')
+			if(preg_match('/^image\//', $this->request->data['User']['front_image']['type']))
+			{
         $tmp = $this->request->data;
         //$this->log($tmp);
         $fileName = $tmp['User']['front_image'];
@@ -297,13 +302,8 @@ class UsersController extends AppController
         $picPath = "student_img/".$newName;
 
         move_uploaded_file($fileName['tmp_name'],$path.$newName);
-        $this->request->data['User']['pic_path'] = $picPath;
-      }else{
-        $this->request->data['User']['pic_path'] = '';
+				$this->request->data['User']['pic_path'] = $picPath;
       }
-
-      
-      
 
 			if ($this->User->save($this->request->data))
 			{
@@ -334,16 +334,16 @@ class UsersController extends AppController
 				)
 			);
 			$this->request->data = $this->User->find('first', $options);
-			
+
 			if($this->request->data)
 				$username = $this->request->data['User']['username'];
 		}
 
 		$this->Group = new Group();
-		
+
 		$courses = $this->User->Course->find('list');
 		$groups = $this->Group->find('list');
-		
+
 		$this->set(compact('courses', 'groups', 'username'));
 	}
 
@@ -359,9 +359,9 @@ class UsersController extends AppController
 		{
 			if(Configure::read('demo_mode'))
 				return;
-			
+
 			$this->request->data['User']['id'] = $this->Auth->user('id');
-			
+
 			if($this->request->data['User']['new_password'] != $this->request->data['User']['new_password2'])
 			{
 				$this->Flash->error(__('入力された「パスワード」と「パスワード（確認用）」が一致しません'));
@@ -371,7 +371,7 @@ class UsersController extends AppController
 			if($this->request->data['User']['new_password'] !== '')
 			{
 				$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
-				
+
 				if ($this->User->save($this->request->data))
 				{
 					$this->Flash->success(__('パスワードが保存されました'));
@@ -428,10 +428,10 @@ class UsersController extends AppController
 	{
 		if(Configure::read('demo_mode'))
 			return;
-		
+
 		$group_count  = Configure::read('import_group_count');		// 所属グループの列数
 		$course_count = Configure::read('import_course_count');		// 受講コースの列数
-		
+
 		//------------------------------//
 		//	列番号の定義				//
 		//------------------------------//
@@ -443,9 +443,9 @@ class UsersController extends AppController
 		define('COL_COMMENT',	5);
 		define('COL_GROUP',		6);
 		define('COL_COURSE',	6 + $group_count);
-		
+
 		$err_msg = '';
-		
+
 		if ($this->request->is(array(
 				'post',
 				'put'
@@ -456,9 +456,9 @@ class UsersController extends AppController
 			//------------------------------//
 			// 制限時間を120秒に設定
 			set_time_limit(120);
-			
+
 			$csvfile = $this->request->data['User']['csvfile'];
-			
+
 			// インポートファイルが指定されていない場合、エラーメッセージを表示
 			if($csvfile['error'] != 0)
 			{
@@ -466,46 +466,46 @@ class UsersController extends AppController
 				$this->set(compact('err_msg'));
 				return;
 			}
-			
+
 			// CSVファイルの読み込み
 			$csv = Utils::getCsvData($csvfile['tmp_name']);
-			
+
 			$i = 0;
-			
+
 			$ds = $this->User->getDataSource();
 			$ds->begin();
-			
+
 			try
 			{
 				$is_error = false;
-				
+
 				$group_list  = $this->User->Group->find('list');	// 所属グループ
 				$course_list = $this->User->Course->find('list');	// 受講コース
-				
+
 				// 1行ごとにデータを登録
 				foreach($csv as $row)
 				{
 					$i++;
-					
+
 					if($i < 2)
 						continue;
-					
+
 					if(count($row) < 5)
 						continue;
-					
+
 					$is_new = false;
-					
+
 					$options = array(
 						'conditions' => array(
 							'User.username' => $row[COL_LOGINID]
 						)
 					);
-					
+
 					//------------------------------//
 					//	ユーザ情報の作成			//
 					//------------------------------//
 					$data = $this->User->find('first', $options);
-					
+
 					// 指定したログインIDのユーザが存在しない場合、新規追加とする
 					if(!$data)
 					{
@@ -515,10 +515,10 @@ class UsersController extends AppController
 						$data['User']['created'] = date('Y-m-d H:i:s');
 						$is_new = true;
 					}
-					
+
 					// ユーザ名
 					$data['User']['username'] = $row[COL_LOGINID];
-					
+
 					// パスワード
 					if($row[COL_PASSWORD]=='')
 					{
@@ -528,52 +528,52 @@ class UsersController extends AppController
 					{
 						$data['User']['password'] = $row[COL_PASSWORD];
 					}
-					
+
 					$data['User']['name'] = $row[COL_NAME];											// 氏名
 					$data['User']['role'] = Utils::getKeyByValue('user_role', $row[COL_ROLE]);		// 権限
 					$data['User']['email'] = $row[COL_EMAIL];										// メールアドレス
 					$data['User']['comment'] = @$row[COL_COMMENT];									// 備考
-					
+
 					//----------------------------------//
 					//	所属グループ・受講コースの割当	//
 					//----------------------------------//
 					$data['Group']['Group'] = array();		// 所属グループの割当の初期化
 					$data['Course']['Course'] = array();	// 受講コースの割当の初期化
-					
+
 					// 所属グループの割当
 					for($n=0; $n < $group_count; $n++)
 					{
 						$title = @$row[COL_GROUP + $n];
-						
+
 						if($title=='')
 							continue;
-						
+
 						$group = Utils::getIdByTitle($group_list, $title);
-						
+
 						if($group==null)
 							continue;
-						
+
 						$data['Group']['Group'][count($data['Group']['Group'])] = $group;
 					}
-					
+
 					// 受講コースの割当
 					for($n=0; $n < $course_count; $n++)
 					{
 						$title = @$row[COL_COURSE + $n];
-						
+
 						if($title=='')
 							continue;
-						
+
 						$course = Utils::getIdByTitle($course_list, $title);
-						
+
 						if($course==null)
 							continue;
-						
+
 						$data['Course']['Course'][count($data['Course']['Course'])] = $course;
 					}
-					
+
 					$data['User']['modified'] = date('Y-m-d H:i:s');
-					
+
 					//------------------------------//
 					//	保存						//
 					//------------------------------//
@@ -581,19 +581,19 @@ class UsersController extends AppController
 					{
 						//debug($data);
 						//debug($this->User->validationErrors);
-						
+
 						// 保存時にエラーが発生した場合、モデルからエラー情報を抽出
 						$err_list = $this->User->validationErrors;
-						
+
 						foreach($err_list as $err)
 						{
 							$err_msg .= '<li>'.$i.'行目 : '.$err[0].'</li>';
 						}
-						
+
 						$is_error = true;
 					}
 				}
-				
+
 				//------------------------------//
 				//	エラー処理					//
 				//------------------------------//
@@ -617,7 +617,7 @@ class UsersController extends AppController
 				$this->Flash->error(__('インポートに失敗しました'));
 			}
 		}
-		
+
 		$this->set(compact('err_msg'));
 	}
 
@@ -628,18 +628,18 @@ class UsersController extends AppController
 	{
 		$group_count  = Configure::read('import_group_count');		// 所属グループの列数
 		$course_count = Configure::read('import_course_count');		// 受講コースの列数
-		
+
 		$this->autoRender = false;
 		Configure::write('debug', 0);
 
 		//Content-Typeを指定
 		$this->response->type('csv');
-		
+
 		header('Content-Type: text/csv');
 		header('Content-Disposition: attachment; filename="users_'.date('Ymd').'.csv"');
-		
+
 		$fp = fopen('php://output','w');
-		
+
 		//------------------------------//
 		//	ヘッダー行の作成			//
 		//------------------------------//
@@ -651,37 +651,37 @@ class UsersController extends AppController
 			'メールアドレス',
 			'備考',
 		);
-		
+
 		for($n=0; $n < $group_count; $n++)
 		{
 			$header[count($header)] = 'グループ'.($n+1);
 		}
-		
+
 		for($n=0; $n < $course_count; $n++)
 		{
 			$header[count($header)] = 'コース'.($n+1);
 		}
-		
+
 		// ヘッダー行をCSV出力
 		mb_convert_variables('SJIS-win', 'UTF-8', $header);
 		fputcsv($fp, $header);
-		
+
 		//------------------------------//
 		//	ユーザ情報の取得			//
 		//------------------------------//
-		
+
 		// パフォーマンスの改善の為、一定件数に分割してデータを取得
 		$limit      = 500;
 		$user_count = $this->User->find('count');	// ユーザ数を取得
 		$page_size  = ceil($user_count / $limit);	// ページ数（ユーザ数 / ページ単位）
-		
+
 		// ページ単位でユーザを取得
 		for($page=1; $page <= $page_size; $page++)
 		{
 			// ユーザ情報を取得
 			$this->User->recursive = 1;
 			$rows = $this->User->find('all', array('limit'=> $limit, 'page'=> $page));
-			
+
 			foreach($rows as $row)
 			{
 				//------------------------------//
@@ -689,31 +689,31 @@ class UsersController extends AppController
 				//------------------------------//
 				$groups  = array();
 				$courses = array();
-				
+
 				for($n=0; $n < $group_count; $n++)
 					$groups[count($groups)] = '';
-				
+
 				for($n=0; $n < $course_count; $n++)
 					$courses[count($courses)] = '';
-				
+
 				$i = 0;
-				
+
 				// 所属グループのリストを作成
 				foreach($row['Group'] as $group)
 				{
 					$groups[$i] = $group['title'];
 					$i++;
 				}
-				
+
 				$i = 0;
-				
+
 				// 受講コースのリストを作成
 				foreach($row['Course'] as $course)
 				{
 					$courses[$i] = $course['title'];
 					$i++;
 				}
-				
+
 				// 出力行を作成
 				$line = array(
 					$row['User']['username'],							// ユーザ名
@@ -723,26 +723,26 @@ class UsersController extends AppController
 					$row['User']['email'],								// メールアドレス
 					$row['User']['comment'],							// 備考
 				);
-				
+
 				// 所属グループを出力
 				for($n=0; $n < $group_count; $n++)
 				{
 					$line[count($line)] = $groups[$n];
 				}
-				
+
 				// 受講コースを出力
 				for($n=0; $n < $course_count; $n++)
 				{
 					$line[count($line)] = $courses[$n];
 				}
-				
-				
+
+
 				// CSV出力
 				mb_convert_variables('SJIS-win', 'UTF-8', $line);
 				fputcsv($fp, $line);
 			}
 		}
-		
+
 		fclose($fp);
 	}
 }

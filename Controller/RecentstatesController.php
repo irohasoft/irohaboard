@@ -52,7 +52,7 @@ class RecentStatesController extends AppController{
     //$this->log($user_list);
     $this->set('user_list', $user_list);
 
-    $members = $this->Soap->findAllUserInGroup($group_id);
+    $members = $this->User->findAllStudentInGroup($group_id);
     //$this->log($members);
     $this->set('members', $members);
 

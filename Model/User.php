@@ -207,6 +207,31 @@ class User extends AppModel
 		$this->Record->deleteAll(array('Record.user_id' => $user_id), false);
 	}
 
+	public function findAllUserInGroup( $group_id ){
+		$sql = "SELECT id, group_id FROM ib_users
+						WHERE group_id = $group_id";
+		$data = $this->query($sql);
+		return $data;
+	}
+
+	// role == 'user' のユーザのみ
+	public function findAllStudentInGroup( $group_id ){
+		$sql = "SELECT id, group_id FROM ib_users
+						WHERE group_id = $group_id
+							AND role = 'user'";
+		$data = $this->query($sql);
+		return $data;
+	}
+
+	// role == 'admin' のユーザのみ
+	public function findAllAdminInGroup( $group_id ){
+		$sql = "SELECT id, group_id FROM ib_users
+						WHERE group_id = $group_id
+							AND role = 'admin'";
+		$data = $this->query($sql);
+		return $data;
+	}
+
   ///写真パスを更新する
   public function updatePicPath($user_id,$newPath){
     $sql = "UPDATE ib_users SET pic_path = '$newPath' WHERE id = $user_id";
@@ -235,7 +260,7 @@ class User extends AppModel
 
 		$conditions = array();
 		foreach($members as $member):
-			$user_id = $member['ib_users_groups']['user_id'];
+			$user_id = $member['ib_users']['id'];
 			array_push($conditions, "id=$user_id");
 		endforeach;
 		$where_clause = join(' or ', $conditions);
@@ -247,7 +272,12 @@ class User extends AppModel
 
 		$result = array();
 		foreach ($data as $datum) {
-			$result += [$datum['ib_users']['id'] => $datum['ib_users']['pic_path']];
+			$user_id = $datum['ib_users']['id'];
+			$pic_path = $datum['ib_users']['pic_path'];
+			if($pic_path === '' or $pic_path === 'student_img/'){
+				$pic_path = 'student_img/noPic.png';
+			}
+			$result += [$user_id => $pic_path];
 		}
 		//$this->log($result);
 		return $result;

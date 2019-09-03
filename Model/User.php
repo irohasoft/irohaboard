@@ -290,6 +290,7 @@ class User extends AppModel
   }
 
 	public function calcGrade($birthyear){
+		if ($birthyear <= 0){ return "生年度未設定"; }
 		$this_year = date("Y");
 		$age = $this_year - $birthyear;
 

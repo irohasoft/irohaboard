@@ -7,7 +7,8 @@
       <!--<div class = "user_name">-->
       <?php echo h($user_list[$user_id]);?>
       <br/>
-      学年
+      <!--学年-->
+      <?php echo h($grade);?>
     <!--</div>-->
     </div>
     <div class = "member-photo">

@@ -58,12 +58,17 @@ class RecentStatesController extends AppController{
 
     // user_idとpic_pathの配列
     $group_pic_paths = $this->User->findGroupPicPaths($members);
-    $this->log($group_pic_paths);
+    //$this->log($group_pic_paths);
     $this->set('group_pic_paths', $group_pic_paths);
+
+    // user_idと学年(grade)の配列
+    $members_grades = $this->User->findGroupGrade($members);
+    $this->log($members_grades);
+    $this->set('members_grades', $members_grades);
 
     // user_idと過去4回分SOAPの配列を作る
     $members_recent_soaps = $this->Soap->findGroupRecentSoaps($members);
-    $this->log($members_recent_soaps);
+    //$this->log($members_recent_soaps);
     $this->set('members_recent_soaps', $members_recent_soaps);
   }
 
@@ -78,6 +83,9 @@ class RecentStatesController extends AppController{
 
     $pic_path = $this->User->findUserPicPath($user_id);
     $this->set('pic_path', $pic_path);
+
+    $grade = $this->User->findUserGrade($user_id);
+    $this->set('grade', $grade);
 
     // 過去四回のSOAPを検索
     $recent_soaps = $this->Soap->findRecentSoaps($user_id);

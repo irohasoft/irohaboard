@@ -288,4 +288,56 @@ class User extends AppModel
     $data = $this->query($sql);
     return $data;
   }
+
+	public function calcGrade($birthyear){
+		if ($birthyear <= 0){ return "生年度未設定"; }
+		$this_year = date("Y");
+		$age = $this_year - $birthyear;
+
+		if($age <= 6) {
+			$grade = "未就学";
+		} elseif($age <= 12) {
+			$grade = "小学" . ($age - 6) . "年";
+		} elseif($age <= 15) {
+			$grade = "中学" . ($age - 12) . "年";
+		} elseif($age <= 18) {
+			$grade = "高校" . ($age - 15) . "年";
+		} else {
+			$grade = "高卒以上";
+		}
+		return $grade;
+	}
+
+	public function findUserGrade($user_id){
+		$sql = "SELECT id, birthyear FROM ib_users WHERE id = $user_id";
+		$birthyear = $this->query($sql)['0']['ib_users']['birthyear'];
+		$grade = $this->calcGrade($birthyear);
+		return $grade;
+	}
+
+	public function findGroupGrade($members){
+		if (empty($members)){ return NULL; }
+
+		$conditions = array();
+		foreach($members as $member):
+			$user_id = $member['ib_users']['id'];
+			array_push($conditions, "id=$user_id");
+		endforeach;
+		$where_clause = join(' or ', $conditions);
+
+		$sql = "SELECT id, birthyear FROM ib_users WHERE $where_clause";
+		//$this->log($sql);
+		$data = $this->query($sql);
+		//$this->log($data);
+
+		$result = array();
+		foreach ($data as $datum) {
+			$user_id = $datum['ib_users']['id'];
+			$birthyear = $datum['ib_users']['birthyear'];
+			$grade = $this->calcGrade($birthyear);
+			$result += [$user_id => $grade];
+		}
+		//$this->log($result);
+		return $result;
+	}
 }

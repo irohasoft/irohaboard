@@ -1,3 +1,4 @@
+<?php echo $this->Html->css('contentsquestions')?>
 <div class="contents-questions-index">
 	<div class="breadcrumb">
 	<?php
@@ -81,8 +82,9 @@
 	?>
   <div class = "text-block">
   <object data="<?php echo h($text_url);?>" type="application/pdf"
-width="1000" height="600"></object>
+></object>
   </div>
+  <div class = "quiz-block">
 	<?php echo $this->Form->create('ContentsQuestion'); ?>
 		<?php foreach ($contentsQuestions as $contentsQuestion){ ?>
 			<?php
@@ -196,6 +198,7 @@ width="1000" height="600"></object>
 			echo $this->Form->end();
 		?>
 	<br>
+  </div>
 </div>
 
 <!--採点確認ダイアログ-->

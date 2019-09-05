@@ -162,7 +162,7 @@ EOF;
 		$sql = <<<EOF
 SELECT count(*) as cnt
   FROM ib_groups_courses gc
- INNER JOIN ib_users_groups ug ON gc.group_id = ug.group_id AND ug.user_id   = :user_id
+ INNER JOIN ib_users u ON gc.group_id = u.group_id AND u.id   = :user_id
  WHERE gc.course_id = :course_id
 EOF;
 		$data = $this->query($sql, $params);

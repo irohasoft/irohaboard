@@ -56,8 +56,8 @@ class ContentsQuestionsController extends AppController
     //$url = urlencode($url);
     $this->set('text_url',$url);
     //$this->log($url);
-		
-		//------------------------------//
+
+    //------------------------------//
 		//	権限チェック				//
 		//------------------------------//
 		// 管理者以外の場合、コンテンツの閲覧権限の確認
@@ -193,6 +193,18 @@ class ContentsQuestionsController extends AppController
 			
 			// 合格基準得点を超えていた場合、合格とする
 			$is_passed = ($my_score >= $pass_score) ? 1 : 0;
+
+      //もし合格できたら，その情報をclearedテーブルに更新する.
+      if($is_passed === 1){
+        $user_id = $this->Auth->user('id');
+        $course_id = $content['Course']['id'];
+        $content_id = $content_id;
+        if($this->ContentsQuestion->isExist($user_id, $content_id)){
+
+        }else{
+          $this->ContentsQuestion->upClearedDate($user_id, $course_id, $content_id);
+        }
+      }
 			
 			// テスト実施時間
 			$study_sec = $this->request->data['ContentsQuestion']['study_sec'];

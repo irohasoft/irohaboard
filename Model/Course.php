@@ -192,4 +192,74 @@ EOF;
 		$sql = "DELETE FROM ib_courses WHERE id = :course_id;";
 		$this->query($sql, $params);
 	}
+
+  public function getCourseInfo($course_id){
+    $sql = "SELECT * FROM ib_courses WHERE id = $course_id";
+    $data = $this->query($sql);
+    return $data[0];
+  }
+
+  public function getCourseList(){
+    $sql = "SELECT id, title
+      FROM ib_courses 
+      ORDER BY id ASC";
+    $data = $this->query($sql);
+    //$this->log($data);
+    $course_list = [];
+    foreach($data as $row){
+      $id = $row['ib_courses']['id'];
+      $title = $row['ib_courses']['title'];
+      $course_list[$id] = $title;
+    }
+    return $course_list;
+  }
+
+
+
+  public function goToNextCourse($user_id, $before_course_id, $now_course_id){
+    //前提となるコースのコンテンツ数をカウントする．
+    $sql = "SELECT count(*) as cnt 
+      FROM ib_contents 
+      WHERE 
+        course_id = $before_course_id
+      AND
+        kind = 'test' ";
+    $data = $this->query($sql);
+    $total_content = $data[0][0]["cnt"];
+    //$this->log(array($total_content, $before_course_id));
+    //前提となるコースのクリアしたコンテンツ数をカウントする．
+    $sql = "SELECT count(*) as cnt
+      FROM ib_cleared
+      WHERE
+        course_id = $before_course_id
+      AND
+        user_id = $user_id";
+    $data = $this->query($sql);
+    $cleared_content = $data[0][0]["cnt"];
+    
+    //もし，クリア >= 全て
+    if($cleared_content >= $total_content){
+      $sql = "INSERT INTO ib_cleared (id, user_id, course_id, content_id, created, modfied) VALUES (NULL, $user_id, $now_course_id, NULL, CURRENT_TIME(), CURRENT_TIME())";
+      $data = $this->query($sql);
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public function existCleared($user_id, $now_course_id){
+    $sql = "SELECT count(*) as cnt
+      FROM ib_cleared
+      WHERE
+        course_id = $now_course_id
+      AND
+        user_id = $user_id";
+    $data = $this->query($sql);
+    $cleared_course = $data[0][0]["cnt"];
+    if($cleared_course > 0){
+      return true;
+    }else{
+      return false;
+    }
+  }
 }

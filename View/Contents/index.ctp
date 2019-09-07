@@ -71,6 +71,7 @@
 		$title_link		= ''; // コンテンツタイトル（リンク付き）
 		$kind			= Configure::read('content_kind.'.$content['Content']['kind']); // 学習種別
 		$understanding	= ''; // 理解度・テスト結果
+    //$this->log($content);
 		
 		// コンテンツの種別
 		switch($content['Content']['kind'])
@@ -146,6 +147,14 @@
 		</tr>
 		<?php }else{?>
 		<tr>
+      <?php
+        $before_content = $content['Content']['before_content'];
+        if($before_content !== null && $role !== 'admin'){
+          if($cleared_list[$before_content] === null){
+            continue;
+          }
+        }
+      ?>
 			<td><span class="<?php echo $icon; ?>"></span>&nbsp;<?php echo $title_link; ?>&nbsp;</td>
 			<td class="ib-col-center" nowrap><?php echo h($kind); ?>&nbsp;</td>
 			<td class="ib-col-date"><?php echo Utils::getYMD($content['Record']['first_date']); ?>&nbsp;</td>

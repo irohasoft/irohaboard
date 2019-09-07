@@ -275,8 +275,9 @@ EOF;
   }
 
   public function getContentList($course_id){
-    $sql = "SELECT id, title FROM ib_contents WHERE course_id = $course_id ORDER BY id DESC";
+    $sql = "SELECT id, title, sort_no FROM ib_contents WHERE course_id = $course_id ORDER BY sort_no ASC";
     $data = $this->query($sql);
+    //$this->log($data);
     $content_list = [];
     foreach($data as $row){
       $id = $row['ib_contents']['id'];
@@ -284,5 +285,23 @@ EOF;
       $content_list[$id] = $title;
     }
     return $content_list;
+  }
+
+  public function getClearedList($user_id, $course_id){
+    $sql = "SELECT content_id, user_id
+      FROM ib_cleared 
+      WHERE 
+        course_id = $course_id
+      AND
+        user_id = $user_id
+      ORDER BY content_id ASC";
+    $data = $this->query($sql);
+    $cleared_list = [];
+    foreach($data as $row){
+      $content_id = $row['ib_cleared']['content_id'];
+      $user_id = $row['ib_cleared']['user_id'];
+      $cleared_list[$content_id] = $user_id;
+    }
+    return $cleared_list;
   }
 }

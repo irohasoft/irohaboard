@@ -224,11 +224,16 @@
 					'options' => Configure::read('content_status')
 					)
 				);
+        //$this->log($content_list);
 
-        //textAndTest
-        echo "<div class='kind  kind-html'>";
-				echo $this->Form->input('body',		array('label' => '内容'));
-				echo "</div>";
+        echo $this->Form->input('before_content',array(
+          'label' => '前提コンテンツ：',
+          'options' => $content_list,
+          'selected' => $selected_before_content,
+          'empty' => '',
+          'required' => false,
+          'class' => 'form-control'
+        ));
 
 				// コンテンツ移動用
 				if(($this->action == 'admin_edit'))

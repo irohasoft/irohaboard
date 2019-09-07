@@ -48,6 +48,13 @@ class ContentsController extends AppController
 		
 		// ロールを取得
 		$role = $this->Auth->user('role');
+    //クリアしたコンテンツを検索，セット
+    $user_id = $this->Auth->user('id');
+    $cleared_list = $this->Content->getClearedList($user_id, $course_id);
+    $this->set('cleared_list',$cleared_list);
+    $this->log($cleared_list);
+		
+
 		
 		// 管理者かつ、学習履歴表示モードの場合、
 		if($this->action == 'admin_record')
@@ -245,12 +252,22 @@ class ContentsController extends AppController
 		}
 
     //追加の場合
+    $contentInfo = null;
+
     if($content_id != null){
-      $ContentInfo = $this->Content->getContentInfo($content_id);
-      $exists_url = $ContentInfo['ib_contents']['text_url'];
+      $contentInfo = $this->Content->getContentInfo($content_id);
+      $exists_url = $contentInfo['ib_contents']['text_url'];
       //$this->log($exits_url);
       $this->set('exists_url', $exists_url);
     }
+    //前提となるコンテンツを追加する．
+			$content_list = $this->Content->getContentList($course_id);
+      //$this->log($content_list);
+      $selected_before_content = $contentInfo['ib_contents']['before_content'];
+      $this->set('selected_before_content',$selected_before_content);
+      $this->set('content_list',$content_list);
+
+
 		
 		if ($this->request->is(array(
 				'post',
@@ -272,11 +289,7 @@ class ContentsController extends AppController
 			}
 
       //$this->log($this->request->data);
-      //前提となるコンテンツを追加する．
-			$content_list = $this->Content->getContentList($course_id);
-      $this->log($content_list);
-
-
+      
       if($this->request->data['Content']['form_text_url']['name'] !== ''){
       
         $file_name = $this->request->data['Content']['form_text_url']['name'];

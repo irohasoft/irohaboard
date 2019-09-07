@@ -10,6 +10,14 @@
 			<?php
 				echo $this->Form->input('id');
 				echo $this->Form->input('title',	array('label' => __('コース名')));
+        echo $this->Form->input('before_course',array(
+          'label' => '前提コース：',
+          'options' => $course_list,
+          'selected' => $selected_before_course,
+          'empty' => '',
+          'required' => false,
+          'class' => 'form-control'
+        ));
 				/*
 				echo $this->Form->input('opened',	array(
 					'type' => 'datetime',

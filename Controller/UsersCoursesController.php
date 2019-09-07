@@ -28,6 +28,9 @@ class UsersCoursesController extends AppController
 	{
 		$user_id = $this->Auth->user('id');
 		
+		$role = $this->Auth->user('role');
+    $this->set('role',$role);
+
 		// 全体のお知らせの取得
 		App::import('Model', 'Setting');
 		$this->Setting = new Setting();
@@ -42,6 +45,7 @@ class UsersCoursesController extends AppController
 		
 		// お知らせ一覧を取得
 		$this->loadModel('Info');
+    $this->loadModel('Course');
 		$infos = $this->Info->getInfos($user_id, 2);
 		
 		$no_info = "";
@@ -51,7 +55,30 @@ class UsersCoursesController extends AppController
 			$no_info = __('お知らせはありません');
 		
 		// 受講コース情報の取得
-		$courses = $this->UsersCourse->getCourseRecord($user_id);
+		//$courses = $this->UsersCourse->getCourseRecord($user_id);
+		$all_courses = $this->UsersCourse->getCourseRecord($user_id);
+    //$this->log($all_courses);
+    $courses = [];
+    if($role === 'admin'){
+      $courses = $all_courses;
+    }else{
+      foreach($all_courses as $course){
+        $before_course_id = $course['Course']['before_course'];
+        $now_course_id = $course['Course']['id'];
+        //$this->log($now_course_id);
+        if($this->Course->existCleared($user_id, $now_course_id) || $before_course_id === null){
+          $this->log($course);
+          array_push($courses, $course);
+        }else{
+          $result = $this->Course->goToNextCourse($user_id, $before_course_id, $now_course_id);
+          if($result){
+            array_push($courses, $course);
+          }else{
+            continue;
+          }
+        }
+      }
+    }
 		
 		$no_record = "";
 		

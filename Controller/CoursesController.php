@@ -55,6 +55,15 @@ class CoursesController extends AppController
 		{
 			throw new NotFoundException(__('Invalid course'));
 		}
+    $course_list = $this->Course->getCourseList();
+    $this->set('course_list', $course_list);
+
+    if($course_id != null){
+      $courseInfo = $this->Course->getCourseInfo($course_id);
+      $selected_before_course = $courseInfo['ib_courses']['before_course'];
+      //$this->log($courseInfo);
+      $this->set('selected_before_course',$selected_before_course);
+    }
 		if ($this->request->is(array(
 			'post',
 			'put'

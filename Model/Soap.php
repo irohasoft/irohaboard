@@ -92,13 +92,6 @@ class Soap extends AppModel
 	 * @var array
 	 */
 	public $belongsTo = array(
-			'Course' => array(
-					'className' => 'Course',
-					'foreignKey' => 'course_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			),
 			'User' => array(
 					'className' => 'User',
 					'foreignKey' => 'user_id',
@@ -106,9 +99,16 @@ class Soap extends AppModel
 					'fields' => '',
 					'order' => ''
 			),
-			'Content' => array(
-					'className' => 'Content',
-					'foreignKey' => 'content_id',
+			'Group' => array(
+					'className' => 'Group',
+					'foreignKey' => 'group_id',
+					'conditions' => '',
+					'fields' => '',
+					'order' => ''
+			),
+			'Course' => array(
+					'className' => 'Course',
+					'foreignKey' => 'current_status',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''

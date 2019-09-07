@@ -1,3 +1,4 @@
+<?php echo $this->Html->css('elements');?>
 <nav class="navbar navbar-default">
 	<div class="container">
 		<div class="navbar-collapse collapse">
@@ -15,8 +16,13 @@
 			$is_active = ($this->name=='Infos') ? ' active' : '';
 			echo '<li class="'.$is_active.'">'.$this->Html->link(__('お知らせ'), array('controller' => 'infos', 'action' => 'index')).'</li>';
 
-			$is_active = ($this->name=='Records') ? ' active' : '';
-			echo '<li class="'.$is_active.'">'.$this->Html->link(__('学習履歴'), array('controller' => 'records', 'action' => 'index')).'</li>';
+			$is_active = ($this->name=='Records' or $this->name=='SoapRecords') ? ' active' : '';
+			echo '<li class="'.$is_active.' menu__single">'.$this->Html->link(__('検索一覧'), array('controller' => 'records', 'action' => 'index'));
+			echo '<ul class="menu__second-level">';
+      echo '<li>'.$this->Html->link(__('クイズ'), array('controller' => 'records', 'action' => 'index')).'</li>';
+      echo '<li>'.$this->Html->link(__('SOAP'), array('controller' => 'soaprecords', 'action' => 'index')).'</li>';
+			echo '<li><a href="#">アンケート</a></li>';
+      echo '</ul></li>';
 
 			$is_active = ($this->name=='RecentStates') ? ' active' : '';
 			echo '<li class="'.$is_active.'">'.$this->Html->link(__('近況状況'), array('controller' => 'recentstates', 'action' => 'index')).'</li>';

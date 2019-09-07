@@ -92,13 +92,6 @@ class Soap extends AppModel
 	 * @var array
 	 */
 	public $belongsTo = array(
-			'Course' => array(
-					'className' => 'Course',
-					'foreignKey' => 'course_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			),
 			'User' => array(
 					'className' => 'User',
 					'foreignKey' => 'user_id',
@@ -106,9 +99,16 @@ class Soap extends AppModel
 					'fields' => '',
 					'order' => ''
 			),
-			'Content' => array(
-					'className' => 'Content',
-					'foreignKey' => 'content_id',
+			'Group' => array(
+					'className' => 'Group',
+					'foreignKey' => 'group_id',
+					'conditions' => '',
+					'fields' => '',
+					'order' => ''
+			),
+			'Course' => array(
+					'className' => 'Course',
+					'foreignKey' => 'current_status',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
@@ -198,6 +198,14 @@ class Soap extends AppModel
 			$members_recent_soaps += [$user_id => $recent_soaps];
 		endforeach;
 		return $members_recent_soaps;
+	}
+
+	public function getOldestCreatedYear(){
+		$sql = "SELECT MIN(created) AS oldest_created_time FROM ib_soaps";
+		$data = $this->query($sql);
+		$oldest_created_year = (new DateTime($data[0]['ib_soaps']['oldest_created_time']))->format('Y');
+		//$this->log($oldest_created_year);
+		return $oldest_created_year;
 	}
 
 }

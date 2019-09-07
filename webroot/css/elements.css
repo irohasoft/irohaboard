@@ -1,0 +1,42 @@
+ul.menu__second-level {
+    visibility: hidden;
+    opacity: 0;
+    z-index: 1;
+}
+
+.menu__second-level li {
+    background: #EEEEEE;
+    /*border-top: 1px solid #111;*/
+}
+
+.menu__second-level li a:hover {
+    background: #111;
+}
+
+/* 下矢印 */
+.init-bottom:after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin: 0 0 0 15px;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+li.menu__single ul.menu__second-level {
+    position: absolute;
+    width: 100%;
+    list-style: none;
+    padding-left: 0;
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
+}
+
+li.menu__single:hover ul.menu__second-level {
+    visibility: visible;
+    opacity: 1;
+}

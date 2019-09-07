@@ -1,6 +1,6 @@
 <?php
-/*
- * Ripple  Project
+/**
+ * Ripple Project
  *
  * @author        Osamu Miyazawa
  * @copyright     NPO Organization uec support

@@ -101,6 +101,7 @@ class AppController extends Controller
 					if($this->Cookie)
 						$this->Cookie->delete('Auth');
 					
+					$this->Flash->error(__('管理画面へのアクセス権限がありません'));
 					$this->redirect($this->Auth->logout());
 					return;
 				}

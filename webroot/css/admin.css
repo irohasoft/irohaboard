@@ -200,7 +200,9 @@
 }
 
 .admin-records-index #RecordFromDateYear,
-.admin-records-index #RecordToDateYear
+.admin-records-index #RecordToDateYear,
+.admin-records-index #SoapFromDateYear,
+.admin-records-index #SoapToDateYear
 {
 	width			: 100px;
 }
@@ -208,12 +210,17 @@
 .admin-records-index #RecordFromDateMonth,
 .admin-records-index #RecordToDateMonth,
 .admin-records-index #RecordFromDateDay,
-.admin-records-index #RecordToDateDay
+.admin-records-index #RecordToDateDay,
+.admin-records-index #SoapFromDateMonth,
+.admin-records-index #SoapToDateMonth,
+.admin-records-index #SoapFromDateDay,
+.admin-records-index #SoapToDateDay
 {
 	width			: 80px;
 }
 
-.admin-records-index #RecordCourseId
+.admin-records-index #RecordCourseId,
+.admin-records-index #SoapCourseId
 {
 	max-width		: 200px;
 }
@@ -230,7 +237,7 @@
 
 .admin-records-index input[type='text'],
 .admin-records-index textarea,
-.admin-records-index .form-control, 
+.admin-records-index .form-control,
 .admin-records-index label
 {
 	font-size		: 12px;

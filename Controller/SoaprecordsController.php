@@ -14,7 +14,7 @@ App::uses('User',          'User');
 App::uses('Group',         'Group');
 App::uses('Soap',          'Soap');
 
-/*
+/**
  * Records Controller
  *
  * @property Record $Record
@@ -48,42 +48,19 @@ class SoapRecordsController extends AppController
 	/**
 	 * SOAP一覧を表示
 	 */
-	public function admin_index()
-	{
+	public function admin_index(){
 		$this->loadModel('Soap');
 
 		// SearchPluginの呼び出し
-		$this->Prg->commonProcess();
-
+		$this->Prg->commonProcess('Soap');
 		// Model の filterArgs に定義した内容にしたがって検索条件を作成
 		// ただしアソシエーションテーブルには対応していないため、独自に検索条件を設定する必要がある
 		$conditions = $this->Soap->parseCriteria($this->Prg->parsedParams());
-		/*
-		$group_id			= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
-		$course_id			= (isset($this->request->query['course_id'])) ? $this->request->query['course_id'] : "";
-		$name				= (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
-		$content_category	= (isset($this->request->query['content_category'])) ? $this->request->query['content_category'] : "";
-		$contenttitle		= (isset($this->request->query['contenttitle'])) ? $this->request->query['contenttitle'] : "";
 
-
-		// グループが指定されている場合、指定したグループに所属するユーザの履歴を抽出
-		if($group_id != "")
-			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
-
-		if($course_id != "")
-			$conditions['Course.id'] = $course_id;
-
-		if($name != "")
-			$conditions['User.name like'] = '%'.$name.'%';
-
-		// コンテンツ種別：学習の場合
-		if($content_category == "study")
-			$conditions['Content.kind'] = array('text', 'html', 'movie', 'url');
-
-		// コンテンツ種別：テストの場合
-		if($content_category == "test")
-			$conditions['Content.kind'] = array('test');
-
+		$name	        = (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
+		$group_title	= (isset($this->request->query['group_title'])) ? $this->request->query['group_title'] : "";
+		$period       = (isset($this->request->query['period'])) ? $this->request->query['period'] : "";
+		$course_id	  = (isset($this->request->query['course_id'])) ? $this->request->query['course_id'] : "";
 		$from_date	= (isset($this->request->query['from_date'])) ?
 			$this->request->query['from_date'] :
 				array(
@@ -91,20 +68,29 @@ class SoapRecordsController extends AppController
 					'month' => date('m', strtotime("-1 month")),
 					'day' => date('d', strtotime("-1 month"))
 				);
-
 		$to_date	= (isset($this->request->query['to_date'])) ?
 			$this->request->query['to_date'] :
 				array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
 
-		if($contenttitle != "")
-			$conditions['Content.title like'] = '%'.$contenttitle.'%';
 
-		// 学習日付による絞り込み
-		$conditions['Record.created BETWEEN ? AND ?'] = array(
+		if($name != "")
+			$conditions['User.name like'] = '%'.$name.'%';
+
+		if($group_title != "")
+			$conditions['Group.title like'] = '%'.$group_title.'%';
+
+		if($period != "")
+			$conditions['User.period'] = $period;
+
+		if($course_id != "")
+			$conditions['Course.id'] = $course_id;
+
+		// 受講日による絞り込み
+		$conditions['Soap.created BETWEEN ? AND ?'] = array(
 			implode("/", $from_date),
 			implode("/", $to_date).' 23:59:59'
 		);
-		*/
+
 		// CSV出力モードの場合
 		if(@$this->request->query['cmd']=='csv')
 		{/*
@@ -174,23 +160,21 @@ class SoapRecordsController extends AppController
 
 			$this->set('records', $result);
 
-			//$groups = $this->Group->getGroupList();
-			/*
-			$this->Group = new Group();
-			$this->Course = new Course();
-			$this->User = new User();
-			//debug($this->User);
 
-			$this->set('groups',     $this->Group->find('list'));
-			$this->set('courses',    $this->Course->find('list'));
-      $this->log($this->Course->find('list'));
-			$this->set('group_id',   $group_id);
-			$this->set('course_id',  $course_id);
-			$this->set('name',       $name);
-			$this->set('content_category',	$content_category);
-			$this->set('contenttitle',		$contenttitle);
-			$this->set('from_date', $from_date);
-			$this->set('to_date', $to_date);*/
+			$this->Course = new Course();
+
+			$this->set('period_list', array('1限','2限'));
+			$this->set('courses',     $this->Course->find('list'));
+			$this->set('name',        $name);
+			$this->set('group_title', $group_title);
+			$this->set('period',      $period);
+			$this->set('course_id',   $course_id);
+			$this->set('from_date',   $from_date);
+			$this->set('to_date',     $to_date);
+
+			// 最も古いSoapが作られた年を取得
+			$oldest_created_year = $this->Soap->getOldestCreatedYear();
+			$this->set('oldest_created_year', $oldest_created_year);
 		}
 	}
 }

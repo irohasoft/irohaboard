@@ -200,4 +200,12 @@ class Soap extends AppModel
 		return $members_recent_soaps;
 	}
 
+	public function getOldestCreatedYear(){
+		$sql = "SELECT MIN(created) AS oldest_created_time FROM ib_soaps";
+		$data = $this->query($sql);
+		$oldest_created_year = (new DateTime($data[0]['ib_soaps']['oldest_created_time']))->format('Y');
+		//$this->log($oldest_created_year);
+		return $oldest_created_year;
+	}
+
 }

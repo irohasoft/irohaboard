@@ -100,12 +100,12 @@
 			}
 		?>
 			<tr>
-				<td class="ib-col-date"><?php echo h(Utils::getYMD($record['Soap']['created'])); ?>&nbsp;</td>
-				<td nowrap class="text-center"><?php echo h($record['User']['name']); ?>&nbsp;</td>
+				<td nowrap class="ib-col-date"><?php echo h(Utils::getYMD($record['Soap']['created'])); ?>&nbsp;</td>
+				<td class="text-center"><?php echo h($record['User']['name']); ?>&nbsp;</td>
 				<td nowrap class="text-center"><?php echo h($record['Group']['title']); ?>&nbsp;</td>
 				<td nowrap class="text-center"><?php echo h($class_hour); ?>&nbsp;</td>
 				<td nowrap class="text-center"><?php echo h($record['Course']['title']); ?>&nbsp;</td>
-				<td nowrap>
+				<td>
 					S: <?php echo h($record['Soap']['S']); ?>&nbsp;<br/>
 					O: <?php echo h($record['Soap']['O']); ?>&nbsp;<br/>
 					A: <?php echo h($record['Soap']['A']); ?>&nbsp;<br/>

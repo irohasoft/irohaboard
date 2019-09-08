@@ -10,13 +10,13 @@
 
 .text-block object{
   float : left;
-  width : 50%;
+  width : 65%;
   height : 850px;
   overflow: scroll;
 }
 .quiz-block{
   float : left;
-  width : 50%;
+  width : 35%;
   height : 850px;
   overflow: scroll;
 }

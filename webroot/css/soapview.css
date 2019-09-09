@@ -1,0 +1,6 @@
+.soap-item {
+  margin:1px;
+  padding:0px;
+  margin-left: 1.2em; /* ブロック全体を 1.2em（1.2文字）分右に */
+  text-indent: -1.2em; /* 先頭の1行のみ 1.2em（1.2文字）分左に */
+}

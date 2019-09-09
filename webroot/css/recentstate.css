@@ -8,30 +8,6 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-.admin-group_view-index{}
-
-.admin-student_view-index{}
-
-.member-view {
-  display: grid; width: 800px; height: 650px;
-  grid-template-areas: "a b c" "d d d";
-  grid-template-columns: 250px 150px 400px;
-  grid-template-rows: 150px 500px }
-.member-name     { grid-area: a; padding: 1em ; font-size: 20px }
-.member-photo    { grid-area: b; padding: 0em }
-.member-progress { grid-area: c; padding: 1em }
-.member-soaps    { grid-area: d; padding: 1em }
-
-.soap-view {
-  display: grid; width 800px; height 100px;
-  grid-template-areas: "a b c";
-  grid-template-columns: 50px 100px 1fr;
-  grid-template-rows: 100px;
-}
-.soap-date     { grid-area: a; padding: 1em }
-.soap-material { grid-area: b; padding: 1em }
-.soap-record   { grid-area: c; padding: 1em }
-
 .under-element{
   clear: both;
 }

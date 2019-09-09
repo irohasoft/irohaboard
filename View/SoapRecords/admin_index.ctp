@@ -1,4 +1,5 @@
 <?php echo $this->element('admin_menu');?>
+<?php echo $this->Html->css('soapview');?>
 <?php $this->start('script-embedded'); ?>
 <script>
 	function downloadCSV()
@@ -86,7 +87,6 @@
 				<th nowrap class="text-center">1限<br/>or<br/>2限</th>
 				<th nowrap class="text-center">STEP教材<br/>or<br/>応用教材</th>
 				<th nowrap>SOAP</th>
-				<th>自由コメント</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -100,18 +100,18 @@
 			}
 		?>
 			<tr>
-				<td class="ib-col-date"><?php echo h(Utils::getYMD($record['Soap']['created'])); ?>&nbsp;</td>
-				<td nowrap class="text-center"><?php echo h($record['User']['name']); ?>&nbsp;</td>
-				<td nowrap class="text-center"><?php echo h($record['Group']['title']); ?>&nbsp;</td>
-				<td nowrap class="text-center"><?php echo h($class_hour); ?>&nbsp;</td>
-				<td nowrap class="text-center"><?php echo h($record['Course']['title']); ?>&nbsp;</td>
-				<td nowrap>
-					S: <?php echo h($record['Soap']['S']); ?>&nbsp;<br/>
-					O: <?php echo h($record['Soap']['O']); ?>&nbsp;<br/>
-					A: <?php echo h($record['Soap']['A']); ?>&nbsp;<br/>
-					P: <?php echo h($record['Soap']['P']); ?>&nbsp;
+				<td nowrap class="ib-col-date"><?php echo h(Utils::getYMD($record['Soap']['created'])); ?>&nbsp;</td>
+				<td><?php echo h($record['User']['name']); ?>&nbsp;</td>
+				<td nowrap><?php echo h($record['Group']['title']); ?>&nbsp;</td>
+				<td nowrap><?php echo h($class_hour); ?>&nbsp;</td>
+				<td nowrap><?php echo h($record['Course']['title']); ?>&nbsp;</td>
+				<td>
+					<div class="soap-item"><b>S</b>:&nbsp;<?php echo h($record['Soap']['S']); ?>&nbsp;</div>
+					<div class="soap-item"><b>O</b>:&nbsp;<?php echo h($record['Soap']['O']); ?>&nbsp;</div>
+					<div class="soap-item"><b>A</b>:&nbsp;<?php echo h($record['Soap']['A']); ?>&nbsp;</div>
+					<div class="soap-item"><b>P</b>:&nbsp;<?php echo h($record['Soap']['P']); ?>&nbsp;</div>
+					<div class="soap-item"><b>自由記述</b>:&nbsp;<?php echo h($record['Soap']['comment']); ?>&nbsp;</div>
 				</td>
-				<td><?php echo h($record['Soap']['comment']); ?>&nbsp;</td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>

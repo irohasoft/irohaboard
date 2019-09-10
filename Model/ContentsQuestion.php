@@ -112,10 +112,10 @@ class ContentsQuestion extends AppModel
 				'message' => '正解を選択してください'
 			)
 	);
-	
+
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
-	
+
 	/**
 	 * belongsTo associations
 	 *
@@ -133,7 +133,7 @@ class ContentsQuestion extends AppModel
 
 	/**
 	 * 問題の並べ替え
-	 * 
+	 *
 	 * @param array $id_list 問題のIDリスト（並び順）
 	 */
 	public function setOrder($id_list)
@@ -153,7 +153,7 @@ class ContentsQuestion extends AppModel
 
 	/**
 	 * 新規追加時の問題のソート番号を取得
-	 * 
+	 *
 	 * @param array $content_id コンテンツ(テスト)のID
 	 * @return int ソート番号
 	 */
@@ -165,18 +165,18 @@ class ContentsQuestion extends AppModel
 				'ContentsQuestion.content_id' => $content_id
 			)
 		);
-		
+
 		$data = $this->find('first', $options);
-		
+
 		$sort_no = $data[0]['sort_no'] + 1;
-		
+
 		return $sort_no;
 	}
   public function isExist($user_id, $content_id){
     $is_exist = false;
-    $sql = "SELECT count(*) as cnt 
-      FROM ib_cleared 
-      WHERE 
+    $sql = "SELECT count(*) as cnt
+      FROM ib_cleared
+      WHERE
         user_id = $user_id
       AND
         content_id = $content_id";
@@ -187,8 +187,8 @@ class ContentsQuestion extends AppModel
     return $is_exist;
   }
   public function upClearedDate($user_id, $course_id, $content_id){
-    $sql = "INSERT INTO ib_cleared (id, user_id, course_id, content_id, created, modfied) VALUES (NULL, $user_id, $course_id, $content_id, CURRENT_TIME(), CURRENT_TIME())";
+    $sql = "INSERT INTO ib_cleared (id, user_id, course_id, content_id, created, modified) VALUES (NULL, $user_id, $course_id, $content_id, CURRENT_TIME(), CURRENT_TIME())";
     $data = $this->query($sql);
   }
- 
+
 }

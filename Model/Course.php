@@ -239,7 +239,7 @@ EOF;
 
     //もし，クリア >= 全て
     if($cleared_content >= $total_content){
-      $sql = "INSERT INTO ib_cleared (id, user_id, course_id, content_id, created, modfied) VALUES (NULL, $user_id, $now_course_id, NULL, CURRENT_TIME(), CURRENT_TIME())";
+      $sql = "INSERT INTO ib_cleared (id, user_id, course_id, content_id, created, modified) VALUES (NULL, $user_id, $now_course_id, NULL, CURRENT_TIME(), CURRENT_TIME())";
       $data = $this->query($sql);
       return true;
     }else{

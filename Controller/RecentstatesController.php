@@ -46,6 +46,7 @@ class RecentStatesController extends AppController{
 
   public function admin_group_view($group_id){
     $this->loadModel('User');
+    $this->loadModel('Course');
     $this->loadModel('Soap');
 
     $user_list = $this->User->find('list');
@@ -63,8 +64,13 @@ class RecentStatesController extends AppController{
 
     // user_idと学年(grade)の配列
     $members_grades = $this->User->findGroupGrade($members);
-    $this->log($members_grades);
+    //$this->log($members_grades);
     $this->set('members_grades', $members_grades);
+
+    // user_idとコース名・合格率の配列
+    $members_cleared_rates = $this->Course->findGroupClearedRate($members);
+    $this->log($members_cleared_rates);
+    $this->set('members_cleared_rates', $members_cleared_rates);
 
     // user_idと過去4回分SOAPの配列を作る
     $members_recent_soaps = $this->Soap->findGroupRecentSoaps($members);
@@ -74,6 +80,8 @@ class RecentStatesController extends AppController{
 
   public function admin_student_view($user_id){
     $this->loadModel('User');
+    $this->loadModel('Course');
+    $this->loadModel('UsersCourse');
     $this->loadModel('Soap');
 
     $user_list = $this->User->find('list');
@@ -86,6 +94,11 @@ class RecentStatesController extends AppController{
 
     $grade = $this->User->findUserGrade($user_id);
     $this->set('grade', $grade);
+
+    // 受講コース情報の取得
+    $cleared_rates = $this->Course->findClearedRate($user_id);
+    $this->log($cleared_rates);
+    $this->set('cleared_rates', $cleared_rates);
 
     // 過去四回のSOAPを検索
     $recent_soaps = $this->Soap->findRecentSoaps($user_id);

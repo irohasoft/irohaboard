@@ -61,7 +61,7 @@ class SoapRecordsController extends AppController
 		$group_title	= (isset($this->request->query['group_title'])) ? $this->request->query['group_title'] : "";
 		$period       = (isset($this->request->query['period'])) ? $this->request->query['period'] : "";
 		$course_id	  = (isset($this->request->query['course_id'])) ? $this->request->query['course_id'] : "";
-		$from_date	= (isset($this->request->query['from_date'])) ?
+		$from_date	  = (isset($this->request->query['from_date'])) ?
 			$this->request->query['from_date'] :
 				array(
 					'year' => date('Y', strtotime("-1 month")),

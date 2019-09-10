@@ -21,7 +21,7 @@ App::uses('AppModel', 'Model');
  */
 class Course extends AppModel
 {
-	public $order = "Course.sort_no";  
+	public $order = "Course.sort_no";
 
 	/**
 	 * Validation rules
@@ -56,10 +56,10 @@ class Course extends AppModel
 										)
 			)
 	);
-	
+
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
-	
+
 	/**
 	 * belongsTo associations
 	 *
@@ -114,7 +114,7 @@ class Course extends AppModel
 
 	/**
 	 * コースの並べ替え
-	 * 
+	 *
 	 * @param array $id_list コースのIDリスト（並び順）
 	 */
 	public function setOrder($id_list)
@@ -131,10 +131,10 @@ class Course extends AppModel
 			$this->query($sql, $params);
 		}
 	}
-	
+
 	/**
 	 * コースへのアクセス権限チェック
-	 * 
+	 *
 	 * @param int $user_id   アクセス者のユーザID
 	 * @param int $course_id アクセス先のコースのID
 	 * @return bool          true: アクセス可能, false : アクセス不可
@@ -142,12 +142,12 @@ class Course extends AppModel
 	public function hasRight($user_id, $course_id)
 	{
 		$has_right = false;
-		
+
 		$params = array(
 			'user_id'   => $user_id,
 			'course_id' => $course_id
 		);
-		
+
 		$sql = <<<EOF
 SELECT count(*) as cnt
   FROM ib_users_courses
@@ -155,10 +155,10 @@ SELECT count(*) as cnt
    AND user_id   = :user_id
 EOF;
 		$data = $this->query($sql, $params);
-		
+
 		if($data[0][0]["cnt"] > 0)
 			$has_right = true;
-		
+
 		$sql = <<<EOF
 SELECT count(*) as cnt
   FROM ib_groups_courses gc
@@ -166,28 +166,28 @@ SELECT count(*) as cnt
  WHERE gc.course_id = :course_id
 EOF;
 		$data = $this->query($sql, $params);
-		
+
 		if($data[0][0]["cnt"] > 0)
 			$has_right = true;
-		
+
 		return $has_right;
 	}
-	
+
 	// コースの削除
 	public function deleteCourse($course_id)
 	{
 		$params = array(
 			'course_id' => $course_id
 		);
-		
+
 		// テスト問題の削除
 		$sql = "DELETE FROM ib_contents_questions WHERE content_id IN (SELECT id FROM  ib_contents WHERE course_id = :course_id);";
 		$this->query($sql, $params);
-		
+
 		// コンテンツの削除
 		$sql = "DELETE FROM ib_contents WHERE course_id = :course_id;";
 		$this->query($sql, $params);
-		
+
 		// コースの削除
 		$sql = "DELETE FROM ib_courses WHERE id = :course_id;";
 		$this->query($sql, $params);
@@ -201,7 +201,7 @@ EOF;
 
   public function getCourseList(){
     $sql = "SELECT id, title
-      FROM ib_courses 
+      FROM ib_courses
       ORDER BY id ASC";
     $data = $this->query($sql);
     //$this->log($data);
@@ -218,9 +218,9 @@ EOF;
 
   public function goToNextCourse($user_id, $before_course_id, $now_course_id){
     //前提となるコースのコンテンツ数をカウントする．
-    $sql = "SELECT count(*) as cnt 
-      FROM ib_contents 
-      WHERE 
+    $sql = "SELECT count(*) as cnt
+      FROM ib_contents
+      WHERE
         course_id = $before_course_id
       AND
         kind = 'test' ";
@@ -236,7 +236,7 @@ EOF;
         user_id = $user_id";
     $data = $this->query($sql);
     $cleared_content = $data[0][0]["cnt"];
-    
+
     //もし，クリア >= 全て
     if($cleared_content >= $total_content){
       $sql = "INSERT INTO ib_cleared (id, user_id, course_id, content_id, created, modfied) VALUES (NULL, $user_id, $now_course_id, NULL, CURRENT_TIME(), CURRENT_TIME())";
@@ -262,4 +262,59 @@ EOF;
       return false;
     }
   }
+
+	public function calcClearedRate($user_id, $course_id){
+		// 学習中コースの全コンテンツ数
+		$sql = "SELECT count(*) as cnt
+			FROM ib_contents
+			WHERE
+				course_id = $course_id
+			AND
+				kind = 'test' ";
+		$data = $this->query($sql);
+		$total_content = $data[0][0]["cnt"];
+		if($total_content == 0){ return 0; }
+
+		// 合格したコンテンツ数
+		$sql = "SELECT count(*) as cnt
+			FROM ib_cleared
+			WHERE
+				course_id = $course_id
+			AND
+				user_id = $user_id";
+		$data = $this->query($sql);
+		$cleared_course = $data[0][0]["cnt"];
+
+		// 合格したコンテンツの割合を計算
+		$cleared_rate = $cleared_course/$total_content;
+		//$this->log($cleared_rate);
+		return $cleared_rate;
+	}
+
+	public function findClearedRate($user_id){
+		$cleared_rates = array();
+		App::import('Model', 'UsersCourse');
+		$this->UsersCourse = new UsersCourse();
+		$all_courses = $this->UsersCourse->getCourseRecord($user_id);
+		foreach($all_courses as $course){
+			$course_id    = $course['Course']['id'];
+			$course_title = $course['Course']['title'];
+			$cleared_rate = $this->calcClearedRate($user_id, $course_id);
+			$cleared_rates[] = ['course_title' => $course_title, 'cleared_rate' => $cleared_rate];
+		}
+		return $cleared_rates;
+	}
+
+	// user_idとコース名・合格率の配列を作る
+	public function findGroupClearedRate($members){
+		if (empty($members)){ return NULL; }
+		$members_cleared_rates = array();
+		foreach($members as $member){
+			$user_id = $member['ib_users']['id'];
+			$cleared_rates = $this->findClearedRate($user_id);
+			$members_cleared_rates += [$user_id => $cleared_rates];
+		}
+		return $members_cleared_rates;
+	}
+
 }

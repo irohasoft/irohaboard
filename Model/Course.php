@@ -263,12 +263,12 @@ EOF;
     }
   }
 
-	public function getClearedRate($user_id, $now_course_id){
+	public function calcClearedRate($user_id, $course_id){
 		// 学習中コースの全コンテンツ数
 		$sql = "SELECT count(*) as cnt
 			FROM ib_contents
 			WHERE
-				course_id = $now_course_id
+				course_id = $course_id
 			AND
 				kind = 'test' ";
 		$data = $this->query($sql);
@@ -279,7 +279,7 @@ EOF;
 		$sql = "SELECT count(*) as cnt
 			FROM ib_cleared
 			WHERE
-				course_id = $now_course_id
+				course_id = $course_id
 			AND
 				user_id = $user_id";
 		$data = $this->query($sql);
@@ -297,10 +297,10 @@ EOF;
 		$this->UsersCourse = new UsersCourse();
 		$all_courses = $this->UsersCourse->getCourseRecord($user_id);
 		foreach($all_courses as $course){
-			$now_course_id    = $course['Course']['id'];
-			$now_course_title = $course['Course']['title'];
-			$cleared_rate = $this->getClearedRate($user_id, $now_course_id);
-			$cleared_rates[] = ['course_title' => $now_course_title, 'cleared_rate' => $cleared_rate];
+			$course_id    = $course['Course']['id'];
+			$course_title = $course['Course']['title'];
+			$cleared_rate = $this->calcClearedRate($user_id, $course_id);
+			$cleared_rates[] = ['course_title' => $course_title, 'cleared_rate' => $cleared_rate];
 		}
 		return $cleared_rates;
 	}

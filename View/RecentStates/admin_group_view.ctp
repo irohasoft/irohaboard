@@ -27,7 +27,23 @@
       ?>
     </div>
     <div class = "student-progress">
-      Step教材の消化率
+      教材の消化率
+      <div class="progress-meter">
+      <table cellpadding="0" cellspacing="0">
+        <tbody>
+        <?php foreach($members_cleared_rates[$user_id] as $cleared_rate):
+          $title = $cleared_rate['course_title'];
+          $rate  = $cleared_rate['cleared_rate'];
+        ?>
+          <tr>
+            <td><?php echo h($title)?>:&nbsp;<td/>
+            <td><?php echo '<meter style="min-width: 200px" low="30" high="90" optimum="100" value='.$rate.'>'.round($rate*100).'%</meter>'; ?></td>
+            <td><?php echo h(round($rate*100));?>%&nbsp;<td/>
+          </tr>
+        <?php endforeach; ?>
+        </tbody>
+      </table>
+      </div>
     </div>
   </div>
 

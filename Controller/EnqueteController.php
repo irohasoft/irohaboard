@@ -16,7 +16,7 @@ App::uses('User',            'User');
 App::uses('Group',           'Group');
 App::uses('Sanitize', 'Utility');
 
-class SoapsController extends AppController{
+class EnqueteController extends AppController{
   public $helpers = array('Html', 'Form');
   public function admin_index(){
 

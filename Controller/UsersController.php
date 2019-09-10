@@ -256,8 +256,11 @@ class UsersController extends AppController
 		{
 			throw new NotFoundException(__('Invalid user'));
 		}
+    $pic_path = "";
 
-		$pic_path = $this->User->findUserPicPath($user_id);
+    if($user_id != null){
+		  $pic_path = $this->User->findUserPicPath($user_id);
+    }
 		$this->set('pic_path', $pic_path);
 
     $group_list = $this->Group->find('list');

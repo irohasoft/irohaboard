@@ -64,6 +64,7 @@
   		echo $this->Form->input('S',array(
   			'label' => __('S:'),
   			'div' => false,
+        //'default' => '最初の規定値',
   			'class' => ''
   		));
       echo "</div>";

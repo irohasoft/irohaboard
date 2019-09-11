@@ -67,7 +67,7 @@ class Record extends AppModel
 										)
 			)
 	);
-	
+
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
 	public $hasMany = array(
@@ -114,7 +114,7 @@ class Record extends AppModel
 					'order' => ''
 			)
 	);
-	
+
 	/**
 	 * 検索用
 	 */
@@ -124,4 +124,22 @@ class Record extends AppModel
 
 	public $filterArgs = array(
 	);
+
+
+	// 指定日の最後に学んだコンテンツを返す．不合格のものは含めない
+	public function studiedContentOnTheDate($user_id, $date){
+		//$this->log($date);
+		$result = $this->find('first', array(
+			'fields' => array('content_id'),
+			'conditions' => array(
+				'user_id'      => $user_id,
+				'is_passed !=' => 0,
+				'created LIKE' => $date."%"),
+			'order' => array('created' => 'desc'),
+			'recursive'=>-1
+		));
+		$content_id = $result['Record']['content_id'];
+		//$this->log($content_id);
+		return $content_id;
+	}
 }

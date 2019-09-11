@@ -126,13 +126,14 @@ class Record extends AppModel
 	);
 
 
-	// 指定日の最後に学んだコンテンツを返す
+	// 指定日の最後に学んだコンテンツを返す．不合格のものは含めない
 	public function studiedContentOnTheDate($user_id, $date){
 		//$this->log($date);
 		$result = $this->find('first', array(
 			'fields' => array('content_id'),
 			'conditions' => array(
 				'user_id'      => $user_id,
+				'is_passed !=' => 0,
 				'created LIKE' => $date."%"),
 			'order' => array('created' => 'desc'),
 			'recursive'=>-1

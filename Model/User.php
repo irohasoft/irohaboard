@@ -247,6 +247,7 @@ class User extends AppModel
   }
 
 	public function findUserPicPath($user_id){
+		if($user_id == NULL){ return 'student_img/noPic.png'; }
 		$sql = "SELECT id, pic_path FROM ib_users WHERE id = $user_id";
 		$data = $this->query($sql)['0']['ib_users']['pic_path'];
 		if($data === '' or $data === 'student_img/'){

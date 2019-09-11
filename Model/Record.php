@@ -131,7 +131,9 @@ class Record extends AppModel
 		//$this->log($date);
 		$result = $this->find('first', array(
 			'fields' => array('content_id'),
-			'conditions' => array('created LIKE' => $date."%"),
+			'conditions' => array(
+				'user_id'      => $user_id,
+				'created LIKE' => $date."%"),
 			'order' => array('created' => 'desc'),
 			'recursive'=>-1
 		));

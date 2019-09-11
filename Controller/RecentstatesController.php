@@ -47,11 +47,15 @@ class RecentStatesController extends AppController{
   public function admin_group_view($group_id){
     $this->loadModel('User');
     $this->loadModel('Course');
+    $this->loadModel('Content');
     $this->loadModel('Soap');
 
     $user_list = $this->User->find('list');
     //$this->log($user_list);
     $this->set('user_list', $user_list);
+
+    $content_list = $this->Content->find('list');
+    $this->set('content_list', $content_list);
 
     $members = $this->User->findAllStudentInGroup($group_id);
     //$this->log($members);
@@ -69,7 +73,7 @@ class RecentStatesController extends AppController{
 
     // user_idとコース名・合格率の配列
     $members_cleared_rates = $this->Course->findGroupClearedRate($members);
-    $this->log($members_cleared_rates);
+    //$this->log($members_cleared_rates);
     $this->set('members_cleared_rates', $members_cleared_rates);
 
     // user_idと過去4回分SOAPの配列を作る
@@ -81,13 +85,16 @@ class RecentStatesController extends AppController{
   public function admin_student_view($user_id){
     $this->loadModel('User');
     $this->loadModel('Course');
-    $this->loadModel('UsersCourse');
+    $this->loadModel('Content');
     $this->loadModel('Soap');
 
     $user_list = $this->User->find('list');
     //$this->log($user_list);
     $this->set('user_list', $user_list);
     $this->set('user_id', $user_id);
+
+    $content_list = $this->Content->find('list');
+    $this->set('content_list', $content_list);
 
     $pic_path = $this->User->findUserPicPath($user_id);
     $this->set('pic_path', $pic_path);
@@ -97,7 +104,7 @@ class RecentStatesController extends AppController{
 
     // 受講コース情報の取得
     $cleared_rates = $this->Course->findClearedRate($user_id);
-    $this->log($cleared_rates);
+    //$this->log($cleared_rates);
     $this->set('cleared_rates', $cleared_rates);
 
     // 過去四回のSOAPを検索

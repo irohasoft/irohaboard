@@ -51,16 +51,22 @@
     </thead>
     <tbody>
       <?php foreach($recent_soaps as $recent_soap):
-        $S = $recent_soap['ib_soaps']['S'];
-        $O = $recent_soap['ib_soaps']['O'];
-        $A = $recent_soap['ib_soaps']['A'];
-        $P = $recent_soap['ib_soaps']['P'];
-        $created = new DateTime($recent_soap['ib_soaps']['created']);
+        $S = $recent_soap['Soap']['S'];
+        $O = $recent_soap['Soap']['O'];
+        $A = $recent_soap['Soap']['A'];
+        $P = $recent_soap['Soap']['P'];
+        $created = new DateTime($recent_soap['Soap']['created']);
         $created_day = $created->format('m/d');
       ?>
       <tr>
         <td><?php echo $created_day; ?></td>
-        <td class="studied-material">今回学習した教材</td>
+        <td class="studied-material">
+          <?php
+            $content_id = $recent_soap['Soap']['studied_content'];
+            $studied_content = $content_list[$content_id];
+            echo h($studied_content);
+          ?>
+        </td>
         <td class="soap-block">
           <div class="soap-item"><b>S</b>:&nbsp;<?php echo h($S); ?>&nbsp;</div>
           <div class="soap-item"><b>O</b>:&nbsp;<?php echo h($O); ?>&nbsp;</div>

@@ -180,11 +180,16 @@ class Soap extends AppModel
   }
 
 	public function findRecentSoaps($user_id){
-		$sql = "SELECT id, user_id, current_status, S, O, A, P, created FROM ib_soaps
-				WHERE (user_id = '$user_id')
-				ORDER BY created DESC
-				LIMIT 4";
-		$data = $this->query($sql);
+		$data = $this->find('all', array(
+			'fields' => array(
+				'id', 'user_id', 'current_status', 'studied_content', 'S', 'O', 'A', 'P', 'created'
+			),
+			'conditions' => array('user_id' => $user_id),
+			'order' => array('created' => 'desc'),
+			'limit' => 4,
+			'recursive'=>-1
+		));
+		//$this->log($data);
 		return $data;
 	}
 

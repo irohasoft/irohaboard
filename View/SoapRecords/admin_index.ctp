@@ -5,9 +5,9 @@
 	function downloadCSV()
 	{
 		var url = '<?php echo Router::url(array('action' => 'csv')) ?>/' + $('#MembersEventEventId').val() + '/' + $('#MembersEventStatus').val() + '/' + $('#MembersEventUsername').val();
-		$("#RecordCmd").val("csv");
-		$("#RecordAdminIndexForm").submit();
-		$("#RecordCmd").val("");
+		$("#SoapCmd").val("csv");
+		$("#SoapAdminIndexForm").submit();
+		$("#SoapCmd").val("");
 	}
 </script>
 <?php $this->end(); ?>
@@ -19,6 +19,7 @@
 		echo '<div class="ib-search-buttons">';
 		echo $this->Form->submit(__('検索'), array('class' => 'btn btn-info', 'div' => false));
 		echo $this->Form->hidden('cmd');
+		echo '<button type="button" class="btn btn-default" onclick="downloadCSV()">'.__('CSV出力').'</button>';
 		echo '</div>';
 
 		echo '<div class="ib-row">';

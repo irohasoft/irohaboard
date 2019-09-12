@@ -207,10 +207,58 @@ class User extends AppModel
 		$this->Record->deleteAll(array('Record.user_id' => $user_id), false);
 	}
 
-	public function findAllUserInGroup( $group_id ){
-		$sql = "SELECT id, group_id FROM ib_users
-						WHERE group_id = $group_id";
-		$data = $this->query($sql);
+	public function getUserList(){
+		$data = $this->find('all', array(
+			'fields' => array(
+				'id', 'username', 'name', 'pic_path'
+			),
+			'conditions' => array('role' => 'user'),
+			'order' => array('username' => 'ASC'),
+			'recursive' => -1
+		));
+		$this->log($data);
+		return $data;
+	}
+
+	// ユーザ名で検索
+	public function findUserList($username, $name){
+		if($username != null){
+			$username = "%".$username."%";
+		}
+		if($name != null){
+			$name = "%".$name."%";
+		}
+		if($username == null && $name == null){
+			$username = "%".$username."%";
+			$name = "%".$name."%";
+		}
+
+		$data = $this->find('all', array(
+			'fields' => array(
+				'id', 'username', 'name', 'pic_path'
+			),
+			'conditions' => array(
+				'role' => 'user',
+				'OR' => array(
+					"username LIKE" => $username,
+					"name LIKE"     => $name
+			)),
+			'order' => array('username' => 'ASC'),
+			'recursive' => -1
+		));
+		//$this->log($data);
+		return $data;
+	}
+
+	public function findAllUserInGroup($group_id){
+		$data = $this->find('all', array(
+			'fields' => array('id', 'group_id'),
+			'conditions' => array(
+				'group_id' => $group_id
+			),
+			'recursive' => -1
+		));
+		//$this->log($data);
 		return $data;
 	}
 

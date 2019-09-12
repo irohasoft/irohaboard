@@ -125,60 +125,7 @@ class Soap extends AppModel
 	public $filterArgs = array(
 	);
 
-  public function findGroup(){
-    $sql = "SELECT id,title FROM ib_groups";
-    $data = $this->query($sql);
-    //$this->log($data);
-    return $data;
-  }
-
-  public function findAllUserInGroup( $group_id ){
-    $sql = "SELECT id, group_id FROM ib_users
-            WHERE group_id = $group_id";
-    $data = $this->query($sql);
-    return $data;
-  }
-
-  public function getGroupList(){
-    $sql = "SELECT id,title FROM ib_groups ";
-    $data = $this->query($sql);
-    return $data;
-  }
-
-  public function getUserList(){
-    $sql = "SELECT id, username, name, pic_path FROM ib_users WHERE role = 'user' ORDER BY username ASC";
-    $data = $this->query($sql);
-    return $data;
-  }
-
-  public function findUserGroup($user_id){
-    $sql = "SELECT group_id FROM ib_users_groups WHERE user_id = $user_id";
-    $data = $this->query($sql);
-    //$this->log($data);
-    return $data[0]['ib_users_groups']['group_id'];
-  }
-
-  public function findUserList($username, $name){
-    if($username != null){
-      $username = "%".$username."%";
-    }
-    if($name != null){
-      $name = "%".$name."%";
-    }
-    if($username == null && $name == null){
-      $username = "%".$username."%";
-      $name = "%".$name."%";
-    }
-    $sql = "SELECT id, username, name, pic_path FROM ib_users
-        WHERE (username LIKE '$username'
-          OR name LIKE '$name')
-          AND (role = 'user')
-        GROUP BY username
-        ORDER BY username ASC";
-    $data = $this->query($sql);
-    return $data;
-  }
-
+	// 過去4回分のSOAPを取得
 	public function findRecentSoaps($user_id){
 		$data = $this->find('all', array(
 			'fields' => array(
@@ -198,7 +145,7 @@ class Soap extends AppModel
 		if (empty($members)){ return NULL; }
 		$members_recent_soaps = array();
 		foreach($members as $member):
-			$user_id = $member['ib_users']['id'];
+			$user_id = $member['User']['id'];
 			$recent_soaps = $this->findRecentSoaps($user_id);
 			$members_recent_soaps += [$user_id => $recent_soaps];
 		endforeach;

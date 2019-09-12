@@ -52,10 +52,10 @@ class UsersGroup extends AppModel
 										)
 			)
 	);
-	
+
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
-	
+
 	/**
 	 * belongsTo associations
 	 *
@@ -77,4 +77,15 @@ class UsersGroup extends AppModel
 					'order' => ''
 			)
 	);
+
+	public function findUserGroup($user_id){
+		$data = $this->find('all', array(
+			'fields' => array('group_id'),
+			'conditions' => array('user_id' => $user_id),
+			'recursive' => -1
+		));
+		//$this->log($data);
+		return $data[0]['UsersGroup']['group_id'];
+	}
+
 }

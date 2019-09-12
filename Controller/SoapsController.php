@@ -17,13 +17,15 @@ App::uses('Group',           'Group');
 
 class SoapsController extends AppController{
   public $helpers = array('Html', 'Form');
-  public function admin_index(){
 
-  }
+  public function admin_index(){}
+
   public function admin_find_by_group(){
-    $groupData = $this->Soap->findGroup();
+    $this->loadModel('Group');
+    $groupData = $this->Group->findGroup();
     $this->set('groupData', $groupData);
   }
+
   public function admin_find_by_student(){
     $this->loadModel('User');
 
@@ -33,10 +35,10 @@ class SoapsController extends AppController{
       $name = $conditions['Search']['name'];
 
       //$this->log($name);
-      $user_list = $this->Soap->findUserList($username, $name);
+      $user_list = $this->User->findUserList($username, $name);
 
     }else{
-      $user_list = $this->Soap->getUserList();
+      $user_list = $this->User->getUserList();
     }
     $this->set('user_list', $user_list);
   }
@@ -54,7 +56,7 @@ class SoapsController extends AppController{
     $this->set('user_list', $user_list);
 
     //グループ内のメンバーを探す
-    $members = $this->Soap->findAllUserInGroup($group_id);
+    $members = $this->User->findAllUserInGroup($group_id);
     $this->set('members',$members);
 
     //グループ一覧を作り，配列の形を整形する
@@ -97,6 +99,7 @@ class SoapsController extends AppController{
   public function admin_student_edit($user_id){
     $this->loadModel('Course');
     $this->loadModel('User');
+    $this->LoadModel('UsersGroup');
     //メンバーリスト
 
     $user_list = $this->User->find('list');
@@ -104,8 +107,8 @@ class SoapsController extends AppController{
     $this->set('user_list', $user_list);
 
     //メンバーのグループを探す
-    $group_id = $this->Soap->findUserGroup($user_id);
-    $this->log($group_id);
+    $group_id = $this->UsersGroup->findUserGroup($user_id);
+    //$this->log($group_id);
     $this->set('group_id',$group_id);
     $this->set('user_id',$user_id);
     //グループ一覧を作り，配列の形を整形する

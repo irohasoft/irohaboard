@@ -4,7 +4,7 @@
 
   <?php foreach($members as $member):?>
   <div class = "student-view">
-    <?php $user_id = $member['ib_users']['id']; ?>
+    <?php $user_id = $member['User']['id']; ?>
     <div class = "student-name">
       <?php echo h($user_list[$user_id]);?>
       <br/>

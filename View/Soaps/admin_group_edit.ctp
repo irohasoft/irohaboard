@@ -6,17 +6,17 @@
   <?php //$this->log($members);?>
   <?php foreach($members as $member):?>
   <div class = "member-input">
-    <?php 
-      $user_id = $member['ib_users']['id'];
+    <?php
+      $user_id = $member['User']['id'];
     ?>
     <div class = "user_name">
       <td><?php echo h($user_list[$user_id]);?>&nbsp;</td>
     </div>
     <div class = "soap">
-    <?php 
+    <?php
 		  echo $this->Form->create("$user_id");
-			echo $this->Form->hidden('user_id',array('value' => $member['ib_users']['id'])); 
-			echo $this->Form->hidden('group_id',array('value' => $member['ib_users']['group_id'])); 
+			echo $this->Form->hidden('user_id',array('value' => $member['User']['id']));
+			echo $this->Form->hidden('group_id',array('value' => $member['User']['group_id']));
       ?>
       <div class = "soap_teacher">
       <?php
@@ -26,7 +26,7 @@
 						'class' => 'soap_teacher',
 						'options' => $group_list,
 						'empty' => '',
-            'value' => $member['ib_users']['group_id'],
+            'value' => $member['User']['group_id'],
 						'style' => ''
 					 ));
       ?>

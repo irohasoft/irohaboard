@@ -18,14 +18,16 @@ App::uses('Soap',            'Soap');
 
 class RecentStatesController extends AppController{
   public $helpers = array('Html', 'Form');
-  public function admin_index(){
 
-  }
+  public function admin_index(){}
+
   public function admin_find_by_group(){
+    $this->loadModel('Group');
     $this->loadModel('Soap');
-    $groupData = $this->Soap->findGroup();
+    $groupData = $this->Group->findGroup();
     $this->set('groupData', $groupData);
   }
+
   public function admin_find_by_student(){
     $this->loadModel('User');
     $this->loadModel('Soap');
@@ -36,10 +38,10 @@ class RecentStatesController extends AppController{
       $name = $conditions['Search']['name'];
 
       //$this->log($name);
-      $user_list = $this->Soap->findUserList($username, $name);
+      $user_list = $this->User->findUserList($username, $name);
 
     }else{
-      $user_list = $this->Soap->getUserList();
+      $user_list = $this->User->getUserList();
     }
     $this->set('user_list', $user_list);
   }

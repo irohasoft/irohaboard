@@ -54,8 +54,8 @@
     <div class = "student-block">
       <div class = "pic-block">
       <?php
-        if($user['ib_users']['pic_path'] !== ''){
-          $pic_path = $user['ib_users']['pic_path'];
+        if($user['User']['pic_path'] !== ''){
+          $pic_path = $user['User']['pic_path'];
         }else{
           $pic_path = 'student_img/noPic.png';
         }
@@ -67,17 +67,17 @@
               'alt' => $pic_path,
               'url' => array(
                   'controller' => 'soaps',
-                  'action' => 'student_edit',$user['ib_users']['id']
+                  'action' => 'student_edit',$user['User']['id']
 
                   )
             ));
       ?>
       </div>
       <div class = "number-block">
-        <?php echo h($user['ib_users']['username']);?>
+        <?php echo h($user['User']['username']);?>
       </div>
       <div class = "name-block">
-        <?php echo h($user['ib_users']['name']);?>
+        <?php echo h($user['User']['name']);?>
       </div>
 
     </div>

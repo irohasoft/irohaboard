@@ -260,7 +260,7 @@ class User extends AppModel
 	}
 
 	// role == 'user' のユーザのみ
-	public function findAllStudentInGroup( $group_id ){
+	public function findAllStudentInGroup($group_id){
 		$data = $this->find('all', array(
 			'fields' => array('id', 'group_id'),
 			'conditions' => array(
@@ -273,7 +273,7 @@ class User extends AppModel
 	}
 
 	// role == 'admin' のユーザのみ
-	public function findAllAdminInGroup( $group_id ){
+	public function findAllAdminInGroup($group_id){
 		$data = $this->find('all', array(
 			'fields' => array('id', 'group_id'),
 			'conditions' => array(

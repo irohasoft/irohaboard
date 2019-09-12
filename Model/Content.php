@@ -176,7 +176,7 @@ class Content extends AppModel
 
 	/**
 	 * 学習履歴付きコンテンツ一覧を取得
-	 * 
+	 *
 	 * @param int $user_id   取得対象のユーザID
 	 * @param int $course_id 取得対象のコースID
 	 * @param string $role   取得者の権限（admin の場合、非公開のコンテンツも取得）
@@ -228,7 +228,7 @@ EOF;
 
 	/**
 	 * コンテンツの並べ替え
-	 * 
+	 *
 	 * @param array $id_list コンテンツのIDリスト（並び順）
 	 */
 	public function setOrder($id_list)
@@ -248,7 +248,7 @@ EOF;
 
 	/**
 	 * 新規追加時のコンテンツのソート番号を取得
-	 * 
+	 *
 	 * @param array $course_id コースID
 	 * @return int ソート番号
 	 */
@@ -260,28 +260,36 @@ EOF;
 				'Content.course_id' => $course_id
 			)
 		);
-		
+
 		$data = $this->find('first', $options);
-		
+
 		$sort_no = $data[0]['sort_no'] + 1;
-		
+
 		return $sort_no;
 	}
 
   public function getContentInfo($content_id){
-    $sql = "SELECT * FROM ib_contents WHERE id = $content_id";
-    $data = $this->query($sql);
+		$data = $this->find('all', array(
+			'conditions' => array('id' => $content_id),
+			'recursive' => -1
+		));
     return $data[0];
   }
 
   public function getContentList($course_id){
-    $sql = "SELECT id, title, sort_no FROM ib_contents WHERE course_id = $course_id ORDER BY sort_no ASC";
-    $data = $this->query($sql);
+		$data = $this->find('all', array(
+			'fields' => array(
+				'id', 'title', 'sort_no'
+			),
+			'conditions' => array('course_id' => $course_id),
+			'order' => array('sort_no' => 'ASC'),
+			'recursive' => -1
+		));
     //$this->log($data);
     $content_list = [];
     foreach($data as $row){
-      $id = $row['ib_contents']['id'];
-      $title = $row['ib_contents']['title'];
+      $id = $row['Content']['id'];
+      $title = $row['Content']['title'];
       $content_list[$id] = $title;
     }
     return $content_list;
@@ -289,8 +297,8 @@ EOF;
 
   public function getClearedList($user_id, $course_id){
     $sql = "SELECT content_id, user_id
-      FROM ib_cleared 
-      WHERE 
+      FROM ib_cleared
+      WHERE
         course_id = $course_id
       AND
         user_id = $user_id

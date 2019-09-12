@@ -194,21 +194,26 @@ EOF;
 	}
 
   public function getCourseInfo($course_id){
-    $sql = "SELECT * FROM ib_courses WHERE id = $course_id";
-    $data = $this->query($sql);
+		$data = $this->find('first', array(
+			'conditions' => array('id' => $course_id),
+			'recursive' => -1
+		));
+		//$this->log($data);
     return $data[0];
   }
 
   public function getCourseList(){
-    $sql = "SELECT id, title
-      FROM ib_courses
-      ORDER BY id ASC";
-    $data = $this->query($sql);
-    //$this->log($data);
+		$data = $this->find('all', array(
+			'fields' => array(
+				'id', 'title'
+			),
+			'order' => array('id' => 'ASC'),
+			'recursive' => -1
+		));
     $course_list = [];
     foreach($data as $row){
-      $id = $row['ib_courses']['id'];
-      $title = $row['ib_courses']['title'];
+      $id = $row['Course']['id'];
+      $title = $row['Course']['title'];
       $course_list[$id] = $title;
     }
     return $course_list;

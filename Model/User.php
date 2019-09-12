@@ -312,7 +312,7 @@ class User extends AppModel
 		if($pic_path === '' or $pic_path === 'student_img/'){
 			return 'student_img/noPic.png';
 		}
-		$this->log($pic_path);
+		//$this->log($pic_path);
 		return $pic_path;
 	}
 

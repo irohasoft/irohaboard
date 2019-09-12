@@ -60,7 +60,7 @@ class CoursesController extends AppController
 
     if($course_id != null){
       $courseInfo = $this->Course->getCourseInfo($course_id);
-      $selected_before_course = $courseInfo['ib_courses']['before_course'];
+      $selected_before_course = $courseInfo['Course']['before_course'];
       //$this->log($courseInfo);
       $this->set('selected_before_course',$selected_before_course);
     }
@@ -71,10 +71,10 @@ class CoursesController extends AppController
 		{
 			if(Configure::read('demo_mode'))
 				return;
-			
+
 			// 作成者を設定
 			$this->request->data['Course']['user_id'] = $this->Auth->user('id');
-			
+
 			if ($this->Course->save($this->request->data))
 			{
 				$this->Flash->success(__('コースが保存されました'));
@@ -106,7 +106,7 @@ class CoursesController extends AppController
 	{
 		if(Configure::read('demo_mode'))
 			return;
-		
+
 		$this->Course->id = $course_id;
 		if (! $this->Course->exists())
 		{

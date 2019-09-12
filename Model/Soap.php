@@ -187,7 +187,7 @@ class Soap extends AppModel
 			'conditions' => array('user_id' => $user_id),
 			'order' => array('created' => 'desc'),
 			'limit' => 4,
-			'recursive'=>-1
+			'recursive' => -1
 		));
 		//$this->log($data);
 		return $data;
@@ -206,10 +206,14 @@ class Soap extends AppModel
 	}
 
 	public function getOldestCreatedYear(){
-		$sql = "SELECT MIN(created) AS oldest_created_time FROM ib_soaps";
-		$data = $this->query($sql);
-		$oldest_created_year = (new DateTime($data[0]['ib_soaps']['oldest_created_time']))->format('Y');
-		//$this->log($oldest_created_year);
+		$data = $this->find('first', array(
+			'fields' => array(
+				'MIN(created) AS oldest_created_time',
+			),
+			'recursive' => -1
+		));
+		$oldest_created_year = (new DateTime($data[0]['Soap']['oldest_created_time']))->format('Y');
+		$this->log($oldest_created_year);
 		return $oldest_created_year;
 	}
 

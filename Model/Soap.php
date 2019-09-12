@@ -212,8 +212,8 @@ class Soap extends AppModel
 			),
 			'recursive' => -1
 		));
-		$oldest_created_year = (new DateTime($data[0]['Soap']['oldest_created_time']))->format('Y');
-		$this->log($oldest_created_year);
+		$oldest_created_year = (new DateTime($data[0]['oldest_created_time']))->format('Y');
+		//$this->log($oldest_created_year);
 		return $oldest_created_year;
 	}
 

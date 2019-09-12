@@ -145,7 +145,7 @@ class Soap extends AppModel
 		if (empty($members)){ return NULL; }
 		$members_recent_soaps = array();
 		foreach($members as $member):
-			$user_id = $member['ib_users']['id'];
+			$user_id = $member['User']['id'];
 			$recent_soaps = $this->findRecentSoaps($user_id);
 			$members_recent_soaps += [$user_id => $recent_soaps];
 		endforeach;

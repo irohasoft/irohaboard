@@ -310,7 +310,7 @@ EOF;
 		if (empty($members)){ return NULL; }
 		$members_cleared_rates = array();
 		foreach($members as $member){
-			$user_id = $member['ib_users']['id'];
+			$user_id = $member['User']['id'];
 			$cleared_rates = $this->findClearedRate($user_id);
 			$members_cleared_rates += [$user_id => $cleared_rates];
 		}

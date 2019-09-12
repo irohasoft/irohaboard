@@ -216,7 +216,6 @@ class User extends AppModel
 			'order' => array('username' => 'ASC'),
 			'recursive' => -1
 		));
-		$this->log($data);
 		return $data;
 	}
 
@@ -246,7 +245,6 @@ class User extends AppModel
 			'order' => array('username' => 'ASC'),
 			'recursive' => -1
 		));
-		//$this->log($data);
 		return $data;
 	}
 
@@ -258,25 +256,32 @@ class User extends AppModel
 			),
 			'recursive' => -1
 		));
-		//$this->log($data);
 		return $data;
 	}
 
 	// role == 'user' のユーザのみ
 	public function findAllStudentInGroup( $group_id ){
-		$sql = "SELECT id, group_id FROM ib_users
-						WHERE group_id = $group_id
-							AND role = 'user'";
-		$data = $this->query($sql);
+		$data = $this->find('all', array(
+			'fields' => array('id', 'group_id'),
+			'conditions' => array(
+				'group_id' => $group_id,
+				'role'     => 'user'
+			),
+			'recursive' => -1
+		));
 		return $data;
 	}
 
 	// role == 'admin' のユーザのみ
 	public function findAllAdminInGroup( $group_id ){
-		$sql = "SELECT id, group_id FROM ib_users
-						WHERE group_id = $group_id
-							AND role = 'admin'";
-		$data = $this->query($sql);
+		$data = $this->find('all', array(
+			'fields' => array('id', 'group_id'),
+			'conditions' => array(
+				'group_id' => $group_id,
+				'role'     => 'admin'
+			),
+			'recursive' => -1
+		));
 		return $data;
 	}
 
@@ -289,19 +294,26 @@ class User extends AppModel
 
   //全て写真パスをGet
   public function getAllPicPath(){
-    $sql = "SELECT id, pic_path FROM ib_users";
-    $data = $this->query($sql);
+		$data = $this->find('all', array(
+			'fields' => array('id', 'pic_path'),
+			'recursive' => -1
+		));
     return $data;
   }
 
 	public function findUserPicPath($user_id){
 		if($user_id == NULL){ return 'student_img/noPic.png'; }
-		$sql = "SELECT id, pic_path FROM ib_users WHERE id = $user_id";
-		$data = $this->query($sql)['0']['ib_users']['pic_path'];
-		if($data === '' or $data === 'student_img/'){
-			$data = 'student_img/noPic.png';
+		$data = $this->find('all', array(
+			'fields' => array('id', 'pic_path'),
+			'conditions' => array('id' => $user_id),
+			'recursive' => -1
+		));
+		$pic_path = $data['0']['User']['pic_path'];
+		if($pic_path === '' or $pic_path === 'student_img/'){
+			return 'student_img/noPic.png';
 		}
-		return $data;
+		$this->log($pic_path);
+		return $pic_path;
 	}
 
 	public function findGroupPicPaths($members){
@@ -309,20 +321,20 @@ class User extends AppModel
 
 		$conditions = array();
 		foreach($members as $member):
-			$user_id = $member['ib_users']['id'];
-			array_push($conditions, "id=$user_id");
+			$user_id = $member['User']['id'];
+			array_push($conditions, array('id' => $user_id));
 		endforeach;
-		$where_clause = join(' or ', $conditions);
 
-		$sql = "SELECT id, pic_path FROM ib_users WHERE $where_clause";
-		//$this->log($sql);
-		$data = $this->query($sql);
-		//$this->log($data);
+		$data = $this->find('all', array(
+			'fields' => array('id', 'pic_path'),
+			'conditions' => array('OR' => $conditions),
+			'recursive' => -1
+		));
 
 		$result = array();
 		foreach ($data as $datum) {
-			$user_id = $datum['ib_users']['id'];
-			$pic_path = $datum['ib_users']['pic_path'];
+			$user_id = $datum['User']['id'];
+			$pic_path = $datum['User']['pic_path'];
 			if($pic_path === '' or $pic_path === 'student_img/'){
 				$pic_path = 'student_img/noPic.png';
 			}
@@ -358,8 +370,12 @@ class User extends AppModel
 	}
 
 	public function findUserGrade($user_id){
-		$sql = "SELECT id, birthyear FROM ib_users WHERE id = $user_id";
-		$birthyear = $this->query($sql)['0']['ib_users']['birthyear'];
+		$data = $this->find('all', array(
+			'fields' => array('id', 'birthyear'),
+			'conditions' => array('id' => $user_id),
+			'recursive' => -1
+		));
+		$birthyear = $data['0']['User']['birthyear'];
 		$grade = $this->calcGrade($birthyear);
 		return $grade;
 	}
@@ -369,20 +385,20 @@ class User extends AppModel
 
 		$conditions = array();
 		foreach($members as $member):
-			$user_id = $member['ib_users']['id'];
-			array_push($conditions, "id=$user_id");
+			$user_id = $member['User']['id'];
+			array_push($conditions, array('id' => $user_id));
 		endforeach;
-		$where_clause = join(' or ', $conditions);
 
-		$sql = "SELECT id, birthyear FROM ib_users WHERE $where_clause";
-		//$this->log($sql);
-		$data = $this->query($sql);
-		//$this->log($data);
+		$data = $this->find('all', array(
+			'fields' => array('id', 'birthyear'),
+			'conditions' => array('OR' => $conditions),
+			'recursive' => -1
+		));
 
 		$result = array();
 		foreach ($data as $datum) {
-			$user_id = $datum['ib_users']['id'];
-			$birthyear = $datum['ib_users']['birthyear'];
+			$user_id = $datum['User']['id'];
+			$birthyear = $datum['User']['birthyear'];
 			$grade = $this->calcGrade($birthyear);
 			$result += [$user_id => $grade];
 		}

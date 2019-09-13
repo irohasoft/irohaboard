@@ -1,3 +1,4 @@
+<?php echo $this->element('menu');?>
 <div class="users-courses-index">
 	<div class="panel panel-success">
 		<div class="panel-heading"><?php echo __('お知らせ'); ?></div>

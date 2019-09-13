@@ -21,7 +21,7 @@
 			echo '<ul class="menu__second-level">';
       echo '<li>'.$this->Html->link(__('クイズ'), array('controller' => 'records', 'action' => 'index')).'</li>';
       echo '<li>'.$this->Html->link(__('SOAP'), array('controller' => 'soaprecords', 'action' => 'index')).'</li>';
-			echo '<li><a href="#">アンケート</a></li>';
+			echo '<li>'.$this->Html->link(__('アンケート'), array('controller' => 'enquete', 'action' => 'index')).'</li>';
       echo '</ul></li>';
 
 			$is_active = ($this->name=='RecentStates') ? ' active' : '';

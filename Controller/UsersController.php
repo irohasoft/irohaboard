@@ -346,10 +346,70 @@ class UsersController extends AppController
 		$this->set(compact('courses', 'groups', 'username'));
 	}
 
+	// ユーザ設定
+	public function setting(){}
+
+	// メールアドレス設定
+	public function email_setting()
+	{
+		if ($this->request->is(array(
+				'post',
+				'put'
+		)))
+		{
+			if(Configure::read('demo_mode'))
+				return;
+
+			$this->request->data['User']['id'] = $this->Auth->user('id');
+
+			if($this->request->data['User']['new_address'] != $this->request->data['User']['new_address2'])
+			{
+				$this->Flash->error(__('入力された「メールアドレス」と「メールアドレス（確認用）」が一致しません'));
+				//return;
+			}
+			elseif($this->request->data['User']['new_address'] !== '')
+			{
+				$this->request->data['User']['email'] = $this->request->data['User']['new_address'];
+
+				if ($this->User->save($this->request->data))
+				{
+					$this->Flash->success(__('メールアドレスが保存されました'));
+				}
+				else
+				{
+					$this->Flash->error(__('メールアドレスが保存されませんでした．もう一度お試しください'));
+				}
+			}
+			else
+			{
+				$this->Flash->error(__('メールアドレスを入力して下さい'));
+			}
+		}
+		else
+		{
+			$options = array(
+				'conditions' => array(
+						'User.' . $this->User->primaryKey => $this->Auth->user('id')
+				)
+			);
+			$this->request->data = $this->User->find('first', $options);
+		}
+
+		$user_id = $this->Auth->user('id');
+		$data = $this->User->find('first', array(
+			'fields' => array('email'),
+			'conditions' => array('id' => $user_id),
+			'recursive' => -1
+		));
+		$email_address = $data['User']['email'];
+		$this->log($email_address);
+		$this->set('email_address', $email_address);
+	}
+
 	/**
 	 * パスワード変更
 	 */
-	public function setting()
+	public function password_setting()
 	{
 		if ($this->request->is(array(
 				'post',

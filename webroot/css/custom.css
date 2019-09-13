@@ -3,22 +3,9 @@
  * Ripple  Project
  *
  * @author        Enfu Guo
- * @copyright     NPO Organization uec support
+ * @copyright     NPO Organization uec support 
  * @link          http://uecsupport.dip.jp/
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 /* custom.css */
-
-.select-btn{
-  display: inline-block;
-  margin: 10px;
-}
-
-.current-setting{
-  margin: 10px;
-  padding 10px;
-}
-.current-address{
-  font-size: 20px;
-}

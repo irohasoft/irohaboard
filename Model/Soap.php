@@ -152,10 +152,10 @@ class Soap extends AppModel
   }
 
   public function findUserGroup($user_id){
-    $sql = "SELECT group_id FROM ib_users_groups WHERE user_id = $user_id";
+    $sql = "SELECT group_id FROM ib_users WHERE id = $user_id";
     $data = $this->query($sql);
     //$this->log($data);
-    return $data[0]['ib_users_groups']['group_id'];
+    return $data[0]['ib_users']['group_id'];
   }
 
   public function findUserList($username, $name){

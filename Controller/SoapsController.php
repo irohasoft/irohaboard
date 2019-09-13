@@ -110,7 +110,7 @@ class SoapsController extends AppController{
 
     //メンバーのグループを探す
     $group_id = $this->Soap->findUserGroup($user_id);
-    $this->log($group_id);
+    //$this->log($group_id);
     $this->set('group_id',$group_id);
     $this->set('user_id',$user_id);
     //グループ一覧を作り，配列の形を整形する

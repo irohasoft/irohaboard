@@ -93,7 +93,7 @@ class SoapRecordsController extends AppController
 
 		// CSV出力モードの場合
 		if(@$this->request->query['cmd']=='csv')
-		{
+		{/*
 			$this->autoRender = false;
 
 			// メモリサイズ、タイムアウト時間を設定
@@ -104,54 +104,35 @@ class SoapRecordsController extends AppController
 			$this->response->type('csv');
 
 			header('Content-Type: text/csv');
-			header('Content-Disposition: attachment; filename="soap_records.csv"');
+			header('Content-Disposition: attachment; filename="user_records.csv"');
 
 			$fp = fopen('php://output','w');
 
 			$options = array(
 				'conditions'	=> $conditions,
-				'order'			=> 'Soap.created desc'
+				'order'			=> 'Record.created desc'
 			);
 
-			$this->Soap->recursive = 0;
-			$rows = $this->Soap->find('all', $options);
+			$this->Record->recursive = 0;
+			$rows = $this->Record->find('all', $options);
 
-			$header = array(
-				"受講日",
-				"受講生名",
-				"担当講師名",
-				"1限 or 2限",
-				"STEP教材 or 応用教材",
-				"S",
-				"O",
-				"A",
-				"P",
-				"自由記述"
-			);
+			$header = array("コース", "コンテンツ", "氏名", "得点", "合格点", "結果", "理解度", "学習時間", "学習日時");
 
 			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
 			fputcsv($fp, $header);
 
 			foreach($rows as $row)
 			{
-				if($row['User']['period'] == 0) {
-					$class_hour = "1限";
-				} elseif($row['User']['period'] == 1) {
-					$class_hour = "2限";
-				} else {
-					$class_hour = "時限未設定";
-				}
 				$row = array(
-					Utils::getYMD($row['Soap']['created']),
-					$row['User']['name'],
-					$row['Group']['title'],
-					$class_hour,
 					$row['Course']['title'],
-					$row['Soap']['S'],
-					$row['Soap']['O'],
-					$row['Soap']['A'],
-					$row['Soap']['P'],
-					$row['Soap']['comment']
+					$row['Content']['title'],
+					$row['User']['name'],
+					$row['Record']['score'],
+					$row['Record']['pass_score'],
+					Configure::read('record_result.'.$row['Record']['is_passed']),
+					Configure::read('record_understanding.'.$row['Record']['understanding']),
+					Utils::getHNSBySec($row['Record']['study_sec']),
+					Utils::getYMDHN($row['Record']['created']),
 				);
 
 				mb_convert_variables("SJIS-WIN", "UTF-8", $row);
@@ -159,7 +140,7 @@ class SoapRecordsController extends AppController
 				fputcsv($fp, $row);
 			}
 
-			fclose($fp);
+			fclose($fp);*/
 		}
 		else
 		{

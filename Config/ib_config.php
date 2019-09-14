@@ -142,3 +142,13 @@ $config['theme_colors'] = array(
 $config['import_group_count']  = 10;
 $config['import_course_count'] = 20;
 
+//Ripple
+$config['true_or_false'] = array(
+	'0' => 'False',
+	'1' => 'True'
+);
+
+$config['period'] = array(
+	'0' => '1限',
+	'1' => '2限'
+);

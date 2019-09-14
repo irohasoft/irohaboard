@@ -21,7 +21,7 @@ App::uses('AppModel', 'Model');
  */
 class Group extends AppModel
 {
-	public $order = "Group.title";
+	public $order = "Group.title";  
 
 	/**
 	 * Validation rules
@@ -56,10 +56,10 @@ class Group extends AppModel
 										)
 			)
 	);
-
+	
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
-
+	
 	/**
 	 * hasMany associations
 	 *
@@ -97,56 +97,53 @@ class Group extends AppModel
 					'finderQuery' => ''
 			),
 	);
-
+	
 	/**
 	 * 指定したグループに所属するユーザIDリストを取得
-	 *
+	 * 
 	 * @param int $group_id グループID
 	 * @return array ユーザIDリスト
 	 */
 	public function getUserIdByGroupID($group_id)
 	{
 		$sql = "SELECT id FROM ib_users WHERE group_id = :group_id";
-
+		
 		$params = array('group_id' => $group_id);
-
+		
 		$data = $this->query($sql, $params);
-
+		
 		$list = array();
-
+		
 		for($i=0; $i< count($data); $i++)
 		{
 			$list[$i] = $data[$i]['ib_users']['id'];
 		}
-
+		
 		return $list;
 	}
-
+	
 	/**
 	 * グループ一覧を取得
-	 *
+	 * 
 	 * @return array グループ一覧
 	 */
-
-	public function findGroup(){
-		$data = $this->find('all', array(
-			'fields' => array('id', 'title'),
-			'recursive' => -1
-		));
-		//$this->log($data);
-		return $data;
-	}
-
 	public function getGroupList()
 	{
 		$groups = $this->find('all');
 		$data   = array("0" => "全て");
-
+		
 		for($i=0; $i< count($groups); $i++)
 		{
 			$data[''.$groups[$i]['Group']['id']] = $groups[$i]['Group']['title'];
 		}
-
+		
 		return $data;
 	}
+
+	public function findUserGroup($user_id){
+    $sql = "SELECT group_id FROM ib_users WHERE id = $user_id";
+    $data = $this->query($sql);
+    //$this->log($data);
+    return $data[0]['ib_users']['group_id'];
+  }
 }

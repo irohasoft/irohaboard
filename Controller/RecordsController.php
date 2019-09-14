@@ -121,42 +121,42 @@ class RecordsController extends AppController
 			$this->response->type('csv');
 
 			header('Content-Type: text/csv');
-			header('Content-Disposition: attachment; filename="user_records.csv"');
-			
+			header('Content-Disposition: attachment; filename="quiz_records.csv"');
+
 			$fp = fopen('php://output','w');
-			
+
 			$options = array(
 				'conditions'	=> $conditions,
 				'order'			=> 'Record.created desc'
 			);
-			
+
 			$this->Record->recursive = 0;
 			$rows = $this->Record->find('all', $options);
-			
+
 			$header = array("コース", "コンテンツ", "氏名", "得点", "合格点", "結果", "理解度", "学習時間", "学習日時");
-			
+
 			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
 			fputcsv($fp, $header);
-			
+
 			foreach($rows as $row)
 			{
 				$row = array(
-					$row['Course']['title'], 
-					$row['Content']['title'], 
-					$row['User']['name'], 
-					$row['Record']['score'], 
-					$row['Record']['pass_score'], 
-					Configure::read('record_result.'.$row['Record']['is_passed']), 
-					Configure::read('record_understanding.'.$row['Record']['understanding']), 
-					Utils::getHNSBySec($row['Record']['study_sec']), 
-					Utils::getYMDHN($row['Record']['created']),
+					$row['Course']['title'],
+					$row['Content']['title'],
+					$row['User']['name'],
+					$row['Record']['score'],
+					$row['Record']['pass_score'],
+					Configure::read('record_result.'.$row['Record']['is_passed']),
+					Configure::read('record_understanding.'.$row['Record']['understanding']),
+					Utils::getHNSBySec($row['Record']['study_sec']),
+					Utils::getYMDHN($row['Record']['created'])
 				);
 				
 				mb_convert_variables("SJIS-WIN", "UTF-8", $row);
-				
+
 				fputcsv($fp, $row);
 			}
-			
+
 			fclose($fp);
 		}
 		else

@@ -14,17 +14,18 @@ App::uses('UsersGroup',      'UsersGroup');
 App::uses('Course',          'Course');
 App::uses('User',            'User');
 App::uses('Group',           'Group');
-App::uses('Sanitize', 'Utility');
 
 class SoapsController extends AppController{
   public $helpers = array('Html', 'Form');
-  public function admin_index(){
 
-  }
+  public function admin_index(){}
+
   public function admin_find_by_group(){
-    $groupData = $this->Soap->findGroup();
+    $this->loadModel('Group');
+    $groupData = $this->Group->findGroup();
     $this->set('groupData', $groupData);
   }
+
   public function admin_find_by_student(){
     $this->loadModel('User');
 
@@ -34,10 +35,10 @@ class SoapsController extends AppController{
       $name = $conditions['Search']['name'];
 
       //$this->log($name);
-      $user_list = $this->Soap->findUserList($username, $name);
+      $user_list = $this->User->findUserList($username, $name);
 
     }else{
-      $user_list = $this->Soap->getUserList();
+      $user_list = $this->User->getUserList();
     }
     $this->set('user_list', $user_list);
   }
@@ -55,11 +56,11 @@ class SoapsController extends AppController{
     $this->set('user_list', $user_list);
 
     //グループ内のメンバーを探す
-    $members = $this->Soap->findAllUserInGroup($group_id); 
+    $members = $this->User->findAllUserInGroup($group_id);
     $this->set('members',$members);
 
     //グループ一覧を作り，配列の形を整形する
-    
+
     //$this->log($this->Group->find('list'));
     $group_list = $this->Group->find('list');
     $this->set('group_list',$group_list);
@@ -109,12 +110,12 @@ class SoapsController extends AppController{
     $this->set('user_list', $user_list);
 
     //メンバーのグループを探す
-    $group_id = $this->Soap->findUserGroup($user_id);
+    $group_id = $this->UsersGroup->findUserGroup($user_id);
     //$this->log($group_id);
     $this->set('group_id',$group_id);
     $this->set('user_id',$user_id);
     //グループ一覧を作り，配列の形を整形する
-    
+
     //$this->log($this->Group->find('list'));
     $group_list = $this->Group->find('list');
     $this->set('group_list',$group_list);
@@ -123,19 +124,24 @@ class SoapsController extends AppController{
       $this->request->query['today_date']:
         array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
 
-    $this->set('today_date',$today_date); 
+    $this->set('today_date',$today_date);
 
     //教材現状
     $course_list = $this->Course->find('list');
     $this->set('course_list', $course_list);
     //$this->log($current_status);
-    
+
     //登録
     if($this->request->is('post')){
+      $this->loadModel('Record');
       $soaps = $this->request->data;
       //$this->log($soaps);
       $created = $today_date['year']."-".$today_date['month']."-".$today_date['day'];
       foreach($soaps as &$soap){
+        // SOAP記入日で最後に勉強した教材を取得
+        $inputed = $soap['today_date'];
+        $input_date = $inputed['year']."-".$inputed['month']."-".$inputed['day'];
+        $soap['studied_content'] = $this->Record->studiedContentOnTheDate($soap['user_id'], $input_date);
         if($this->Soap->save($soap)){
           $this->Soap->create(false); //これがないと，ループ内での保存はできない
           continue;

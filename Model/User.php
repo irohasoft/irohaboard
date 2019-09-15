@@ -248,6 +248,16 @@ class User extends AppModel
 		return $data;
 	}
 
+	public function findUserGroup($user_id){
+		$data = $this->find('all', array(
+			'fields' => array('group_id'),
+			'conditions' => array('id' => $user_id),
+			'recursive' => -1
+		));
+		//$this->log($data);
+		return $data[0]['User']['group_id'];
+	}
+
 	public function findAllUserInGroup($group_id){
 		$data = $this->find('all', array(
 			'fields' => array('id', 'group_id'),

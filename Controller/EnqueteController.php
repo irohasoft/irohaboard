@@ -3,7 +3,7 @@
  * Ripple  Project
  *
  * @author        Enfu Guo
- * @copyright     NPO Organization uec support 
+ * @copyright     NPO Organization uec support
  * @link          http://uecsupport.dip.jp/
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
 */
@@ -45,13 +45,14 @@ class EnqueteController extends AppController{
 
   public function index(){
     $this->loadModel('Group');
+    $this->loadModel('User');
 
     //$existed = $this->Enquete->isEnqueteExist;
 
     //今ログインしているUserのidを確認
     $user_id = $this->Auth->user('id');
     $this->set('user_id',$user_id);
-    
+
     //今日の日付を生成
     $today = date("Y/m/d");
     $this->set('today', $today);
@@ -61,9 +62,9 @@ class EnqueteController extends AppController{
     $this->set('group_list',$group_list);
 
     //今所属するグループのidを探す．
-    $group_id = $this->Group->findUserGroup($user_id);
+    $group_id = $this->User->findUserGroup($user_id);
     $this->set('group_id',$group_id);
-  
+
     //$entity = $this->Enquete->newEntity($this->request->data);
 
     if ($this->request->is(array(
@@ -79,7 +80,7 @@ class EnqueteController extends AppController{
           $this->Session->setFlash($error[0]);
           return;
         }
-        
+
       }else{
         //dataをサニタイズする．
 
@@ -101,7 +102,7 @@ class EnqueteController extends AppController{
 		$this->loadModel('Group');
 		$user_id = $this->Auth->user('id');
 
-		
+
 
 		$this->Prg->commonProcess();
 		$conditions = $this->Enquete->parseCriteria($this->Prg->parsedParams());
@@ -111,7 +112,7 @@ class EnqueteController extends AppController{
 		$this->Paginator->settings['conditions'] = $conditions;
 		$this->Paginator->settings['order']      = 'Enquete.created desc';
 		$this->Enquete->recursive = 0;
-			
+
 		try
 		{
 			$result = $this->paginate();
@@ -121,18 +122,18 @@ class EnqueteController extends AppController{
 			$this->request->params['named']['page']=1;
 			$result = $this->paginate();
   	 }
-	 
+
   	 //$this->log($result);
-	 
+
 		$this->set('records', $result);
-	 
+
 		//$groups = $this->Group->getGroupList();
-	 
+
 		$this->Group = new Group();
 		//$this->Course = new Course();
 		$this->User = new User();
 		//debug($this->User);
-	 
+
 		$this->set('groups',     $this->Group->find('list'));
 		//$this->set('courses',    $this->Course->find('list'));
   	 //$this->log($this->Course->find('list'));
@@ -149,46 +150,46 @@ class EnqueteController extends AppController{
   public function admin_index(){
 
     $this->Prg->commonProcess();
-		
+
 		// Model の filterArgs に定義した内容にしたがって検索条件を作成
 		// ただしアソシエーションテーブルには対応していないため、独自に検索条件を設定する必要がある
 		$conditions = $this->Enquete->parseCriteria($this->Prg->parsedParams());
-		
+
 		$group_id			= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
     $period       = (isset($this->request->query['period'])) ? $this->request->query['period'] : "";
     $name				= (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
-		
-		
+
+
 		// グループが指定されている場合、指定したグループに所属するユーザの履歴を抽出
 		if($group_id != "")
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
-		
+
 		if($name != "")
       $conditions['User.name like'] = '%'.$name.'%';
-      
+
     if($period != "")
 			$conditions['User.period'] = $period;
-      
-		
-		$from_date	= (isset($this->request->query['from_date'])) ? 
-		$this->request->query['from_date'] : 
+
+
+		$from_date	= (isset($this->request->query['from_date'])) ?
+		$this->request->query['from_date'] :
 			array(
 				'year' => date('Y', strtotime("-1 month")),
-				'month' => date('m', strtotime("-1 month")), 
+				'month' => date('m', strtotime("-1 month")),
 				'day' => date('d', strtotime("-1 month"))
 			);
-		
-		$to_date	= (isset($this->request->query['to_date'])) ? 
-			$this->request->query['to_date'] : 
+
+		$to_date	= (isset($this->request->query['to_date'])) ?
+			$this->request->query['to_date'] :
 				array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
-		
-		
+
+
 		// 学習日付による絞り込み
 		$conditions['Enquete.created BETWEEN ? AND ?'] = array(
-			implode("/", $from_date), 
+			implode("/", $from_date),
 			implode("/", $to_date).' 23:59:59'
 		);
-		
+
 		// CSV出力モードの場合
 		if(@$this->request->query['cmd']=='csv')
 		{
@@ -204,41 +205,41 @@ class EnqueteController extends AppController{
 
 			header('Content-Type: text/csv');
 			header('Content-Disposition: attachment; filename="user_records.csv"');
-			
+
 			$fp = fopen('php://output','w');
-			
+
 			$options = array(
 				'conditions'	=> $conditions,
 				'order'			=> 'Record.created desc'
 			);
-			
+
 			$this->Record->recursive = 0;
 			$rows = $this->Record->find('all', $options);
-			
+
 			$header = array("コース", "コンテンツ", "氏名", "得点", "合格点", "結果", "理解度", "学習時間", "学習日時");
-			
+
 			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
 			fputcsv($fp, $header);
-			
+
 			foreach($rows as $row)
 			{
 				$row = array(
-					$row['Course']['title'], 
-					$row['Content']['title'], 
-					$row['User']['name'], 
-					$row['Record']['score'], 
-					$row['Record']['pass_score'], 
-					Configure::read('record_result.'.$row['Record']['is_passed']), 
-					Configure::read('record_understanding.'.$row['Record']['understanding']), 
-					Utils::getHNSBySec($row['Record']['study_sec']), 
+					$row['Course']['title'],
+					$row['Content']['title'],
+					$row['User']['name'],
+					$row['Record']['score'],
+					$row['Record']['pass_score'],
+					Configure::read('record_result.'.$row['Record']['is_passed']),
+					Configure::read('record_understanding.'.$row['Record']['understanding']),
+					Utils::getHNSBySec($row['Record']['study_sec']),
 					Utils::getYMDHN($row['Record']['created']),
 				);
-				
+
 				mb_convert_variables("SJIS-WIN", "UTF-8", $row);
-				
+
 				fputcsv($fp, $row);
 			}
-			
+
       fclose($fp);
       */
 		}
@@ -247,7 +248,7 @@ class EnqueteController extends AppController{
 			$this->Paginator->settings['conditions'] = $conditions;
 			$this->Paginator->settings['order']      = 'Enquete.created desc';
 			$this->Enquete->recursive = 0;
-			
+
 			try
 			{
 				$result = $this->paginate();
@@ -257,18 +258,18 @@ class EnqueteController extends AppController{
 				$this->request->params['named']['page']=1;
 				$result = $this->paginate();
       }
-      
+
       //$this->log($result);
-			
+
 			$this->set('records', $result);
-			
+
 			//$groups = $this->Group->getGroupList();
-			
+
 			$this->Group = new Group();
 			//$this->Course = new Course();
 			$this->User = new User();
 			//debug($this->User);
-			
+
 			$this->set('groups',     $this->Group->find('list'));
 			//$this->set('courses',    $this->Course->find('list'));
       //$this->log($this->Course->find('list'));

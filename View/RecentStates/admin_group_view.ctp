@@ -1,8 +1,8 @@
 <?php echo $this->element('admin_menu');?>
 <?php echo $this->Html->css('soapview');?>
 <div class = "admin-group_view-index">
-
   <?php foreach($members as $member):?>
+  <div class = "student-block">
   <div class = "student-view">
     <?php $user_id = $member['User']['id']; ?>
     <div class = "student-name">
@@ -84,6 +84,6 @@
       <?php endforeach; ?>
     </tbody>
   </table>
+  </div>
   <?php endforeach;?>
-
 </div>

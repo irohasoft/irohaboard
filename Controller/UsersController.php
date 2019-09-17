@@ -194,11 +194,19 @@ class UsersController extends AppController
 
 		// GETパラメータから検索条件を抽出
 		$group_id	= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : $this->Session->read('Iroha.group_id');
+		$name				= (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
 
 		// 独自の検索条件を追加（指定したグループに所属するユーザを検索）
 		if($group_id != "")
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 
+		if($name != ""){
+			$conditions['OR'] = array(
+				"User.name like" => "%$name%",
+				"User.name_furigana like" => "%$name%"
+			);
+		}
+		
 		//$this->User->virtualFields['group_title']  = 'group_title';		// 外部結合テーブルのフィールドによるソート用
 		//$this->User->virtualFields['course_title'] = 'course_title';		// 外部結合テーブルのフィールドによるソート用
 
@@ -206,9 +214,9 @@ class UsersController extends AppController
 			'User' => array(
 				'fields' => array('*',
 					// 所属グループ一覧 ※パフォーマンス改善
-					'(SELECT group_concat(g.title order by g.id SEPARATOR \', \') as group_title  FROM ib_users_groups  ug INNER JOIN ib_groups  g ON g.id = ug.group_id  WHERE ug.user_id = User.id) as group_title',
+					//'(SELECT group_concat(g.title order by g.id SEPARATOR \', \') as group_title  FROM ib_users_groups  ug INNER JOIN ib_groups  g ON g.id = ug.group_id  WHERE ug.user_id = User.id) as group_title',
 					// 受講コース一覧   ※パフォーマンス改善
-					'(SELECT group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id WHERE uc.user_id = User.id) as course_title',
+					//'(SELECT group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id WHERE uc.user_id = User.id) as course_title',
 				),
 				'conditions' => $conditions,
 				'limit' => 20,
@@ -226,6 +234,8 @@ class UsersController extends AppController
 				)
 */
 		));
+
+		//$this->log($this->paginate);
 
 		// ユーザ一覧を取得
 		try

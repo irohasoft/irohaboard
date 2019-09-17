@@ -21,7 +21,7 @@
 				'onchange' => 'submit(this.form);'
 			));
 			echo $this->Form->input('username',		array('label' => 'ログインID : ', 'required' => false));
-			echo $this->Form->input('name',			array('label' => '氏名 : '  , 'required' => false));
+			echo $this->Form->input('name',			array('label' => '氏名 or ふりがな: '  , 'required' => false));
 		?>
 		<input type="submit" class="btn btn-info btn-add" value="検索">
 		<?php
@@ -34,9 +34,10 @@
     <th nowrap><?php echo __('写真'); ?></th>
 		<th nowrap><?php echo $this->Paginator->sort('username', 'ログインID'); ?></th>
 		<th nowrap class="col-width"><?php echo $this->Paginator->sort('name', '氏名'); ?></th>
+		<th nowrap class="col-width"><?php echo $this->Paginator->sort('name_furigana', 'ふりがな'); ?></th>
 		<th nowrap><?php echo $this->Paginator->sort('role', '権限'); ?></th>
 		<th nowrap><?php echo __('所属グループ'); ?></th>
-		<th nowrap class="ib-col-datetime"><?php echo __('受講コース'); ?></th>
+		
 		<th class="ib-col-datetime"><?php echo $this->Paginator->sort('last_logined', '最終ログイン日時'); ?></th>
 		<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
 		<?php if($loginedUser['role']=='admin') {?>
@@ -70,13 +71,13 @@
     </td>
 		<td><?php echo h($user['User']['username']); ?>&nbsp;</td>
 		<td><?php echo h($user['User']['name']); ?></td>
+		<td><?php echo h($user['User']['name_furigana']); ?></td>
 		<td nowrap><?php echo h(Configure::read('user_role.'.$user['User']['role'])); ?>&nbsp;</td>
 		<td><div class="reader" title="<?php echo h($user[0]['group_title']); ?>"><p><?php 
     $group_id = $user['User']['group_id'];
     echo h($groups[$group_id]); 
 
     ?>&nbsp;</p></td>
-		<td><div class="reader" title="<?php echo h($user[0]['course_title']); ?>"><p><?php echo h($user[0]['course_title']); ?>&nbsp;</p></div></td>
 		<td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['last_logined'])); ?>&nbsp;</td>
 		<td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['created'])); ?>&nbsp;</td>
 		<?php if($loginedUser['role']=='admin') {?>

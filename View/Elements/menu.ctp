@@ -4,13 +4,13 @@
 		<div class="navbar-collapse collapse">
 		<ul class="nav navbar-nav">
 			<?php
-			$is_active = ($this->name=='my_page') ? ' active' : '';
+			$is_active = ($this->name=='UsersCourses') ? ' active' : '';
 			echo '<li class="'.$is_active.'">'.$this->Html->link(__('マイページ'), '/').'</li>';
 
-			$is_active = ($this->name=='Enquete_input') ? ' active' : '';
+			$is_active = ($this->name=='Enquete' && $this->action=='index') ? ' active' : '';
 			echo '<li class="'.$is_active.'">'.$this->Html->link(__('アンケート記入'), array('controller' => 'enquete', 'action' => 'index')).'</li>';
 
-			$is_active = ($this->name=='Enquete_history') ? ' active' : '';
+			$is_active = ($this->name=='Enquete' && $this->action=='records') ? ' active' : '';
 			echo '<li class="'.$is_active.'">'.$this->Html->link(__('アンケート履歴'), array('controller' => 'enquete', 'action' => 'records')).'</li>';
 			?>
 		</ul>

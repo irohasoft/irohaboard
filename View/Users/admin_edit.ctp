@@ -38,7 +38,7 @@ $(function(){
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
 <div class = "admin-users-edit">
   <div class = "index-block">
-    <?php echo ($this->request->data) ? __('Edit') : __('New');?>
+    <?php echo ($this->request->data) ? __('ユーザー編集') : __('ユーザー新規');?>
   </div>
   <div class = "pic-block">
     <?php
@@ -51,7 +51,7 @@ $(function(){
         'id' => 'myfile',
         'div' => false,
         'class' => false,
-        'label' => 'PIC',
+        'label' => '写真',
         'type' => 'file', 'multiple'
       ));
 
@@ -77,7 +77,17 @@ $(function(){
         'required' => false,
         'div' => false,
         'class' => false
-        ));
+				));
+				
+			echo $this->Form->input('name_furigana',	array(
+				'label' => array(
+					'text' => 'ふりがな：',
+					'class' => 'info-input-label'
+				),
+				'required' => false,
+				'div' => false,
+				'class' => false
+				));
 			?>
     </div>
 

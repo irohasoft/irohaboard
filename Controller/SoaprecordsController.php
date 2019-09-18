@@ -73,8 +73,12 @@ class SoapRecordsController extends AppController
 				array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
 
 
-		if($name != "")
-			$conditions['User.name like'] = '%'.$name.'%';
+		if($name != ""){
+			$conditions['OR'] = array(
+				"User.name like" => "%$name%",
+				"User.name_furigana like" => "%$name%"
+			);
+		}
 
 		if($group_title != "")
 			$conditions['Group.title like'] = '%'.$group_title.'%';

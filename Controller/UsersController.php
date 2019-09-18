@@ -10,6 +10,7 @@
 
 App::uses('AppController', 'Controller');
 App::uses('Group', 'Group');
+App::uses('CakeEmail', 'Network/Email');
 
 /**
  * Users Controller
@@ -36,6 +37,12 @@ class UsersController extends AppController
 					)
 			)
 	);
+
+	// この関数内で指定したアクションはログイン不要
+	public function beforeFilter(){
+		parent::beforeFilter();
+		$this->Auth->allow(array('password_recover'));
+	}
 
 	/**
 	 * ホーム画面（受講コース一覧）へリダイレクト
@@ -168,6 +175,41 @@ class UsersController extends AppController
 		$this->set(compact('username', 'password'));
 	}
 
+	// パスワード再設定
+	public function password_recover(){
+		// ログイン済みの場合
+		if ($this->Auth->user()) {
+				$this->redirect(array('action' => 'login'));
+		}
+		if($this->request->is('post')){
+			if (!empty($this->data['User']['email'])){
+				$user = $this->User->find('first', array(
+					'recursive' => -1,
+					'conditions' => array('User.email' => $this->data['User']['email']),
+				));
+				/*
+				// 入力されたアドレスが見つからない場合
+				if ($user === false || empty($user)) {
+					$this->Session->setFlash('No matching user found.');
+					return false;
+				}
+				*/
+				$Token = ClassRegistry::init('Token');
+				$token = $Token->generate(array('User' => $user['User']));
+				//$this->Session->setFlash('An email has been sent to your account, please follow the instruction in this email.');
+
+				$email = new CakeEmail('gmail');
+				$email->template('password_recover', 'default');
+				$email->viewVars(array('user' => $user, 'token' => $token));
+				$email->from(array('sender@domain.com' => 'Sender'));
+				$email->to($this->data['User']['email']);
+				$email->subject('パスワード再設定');
+				$email->send();
+				$this->Flash->success(__('再設定用メールを送信しました．受信されたメールの案内に従ってパスワードの再設定をお願いします．'));
+			}
+		}
+	}
+
 	/**
 	 * ユーザを追加（編集画面へ）
 	 */
@@ -206,7 +248,7 @@ class UsersController extends AppController
 				"User.name_furigana like" => "%$name%"
 			);
 		}
-		
+
 		//$this->User->virtualFields['group_title']  = 'group_title';		// 外部結合テーブルのフィールドによるソート用
 		//$this->User->virtualFields['course_title'] = 'course_title';		// 外部結合テーブルのフィールドによるソート用
 

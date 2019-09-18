@@ -7,7 +7,7 @@
 			<div class="text-right"><a href="../admin/users/login">管理者ログインへ</a></div>
 			<?php echo $this->Flash->render('auth'); ?>
 			<?php echo $this->Form->create('User'); ?>
-			
+
 			<div class="form-group">
 				<?php echo $this->Form->input('username', array('label' => __('ログインID'), 'class'=>'form-control', 'value' => $username)); ?>
 			</div>
@@ -18,5 +18,7 @@
 			</div>
 			<?php echo $this->Form->end(array('label' => 'ログイン', 'class'=>'btn btn-lg btn-primary btn-block')); ?>
 		</div>
+		パスワードを忘れた場合
+		<?php echo $this->Html->link(__('こちら'), array('controller' => 'users', 'action' => 'password_recover')); ?>
 	</div>
 </div>

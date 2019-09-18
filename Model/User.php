@@ -418,4 +418,16 @@ class User extends AppModel
 		//$this->log($result);
 		return $result;
 	}
+
+	public function generatePassword($size=10){
+		$password_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		$password_chars_count = strlen($password_chars);
+		$data = random_bytes($size);
+		$pin = '';
+		for ($n = 0; $n < $size; $n++){
+			$pin .= substr($password_chars, (ord(substr($data, $n, 1)) % $password_chars_count), 1);
+		}
+		return $pin;
+	}
+
 }

@@ -76,8 +76,13 @@ class RecordsController extends AppController
 		if($course_id != "")
 			$conditions['Course.id'] = $course_id;
 		
-		if($name != "")
-			$conditions['User.name like'] = '%'.$name.'%';
+		if($name != ""){
+			$conditions['OR'] = array(
+				"User.name like" => "%$name%",
+				"User.name_furigana like" => "%$name%"
+			);
+		}
+
 		
 		// コンテンツ種別：学習の場合
 		if($content_category == "study")

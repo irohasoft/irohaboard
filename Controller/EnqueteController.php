@@ -164,8 +164,12 @@ class EnqueteController extends AppController{
 		if($group_id != "")
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 
-		if($name != "")
-      $conditions['User.name like'] = '%'.$name.'%';
+		if($name != ""){
+			$conditions['OR'] = array(
+				"User.name like" => "%$name%",
+				"User.name_furigana like" => "%$name%"
+			);
+		}
 
     if($period != "")
 			$conditions['User.period'] = $period;

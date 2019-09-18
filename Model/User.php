@@ -177,10 +177,12 @@ class User extends AppModel
 			'type' => 'like',
 			'field' => 'User.username'
 		),
+		/*
 		'name' => array(
 			'type' => 'like',
 			'field' => 'User.name'
 		),
+		*/
 		'course_id' => array(
 			'type' => 'like',
 			'field' => 'course_id'
@@ -240,7 +242,8 @@ class User extends AppModel
 				'role' => 'user',
 				'OR' => array(
 					"username LIKE" => $username,
-					"name LIKE"     => $name
+					"name LIKE"     => $name,
+					'name_furigana LIKE' => $name,
 			)),
 			'order' => array('username' => 'ASC'),
 			'recursive' => -1

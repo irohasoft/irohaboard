@@ -59,7 +59,7 @@ $(function(){
 				array(
 					'id' => 'img1',
 					'width' => '300',
-					'height'=> '300',
+					//'height'=> '300',
 					'alt' => $pic_path,
 				));
 		?>
@@ -78,7 +78,7 @@ $(function(){
         'div' => false,
         'class' => false
 				));
-				
+
 			echo $this->Form->input('name_furigana',	array(
 				'label' => array(
 					'text' => 'ふりがな：',

@@ -20,7 +20,7 @@
         }
         echo $this->Html->image($pic_path,
           array(
-            'width' => '150',
+            //'width' => '150',
             'height'=> '150',
             'alt' => $pic_path
           ));

@@ -41,7 +41,10 @@ class UsersController extends AppController
 	// この関数内で指定したアクションはログイン不要
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow(array('password_recover'));
+		$this->Auth->allow(array(
+			'password_recover',
+			'password_verify'
+		));
 	}
 
 	/**
@@ -175,7 +178,7 @@ class UsersController extends AppController
 		$this->set(compact('username', 'password'));
 	}
 
-	// パスワード再設定
+	// パスワードリセットメール送信
 	public function password_recover(){
 		// ログイン済みの場合
 		if ($this->Auth->user()) {
@@ -187,13 +190,14 @@ class UsersController extends AppController
 					'recursive' => -1,
 					'conditions' => array('User.email' => $this->data['User']['email']),
 				));
-				/*
+
 				// 入力されたアドレスが見つからない場合
 				if ($user === false || empty($user)) {
-					$this->Session->setFlash('No matching user found.');
+					// リセットメールを送ったふりをして終了
+					$this->Flash->success(__('パスワードリセットメールを送信しました．'));
 					return false;
 				}
-				*/
+
 				$Token = ClassRegistry::init('Token');
 				$token = $Token->generate(array('User' => $user['User']));
 				//$this->Session->setFlash('An email has been sent to your account, please follow the instruction in this email.');
@@ -201,12 +205,38 @@ class UsersController extends AppController
 				$email = new CakeEmail('gmail');
 				$email->template('password_recover', 'default');
 				$email->viewVars(array('user' => $user, 'token' => $token));
-				$email->from(array('sender@domain.com' => 'Sender'));
+				$email->from(array('sender@domain.com' => 'Ripple System'));
 				$email->to($this->data['User']['email']);
-				$email->subject('パスワード再設定');
+				$email->subject('パスワードリセット');
 				$email->send();
-				$this->Flash->success(__('再設定用メールを送信しました．受信されたメールの案内に従ってパスワードの再設定をお願いします．'));
+				$this->Flash->success(__('パスワードリセットメールを送信しました．'));
 			}
+		}
+	}
+
+	// 正しいトークンを受け取った場合は，パスワードをリセットする
+	public function password_verify($token_str = null){
+		// ログイン済みの場合
+		if ($this->Auth->user()) {
+				$this->redirect(array('action' => 'login'));
+		}
+		$Token = ClassRegistry::init('Token');
+		$res = $Token->get($token_str);
+		if ($res) {
+				// Update the users password.
+				$password = $this->User->generatePassword();
+				$this->User->id = $res['User']['id'];
+				//$this->User->saveField('password', $this->Auth->password($password));
+				$this->User->saveField('password', $password);
+				$this->set('success', true);
+
+				$email = new CakeEmail('gmail');
+				$email->template('password_verify', 'default');
+				$email->viewVars(array('user' => $res, 'password' => $password));
+				$email->from(array('sender@domain.com' => 'Ripple System'));
+				$email->to($res['User']['email']);
+				$email->subject('パスワードリセット完了');
+				$email->send();
 		}
 	}
 

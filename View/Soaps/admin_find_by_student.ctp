@@ -54,9 +54,8 @@
     <div class = "student-block">
       <div class = "pic-block">
       <?php
-        if($user['User']['pic_path'] !== ''){
-          $pic_path = $user['User']['pic_path'];
-        }else{
+        $pic_path = $user['User']['pic_path'];
+        if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
           $pic_path = 'student_img/noPic.png';
         }
 

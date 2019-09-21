@@ -13,9 +13,8 @@
     </div>
     <div class = "student-photo">
       <?php
-        if($group_pic_paths[$user_id] !== ''){
-          $pic_path = $group_pic_paths[$user_id];
-        } else {
+        $pic_path = $user['User']['pic_path'];
+        if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
           $pic_path = 'student_img/noPic.png';
         }
         echo $this->Html->image($pic_path,

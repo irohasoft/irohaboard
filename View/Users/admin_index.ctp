@@ -12,11 +12,11 @@
 		<?php
 			echo $this->Form->create('User');
 			echo $this->Form->input('group_id',		array(
-				'label' => 'グループ : ', 
-				'options'=>$groups, 
-				'selected'=>$group_id, 
-				'empty' => '全て', 
-				'required'=>false, 
+				'label' => 'グループ : ',
+				'options'=>$groups,
+				'selected'=>$group_id,
+				'empty' => '全て',
+				'required'=>false,
 				'class' => 'form-control',
 				'onchange' => 'submit(this.form);'
 			));
@@ -37,7 +37,7 @@
 		<th nowrap class="col-width"><?php echo $this->Paginator->sort('name_furigana', 'ふりがな'); ?></th>
 		<th nowrap><?php echo $this->Paginator->sort('role', '権限'); ?></th>
 		<th nowrap><?php echo __('所属グループ'); ?></th>
-		
+
 		<th class="ib-col-datetime"><?php echo $this->Paginator->sort('last_logined', '最終ログイン日時'); ?></th>
 		<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
 		<?php if($loginedUser['role']=='admin') {?>
@@ -51,12 +51,11 @@
 	<tr>
     <td>
     <?php
-      if($user['User']['pic_path'] !== '' && $user['User']['pic_path'] != 'student_img/'){
-        $pic_path = $user['User']['pic_path'];
-      }else{
-        $pic_path = 'student_img/noPic.png';
-      }
-      echo $this->Html->image($pic_path, 
+			$pic_path = $user['User']['pic_path'];
+			if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
+				$pic_path = 'student_img/noPic.png';
+			}
+      echo $this->Html->image($pic_path,
             array(
               'width' => '50',
               'height'=> '50',
@@ -64,7 +63,7 @@
               'url' => array(
                   'controller' => 'users',
                   'action' => 'admin_edit',$user['User']['id']
-                
+
                   )
             ));
     ?>
@@ -73,9 +72,9 @@
 		<td><?php echo h($user['User']['name']); ?></td>
 		<td><?php echo h($user['User']['name_furigana']); ?></td>
 		<td nowrap><?php echo h(Configure::read('user_role.'.$user['User']['role'])); ?>&nbsp;</td>
-		<td><div class="reader" title="<?php echo h($user[0]['group_title']); ?>"><p><?php 
+		<td><div class="reader" title="<?php echo h($user[0]['group_title']); ?>"><p><?php
     $group_id = $user['User']['group_id'];
-    echo h($groups[$group_id]); 
+    echo h($groups[$group_id]);
 
     ?>&nbsp;</p></td>
 		<td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['last_logined'])); ?>&nbsp;</td>

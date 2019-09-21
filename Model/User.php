@@ -322,7 +322,7 @@ class User extends AppModel
 			'recursive' => -1
 		));
 		$pic_path = $data['0']['User']['pic_path'];
-		if($pic_path === '' or $pic_path === 'student_img/'){
+		if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
 			return 'student_img/noPic.png';
 		}
 		//$this->log($pic_path);
@@ -348,7 +348,7 @@ class User extends AppModel
 		foreach ($data as $datum) {
 			$user_id = $datum['User']['id'];
 			$pic_path = $datum['User']['pic_path'];
-			if($pic_path === '' or $pic_path === 'student_img/'){
+			if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
 				$pic_path = 'student_img/noPic.png';
 			}
 			$result += [$user_id => $pic_path];

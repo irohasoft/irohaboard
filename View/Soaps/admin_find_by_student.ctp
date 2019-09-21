@@ -58,10 +58,9 @@
         if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
           $pic_path = 'student_img/noPic.png';
         }
-
         echo $this->Html->image($pic_path,
             array(
-              'width' => '150',
+              //'width' => '150',
               'height'=> '150',
               'alt' => $pic_path,
               'url' => array(

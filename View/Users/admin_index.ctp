@@ -49,7 +49,7 @@
   <?php //$this->log($users);?>
 	<?php foreach ($users as $user): ?>
 	<tr>
-    <td>
+    <td align="center">
     <?php
 			$pic_path = $user['User']['pic_path'];
 			if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
@@ -57,14 +57,14 @@
 			}
       echo $this->Html->image($pic_path,
             array(
-              'width' => '50',
-              'height'=> '50',
+              //'width' => '50',
+              'height'=> '60',
               'alt' => 'pic',
               'url' => array(
                   'controller' => 'users',
                   'action' => 'admin_edit',$user['User']['id']
 
-                  )
+              )
             ));
     ?>
     </td>

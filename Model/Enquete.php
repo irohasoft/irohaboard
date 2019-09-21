@@ -3,7 +3,7 @@
  * Ripple  Project
  *
  * @author        Enfu Guo
- * @copyright     NPO Organization uec support 
+ * @copyright     NPO Organization uec support
  * @link          http://uecsupport.dip.jp/
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
 */
@@ -25,7 +25,14 @@ class Enquete extends AppModel
 	 * @var array
 	 */
 	public $validate = array(
-
+		'group_id' => array(
+			'notBlank' => array(
+				'rule' => array(
+						'notBlank'
+				),
+				'message' => '今日の授業の中で，一番多く指導してくれた講師を選択してください．'
+			)
+		),
 		'before_goal_cleared' => array(
 			'notBlank' => array(
 				'rule' => array(
@@ -54,7 +61,7 @@ class Enquete extends AppModel
 					'message' => '今日のゴールを達成できたどうかを選択してください．'
 				)
 			),
-			
+
 			'next_goal' => array(
 				'notBlank' => array(
 					'rule' => array(

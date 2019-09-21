@@ -9,8 +9,8 @@
     echo $this->Form->create(false,['type' => 'post','url'=> ['controller' => 'enquete','action' => 'index'],'novalidate' => true]);
 
     echo $this->Form->hidden('user_id',array('value' => $user_id));
-    
-		echo $this->Form->hidden('group_id',array('value' => $group_id)); 
+
+		echo $this->Form->hidden('group_id',array('value' => $group_id));
   ?>
   <div class = "form-input-block enquete-input-group required-input">
   <?php
@@ -20,14 +20,15 @@
       'after' => '<div class = "text-url-input"></div><span class="status-exp">今日の授業の中で，一番多く指導してくれた講師．</span>',
     	'div' => false,
     	'class' => '',
+      'required'=> 'required',
     	'options' => $group_list,
       'empty' => '',
       'value' => $group_id,
   	  'style' => ''
     ));
   echo "</div>";
-  echo "<div class = 'form-input-block before-goal-block required-input'>";  
-    
+  echo "<div class = 'form-input-block before-goal-block required-input'>";
+
   echo $this->Form->input('before_goal_cleared',	array(
     'type' => 'radio',
     'before' => '<label class = "before-goal-label">前回に設定したゴールは達成できたか？</label>',

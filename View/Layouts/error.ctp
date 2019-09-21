@@ -11,7 +11,7 @@
 $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>

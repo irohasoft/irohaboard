@@ -10,7 +10,7 @@
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
 <?php echo $this->Html->charset(); ?>
 <title><?php echo $pageTitle; ?></title>

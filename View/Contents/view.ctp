@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
 	<?php echo $this->Html->charset(); ?>
-	
+
 	<title><?php echo $content['Content']['title']; ?></title>
 	<meta name="application-name" content="iroha Board">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>

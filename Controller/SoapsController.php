@@ -3,7 +3,7 @@
  * Ripple  Project
  *
  * @author        Enfu Guo
- * @copyright     NPO Organization uec support 
+ * @copyright     NPO Organization uec support
  * @link          http://uecsupport.dip.jp/
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
@@ -56,7 +56,7 @@ class SoapsController extends AppController{
     $this->set('user_list', $user_list);
 
     //グループ内のメンバーを探す
-    $members = $this->User->findAllUserInGroup($group_id);
+    $members = $this->User->findAllStudentInGroup($group_id);
     $this->set('members',$members);
 
     //グループ一覧を作り，配列の形を整形する
@@ -69,13 +69,13 @@ class SoapsController extends AppController{
       $this->request->query['today_date']:
         array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
 
-    $this->set('today_date',$today_date); 
+    $this->set('today_date',$today_date);
 
     //教材現状
     $course_list = $this->Course->find('list');
     $this->set('course_list', $course_list);
     //$this->log($current_status);
-    
+
     //登録
     if($this->request->is('post')){
       $soaps = $this->request->data;
@@ -150,7 +150,7 @@ class SoapsController extends AppController{
       }
       $this->Flash->success(__('提出しました、ありがとうございます'));
       return $this->redirect(array('action' => 'index'));
-      
+
     }
   }
 }

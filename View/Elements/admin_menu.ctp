@@ -5,7 +5,11 @@
 		<ul class="nav navbar-nav">
 			<?php
 			$is_active = ($this->name=='RecentStates') ? ' active' : '';
-			echo '<li class="'.$is_active.'">'.$this->Html->link(__('近況状況'), array('controller' => 'recentstates', 'action' => 'index')).'</li>';
+			echo '<li class="'.$is_active.' menu__single">'.$this->Html->link(__('近況状況'), array('controller' => 'recentstates', 'action' => 'index'));
+			echo '<ul class="menu__second-level">';
+			echo '<li>'.$this->Html->link(__('グループ'), array('controller' => 'recentstates', 'action' => 'find_by_group')).'</li>';
+			echo '<li>'.$this->Html->link(__('個人'), array('controller' => 'recentstates', 'action' => 'find_by_student')).'</li>';
+			echo '</ul></li>';
 
 			$is_active = ($this->name=='Records' or $this->name=='SoapRecords' or $this->name=='Enquete') ? ' active' : '';
 			echo '<li class="'.$is_active.' menu__single">'.$this->Html->link(__('検索一覧'), array('controller' => 'records', 'action' => 'index'));
@@ -16,7 +20,11 @@
       echo '</ul></li>';
 
 			$is_active = ($this->name=='Soaps') ? ' active' : '';
-			echo '<li class="'.$is_active.'">'.$this->Html->link(__('SOAP記入'), array('controller' => 'soaps', 'action' => 'index')).'</li>';
+			echo '<li class="'.$is_active.' menu__single">'.$this->Html->link(__('SOAP記入'), array('controller' => 'soaps', 'action' => 'index'));
+			echo '<ul class="menu__second-level">';
+			echo '<li>'.$this->Html->link(__('グループ'), array('controller' => 'soaps', 'action' => 'find_by_group')).'</li>';
+			echo '<li>'.$this->Html->link(__('個人'), array('controller' => 'soaps', 'action' => 'find_by_student')).'</li>';
+			echo '</ul></li>';
 
 			$is_active = ($this->name=='Infos') ? ' active' : '';
 			echo '<li class="'.$is_active.'">'.$this->Html->link(__('お知らせ'), array('controller' => 'infos', 'action' => 'index')).'</li>';

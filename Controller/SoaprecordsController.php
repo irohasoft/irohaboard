@@ -58,8 +58,8 @@ class SoapRecordsController extends AppController
 		$conditions = $this->Soap->parseCriteria($this->Prg->parsedParams());
 
 		$name	        = (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
-		$group_title	= (isset($this->request->query['group_title'])) ? $this->request->query['group_title'] : "";
 		$period       = (isset($this->request->query['period'])) ? $this->request->query['period'] : "";
+		$group_id			= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
 		$course_id	  = (isset($this->request->query['course_id'])) ? $this->request->query['course_id'] : "";
 		$from_date	  = (isset($this->request->query['from_date'])) ?
 			$this->request->query['from_date'] :
@@ -80,8 +80,9 @@ class SoapRecordsController extends AppController
 			);
 		}
 
-		if($group_title != "")
-			$conditions['Group.title like'] = '%'.$group_title.'%';
+		// グループが指定されている場合、指定したグループに所属するユーザの履歴を抽出
+		if($group_id != "")
+			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 
 		if($period != "")
 			$conditions['User.period'] = $period;
@@ -187,10 +188,11 @@ class SoapRecordsController extends AppController
 			$this->Course = new Course();
 
 			$this->set('period_list', array('1限','2限'));
+			$this->set('groups',      $this->Group->find('list'));
 			$this->set('courses',     $this->Course->find('list'));
 			$this->set('name',        $name);
-			$this->set('group_title', $group_title);
 			$this->set('period',      $period);
+			$this->set('group_id',    $group_id);
 			$this->set('course_id',   $course_id);
 			$this->set('from_date',   $from_date);
 			$this->set('to_date',     $to_date);

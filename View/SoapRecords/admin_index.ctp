@@ -27,9 +27,12 @@
 			'label' => '受講生名 :',
 			'value'=>$name,
 			'class'=>'form-control'));
-		echo $this->Form->input('group_title',	array(
-			'label' => '担当講師名 :',
-			'value'=>$group_title,
+		echo $this->Form->input('group_id',	array(
+			'label' => 'グループ :',
+			'options'=>$groups,
+			'selected'=>$group_id,
+			'empty' => '全て',
+			'required'=>false,
 			'class'=>'form-control'));
 		echo $this->Form->input('period',	array(
 			'label' => '受講時間帯 :',

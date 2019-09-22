@@ -48,6 +48,7 @@ class ContentsController extends AppController
 
 		// ロールを取得
 		$role = $this->Auth->user('role');
+		$this->set('role', $role);
     //クリアしたコンテンツを検索，セット
     $user_id = $this->Auth->user('id');
     $cleared_list = $this->Content->getClearedList($user_id, $course_id);

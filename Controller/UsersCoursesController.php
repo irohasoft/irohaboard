@@ -58,11 +58,18 @@ class UsersCoursesController extends AppController
 		//$courses = $this->UsersCourse->getCourseRecord($user_id);
 		$all_courses = $this->UsersCourse->getCourseRecord($user_id);
     //$this->log($all_courses);
-    $courses = [];
+		$courses = [];
+		// 管理者の場合，コースを全部表示
     if($role === 'admin'){
       $courses = $all_courses;
     }else{
+			//受講生の場合
       foreach($all_courses as $course){
+				//もし,コースが非公開設定になっている場合
+				if($course['Course']['status'] == 0){
+					continue;
+				}
+
         $before_course_id = $course['Course']['before_course'];
         $now_course_id = $course['Course']['id'];
         //$this->log($now_course_id);

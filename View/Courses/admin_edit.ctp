@@ -29,6 +29,17 @@
 					'style' => 'width:initial; display: inline;'
 				));
 				*/
+				echo $this->Form->input('status',	array(
+					'type' => 'radio',
+					'before' => '<label class="col col-sm-3 control-label">ステータス</label>',
+					'after' => '<span class="status-exp">　非公開と設定した場合、管理者権限でログインした場合のみ表示されます。</span>',
+					'separator' => '　', 
+					'legend' => false,
+					'class' => false,
+					'default' => 1,
+					'options' => Configure::read('content_status')
+					)
+				);
 				echo $this->Form->input('introduction',	array('label' => __('コース紹介')));
 				echo $this->Form->input('comment',		array('label' => __('備考')));
 			?>

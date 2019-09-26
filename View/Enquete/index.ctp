@@ -81,7 +81,7 @@
   echo "</br>";
   echo "</div>";
 
-  echo "<div class = 'form-input-block today-false-reason required-input' >";
+  echo "<div class = 'form-input-block today-false-reason' >";
   echo $this->Form->input('today_false_reason',array(
     'label' => __('今日のゴールの達成度で、Falseを選んだ理由を書いてください'),
     'type' => 'textarea',

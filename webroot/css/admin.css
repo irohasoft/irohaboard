@@ -202,7 +202,9 @@
 .admin-records-index #RecordFromDateYear,
 .admin-records-index #RecordToDateYear,
 .admin-records-index #SoapFromDateYear,
-.admin-records-index #SoapToDateYear
+.admin-records-index #SoapToDateYear,
+.admin-records-index #EnqueteFromDateYear,
+.admin-records-index #EnqueteToDateYear
 {
 	width			: 100px;
 }
@@ -214,7 +216,11 @@
 .admin-records-index #SoapFromDateMonth,
 .admin-records-index #SoapToDateMonth,
 .admin-records-index #SoapFromDateDay,
-.admin-records-index #SoapToDateDay
+.admin-records-index #SoapToDateDay,
+.admin-records-index #EnqueteFromDateMonth,
+.admin-records-index #EnqueteToDateMonth,
+.admin-records-index #EnqueteFromDateDay,
+.admin-records-index #EnqueteToDateDay
 {
 	width			: 80px;
 }
@@ -225,7 +231,11 @@
 	max-width		: 200px;
 }
 
-.admin-records-index #RecordGroupId
+.admin-records-index #RecordGroupId,
+.admin-records-index #SoapGroupId,
+.admin-records-index #SoapPeriod,
+.admin-records-index #EnqueteGroupId,
+.admin-records-index #EnquetePeriod
 {
 	max-width		: 150px;
 }

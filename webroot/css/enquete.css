@@ -3,7 +3,7 @@
  * Ripple  Project
  *
  * @author        Enfu Guo
- * @copyright     NPO Organization uec support 
+ * @copyright     NPO Organization uec support
  * @link          http://uecsupport.dip.jp/
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
@@ -24,7 +24,7 @@
 .form-input-block{
   margin-left: 2%;
   margin-bottom: 3%;
-  
+
 }
 
 .required-input label:after {
@@ -38,7 +38,7 @@
 }
 
 .before-goal-block{
-  
+
 }
 
 .enquete-input-group{
@@ -93,6 +93,6 @@ input[type = "radio"] + label{
 
 .record-table{
   float: left;
-  width : 1000px;
+  width : 100%;
   overflow-x : scroll;
 }

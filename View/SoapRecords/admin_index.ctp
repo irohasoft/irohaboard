@@ -50,7 +50,7 @@
 			'class'=>'form-control'));
 		echo '</div>';
 
-		echo '<div class="ib-search-date-container form-inline">';
+		echo '<div class="ib-search-date-container">';
 		echo $this->Form->input('from_date', array(
 			'type' => 'date',
 			'dateFormat' => 'YMD',
@@ -85,11 +85,11 @@
 	<table cellpadding="0" cellspacing="0">
 		<thead>
 			<tr>
-				<th class="ib-col-date">受講日&nbsp;</th>
-				<th nowrap>受講生名&nbsp;</th>
-				<th nowrap>担当講師名&nbsp;</th>
-				<th nowrap class="text-center">1限<br/>or<br/>2限</th>
-				<th nowrap class="text-center">STEP教材<br/>or<br/>応用教材</th>
+				<th class="ib-col-date"><?php echo $this->Paginator->sort('created', '受講日'); ?></th>
+				<th nowrap><?php echo $this->Paginator->sort('User.name', '受講生名'); ?></th>
+				<th nowrap><?php echo $this->Paginator->sort('group_id', '担当講師名'); ?></th>
+				<th nowrap class="text-center"><?php echo $this->Paginator->sort('User.period', '受講時限'); ?></th>
+				<th nowrap class="text-center"><?php echo $this->Paginator->sort('Course.title', '教材種別'); ?></th>
 				<th nowrap>SOAP</th>
 			</tr>
 		</thead>

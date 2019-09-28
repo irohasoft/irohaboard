@@ -74,7 +74,7 @@ class Record extends AppModel
 			'RecordsQuestion' => array(
 					'className' => 'RecordsQuestion',
 					'foreignKey' => 'record_id',
-					'dependent' => false,
+					'dependent' => true,
 					'conditions' => '',
 					'fields' => '',
 					'order' => '',

@@ -119,6 +119,21 @@ class User extends AppModel
 					'exclusive' => '',
 					'finderQuery' => '',
 					'counterQuery' => ''
+			),
+			'Record' => array(
+					'className' => 'Record',
+					'foreignKey' => 'user_id',
+					'dependent' => true
+			),
+			'Soap' => array(
+					'className' => 'Soap',
+					'foreignKey' => 'user_id',
+					'dependent' => true
+			),
+			'Enquete' => array(
+					'className' => 'Enquete',
+					'foreignKey' => 'user_id',
+					'dependent' => true
 			)
 	);
 

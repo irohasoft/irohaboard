@@ -176,7 +176,8 @@
 					<?php echo $correct_tag ?>
 					<!--解説文-->
 					<?php echo $explain_tag ?>
-					<?php echo $this->Form->hidden('correct_'.$question_id, array('value' => $question['correct'])); ?>
+					<?php //下をコメントアウトすると、正解が見えなくなる ?>
+					<?php //echo $this->Form->hidden('correct_'.$question_id, array('value' => $question['correct'])); ?>
 				</div>
 			</div>
 			<?php $question_index++;?>

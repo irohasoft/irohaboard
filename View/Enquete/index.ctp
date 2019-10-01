@@ -7,9 +7,6 @@
   <?php
     //echo $this->Form->create("enquete-input",array('novalidate' => true));
     echo $this->Form->create(false,['type' => 'post','url'=> ['controller' => 'enquete','action' => 'index'],'novalidate' => true]);
-
-    echo $this->Form->hidden('user_id',array('value' => $user_id));
-
 		echo $this->Form->hidden('group_id',array('value' => $group_id));
   ?>
   <div class = "form-input-block enquete-input-group required-input">

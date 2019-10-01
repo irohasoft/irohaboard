@@ -51,7 +51,7 @@ class EnqueteController extends AppController{
 
     //今ログインしているUserのidを確認
     $user_id = $this->Auth->user('id');
-    $this->set('user_id',$user_id);
+    //$this->set('user_id',$user_id);
 
     //今日の日付を生成
     $today = date("Y/m/d");
@@ -83,8 +83,8 @@ class EnqueteController extends AppController{
 
       }else{
         //dataをサニタイズする．
-
-        $save_data = Sanitize::clean($this->request->data, array('encode' => false));
+        $request_data = array('user_id' => $user_id) + $this->request->data;
+        $save_data = Sanitize::clean($request_data, array('encode' => false));
         //$result = $this->Enquete->save($save_data);
         if($this->Enquete->save($save_data)){
           $this->Flash->success(__('アンケートは提出されました，ありがとうございます'));

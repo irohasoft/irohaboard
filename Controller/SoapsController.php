@@ -80,7 +80,7 @@ class SoapsController extends AppController{
     if($this->request->is('post')){
       $soaps = $this->request->data;
 
-      $soap_tmp = Sanitize::clean($soaps, array('encode' => false));
+      //$soap_tmp = Sanitize::clean($soaps, array('encode' => false));
       //$this->log($soap_tmp);
 
       $created = $today_date['year']."-".$today_date['month']."-".$today_date['day'];

@@ -104,6 +104,13 @@ class Enquete extends AppModel
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
+			),
+			'Group' => array(
+					'className' => 'Group',
+					'foreignKey' => 'group_id',
+					'conditions' => '',
+					'fields' => '',
+					'order' => ''
 			)
 	);
 	/**

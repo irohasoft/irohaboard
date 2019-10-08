@@ -33,9 +33,11 @@
 		echo $this->Html->css('common.css?20190401');
 
 		// 管理画面用CSS
-		if($is_admin_page)
+		if($is_admin_page){
 			echo $this->Html->css('admin.css?20190401');
-
+		}else{
+			echo $this->Html->css('user.css?20191008');
+		}
 		// カスタマイズ用CSS
 		echo $this->Html->css('custom.css?20190401');
 

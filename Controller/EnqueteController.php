@@ -51,11 +51,33 @@ class EnqueteController extends AppController{
 
     //今ログインしているUserのidを確認
     $user_id = $this->Auth->user('id');
-    //$this->set('user_id',$user_id);
+    $this->set('user_id',$user_id);
 
     //今日の日付を生成
     $today = date("Y/m/d");
     $this->set('today', $today);
+
+    $conditions = [];
+    $conditions['Enquete.user_id'] = $user_id;
+    
+    
+    $conditions['Enquete.created BETWEEN ? AND ?'] = array(
+			$today, 
+			$today.' 23:59:59'
+    );
+    
+    
+    $enquete_history = $this->Enquete->find('first',array(
+      'conditions' => $conditions
+    ));
+    //$this->log($enquete_history);
+    
+    $enquete_inputted = [];
+    $enquete_inputted['Enquete'] = $enquete_history['Enquete'];
+    $id = $enquete_history['Enquete']['id'];
+    //$this->log($enquete_inputted);
+    
+    $this->set('enquete_inputted',$enquete_inputted);
 
     //グループリストを生成
     $group_list = $this->Group->find('list');
@@ -82,10 +104,13 @@ class EnqueteController extends AppController{
         }
 
       }else{
-        //dataをサニタイズする．
-        $request_data = array('user_id' => $user_id) + $this->request->data;
-        $save_data = Sanitize::clean($request_data, array('encode' => false));
-        //$result = $this->Enquete->save($save_data);
+        
+        $request_data = array(
+          'id' => $id,
+          'user_id' => $user_id
+        ) + $this->request->data;
+        $save_data = $request_data;
+
         if($this->Enquete->save($save_data)){
           $this->Flash->success(__('アンケートは提出されました，ありがとうございます'));
 

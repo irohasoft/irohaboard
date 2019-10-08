@@ -20,7 +20,7 @@
       'required'=> 'required',
     	'options' => $group_list,
       'empty' => '',
-      'value' => $group_id,
+      'value' => $enquete_inputted['Enquete']['group_id'],
   	  'style' => ''
     ));
   echo "</div>";
@@ -35,7 +35,8 @@
     'class' => '',
     'style' => '',
     'required'=> 'required',
-    'options' => Configure::read('true_or_false')
+    'options' => Configure::read('true_or_false'),
+    'value' => $enquete_inputted['Enquete']['before_goal_cleared']
   ));
   echo "</div>";
 
@@ -46,7 +47,8 @@
     'type' => 'textarea',
     'div' => false,
     'class' => '',
-    'style' => ''
+    'style' => '',
+    'value' => $enquete_inputted['Enquete']['before_false_reason']
   ));
   echo "</div>";
 
@@ -58,7 +60,8 @@
     'div' => false,
     'class' => '',
     'required'=> 'required',
-    'style' => ''
+    'style' => '',
+    'value' => $enquete_inputted['Enquete']['today_goal']
   ));
   echo "</div>";
 
@@ -73,7 +76,8 @@
     'class' => '',
     'style' => '',
     'required'=> 'required',
-    'options' => Configure::read('true_or_false')
+    'options' => Configure::read('true_or_false'),
+    'value' => $enquete_inputted['Enquete']['today_goal_cleared']
   ));
   echo "</br>";
   echo "</div>";
@@ -86,7 +90,8 @@
     'after' => '<div class = "text-url-input"></div><span class="status-exp">なぜできなかった、何がわからなかった、など</span></br>',
     'div' => false,
     'class' => '',
-    'style' => ''
+    'style' => '',
+    'value' => $enquete_inputted['Enquete']['today_false_reason']
   ));
   echo "</div>";
 
@@ -99,7 +104,8 @@
     'div' => false,
     'class' => '',
     'required'=> 'required',
-    'style' => ''
+    'style' => '',
+    'value' => $enquete_inputted['Enquete']['next_goal']
   ));
   echo "</div>";
 
@@ -112,7 +118,8 @@
     'div' => false,
     'class' => '',
     'required'=> 'required',
-    'style' => ''
+    'style' => '',
+    'value' => $enquete_inputted['Enquete']['today_impressions']
   ));
   echo "</div>"
 ;  ?>

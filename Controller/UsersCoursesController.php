@@ -74,7 +74,7 @@ class UsersCoursesController extends AppController
         $now_course_id = $course['Course']['id'];
         //$this->log($now_course_id);
         if($this->Course->existCleared($user_id, $now_course_id) || $before_course_id === null){
-          $this->log($course);
+          //$this->log($course);
           array_push($courses, $course);
         }else{
           $result = $this->Course->goToNextCourse($user_id, $before_course_id, $now_course_id);

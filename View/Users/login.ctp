@@ -4,7 +4,6 @@
 			受講者ログイン
 		</div>
 		<div class="panel-body">
-			<div class="text-right"><a href="../admin/users/login">管理者ログインへ</a></div>
 			<?php echo $this->Flash->render('auth'); ?>
 			<?php echo $this->Form->create('User'); ?>
 

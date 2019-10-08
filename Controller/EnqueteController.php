@@ -197,7 +197,6 @@ class EnqueteController extends AppController{
 		// CSV出力モードの場合
 		if(@$this->request->query['cmd']=='csv')
 		{
-      /*
 			$this->autoRender = false;
 
 			// メモリサイズ、タイムアウト時間を設定
@@ -208,35 +207,66 @@ class EnqueteController extends AppController{
 			$this->response->type('csv');
 
 			header('Content-Type: text/csv');
-			header('Content-Disposition: attachment; filename="user_records.csv"');
+			header('Content-Disposition: attachment; filename="enquete_records.csv"');
 
 			$fp = fopen('php://output','w');
 
 			$options = array(
 				'conditions'	=> $conditions,
-				'order'			=> 'Record.created desc'
+				'order'			=> 'Enquete.created desc'
 			);
 
-			$this->Record->recursive = 0;
-			$rows = $this->Record->find('all', $options);
+			$this->Enquete->recursive = 0;
+			$rows = $this->Enquete->find('all', $options);
 
-			$header = array("コース", "コンテンツ", "氏名", "得点", "合格点", "結果", "理解度", "学習時間", "学習日時");
+			$header = array(
+        "受講日",
+        "氏名",
+        "担当講師",
+        "所属",
+        "今日の感想",
+        "前回ゴールT/F",
+        "前回ゴールF理由",
+        "今日のゴール",
+        "今日のゴールT/F",
+        "今日のゴールF理由",
+        "次回までゴール"
+      );
 
 			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
 			fputcsv($fp, $header);
 
 			foreach($rows as $row)
 			{
+        if($row['User']['period'] == 0) {
+          $class_hour = "1限";
+        } elseif($row['User']['period'] == 1) {
+          $class_hour = "2限";
+        } else {
+          $class_hour = "時限未設定";
+        }
+        if($row['Enquete']['before_goal_cleared']){
+          $before_goal_cleared = "True";
+        } else {
+          $before_goal_cleared = "False";
+        }
+        if($row['Enquete']['today_goal_cleared']){
+          $today_goal_cleared = "True";
+        } else {
+          $today_goal_cleared = "False";
+        }
 				$row = array(
-					$row['Course']['title'],
-					$row['Content']['title'],
-					$row['User']['name'],
-					$row['Record']['score'],
-					$row['Record']['pass_score'],
-					Configure::read('record_result.'.$row['Record']['is_passed']),
-					Configure::read('record_understanding.'.$row['Record']['understanding']),
-					Utils::getHNSBySec($row['Record']['study_sec']),
-					Utils::getYMDHN($row['Record']['created']),
+          Utils::getYMDHN($row['Enquete']['created']),
+          $row['User']['name'],
+          $row['Group']['title'],
+          $class_hour,
+          $row['Enquete']['today_impressions'],
+          $before_goal_cleared,
+          $row['Enquete']['before_false_reason'],
+          $row['Enquete']['today_goal'],
+          $today_goal_cleared,
+          $row['Enquete']['today_false_reason'],
+          $row['Enquete']['next_goal']
 				);
 
 				mb_convert_variables("SJIS-WIN", "UTF-8", $row);
@@ -245,7 +275,6 @@ class EnqueteController extends AppController{
 			}
 
       fclose($fp);
-      */
 		}
 		else
 		{

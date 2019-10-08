@@ -48,13 +48,16 @@ class RecentStatesController extends AppController{
 
   public function admin_group_view($group_id){
     $this->loadModel('User');
+    $this->loadModel('Group');
     $this->loadModel('Course');
     $this->loadModel('Content');
     $this->loadModel('Soap');
 
     $user_list = $this->User->find('list');
-    //$this->log($user_list);
     $this->set('user_list', $user_list);
+
+    $group_list = $this->Group->find('list');
+    $this->set('group_list', $group_list);
 
     $content_list = $this->Content->find('list');
     $this->set('content_list', $content_list);
@@ -86,14 +89,17 @@ class RecentStatesController extends AppController{
 
   public function admin_student_view($user_id){
     $this->loadModel('User');
+    $this->loadModel('Group');
     $this->loadModel('Course');
     $this->loadModel('Content');
     $this->loadModel('Soap');
 
     $user_list = $this->User->find('list');
-    //$this->log($user_list);
     $this->set('user_list', $user_list);
     $this->set('user_id', $user_id);
+
+    $group_list = $this->Group->find('list');
+    $this->set('group_list', $group_list);
 
     $content_list = $this->Content->find('list');
     $this->set('content_list', $content_list);

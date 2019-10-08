@@ -47,6 +47,7 @@
         <th></th>
         <th></th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -60,6 +61,13 @@
       ?>
       <tr>
         <td><?php echo $created_day; ?></td>
+        <td>
+          <?php
+            $group_id = $recent_soap['Soap']['group_id'];
+            $group_title = $group_list[$group_id];
+            echo h($group_title);
+          ?>
+        </td>
         <td class="studied-material">
           <?php
             $content_id = $recent_soap['Soap']['studied_content'];

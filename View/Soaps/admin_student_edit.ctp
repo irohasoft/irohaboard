@@ -13,7 +13,8 @@
     </div>
     <div class = "soap">
     <?php 
-		  echo $this->Form->create("$user_id");
+			echo $this->Form->create("$user_id");
+			echo $this->Form->hidden('id', array('value' => $soap_inputted[$user_id]['id']));
 			echo $this->Form->hidden('user_id',array('value' => $user_id)); 
       ?>
       <div class = "soap_teacher">
@@ -36,6 +37,7 @@
 						'div' => false,
 						'class' => 'soap_select',
 						'options' => $course_list,
+						'value' => $soap_inputted[$user_id]['current_status'],
 						'empty' => '',
 						'style' => ''
 					));
@@ -62,7 +64,8 @@
 
       echo "<div class = 'soap-input'>";
   		echo $this->Form->input('S',array(
-  			'label' => __('S:'),
+				'label' => __('S:'),
+				'value' => $soap_inputted[$user_id]['S'],
   			'div' => false,
   			'class' => ''
   		));
@@ -70,7 +73,8 @@
 
       echo "<div class = 'soap-input'>";
       echo $this->Form->input('O',array(
-  			'label' => __('O:'),
+				'label' => __('O:'),
+				'value' => $soap_inputted[$user_id]['O'],
   			'div' => false,
   			'class' => '',
   			'style' => ''
@@ -79,7 +83,8 @@
 
       echo "<div class = 'soap-input'>";
       echo $this->Form->input('A',array(
-  			'label' => __('A:'),
+				'label' => __('A:'),
+				'value' => $soap_inputted[$user_id]['A'],
   			'div' => false,
   			'class' => '',
   			'style' => ''
@@ -88,7 +93,8 @@
 
       echo "<div class = 'soap-input'>";
       echo $this->Form->input('P',array(
-  			'label' => __('P:'),
+				'label' => __('P:'),
+				'value' => $soap_inputted[$user_id]['P'],
   			'div' => false,
   			'class' => '',
   			'style' => ''
@@ -97,7 +103,8 @@
 
       echo "<div class = 'soap-input'>";
       echo $this->Form->input('comment',array(
-  			'label' => __('自由記述:'),
+				'label' => __('自由記述:'),
+				'value' => $soap_inputted[$user_id]['comment'],
   			'div' => false,
   			'class' => 'soap',
   			'style' => ''
@@ -105,6 +112,11 @@
       echo "</div>";
   	?>
     </div>
+		<div class = "enquete">
+			<?php echo __('今日の感想:');?></br>
+			<?php $this->log($enquete_inputted[$user_id]['today_impressions']);?>
+			<?php echo $enquete_inputted[$user_id]['today_impressions'];?>
+		</div>
   </div>
   <div class = "under_element"></div>
   <input type = "submit" class = "btn btn-info btn-add" value = "登録">

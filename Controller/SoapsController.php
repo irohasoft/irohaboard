@@ -49,6 +49,40 @@ class SoapsController extends AppController{
   public function admin_group_edit($group_id){
     $this->loadModel('Course');
     $this->loadModel('User');
+    $this->loadModel('Enquete');
+
+    //日付リスト
+    $today_date = (isset($this->request->query['today_date'])) ?
+      $this->request->query['today_date']:
+        array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
+
+    $this->set('today_date',$today_date);
+
+    //提出したアンケートを検索（今日の日付）
+    
+    $conditions = [];
+    $conditions['Enquete.group_id'] = $group_id;
+    
+    
+    $conditions['Enquete.created BETWEEN ? AND ?'] = array(
+			$today_date['year']."-".$today_date['month']."-".$today_date['day'], 
+			$today_date['year']."-".$today_date['month']."-".$today_date['day'].' 23:59:59'
+    );
+    
+    
+    $enquete_history = $this->Enquete->find('all',array(
+      'conditions' => $conditions
+    ));
+    //$this->log($enquete_history);
+    
+    $enquete_inputted = [];
+    foreach($enquete_history as $history){
+      $his_user_id = $history['Enquete']['user_id'];
+      $enquete_inputted["$his_user_id"] = $history['Enquete'];
+    }
+    
+    $this->set('enquete_inputted',$enquete_inputted);
+
     //メンバーリスト
 
     $user_list = $this->User->find('list');
@@ -64,12 +98,29 @@ class SoapsController extends AppController{
     //$this->log($this->Group->find('list'));
     $group_list = $this->Group->find('list');
     $this->set('group_list',$group_list);
-    //日付リスト
-    $today_date = (isset($this->request->query['today_date'])) ?
-      $this->request->query['today_date']:
-        array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
-
-    $this->set('today_date',$today_date);
+    
+    
+    //入力したSOAPを検索（今日の日付）
+    $conditions = [];
+    $conditions['Soap.group_id'] = $group_id;
+    
+    $conditions['Soap.created BETWEEN ? AND ?'] = array(
+			$today_date['year']."-".$today_date['month']."-".$today_date['day'], 
+			$today_date['year']."-".$today_date['month']."-".$today_date['day'].' 23:59:59'
+		);
+    
+    $soap_history = $this->Soap->find('all',array(
+      'conditions' => $conditions
+    ));
+    //$this->log($soap_history);
+    $soap_inputted = [];
+    foreach($soap_history as $history){
+      $his_user_id = $history['Soap']['user_id'];
+      $soap_inputted["$his_user_id"] = $history['Soap'];
+    }
+    //$this->log($soap_inputted);
+    $this->set('soap_inputted',$soap_inputted);
+    
 
     //教材現状
     $course_list = $this->Course->find('list');
@@ -80,12 +131,9 @@ class SoapsController extends AppController{
     if($this->request->is('post')){
       $soaps = $this->request->data;
 
-      $soap_tmp = Sanitize::clean($soaps, array('encode' => false));
-      //$this->log($soap_tmp);
-
       $created = $today_date['year']."-".$today_date['month']."-".$today_date['day'];
       foreach($soaps as &$soap){
-        if($soap['S'] == '' || $soap['O'] == ''){
+        if($soap['S'] == '' && $soap['O'] == '' && $soap['A'] == '' && $soap['P'] == ''){
           continue;
         }
 
@@ -103,7 +151,43 @@ class SoapsController extends AppController{
   public function admin_student_edit($user_id){
     $this->loadModel('Course');
     $this->loadModel('User');
+    $this->loadModel('Enquete');
+
+    //日付リスト
+    $today_date = (isset($this->request->query['today_date'])) ?
+      $this->request->query['today_date']:
+        array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
+
+    $this->set('today_date',$today_date);
+
+    //提出したアンケートを検索（今日の日付）
+    
+    $conditions = [];
+    $conditions['Enquete.user_id'] = $user_id;
+    
+    
+    $conditions['Enquete.created BETWEEN ? AND ?'] = array(
+			$today_date['year']."-".$today_date['month']."-".$today_date['day'], 
+			$today_date['year']."-".$today_date['month']."-".$today_date['day'].' 23:59:59'
+    );
+    
+    
+    $enquete_history = $this->Enquete->find('all',array(
+      'conditions' => $conditions
+    ));
+    //$this->log($enquete_history);
+    
+    $enquete_inputted = [];
+    foreach($enquete_history as $history){
+      $his_user_id = $history['Enquete']['user_id'];
+      $enquete_inputted["$his_user_id"] = $history['Enquete'];
+    }
+    
+    $this->set('enquete_inputted',$enquete_inputted);
     //メンバーリスト
+
+
+    
 
     $user_list = $this->User->find('list');
     //$this->log($user_list);
@@ -112,19 +196,40 @@ class SoapsController extends AppController{
     //メンバーのグループを探す
     $group_id = $this->User->findUserGroup($user_id);
     //$this->log($group_id);
-    $this->set('group_id',$group_id);
+
+    
     $this->set('user_id',$user_id);
     //グループ一覧を作り，配列の形を整形する
 
     //$this->log($this->Group->find('list'));
     $group_list = $this->Group->find('list');
     $this->set('group_list',$group_list);
-    //日付リスト
-    $today_date = (isset($this->request->query['today_date'])) ?
-      $this->request->query['today_date']:
-        array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
 
     $this->set('today_date',$today_date);
+
+    //入力したSOAPを検索（今日の日付）
+    $conditions = [];
+    $conditions['Soap.user_id'] = $user_id;
+    
+    $conditions['Soap.created BETWEEN ? AND ?'] = array(
+			$today_date['year']."-".$today_date['month']."-".$today_date['day'], 
+			$today_date['year']."-".$today_date['month']."-".$today_date['day'].' 23:59:59'
+		);
+    
+    $soap_history = $this->Soap->find('all',array(
+      'conditions' => $conditions
+    ));
+
+    $soap_inputted = [];
+    foreach($soap_history as $history){
+      $his_user_id = $history['Soap']['user_id'];
+      $soap_inputted["$his_user_id"] = $history['Soap'];
+      $group_id = $history['Soap']['group_id'];
+    }
+    //$this->log($soap_inputted);
+    $this->set('soap_inputted',$soap_inputted);
+    $this->set('group_id',$group_id);
+
 
     //教材現状
     $course_list = $this->Course->find('list');
@@ -138,6 +243,9 @@ class SoapsController extends AppController{
       //$this->log($soaps);
       $created = $today_date['year']."-".$today_date['month']."-".$today_date['day'];
       foreach($soaps as &$soap){
+        if($soap['S'] == '' && $soap['O'] == '' && $soap['A'] == '' && $soap['P'] == ''){
+          continue;
+        }
         // SOAP記入日で最後に勉強した教材を取得
         $inputed = $soap['today_date'];
         $input_date = $inputed['year']."-".$inputed['month']."-".$inputed['day'];

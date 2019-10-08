@@ -7,16 +7,18 @@
   <?php foreach($members as $member):?>
   <div class = "member-input">
     <?php
-      $user_id = $member['User']['id'];
+			$user_id = $member['User']['id'];
+			$group_id = $member['User']['group_id'];
     ?>
     <div class = "user_name">
       <td><?php echo h($user_list[$user_id]);?>&nbsp;</td>
     </div>
     <div class = "soap">
     <?php
-		  echo $this->Form->create("$user_id");
-			echo $this->Form->hidden('user_id',array('value' => $member['User']['id']));
-			echo $this->Form->hidden('group_id',array('value' => $member['User']['group_id']));
+			echo $this->Form->create("$user_id");
+			echo $this->Form->hidden('id', array('value' => $soap_inputted[$user_id]['id']));
+			echo $this->Form->hidden('user_id',array('value' => $user_id));
+			echo $this->Form->hidden('group_id',array('value' => $group_id));
       ?>
       <div class = "soap_teacher">
       <?php
@@ -39,6 +41,7 @@
 						'class' => 'soap_select',
 						'options' => $course_list,
 						'empty' => '',
+						'value' => $soap_inputted[$user_id]['current_status'],
 						'style' => ''
 					));
       echo "</div>";
@@ -64,7 +67,8 @@
 
       echo "<div class = 'soap-input'>";
   		echo $this->Form->input('S',array(
-  			'label' => __('S:'),
+				'label' => __('S:'),
+				'value' => $soap_inputted[$user_id]['S'],
   			'div' => false,
   			'class' => ''
   		));
@@ -72,7 +76,8 @@
 
       echo "<div class = 'soap-input'>";
       echo $this->Form->input('O',array(
-  			'label' => __('O:'),
+				'label' => __('O:'),
+				'value' => $soap_inputted[$user_id]['O'],
   			'div' => false,
   			'class' => '',
   			'style' => ''
@@ -81,7 +86,8 @@
 
       echo "<div class = 'soap-input'>";
       echo $this->Form->input('A',array(
-  			'label' => __('A:'),
+				'label' => __('A:'),
+				'value' => $soap_inputted[$user_id]['A'],
   			'div' => false,
   			'class' => '',
   			'style' => ''
@@ -90,7 +96,8 @@
 
       echo "<div class = 'soap-input'>";
       echo $this->Form->input('P',array(
-  			'label' => __('P:'),
+				'label' => __('P:'),
+				'value' => $soap_inputted[$user_id]['P'],
   			'div' => false,
   			'class' => '',
   			'style' => ''
@@ -99,7 +106,8 @@
 
       echo "<div class = 'soap-input'>";
       echo $this->Form->input('comment',array(
-  			'label' => __('自由記述:'),
+				'label' => __('自由記述:'),
+				'value' => $soap_inputted[$user_id]['comment'],
   			'div' => false,
   			'class' => 'soap',
   			'style' => ''
@@ -107,8 +115,13 @@
       echo "</div>";
   	?>
     </div>
+		<div class = "enquete">
+			<?php echo __('今日の感想:');?></br>
+			<?php $this->log($enquete_inputted[$user_id]['today_impressions']);?>
+			<?php echo $enquete_inputted[$user_id]['today_impressions'];?>
+		</div>
   </div>
-  <div class = "under_element"><?php echo __('--------------');?></div>
+  <div class = "under_element"><?php echo __('-----------------------------------');?></div>
   <?php endforeach;?>
   <input type = "submit" class = "btn btn-info btn-add" value = "登録">
   <?php echo $this->Form->end(); ?>

@@ -13,7 +13,7 @@
 }
 
 .member-input{
-  width: 800px;
+  width: 1000px;
   height: 400px;
 }
 
@@ -37,6 +37,11 @@
 .soap{
   float : left;
   width : 500px;
+  height: 400px;
+}
+.enquete{
+  float : left;
+  width : 200px;
   height: 400px;
 }
 

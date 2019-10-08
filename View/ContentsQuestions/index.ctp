@@ -10,9 +10,11 @@
 	else
 	{
 		$course_url = array('controller' => 'contents', 'action' => 'index', $content['Course']['id']);
+		
 		$this->Html->addCrumb(__('コース一覧'), array('controller' => 'users_courses', 'action' => 'index'));
 	}
-	
+
+	$content_url = array('controller' => 'contents_questions', 'action' => 'index', $content['Content']['id']);
 	$this->Html->addCrumb($content['Course']['title'], $course_url);
 	$this->Html->addCrumb(h($content['Content']['title'])); // addCrumb 内でエスケープされない為、別途エスケープ
 	echo $this->Html->getCrumbs(' / ');
@@ -83,8 +85,15 @@
   <div class = "text-block">
   <object data="<?php echo h($text_url);?>" type="application/pdf"
 ></object>
-  </div>
-  <div class = "quiz-block">
+	</div>
+	<?php
+		if($is_record){
+			echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\''.Router::url($course_url).'\'">';
+			echo '<input type="button" value="もう一回やる" class="btn btn-primary btn-lg" onclick="location.href=\''.Router::url($content_url).'\'">';
+		}
+	?>
+	<div class = "quiz-block">
+	
 	<?php echo $this->Form->create('ContentsQuestion'); ?>
 		<?php foreach ($contentsQuestions as $contentsQuestion){ ?>
 			<?php

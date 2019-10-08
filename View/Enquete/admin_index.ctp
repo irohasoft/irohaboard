@@ -86,11 +86,11 @@ function downloadCSV()
 				<th nowrap><?php echo $this->Paginator->sort('Enquete.group_id', '担当講師'); ?></th>
 				<th nowrap><?php echo $this->Paginator->sort('User.period', '所属'); ?></th>
 				<th nowrap><?php echo $this->Paginator->sort('Enquete.today_impressions', '今日の感想'); ?></th>
-				<th nowrap><?php echo $this->Paginator->sort('Enquete.before_goal_cleared', '前回ゴールT/F'); ?></th>
-				<th nowrap><?php echo $this->Paginator->sort('Enquete.before_false_reason', '前回ゴールF理由'); ?></th>
+				<th nowrap><?php echo $this->Paginator->sort('Enquete.before_goal_cleared', '前回T/F'); ?></th>
+				<th nowrap><?php echo $this->Paginator->sort('Enquete.before_false_reason', '前回F理由'); ?></th>
 				<th nowrap><?php echo $this->Paginator->sort('Enquete.today_goal', '今日のゴール'); ?></th>
-				<th nowrap><?php echo $this->Paginator->sort('Enquete.today_goal_cleared', '今日のゴールT/F'); ?></th>
-				<th nowrap><?php echo $this->Paginator->sort('Enquete.today_false_reason', '今日のゴールF理由'); ?></th>
+				<th nowrap><?php echo $this->Paginator->sort('Enquete.today_goal_cleared', '今日T/F'); ?></th>
+				<th nowrap><?php echo $this->Paginator->sort('Enquete.today_false_reason', '今日F理由'); ?></th>
 				<th nowrap><?php echo $this->Paginator->sort('Enquete.next_goal', '次回までゴール'); ?></th>
 			</tr>
 		</thead>

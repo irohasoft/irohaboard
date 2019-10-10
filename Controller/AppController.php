@@ -112,7 +112,7 @@ class AppController extends Controller
 					'admin' => true
 			);
 			$this->Auth->loginRedirect = array(
-					'controller' => 'users',
+					'controller' => 'recentstates',
 					'action' => 'index',
 					'admin' => true
 			);

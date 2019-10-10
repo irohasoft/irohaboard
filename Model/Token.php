@@ -38,8 +38,8 @@ App::uses('AppModel', 'Model');
     return false;
   }
 
-  // 24時間以上前に作られたトークンを削除．
+  // 1時間以上前に作られたトークンを削除．
   public function garbage() {
-    return $this->deleteAll(array('created < INTERVAL -1 DAY + NOW()'));
+    return $this->deleteAll(array('created < INTERVAL -1 HOUR + NOW()'));
   }
 }

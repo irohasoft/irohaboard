@@ -27,7 +27,20 @@ if (function_exists('ini_set')) {
 	$root = dirname(dirname(dirname(__FILE__)));
 	$appDir = basename(dirname(dirname(__FILE__)));
 	$install = $root . DS . 'lib';
-	$composerInstall = $root . DS . $appDir . DS . 'Vendor' . DS . 'cakephp' . DS . 'cakephp' . DS . 'lib';
+	//$composerInstall = $root . DS . $appDir . DS . 'Vendor' . DS . 'cakephp' . DS . 'cakephp' . DS . 'lib';
+
+	if (file_exists(dirname(dirname(dirname(__FILE__))).DS.'cake'.DS.'lib')) {
+		// cake ディレクトリが webroot の1階層上に存在する場合．デフォルトはこの状態．
+		$composerInstall = dirname(dirname(dirname(__FILE__))).DS.'cake'.DS.'lib';
+	} elseif (file_exists(dirname(dirname(__FILE__)).DS.'cake'.DS.'lib')) {
+		// cake ディレクトリが webroot と同じ階層に存在する場合
+		$composerInstall = dirname(dirname(__FILE__)).DS.'cake'.DS.'lib';
+	} elseif (file_exists(dirname(dirname(dirname(dirname(__FILE__)))).DS.'cake'.DS.'lib')) {
+		// cake ディレクトリが webroot の2階層上に存在する場合
+		$composerInstall = dirname(dirname(dirname(dirname(__FILE__)))).DS.'cake'.DS.'lib';
+	} else {
+		trigger_error('Cake directory not found.', E_USER_ERROR);
+	}
 
 	// the following lines differ from its sibling
 	// /lib/Cake/Console/Templates/skel/Console/cake.php

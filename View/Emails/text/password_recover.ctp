@@ -19,7 +19,7 @@
 
 パスワード再設定メールが送信されました．
 
-パスワードを再設定するには，以下のリンクからアクセスしてください．
+パスワードを再設定するには，1時間以内に下記のリンクからアクセスしてください．
 
 <?php echo Router::url(array('controller' => 'users', 'action' => 'password_verify', $token), true); ?>
 

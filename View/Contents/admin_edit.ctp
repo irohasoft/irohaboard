@@ -188,13 +188,16 @@
 
 				// テスト
 				echo "<span class='kind kind-test'>";
+				echo $this->Form->input('url',		array('label' => 'URL', 'class' => 'form-control'));
+				/*
         echo $this->Form->input('form_text_url',array(
           'label' => 'ファイル名',
           'type'  => 'file',
           'class' => 'status-exp',
           'after' => '<div class = "text-url-input"></div><span class="status-exp">アップロード済みファイル:'.h($exists_url).'</span>',
           'multiple'
-        ));
+				));
+				*/
     
 				echo $this->Form->input('timelimit', array(
 					'label' => '制限時間 (1-100分)',

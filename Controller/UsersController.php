@@ -543,7 +543,7 @@ class UsersController extends AppController
 	 */
 	public function admin_setting()
 	{
-		$this->setting();
+		$this->password_setting();
 	}
 
 	/**

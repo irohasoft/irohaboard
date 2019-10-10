@@ -42,6 +42,22 @@
 	<script>
 	var TIMELIMIT_SEC	= parseInt('<?php echo $content['Content']['timelimit'] ?>') * 60;	// 制限時間（単位：秒）
 	var IS_RECORD		= '<?php echo $is_record ?>';										// テスト結果表示フラグ
+	
+	function show(){
+		var objID = document.getElementById('quiz');
+		var txt = document.getElementById('contentFrame');
+
+		if(objID.className == "close"){
+			txt.style.width = "60%";
+			objID.style.display = "block";
+			objID.className = 'open';
+			
+		}else{
+			objID.style.display = "none";
+			objID.className = "close";
+			txt.style.width = "95%";
+		}
+	}
 	</script>
 	<?php echo $this->Html->script('contents_questions.js?20190401');?>
 	<?php $this->end(); ?>
@@ -82,9 +98,17 @@
 			}
 		}
 	?>
+	<div style = "float:left;">
+	<div onclick = "show();">
+	<a style="cursor: pointer;">クリックでクイズを表示・非表示</a></div>
+	</div>
+	</br>
   <div class = "text-block">
-  <object data="<?php echo h($text_url);?>" type="application/pdf"
-></object>
+	<?php
+		$body = '<iframe seamless id="contentFrame" width="60%" height="100%" scrolling="yes" style="float : left; height: 800px; display : block;" src="'.h($content['Content']['url']).'"></iframe>';
+		echo $body;
+	?>
+  
 	</div>
 	<?php
 		if($is_record){
@@ -92,8 +116,10 @@
 			echo '<input type="button" value="もう一回やる" class="btn btn-primary btn-lg" onclick="location.href=\''.Router::url($content_url).'\'">';
 		}
 	?>
+	
 	<div class = "quiz-block">
 	
+	<div id = "quiz" style="display:block;clear:both;">
 	<?php echo $this->Form->create('ContentsQuestion'); ?>
 		<?php foreach ($contentsQuestions as $contentsQuestion){ ?>
 			<?php
@@ -208,7 +234,8 @@
 			echo $this->Form->end();
 		?>
 	<br>
-  </div>
+	</div>
+	</div>
 </div>
 
 <!--採点確認ダイアログ-->

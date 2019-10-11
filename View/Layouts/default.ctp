@@ -81,7 +81,10 @@
 <body>
 	<div class="header ib-theme-color">
 		<div class="ib-logo ib-left">
-			<a href="<?php echo $this->Html->url('/')?>"><?php echo h($this->Session->read('Setting.title')); ?></a>
+			<?php $top_url = (($loginedUser['role']=='admin') && (!$is_admin_page)) ? '/admin/recentstates' : '/'; ?>
+			<a href="<?php echo $this->Html->url($top_url)?>">
+				<?php echo h($this->Session->read('Setting.title')); ?>
+			</a>
 		</div>
 		<?php if(@$loginedUser) {?>
 		<div class="ib-navi-item ib-right"><?php echo $this->Html->link(__('ログアウト'), $logoutURL); ?></div>

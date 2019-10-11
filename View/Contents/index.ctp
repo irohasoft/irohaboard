@@ -78,12 +78,23 @@
 		{
 			case 'test': // テスト
 				$icon  = 'glyphicon glyphicon-check text-danger';
-				$title_link = $this->Html->link(
+        $before_content = $content['Content']['before_content'];
+        if($role === 'admin' || $cleared_list[$before_content] || $before_content == ''){
+          $show_link = array(
+            'controller' => 'contents_questions',
+            'action' => 'index',
+            $content['Content']['id']
+          );
+          $title_link = $this->Html->link(
 					$content['Content']['title'], array(
 					'controller' => 'contents_questions',
 					'action' => 'index',
 					$content['Content']['id']
 				));
+        }else{
+          $title_link = $content['Content']['title'];
+        }
+
 				$kind  = Configure::read('content_kind.'.$content['Content']['kind']);
 
 				// テスト結果が存在する場合、テスト結果へのリンクを出力
@@ -148,12 +159,15 @@
 		<?php }else{?>
 		<tr>
       <?php
+      /*
+        //$this->log($content);
         $before_content = $content['Content']['before_content'];
         if($before_content !== null && $role !== 'admin'){
           if($cleared_list[$before_content] === null){
             continue;
           }
         }
+        */
       ?>
 			<td><span class="<?php echo $icon; ?>"></span>&nbsp;<?php echo $title_link; ?>&nbsp;</td>
 			<td class="ib-col-center" nowrap><?php echo h($kind); ?>&nbsp;</td>

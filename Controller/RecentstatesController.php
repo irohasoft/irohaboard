@@ -46,47 +46,6 @@ class RecentStatesController extends AppController{
     $this->set('user_list', $user_list);
   }
 
-  public function admin_group_view($group_id){
-    $this->loadModel('User');
-    $this->loadModel('Group');
-    $this->loadModel('Course');
-    $this->loadModel('Content');
-    $this->loadModel('Soap');
-
-    $user_list = $this->User->find('list');
-    $this->set('user_list', $user_list);
-
-    $group_list = $this->Group->find('list');
-    $this->set('group_list', $group_list);
-
-    $content_list = $this->Content->find('list');
-    $this->set('content_list', $content_list);
-
-    $members = $this->User->findAllStudentInGroup($group_id);
-    //$this->log($members);
-    $this->set('members', $members);
-
-    // user_idとpic_pathの配列
-    $group_pic_paths = $this->User->findGroupPicPaths($members);
-    //$this->log($group_pic_paths);
-    $this->set('group_pic_paths', $group_pic_paths);
-
-    // user_idと学年(grade)の配列
-    $members_grades = $this->User->findGroupGrade($members);
-    //$this->log($members_grades);
-    $this->set('members_grades', $members_grades);
-
-    // user_idとコース名・合格率の配列
-    $members_cleared_rates = $this->Course->findGroupClearedRate($members);
-    //$this->log($members_cleared_rates);
-    $this->set('members_cleared_rates', $members_cleared_rates);
-
-    // user_idと過去4回分SOAPの配列を作る
-    $members_recent_soaps = $this->Soap->findGroupRecentSoaps($members);
-    //$this->log($members_recent_soaps);
-    $this->set('members_recent_soaps', $members_recent_soaps);
-  }
-
   public function admin_student_view($user_id){
     $this->loadModel('User');
     $this->loadModel('Group');
@@ -112,13 +71,83 @@ class RecentStatesController extends AppController{
 
     // 受講コース情報の取得
     $cleared_rates = $this->Course->findClearedRate($user_id);
-    //$this->log($cleared_rates);
     $this->set('cleared_rates', $cleared_rates);
 
     // 過去四回のSOAPを検索
     $recent_soaps = $this->Soap->findRecentSoaps($user_id);
-    //$this->log($recent_soaps);
     $this->set('recent_soaps', $recent_soaps);
+  }
+
+  public function admin_group_view($group_id){
+    $this->loadModel('User');
+    $this->loadModel('Group');
+    $this->loadModel('Course');
+    $this->loadModel('Content');
+    $this->loadModel('Soap');
+
+    $user_list = $this->User->find('list');
+    $this->set('user_list', $user_list);
+
+    $group_list = $this->Group->find('list');
+    $this->set('group_list', $group_list);
+
+    $content_list = $this->Content->find('list');
+    $this->set('content_list', $content_list);
+
+    $members = $this->User->findAllStudentInGroup($group_id);
+    $this->set('members', $members);
+
+    // user_idとpic_pathの配列
+    $group_pic_paths = $this->User->findGroupPicPaths($members);
+    $this->set('group_pic_paths', $group_pic_paths);
+
+    // user_idと学年(grade)の配列
+    $members_grades = $this->User->findGroupGrade($members);
+    $this->set('members_grades', $members_grades);
+
+    // user_idとコース名・合格率の配列
+    $members_cleared_rates = $this->Course->findGroupClearedRate($members);
+    $this->set('members_cleared_rates', $members_cleared_rates);
+
+    // user_idと過去4回分SOAPの配列を作る
+    $members_recent_soaps = $this->Soap->findGroupRecentSoaps($members);
+    $this->set('members_recent_soaps', $members_recent_soaps);
+  }
+
+  public function admin_all_view(){
+    $this->loadModel('User');
+    $this->loadModel('Group');
+    $this->loadModel('Course');
+    $this->loadModel('Content');
+    $this->loadModel('Soap');
+
+    $user_list = $this->User->find('list');
+    $this->set('user_list', $user_list);
+
+    $group_list = $this->Group->find('list');
+    $this->set('group_list', $group_list);
+
+    $content_list = $this->Content->find('list');
+    $this->set('content_list', $content_list);
+
+    $members = $this->User->getAllStudent();
+    $this->set('members', $members);
+
+    // user_idとpic_pathの配列
+    $group_pic_paths = $this->User->findGroupPicPaths($members);
+    $this->set('group_pic_paths', $group_pic_paths);
+
+    // user_idと学年(grade)の配列
+    $members_grades = $this->User->findGroupGrade($members);
+    $this->set('members_grades', $members_grades);
+
+    // user_idとコース名・合格率の配列
+    $members_cleared_rates = $this->Course->findGroupClearedRate($members);
+    $this->set('members_cleared_rates', $members_cleared_rates);
+
+    // user_idと過去4回分SOAPの配列を作る
+    $members_recent_soaps = $this->Soap->findGroupRecentSoaps($members);
+    $this->set('members_recent_soaps', $members_recent_soaps);
   }
 
 }

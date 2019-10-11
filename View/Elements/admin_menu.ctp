@@ -9,6 +9,7 @@
 			echo '<ul class="menu__second-level">';
 			echo '<li>'.$this->Html->link(__('グループ'), array('controller' => 'recentstates', 'action' => 'find_by_group')).'</li>';
 			echo '<li>'.$this->Html->link(__('個人'), array('controller' => 'recentstates', 'action' => 'find_by_student')).'</li>';
+			echo '<li>'.$this->Html->link(__('全受講生'), array('controller' => 'recentstates', 'action' => 'admin_all_view')).'</li>';
 			echo '</ul></li>';
 
 			$is_active = ($this->name=='Records' or $this->name=='SoapRecords' or $this->name=='Enquete') ? ' active' : '';

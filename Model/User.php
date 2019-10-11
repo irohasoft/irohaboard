@@ -276,6 +276,18 @@ class User extends AppModel
 		return $data[0]['User']['group_id'];
 	}
 
+	// role == 'user' のユーザのみ
+	public function getAllStudent(){
+		$data = $this->find('all', array(
+			'fields' => array('id'),
+			'conditions' => array(
+				'role'     => 'user'
+			),
+			'recursive' => -1
+		));
+		return $data;
+	}
+
 	public function findAllUserInGroup($group_id){
 		$data = $this->find('all', array(
 			'fields' => array('id', 'group_id'),

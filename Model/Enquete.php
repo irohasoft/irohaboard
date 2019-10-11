@@ -33,6 +33,7 @@ class Enquete extends AppModel
 				'message' => '今日の授業の中で，一番多く指導してくれた講師を選択してください．'
 			)
 		),
+		/*
 		'before_goal_cleared' => array(
 			'notBlank' => array(
 				'rule' => array(
@@ -41,51 +42,57 @@ class Enquete extends AppModel
 				'message' => '前回に設定したゴールは達成できたかどうかを選択してください．'
 			)
 		),
-			'today_goal' => array(
-				'notBlank' => array(
-					'rule' => array(
-							'notBlank'
-					),
-					'message' => '今日のゴールを書いてください．'
+		*/
+		'today_goal' => array(
+			'notBlank' => array(
+				'rule' => array(
+						'notBlank'
 				),
-				'Maxlength' => array(
-					'rule' => array('maxLength', 200),
-					'message' => '入力は200文字以下にしてください．'
-				)
+				'message' => '今日のゴールを書いてください．'
 			),
-			'today_goal_cleared' => array(
-				'notBlank' => array(
-					'rule' => array(
-							'notBlank'
-					),
-					'message' => '今日のゴールを達成できたどうかを選択してください．'
-				)
-			),
-
-			'next_goal' => array(
-				'notBlank' => array(
-					'rule' => array(
-							'notBlank'
-					),
-					'message' => '次回までのゴールを記入してください．'
-				),
-				'Maxlength' => array(
-					'rule' => array('maxLength', 200),
-					'message' => '入力は200文字以下にしてください．'
-				)
-			),
-			'today_impressions' => array(
-				'notBlank' => array(
-					'rule' => array(
-							'notBlank'
-					),
-					'message' => '今日の感想を記入してください．'
-				),
-				'Maxlength' => array(
-					'rule' => array('maxLength', 200),
-					'message' => '入力は200文字以下にしてください．'
-				)
+			'Maxlength' => array(
+				'rule' => array('maxLength', 200),
+				'message' => '入力は200文字以下にしてください．'
 			)
+		),
+		/*
+		'today_goal_cleared' => array(
+			'notBlank' => array(
+				'rule' => array(
+						'notBlank'
+				),
+				'message' => '今日のゴールを達成できたどうかを選択してください．'
+			)
+		),
+		*/
+		'next_goal' => array(
+			/*
+			'notBlank' => array(
+				'rule' => array(
+						'notBlank'
+				),
+				'message' => '次回までのゴールを記入してください．'
+			),*/
+			'Maxlength' => array(
+				'rule' => array('maxLength', 200),
+				'message' => '入力は200文字以下にしてください．'
+			)
+		),
+		
+		'today_impressions' => array(
+			/*
+			'notBlank' => array(
+				'rule' => array(
+						'notBlank'
+				),
+				'message' => '今日の感想を記入してください．'
+			),
+			*/
+			'Maxlength' => array(
+				'rule' => array('maxLength', 200),
+				'message' => '入力は200文字以下にしてください．'
+			)
+		)
 
 	);
 

@@ -24,7 +24,7 @@
   	  'style' => ''
     ));
   echo "</div>";
-  echo "<div class = 'form-input-block before-goal-block required-input'>";
+  echo "<div class = 'form-input-block before-goal-block'>";
 
   echo $this->Form->input('before_goal_cleared',	array(
     'type' => 'radio',
@@ -66,7 +66,7 @@
   echo "</div>";
 
 
-  echo "<div class = 'form-input-block today-goal-cleared required-input ' >";
+  echo "<div class = 'form-input-block today-goal-cleared  ' >";
   echo $this->Form->input('today_goal_cleared',array(
     'before' => '<label class = "before-goal-label">今日の授業のゴールは達成できましたか？(できた人はTrue、そうでない人はFalseを選んでください)</label></br>',
     'type' => 'radio',
@@ -95,7 +95,7 @@
   ));
   echo "</div>";
 
-  echo "<div class = 'form-input-block next-goal required-input'>";
+  echo "<div class = 'form-input-block next-goal '>";
   echo $this->Form->input('next_goal',array(
     'label' => __('次回の授業に来る時までに達成するゴールを書いてください'),
     'type' => 'textarea',
@@ -109,7 +109,7 @@
   ));
   echo "</div>";
 
-  echo "<div class = 'form-input-block today-impressions required-input' >";
+  echo "<div class = 'form-input-block today-impressions ' >";
   echo $this->Form->input('today_impressions',array(
     'label' => __('今日の感想を書いてください'),
     'type' => 'textarea',

@@ -93,6 +93,7 @@ class EnqueteController extends AppController{
       'post',
       'put'
   ))){
+      
       $this->Enquete->set($this->request->data);
       //もしvalidateに満たさない場合
       if(!$this->Enquete->validates()){
@@ -110,6 +111,9 @@ class EnqueteController extends AppController{
           'user_id' => $user_id
         ) + $this->request->data;
         $save_data = $request_data;
+        
+        $this->User->id = $user_id;
+        $this->User->saveField('group_id', $request_data['group_id']);
 
         if($this->Enquete->save($save_data)){
           $this->Flash->success(__('アンケートは提出されました，ありがとうございます'));

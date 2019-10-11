@@ -17,7 +17,5 @@
 			</div>
 			<?php echo $this->Form->end(array('label' => 'ログイン', 'class'=>'btn btn-lg btn-primary btn-block')); ?>
 		</div>
-		パスワードを忘れた場合
-		<?php echo $this->Html->link(__('こちら'), array('controller' => 'users', 'action' => 'password_recover')); ?>
 	</div>
 </div>

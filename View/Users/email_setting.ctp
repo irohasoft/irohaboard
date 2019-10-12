@@ -21,13 +21,15 @@
 			</div>
 			<?php
 				echo $this->Form->create('User', Configure::read('form_defaults'));
-				echo $this->Form->input('User.new_address', array(
+				echo $this->Form->input('email', array(
+					'type' => 'email',
 					'label' => false,
 					'placeholder' => '新しいメールアドレス',
 					'autocomplete' => 'new-address'
 				));
 
-				echo $this->Form->input('User.new_address2', array(
+				echo $this->Form->input('email_confirm', array(
+					'type' => 'email',
 					'label' => false,
 					'placeholder' => '新しいメールアドレス (確認用)',
 					'autocomplete' => 'new-address'

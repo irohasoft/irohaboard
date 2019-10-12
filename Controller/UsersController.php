@@ -383,15 +383,13 @@ class UsersController extends AppController
 
 			$this->request->data['User']['id'] = $this->Auth->user('id');
 
-			if($this->request->data['User']['new_address'] != $this->request->data['User']['new_address2'])
+			if($this->request->data['User']['email'] != $this->request->data['User']['email_confirm'])
 			{
 				$this->Flash->error(__('入力された「メールアドレス」と「メールアドレス（確認用）」が一致しません'));
 				//return;
 			}
-			elseif($this->request->data['User']['new_address'] !== '')
+			elseif($this->request->data['User']['email'] !== '')
 			{
-				$this->request->data['User']['email'] = $this->request->data['User']['new_address'];
-
 				if ($this->User->save($this->request->data))
 				{
 					$this->Flash->success(__('メールアドレスが保存されました'));

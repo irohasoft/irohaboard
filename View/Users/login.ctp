@@ -8,10 +8,25 @@
 			<?php echo $this->Form->create('User'); ?>
 
 			<div class="form-group">
-				<?php echo $this->Form->input('username', array('label' => __('ログインID'), 'class'=>'form-control', 'value' => $username)); ?>
+				<?php echo $this->Form->input('username', 
+					array(
+						'label' => array(
+							'text'=>__('ログインID'), 
+							'style'=>'font-size : 20px'
+						),
+						'class'=>'form-control', 
+						'value' => $username
+					)); ?>
 			</div>
 			<div class="form-group">
-				<?php echo $this->Form->input('password', array('label' => __('パスワード'), 'class'=>'form-control', 'value' => $password));?>
+				<?php echo $this->Form->input('password', array(
+					'label' => array(
+						'text'=>__('パスワード'), 
+						'style'=>'font-size : 20px'
+					),
+					'class'=>'form-control', 
+					'value' => $password
+				));?>
 				<input type="checkbox" name="data[User][remember_me]" checked="checked" value="1" id="remember_me"><?php echo __('ログイン状態を保持')?>
 				<?php echo $this->Form->unlockField('remember_me'); ?>
 			</div>

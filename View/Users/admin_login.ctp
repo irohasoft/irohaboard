@@ -9,10 +9,23 @@
 			<?php echo $this->Form->create('User'); ?>
 			
 			<div class="form-group">
-				<?php echo $this->Form->input('username', array('label' => 'ログインID', 'class'=>'form-control')); ?>
+				<?php echo $this->Form->input('username', 
+					array(
+						'label' => array(
+							'text'=>__('ログインID'), 
+							'style'=>'font-size : 20px'
+						),
+						'class'=>'form-control'
+					)); ?>
 			</div>
 			<div class="form-group">
-				<?php echo $this->Form->input('password', array('label' => 'パスワード', 'class'=>'form-control'));?>
+				<?php echo $this->Form->input('password', array(
+					'label' => array(
+						'text'=>__('パスワード'), 
+						'style'=>'font-size : 20px'
+					),
+					'class'=>'form-control'
+				));?>
 			</div>
 			<?php echo $this->Form->end(array('label' => 'ログイン', 'class'=>'btn btn-lg btn-primary btn-block')); ?>
 		</div>

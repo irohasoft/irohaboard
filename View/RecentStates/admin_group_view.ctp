@@ -1,6 +1,9 @@
 <?php echo $this->element('admin_menu');?>
 <?php echo $this->Html->css('soapview');?>
 <div class = "admin-group_view-index">
+  <?php if (empty($members)): ?>
+    <div class = "ib-page-title"><?php echo __('担当受講生がいません。')?></div>
+  <?php endif ?>
   <?php foreach($members as $member):?>
   <div class = "student-block">
   <div class = "student-view">

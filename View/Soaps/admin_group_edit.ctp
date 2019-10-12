@@ -1,6 +1,9 @@
 <?php echo $this->element('admin_menu');?>
 <?php echo $this->Html->css('soap');?>
 <div class = "admin-group_edit-index">
+  <?php if (empty($members)): ?>
+  <div class = "ib-page-title"><?php echo __('担当受講生がいません。')?></div>
+  <?php else: ?>
   <div class = "ib-page-title"><?php echo __('担当受講生一覧')?></div>
   <br><br>
   <?php //$this->log($members);?>
@@ -125,4 +128,5 @@
   <?php endforeach;?>
   <input type = "submit" class = "btn btn-info btn-add" value = "登録">
   <?php echo $this->Form->end(); ?>
+  <?php endif ?>
 </div>

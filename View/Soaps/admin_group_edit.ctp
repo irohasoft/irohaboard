@@ -13,8 +13,23 @@
 			$user_id = $member['User']['id'];
 			$group_id = $member['User']['group_id'];
     ?>
-    <div class = "user_name">
-      <td><?php echo h($user_list[$user_id]);?>&nbsp;</td>
+    <div class = "info">
+      <div class = "user_name">
+        <td><?php echo h($user_list[$user_id]);?>&nbsp;</td>
+      </div>
+      <div class = "student-photo">
+        <?php
+          $pic_path = $group_pic_paths[$user_id];
+          if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
+            $pic_path = 'student_img/noPic.png';
+          }
+          echo $this->Html->image($pic_path,
+            array(
+              'height'=> '150',
+              'alt' => $pic_path
+            ));
+        ?>
+    </div>
     </div>
     <div class = "soap">
     <?php
@@ -119,7 +134,7 @@
   	?>
     </div>
 		<div class = "enquete">
-			<?php echo __('今日の感想:');?></br>
+			<div class = "enquete_headline"><?php echo __('今日の感想:');?></div>
 			<?php $this->log($enquete_inputted[$user_id]['today_impressions']);?>
 			<?php echo $enquete_inputted[$user_id]['today_impressions'];?>
 		</div>

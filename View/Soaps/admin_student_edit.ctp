@@ -5,17 +5,25 @@
   <br><br>
   <?php //$this->log($members);?>
   <div class = "member-input">
-    <?php 
-      //$user_id = $member['ib_users_groups']['user_id'];
-    ?>
-    <div class = "user_name">
-      <td><?php echo h($user_list[$user_id]);?>&nbsp;</td>
+    <div class = "info">
+      <div class = "user_name">
+        <td><?php echo h($user_list[$user_id]);?>&nbsp;</td>
+      </div>
+      <div class = "student-photo">
+        <?php
+          echo $this->Html->image($pic_path,
+            array(
+              'height'=> '150',
+              'alt' => $pic_path,
+            ));
+        ?>
+      </div>
     </div>
     <div class = "soap">
-    <?php 
+    <?php
 			echo $this->Form->create("$user_id");
 			echo $this->Form->hidden('id', array('value' => $soap_inputted[$user_id]['id']));
-			echo $this->Form->hidden('user_id',array('value' => $user_id)); 
+			echo $this->Form->hidden('user_id',array('value' => $user_id));
       ?>
       <div class = "soap_teacher">
       <?php
@@ -113,7 +121,7 @@
   	?>
     </div>
 		<div class = "enquete">
-			<?php echo __('今日の感想:');?></br>
+			<div class = "enquete_headline"><?php echo __('今日の感想:');?></div>
 			<?php $this->log($enquete_inputted[$user_id]['today_impressions']);?>
 			<?php echo $enquete_inputted[$user_id]['today_impressions'];?>
 		</div>

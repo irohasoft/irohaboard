@@ -59,56 +59,57 @@ class SoapsController extends AppController{
     $this->set('today_date',$today_date);
 
     //提出したアンケートを検索（今日の日付）
-    
+
     $conditions = [];
     $conditions['Enquete.group_id'] = $group_id;
-    
-    
+
+
     $conditions['Enquete.created BETWEEN ? AND ?'] = array(
-			$today_date['year']."-".$today_date['month']."-".$today_date['day'], 
+			$today_date['year']."-".$today_date['month']."-".$today_date['day'],
 			$today_date['year']."-".$today_date['month']."-".$today_date['day'].' 23:59:59'
     );
-    
-    
+
+
     $enquete_history = $this->Enquete->find('all',array(
       'conditions' => $conditions
     ));
     //$this->log($enquete_history);
-    
+
     $enquete_inputted = [];
     foreach($enquete_history as $history){
       $his_user_id = $history['Enquete']['user_id'];
       $enquete_inputted["$his_user_id"] = $history['Enquete'];
     }
-    
+
     $this->set('enquete_inputted',$enquete_inputted);
 
     //メンバーリスト
 
     $user_list = $this->User->find('list');
-    //$this->log($user_list);
     $this->set('user_list', $user_list);
 
     //グループ内のメンバーを探す
     $members = $this->User->findAllStudentInGroup($group_id);
     $this->set('members',$members);
 
-    //グループ一覧を作り，配列の形を整形する
+    // user_idとpic_pathの配列
+    $group_pic_paths = $this->User->findGroupPicPaths($members);
+    $this->set('group_pic_paths', $group_pic_paths);
 
-    //$this->log($this->Group->find('list'));
+    //グループ一覧を作り，配列の形を整形する
     $group_list = $this->Group->find('list');
     $this->set('group_list',$group_list);
-    
-    
+
+
     //入力したSOAPを検索（今日の日付）
     $conditions = [];
     $conditions['Soap.group_id'] = $group_id;
-    
+
     $conditions['Soap.created BETWEEN ? AND ?'] = array(
-			$today_date['year']."-".$today_date['month']."-".$today_date['day'], 
+			$today_date['year']."-".$today_date['month']."-".$today_date['day'],
 			$today_date['year']."-".$today_date['month']."-".$today_date['day'].' 23:59:59'
 		);
-    
+
     $soap_history = $this->Soap->find('all',array(
       'conditions' => $conditions
     ));
@@ -120,7 +121,7 @@ class SoapsController extends AppController{
     }
     //$this->log($soap_inputted);
     $this->set('soap_inputted',$soap_inputted);
-    
+
 
     //教材現状
     $course_list = $this->Course->find('list');
@@ -153,6 +154,9 @@ class SoapsController extends AppController{
     $this->loadModel('User');
     $this->loadModel('Enquete');
 
+    $pic_path = $this->User->findUserPicPath($user_id);
+    $this->set('pic_path', $pic_path);
+
     //日付リスト
     $today_date = (isset($this->request->query['today_date'])) ?
       $this->request->query['today_date']:
@@ -161,33 +165,33 @@ class SoapsController extends AppController{
     $this->set('today_date',$today_date);
 
     //提出したアンケートを検索（今日の日付）
-    
+
     $conditions = [];
     $conditions['Enquete.user_id'] = $user_id;
-    
-    
+
+
     $conditions['Enquete.created BETWEEN ? AND ?'] = array(
-			$today_date['year']."-".$today_date['month']."-".$today_date['day'], 
+			$today_date['year']."-".$today_date['month']."-".$today_date['day'],
 			$today_date['year']."-".$today_date['month']."-".$today_date['day'].' 23:59:59'
     );
-    
-    
+
+
     $enquete_history = $this->Enquete->find('all',array(
       'conditions' => $conditions
     ));
     //$this->log($enquete_history);
-    
+
     $enquete_inputted = [];
     foreach($enquete_history as $history){
       $his_user_id = $history['Enquete']['user_id'];
       $enquete_inputted["$his_user_id"] = $history['Enquete'];
     }
-    
+
     $this->set('enquete_inputted',$enquete_inputted);
     //メンバーリスト
 
 
-    
+
 
     $user_list = $this->User->find('list');
     //$this->log($user_list);
@@ -197,7 +201,7 @@ class SoapsController extends AppController{
     $group_id = $this->User->findUserGroup($user_id);
     //$this->log($group_id);
 
-    
+
     $this->set('user_id',$user_id);
     //グループ一覧を作り，配列の形を整形する
 
@@ -210,12 +214,12 @@ class SoapsController extends AppController{
     //入力したSOAPを検索（今日の日付）
     $conditions = [];
     $conditions['Soap.user_id'] = $user_id;
-    
+
     $conditions['Soap.created BETWEEN ? AND ?'] = array(
-			$today_date['year']."-".$today_date['month']."-".$today_date['day'], 
+			$today_date['year']."-".$today_date['month']."-".$today_date['day'],
 			$today_date['year']."-".$today_date['month']."-".$today_date['day'].' 23:59:59'
 		);
-    
+
     $soap_history = $this->Soap->find('all',array(
       'conditions' => $conditions
     ));

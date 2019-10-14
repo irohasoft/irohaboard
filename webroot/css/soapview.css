@@ -15,7 +15,8 @@
 .student-block {
   margin-top:    30px;
   margin-bottom: 70px;
-  /*border: solid #CCCCCC;*/
+  padding: 10px;
+  border: solid #CCCCCC;
 }
 
 .student-view {

@@ -53,9 +53,15 @@ class RecentStatesController extends AppController{
     $this->loadModel('Content');
     $this->loadModel('Soap');
 
-    $user_list = $this->User->find('list');
-    $this->set('user_list', $user_list);
     $this->set('user_id', $user_id);
+
+    $name_list = $this->User->find('list');
+    $this->set('name_list', $name_list);
+
+    $username_list = $this->User->find('list', array(
+      'fields' => 'User.username'
+    ));
+    $this->set('username_list', $username_list);
 
     $group_list = $this->Group->find('list');
     $this->set('group_list', $group_list);
@@ -85,8 +91,13 @@ class RecentStatesController extends AppController{
     $this->loadModel('Content');
     $this->loadModel('Soap');
 
-    $user_list = $this->User->find('list');
-    $this->set('user_list', $user_list);
+    $name_list = $this->User->find('list');
+    $this->set('name_list', $name_list);
+
+    $username_list = $this->User->find('list', array(
+      'fields' => 'User.username'
+    ));
+    $this->set('username_list', $username_list);
 
     $group_list = $this->Group->find('list');
     $this->set('group_list', $group_list);
@@ -121,8 +132,13 @@ class RecentStatesController extends AppController{
     $this->loadModel('Content');
     $this->loadModel('Soap');
 
-    $user_list = $this->User->find('list');
-    $this->set('user_list', $user_list);
+    $name_list = $this->User->find('list');
+    $this->set('name_list', $name_list);
+
+    $username_list = $this->User->find('list', array(
+      'fields' => 'User.username'
+    ));
+    $this->set('username_list', $username_list);
 
     $group_list = $this->Group->find('list');
     $this->set('group_list', $group_list);

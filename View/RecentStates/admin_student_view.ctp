@@ -4,16 +4,14 @@
 
   <div class = "student-view">
     <div class = "student-name">
-      <?php echo h($user_list[$user_id]);?>
-      <br/>
-      <!--学年-->
+      <?php echo h($username_list[$user_id]);?><br/>
+      <?php echo h($name_list[$user_id]);?><br/>
       <?php echo h($grade);?>
     </div>
     <div class = "student-photo">
       <?php
         echo $this->Html->image($pic_path,
           array(
-            //'width' => '150',
             'height'=> '150',
             'alt' => $pic_path,
           ));

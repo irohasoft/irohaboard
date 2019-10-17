@@ -77,7 +77,7 @@ class Course extends AppModel
 			'Content' => array(
 					'className' => 'Content',
 					'foreignKey' => 'course_id',
-					'dependent' => false,
+					'dependent' => true,
 					'conditions' => '',
 					'fields' => '',
 					'order' => '',
@@ -121,14 +121,8 @@ class Course extends AppModel
 	{
 		for($i=0; $i< count($id_list); $i++)
 		{
-			$sql = "UPDATE ib_courses SET sort_no = :sort_no WHERE id= :id";
-
-			$params = array(
-					'sort_no' => ($i+1),
-					'id' => $id_list[$i]
-			);
-
-			$this->query($sql, $params);
+			$data = array('id' => $id_list[$i], 'sort_no' => ($i+1));
+			$this->save($data);
 		}
 	}
 
@@ -174,23 +168,8 @@ EOF;
 	}
 
 	// コースの削除
-	public function deleteCourse($course_id)
-	{
-		$params = array(
-			'course_id' => $course_id
-		);
-
-		// テスト問題の削除
-		$sql = "DELETE FROM ib_contents_questions WHERE content_id IN (SELECT id FROM  ib_contents WHERE course_id = :course_id);";
-		$this->query($sql, $params);
-
-		// コンテンツの削除
-		$sql = "DELETE FROM ib_contents WHERE course_id = :course_id;";
-		$this->query($sql, $params);
-
-		// コースの削除
-		$sql = "DELETE FROM ib_courses WHERE id = :course_id;";
-		$this->query($sql, $params);
+	public function deleteCourse($course_id){
+		$this->deleteAll(array('Course.id' => $course_id), true);
 	}
 
   public function getCourseInfo($course_id){

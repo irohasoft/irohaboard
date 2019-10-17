@@ -140,14 +140,8 @@ class ContentsQuestion extends AppModel
 	{
 		for($i=0; $i< count($id_list); $i++)
 		{
-			$sql = "UPDATE ib_contents_questions SET sort_no = :sort_no WHERE id= :id";
-
-			$params = array(
-					'sort_no' => ($i+1),
-					'id' => $id_list[$i]
-			);
-
-			$this->query($sql, $params);
+			$data = array('id' => $id_list[$i], 'sort_no' => ($i+1));
+			$this->save($data);
 		}
 	}
 

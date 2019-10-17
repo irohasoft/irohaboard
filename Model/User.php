@@ -209,19 +209,10 @@ class User extends AppModel
 	 *
 	 * @param int array $user_id 学習履歴を削除するユーザのID
 	 */
-	public function deleteUserRecords($user_id)
-	{
-		$sql = 'DELETE FROM ib_records_questions WHERE record_id IN (SELECT id FROM ib_records WHERE user_id = :user_id)';
-
-		$params = array(
-			'user_id' => $user_id,
-		);
-
-		$this->query($sql, $params);
-
+	public function deleteUserRecords($user_id){
 		App::import('Model', 'Record');
 		$this->Record = new Record();
-		$this->Record->deleteAll(array('Record.user_id' => $user_id), false);
+		$this->Record->deleteAll(array('Record.user_id' => $user_id), true);
 	}
 
 	public function getUserList(){
@@ -327,8 +318,8 @@ class User extends AppModel
 
   ///写真パスを更新する
   public function updatePicPath($user_id,$newPath){
-    $sql = "UPDATE ib_users SET pic_path = '$newPath' WHERE id = $user_id";
-    $this->query($sql);
+		$data = array('id' => $user_id, 'pic_path' => $newPath);
+		$this->save($data);
     return 1;
   }
 

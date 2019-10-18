@@ -176,4 +176,52 @@ class AppController extends Controller
 		$this->Log->save($data);
 	}
 
+	function findStandardIP(){
+		$this->loadModel('Group');
+		$this->loadModel('User');
+		$this->loadModel('Log');
+		//スタッフグループのidを探す
+		$staff_group_info = $this->Group->find('first',array(
+			'conditions' => array(
+				'Group.title like' => 'スタッフ'
+			)
+		));
+		$staff_group_id = $staff_group_info['Group']['id'];
+
+		//スタッフグループに所属するメンバーリストを探す
+		$staff_member_list = $this->User->find('list',array(
+			'conditions' => array(
+				'User.group_id' => $staff_group_id
+			),
+			'fields' => array(
+				'User.id',
+				'User.id'
+			),
+			'order' => array(
+				'User.id ASC'
+			)
+		));
+
+		//メンバーのログインipを探し，当日の基準ipを決める
+		$staff_member_last_login_ip_list = [];
+		foreach ($staff_member_list as $row){
+			$row_info = $this->Log->find('first',array(
+				'conditions' => array(
+					'Log.user_id' => $row
+				),
+				'order' => array(
+					'Log.created' => 'desc'
+				)
+			));
+			$row_ip = $row_info['Log']['user_ip'];
+			$staff_member_last_login_ip_list[$row] = (string)$row_ip;
+		}
+
+		$ip_count = array_count_values($staff_member_last_login_ip_list);
+		$standard = array_keys($ip_count, max($ip_count));
+		$standard_ip = $standard[0];
+		//$this->log($standard_ip);
+		return $standard_ip;
+	}
+
 }

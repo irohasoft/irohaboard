@@ -18,7 +18,8 @@
       echo '<li>'.$this->Html->link(__('クイズ'), array('controller' => 'records', 'action' => 'index')).'</li>';
       echo '<li>'.$this->Html->link(__('SOAP'), array('controller' => 'soaprecords', 'action' => 'index')).'</li>';
 			echo '<li>'.$this->Html->link(__('アンケート'), array('controller' => 'enquete', 'action' => 'index')).'</li>';
-      echo '</ul></li>';
+			echo '<li>'.$this->Html->link(__('出欠席'), array('controller' => 'attendances', 'action' => 'index')).'</li>';
+			echo '</ul></li>';
 
 			$is_active = ($this->name=='Soaps') ? ' active' : '';
 			echo '<li class="'.$is_active.' menu__single">'.$this->Html->link(__('SOAP記入'), array('controller' => 'soaps', 'action' => 'index'));

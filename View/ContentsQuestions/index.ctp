@@ -68,7 +68,7 @@
 			$result_color  = ($record['Record']['is_passed']==1) ? 'text-primary' : 'text-danger';
 			$result_label  = ($record['Record']['is_passed']==1) ? __('合格') : __('不合格');
 		?>
-		<table class="result-table">
+		<table class="result-table" style = "float: right; margin-right : 15%; margin-left:100px; font-size : 15px;">
 			<caption><?php echo __('テスト結果'); ?></caption>
 			<tr>
 				<td><?php echo __('合否'); ?></td>
@@ -112,8 +112,8 @@
 	</div>
 	<?php
 		if($is_record){
-			echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\''.Router::url($course_url).'\'">';
-			echo '<input type="button" value="もう一回やる" class="btn btn-primary btn-lg" onclick="location.href=\''.Router::url($content_url).'\'">';
+			echo '<input type="button" value="戻る" class="btn btn-default" onclick="location.href=\''.Router::url($course_url).'\'">';
+			echo '<input type="button" value="もう一回やる" class="btn btn-primary" onclick="location.href=\''.Router::url($content_url).'\'">';
 		}
 	?>
 	

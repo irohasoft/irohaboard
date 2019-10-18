@@ -86,6 +86,19 @@ class Course extends AppModel
 					'exclusive' => '',
 					'finderQuery' => '',
 					'counterQuery' => ''
+			),
+			'Record' => array(
+					'className' => 'Record',
+					'foreignKey' => 'course_id',
+					'dependent' => true,
+					'conditions' => '',
+					'fields' => '',
+					'order' => '',
+					'limit' => '',
+					'offset' => '',
+					'exclusive' => '',
+					'finderQuery' => '',
+					'counterQuery' => ''
 			)
 	);
 

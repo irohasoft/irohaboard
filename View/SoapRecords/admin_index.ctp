@@ -24,7 +24,7 @@
 
 		echo '<div class="ib-row">';
 		echo $this->Form->input('name',	array(
-			'label' => '受講生名 :',
+			'label' => '受講生氏名・番号 :',
 			'value'=>$name,
 			'class'=>'form-control'));
 		echo $this->Form->input('group_id',	array(

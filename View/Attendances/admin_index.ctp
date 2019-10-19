@@ -180,19 +180,19 @@ function downloadCSV()
 					}
 					foreach ($attendance_info as $row):
 						if($row['Attenadnce']['status'] == 0){
-							$mark = '×';
+							$mark = '<font color="red">×</font>';
 						}
 						if($row['Attendance']['status'] == 1){
 							if($row['Attendance']['late_time'] != 0){
 								$late_time = $row['Attendance']['late_time'];
-								$mark = '△'."($late_time)";
+								$mark = '<font color="green">△'."($late_time)</font>";
 							}else{
-								$mark = '○';
+								$mark = '<font color="blue">○</font>';
 							}
 						}
 					
 				?>
-				<td nowrap><span style = "font-size : 15pt"><?php echo h($mark); ?>&nbsp;</span></td>
+				<td nowrap><span style = "font-size : 15pt"><?php echo $mark; ?>&nbsp;</span></td>
 				<?php endforeach; ?>
 			</tr>
 		<?php endforeach; ?>

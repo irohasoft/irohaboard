@@ -153,8 +153,6 @@ class Course extends AppModel
 	 */
 	public function hasRight($user_id, $course_id)
 	{
-		$has_right = false;
-
 		$params = array(
 			'user_id'   => $user_id,
 			'course_id' => $course_id
@@ -167,9 +165,7 @@ SELECT count(*) as cnt
    AND user_id   = :user_id
 EOF;
 		$data = $this->query($sql, $params);
-
-		if($data[0][0]["cnt"] > 0)
-			$has_right = true;
+		if($data[0][0]["cnt"] > 0){ return true; }
 
 		$sql = <<<EOF
 SELECT count(*) as cnt
@@ -178,11 +174,9 @@ SELECT count(*) as cnt
  WHERE gc.course_id = :course_id
 EOF;
 		$data = $this->query($sql, $params);
+		if($data[0][0]["cnt"] > 0){ return true; }
 
-		if($data[0][0]["cnt"] > 0)
-			$has_right = true;
-
-		return $has_right;
+		return false;
 	}
 
 	// コースの削除
@@ -220,15 +214,16 @@ EOF;
 
   public function goToNextCourse($user_id, $before_course_id, $now_course_id){
     //前提となるコースのコンテンツ数をカウントする．
-    $sql = "SELECT count(*) as cnt
-      FROM ib_contents
-      WHERE
-        course_id = $before_course_id
-      AND
-        kind = 'test' ";
-    $data = $this->query($sql);
-    $total_content = $data[0][0]["cnt"];
-    //$this->log(array($total_content, $before_course_id));
+		App::import('Model', 'Content');
+		$this->Content = new Content();
+		$total_content = $this->Content->find('count', array(
+			'conditions' => array(
+				'course_id' => $before_course_id,
+				'kind'      => 'test'
+			),
+			'recursive' => -1
+		));
+
     //前提となるコースのクリアしたコンテンツ数をカウントする．
 		App::import('Model', 'ClearedContent');
 		$this->ClearedContent = new ClearedContent();
@@ -267,14 +262,15 @@ EOF;
 
 	public function calcClearedRate($user_id, $course_id){
 		// 学習中コースの全コンテンツ数
-		$sql = "SELECT count(*) as cnt
-			FROM ib_contents
-			WHERE
-				course_id = $course_id
-			AND
-				kind = 'test' ";
-		$data = $this->query($sql);
-		$total_content = $data[0][0]["cnt"];
+		App::import('Model', 'Content');
+		$this->Content = new Content();
+		$total_content = $this->Content->find('count', array(
+			'conditions' => array(
+				'course_id' => $course_id,
+				'kind'      => 'test'
+			),
+			'recursive' => -1
+		));
 		if($total_content == 0){ return 0; }
 
 		// 合格したコンテンツ数
@@ -290,7 +286,6 @@ EOF;
 
 		// 合格したコンテンツの割合を計算
 		$cleared_rate = $cleared_course/$total_content;
-		//$this->log($cleared_rate);
 		return $cleared_rate;
 	}
 

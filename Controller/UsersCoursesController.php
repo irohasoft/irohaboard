@@ -27,33 +27,33 @@ class UsersCoursesController extends AppController
 	public function index()
 	{
 		$user_id = $this->Auth->user('id');
-		
+
 		$role = $this->Auth->user('role');
     $this->set('role',$role);
 
 		// 全体のお知らせの取得
 		App::import('Model', 'Setting');
 		$this->Setting = new Setting();
-		
+
 		$data = $this->Setting->find('all', array(
 			'conditions' => array(
 				'Setting.setting_key' => 'information'
 			)
 		));
-		
+
 		$info = $data[0]['Setting']['setting_value'];
-		
+
 		// お知らせ一覧を取得
 		$this->loadModel('Info');
     $this->loadModel('Course');
 		$infos = $this->Info->getInfos($user_id, 2);
-		
+
 		$no_info = "";
-		
+
 		// 全体のお知らせもお知らせも存在しない場合
 		if(($info=="") && count($infos)==0)
 			$no_info = __('お知らせはありません');
-		
+
 		// 受講コース情報の取得
 		//$courses = $this->UsersCourse->getCourseRecord($user_id);
 		$all_courses = $this->UsersCourse->getCourseRecord($user_id);
@@ -72,7 +72,7 @@ class UsersCoursesController extends AppController
 
         $before_course_id = $course['Course']['before_course'];
         $now_course_id = $course['Course']['id'];
-        //$this->log($now_course_id);
+        // 前庭コースが無いか，既にクリアしたコンテンツが一つ以上ある
         if($this->Course->existCleared($user_id, $now_course_id) || $before_course_id === null){
           //$this->log($course);
           array_push($courses, $course);
@@ -86,12 +86,12 @@ class UsersCoursesController extends AppController
         }
       }
     }
-		
+
 		$no_record = "";
-		
+
 		if(count($courses)==0)
 			$no_record = __('受講可能なコースはありません');
-		
+
 		$this->set(compact('courses', 'no_record', 'info', 'infos', 'no_info'));
 	}
 }

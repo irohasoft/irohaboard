@@ -99,6 +99,11 @@ class Course extends AppModel
 					'exclusive' => '',
 					'finderQuery' => '',
 					'counterQuery' => ''
+			),
+			'Cleared' => array(
+					'className' => 'Cleared',
+					'foreignKey' => 'course_id',
+					'dependent' => true
 			)
 	);
 
@@ -225,19 +230,18 @@ EOF;
     $total_content = $data[0][0]["cnt"];
     //$this->log(array($total_content, $before_course_id));
     //前提となるコースのクリアしたコンテンツ数をカウントする．
-    $sql = "SELECT count(*) as cnt
-      FROM ib_cleared
-      WHERE
-        course_id = $before_course_id
-      AND
-        user_id = $user_id";
-    $data = $this->query($sql);
-    $cleared_content = $data[0][0]["cnt"];
+		App::import('Model', 'Cleared');
+		$this->Cleared = new Cleared();
+		$cleared_content = $this->Cleared->find('count', array(
+			'conditions' => array(
+				'course_id' => $before_course_id,
+				'user_id'   => $user_id
+			),
+			'recursive' => -1
+		));
 
     //もし，クリア >= 全て
     if($cleared_content >= $total_content){
-      $sql = "INSERT INTO ib_cleared (id, user_id, course_id, content_id, created, modified) VALUES (NULL, $user_id, $now_course_id, NULL, CURRENT_TIME(), CURRENT_TIME())";
-      $data = $this->query($sql);
       return true;
     }else{
       return false;
@@ -245,14 +249,15 @@ EOF;
   }
 
   public function existCleared($user_id, $now_course_id){
-    $sql = "SELECT count(*) as cnt
-      FROM ib_cleared
-      WHERE
-        course_id = $now_course_id
-      AND
-        user_id = $user_id";
-    $data = $this->query($sql);
-    $cleared_course = $data[0][0]["cnt"];
+		App::import('Model', 'Cleared');
+		$this->Cleared = new Cleared();
+		$cleared_course = $this->Cleared->find('count', array(
+			'conditions' => array(
+				'course_id' => $now_course_id,
+				'user_id'   => $user_id
+			),
+			'recursive' => -1
+		));
     if($cleared_course > 0){
       return true;
     }else{
@@ -273,14 +278,15 @@ EOF;
 		if($total_content == 0){ return 0; }
 
 		// 合格したコンテンツ数
-		$sql = "SELECT count(*) as cnt
-			FROM ib_cleared
-			WHERE
-				course_id = $course_id
-			AND
-				user_id = $user_id";
-		$data = $this->query($sql);
-		$cleared_course = $data[0][0]["cnt"];
+		App::import('Model', 'Cleared');
+		$this->Cleared = new Cleared();
+		$cleared_course = $this->Cleared->find('count', array(
+      'conditions' => array(
+				'course_id' => $course_id,
+				'user_id'   => $user_id
+			),
+			'recursive' => -1
+    ));
 
 		// 合格したコンテンツの割合を計算
 		$cleared_rate = $cleared_course/$total_content;

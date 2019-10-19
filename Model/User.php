@@ -125,6 +125,11 @@ class User extends AppModel
 					'foreignKey' => 'user_id',
 					'dependent' => true
 			),
+			'Cleared' => array(
+					'className' => 'Cleared',
+					'foreignKey' => 'user_id',
+					'dependent' => true
+			),
 			'Soap' => array(
 					'className' => 'Soap',
 					'foreignKey' => 'user_id',

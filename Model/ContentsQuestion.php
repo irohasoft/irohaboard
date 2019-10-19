@@ -166,23 +166,35 @@ class ContentsQuestion extends AppModel
 
 		return $sort_no;
 	}
+
   public function isExist($user_id, $content_id){
     $is_exist = false;
-    $sql = "SELECT count(*) as cnt
-      FROM ib_cleared
-      WHERE
-        user_id = $user_id
-      AND
-        content_id = $content_id";
-    $data = $this->query($sql);
-    if($data[0][0]["cnt"] > 0){
-      $is_exist = true;
-    }
+		App::import('Model', 'Cleared');
+		$this->Cleared = new Cleared();
+		$data = $this->Cleared->find('count', array(
+			'conditions' => array(
+				'user_id'   => $user_id,
+				'content_id' => $content_id
+			),
+			'recursive' => -1
+		));
+		if($data > 0){
+			$is_exist = true;
+		}
+
     return $is_exist;
   }
+
   public function upClearedDate($user_id, $course_id, $content_id){
-    $sql = "INSERT INTO ib_cleared (id, user_id, course_id, content_id, created, modified) VALUES (NULL, $user_id, $course_id, $content_id, CURRENT_TIME(), CURRENT_TIME())";
-    $data = $this->query($sql);
+		App::import('Model', 'Cleared');
+		$this->Cleared = new Cleared();
+		$this->Cleared->create();
+		$data = array(
+			'user_id'    => $user_id,
+			'course_id'  => $course_id,
+			'content_id' => $content_id
+		);
+		$this->Cleared->save($data);
   }
 
 }

@@ -2,7 +2,7 @@
 <nav class="navbar navbar-default">
 	<div class="container">
 		<div class="navbar-collapse collapse">
-		<ul class="nav navbar-nav">
+		<ul class="nav navbar-nav menu-bar">
 			<?php
 			$is_active = ($this->name=='RecentStates') ? ' active' : '';
 			echo '<li class="'.$is_active.' menu__single">'.$this->Html->link(__('近況状況'), array('controller' => 'recentstates', 'action' => 'index'));

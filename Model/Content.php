@@ -197,6 +197,11 @@ class Content extends AppModel
 				'exclusive' => '',
 				'finderQuery' => '',
 				'counterQuery' => ''
+		),
+		'ClearedContent' => array(
+				'className' => 'ClearedContent',
+				'foreignKey' => 'content_id',
+				'dependent' => true
 		)
 	);
 
@@ -316,20 +321,23 @@ EOF;
   }
 
   public function getClearedList($user_id, $course_id){
-    $sql = "SELECT content_id, user_id
-      FROM ib_cleared
-      WHERE
-        course_id = $course_id
-      AND
-        user_id = $user_id
-      ORDER BY content_id ASC";
-    $data = $this->query($sql);
-    $cleared_list = [];
-    foreach($data as $row){
-      $content_id = $row['ib_cleared']['content_id'];
-      $user_id = $row['ib_cleared']['user_id'];
-      $cleared_list[$content_id] = $user_id;
-    }
+		App::import('Model', 'ClearedContent');
+		$this->ClearedContent = new ClearedContent();
+		$data = $this->ClearedContent->find('all', array(
+			'fields' => array('content_id', 'user_id'),
+			'conditions' => array(
+				'course_id' => $course_id,
+				'user_id'   => $user_id
+			),
+			'order' => array('content_id' => 'ASC'),
+			'recursive' => -1
+		));
+		$cleared_list = [];
+		foreach($data as $row){
+			$content_id = $row['ClearedContent']['content_id'];
+			$user_id = $row['ClearedContent']['user_id'];
+			$cleared_list[$content_id] = $user_id;
+		}
     return $cleared_list;
   }
 }

@@ -2,7 +2,7 @@
 <nav class="navbar navbar-default">
 	<div class="container">
 		<div class="navbar-collapse collapse">
-		<ul class="nav navbar-nav">
+		<ul class="nav navbar-nav menu-bar">
 			<?php
 			$is_active = ($this->name=='UsersCourses') ? ' active' : '';
 			echo '<li class="'.$is_active.'">'.$this->Html->link(__('マイページ'), '/').'</li>';

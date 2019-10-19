@@ -1,3 +1,7 @@
+.menu-bar {
+  font-size: 20px;
+}
+
 ul.menu__second-level {
     visibility: hidden;
     opacity: 0;

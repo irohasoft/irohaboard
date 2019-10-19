@@ -88,10 +88,57 @@ class UsersCoursesController extends AppController
     }
 
 		$no_record = "";
-
-		if(count($courses)==0)
-			$no_record = __('受講可能なコースはありません');
+		
+		if(count($courses)==0){$no_record = __('受講可能なコースはありません');}
 
 		$this->set(compact('courses', 'no_record', 'info', 'infos', 'no_info'));
+
+		// role == 'user'の出席情報を取る(日曜日のみ --- 0)
+		if($role === 'user' && date('w') == 0 ){
+			$standard_ip = $this->findStandardIP();
+			$this->log($standard_ip);
+			$this->loadModel('Log');
+			$user_login_info = $this->Log->find('first',array(
+				'conditions' => array(
+					'Log.user_id' => $user_id
+				),
+				'order' => array(
+					'Log.created' => 'desc'
+				)
+			));
+			$user_ip = $user_login_info['Log']['user_ip'];
+			
+			//実用する時，ここを==にする．
+			if($user_ip == $standard_ip){ 
+				$this->loadModel('Attendance');
+				$attendance_info = $this->Attendance->find('first',array(
+					'conditions' => array(
+						'Attendance.user_id' => $user_id
+					),
+					'order' => array(
+						'Attendance.created' => 'desc'
+					)
+				));
+				//$this->log($attendance_info);
+				$save_info = $attendance_info['Attendance'];
+				if($save_info['status'] == 0){
+					$save_info['status'] = 1;
+					$save_info['login_time'] = $user_login_info['Log']['created'];
+					
+					$login_time = (int)strtotime($save_info['login_time']);
+
+					if($login_time < (int)strtotime('10:30:00')){
+						$standard_time = (int)(strtotime('09:00:00'));
+						$save_info['late_time'] = $login_time > $standard_time ? (int)(($login_time - $standard_time) / 60) : 0;
+						
+					}else{
+						$standard_time = (int)(strtotime('11:00:00'));
+						$save_info['late_time'] = $login_time > $standard_time ? (int)(($login_time - $standard_time) / 60) : 0;
+					}
+					
+					$this->Attendance->save($save_info);
+				}
+			}
+		}
 	}
 }

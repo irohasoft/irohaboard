@@ -139,7 +139,12 @@ class User extends AppModel
 					'className' => 'Enquete',
 					'foreignKey' => 'user_id',
 					'dependent' => true
-			)
+			),
+			'Attendance' => array(
+				'className' => 'Attendance',
+				'foreignKey' => 'user_id',
+				'dependent' => true
+		)
 	);
 
 	/**

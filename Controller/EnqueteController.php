@@ -59,24 +59,24 @@ class EnqueteController extends AppController{
 
     $conditions = [];
     $conditions['Enquete.user_id'] = $user_id;
-    
-    
+
+
     $conditions['Enquete.created BETWEEN ? AND ?'] = array(
-			$today, 
+			$today,
 			$today.' 23:59:59'
     );
-    
-    
+
+
     $enquete_history = $this->Enquete->find('first',array(
       'conditions' => $conditions
     ));
     //$this->log($enquete_history);
-    
+
     $enquete_inputted = [];
     $enquete_inputted['Enquete'] = $enquete_history['Enquete'];
     $id = $enquete_history['Enquete']['id'];
     //$this->log($enquete_inputted);
-    
+
     $this->set('enquete_inputted',$enquete_inputted);
 
     //グループリストを生成
@@ -93,7 +93,7 @@ class EnqueteController extends AppController{
       'post',
       'put'
   ))){
-      
+
       $this->Enquete->set($this->request->data);
       //もしvalidateに満たさない場合
       if(!$this->Enquete->validates()){
@@ -105,13 +105,13 @@ class EnqueteController extends AppController{
         }
 
       }else{
-        
+
         $request_data = array(
           'id' => $id,
           'user_id' => $user_id
         ) + $this->request->data;
         $save_data = $request_data;
-        
+
         $this->User->id = $user_id;
         $this->User->saveField('group_id', $request_data['group_id']);
 
@@ -196,7 +196,8 @@ class EnqueteController extends AppController{
 		if($name != ""){
 			$conditions['OR'] = array(
 				"User.name like" => "%$name%",
-				"User.name_furigana like" => "%$name%"
+				"User.name_furigana like" => "%$name%",
+        "User.username like" => "%$name%"
 			);
 		}
 

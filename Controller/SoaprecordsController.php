@@ -76,7 +76,8 @@ class SoapRecordsController extends AppController
 		if($name != ""){
 			$conditions['OR'] = array(
 				"User.name like" => "%$name%",
-				"User.name_furigana like" => "%$name%"
+				"User.name_furigana like" => "%$name%",
+				"User.username like" => "%$name%"
 			);
 		}
 

@@ -100,8 +100,8 @@ class Course extends AppModel
 					'finderQuery' => '',
 					'counterQuery' => ''
 			),
-			'Cleared' => array(
-					'className' => 'Cleared',
+			'ClearedContent' => array(
+					'className' => 'ClearedContent',
 					'foreignKey' => 'course_id',
 					'dependent' => true
 			)
@@ -230,9 +230,9 @@ EOF;
     $total_content = $data[0][0]["cnt"];
     //$this->log(array($total_content, $before_course_id));
     //前提となるコースのクリアしたコンテンツ数をカウントする．
-		App::import('Model', 'Cleared');
-		$this->Cleared = new Cleared();
-		$cleared_content = $this->Cleared->find('count', array(
+		App::import('Model', 'ClearedContent');
+		$this->ClearedContent = new ClearedContent();
+		$cleared_content = $this->ClearedContent->find('count', array(
 			'conditions' => array(
 				'course_id' => $before_course_id,
 				'user_id'   => $user_id
@@ -249,9 +249,9 @@ EOF;
   }
 
   public function existCleared($user_id, $now_course_id){
-		App::import('Model', 'Cleared');
-		$this->Cleared = new Cleared();
-		$cleared_course = $this->Cleared->find('count', array(
+		App::import('Model', 'ClearedContent');
+		$this->ClearedContent = new ClearedContent();
+		$cleared_course = $this->ClearedContent->find('count', array(
 			'conditions' => array(
 				'course_id' => $now_course_id,
 				'user_id'   => $user_id
@@ -278,9 +278,9 @@ EOF;
 		if($total_content == 0){ return 0; }
 
 		// 合格したコンテンツ数
-		App::import('Model', 'Cleared');
-		$this->Cleared = new Cleared();
-		$cleared_course = $this->Cleared->find('count', array(
+		App::import('Model', 'ClearedContent');
+		$this->ClearedContent = new ClearedContent();
+		$cleared_course = $this->ClearedContent->find('count', array(
       'conditions' => array(
 				'course_id' => $course_id,
 				'user_id'   => $user_id

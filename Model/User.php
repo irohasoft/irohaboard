@@ -125,8 +125,8 @@ class User extends AppModel
 					'foreignKey' => 'user_id',
 					'dependent' => true
 			),
-			'Cleared' => array(
-					'className' => 'Cleared',
+			'ClearedContent' => array(
+					'className' => 'ClearedContent',
 					'foreignKey' => 'user_id',
 					'dependent' => true
 			),

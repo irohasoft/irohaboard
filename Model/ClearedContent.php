@@ -17,7 +17,7 @@ App::uses('AppModel', 'Model');
  * @property User $User
  * @property Content $Content
  */
-class Cleared extends AppModel
+class ClearedContent extends AppModel
 {
 
   /**

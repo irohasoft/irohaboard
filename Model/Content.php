@@ -198,8 +198,8 @@ class Content extends AppModel
 				'finderQuery' => '',
 				'counterQuery' => ''
 		),
-		'Cleared' => array(
-				'className' => 'Cleared',
+		'ClearedContent' => array(
+				'className' => 'ClearedContent',
 				'foreignKey' => 'content_id',
 				'dependent' => true
 		)
@@ -321,9 +321,9 @@ EOF;
   }
 
   public function getClearedList($user_id, $course_id){
-		App::import('Model', 'Cleared');
-		$this->Cleared = new Cleared();
-		$data = $this->Cleared->find('all', array(
+		App::import('Model', 'ClearedContent');
+		$this->ClearedContent = new ClearedContent();
+		$data = $this->ClearedContent->find('all', array(
 			'fields' => array('content_id', 'user_id'),
 			'conditions' => array(
 				'course_id' => $course_id,
@@ -334,8 +334,8 @@ EOF;
 		));
 		$cleared_list = [];
 		foreach($data as $row){
-			$content_id = $row['Cleared']['content_id'];
-			$user_id = $row['Cleared']['user_id'];
+			$content_id = $row['ClearedContent']['content_id'];
+			$user_id = $row['ClearedContent']['user_id'];
 			$cleared_list[$content_id] = $user_id;
 		}
     return $cleared_list;

@@ -169,9 +169,9 @@ class ContentsQuestion extends AppModel
 
   public function isExist($user_id, $content_id){
     $is_exist = false;
-		App::import('Model', 'Cleared');
-		$this->Cleared = new Cleared();
-		$data = $this->Cleared->find('count', array(
+		App::import('Model', 'ClearedContent');
+		$this->ClearedContent = new ClearedContent();
+		$data = $this->ClearedContent->find('count', array(
 			'conditions' => array(
 				'user_id'   => $user_id,
 				'content_id' => $content_id
@@ -186,15 +186,15 @@ class ContentsQuestion extends AppModel
   }
 
   public function upClearedDate($user_id, $course_id, $content_id){
-		App::import('Model', 'Cleared');
-		$this->Cleared = new Cleared();
-		$this->Cleared->create();
+		App::import('Model', 'ClearedContent');
+		$this->ClearedContent = new ClearedContent();
+		$this->ClearedContent->create();
 		$data = array(
 			'user_id'    => $user_id,
 			'course_id'  => $course_id,
 			'content_id' => $content_id
 		);
-		$this->Cleared->save($data);
+		$this->ClearedContent->save($data);
   }
 
 }

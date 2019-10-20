@@ -95,18 +95,11 @@ class UsersCoursesController extends AppController
 
 		// role == 'user'の出席情報を取る(日曜日のみ --- 0)
 		if($role === 'user' && date('w') == 0 ){
-			$standard_ip = $this->findStandardIP();
-			$this->log($standard_ip);
 			$this->loadModel('Log');
-			$user_login_info = $this->Log->find('first',array(
-				'conditions' => array(
-					'Log.user_id' => $user_id
-				),
-				'order' => array(
-					'Log.created' => 'desc'
-				)
-			));
-			$user_ip = $user_login_info['Log']['user_ip'];
+
+			$standard_ip = $this->findStandardIP();
+			
+			$user_ip = $this->request->ClientIp();
 			
 			//実用する時，ここを==にする．
 			if($user_ip == $standard_ip){ 

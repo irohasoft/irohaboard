@@ -100,7 +100,7 @@
     'label' => __('次回の授業に来る時までに達成するゴールを書いてください'),
     'type' => 'textarea',
     //'before' => '<label class="col col-sm-3 control-label">コンテンツ種別</label>',
-    'after' => '<div class = "text-url-input"></div><span class="status-exp">プロジェクトのある機能を実現する、あるスキルををマスターする、など</span></br>',
+    'after' => '<div class = "text-url-input"></div><span class="status-exp">プロジェクトのある機能を実現する、あるスキルをマスターする、など</span></br>',
     'div' => false,
     'class' => '',
     'required'=> 'required',

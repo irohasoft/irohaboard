@@ -98,7 +98,7 @@ class Attendance extends AppModel {
 		return $data;
 	}
 
-	// user_idと過去4回分出欠席の配列を作る
+	// user_idと過去8回分出欠席の配列を作る
 	public function findAllUserAttendances(){
 
 		$user_list = $this->User->find('all',array(

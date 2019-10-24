@@ -12,7 +12,7 @@
 			echo '<li>'.$this->Html->link(__('全受講生'), array('controller' => 'recentstates', 'action' => 'admin_all_view')).'</li>';
 			echo '</ul></li>';
 
-			$is_active = ($this->name=='Records' or $this->name=='SoapRecords' or $this->name=='Enquete') ? ' active' : '';
+			$is_active = ($this->name=='Records' or $this->name=='SoapRecords' or $this->name=='Enquete' or $this->name=='Attendances') ? ' active' : '';
 			echo '<li class="'.$is_active.' menu__single">'.$this->Html->link(__('検索一覧'), array('controller' => 'records', 'action' => 'index'));
 			echo '<ul class="menu__second-level">';
       echo '<li>'.$this->Html->link(__('クイズ'), array('controller' => 'records', 'action' => 'index')).'</li>';
@@ -33,12 +33,13 @@
 
 			if($loginedUser['role']=='admin')
 			{
-				$is_active = ($this->name=='Settings' or $this->name=='Users' or $this->name=='Groups' or $this->name=='Courses') ? ' active' : '';
+				$is_active = ($this->name=='Settings' or $this->name=='Users' or $this->name=='Groups' or $this->name=='Courses' or $this->name=='AdminManages') ? ' active' : '';
 				echo '<li class="'.$is_active.' menu__single">'.$this->Html->link(__('システム設定'), array('controller' => 'settings', 'action' => 'index'));
 				echo '<ul class="menu__second-level">';
 				echo '<li>'.$this->Html->link(__('ユーザ'), array('controller' => 'users', 'action' => 'index')).'</li>';
 				echo '<li>'.$this->Html->link(__('グループ'), array('controller' => 'groups', 'action' => 'index')).'</li>';
 				echo '<li>'.$this->Html->link(__('コース'), array('controller' => 'courses', 'action' => 'index')).'</li>';
+				echo '<li>'.$this->Html->link(__('管理者ページ'), array('controller' => 'adminmanages', 'action' => 'index')).'</li>';
 				echo '</ul></li>';
 			}
 			?>

@@ -1,0 +1,175 @@
+@charset "utf-8";
+/*
+ * Ripple  Project
+ *
+ * @author        Enfu Guo
+ * @copyright     NPO Organization uec support
+ * @link          http://uecsupport.dip.jp/
+ * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ */
+
+.bx-wrapper {
+  position: relative;
+  margin-bottom: 5px;
+  padding: 0;
+  *zoom: 1;
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
+}
+
+.bx-viewport {
+  /*fix other elements on the page moving (on Chrome)*/
+  -webkit-transform: translatez(0);
+  width:90% !important;
+  margin-right: 1%;
+  margin-left: 7%;
+  margin-right: 6%;
+}
+
+/** THEME
+===================================*/
+.bx-wrapper {
+  -moz-box-shadow: 0 0 5px #ccc;
+  -webkit-box-shadow: 0 0 5px #ccc;
+  box-shadow: 0 0 5px #ccc;
+  border: 5px solid #fff;
+  background: #fff;
+}
+
+.student-photo{
+  position : relative;
+  top : -20px;
+  left : -20px;
+  float: right;
+  z-index : 10;
+}
+
+.user-block{
+  border: 3px solid #666;
+  width : 80%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+.user-info-block{
+  display : table;
+  font-size : 15px;
+  margin-bottom: 1%;
+}
+
+.user-info-block .user-info-block-element{
+  display : table-cell;
+  border: 1px solid #666;
+}
+
+.username{
+  width : 100px;  
+}
+
+.name{
+  width : 150px;
+}
+
+.name-furigana{
+  width : 150px;
+}
+
+.period{
+  width : 50px;
+}
+
+.birthyear{
+  width : 100px;
+}
+
+.os_type{
+  width : 70px;
+}
+
+
+.attendance-info{
+  display : table;
+}
+
+.attendance-date-block{
+  display : table-row;
+}
+
+.attendance-status{
+  display : table-row;
+}
+
+.date{
+  display : table-cell;
+  width : 100px;
+  text-align: center;
+  border: 1px solid #666;
+}
+
+.status{
+  display : table-cell;
+  width : 100px;
+  font-size : 20px;
+  text-align: center;
+  border: 1px solid #666;
+}
+
+.enquete-info{
+  display : table;
+  margin-right: 1%;
+}
+
+.enquete-header-block{
+  display : table-row;
+}
+
+.enquete-status{
+  display : table-row;
+}
+
+.enquete-header{
+  display : table-cell;
+  width : 100px;
+  text-align: center;
+  background-color: #FFE4C4;
+  border: 1px solid #666;
+}
+
+.enquete-status{
+  display : table-cell;
+  width : 100px;
+  /*
+  font-size : 20px;
+  text-align: center;*/
+  border: 1px solid #666;
+}
+
+.soap-info{
+  display : table;
+  margin-right: 1%;
+}
+
+.soap-header-block{
+  display : table-row;
+}
+
+.soap-status{
+  display : table-row;
+}
+
+.soap-header{
+  display : table-cell;
+  width : 100px;
+  background-color: #FFFFBB;
+  text-align: center;
+  border: 1px solid #666;
+}
+
+.soap-status{
+  display : table-cell;
+  width : 100px;
+  /*
+  font-size : 20px;
+  text-align: center;*/
+  border: 1px solid #666;
+}

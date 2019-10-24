@@ -143,6 +143,7 @@ class User extends AppModel
 			'Attendance' => array(
 				'className' => 'Attendance',
 				'foreignKey' => 'user_id',
+				'order' => 'created ASC',
 				'dependent' => true
 		)
 	);

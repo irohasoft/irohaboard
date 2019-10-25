@@ -1,4 +1,5 @@
 tmp/
 webroot/text/
+webroot/uploads/
 webroot/img/student_img/
 *.swp

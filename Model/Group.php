@@ -106,7 +106,7 @@ class Group extends AppModel
 	 */
 	public function getUserIdByGroupID($group_id)
 	{
-		$sql = "SELECT id FROM ib_users WHERE group_id = :group_id";
+		$sql = "SELECT id FROM ib_users WHERE group_id = :group_id OR last_group = :group_id";
 
 		$params = array('group_id' => $group_id);
 

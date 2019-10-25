@@ -118,7 +118,7 @@ class UsersCourse extends AppModel
 		    AND status = 1
 		  GROUP BY course_id) ContentCount
      ON ContentCount.course_id   = Course.id
-  WHERE id IN (SELECT course_id FROM ib_users ug INNER JOIN ib_groups_courses gc ON ug.group_id = gc.group_id WHERE ug.id = :user_id)
+  WHERE id IN (SELECT course_id FROM ib_users ug INNER JOIN ib_groups_courses gc ON ug.group_id = gc.group_id OR ug.last_group = gc.group_id WHERE ug.id = :user_id)
      OR id IN (SELECT course_id FROM ib_users_courses WHERE user_id = :user_id)
   ORDER BY Course.sort_no asc
 EOF;

@@ -295,7 +295,10 @@ class User extends AppModel
 		$data = $this->find('all', array(
 			'fields' => array('id', 'group_id'),
 			'conditions' => array(
-				'group_id' => $group_id
+				'OR' => array(
+					'group_id' => $group_id,
+					'last_group' => $group_id,
+				)
 			),
 			'order' => array('username' => 'ASC'),
 			'recursive' => -1
@@ -308,7 +311,10 @@ class User extends AppModel
 		$data = $this->find('all', array(
 			'fields' => array('id', 'group_id'),
 			'conditions' => array(
-				'group_id' => $group_id,
+				'OR' => array(
+					'group_id' => $group_id,
+					'last_group' => $group_id,
+				),
 				'role'     => 'user'
 			),
 			'order' => array('username' => 'ASC'),

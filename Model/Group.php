@@ -110,7 +110,11 @@ class Group extends AppModel
 		$this->User = new User();
 		$data = $this->User->find('all', array(
 			'fields' => array('id'),
-			'conditions' => array('group_id' => $group_id),
+			'conditions' => array(
+        'OR' => array(
+          'group_id'   => $group_id,
+          'last_group' => $group_id
+      )),
 			'recursive' => -1
 		));
 

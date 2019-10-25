@@ -31,7 +31,7 @@ function downloadCSV()
 				'required'=>false,
 				'class'=>'form-control'));
 			echo $this->Form->input('name',	array(
-				'label' => '氏名 :',
+				'label' => '受講生氏名・番号 :',
 				'value'=>$name,
 				'class'=>'form-control'));
 			echo $this->Form->input('period',	array(

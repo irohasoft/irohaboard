@@ -21,7 +21,7 @@ App::uses('AppModel', 'Model');
  */
 class Group extends AppModel
 {
-	public $order = "Group.title";  
+	public $order = "Group.title";
 
 	/**
 	 * Validation rules
@@ -56,10 +56,10 @@ class Group extends AppModel
 										)
 			)
 	);
-	
+
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
-	
+
 	/**
 	 * hasMany associations
 	 *
@@ -106,19 +106,22 @@ class Group extends AppModel
 	 */
 	public function getUserIdByGroupID($group_id)
 	{
-		$sql = "SELECT id FROM ib_users WHERE group_id = :group_id OR last_group = :group_id";
-
-		$params = array('group_id' => $group_id);
-
-		$data = $this->query($sql, $params);
+		App::import('Model', 'User');
+		$this->User = new User();
+		$data = $this->User->find('all', array(
+			'fields' => array('id'),
+			'conditions' => array(
+        'OR' => array(
+          'group_id'   => $group_id,
+          'last_group' => $group_id
+      )),
+			'recursive' => -1
+		));
 
 		$list = array();
-
-		for($i=0; $i< count($data); $i++)
-		{
-			$list[$i] = $data[$i]['ib_users']['id'];
+		for($i=0; $i< count($data); $i++){
+			$list[$i] = $data[$i]['User']['id'];
 		}
-
 		return $list;
 	}
 

@@ -285,6 +285,7 @@ class User extends AppModel
 			'conditions' => array(
 				'role'     => 'user'
 			),
+			'order' => array('username' => 'ASC'),
 			'recursive' => -1
 		));
 		return $data;
@@ -299,6 +300,7 @@ class User extends AppModel
 					'last_group' => $group_id,
 				)
 			),
+			'order' => array('username' => 'ASC'),
 			'recursive' => -1
 		));
 		return $data;
@@ -315,6 +317,7 @@ class User extends AppModel
 				),
 				'role'     => 'user'
 			),
+			'order' => array('username' => 'ASC'),
 			'recursive' => -1
 		));
 		return $data;
@@ -328,6 +331,7 @@ class User extends AppModel
 				'group_id' => $group_id,
 				'role'     => 'admin'
 			),
+			'order' => array('username' => 'ASC'),
 			'recursive' => -1
 		));
 		return $data;

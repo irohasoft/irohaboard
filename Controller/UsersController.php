@@ -231,7 +231,7 @@ class UsersController extends AppController
 				),
 				'conditions' => $conditions,
 				'limit' => 20,
-				'order' => 'created desc',
+				'order' => 'username ASC',
 /*
 				'joins' => array(
 					// 受講コースをカンマ区切りで取得

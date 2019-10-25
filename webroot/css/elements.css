@@ -13,6 +13,11 @@ ul.menu__second-level {
     /*border-top: 1px solid #111;*/
 }
 
+.menu__second-level a {
+  display: block;
+  padding-left: 1em;
+}
+
 .menu__second-level li a:hover {
     background: #BBBBFF;
 }

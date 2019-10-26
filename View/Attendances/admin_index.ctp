@@ -15,7 +15,7 @@ function downloadCSV()
 	<div class="ib-page-title"><?php echo __('出欠席一覧'); ?></div>
 	<div class="ib-horizontal">
 		<?php
-		
+
 			echo $this->Form->create('Attendance');
 			echo '<div class="ib-search-buttons">';
 			echo $this->Form->submit(__('適用'),	array('class' => 'btn btn-info', 'div' => false));
@@ -50,11 +50,11 @@ function downloadCSV()
 				'style' => '',
 				'class'=>'form-control'
 				*/
-				'label' => '１限：', 
-				'type' => 'datetime', 
-				'dateFormat' => '', 
-				'timeFormat' => '24', 
-				'monthNames' => false, 
+				'label' => '１限：',
+				'type' => 'datetime',
+				'dateFormat' => '',
+				'timeFormat' => '24',
+				'monthNames' => false,
 				'empty' => '',
 				'value' => $period1_from,
 				'class'=>'form-control',
@@ -65,10 +65,10 @@ function downloadCSV()
 					'text' => '〜',
 					'style' => 'position:relative; left:-15px'
 				),
-				'type' => 'datetime', 
-				'dateFormat' => '', 
-				'timeFormat' => '24', 
-				'monthNames' => false, 
+				'type' => 'datetime',
+				'dateFormat' => '',
+				'timeFormat' => '24',
+				'monthNames' => false,
 				'empty' => '',
 				'value' => $period1_to,
 				'class'=>'form-control',
@@ -77,10 +77,10 @@ function downloadCSV()
 			//二限
 			echo $this->Form->input('period2_from', array(
 				'label' => '２限：',
-				'type' => 'datetime', 
-				'dateFormat' => '', 
-				'timeFormat' => '24', 
-				'monthNames' => false, 
+				'type' => 'datetime',
+				'dateFormat' => '',
+				'timeFormat' => '24',
+				'monthNames' => false,
 				'empty' => '',
 				'value' => $period2_from,
 				'class'=>'form-control',
@@ -91,10 +91,10 @@ function downloadCSV()
 					'text' => '〜',
 					'style' => 'position:relative; left:-15px'
 				),
-				'type' => 'datetime', 
-				'dateFormat' => '', 
-				'timeFormat' => '24', 
-				'monthNames' => false, 
+				'type' => 'datetime',
+				'dateFormat' => '',
+				'timeFormat' => '24',
+				'monthNames' => false,
 				'empty' => '',
 				'value' => $period2_to,
 				'class'=>'form-control',
@@ -155,7 +155,7 @@ function downloadCSV()
 			echo $this->Form->end();
 		?>
 	</div>
-	
+
 	<div class = "record-table">
 	<table cellpadding="0" cellspacing="0">
 		<thead>
@@ -179,7 +179,7 @@ function downloadCSV()
 						echo "<td nowrap>&nbsp;</td>";
 					}
 					foreach ($attendance_info as $row):
-						if($row['Attenadnce']['status'] == 0){
+						if($row['Attendance']['status'] == 0){
 							$mark = '<font color="red">×</font>';
 						}
 						if($row['Attendance']['status'] == 1){
@@ -190,7 +190,7 @@ function downloadCSV()
 								$mark = '<font color="blue">○</font>';
 							}
 						}
-					
+
 				?>
 				<td nowrap><span style = "font-size : 15pt"><?php echo $mark; ?>&nbsp;</span></td>
 				<?php endforeach; ?>

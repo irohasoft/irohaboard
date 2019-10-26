@@ -40,7 +40,7 @@ class AppController extends Controller
 					'authError' => false
 			)
 	);
-	
+
 	//public $helpers = array('Session');
 	public $helpers = array(
 		'Session',
@@ -48,13 +48,13 @@ class AppController extends Controller
 		'Form' => array('className' => 'BoostCake.BoostCakeForm'),
 		'Paginator' => array('className' => 'BoostCake.BoostCakePaginator'),
 	);
-	
+
 	public $uses = array('Setting');
-	
+
 	public function beforeFilter()
 	{
 		$this->set('loginedUser', $this->Auth->user());
-		
+
 		// 他のサイトの設定が存在する場合、設定情報及びログイン情報をクリア
 		if($this->Session->check('Setting'))
 		{
@@ -62,7 +62,7 @@ class AppController extends Controller
 			{
 				// セッション内の設定情報を削除
 				$this->Session->delete('Setting');
-				
+
 				// 他のサイトとのログイン情報の混合を避けるため、強制ログアウト
 				if($this->Auth->user())
 				{
@@ -72,20 +72,20 @@ class AppController extends Controller
 				}
 			}
 		}
-		
+
 		// データベース内に格納された設定情報をセッションに格納
 		if(!$this->Session->check('Setting'))
 		{
 			$settings = $this->Setting->getSettings();
-			
+
 			$this->Session->Write('Setting.app_dir', APP_DIR);
-			
+
 			foreach ($settings as $key => $value)
 			{
 				$this->Session->Write('Setting.'.$key, $value);
 			}
 		}
-		
+
 		if (isset($this->request->params['admin']))
 		{
 			// role が admin, manager, editor, teacher以外の場合、強制ログアウトする
@@ -100,12 +100,12 @@ class AppController extends Controller
 				{
 					if($this->Cookie)
 						$this->Cookie->delete('Auth');
-					
+
 					$this->redirect($this->Auth->logout());
 					return;
 				}
 			}
-			
+
 			$this->Auth->loginAction = array(
 					'controller' => 'users',
 					'action' => 'login',
@@ -123,12 +123,26 @@ class AppController extends Controller
 			);
 			$this->set('loginURL', "/admin/users/login/");
 			$this->set('logoutURL', "/admin/users/logout/");
-			
+
 			// グループモデルを共通で保持する
 			$this->loadModel('Group');
 		}
 		else
 		{
+			// role が graduateの場合、強制ログアウトする
+			if($this->Auth->user())
+			{
+				if($this->Auth->user('role')=='graduate')
+				{
+					if($this->Cookie)
+						$this->Cookie->delete('Auth');
+
+					$this->Flash->error("卒業生はログインできません．");
+					$this->redirect($this->Auth->logout());
+					return;
+				}
+			}
+
 			$this->Auth->loginAction = array(
 					'controller' => 'users',
 					'action' => 'login',
@@ -144,7 +158,7 @@ class AppController extends Controller
 					'action' => 'login',
 					'admin' => false
 			);
-			
+
 			$this->set('loginURL', "/users/login/");
 			$this->set('logoutURL', "/users/logout/");
 			// $this->layout = 'login'; //レイアウトを切り替える。
@@ -155,7 +169,7 @@ class AppController extends Controller
 	public function beforeRender()
 	{
 		//header("X-XSS-Protection: 1; mode=block")
-		
+
 		// iframeへの埋め込みの禁止
 		header("X-Frame-Options: DENY");
 	}
@@ -169,8 +183,8 @@ class AppController extends Controller
 			'user_ip'     => $_SERVER['REMOTE_ADDR'],
 			'user_agent'  => $_SERVER['HTTP_USER_AGENT']
 		);
-		
-		
+
+
 		$this->loadModel('Log');
 		$this->Log->create();
 		$this->Log->save($data);

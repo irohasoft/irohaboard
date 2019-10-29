@@ -1,5 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<?php echo $this->Html->css('enquete');?>
+<?php echo $this->Html->css('attendance');?>
 <?php $this->start('script-embedded'); ?>
 <script>
 function downloadCSV()
@@ -160,11 +160,20 @@ function downloadCSV()
 	<table cellpadding="0" cellspacing="0">
 		<thead>
 			<tr>
-			<th nowrap　class="ib-col-center"><?php echo __('受講生番号');?>
-			<th nowrap　class="ib-col-center"><?php echo __('氏名');?>
-			<?php foreach ($date_list as $date):?>
-				<th nowrap><?php echo $date;?></th>
-			<?php endforeach;?>
+			<th nowrap class="non-last-column ib-col-center"><?php echo __('受講生番号');?>
+			<th nowrap class="non-last-column"><?php echo __('氏名');?>
+			<?php
+				$no = 0;
+				$length = count($date_list);
+				foreach($date_list as $date){
+					// 最後の要素
+					if(++$no == $length){
+						echo '<th nowrap class="last-column">'.h($date).'</th>';
+					}else{
+						echo '<th nowrap class="non-last-column">'.h($date).'</th>';
+					}
+				}
+			?>
 			</tr>
 		</thead>
 		<tbody>
@@ -175,7 +184,7 @@ function downloadCSV()
 			$attendance_info = $attendance_list[$user_id];
 		?>
 			<tr>
-				<td nowrap><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
+				<td nowrap class="ib-col-center"><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
 				<td nowrap><?php echo h($name_list[$user_id]); ?>&nbsp;</td>
 				<?php
 					//$this->log(count($attendance_info));

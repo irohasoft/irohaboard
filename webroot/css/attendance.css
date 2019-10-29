@@ -1,0 +1,106 @@
+@charset "utf-8";
+/*
+ * Ripple  Project
+ *
+ * @author        Enfu Guo
+ * @copyright     NPO Organization uec support
+ * @link          http://uecsupport.dip.jp/
+ * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ */
+
+.enquete-input-block{
+  width : 800px;
+  height: 100%;
+  margin-right : auto;
+  margin-left : auto;
+  /*background-color: grey;*/
+  font-size : 100%;
+}
+
+.enquete-input-block textarea{
+  height : 100px;
+}
+
+.form-input-block{
+  margin-left: 2%;
+  margin-bottom: 3%;
+
+}
+
+.required-input label:after {
+  color: #e32;
+  content: '*';
+  display: inline;
+}
+
+.form-input-block label{
+  font-size : 150%;
+}
+
+.before-goal-block{
+
+}
+
+.enquete-input-group{
+  margin-left: 2%;
+  margin-bottom: 3%;
+}
+
+.today-goal-cleared #text{
+  font-weight: bold;
+  font-size: 150%;
+}
+
+.before-goal-block input[type="radio"] {
+  position: relative;
+  top : -2px;
+  margin-right: 5px;
+}
+.before-goal-block input[type="radio"]+label{
+  margin-right: 5%;
+}
+
+.before-goal-label{
+  margin-right: 5%;
+}
+input#enquete-inputBeforeGoal{
+
+}
+
+input[type = "radio"]{
+  position: relative;
+  top : -2px;
+  margin-right: 5px;
+}
+
+input[type = "radio"] + label{
+  margin-right: 5%;
+}
+
+/* Attendance admin-index */
+.rp-row label{
+  float: left;
+}
+.rp-row input{
+  float : left;
+}
+
+.white-width{
+  float : left;
+  padding-right : 100px;
+  padding-top : 40px;
+}
+
+.record-table{
+  float: left;
+  width : 100%;
+  overflow-x : scroll;
+}
+
+.non-last-column{
+  width: 10%;
+}
+
+.last-column{
+  width: auto;
+}

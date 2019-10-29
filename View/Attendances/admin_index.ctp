@@ -160,6 +160,7 @@ function downloadCSV()
 	<table cellpadding="0" cellspacing="0">
 		<thead>
 			<tr>
+			<th nowrap　class="ib-col-center"><?php echo __('受講生番号');?>
 			<th nowrap　class="ib-col-center"><?php echo __('氏名');?>
 			<?php foreach ($date_list as $date):?>
 				<th nowrap><?php echo $date;?></th>
@@ -171,6 +172,7 @@ function downloadCSV()
 		<?php foreach ($attendance_list as $attendance_info):?>
 		<?php $user_id = $attendance_info[0]['Attendance']['user_id']?>
 			<tr>
+				<td nowrap><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
 				<td nowrap><?php echo h($name_list[$user_id]); ?>&nbsp;</td>
 				<?php
 					//$this->log(count($attendance_info));

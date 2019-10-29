@@ -49,18 +49,18 @@ class Attendance extends AppModel {
 		//今日の日付を生成
     $today = date("Y/m/d");
 		$this->set('today', $today);
-		
+
 		$conditions = [];
 		$conditions['Attendance.created BETWEEN ? AND ?'] = array(
-			$today, 
+			$today,
 			$today.' 23:59:59'
     );
 		$attendanceinfo = $this->find('all',array(
 			'conditions' => $conditions
 		));
-		
+
 		$isInfoSet = $attendanceinfo != NULL ? true : false;
-		
+
 		return $isInfoSet;
 	}
 
@@ -90,7 +90,7 @@ class Attendance extends AppModel {
 				'Attendance.user_id' => $user_id
 			),
 			'order' => array(
-				'Attendance.created' => 'asc'
+				'Attendance.created' => 'DESC'
 			),
 			'limit' => 8,
 			'recursive' => -1

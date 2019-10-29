@@ -36,7 +36,6 @@
 			echo $this->Form->create("$user_id");
 			echo $this->Form->hidden('id', array('value' => $soap_inputted[$user_id]['id']));
 			echo $this->Form->hidden('user_id',array('value' => $user_id));
-			echo $this->Form->hidden('group_id',array('value' => $group_id));
       ?>
       <div class = "soap_teacher">
       <?php
@@ -46,7 +45,7 @@
 						'class' => 'soap_teacher',
 						'options' => $group_list,
 						'empty' => '',
-            'value' => $member['User']['group_id'],
+            'value' => $member['User']['last_group'],
 						'style' => ''
 					 ));
       ?>

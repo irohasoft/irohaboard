@@ -309,7 +309,7 @@ class User extends AppModel
 	// role == 'user' のユーザのみ
 	public function findAllStudentInGroup($group_id){
 		$data = $this->find('all', array(
-			'fields' => array('id', 'group_id'),
+			'fields' => array('id', 'group_id','last_group'),
 			'conditions' => array(
 				'OR' => array(
 					'group_id' => $group_id,

@@ -55,12 +55,22 @@ class AttendancesController extends AppController{
     $attendance_list = $this->Attendance->findAllUserAttendances();
     //$this->log($attendance_list);
     $name_list = $this->User->find('list',array(
+      'fields' => array(
+        'User.id',
+        'User.name'
+      ),
       'conditions' => array(
         'role' => 'user'
       ),
-      'filed' => array(
+      'order' => 'User.id ASC'
+    ));
+    $username_list = $this->User->find('list',array(
+      'fields' => array(
         'User.id',
-        'User.name'
+        'User.username'
+      ),
+      'conditions' => array(
+        'role' => 'user'
       ),
       'order' => 'User.id ASC'
     ));
@@ -99,6 +109,7 @@ class AttendancesController extends AppController{
     $this->set('period2_to',$period2_to);
 
     $this->set('name_list',$name_list);
+    $this->set('username_list',$username_list);
     $this->set('attendance_list',$attendance_list);
     $this->set('date_list',$date_list);
 

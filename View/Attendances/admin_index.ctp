@@ -169,8 +169,11 @@ function downloadCSV()
 		</thead>
 		<tbody>
 		<?php //$this->log(count($date_list));?>
-		<?php foreach ($attendance_list as $attendance_info):?>
-		<?php $user_id = $attendance_info[0]['Attendance']['user_id']?>
+		<?php foreach ($members as $member):?>
+		<?php
+			$user_id = $member['User']['id'];
+			$attendance_info = $attendance_list[$user_id];
+		?>
 			<tr>
 				<td nowrap><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
 				<td nowrap><?php echo h($name_list[$user_id]); ?>&nbsp;</td>
@@ -192,7 +195,6 @@ function downloadCSV()
 								$mark = '<font color="blue">○</font>';
 							}
 						}
-
 				?>
 				<td nowrap><span style = "font-size : 15pt"><?php echo $mark; ?>&nbsp;</span></td>
 				<?php endforeach; ?>

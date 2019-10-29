@@ -351,25 +351,3 @@
   </div>
 </div>
 <?php endforeach;?>
-
-
-
-
-<html>
-
-<body>
-
-<div style = "border : solid #008080;  ">
-
-  <div class="slider" style = "">
-    <div>I am a slide.</div>
-    <div>I am another slide.</div>
-    <div>another slide.</div>
-  </div>
-  
-  <div class="slider" style = "margin : 0;">
-    <div><h1>I am a slide.</h1></div>
-    <div>I am another slide.</div>
-    <div>another slide.</div>
-  </div>
-</div>

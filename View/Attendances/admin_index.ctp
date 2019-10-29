@@ -188,10 +188,7 @@ function downloadCSV()
 				<td nowrap><?php echo h($name_list[$user_id]); ?>&nbsp;</td>
 				<?php
 					//$this->log(count($attendance_info));
-					$no_info_number = count($date_list) - count($attendance_info);
-					for($i = 0; $i < $no_info_number; $i++){
-						echo "<td nowrap>&nbsp;</td>";
-					}
+					
 					foreach ($attendance_info as $row):
 						if($row['Attendance']['status'] == 0){
 							$mark = '<font color="red">×</font>';
@@ -207,6 +204,12 @@ function downloadCSV()
 				?>
 				<td nowrap><span style = "font-size : 15pt"><?php echo $mark; ?>&nbsp;</span></td>
 				<?php endforeach; ?>
+				<?php
+					$no_info_number = count($date_list) - count($attendance_info);
+					for($i = 0; $i < $no_info_number; $i++){
+						echo "<td nowrap>&nbsp;</td>";
+					}
+				?>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>

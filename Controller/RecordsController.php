@@ -192,7 +192,7 @@ class RecordsController extends AppController
 
 			$this->set('groups',     $this->Group->find('list'));
 			$this->set('courses',    $this->Course->find('list'));
-      $this->log($this->Course->find('list'));
+      //$this->log($this->Course->find('list'));
 			$this->set('group_id',   $group_id);
 			$this->set('course_id',  $course_id);
 			$this->set('name',       $name);

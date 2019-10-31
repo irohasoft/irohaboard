@@ -50,6 +50,7 @@ class SoapsController extends AppController{
     $this->loadModel('Course');
     $this->loadModel('User');
     $this->loadModel('Enquete');
+    $this->loadModel('Attendance');
 
     //日付リスト
     $today_date = (isset($this->request->query['today_date'])) ?
@@ -105,9 +106,20 @@ class SoapsController extends AppController{
     $conditions = [];
     $conditions['Soap.group_id'] = $group_id;
 
+    $attendance_info = $this->Attendance->find('first',array(
+      'conditions' => array(
+        
+      ),
+      'order' => 'Attendance.created DESC'
+    ));
+    $created = new DateTime($attendance_info['Attendance']['created']);
+    $created_day = $created->format('Y-m-d');
+
+    $edate = date('y-m-d', strtotime(" next saturday ",strtotime($created_day)));
+
     $conditions['Soap.created BETWEEN ? AND ?'] = array(
-			$today_date['year']."-".$today_date['month']."-".$today_date['day'],
-			$today_date['year']."-".$today_date['month']."-".$today_date['day'].' 23:59:59'
+      $created_day,
+			$edate.' 23:59:59'
 		);
 
     $soap_history = $this->Soap->find('all',array(
@@ -153,6 +165,7 @@ class SoapsController extends AppController{
     $this->loadModel('Course');
     $this->loadModel('User');
     $this->loadModel('Enquete');
+    $this->loadModel('Attendance');
 
     $pic_path = $this->User->findUserPicPath($user_id);
     $this->set('pic_path', $pic_path);
@@ -211,7 +224,7 @@ class SoapsController extends AppController{
 
     $this->set('today_date',$today_date);
 
-    //入力したSOAPを検索（今日の日付）
+    //入力したSOAPを検索（先週の授業から）
     $conditions = [];
     $conditions['Soap.user_id'] = $user_id;
 

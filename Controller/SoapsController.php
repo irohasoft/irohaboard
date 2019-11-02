@@ -102,7 +102,7 @@ class SoapsController extends AppController{
     $this->set('group_list',$group_list);
 
 
-    //入力したSOAPを検索（今日の日付）
+    //入力したSOAPを検索（前回の授業から）
     $conditions = [];
     $conditions['Soap.group_id'] = $group_id;
 
@@ -149,6 +149,9 @@ class SoapsController extends AppController{
         if($soap['S'] == '' && $soap['O'] == '' && $soap['A'] == '' && $soap['P'] == ''){
           continue;
         }
+        $inputed = $soap['today_date'];
+        $input_date = $inputed['year']."-".$inputed['month']."-".$inputed['day'];
+        $soap['created'] = $input_date.date(' H:i:s');
 
         if($this->Soap->save($soap)){
           $this->Soap->create(false); //これがないと，ループ内での保存はできない
@@ -228,9 +231,20 @@ class SoapsController extends AppController{
     $conditions = [];
     $conditions['Soap.user_id'] = $user_id;
 
+    $attendance_info = $this->Attendance->find('first',array(
+      'conditions' => array(
+        
+      ),
+      'order' => 'Attendance.created DESC'
+    ));
+    $created = new DateTime($attendance_info['Attendance']['created']);
+    $created_day = $created->format('Y-m-d');
+
+    $edate = date('y-m-d', strtotime(" next saturday ",strtotime($created_day)));
+
     $conditions['Soap.created BETWEEN ? AND ?'] = array(
-			$today_date['year']."-".$today_date['month']."-".$today_date['day'],
-			$today_date['year']."-".$today_date['month']."-".$today_date['day'].' 23:59:59'
+      $created_day,
+			$edate.' 23:59:59'
 		);
 
     $soap_history = $this->Soap->find('all',array(
@@ -267,6 +281,7 @@ class SoapsController extends AppController{
         $inputed = $soap['today_date'];
         $input_date = $inputed['year']."-".$inputed['month']."-".$inputed['day'];
         $soap['studied_content'] = $this->Record->studiedContentOnTheDate($soap['user_id'], $input_date);
+        $soap['created'] = $input_date.date(' H:i:s');
         if($this->Soap->save($soap)){
           $this->Soap->create(false); //これがないと，ループ内での保存はできない
           continue;

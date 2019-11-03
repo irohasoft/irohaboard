@@ -116,7 +116,7 @@ class UsersCoursesController extends AppController
 				$save_info = $attendance_info['Attendance'];
 				if($save_info['status'] == 0){
 					$save_info['status'] = 1;
-					$save_info['login_time'] = $user_login_info['Log']['created'];
+					$save_info['login_time'] = date('Y-m-d H:i:s');
 					
 					$login_time = (int)strtotime($save_info['login_time']);
 

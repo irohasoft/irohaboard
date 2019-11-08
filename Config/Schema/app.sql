@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `ib_users` (
   `username` varchar(50) NOT NULL DEFAULT '',
   `password` varchar(200) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',
+  `name_furigana` varchar(200) DEFAULT NULL,
   `role` varchar(20) NOT NULL DEFAULT '',
   `email` varchar(50) NOT NULL DEFAULT '',
   `comment` text,
@@ -46,6 +47,12 @@ CREATE TABLE IF NOT EXISTS `ib_users` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `deleted` datetime DEFAULT NULL,
+  `pic_path` varchar(200) DEFAULT NULL,
+  `period` int(20) DEFAULT NULL,
+  `os_type` int(20) DEFAULT NULL,
+  `group_id` int(20) DEFAULT NULL,
+  `birthyear` int(20) DEFAULT NULL,
+  `last_group` int(8) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login_id` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -91,6 +98,7 @@ CREATE TABLE IF NOT EXISTS `ib_records` (
   `is_complete` smallint(1) DEFAULT NULL,
   `progress` smallint(1) DEFAULT '0',
   `understanding` smallint(1) DEFAULT NULL,
+  `is_check` varchar(50) DEFAULT NULL,
   `study_sec` int(3) DEFAULT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`),
@@ -174,6 +182,8 @@ CREATE TABLE IF NOT EXISTS `ib_courses` (
   `sort_no` int(8) NOT NULL DEFAULT '0',
   `comment` text,
   `user_id` int(8) NOT NULL,
+  `before_course` int(8) DEFAULT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -235,6 +245,8 @@ CREATE TABLE IF NOT EXISTS `ib_contents` (
   `deleted` datetime DEFAULT NULL,
   `sort_no` int(8) NOT NULL DEFAULT '0',
   `comment` text,
+  `text_url` varchar(200) DEFAULT NULL,
+  `before_content` int(8) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -248,7 +260,98 @@ CREATE TABLE IF NOT EXISTS `ib_cake_sessions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- ----------------------------
+-- Table structure for `ib_themes`
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS `ib_themes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `theme` varchar(200) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `ib_os_types`
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS `ib_os_types` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `type` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `ib_attendances`
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS `ib_attendances` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `user_id` int(8) NOT NULL,
+  `period` int(1) DEFAULT NULL,
+  `login_time` datetime DEFAULT NULL,
+  `late_time` int(8) DEFAULT NULL,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `ib_cleared_contents`
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS `ib_cleared_contents` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `user_id` int(8) NOT NULL,
+  `course_id` int(8) DEFAULT NULL,
+  `content_id` int(8) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `ib_enquetes`
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS `ib_enquetes` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `user_id` int(8) NOT NULL,
+  `group_id` int(8) NOT NULL,
+  `before_goal_cleared` int(8) DEFAULT NULL,
+  `before_false_reason` varchar(200) DEFAULT NULL,
+  `today_goal` varchar(200) NOT NULL,
+  `today_goal_cleared` int(8) DEFAULT NULL,
+  `today_false_reason` varchar(200) DEFAULT NULL,
+  `next_goal` varchar(200) NOT NULL,
+  `today_impressions` varchar(200) NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `ib_soaps`
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS `ib_soaps` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `user_id` int(20) NOT NULL,
+  `group_id` int(20) NOT NULL,
+  `current_status` varchar(50) NOT NULL,
+  `studied_content` int(8) DEFAULT NULL,
+  `S` varchar(200) NOT NULL,
+  `O` varchar(200) NOT NULL,
+  `A` varchar(200) NOT NULL,
+  `P` varchar(200) NOT NULL,
+  `comment` varchar(200) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 INSERT INTO `ib_settings` VALUES ('1', 'title', 'システム名', 'iroha Board');
 INSERT INTO `ib_settings` VALUES ('2', 'copyright', 'コピーライト', 'Copyright (C) 2016-2019 iroha Soft Co.,Ltd. All rights reserved.');
 INSERT INTO `ib_settings` VALUES ('3', 'color', 'テーマカラー', '#337ab7');
 INSERT INTO `ib_settings` VALUES ('4', 'information', 'お知らせ', '全体のお知らせを表示します。\r\nこのお知らせは管理機能の「システム設定」にて変更可能です。');
+INSERT INTO `ib_os_types` VALUES ('1', 'Windows');
+INSERT INTO `ib_os_types` VALUES ('2', 'MacOS');
+INSERT INTO `ib_os_types` VALUES ('3', 'Linux');
+INSERT INTO `ib_os_types` VALUES ('4', 'その他');

@@ -125,6 +125,23 @@ class Record extends AppModel
 	public $filterArgs = array(
 	);
 
+	// コースの開始日を返す
+	public function findStartDate($user_id, $course_id){
+		$data = $this->find('first', array(
+			'conditions' => array(
+				'user_id'   => $user_id,
+				'course_id' => $course_id
+			),
+			'order' => array(
+				'created' => 'ASC'
+			),
+			'recursive' => -1
+		));
+		if($data == NULL){ return NULL; }
+		$start_date = (new DateTime($data['Record']['created']))->format('Y/m/d');
+		$this->log($start_date);
+		return $start_date;
+	}
 
 	// 指定日の最後に学んだコンテンツを返す．不合格のものは含めない
 	public function studiedContentOnTheDate($user_id, $date){

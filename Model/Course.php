@@ -292,13 +292,20 @@ EOF;
 	public function findClearedRate($user_id){
 		$cleared_rates = array();
 		App::import('Model', 'UsersCourse');
+		App::import('Model', 'Record');
 		$this->UsersCourse = new UsersCourse();
+		$this->Record = new Record();
 		$all_courses = $this->UsersCourse->getCourseRecord($user_id);
 		foreach($all_courses as $course){
 			$course_id    = $course['Course']['id'];
 			$course_title = $course['Course']['title'];
+			$start_date   = $this->Record->findStartDate($user_id, $course_id);
 			$cleared_rate = $this->calcClearedRate($user_id, $course_id);
-			$cleared_rates[] = ['course_title' => $course_title, 'cleared_rate' => $cleared_rate];
+			$cleared_rates[] = [
+				'course_title' => $course_title,
+				'start_date'   => $start_date,
+				'cleared_rate' => $cleared_rate
+			];
 		}
 		return $cleared_rates;
 	}

@@ -44,7 +44,7 @@
       <tr>
         <th></th>
         <th></th>
-        <th></th>
+        <!--<th></th>-->
         <th></th>
       </tr>
     </thead>
@@ -66,13 +66,17 @@
             echo h($group_title);
           ?>
         </td>
+        <!--
         <td class="studied-material">
           <?php
+            /*
             $content_id = $recent_soap['Soap']['studied_content'];
             $studied_content = $content_list[$content_id];
             echo h($studied_content);
+            */
           ?>
         </td>
+        -->
         <td class="soap-block">
           <div class="soap-item"><b>S</b>:&nbsp;<?php echo h($S); ?>&nbsp;</div>
           <div class="soap-item"><b>O</b>:&nbsp;<?php echo h($O); ?>&nbsp;</div>

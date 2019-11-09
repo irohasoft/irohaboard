@@ -5,7 +5,7 @@
 		<ul class="nav navbar-nav menu-bar">
 			<?php
 			$is_active = ($this->name=='RecentStates') ? ' active' : '';
-			echo '<li class="'.$is_active.' menu__single">'.$this->Html->link(__('　近況状況　'), array('controller' => 'recentstates', 'action' => 'index'));
+			echo '<li class="'.$is_active.' menu__single">'.$this->Html->link(__('　受講生近況　'), array('controller' => 'recentstates', 'action' => 'index'));
 			echo '<ul class="menu__second-level">';
 			echo '<li>'.$this->Html->link(__('グループ'), array('controller' => 'recentstates', 'action' => 'find_by_group')).'</li>';
 			echo '<li>'.$this->Html->link(__('個人'), array('controller' => 'recentstates', 'action' => 'find_by_student')).'</li>';

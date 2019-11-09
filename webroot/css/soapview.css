@@ -33,11 +33,13 @@
   width: 250px;
   padding: 1em;
   box-sizing: border-box;
+  vertical-align: top;
   font-size: 20px;
 }
 .student-photo {
   width: 150px;
-  padding: 0em;
+  padding: 1em;
+  vertical-align: top;
 }
 .student-progress {
   padding: 1em;

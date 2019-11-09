@@ -108,7 +108,7 @@ class SoapsController extends AppController{
 
     $attendance_info = $this->Attendance->find('first',array(
       'conditions' => array(
-        
+
       ),
       'order' => 'Attendance.created DESC'
     ));
@@ -177,21 +177,15 @@ class SoapsController extends AppController{
     $today_date = (isset($this->request->query['today_date'])) ?
       $this->request->query['today_date']:
         array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
-
     $this->set('today_date',$today_date);
 
     //提出したアンケートを検索（今日の日付）
-
     $conditions = [];
     $conditions['Enquete.user_id'] = $user_id;
-
-
     $conditions['Enquete.created BETWEEN ? AND ?'] = array(
 			$today_date['year']."-".$today_date['month']."-".$today_date['day'],
 			$today_date['year']."-".$today_date['month']."-".$today_date['day'].' 23:59:59'
     );
-
-
     $enquete_history = $this->Enquete->find('all',array(
       'conditions' => $conditions
     ));
@@ -206,9 +200,6 @@ class SoapsController extends AppController{
     $this->set('enquete_inputted',$enquete_inputted);
     //メンバーリスト
 
-
-
-
     $user_list = $this->User->find('list');
     //$this->log($user_list);
     $this->set('user_list', $user_list);
@@ -217,10 +208,9 @@ class SoapsController extends AppController{
     $group_id = $this->User->findUserGroup($user_id);
     //$this->log($group_id);
 
+    $this->set('user_id', $user_id);
 
-    $this->set('user_id',$user_id);
     //グループ一覧を作り，配列の形を整形する
-
     //$this->log($this->Group->find('list'));
     $group_list = $this->Group->find('list');
     $this->set('group_list',$group_list);
@@ -233,7 +223,7 @@ class SoapsController extends AppController{
 
     $attendance_info = $this->Attendance->find('first',array(
       'conditions' => array(
-        
+
       ),
       'order' => 'Attendance.created DESC'
     ));
@@ -260,7 +250,6 @@ class SoapsController extends AppController{
     //$this->log($soap_inputted);
     $this->set('soap_inputted',$soap_inputted);
     $this->set('group_id',$group_id);
-
 
     //教材現状
     $course_list = $this->Course->find('list');
@@ -290,10 +279,8 @@ class SoapsController extends AppController{
       }
       $this->Flash->success(__('提出しました、ありがとうございます'));
       return $this->redirect(array('action' => 'index'));
-
     }
   }
 }
-
 
 ?>

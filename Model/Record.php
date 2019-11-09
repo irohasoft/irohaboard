@@ -139,7 +139,6 @@ class Record extends AppModel
 		));
 		if($data == NULL){ return NULL; }
 		$start_date = (new DateTime($data['Record']['created']))->format('Y/m/d');
-		$this->log($start_date);
 		return $start_date;
 	}
 

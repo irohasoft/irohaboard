@@ -31,7 +31,9 @@ class RecordsController extends AppController
 
 	//public $presetVars = true;
 
-	public $paginate = array();
+	public $paginate = array(
+		'maxLimit' => 1000
+	);
 
 	public $presetVars = array(
 		array(

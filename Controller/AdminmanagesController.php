@@ -28,7 +28,9 @@ class AdminManagesController extends AppController{
 
   //public $presetVars = true;
 
-  public $paginate = array();
+  public $paginate = array(
+    'maxLimit' => 1000
+  );
 
   public $presetVars = array(
     array(
@@ -84,7 +86,7 @@ class AdminManagesController extends AppController{
       $target_date = $date_list[$this->request->data['User']['target_date']];
       $from_date_time = (int)strtotime($target_date);
       $to_date_time = $from_date_time + 172800;
-      
+
       $this->autoRender = false;
 
 			// メモリサイズ、タイムアウト時間を設定
@@ -123,7 +125,7 @@ class AdminManagesController extends AppController{
 
 			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
       fputcsv($fp, $header);
-      
+
       foreach($user_list as $user){
         $output_list = [];
         //学籍番号
@@ -221,7 +223,7 @@ class AdminManagesController extends AppController{
           $output_list[] = '';
         }
 
-        
+
 
 				mb_convert_variables("SJIS-WIN", "UTF-8", $output_list);
 
@@ -231,6 +233,6 @@ class AdminManagesController extends AppController{
       fclose($fp);
     }
   }
-  
+
 }
 ?>

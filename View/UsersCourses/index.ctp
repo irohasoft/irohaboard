@@ -1,5 +1,46 @@
 <?php echo $this->element('menu');?>
+<?php echo $this->Html->css('user_course');?>
 <div class="users-courses-index">
+
+	<div class = "attendance-block">
+	  <div class = "attendance-info">
+	    <div class = "attendance-date-block">
+			<div class = "attendance-date">
+	        <?php foreach($user_info as $row):?>
+	          <div class = "date">
+	            <?php
+	              $created = new DateTime($row['Attendance']['created']);
+	              $created_day = $created->format('Y-m-d');
+	              echo h($created_day);
+	            ?>
+	          </div>
+					<?php endforeach;?>
+	
+				</div>
+				<div class = "attendance-status">
+					<?php foreach($user_info as $row):?>
+						<div class = "status">
+	            <?php
+	              if($row['Attendance']['status'] != 1){
+	                echo h('×');
+	              }else{
+	                if($row['Attendance']['late_time'] != 0){
+	                  $late_time = $row['Attendance']['late_time'];
+	                  echo h('△'."($late_time)");
+	                }else{
+	                  echo h('○');
+	                }
+	              }
+	            ?>
+	          </div>
+					<?php endforeach;?>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+								
 	<div class="panel panel-success">
 		<div class="panel-heading"><?php echo __('お知らせ'); ?></div>
 		<div class="panel-body">

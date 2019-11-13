@@ -26,7 +26,12 @@ class UsersCoursesController extends AppController
 	 */
 	public function index()
 	{
+		$this->loadModel('User');
+		$this->loadModel('Attendance');
 		$user_id = $this->Auth->user('id');
+
+		
+
 
 		$role = $this->Auth->user('role');
     $this->set('role',$role);
@@ -103,7 +108,7 @@ class UsersCoursesController extends AppController
 			
 			//実用する時，ここを==にする．
 			if($user_ip == $standard_ip){ 
-				$this->loadModel('Attendance');
+				
 				$attendance_info = $this->Attendance->find('first',array(
 					'conditions' => array(
 						'Attendance.user_id' => $user_id
@@ -133,5 +138,16 @@ class UsersCoursesController extends AppController
 				}
 			}
 		}
+
+		$user_info = $this->Attendance->find('all',array(
+			'conditions' => array(
+				'User.id' => $user_id
+			),
+			'order' => 'Attendance.created DESC',
+			'limit' => 8
+		));
+		$this->set(compact("user_info"));
+		$this->log($user_info);
+	
 	}
 }

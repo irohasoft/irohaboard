@@ -154,9 +154,17 @@ function downloadCSV()
 			echo '</div>';
 			echo $this->Form->end();
 		?>
+	</div></br>
+	<div class = "ib-row">
+	  <span style = "margin-right : 20px" ><?php echo "受講日：".$last_day;?></span>
+		<span style = "margin-right : 20px" ><?php echo "１限：".$cnt_1."名";?></span>
+		<span style = "margin-right : 20px" ><?php echo "出席：".$att_1."名";?></span>
+		<span style = "margin-right : 20px" ><?php echo "欠席：".$abs_1."名";?></span>
+		<span style = "margin-right : 20px" ><?php echo "出席率：".(int)(($att_1 / $cnt_1) * 100)."%";?></span>
 	</div>
 
-	<div class = "record-table">
+	<?php //１限のリスト?>
+	<div class = "record-table" style = "margin-bottom : 20px">
 	<table cellpadding="0" cellspacing="0">
 		<thead>
 			<tr>
@@ -178,7 +186,7 @@ function downloadCSV()
 		</thead>
 		<tbody>
 		<?php //$this->log(count($date_list));?>
-		<?php foreach ($members as $member):?>
+		<?php foreach ($period1_members as $member):?>
 		<?php
 			$user_id = $member['User']['id'];
 			$attendance_info = $attendance_list[$user_id];
@@ -215,6 +223,76 @@ function downloadCSV()
 		</tbody>
 	</table>
 
-	<?php echo $this->element('paging');?>
+	
+	</div>
+
+	<div class = "ib-row" style = "margin-bottom : 10px">
+	  <span style = "margin-right : 20px" ><?php echo "受講日：".$last_day;?></span>
+		<span style = "margin-right : 20px" ><?php echo "２限：".$cnt_2."名";?></span>
+		<span style = "margin-right : 20px" ><?php echo "出席：".$att_2."名";?></span>
+		<span style = "margin-right : 20px" ><?php echo "欠席：".$abs_2."名";?></span>
+		<span style = "margin-right : 20px" ><?php echo "出席率：".(int)(($att_2 / $cnt_2) * 100)."%";?></span>
+	</div>
+
+	<?php //２限のリスト?>
+	<div class = "record-table" style = "margin-top : 30px">
+	<table cellpadding="0" cellspacing="0">
+		<thead>
+			<tr>
+			<th nowrap class="non-last-column ib-col-center"><?php echo __('受講生番号');?>
+			<th nowrap class="non-last-column"><?php echo __('氏名');?>
+			<?php
+				$no = 0;
+				$length = count($date_list);
+				foreach($date_list as $date){
+					// 最後の要素
+					if(++$no == $length){
+						echo '<th nowrap class="last-column">'.h($date).'</th>';
+					}else{
+						echo '<th nowrap class="non-last-column">'.h($date).'</th>';
+					}
+				}
+			?>
+			</tr>
+		</thead>
+		<tbody>
+		<?php //$this->log(count($date_list));?>
+		<?php foreach ($period2_members as $member):?>
+		<?php
+			$user_id = $member['User']['id'];
+			$attendance_info = $attendance_list[$user_id];
+		?>
+			<tr>
+				<td nowrap class="ib-col-center"><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
+				<td nowrap><?php echo h($name_list[$user_id]); ?>&nbsp;</td>
+				<?php
+					//$this->log(count($attendance_info));
+					
+					foreach ($attendance_info as $row):
+						if($row['Attendance']['status'] == 0){
+							$mark = '<font color="red">×</font>';
+						}
+						if($row['Attendance']['status'] == 1){
+							if($row['Attendance']['late_time'] != 0){
+								$late_time = $row['Attendance']['late_time'];
+								$mark = '<font color="green">△'."($late_time)</font>";
+							}else{
+								$mark = '<font color="blue">○</font>';
+							}
+						}
+				?>
+				<td nowrap><span style = "font-size : 15pt"><?php echo $mark; ?>&nbsp;</span></td>
+				<?php endforeach; ?>
+				<?php
+					$no_info_number = count($date_list) - count($attendance_info);
+					for($i = 0; $i < $no_info_number; $i++){
+						echo "<td nowrap>&nbsp;</td>";
+					}
+				?>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+
 	</div>
 </div>

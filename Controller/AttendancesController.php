@@ -53,6 +53,24 @@ class AttendancesController extends AppController{
     $this->loadModel('User');
 
     $members = $this->User->getAllStudent();
+    $period1_members = $this->User->find('all',array(
+      'conditions' => array(
+        'User.role' => 'user',
+        'User.period' => 0 
+      ),
+      'order' => 'User.username ASC'
+    ));
+
+    $period2_members = $this->User->find('all',array(
+      'conditions' => array(
+        'User.role' => 'user',
+        'User.period' => 1
+      ),
+      'order' => 'User.username ASC'
+    ));
+
+    $this->set(compact("period1_members","period2_members"));
+
     $attendance_list = $this->Attendance->findAllUserAttendances();
     //$this->log($attendance_list);
     $name_list = $this->User->find('list',array(
@@ -85,6 +103,50 @@ class AttendancesController extends AppController{
       }
       break;
     }
+
+    foreach($attendance_list as $info){
+      foreach($info as $row){
+        $tmp = new DateTime($row['Attendance']['created']);
+        $last_day = $tmp->format('Y-m-d');
+        break;
+      }
+      break;
+    }
+
+    $conditions['Attendance.created BETWEEN ? AND ?'] = array(
+			$last_day,
+			$last_day.' 23:59:59'
+    );
+
+    $rows = $this->Attendance->find('all',array(
+      'conditions' => $conditions,
+      'order' => 'User.username ASC'
+    ));
+
+    $now = 1;
+    $abs_1 = $att_1 = $abs_2 = $att_2 = $cnt_1 = $cnt_2 = 0;
+    foreach($rows as $row){
+      $now = preg_match("/^2[0-9]/",$row['User']['username']) ? 2 : 1;
+      //$this->log($row);
+      //$this->log($now);
+      if($now == 1){
+        if($row['Attendance']['status'] == 1){
+          $att_1++;
+        }else{
+          $abs_1++;
+        }
+        $cnt_1++;
+      }else{
+        if($row['Attendance']['status'] == 1){
+          $att_2++;
+        }else{
+          $abs_2++;
+        }
+        $cnt_2++;
+      }
+    }
+
+    $this->set(compact("abs_1", "abs_2", "att_1", "att_2", "cnt_1", "cnt_2", "last_day"));
 
     //標準時間を設定
     $period1_from	= (isset($this->request->data['Attendance']['period1_from'])) ?
@@ -136,13 +198,6 @@ class AttendancesController extends AppController{
               $period1_to_standard = (int)strtotime($created_year.' '.$period1_to['hour'].':'.$period1_to['min']);
               $period2_from_standard = (int)strtotime($created_year.' '.$period2_from['hour'].':'.$period2_from['min']);
 
-              /*
-              $this->log($created_year.' '.$period1_from['hour'].':'.$period1_from['min']);
-              $this->log($period1_from_standard);
-              $this->log($period1_to_standard);
-              $this->log($period2_from_standard);
-              $this->log($login_time);
-              */
 
               if($login_time <= $period1_from_standard){
                 $save_data['late_time'] = 0;

@@ -281,7 +281,6 @@ class User extends AppModel
 	// role == 'user' のユーザのみ
 	public function getAllStudent(){
 		$data = $this->find('all', array(
-			'fields' => array('id'),
 			'conditions' => array(
 				'role'     => 'user'
 			),

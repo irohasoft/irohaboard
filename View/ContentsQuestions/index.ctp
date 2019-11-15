@@ -43,21 +43,29 @@
 	var TIMELIMIT_SEC	= parseInt('<?php echo $content['Content']['timelimit'] ?>') * 60;	// 制限時間（単位：秒）
 	var IS_RECORD		= '<?php echo $is_record ?>';										// テスト結果表示フラグ
 	
-	function show(){
-		var objID = document.getElementById('quiz');
-		var txt = document.getElementById('contentFrame');
 
-		if(objID.className == "close"){
-			txt.style.width = "60%";
-			objID.style.display = "block";
-			objID.className = 'open';
-			
+	function show_text(){
+		var quiz = document.getElementById('quiz_block');
+		var text = document.getElementById('contentFrame');
+		var flag = document.getElementById('quiz');
+
+		if(flag.className == "full"){
+			flag.className = "none";
+			text.style.display = "block";
+			text.style.width = "95%";
+			quiz.style.display = "none";
+		}else if(flag.className == "none"){
+			flag.className = "parallel";
+			text.style.width = "60%";
+			quiz.style.display = "block";
+			quiz.style.width = "35%";
 		}else{
-			objID.style.display = "none";
-			objID.className = "close";
-			txt.style.width = "95%";
+			flag.className = "full";
+			text.style.display = "none";
+			quiz.style.width = "95%";
 		}
 	}
+
 	</script>
 	<?php echo $this->Html->script('contents_questions.js?20190401');?>
 	<?php $this->end(); ?>
@@ -99,8 +107,8 @@
 		}
 	?>
 	<div style = "float:left;">
-	<div onclick = "show();">
-	<a style="cursor: pointer;">クリックでクイズを表示・非表示</a></div>
+	<div onclick = "show_text();">
+	<a style="cursor: pointer;">クリックでクイズ・テキストを表示・非表示</a></div>
 	</div>
 	</br>
   <div class = "text-block">
@@ -117,7 +125,7 @@
 		}
 	?>
 	
-	<div class = "quiz-block">
+	<div class = "quiz-block" id = "quiz_block">
 	
 	<div id = "quiz" style="display:block;clear:both;">
 	<?php echo $this->Form->create('ContentsQuestion'); ?>

@@ -32,12 +32,14 @@
             <th nowrap>開始日</th><th></th>
             <th nowrap>消化率</th>
             <th></th><th></th>
+            <th nowrap>最終学習日</th><th></th>
           </tr>
         </thead>
         <tbody>
         <?php foreach($members_cleared_rates[$user_id] as $cleared_rate):
           $title = $cleared_rate['course_title'];
           $start = $cleared_rate['start_date'];
+          $last  = $cleared_rate['last_date'];
           $rate  = $cleared_rate['cleared_rate'];
         ?>
           <tr>
@@ -45,6 +47,7 @@
             <td nowrap><?php echo h($start)?>&nbsp;<td/>
             <td><?php echo '<meter style="min-width: 200px" low="30" high="90" optimum="100" value='.$rate.'>'.round($rate*100).'%</meter>'; ?></td>
             <td><?php echo h(round($rate*100));?>%&nbsp;<td/>
+            <td nowrap><?php echo h($last)?>&nbsp;<td/>
           </tr>
         <?php endforeach; ?>
         </tbody>

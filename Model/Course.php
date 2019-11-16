@@ -300,10 +300,12 @@ EOF;
 			$course_id    = $course['Course']['id'];
 			$course_title = $course['Course']['title'];
 			$start_date   = $this->Record->findStartDate($user_id, $course_id);
+			$last_date    = $this->Record->findLastDate($user_id, $course_id);
 			$cleared_rate = $this->calcClearedRate($user_id, $course_id);
 			$cleared_rates[] = [
 				'course_title' => $course_title,
 				'start_date'   => $start_date,
+				'last_date'    => $last_date,
 				'cleared_rate' => $cleared_rate
 			];
 		}

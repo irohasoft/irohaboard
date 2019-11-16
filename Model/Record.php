@@ -142,6 +142,23 @@ class Record extends AppModel
 		return $start_date;
 	}
 
+	// コースを最後に学習した日を返す
+	public function findLastDate($user_id, $course_id){
+		$data = $this->find('first', array(
+			'conditions' => array(
+				'user_id'   => $user_id,
+				'course_id' => $course_id
+			),
+			'order' => array(
+				'created' => 'DESC'
+			),
+			'recursive' => -1
+		));
+		if($data == NULL){ return NULL; }
+		$last_date = (new DateTime($data['Record']['created']))->format('Y/m/d');
+		return $last_date;
+	}
+
 	// 指定日の最後に学んだコンテンツを返す．不合格のものは含めない
 	public function studiedContentOnTheDate($user_id, $date){
 		//$this->log($date);

@@ -95,11 +95,16 @@ class AttendancesController extends AppController{
     ));
 
     $date_list = array();
+    $date_list_search = array();
+
     foreach($attendance_list as $info){
       foreach($info as $row){
         $created = new DateTime($row['Attendance']['created']);
         $created_day = $created->format('m月d日');
         $date_list[] = $created_day;
+
+        $created_day = $created->format('m-d');
+        $date_list_search[] = $created_day;
       }
       break;
     }
@@ -181,7 +186,7 @@ class AttendancesController extends AppController{
 
       $request_data = $this->request->data;
 
-      $target_date = $date_list[$request_data['Attendance']['target_date']];
+      $target_date = $date_list_search[$request_data['Attendance']['target_date']];
 
       foreach ($attendance_list as $attendance_info){
         foreach ($attendance_info as $row){

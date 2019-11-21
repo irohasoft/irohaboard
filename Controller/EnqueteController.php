@@ -312,7 +312,9 @@ class EnqueteController extends AppController{
 		else
 		{
 			$this->Paginator->settings['conditions'] = $conditions;
-			$this->Paginator->settings['order']      = 'Enquete.created desc';
+      $this->Paginator->settings['order']      = 'Enquete.created desc';
+      $this->Paginator->settings['limit'] = 1000;
+      $this->Paginator->settings['maxLimit'] = 1000;
 			$this->Enquete->recursive = 0;
 
 			try

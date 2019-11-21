@@ -173,6 +173,8 @@ class SoapRecordsController extends AppController
 		{
 			$this->Paginator->settings['conditions'] = $conditions;
 			$this->Paginator->settings['order']      = 'Soap.created desc';
+			$this->Paginator->settings['limit'] = 1000;
+      $this->Paginator->settings['maxLimit'] = 1000;
 			$this->Soap->recursive = 0;
 
 			try

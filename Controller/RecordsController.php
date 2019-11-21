@@ -171,6 +171,8 @@ class RecordsController extends AppController
 		{
 			$this->Paginator->settings['conditions'] = $conditions;
 			$this->Paginator->settings['order']      = 'Record.created desc';
+			$this->Paginator->settings['limit'] = 1000;
+      $this->Paginator->settings['maxLimit'] = 1000;
 			$this->Record->recursive = 0;
 
 			try

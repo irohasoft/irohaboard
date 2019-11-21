@@ -24,12 +24,7 @@
 	              if($row['Attendance']['status'] != 1){
 	                echo h('×');
 	              }else{
-	                if($row['Attendance']['late_time'] != 0){
-	                  $late_time = $row['Attendance']['late_time'];
-	                  echo h('△'."($late_time)");
-	                }else{
-	                  echo h('○');
-	                }
+	                echo h('○');
 	              }
 	            ?>
 	          </div>

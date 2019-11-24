@@ -28,8 +28,8 @@ function downloadCSV()
 			echo $this->Form->input('target_date',	array(
 				'label' => '日付：',
 				'options'=>$date_list,
-				'selected'=>'',
-				'empty' => '',
+				'selected'=>$last_class_date,
+				//'empty' => '',
 				'required'=>false,
 				'style' => '',
 				'value' => $target_date,
@@ -196,21 +196,36 @@ function downloadCSV()
 				<td nowrap><?php echo h($name_list[$user_id]); ?>&nbsp;</td>
 				<?php
 					//$this->log(count($attendance_info));
-					
+
 					foreach ($attendance_info as $row):
 						if($row['Attendance']['status'] == 0){
-							$mark = '<font color="red">×</font>';
+							$color = 'red';
+							$mark  = '×';
 						}
 						if($row['Attendance']['status'] == 1){
 							if($row['Attendance']['late_time'] != 0){
 								$late_time = $row['Attendance']['late_time'];
-								$mark = '<font color="green">△'."($late_time)</font>";
+								$color = 'green';
+								$mark  = '△'."($late_time)";
 							}else{
-								$mark = '<font color="blue">○</font>';
+								$color = 'blue';
+								$mark  = '○';
 							}
 						}
 				?>
-				<td nowrap><span style = "font-size : 15pt"><?php echo $mark; ?>&nbsp;</span></td>
+				<td nowrap><span style = "font-size : 15pt">
+					<?php
+						$attendance_id = $row['Attendance']['id'];
+						echo $this->Html->link(__($mark),
+							array(
+								'controller' => 'attendances',
+								'action' => 'admin_edit', $user_id, $attendance_id
+							),
+							array(
+								'style' => 'color:'.$color.';'
+						));
+					?>
+				</span></td>
 				<?php endforeach; ?>
 				<?php
 					$no_info_number = count($date_list) - count($attendance_info);
@@ -223,7 +238,7 @@ function downloadCSV()
 		</tbody>
 	</table>
 
-	
+
 	</div>
 
 	<div class = "ib-row" style = "margin-bottom : 10px">
@@ -267,21 +282,36 @@ function downloadCSV()
 				<td nowrap><?php echo h($name_list[$user_id]); ?>&nbsp;</td>
 				<?php
 					//$this->log(count($attendance_info));
-					
+
 					foreach ($attendance_info as $row):
 						if($row['Attendance']['status'] == 0){
-							$mark = '<font color="red">×</font>';
+							$color = 'red';
+							$mark  = '×';
 						}
 						if($row['Attendance']['status'] == 1){
 							if($row['Attendance']['late_time'] != 0){
 								$late_time = $row['Attendance']['late_time'];
-								$mark = '<font color="green">△'."($late_time)</font>";
+								$color = 'green';
+								$mark  = '△'."($late_time)";
 							}else{
-								$mark = '<font color="blue">○</font>';
+								$color = 'blue';
+								$mark  = '○';
 							}
 						}
 				?>
-				<td nowrap><span style = "font-size : 15pt"><?php echo $mark; ?>&nbsp;</span></td>
+				<td nowrap><span style = "font-size : 15pt">
+					<?php
+						$attendance_id = $row['Attendance']['id'];
+						echo $this->Html->link(__($mark),
+							array(
+								'controller' => 'attendances',
+								'action' => 'admin_edit', $user_id, $attendance_id
+							),
+							array(
+								'style' => 'color:'.$color.';'
+						));
+					?>
+				</span></td>
 				<?php endforeach; ?>
 				<?php
 					$no_info_number = count($date_list) - count($attendance_info);

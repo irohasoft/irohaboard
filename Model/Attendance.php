@@ -114,7 +114,41 @@ class Attendance extends AppModel {
 			$attendance_list += [$user_id => $recent_attendance];
 		}
 		return $attendance_list;
+	}
 
+	public function getLastClassDate($format_str='Y-m-d'){
+		$data = $this->find('first', array(
+			'fields' => array('created'),
+			'order' => 'created ASC',
+			'recursive' => -1
+		));
+		$last_class_date = (new DateTime($data['Attendance']['created']))->format($format_str);
+		return $last_class_date;
+	}
 
+	public function findAttendanceDate($attendance_id, $format_str='Y-m-d'){
+		$data = $this->find('first', array(
+			'fields' => array('id', 'created'),
+			'conditions' => array(
+				'id' => $attendance_id
+			),
+			'recursive' => -1
+		));
+		$created = new DateTime($data['Attendance']['created']);
+		$attendance_date = $created->format($format_str);
+		return $attendance_date;
+	}
+
+	public function findLoginTime($attendance_id, $format_str='H:i:s'){
+		$data = $this->find('first', array(
+			'fields' => array('id', 'login_time'),
+			'conditions' => array(
+				'id' => $attendance_id
+			),
+			'recursive' => -1
+		));
+		$login_time = $data['Attendance']['login_time'];
+		if($login_time == null){return null;}
+		return (new DateTime($login_time))->format($format_str);
 	}
 }

@@ -58,7 +58,7 @@ class AttendancesController extends AppController{
     $period1_members = $this->User->find('all',array(
       'conditions' => array(
         'User.role' => 'user',
-        'User.period' => 0 
+        'User.period' => 0
       ),
       'order' => 'User.username ASC'
     ));
@@ -72,6 +72,9 @@ class AttendancesController extends AppController{
     ));
 
     $this->set(compact("period1_members","period2_members"));
+
+    $last_class_date = $this->Attendance->getLastClassDate('m月d日');
+    $this->set('last_class_date', $last_class_date);
 
     $attendance_list = $this->Attendance->findAllUserAttendances();
     //$this->log($attendance_list);
@@ -185,9 +188,7 @@ class AttendancesController extends AppController{
     $this->set('date_list', $date_list);
 
     if ($this->request->is(array('post','put'))){
-
       $request_data = $this->request->data;
-
       $target_date = $date_list_search[$request_data['Attendance']['target_date']];
 
       foreach ($attendance_list as $attendance_info){
@@ -196,6 +197,7 @@ class AttendancesController extends AppController{
 
           }else{
             $save_data = $row['Attendance'];
+            $this->log($save_data);
             if($save_data['login_time'] !== null){
               $login_time = (int)strtotime($save_data['login_time']);
 
@@ -225,7 +227,56 @@ class AttendancesController extends AppController{
         }
       }
     }
+  }
 
+  public function admin_edit($user_id, $attendance_id){
+    $this->loadModel('User');
+    $name = $this->User->find('first', array(
+      'fields' => array('id', 'name'),
+			'conditions' => array(
+				'id'     => $user_id
+			),
+			'recursive' => -1
+		))['User']['name'];
+    $this->set('name', $name);
+
+    $date = $this->Attendance->findAttendanceDate($attendance_id, 'm月d日');
+    $this->set('date', $date);
+
+    $attendance_status = $this->Attendance->find('first', array(
+      'fields' => array('status'),
+      'conditions' => array(
+        'id' => $attendance_id
+      ),
+      'recursive' => -1
+    ))['Attendance']['status'];
+    $this->set('attendance_status', $attendance_status);
+
+    $login_time = $this->Attendance->findLoginTime($attendance_id);
+    $this->set('login_time', $login_time);
+
+    if($this->request->is('post')){
+      $request_data = $this->request->data;
+      $edited_status = $request_data['Attendance']['status'];
+      if($edited_status){
+        $edited_hour   = $request_data['Attendance']['edited_login_time']['hour'];
+        $edited_minute = $request_data['Attendance']['edited_login_time']['min'];
+        $login_date = $this->Attendance->findAttendanceDate($attendance_id);
+        $edited_login_time = $login_date.' '.$edited_hour.':'.$edited_minute.':00';
+      }else{
+        $edited_login_time = null;
+      }
+      $this->Attendance->read(null, $attendance_id);
+      $this->Attendance->set(array(
+        'status'     => $edited_status,
+        'login_time' => $edited_login_time
+      ));
+      if($this->Attendance->save()){
+        $this->Flash->success(__('編集が完了しました。'));
+        return $this->redirect(array('action' => 'index'));
+      }
+      $this->Flash->error(__('編集に失敗しました、もう一回やってください。'));
+    }
   }
 }
 ?>

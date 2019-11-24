@@ -230,7 +230,8 @@ class UsersController extends AppController
 					//'(SELECT group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id WHERE uc.user_id = User.id) as course_title',
 				),
 				'conditions' => $conditions,
-				'limit' => 20,
+				'limit' => 1000,
+				'maxLimit' => 1000,
 				'order' => 'username ASC',
 /*
 				'joins' => array(

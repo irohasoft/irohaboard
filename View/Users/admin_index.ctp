@@ -82,16 +82,15 @@
 		<?php if($loginedUser['role']=='admin') {?>
 		<td class="ib-col-action">
 			<button type="button" class="btn btn-success"
-				onclick="location.href='<?php echo Router::url(array('action' => 'edit', $user['User']['id'])) ?>'">編集</button>
+				onclick="window.open('<?php echo Router::url(array('action' => 'edit', $user['User']['id']))?>', '_blank','width=900,height=600,resizable=no')">編集</button>
 			<?php
-
-echo $this->Form->postLink(__('削除'), array(
-				'action' => 'delete',
-				$user['User']['id']
-		), array(
-				'class' => 'btn btn-danger'
-		), __('[%s] を削除してもよろしいですか?', $user['User']['name']));
-		?>
+				echo $this->Form->postLink(__('削除'), array(
+					'action' => 'delete',
+					$user['User']['id']
+				), array(
+					'class' => 'btn btn-danger'
+				), __('[%s] を削除してもよろしいですか?', $user['User']['name']));
+			?>
 		</td>
 		<?php }?>
 	</tr>

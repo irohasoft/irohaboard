@@ -12,7 +12,7 @@
 </script>
 <?php $this->end(); ?>
 <div class="admin-records-index">
-	<div class="ib-page-title"><?php echo __('SOAP一覧'); ?></div>
+	<div class="ib-page-title"><?php echo __('SOAP'); ?></div>
 	<div class="ib-horizontal">
 		<?php
 		echo $this->Form->create('Soap');

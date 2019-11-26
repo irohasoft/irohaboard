@@ -173,4 +173,3 @@ class RecentStatesController extends AppController{
   }
 
 }
-?>

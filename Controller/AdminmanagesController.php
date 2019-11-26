@@ -192,7 +192,6 @@ class AdminManagesController extends AppController{
             $output_list[] = $today_goal_cleared;
             $output_list[] = $row['today_false_reason'];
             $output_list[] = $row['next_goal'];
-
           }
         }
 
@@ -223,10 +222,7 @@ class AdminManagesController extends AppController{
           $output_list[] = '';
         }
 
-
-
 				mb_convert_variables("SJIS-WIN", "UTF-8", $output_list);
-
 				fputcsv($fp, $output_list);
 			}
 
@@ -234,5 +230,176 @@ class AdminManagesController extends AppController{
     }
   }
 
+  public function admin_download(){
+    $this->loadModel('User');
+    $this->loadModel('Group');
+
+    $user_list = $this->User->find('all',array(
+      'conditions' => array(
+        'User.role' => 'user'
+      ),
+      'order' => 'User.created ASC'
+    ));
+
+    $group_list = $this->Group->find('list');
+
+    $date_list = [];
+    foreach($user_list as $user){
+      $attendance_list = $user['Attendance'];
+      foreach($attendance_list as $attendance){
+        $created = new DateTime($attendance['created']);
+        $created_day = $created->format('Y-m-d');
+        $date_list[] = $created_day;
+      }
+      break;
+    }
+    $this->set('date_list',$date_list);
+
+    if(isset($this->request->data['User']['target_date'])){
+      $target_date = $date_list[$this->request->data['User']['target_date']];
+      $from_date_time = (int)strtotime($target_date);
+      $to_date_time = $from_date_time + 172800;
+
+      $this->autoRender = false;
+
+			// メモリサイズ、タイムアウト時間を設定
+			ini_set("memory_limit", '512M');
+			ini_set("max_execution_time", (60 * 10));
+
+			// Content-Typeを指定
+			$this->response->type('csv');
+
+			header('Content-Type: text/csv');
+			header('Content-Disposition: attachment; filename="target_date_records.csv"');
+
+			$fp = fopen('php://output','w');
+
+      /*
+			$this->Enquete->recursive = 0;
+			$rows = $this->Enquete->find('all', $options);
+      */
+
+			$header = array(
+        "学籍番号",
+        "氏名",
+        "ふりがな",
+        "時限",
+        "出席状況",
+        "担当講師",
+        "今日の感想",
+        "前回ゴールT/F",
+        "前回ゴールF理由",
+        "今日のゴール",
+        "今日のゴールT/F",
+        "今日のゴールF理由",
+        "次回までゴール",
+        "SOAP"
+      );
+
+			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
+      fputcsv($fp, $header);
+
+      foreach($user_list as $user){
+        $output_list = [];
+        //学籍番号
+        $output_list[] = $user['User']['username'];
+        //氏名
+        $output_list[] = $user['User']['name'];
+        //ふりがな
+        $output_list[] = $user['User']['name_furigana'];
+        //時限
+        if($user['User']['period'] == 0) {
+          $class_hour = "1限";
+        } elseif($user['User']['period'] == 1) {
+          $class_hour = "2限";
+        } else {
+          $class_hour = "時限未設定";
+        }
+        $output_list[] = $class_hour;
+        //出席
+        $flag = 0;
+        $attendance_info = $user['Attendance'];
+        foreach($attendance_info as $row){
+          $row_time = (int)strtotime($row['created']);
+          if($from_date_time <= $row_time && $row_time <= $to_date_time){
+            $flag = 1;
+            if($row['status']){
+              if($row['late_time'] != 0){
+                $late_time = $row['late_time'];
+                $output_list[] = '△'."($late_time)";
+              }else{
+                $output_list[] = '○';
+              }
+            }else{
+              $output_list[] = '×';
+            }
+
+          }
+        }
+        if($flag != 1){
+          $output_list[] = '';
+        }
+
+        //担当講師 & アンケート
+        $flag = 0;
+        $enquete_info = $user['Enquete'];
+        foreach($enquete_info as $row){
+          $row_time = (int)strtotime($row['created']);
+          if($from_date_time <= $row_time && $row_time <= $to_date_time){
+            $flag = 1;
+            $output_list[] = $group_list[$row['group_id']];
+            $output_list[] = $row['today_impressions'];
+            if($row['before_goal_cleared']){
+              $before_goal_cleared = "True";
+            } else {
+              $before_goal_cleared = "False";
+            }
+            $output_list[] = $row['before_false_reason'];
+            $output_list[] = $row['today_goal'];
+            $output_list[] = $before_goal_cleared;
+            if($row['today_goal_cleared']){
+              $today_goal_cleared = "True";
+            } else {
+              $today_goal_cleared = "False";
+            }
+            $output_list[] = $today_goal_cleared;
+            $output_list[] = $row['today_false_reason'];
+            $output_list[] = $row['next_goal'];
+          }
+        }
+
+        if($flag != 1){
+          $output_list += array(
+            '','','','','','','',''
+          );
+        }
+
+        //SOAP
+        $flag = 0;
+        $soap_info = $user['Soap'];
+        foreach($soap_info as $row){
+          $row_time = (int)strtotime($row['created']);
+          if($from_date_time <= $row_time && $row_time <= $to_date_time){
+            $flag = 1;
+            $S = "S:".$row['S']."\n";
+            $O = "O:".$row['O']."\n";
+            $A = "A:".$row['A']."\n";
+            $P = "P:".$row['P'];
+            $SOAP = $S.$O.$A.$P;
+            //$this->log($SOAP);
+            $output_list[] = $SOAP;
+          }
+        }
+
+        if($flag != 1){
+          $output_list[] = '';
+        }
+
+				mb_convert_variables("SJIS-WIN", "UTF-8", $output_list);
+				fputcsv($fp, $output_list);
+			}
+      fclose($fp);
+    }
+  }
 }
 ?>

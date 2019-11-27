@@ -39,6 +39,7 @@
 				echo '<li>'.$this->Html->link(__('ユーザ'), array('controller' => 'users', 'action' => 'index')).'</li>';
 				echo '<li>'.$this->Html->link(__('グループ'), array('controller' => 'groups', 'action' => 'index')).'</li>';
 				echo '<li>'.$this->Html->link(__('コース'), array('controller' => 'courses', 'action' => 'index')).'</li>';
+				echo '<li>'.$this->Html->link(__('授業日程'), array('controller' => 'lessons', 'action' => 'index')).'</li>';
 				echo '<li>'.$this->Html->link(__('その他管理'), array('controller' => 'managements', 'action' => 'other_index')).'</li>';
 				echo '</ul></li>';
 			}

@@ -26,7 +26,7 @@ class GroupsController extends AppController
 	{
 		$this->Group->recursive = 0;
 		$this->Group->virtualFields['course_title'] = 'GroupCourse.course_title'; // 外部結合テーブルのフィールドによるソート用
-		
+
 		$this->Paginator->settings = array(
 			'fields' => array('*', 'GroupCourse.course_title'),
 			'limit' => 20,
@@ -37,7 +37,7 @@ class GroupsController extends AppController
 						'conditions' => 'Group.id = GroupCourse.group_id')
 			)
 		);
-		
+
 		$this->set('groups', $this->Paginator->paginate());
 	}
 
@@ -86,7 +86,7 @@ class GroupsController extends AppController
 			);
 			$this->request->data = $this->Group->find('first', $options);
 		}
-		
+
 		$courses = $this->Group->Course->find('list');
 		$this->set(compact('courses'));
 	}

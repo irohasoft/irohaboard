@@ -61,7 +61,7 @@
 						'minYear' => date('Y') - 1,
 						'maxYear' => date('Y'),
 						'separator' => ' / ',
-						'label' => '記入時間：',
+						'label' => '記入日：',
 						'class' => 'soap_select',
 						'style' => '',
 						'value' => $today_date
@@ -127,6 +127,6 @@
 		</div>
   </div>
   <div class = "under_element"></div>
-  <input type = "submit" class = "btn btn-info btn-add" value = "登録">
+  <input type = "submit" class = "btn btn-info btn-add pull-right" value = "登録">
   <?php echo $this->Form->end(); ?>
 </div>

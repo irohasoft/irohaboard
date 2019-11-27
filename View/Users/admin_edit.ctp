@@ -230,7 +230,7 @@ $(function(){
 					'action' => 'clear',
 					$this->request->data['User']['id']
 				), array(
-					'class' => 'btn btn-default  btn-delete'
+					'class' => 'btn btn-danger btn-delete'
 				), __('学習履歴を削除してもよろしいですか？', $this->request->data['User']['name']));
 			}
 			?>

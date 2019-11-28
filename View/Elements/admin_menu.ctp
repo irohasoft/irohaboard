@@ -31,9 +31,10 @@
 			echo '</ul></li>';
 
 			if($loginedUser['role']=='admin'){
-				$is_active = ($this->name=='Settings' or $this->name=='Users' or
-											$this->name=='Groups' or $this->name=='Courses' or
-											$this->name=='Infos' or $this->name=='AdminManages') ? ' active' : '';
+				$is_active = ($this->name=='Managements' or $this->name=='Settings' or
+											$this->name=='Users' or $this->name=='Groups' or
+											$this->name=='Courses' or $this->name=='Infos' or
+											$this->name=='AdminManages') ? ' active' : '';
 				echo '<li class="'.$is_active.' menu__single">'.$this->Html->link(__('　各種管理　'), array('controller' => 'managements', 'action' => 'index'));
 				echo '<ul class="menu__second-level">';
 				echo '<li>'.$this->Html->link(__('ユーザ'), array('controller' => 'users', 'action' => 'index')).'</li>';

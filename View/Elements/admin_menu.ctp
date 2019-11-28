@@ -12,8 +12,9 @@
 			echo '<li>'.$this->Html->link(__('全受講生'), array('controller' => 'recentstates', 'action' => 'admin_all_view')).'</li>';
 			echo '</ul></li>';
 
-			$is_active = ($this->name=='Records' or $this->name=='SoapRecords' or
-										$this->name=='Enquete' or $this->name=='Attendances') ? ' active' : '';
+			$is_active = ($this->name=='Data' or $this->name=='Records' or $this->name=='SoapRecords' or
+										$this->name=='Enquete' or $this->name=='Attendances' or
+										($this->name=='AdminManages' && $this->action=='admin_download')) ? ' active' : '';
 			echo '<li class="'.$is_active.' menu__single">'.$this->Html->link(__('　データ一覧　'), array('controller' => 'data', 'action' => 'index'));
 			echo '<ul class="menu__second-level">';
       echo '<li>'.$this->Html->link(__('学習履歴'), array('controller' => 'records', 'action' => 'index')).'</li>';
@@ -34,7 +35,7 @@
 				$is_active = ($this->name=='Managements' or $this->name=='Settings' or
 											$this->name=='Users' or $this->name=='Groups' or
 											$this->name=='Courses' or $this->name=='Infos' or
-											$this->name=='AdminManages') ? ' active' : '';
+											($this->name=='AdminManages' && $this->action=='admin_index')) ? ' active' : '';
 				echo '<li class="'.$is_active.' menu__single">'.$this->Html->link(__('　各種管理　'), array('controller' => 'managements', 'action' => 'index'));
 				echo '<ul class="menu__second-level">';
 				echo '<li>'.$this->Html->link(__('ユーザ'), array('controller' => 'users', 'action' => 'index')).'</li>';

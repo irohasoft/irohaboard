@@ -9,15 +9,9 @@
 </div>
 
 <div class="ib-horizontal">
+  <?php echo $this->Form->create('User'); ?>
+	<div class="ib-search-date-container form-inline">
   <?php
-    echo $this->Form->create('User');
-	  echo '<div class="ib-search-buttons" style = "float : right;">';
-	  echo $this->Form->submit(__('ダウンロード'),	array('class' => 'btn btn-info', 'div' => false));
-	  //echo $this->Form->hidden('cmd');
-	  //echo '<button type="button" class="btn btn-default" onclick="downloadCSV()">'.__('CSV出力').'</button>';
-	  echo '</div>';
-	  echo '<div class="ib-row" >';
-	  echo '<div class="ib-search-date-container form-inline">';
 	  echo $this->Form->input('target_date',	array(
 		  'label' => '日付：',
 		  'options'=>$date_list,
@@ -26,9 +20,10 @@
 		  'required'=>false,
 		  'style' => '',
 		  'value' => $target_date,
-      'class'=>'form-control'));
-    echo'</div>';
-	  echo '</div>';
-	  echo $this->Form->end();
-?>
+      'class'=>'form-control'
+    ));
+    echo $this->Form->submit(__('ダウンロード'),	array('class' => 'btn btn-info', 'div' => false));
+  ?>
+  </div>
+	<?php echo $this->Form->end(); ?>
 </div>

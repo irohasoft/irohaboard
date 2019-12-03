@@ -229,7 +229,7 @@
 				}
 
 				$correct_tag	= sprintf('<p class="correct-text bg-success">正解 : %s</p><p>%s</p>',
-					$correct_label, $this->Html->image($result_img, array('width'=>'60','height'=>'60')));
+					h($correct_label), $this->Html->image($result_img, array('width'=>'60','height'=>'60')));
 
 				// 解説の設定
 				if($question['explain']!='')

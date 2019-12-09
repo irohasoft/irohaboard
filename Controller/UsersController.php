@@ -150,7 +150,7 @@ class UsersController extends AppController
 
 					// Save login info to cookie.
 					$cookie = $this->request->data;
-					$this->Cookie->write( 'Auth', $cookie, true, '+2 weeks');
+					$this->Cookie->write( 'Auth', $cookie, true, '+1 days');
 				}
 
 				// 最終ログイン日時を保存

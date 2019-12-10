@@ -17,7 +17,6 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
  * @property Group $Group
  * @property Content $Content
  * @property Course $Course
- * @property Group $Group
  */
 class User extends AppModel
 {

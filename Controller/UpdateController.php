@@ -129,4 +129,3 @@ class UpdateController extends AppController
 		return $err_statements;
 	}
 }
-?>

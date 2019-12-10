@@ -287,4 +287,3 @@ class InstallController extends AppController
 		return false;
 	}
 }
-?>

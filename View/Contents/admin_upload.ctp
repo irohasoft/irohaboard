@@ -1,8 +1,20 @@
 <?php echo $this->Html->css('summernote.css');?>
 <style type='text/css'>
 	.header
+	,.irohasoft
+	,.ib-theme-color
 	{
-		display	: none;
+		display		: none;
+	}
+	
+	#container
+	{
+		min-width	: initial;
+	}
+	
+	#content
+	{
+		min-height	: initial;
 	}
 </style>
 <?php $this->end(); ?>

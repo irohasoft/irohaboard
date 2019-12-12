@@ -20,9 +20,9 @@
 			return false;
 		}
 
-		if(txt.value.length > 50)
+		if(txt.value.length > 100)
 		{
-			alert("選択肢は50文字以内で入力してください");
+			alert("選択肢は100文字以内で入力してください");
 			return false;
 		}
 

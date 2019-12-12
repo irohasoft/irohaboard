@@ -19,6 +19,7 @@
 .select-btn{
   display: inline-block;
   margin: 10px;
+  font-size: 18px;
 }
 
 .current-setting{

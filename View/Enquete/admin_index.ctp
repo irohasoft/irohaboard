@@ -9,6 +9,12 @@ function downloadCSV()
 	$("#EnqueteAdminIndexForm").submit();
 	$("#EnqueteCmd").val("");
 }
+
+function setTodayDate(){
+		$("#EnqueteCmd").val("today");
+		$("#EnqueteAdminIndexForm").submit();
+		$("#EnqueteCmd").val("");
+}
 </script>
 <?php $this->end(); ?>
 <div class="admin-records-index">
@@ -17,33 +23,53 @@ function downloadCSV()
 		<?php
 			echo $this->Form->create('Enquete');
 			echo '<div class="ib-search-buttons">';
-			echo $this->Form->submit(__('検索'),	array('class' => 'btn btn-info', 'div' => false));
+			echo $this->Form->submit(__('検索'),	array('class' => 'btn btn-primary', 'div' => false));
 			echo $this->Form->hidden('cmd');
+			echo '<button type="button" class="btn btn-info" onclick="setTodayDate()">'.__('今日').'</button>';
 			echo '<button type="button" class="btn btn-default" onclick="downloadCSV()">'.__('CSV出力').'</button>';
 			echo '</div>';
 
 			echo '<div class="ib-row">';
+			
 			echo $this->Form->input('group_id',	array(
 				'label' => 'グループ :',
 				'options'=>$groups,
 				'selected'=>$group_id,
 				'empty' => '全て',
 				'required'=>false,
-				'class'=>'form-control'));
+				'div' => array(
+					'class' => false
+				),
+				'between' => '<div class = "input select required">',
+				'after' => '</div>',
+				'class'=>'form-control'
+			));
+
 			echo $this->Form->input('name',	array(
 				'label' => '受講生氏名・番号 :',
 				'value'=>$name,
-				'class'=>'form-control'));
+				'div' => array(
+					'class' => false
+				),
+				'between' => '<div class = "input text required">',
+				'after' => '</div>',
+				'class'=>'form-control'
+			));
 			echo $this->Form->input('period',	array(
 				'label' => '受講時間帯 :',
 				'options'=>$period_list,
 				'selected'=>$period,
 				'empty' => '全て',
 				'required'=>false,
+				'div' => array(
+					'class' => false
+				),
+				'between' => '<div class = "input select required">',
+				'after' => '</div>',
 				'class'=>'form-control'));
 			echo '</div>';
 
-			echo "<div class = white-width></div>";
+			//echo "<div class = white-width></div>";
 
 			echo '<div class="ib-search-date-container form-inline">';
 			echo $this->Form->input('from_date', array(
@@ -54,7 +80,10 @@ function downloadCSV()
 				'minYear' => date('Y') - 5,
 				'maxYear' => date('Y'),
 				'separator' => ' / ',
-				'label'=> '対象日時 : ',
+				'label'=> array(
+					'text' => '対象日時 : ',
+					'style' => 'position : relative; left: -11px;'
+				),
 				'class'=>'form-control',
 				'style' => 'display: inline;',
 				'value' => $from_date
@@ -67,7 +96,10 @@ function downloadCSV()
 				'minYear' => date('Y') - 5,
 				'maxYear' => date('Y'),
 				'separator' => ' / ',
-				'label'=> '～',
+				'label'=> array(
+					'text' => '～',
+					'style' => 'position : relative; left: -12px;'
+				),
 				'class'=>'form-control',
 				'style' => 'display: inline;',
 				'value' => $to_date

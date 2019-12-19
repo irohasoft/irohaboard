@@ -9,6 +9,11 @@
 		$("#SoapAdminIndexForm").submit();
 		$("#SoapCmd").val("");
 	}
+	function setTodayDate(){
+		$("#SoapCmd").val("today");
+		$("#SoapAdminIndexForm").submit();
+		$("#SoapCmd").val("");
+	}
 </script>
 <?php $this->end(); ?>
 <div class="admin-records-index">
@@ -17,8 +22,9 @@
 		<?php
 		echo $this->Form->create('Soap');
 		echo '<div class="ib-search-buttons">';
-		echo $this->Form->submit(__('検索'), array('class' => 'btn btn-info', 'div' => false));
+		echo $this->Form->submit(__('検索'), array('class' => 'btn btn-primary', 'div' => false));
 		echo $this->Form->hidden('cmd');
+		echo '<button type="button" class="btn btn-info" onclick="setTodayDate()">'.__('今日').'</button>';
 		echo '<button type="button" class="btn btn-default" onclick="downloadCSV()">'.__('CSV出力').'</button>';
 		echo '</div>';
 

@@ -8,15 +8,29 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
+html
+{
+	height: 100%;
+}
+
 body
 {
 	font-family: 'Apple TP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 .header
 {
 	width				: 100%;
 	display				: inline-block;
+}
+
+#main
+{
+	width: 100%;
+	flex: 1;
 }
 
 .panel

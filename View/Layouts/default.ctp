@@ -87,7 +87,7 @@
 	</button>
 	<?php if(@$loginedUser) {?>
 	<div class="collapse navbar-collapse" id="Navber">
-		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+		<ul class="navbar-nav mr-auto mt-2 mt-sm-0">
 			<?php if($is_admin_page) {?>
 			<?php $is_active = ($this->name=='RecentStates') ? ' active' : ''; ?>
 			<li class="nav-item dropdown <?php echo $is_active; ?>">
@@ -162,7 +162,7 @@
 			</li>
 			<?php }?>
 		</ul>
-		<ul class="navbar-nav mt-2 mt-lg-0">
+		<ul class="navbar-nav mt-2 mt-sm-0">
 			<li class="nav-item dropdown">
 				<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<?php echo h($loginedUser["name"]); ?>
@@ -178,26 +178,30 @@
 	<?php }?>
 	</nav>
 
-	<div id="container">
+	<div id="main">
+	<div class="container">
 		<div id="header" class="row">
 			<?php //echo $this->fetch('menu'); ?>
 		</div>
 		<div id="content" class="row">
 			<?php echo $this->Session->flash(); ?>
-
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer" class="row">
 		</div>
 	</div>
-
-	<div class="ib-theme-color text-center">
-		<?php echo h($this->Session->read('Setting.copyright')); ?>
 	</div>
 
-	<div class="irohasoft">
-		Powered by <a href="http://irohaboard.irohasoft.jp/">iroha Board</a>
-	</div>
+	<footer class="footer mt-auto py-2" style="color: white; background-color: <?php echo h($this->Session->read('Setting.color')); ?>;">
+	<!--<div class="container">
+		<div class="ib-theme-color text-center">
+			<?php //echo h($this->Session->read('Setting.copyright')); ?>
+		</div>
+		<div class="irohasoft">
+			Powered by <a href="http://irohaboard.irohasoft.jp/">iroha Board</a>
+		</div>
+	</div>-->
+	</footer>
 
 	<?php echo $this->element('sql_dump'); ?>
 </body>

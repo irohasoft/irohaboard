@@ -19,18 +19,18 @@
 {
 	min-width		: 768px;
 }
-
+/*
 .navbar-toggle
 {
 	display			: none;
 }
-
+*/
 .collapse
 {
 	display			: block;
 	border-color	: transparent;
 }
-
+/*
 .navbar-right
 {
 	float			: right;
@@ -45,7 +45,7 @@
 {
 	margin			: 0 -15px 0 0;
 }
-
+*/
 .navbar-nav>li>a
 {
 	padding-top		: 15px;

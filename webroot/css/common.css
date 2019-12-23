@@ -225,7 +225,7 @@ form .required .control-label:after
 	padding				: 5px;
 }
 
-/* start メニューの自動ボタン化を抑止 */
+/* start メニューの自動ボタン化を抑止 *//*
 .nav>li
 {
 	float				: left;
@@ -234,7 +234,7 @@ form .required .control-label:after
 .navbar-nav
 {
 	margin				: 0;
-}
+}*/
 .navbar-nav>li>a
 {
 	padding-top			: 14.5px;
@@ -415,7 +415,7 @@ form .required .control-label:after
 	}
 
 	.responsive-table tbody td:before { width: 100px; display: inline-block;}
-	
+
 	.ib-col-center,
 	.ib-col-date
 	{

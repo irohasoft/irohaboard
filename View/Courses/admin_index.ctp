@@ -45,7 +45,7 @@
 	});
 </script>
 <?php $this->end(); ?>
-<div class="admin-courses-index">
+<div class="admin-courses-index full-view">
 	<div class="ib-page-title"><?php echo __('コース一覧'); ?></div>
 	<div class="buttons_container">
 		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add')) ?>'">+ 追加</button>
@@ -65,7 +65,7 @@
 	<?php foreach ($courses as $course): ?>
 	<tr>
 		<td>
-			<?php 
+			<?php
 				echo $this->Html->link($course['Course']['title'], array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));
 				echo $this->Form->hidden('id', array('id'=>'', 'class'=>'course_id', 'value'=>$course['Course']['id']));
 			?>

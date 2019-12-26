@@ -1,6 +1,6 @@
 <?php echo $this->element('menu');?>
 <?php echo $this->Html->css('enquete');?>
-<div class="admin-records-index">
+<div class="admin-records-index full-view">
 	<div class="ib-page-title"><?php echo __('アンケート履歴'); ?></div>
 	<div class="ib-horizontal">
 

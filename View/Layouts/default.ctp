@@ -179,7 +179,7 @@
 	</nav>
 
 	<div id="main">
-	<div class="container">
+	<div class="container-fluid">
 		<div id="header" class="row">
 			<?php //echo $this->fetch('menu'); ?>
 		</div>
@@ -193,14 +193,14 @@
 	</div>
 
 	<footer class="footer mt-auto py-2" style="color: white; background-color: <?php echo h($this->Session->read('Setting.color')); ?>;">
-	<!--<div class="container">
+	<div class="container">
 		<div class="ib-theme-color text-center">
-			<?php //echo h($this->Session->read('Setting.copyright')); ?>
+			<?php echo h($this->Session->read('Setting.copyright')); ?>
 		</div>
 		<div class="irohasoft">
 			Powered by <a href="http://irohaboard.irohasoft.jp/">iroha Board</a>
 		</div>
-	</div>-->
+	</div>
 	</footer>
 
 	<?php echo $this->element('sql_dump'); ?>

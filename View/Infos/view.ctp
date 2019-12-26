@@ -1,4 +1,4 @@
-<div class="infos-view">
+<div class="infos-view full-view">
 	<div class="breadcrumb">
 	<?php
 	$this->Html->addCrumb('HOME', array(
@@ -12,7 +12,7 @@
 	));
 
 	echo $this->Html->getCrumbs(' / ');
-	
+
 	$title = h($info['Info']['title']);
 	$date  = h(Utils::getYMD($info['Info']['created']));
 	$body  = $info['Info']['body'];

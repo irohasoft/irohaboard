@@ -42,7 +42,7 @@ body
 {
 	text-align			: left;
 	min-height			: 600px;
-	max-width			: 1200px;
+	width			: 100%;
 	margin				: auto;
 }
 
@@ -356,6 +356,11 @@ form .required .control-label:after
 .install-error p.msg
 {
 	margin:10px;
+}
+
+.full-view
+{
+	width: 100%;
 }
 
 /* スマートフォン用 */

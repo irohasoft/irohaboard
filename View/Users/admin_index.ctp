@@ -1,5 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<div class="admin-users-index">
+<div class="admin-users-index full-view">
 	<div class="ib-page-title"><?php echo __('ユーザ一覧'); ?></div>
 	<div class="buttons_container">
 		<?php if($loginedUser['role']=='admin'){ ?>

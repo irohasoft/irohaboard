@@ -171,6 +171,19 @@ class SoapRecordsController extends AppController
 		}
 		else
 		{
+			if(@$this->request->query['cmd']=='today'){
+				$this->log('work');
+	
+				$from_date = array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
+				$to_date = array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
+	
+				
+				// 学習日付による絞り込み
+				$conditions['Soap.created BETWEEN ? AND ?'] = array(
+					implode("/", $from_date),
+					implode("/", $to_date).' 23:59:59'
+				);
+			}
 			$this->Paginator->settings['conditions'] = $conditions;
 			$this->Paginator->settings['order']      = 'Soap.created desc';
 			$this->Paginator->settings['limit'] = 1000;

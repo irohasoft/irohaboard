@@ -225,11 +225,11 @@
 				$correct_label = ''; // 正解ラベル
 				foreach($correct_list as $correct_no)
 				{
-					$correct_label .= ($correct_label=='') ? $option_list[$correct_no - 1] : ', '.$option_list[$correct_no - 1];
+					$correct_label .= ($correct_label=='') ? $option_list[$correct_no - 1] : '</br>'.$option_list[$correct_no - 1];
 				}
 
-				$correct_tag	= sprintf('<p class="correct-text bg-success">正解 : %s</p><p>%s</p>',
-					h($correct_label), $this->Html->image($result_img, array('width'=>'60','height'=>'60')));
+				$correct_tag	= sprintf('<p class="correct-text bg-success">正解 : </br>%s</p><p>%s</p>',
+					$correct_label, $this->Html->image($result_img, array('width'=>'60','height'=>'60')));
 
 				// 解説の設定
 				if($question['explain']!='')

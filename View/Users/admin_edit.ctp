@@ -1,5 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<?php echo $this->Html->script( 'select2.min.js');?>
+<?php echo $this->Html->script('select2.min.js');?>
 <?php echo $this->Html->css('select2.min.css')?>
 <?php echo $this->Html->css('users_admin_edit')?>
 <?php $this->Html->scriptStart(array('inline' => false)); ?>

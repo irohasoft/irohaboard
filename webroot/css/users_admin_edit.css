@@ -19,13 +19,13 @@
 }
 
 .pic-block{
-  height : 400px;
+  /*height : 400px;*/
   width : 400px;
   float : left;
 }
 
 .info-input-block{
-  height : 600px;
+  /*height : 600px;*/
   width : 400px;
   float : left;
 }

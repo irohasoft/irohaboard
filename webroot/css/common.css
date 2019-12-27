@@ -8,15 +8,29 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
+html
+{
+	height: 100%;
+}
+
 body
 {
 	font-family: 'Apple TP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 .header
 {
 	width				: 100%;
 	display				: inline-block;
+}
+
+#main
+{
+	width: 100%;
+	flex: 1;
 }
 
 .panel
@@ -28,7 +42,7 @@ body
 {
 	text-align			: left;
 	min-height			: 600px;
-	max-width			: 1200px;
+	width			: 100%;
 	margin				: auto;
 }
 
@@ -225,7 +239,7 @@ form .required .control-label:after
 	padding				: 5px;
 }
 
-/* start メニューの自動ボタン化を抑止 */
+/* start メニューの自動ボタン化を抑止 *//*
 .nav>li
 {
 	float				: left;
@@ -234,7 +248,7 @@ form .required .control-label:after
 .navbar-nav
 {
 	margin				: 0;
-}
+}*/
 .navbar-nav>li>a
 {
 	padding-top			: 14.5px;
@@ -344,6 +358,11 @@ form .required .control-label:after
 	margin:10px;
 }
 
+.full-view
+{
+	width: 100%;
+}
+
 /* スマートフォン用 */
 @media only screen and (max-width:800px)
 {
@@ -415,7 +434,7 @@ form .required .control-label:after
 	}
 
 	.responsive-table tbody td:before { width: 100px; display: inline-block;}
-	
+
 	.ib-col-center,
 	.ib-col-date
 	{

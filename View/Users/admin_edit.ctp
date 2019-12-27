@@ -1,5 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<?php echo $this->Html->script( 'select2.min.js');?>
+<?php echo $this->Html->script('select2.min.js');?>
 <?php echo $this->Html->css('select2.min.css')?>
 <?php echo $this->Html->css('users_admin_edit')?>
 <?php $this->Html->scriptStart(array('inline' => false)); ?>
@@ -230,7 +230,7 @@ $(function(){
 					'action' => 'clear',
 					$this->request->data['User']['id']
 				), array(
-					'class' => 'btn btn-danger btn-delete'
+					'class' => 'btn btn-danger btn-delete float-left'
 				), __('学習履歴を削除してもよろしいですか？', $this->request->data['User']['name']));
 			}
 			?>

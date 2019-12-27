@@ -1,5 +1,5 @@
 <?php echo $this->Html->css('contentsquestions')?>
-<div class="contents-questions-index">
+<div class="contents-questions-index full-view">
 	<div class="breadcrumb">
 	<?php
 	// 管理者による学習履歴表示モードの場合、コース一覧リンクを表示しない
@@ -158,7 +158,7 @@
 	</div>
 	<?php
 		if($is_record){
-			echo '<input type="button" value="戻る" class="btn btn-default" onclick="location.href=\''.Router::url($course_url).'\'">';
+			echo '<input type="button" value="戻る" class="btn btn-secondary" onclick="location.href=\''.Router::url($course_url).'\'">';
 			echo '<input type="button" value="もう一回やる" class="btn btn-primary" onclick="location.href=\''.Router::url($content_url).'\'">';
 		}
 	?>
@@ -264,21 +264,19 @@
 			<?php $question_index++;?>
 		<?php } ?>
 
+		<div class="form-inline"><!--start-->
 		<?php
-			echo '<div class="form-inline"><!--start-->';
-
+			echo '<input type="button" value="戻る" class="btn btn-secondary btn-lg" onclick="location.href=\''.Router::url($course_url).'\'">';
+			echo '&nbsp;';
 			// テスト実施の場合のみ、採点ボタンを表示
 			if (!$is_record)
 			{
 				echo $this->Form->hidden('study_sec');
 				echo '<input type="button" value="採点" class="btn btn-primary btn-lg btn-score" onclick="$(\'#confirmModal\').modal()">';
-				echo '&nbsp;';
 			}
-
-			echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\''.Router::url($course_url).'\'">';
-			echo '</div><!--end-->';
-			echo $this->Form->end();
 		?>
+		</div><!--end-->
+		<?php echo $this->Form->end(); ?>
 	<br>
 	</div>
 	</div>
@@ -296,7 +294,7 @@
 				<p>採点してよろしいですか？</p>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
 				<button type="button" class="btn btn-primary btn-score" onclick="sendData();">採点</button>
 			</div>
 		</div><!-- /.modal-content -->

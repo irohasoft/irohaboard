@@ -251,7 +251,7 @@
 			?>
 			<div class="form-group">
 				<div class="col col-sm-9 col-sm-offset-3">
-					<button id="btnPreview" class="btn btn-default" value="プレビュー" onclick="preview(); return false;" type="submit">プレビュー</button>
+					<button id="btnPreview" class="btn btn-secondary" value="プレビュー" onclick="preview(); return false;" type="submit">プレビュー</button>
 					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>

@@ -8,48 +8,15 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-#container,
-.header,
-.footer
-{
-	min-width		: 768px;
-}
-
 .ib-horizontal
 {
-	min-width		: 768px;
-}
-
-.navbar-toggle
-{
-	display			: none;
+	/*min-width		: 768px;*/
 }
 
 .collapse
 {
 	display			: block;
 	border-color	: transparent;
-}
-
-.navbar-right
-{
-	float			: right;
-}
-
-.navbar-header
-{
-	float			: left;
-}
-
-.navbar-nav
-{
-	margin			: 0 -15px 0 0;
-}
-
-.navbar-nav>li>a
-{
-	padding-top		: 15px;
-	padding-bottom	: 15px;
 }
 
 .admin-users-index p

@@ -1,14 +1,13 @@
+<?php $this->start('menu'); ?>
 <?php echo $this->Html->css('elements');?>
-<nav class="navbar navbar-default">
-	<div class="container">
-		<div class="navbar-collapse collapse">
-		<ul class="nav navbar-nav menu-bar">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
 
 			<?php
 			/** 受講生近況 */
 			$is_active = ($this->name=='RecentStates') ? ' active' : '';
 			$rs_url = $this->Html->url(array(
-				'controller' => 'recentstates', 
+				'controller' => 'recentstates',
 				'action' => 'index'
 			));
 			?>
@@ -23,14 +22,14 @@
 					?>
         </ul>
 			</li>
-			
+
 			<?php
 				/** データ一覧 */
 				$is_active = ($this->name=='Data' or $this->name=='Records' or $this->name=='SoapRecords' or
 										$this->name=='Enquete' or $this->name=='Attendances' or
 										($this->name=='AdminManages' && $this->action=='admin_download')) ? ' active' : '';
 				$d_url = $this->Html->url(array(
-					'controller' => 'data', 
+					'controller' => 'data',
 					'action' => 'index'
 				));
 			?>
@@ -52,7 +51,7 @@
 				/** SOAP記入 */
 				$is_active = ($this->name=='Soaps') ? ' active' : '';
 				$soap_url = $this->Html->url(array(
-					'controller' => 'soaps', 
+					'controller' => 'soaps',
 					'action' => 'index'
 				));
 			?>
@@ -75,11 +74,11 @@
 												$this->name=='Courses' or $this->name=='Infos' or
 												($this->name=='AdminManages' && $this->action=='admin_index')) ? ' active' : '';
 					$mg_url = $this->Html->url(array(
-						'controller' => 'managements', 
+						'controller' => 'managements',
 						'action' => 'index'
 					));
 			?>
-			
+
 					<?php echo '<li class = "'.$is_active.' dropdown">';?>
       		  <a href=<?php echo $mg_url;?> class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">各種管理<span class="caret"></span></a>
 							<?php
@@ -93,13 +92,6 @@
 					</li>
 
 				<?php } ?>
-			
-			<?php 
-			
-			
-			
-			?>
-		</ul>
-		</div><!--/.nav-collapse -->
-	</div>
+
 </nav>
+<?php $this->end(); ?>

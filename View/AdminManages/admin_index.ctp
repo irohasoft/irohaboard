@@ -36,12 +36,12 @@
 </div>
 
 <div class="ib-horizontal">
-  <?php 
+  <?php
     echo $this->Form->create('User');
 	  echo '<div class="ib-search-buttons" style = "float : right;">';
 	  echo $this->Form->submit(__('ダウンロード'),	array('class' => 'btn btn-info', 'div' => false));
 	  //echo $this->Form->hidden('cmd');
-	  //echo '<button type="button" class="btn btn-default" onclick="downloadCSV()">'.__('CSV出力').'</button>';
+	  //echo '<button type="button" class="btn btn-secondary" onclick="downloadCSV()">'.__('CSV出力').'</button>';
 	  echo '</div>';
 	  echo '<div class="ib-row" >';
 	  echo '<div class="ib-search-date-container form-inline">';
@@ -62,7 +62,7 @@
 
 <?php foreach($user_list as $user):?>
 <div class = "user-block">
-  
+
   <div class = "user-info-block">
     <?php //受講生情報ブロック ?>
     <div class = "user-info-block-element username">
@@ -82,7 +82,7 @@
         $birthyear = $user['User']['birthyear'];
         $this_year = date("Y");
         $age = $this_year - $birthyear;
-    
+
         if($age <= 6) {
           $grade = "未就学";
         } elseif($age <= 12) {
@@ -104,7 +104,7 @@
 
   <div class = "student-photo">
     <?php
-      
+
       $pic_path = $user['User']['pic_path'];
       if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
         $pic_path = 'student_img/noPic.png';
@@ -114,7 +114,7 @@
           'height'=> '100',
           'alt' => $pic_path
         ));
-      
+
     ?>
   </div>
 
@@ -131,7 +131,7 @@
         <div class = "attendance-date-block">
 
           <div class = "attendance-date">
-            
+
             <?php
             for($start = $cnt; $start < $cnt + 4; $start++):
               if($start >= $array_size){
@@ -184,7 +184,7 @@
         </div>
             </div>
       <?php endwhile; ?>
-    </div>  
+    </div>
   </div>
   <?php //---------User-info-block?>
 
@@ -193,7 +193,7 @@
 
   <div class = "enquete-block">
     <div class = "enquete-slider">
-      <?php 
+      <?php
         $enquete_list = $user['Enquete'];
         foreach($enquete_list as $enquete):
       ?>
@@ -267,7 +267,7 @@
               echo h($enquete['next_goal']);
             ?>
           </div>
-          
+
         </div>
       </div>
       <?php endforeach;?>
@@ -276,7 +276,7 @@
 
   <div class = "soap-block">
     <div class = "soap-slider">
-      <?php 
+      <?php
         $soap_list = $user['Soap'];
         foreach($soap_list as $soap):
       ?>
@@ -344,7 +344,7 @@
             ?>
           </div>
         </div>
-        
+
       </div>
       <?php endforeach;?>
     </div>

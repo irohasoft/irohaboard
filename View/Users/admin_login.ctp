@@ -1,4 +1,4 @@
-<div class="admin-users-login">
+<div class="admin-users-login full-view">
 	<div class="panel panel-default form-signin">
 		<div class="panel-heading">
 			管理者ログイン
@@ -7,12 +7,12 @@
 			<div class="text-right"><a href="../../users/login">受講者ログインへ</a></div>
 			<?php echo $this->Flash->render('auth'); ?>
 			<?php echo $this->Form->create('User'); ?>
-			
+
 			<div class="form-group">
-				<?php echo $this->Form->input('username', 
+				<?php echo $this->Form->input('username',
 					array(
 						'label' => array(
-							'text'=>__('ログインID'), 
+							'text'=>__('ログインID'),
 							'style'=>'font-size : 20px'
 						),
 						'class'=>'form-control'
@@ -21,7 +21,7 @@
 			<div class="form-group">
 				<?php echo $this->Form->input('password', array(
 					'label' => array(
-						'text'=>__('パスワード'), 
+						'text'=>__('パスワード'),
 						'style'=>'font-size : 20px'
 					),
 					'class'=>'form-control'

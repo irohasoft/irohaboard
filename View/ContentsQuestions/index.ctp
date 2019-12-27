@@ -276,7 +276,7 @@
 			}
 		?>
 		</div><!--end-->
-		<? echo $this->Form->end(); ?>
+		<?php echo $this->Form->end(); ?>
 	<br>
 	</div>
 	</div>

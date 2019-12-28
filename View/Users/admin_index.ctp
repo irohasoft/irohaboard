@@ -1,5 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<div class="admin-users-index">
+<div class="admin-users-index full-view">
 	<div class="ib-page-title"><?php echo __('ユーザ一覧'); ?></div>
 	<div class="buttons_container">
 		<?php if($loginedUser['role']=='admin'){ ?>
@@ -81,8 +81,6 @@
 		<td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['created'])); ?>&nbsp;</td>
 		<?php if($loginedUser['role']=='admin') {?>
 		<td class="ib-col-action">
-			<button type="button" class="btn btn-success"
-				onclick="window.open('<?php echo Router::url(array('action' => 'edit', $user['User']['id']))?>', '_blank','width=900,height=600,resizable=no')">編集</button>
 			<?php
 				echo $this->Form->postLink(__('削除'), array(
 					'action' => 'delete',
@@ -91,6 +89,8 @@
 					'class' => 'btn btn-danger'
 				), __('[%s] を削除してもよろしいですか?', $user['User']['name']));
 			?>
+			<button type="button" class="btn btn-success"
+				onclick="window.open('<?php echo Router::url(array('action' => 'edit', $user['User']['id']))?>', '_blank','width=900,height=600,resizable=no')">編集</button>
 		</td>
 		<?php }?>
 	</tr>

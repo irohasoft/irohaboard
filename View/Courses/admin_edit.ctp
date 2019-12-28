@@ -1,5 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<div class="admin-courses-edit">
+<div class="admin-courses-edit full-view">
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -33,7 +33,7 @@
 					'type' => 'radio',
 					'before' => '<label class="col col-sm-3 control-label">ステータス</label>',
 					'after' => '<span class="status-exp">　非公開と設定した場合、管理者権限でログインした場合のみ表示されます。</span>',
-					'separator' => '　', 
+					'separator' => '　',
 					'legend' => false,
 					'class' => false,
 					'default' => 1,

@@ -13,25 +13,25 @@
 	{
 		txt	= document.all("option");
 		opt	= document.all("data[ContentsQuestion][option_list][]").options;
-		
+
 		if(txt.value=="")
 		{
 			alert("選択肢を入力してください");
 			return false;
 		}
-		
-		if(txt.value.length > 50)
+
+		if(txt.value.length > 100)
 		{
-			alert("選択肢は50文字以内で入力してください");
+			alert("選択肢は100文字以内で入力してください");
 			return false;
 		}
-		
+
 		if(opt.length==10)
 		{
 			alert("選択肢の数が最大値を超えています");
 			return false;
 		}
-		
+
 		opt[opt.length] = new Option( txt.value, txt.value )
 		txt.value = "";
 		update_options();
@@ -43,7 +43,7 @@
 	function del_option()
 	{
 		var opt = document.all("data[ContentsQuestion][option_list][]").options;
-		
+
 		if( opt.selectedIndex > -1 )
 		{
 			opt[opt.selectedIndex] = null;
@@ -56,9 +56,9 @@
 	{
 		var opt = document.all("data[ContentsQuestion][option_list][]").options;
 		var txt = document.all("ContentsQuestionOptions");
-		
+
 		txt.value = "";
-		
+
 		for(var i=0; i<opt.length; i++)
 		{
 			if(txt.value=="")
@@ -70,13 +70,13 @@
 				txt.value += "|" + opt[i].value;
 			}
 		}
-		
+
 	}
 
 	function update_correct()
 	{
 		var opt = document.all("data[ContentsQuestion][option_list][]").options;
-		
+
 		if( opt.selectedIndex < 0 )
 		{
 			document.all("ContentsQuestionCorrect").value = "";
@@ -84,13 +84,13 @@
 		else
 		{
 			var corrects = new Array();
-			
+
 			for(var i=0; i<opt.length; i++)
 			{
 				if(opt[i].selected)
 					corrects.push(i+1);
 			}
-			
+
 			document.all("ContentsQuestionCorrect").value = corrects.join(',');
 		}
 	}
@@ -98,33 +98,33 @@
 	function init()
 	{
 		$url = $('input[name="data[ContentsQuestion][image]"]');
-		
+
 		$url.after('<input id="btnUpload" type="button" value="アップロード">');
 		$("#btnUpload").click(function(){
 			window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/image', '_upload', 'width=650,height=500,resizable=no');
 			return false;
 		});
-		
+
 		// リッチテキストエディタを起動
 		CommonUtil.setRichTextEditor('#ContentsQuestionBody', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
 		CommonUtil.setRichTextEditor('#ContentsQuestionExplain', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
-		
+
 		if($("#ContentsQuestionOptions").val()=="")
 			return;
-		
+
 		var options = $("#ContentsQuestionOptions").val().split('|');
 		var corrects = $("#ContentsQuestionCorrect").val().split(',');
-		
+
 		for(var i=0; i<options.length; i++)
 		{
 			var no = (i+1).toString();
 			var isSelected = (corrects.indexOf(no) >= 0);
-			
+
 			$option = $('<option>')
 				.val(options[i])
 				.text(options[i])
 				.prop('selected', isSelected);
-			
+
 			$("#ContentsQuestionOptionList").append($option);
 		}
 	}
@@ -137,11 +137,11 @@
 <?php $this->end(); ?>
 <div class="admin-contents-questions-edit">
 	<div class="ib-breadcrumb">
-	<?php 
+	<?php
 		$this->Html->addCrumb('コース一覧',  array('controller' => 'courses', 'action' => 'index'));
 		$this->Html->addCrumb($content['Course']['title'],  array('controller' => 'contents', 'action' => 'index', $content['Course']['id']));
 		$this->Html->addCrumb($content['Content']['title'], array('controller' => 'contents_questions', 'action' => 'index', $content['Content']['id']));
-		
+
 		echo $this->Html->getCrumbs(' / ');
 	?>
 	</div>
@@ -165,7 +165,7 @@
 				<button class="btn" onclick="add_option();return false;">＋</button>
 				<button class="btn" onclick="del_option();return false;">−</button><br>
 			<?php
-				echo $this->Form->input('option_list',	array('label' => __('選択肢／正解'), 
+				echo $this->Form->input('option_list',	array('label' => __('選択肢／正解'),
 					'type' => 'select',
 					'label' => false,
 					'multiple' => true,

@@ -14,19 +14,19 @@
 
 		$("#btnUpload").click(function(){
 			var val = $('input[name="data[Content][kind]"]:checked').val();
-			
+
 			if(!val)
 				return false;
-			
+
 			if(
 				(val=='text')||
 				(val=='test')
 			)
 				return false;
-			
+
 			if(val=='url')
 				val = 'file';
-			
+
 			window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/'+val, '_upload', 'width=650,height=500,resizable=no');
 			return false;
 		});
@@ -38,7 +38,7 @@
 		// 保存時、コード表示モードの場合、解除する（編集中の内容を反映するため）
 		$('#ContentAdminEditForm').submit( function() {
 			var val = $('input[name="data[Content][kind]"]:checked').val();
-			
+
 			if(val=='html')
 			{
 				if ($('#ContentBody').summernote('codeview.isActivated')) {
@@ -49,15 +49,15 @@
 
 		render();
 	});
-	
+
 	function render()
 	{
 		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
-		
+
 		$(".kind").hide();
 		$(".kind-"+content_kind).show();
 		$("#btnPreview").hide();
-		
+
 		switch(content_kind)
 		{
 			case 'text': // テキスト
@@ -94,11 +94,11 @@
         break;
 		}
 	}
-	
+
 	function preview()
 	{
 		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
-		
+
 		$.ajax({
 			url: "<?php echo Router::url(array('action' => 'preview')) ?>",
 			type: "POST",
@@ -113,7 +113,7 @@
 				//通信成功時の処理
 				//alert(response);
 				var url = '<?php echo Router::url(array('controller' => 'contents', 'action' => 'preview'))?>'.replace('admin/', '');
-				
+
 				window.open(url, '_preview', 'width=1000,height=700,resizable=no');
 			},
 			error: function(){
@@ -122,11 +122,11 @@
 			}
 		});
 	}
-	
+
 	function setURL(url, file_name)
 	{
 		$('.form-control-upload').val(url);
-		
+
 		if(file_name)
 			$('.form-control-filename').val(file_name);
 	}
@@ -175,7 +175,7 @@
 				echo "<div class='kind kind-movie kind-url kind-file'>";
 				echo $this->Form->input('url',		array('label' => 'URL', 'class' => 'form-control form-control-upload'));
 				echo "</div>";
-				
+
 				// 配布資料
 				echo "<div class='kind kind-file'>";
 				echo $this->Form->input('file_name', array('label' => 'ファイル名', 'class' => 'form-control-filename', 'readonly' => 'readonly'));
@@ -198,16 +198,16 @@
           'multiple'
 				));
 				*/
-    
+
 				echo $this->Form->input('timelimit', array(
 					'label' => '制限時間 (1-100分)',
 					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　指定した場合、制限時間を過ぎると自動的に採点されます。</span>',
 				));
-				
+
 				echo $this->Form->input('pass_rate', array(
 					'label' => '合格とする得点率 (1-100%)',
 				));
-				
+
 				// ランダム出題用
 				echo $this->Form->input('question_count', array(
 					'label' => '出題数 (1-100問)',
@@ -220,7 +220,7 @@
 					'type' => 'radio',
 					'before' => '<label class="col col-sm-3 control-label">ステータス</label>',
 					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　非公開と設定した場合、管理者権限でログインした場合のみ表示されます。</span>',
-					'separator' => '　', 
+					'separator' => '　',
 					'legend' => false,
 					'class' => false,
 					'default' => 1,
@@ -247,11 +247,11 @@
 						'after' => '<div class="col col-sm-3"></div><span class="status-exp">　変更することで他のコースにコンテンツを移動できます。</span>',
 					));
 				}
-	
+
 			?>
 			<div class="form-group">
 				<div class="col col-sm-9 col-sm-offset-3">
-					<button id="btnPreview" class="btn btn-default" value="プレビュー" onclick="preview(); return false;" type="submit">プレビュー</button>
+					<button id="btnPreview" class="btn btn-secondary" value="プレビュー" onclick="preview(); return false;" type="submit">プレビュー</button>
 					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>

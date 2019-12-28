@@ -1,5 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<div class="admin-settings-index">
+<div class="admin-settings-index full-view">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<?php echo __('システム設定'); ?>
@@ -14,7 +14,10 @@
 			?>
 			<div class="form-group">
 				<div class="col col-sm-9 col-sm-offset-3">
-					<?php echo $this->Form->end(array('label' => __('保存'), 'class' => 'btn btn-primary')); ?>
+					<?php
+						echo $this->Form->submit(__('保存'), Configure::read('form_submit_defaults'));
+						echo $this->Form->end();
+					?>
 				</div>
 			</div>
 			<?php echo $this->Form->end(); ?>

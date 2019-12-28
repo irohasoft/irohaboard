@@ -1,6 +1,6 @@
 <?php echo $this->element('menu');?>
 <?php echo $this->Html->css('user_course');?>
-<div class="users-courses-index">
+<div class="users-courses-index full-view">
 
 	<div class = "attendance-block">
 	  <div class = "attendance-info">
@@ -15,7 +15,7 @@
 	            ?>
 	          </div>
 					<?php endforeach;?>
-	
+
 				</div>
 				<div class = "attendance-status">
 					<?php foreach($user_info as $row):?>
@@ -35,7 +35,7 @@
 		</div>
 	</div>
 
-								
+
 	<div class="panel panel-success">
 		<div class="panel-heading"><?php echo __('お知らせ'); ?></div>
 		<div class="panel-body">
@@ -48,7 +48,7 @@
 				?>
 			</div>
 			<?php }?>
-			
+
 			<?php if(count($infos) > 0){?>
 			<table cellpadding="0" cellspacing="0">
 			<tbody>

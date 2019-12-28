@@ -1,10 +1,10 @@
 <?php echo $this->element('admin_menu');?>
-<div class="admin-groups-index">
+<div class="admin-groups-index full-view">
 	<div class="ib-page-title"><?php echo __('グループ一覧'); ?></div>
 	<div class="buttons_container">
 		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add')) ?>'">+ 追加</button>
 	</div>
-	
+
 	<table>
 	<thead>
 	<tr>
@@ -23,12 +23,13 @@
 		<td class="ib-col-date"><?php echo h(Utils::getYMDHN($group['Group']['created'])); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo h(Utils::getYMDHN($group['Group']['modified'])); ?>&nbsp;</td>
 		<td class="ib-col-action">
-			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $group['Group']['id'])) ?>'">編集</button>
-			<?php echo $this->Form->postLink(__('削除'), 
-					array('action' => 'delete', $group['Group']['id']), 
-					array('class'=>'btn btn-danger'), 
+			<?php echo $this->Form->postLink(__('削除'),
+					array('action' => 'delete', $group['Group']['id']),
+					array('class'=>'btn btn-danger'),
 					__('[%s] を削除してもよろしいですか?', $group['Group']['title'])
 			); ?>
+			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $group['Group']['id'])) ?>'">編集</button>
+
 		</td>
 	</tr>
 	<?php endforeach; ?>

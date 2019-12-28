@@ -8,8 +8,11 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-.admin-group_edit-index{
-
+.admin-student_edit-index,
+.admin-group_edit-index {
+  margin-left:   50px;
+  margin-right:  50px;
+  margin-bottom: 70px;
 }
 
 .member-input{

@@ -6,7 +6,7 @@
 		$('#CourseCourse').select2({placeholder: "受講するコースを選択して下さい。(複数選択可)", closeOnSelect: <?php echo (Configure::read('close_on_select') ? 'true' : 'false'); ?>,});
 	});
 <?php $this->Html->scriptEnd(); ?>
-<div class="admin-groups-edit">
+<div class="admin-groups-edit full-view">
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
 	<div class="panel panel-default">
 		<div class="panel-heading">

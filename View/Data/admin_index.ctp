@@ -1,7 +1,6 @@
 <?php echo $this->element('admin_menu')?>
 <?php echo $this->Html->css('custom');?>
 <div class = "admin-data-index">
-  <div class = "custom-page-title"><?php echo __('データ一覧')?></div>
   <button type = "button" class = "btn btn-primary select-btn"
     onclick = "location.href = '<?php echo Router::url(array('controller' => 'records', 'action' => 'index'))?>'">学習履歴</button>
   <button type = "button" class = "btn btn-primary select-btn"

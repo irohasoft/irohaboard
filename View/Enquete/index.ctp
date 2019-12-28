@@ -1,15 +1,15 @@
 <?php echo $this->element('menu');?>
 <?php echo $this->Html->css('enquete');?>
-<div class = "enquete-input-header">
-  <div class = "ib-page-title"><?php echo __('アンケート'.'('.$today.')'.'記入')?></div>
+<div class="enquete-input-header">
+  <div class="ib-page-title"><?php echo __('アンケート'.'('.$today.')'.'記入')?></div>
   </br></br>
-  <div class = enquete-input-block>
+  <div class="enquete-input-block">
   <?php
     //echo $this->Form->create("enquete-input",array('novalidate' => true));
     echo $this->Form->create(false,['type' => 'post','url'=> ['controller' => 'enquete','action' => 'index'],'novalidate' => true]);
 		echo $this->Form->hidden('group_id',array('value' => $group_id));
   ?>
-  <div class = "form-input-block enquete-input-group required-input">
+  <div class="form-input-block enquete-input-group required-input">
   <?php
     echo $this->Form->input('group_id',array(
       'label' => __('個別指導の担当講師：'),

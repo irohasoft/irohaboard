@@ -112,7 +112,7 @@ $config['form_defaults'] = array(
 
 $config['form_submit_defaults'] = array(
 	'div' => false,
-	'class' => 'btn btn-primary'
+	'class' => 'btn btn-primary float-right'
 );
 
 

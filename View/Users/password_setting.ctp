@@ -1,4 +1,5 @@
-<div class="users-setting">
+<?php echo $this->Html->css('custom'); ?>
+<div class="users-setting full-view">
 	<div class="breadcrumb">
 	<?php
 	$this->Html->addCrumb('HOME', array(

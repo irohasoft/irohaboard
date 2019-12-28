@@ -30,7 +30,7 @@ CommonUtility.prototype.setRichTextEditor = function (selector, use_upload_image
 			{
 				var data = new FormData();
 				data.append("file", files[0]);
-				
+
 				$.ajax({
 					data: data,
 					type: 'POST',
@@ -62,4 +62,3 @@ CommonUtility.prototype.setRichTextEditor = function (selector, use_upload_image
 }
 
 var CommonUtil = new CommonUtility();
-

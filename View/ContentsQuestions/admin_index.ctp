@@ -87,7 +87,6 @@
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($contentsQuestion['ContentsQuestion']['created']); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo Utils::getYMDHN($contentsQuestion['ContentsQuestion']['modified']); ?>&nbsp;</td>
 		<td class="actions text-center">
-			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $contentsQuestion['Content']['id'], $contentsQuestion['ContentsQuestion']['id'])) ?>'">編集</button>
 			<?php
 			if($loginedUser['role']=='admin')
 			{
@@ -99,6 +98,8 @@
 				echo $this->Form->hidden('id', array('id'=>'', 'class'=>'target_id', 'value'=>$contentsQuestion['ContentsQuestion']['id']));
 			}
 			?>
+			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $contentsQuestion['Content']['id'], $contentsQuestion['ContentsQuestion']['id'])) ?>'">編集</button>
+
 		</td>
 	</tr>
 	<?php endforeach; ?>

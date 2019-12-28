@@ -11,7 +11,7 @@ function downloadCSV()
 }
 </script>
 <?php $this->end(); ?>
-<div class="admin-records-index">
+<div class="admin-records-index full-view">
 	<div class="ib-page-title"><?php echo __('出欠席'); ?></div>
 	<div class="ib-horizontal">
 		<?php
@@ -20,7 +20,7 @@ function downloadCSV()
 			echo '<div class="ib-search-buttons">';
 			echo $this->Form->submit(__('適用'),	array('class' => 'btn btn-info', 'div' => false));
 			echo $this->Form->hidden('cmd');
-			//echo '<button type="button" class="btn btn-default" onclick="downloadCSV()">'.__('CSV出力').'</button>';
+			//echo '<button type="button" class="btn btn-secondary" onclick="downloadCSV()">'.__('CSV出力').'</button>';
 			echo '</div>';
 
 			echo '<div class="ib-row" >';
@@ -324,5 +324,6 @@ function downloadCSV()
 		</tbody>
 	</table>
 
+	</div>
 	</div>
 </div>

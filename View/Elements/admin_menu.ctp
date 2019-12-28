@@ -42,6 +42,7 @@
 		$is_active = ($this->name=='Managements' or $this->name=='Settings' or
 									$this->name=='Users' or $this->name=='Groups' or
 									$this->name=='Courses' or $this->name=='Infos' or
+									$this->name=='Dates' or $this->name=='Lessons' or
 								 ($this->name=='AdminManages' && $this->action=='admin_index')) ? ' active' : '';
 	?>
 	<li class="nav-item dropdown <?php echo $is_active; ?>">

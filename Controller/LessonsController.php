@@ -19,13 +19,18 @@ class LessonsController extends AppController{
     ),
   );
 
-  // 授業日時一覧を表示
-  public function admin_index(){
+  // 時限一覧を表示
+  public function admin_index($date_id){
+    $this->set('date_id', $date_id);
+    $this->loadModel('Date');
+    $date = $this->Date->getDate($date_id);
+    $this->set('date', $date);
+
     $this->Lesson->recursive = -1;
     $this->Paginator->settings = array(
       'fields' => array('*'),
+      'conditions' => array('date_id' => $date_id),
       'order'  => array(
-        'date'   => 'DESC',
         'period' => 'ASC'
       ),
       'limit'  => 1000
@@ -33,20 +38,23 @@ class LessonsController extends AppController{
     $this->set('lessons', $this->Paginator->paginate());
   }
 
-  // 授業日時を追加
-  public function admin_add(){
-    $this->admin_edit();
+  // 時限を追加
+  public function admin_add($date_id){
+    $this->admin_edit($date_id);
     $this->render('admin_edit');
   }
 
   /**
-	 * 授業日時の編集
-	 * @param int $lesson_id 編集する授業日時のID
+	 * 時限の編集
+	 * @param int $lesson_id 編集する時限のID
 	 */
-  public function admin_edit($lesson_id=null){
-    if($this->action == 'edit' && !$this->Lesson->exists($lesson_id))
+  public function admin_edit($date_id, $lesson_id=null){
+    $this->loadModel('Date');
+
+    if($this->action == 'edit' && !$this->Date->exists($date_id) &&
+       !$this->Lesson->exists($lesson_id))
     {
-			throw new NotFoundException(__('指定された授業日時は登録されていません'));
+			throw new NotFoundException(__('指定された時限は登録されていません'));
 		}
 		if($this->request->is(array(
 				'post',
@@ -55,14 +63,15 @@ class LessonsController extends AppController{
     {
 			if ($this->Lesson->save($this->request->data))
       {
-				$this->Flash->success(__('授業日程を保存しました'));
+				$this->Flash->success(__('時限を保存しました'));
 				return $this->redirect(array(
-						'action' => 'index'
+						'action' => 'index',
+            $date_id
 				));
 			}
       else
       {
-				$this->Flash->error(__('授業日時を保存できませんでした．もう一度お試しください'));
+				$this->Flash->error(__('時限を保存できませんでした．もう一度お試しください'));
 			}
 		}
     else
@@ -74,27 +83,30 @@ class LessonsController extends AppController{
         'recursive' => -1
       ));
       $this->log($this->request->data);
+      $date = $this->Date->getDate($date_id);
+      $this->set('date', $date);
+      $this->set('date_id', $date_id);
 		}
   }
 
   /**
-   * 授業日時の削除
-   * @param int $lesson_id 削除する授業日時のID
+   * 時限の削除
+   * @param int $lesson_id 削除する時限のID
    */
   public function admin_delete($lesson_id=null){
     $this->Lesson->id = $lesson_id;
 		if (!$this->Lesson->exists())
     {
-			throw new NotFoundException(__('指定された授業日時は登録されていません'));
+			throw new NotFoundException(__('指定された時限は登録されていません'));
 		}
 		$this->request->allowMethod('post', 'delete');
 		if ($this->Lesson->delete())
     {
-			$this->Flash->success(__('授業日時を削除しました'));
+			$this->Flash->success(__('時限を削除しました'));
 		}
     else
     {
-			$this->Flash->error(__('授業日時を削除できませんでした．もう一度お試しください'));
+			$this->Flash->error(__('時限を削除できませんでした．もう一度お試しください'));
 		}
 		return $this->redirect(array(
 				'action' => 'index'

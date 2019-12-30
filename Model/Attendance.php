@@ -159,17 +159,11 @@ class Attendance extends AppModel {
 		return (new DateTime($login_time))->format($format_str);
 	}
 
-	public function calcLateTime($attendance_id, $login_time=null){
+	public function calcLateTime($date_id, $login_time){
 		$this->Date   = new Date();
 		$this->Lesson = new Lesson();
-		$data = $this->find('first', array(
-			'fields' => array('id', 'date_id', 'login_time'),
-			'conditions' => array('id' => $attendance_id),
-			'recursive' => -1
-		));
-		if(!$login_time){ $login_time = $data['Attendance']['login_time']; }
+
 		$login_time = (int)strtotime($login_time);
-		$date_id = $data['Attendance']['date_id'];
 		$lesson_date = $this->Date->getDate($date_id);
 		$lessons = $this->Lesson->findLessons($date_id);
 

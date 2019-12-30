@@ -162,5 +162,14 @@ $config['os_type'] = array(
 
 $config['attendance_status'] = array(
 	'0' => '欠席',
-	'1' => '出席済'
+	'1' => '出席済',
+	'2' => '未定',
+	'3' => '遅刻予定',
+	'4' => '早退予定',
+);
+
+$config['attendance_status_for_edit'] = array(
+	'0' => '欠席',
+	'1' => '出席済',
+	'2' => '未定'
 );

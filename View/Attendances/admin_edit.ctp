@@ -14,7 +14,7 @@
     echo $this->Form->create();
     echo $this->Form->input('status', array(
       'label'    => '出欠席',
-      'options'  => Configure::read('attendance_status'),
+      'options'  => Configure::read('attendance_status_for_edit'),
       'selected' => $attendance_status
     ));
     echo $this->Form->input('edited_login_time', array(

@@ -42,6 +42,7 @@
 		$is_active = ($this->name=='Managements' or $this->name=='Settings' or
 									$this->name=='Users' or $this->name=='Groups' or
 									$this->name=='Courses' or $this->name=='Infos' or
+									$this->name=='Dates' or $this->name=='Lessons' or
 								 ($this->name=='AdminManages' && $this->action=='admin_index')) ? ' active' : '';
 	?>
 	<li class="nav-item dropdown <?php echo $is_active; ?>">
@@ -52,6 +53,7 @@
 			<?php echo $this->Html->link(__('ユーザ'), array('controller' => 'users', 'action' => 'index'), array('class' => 'dropdown-item')); ?>
 			<?php echo $this->Html->link(__('グループ'), array('controller' => 'groups', 'action' => 'index'), array('class' => 'dropdown-item')); ?>
 			<?php echo $this->Html->link(__('コース'), array('controller' => 'courses', 'action' => 'index'), array('class' => 'dropdown-item')); ?>
+			<?php echo $this->Html->link(__('授業日'), array('controller' => 'dates', 'action' => 'index'), array('class' => 'dropdown-item')); ?>
 			<div class="dropdown-divider"></div>
 			<?php echo $this->Html->link(__('その他管理'), array('controller' => 'managements', 'action' => 'other_index'), array('class' => 'dropdown-item')); ?>
 		</div>

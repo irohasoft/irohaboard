@@ -8,5 +8,7 @@
   <button type = "button" class = "btn btn-primary select-btn"
     onclick = "location.href = '<?php echo Router::url(array('controller' => 'courses', 'action' => 'index'))?>'">コンテンツ</button>
   <button type = "button" class = "btn btn-primary select-btn"
+    onclick = "location.href = '<?php echo Router::url(array('controller' => 'lessons', 'action' => 'index'))?>'">授業日程</button>
+  <button type = "button" class = "btn btn-primary select-btn"
     onclick = "location.href = '<?php echo Router::url(array('controller' => 'managements', 'action' => 'other_index'))?>'">その他管理</button>
 </div>

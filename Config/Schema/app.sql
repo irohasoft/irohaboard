@@ -282,6 +282,32 @@ CREATE TABLE IF NOT EXISTS `ib_os_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for `ib_dates`
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS `ib_dates` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `date` date DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `date` (`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `ib_lessons`
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS `ib_lessons` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `date_id` int(20) DEFAULT NULL,
+  `start` time DEFAULT NULL,
+  `end` time DEFAULT NULL,
+  `period` int(8) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for `ib_attendances`
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS `ib_attendances` (

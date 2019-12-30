@@ -119,13 +119,14 @@ class Date extends AppModel
 		return $last_class_date;
 	}
 
-	public function getDateListUntilToday($format_str='Y-m-d'){
+	public function getDateListUntilToday($format_str='Y-m-d', $limit=8){
 		$date_list = array();
 		$today=date('Y-m-d');
 		$data = $this->find('all', array(
 			'fields' => array('date'),
 			'conditions' => array('date <= ?' => $today),
 			'order' => 'date DESC',
+			'limit' => $limit,
 			'recursive' => -1
 		));
 		foreach($data as $datum){

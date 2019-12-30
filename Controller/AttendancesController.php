@@ -175,7 +175,14 @@ class AttendancesController extends AppController{
         $edited_minute = $request_data['Attendance']['edited_login_time']['min'];
         $login_date = $this->Attendance->findAttendanceDate($attendance_id);
         $edited_login_time = $login_date.' '.$edited_hour.':'.$edited_minute.':00';
-        $late_time = $this->Attendance->calcLateTime($attendance_id, $edited_login_time);
+
+        $date_id = $this->Attendance->find('first', array(
+          'fields' => array('date_id'),
+          'conditions' => array('id' => $attendance_id),
+          'recursive' => -1
+        ))['Attendance']['date_id'];
+        $late_time = $this->Attendance->calcLateTime($date_id, $edited_login_time);
+
         if($late_time === null){
           $this->Flash->error(__('ログイン時間がどの時限とも整合しません。ログイン時間を確認してください。また、授業時間が正しく設定されているか確認してください。'));
           return;

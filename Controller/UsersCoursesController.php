@@ -28,10 +28,9 @@ class UsersCoursesController extends AppController
 	{
 		$this->loadModel('User');
 		$this->loadModel('Attendance');
+		$this->loadModel('Date');
+
 		$user_id = $this->Auth->user('id');
-
-		
-
 
 		$role = $this->Auth->user('role');
     $this->set('role',$role);
@@ -93,61 +92,47 @@ class UsersCoursesController extends AppController
     }
 
 		$no_record = "";
-		
+
 		if(count($courses)==0){$no_record = __('受講可能なコースはありません');}
 
 		$this->set(compact('courses', 'no_record', 'info', 'infos', 'no_info'));
 
-		// role == 'user'の出席情報を取る(日曜日のみ --- 0)
-		if($role === 'user' && date('w') == 0 ){
+		// role == 'user'の出席情報を取る(授業日のみ)
+		if($role === 'user' && $this->Date->isClassDate()){
 			$this->loadModel('Log');
 
-			$standard_ip = $this->findStandardIP();
-			
-			$user_ip = $this->request->ClientIp();
-			
-			//実用する時，ここを==にする．
-			if($user_ip == $standard_ip){ 
-				
-				$attendance_info = $this->Attendance->find('first',array(
-					'conditions' => array(
-						'Attendance.user_id' => $user_id
-					),
-					'order' => array(
-						'Attendance.created' => 'desc'
-					)
-				));
-				//$this->log($attendance_info);
-				$save_info = $attendance_info['Attendance'];
-				if($save_info['status'] == 0){
-					$save_info['status'] = 1;
-					$save_info['login_time'] = date('Y-m-d H:i:s');
-					
-					$login_time = (int)strtotime($save_info['login_time']);
+			$today_date_id = $this->Date->getTodayClassId();
 
-					if($login_time < (int)strtotime('10:30:00')){
-						$standard_time = (int)(strtotime('09:00:00'));
-						$save_info['late_time'] = $login_time > $standard_time ? (int)(($login_time - $standard_time) / 60) : 0;
-						
-					}else{
-						$standard_time = (int)(strtotime('11:00:00'));
-						$save_info['late_time'] = $login_time > $standard_time ? (int)(($login_time - $standard_time) / 60) : 0;
-					}
-					
+			$standard_ip = $this->findStandardIP();
+			$user_ip = $this->request->ClientIp();
+
+			//実用する時，ここを==にする．
+			if($user_ip == $standard_ip){
+
+				$today_attendance_info = $this->Attendance->find('first', array(
+					'conditions' => array(
+						'user_id' => $user_id,
+						'date_id' => $today_date_id
+					),
+					'recursive' => -1
+				));
+
+				$save_info = $today_attendance_info['Attendance'];
+
+				if($save_info['status'] == 0 or $save_info['status'] == 2){  // 元の出欠情報が欠席または未定なら
+					$save_info['status'] = 1;
+
+					$save_info['login_time'] = date('Y-m-d H:i:s');
+					$login_time = (int)strtotime($save_info['login_time']);
+					$save_info['late_time'] = $this->Attendance->calcLateTime($today_date_id, $login_time);
+
 					$this->Attendance->save($save_info);
 				}
 			}
 		}
 
-		$user_info = $this->Attendance->find('all',array(
-			'conditions' => array(
-				'User.id' => $user_id
-			),
-			'order' => 'Attendance.created DESC',
-			'limit' => 8
-		));
+		$user_info = $this->Attendance->findRecentAttendances($user_id);
 		$this->set(compact("user_info"));
 		$this->log($user_info);
-	
 	}
 }

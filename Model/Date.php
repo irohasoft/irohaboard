@@ -38,7 +38,7 @@ class Date extends AppModel
 		'Attendance' => array(
 				'className' => 'Attendance',
 				'foreignKey' => 'date_id',
-				'dependent' => false,
+				'dependent' => true,
 				'conditions' => '',
 				'fields' => '',
 				'order' => '',
@@ -72,6 +72,7 @@ class Date extends AppModel
     return $formatted_lesson_date;
   }
 
+	// 今日が授業日か判定
 	public function isClassDate(){
 		$today = date("Y-m-d");
 		$data = $this->find('first', array(
@@ -81,6 +82,17 @@ class Date extends AppModel
 		));
 		if($data){ return true; }
 		return false;
+	}
+
+	public function getTodayClassId(){
+		$today=date('Y-m-d');
+		$data = $this->find('first', array(
+			'fields' => array('id'),
+			'conditions' => array('date' => $today),
+			'recursive' => -1
+		));
+		$today_class_id = $data['Date']['id'];
+		return $today_class_id;
 	}
 
 	public function getLastClassId(){

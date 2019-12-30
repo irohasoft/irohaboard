@@ -41,4 +41,13 @@ class Lesson extends AppModel
 	public $filterArgs = array(
 	);
 
+	public function findLessons($date_id){
+		$data = $this->find('all', array(
+			'fields' => array('id', 'start', 'end', 'period'),
+			'conditions' => array('date_id' => $date_id),
+			'recursive' => -1
+		));
+		return $data;
+	}
+
 }

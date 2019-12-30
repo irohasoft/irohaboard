@@ -23,7 +23,7 @@ class LessonsController extends AppController{
   public function admin_index($date_id){
     $this->set('date_id', $date_id);
     $this->loadModel('Date');
-    $date = $this->Date->getDate($date_id);
+    $date = $this->Date->getDate($date_id, 'Y年m月d日');
     $this->set('date', $date);
 
     $this->Lesson->recursive = -1;
@@ -83,7 +83,7 @@ class LessonsController extends AppController{
         'recursive' => -1
       ));
       $this->log($this->request->data);
-      $date = $this->Date->getDate($date_id);
+      $date = $this->Date->getDate($date_id, 'Y年m月d日');
       $this->set('date', $date);
       $this->set('date_id', $date_id);
 		}

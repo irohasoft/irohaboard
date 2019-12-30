@@ -34,6 +34,19 @@ class Date extends AppModel
 				'exclusive' => '',
 				'finderQuery' => '',
 				'counterQuery' => ''
+		),
+		'Attendance' => array(
+				'className' => 'Attendance',
+				'foreignKey' => 'date_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => '',
+				'limit' => '',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
 		)
 	);
 
@@ -48,15 +61,64 @@ class Date extends AppModel
 	public $filterArgs = array(
 	);
 
-  public function getDate($date_id){
+  public function getDate($date_id, $format_str='Y-m-d'){
     $data = $this->find('first', array(
       'fields' => array('id', 'date'),
       'conditions' => array('id' => $date_id),
       'recursive' => -1
     ));
     $lesson_date = new DateTime($data['Date']['date']);
-    $formatted_lesson_date = $lesson_date->format('Y年m月d日');
+    $formatted_lesson_date = $lesson_date->format($format_str);
     return $formatted_lesson_date;
   }
 
+	public function isClassDate(){
+		$today = date("Y-m-d");
+		$data = $this->find('first', array(
+			'fields' => array('id', 'date'),
+      'conditions' => array('date' => $today),
+      'recursive' => -1
+		));
+		if($data){ return true; }
+		return false;
+	}
+
+	public function getLastClassId(){
+		$today=date('Y-m-d');
+		$data = $this->find('first', array(
+			'fields' => array('id'),
+			'conditions' => array('date <= ?' => $today),
+			'order' => 'date DESC',
+			'recursive' => -1
+		));
+		$last_class_id = $data['Date']['id'];
+		return $last_class_id;
+	}
+
+	public function getLastClassDate($format_str='Y-m-d'){
+		$today=date('Y-m-d');
+		$data = $this->find('first', array(
+			'fields' => array('date'),
+			'conditions' => array('date <= ?' => $today),
+			'order' => 'date DESC',
+			'recursive' => -1
+		));
+		$last_class_date = (new DateTime($data['Date']['date']))->format($format_str);
+		return $last_class_date;
+	}
+
+	public function getDateListUntilToday($format_str='Y-m-d'){
+		$date_list = array();
+		$today=date('Y-m-d');
+		$data = $this->find('all', array(
+			'fields' => array('date'),
+			'conditions' => array('date <= ?' => $today),
+			'order' => 'date DESC',
+			'recursive' => -1
+		));
+		foreach($data as $datum){
+			$date_list[] = (new DateTime($datum['Date']['date']))->format($format_str);
+		}
+		return $date_list;
+	}
 }

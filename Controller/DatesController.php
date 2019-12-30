@@ -43,6 +43,7 @@ class DatesController extends AppController{
  	* @param int $date_id 編集する授業日のID
  	*/
   public function admin_edit($date_id=null){
+    $this->loadModel('Attendance');
     if($this->action == 'edit' && !$this->Date->exists($date_id))
     {
  		  throw new NotFoundException(__('指定された授業日は登録されていません'));
@@ -54,6 +55,11 @@ class DatesController extends AppController{
     {
  			if ($this->Date->save($this->request->data))
       {
+        $date_id = $this->Date->id;
+        if(!$this->Attendance->isExistAttendanceInfo($date_id))
+        {
+          $this->Attendance->setAttendanceInfo($date_id);
+        }
  				$this->Flash->success(__('授業日を保存しました'));
  				return $this->redirect(array(
  						'action' => 'index'
@@ -72,7 +78,6 @@ class DatesController extends AppController{
          ),
          'recursive' => -1
       ));
-      $this->log($this->request->data);
  		}
    }
 

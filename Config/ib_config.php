@@ -166,9 +166,18 @@ $config['attendance_status'] = array(
 	'2' => '未定',
 	'3' => '遅刻予定',
 	'4' => '早退予定',
+	'5' => '時限変更'
 );
 
 $config['attendance_status_for_edit'] = array(
+	'0' => '欠席予定',
+	'2' => '出席予定',
+	'3' => '遅刻予定',
+	'4' => '早退予定',
+	'5' => '時限変更'
+);
+
+$config['attendance_status_for_admin_edit'] = array(
 	'0' => '欠席',
 	'1' => '出席済',
 	'2' => '未定'

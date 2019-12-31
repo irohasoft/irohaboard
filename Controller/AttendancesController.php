@@ -46,10 +46,42 @@ class AttendancesController extends AppController{
     )
   );
 
-  public function index(){
-  }
+  public function edit($attendance_id){
+    $attendance_date = $this->Attendance->findAttendanceDate($attendance_id, 'm月d日');
+    $this->set('attendance_date', $attendance_date);
 
-  public function records(){
+    $data = $this->Attendance->find('first', array(
+      'fields' => array('status', 'reason'),
+      'conditions' => array(
+        'id' => $attendance_id
+      ),
+      'recursive' => -1
+    ));
+    $attendance_status = $data['Attendance']['status'];
+    $attendance_reason = $data['Attendance']['reason'];
+    $this->set('attendance_status', $attendance_status);
+    $this->set('attendance_reason', $attendance_reason);
+
+    if($this->request->is('post')){
+      $request_data = $this->request->data;
+      $edited_status = $request_data['Attendance']['status'];
+      if($edited_status == 1 or $edited_status == 2){
+        $edited_reason = null;
+      }else{
+        $edited_reason = $request_data['Attendance']['reason'];
+      }
+
+      $this->Attendance->read(null, $attendance_id);
+      $this->Attendance->set(array(
+        'status' => $edited_status,
+        'reason' => $edited_reason
+      ));
+      if($this->Attendance->save()){
+        $this->Flash->success(__('出欠連絡を完了しました。'));
+        return $this->redirect(array('controller' => 'userscourses', 'action' => 'index'));
+      }
+      $this->Flash->error(__('出欠連絡に失敗しました、もう一度お試しください。'));
+    }
   }
 
   public function admin_index(){

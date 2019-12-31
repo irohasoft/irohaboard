@@ -317,6 +317,7 @@ CREATE TABLE IF NOT EXISTS `ib_attendances` (
   `login_time` datetime DEFAULT NULL,
   `late_time` int(8) DEFAULT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
+  `reason` varchar(100) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)

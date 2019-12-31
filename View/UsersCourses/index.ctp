@@ -6,35 +6,59 @@
 	  <div class = "attendance-info">
 	    <div class = "attendance-date-block">
 			<div class = "attendance-date">
-	        <?php foreach($user_info as $row):?>
-	          <div class = "date">
-	            <?php
-	              $created = new DateTime($row['Attendance']['created']);
-	              $created_day = $created->format('Y-m-d');
-	              echo h($created_day);
-	            ?>
-	          </div>
+	       <?php foreach($user_info as $row):?>
+	         <div class = "date">
+	           <?php
+	             $class_date = (new DateTime($row['Date']['date']))->format('m月d日');
+							 if(strtotime($row['Date']['date']) > strtotime(date('Y-m-d'))){
+								 $attendance_id = $row['Attendance']['id'];
+								 echo $this->Html->link($class_date, array('controller' => 'attendances', 'action' => 'edit', $attendance_id));
+							 }else{
+	             	 echo h($class_date);
+						 	 }
+	           ?>
+	         </div>
 					<?php endforeach;?>
-
-				</div>
-				<div class = "attendance-status">
-					<?php foreach($user_info as $row):?>
-						<div class = "status">
-	            <?php
-	              if($row['Attendance']['status'] != 1){
-	                echo h('×');
-	              }else{
-	                echo h('○');
-	              }
-	            ?>
-	          </div>
-					<?php endforeach;?>
-
-				</div>
+			</div>
+			<div class = "attendance-status">
+				<?php foreach($user_info as $row):?>
+					<div class = "status">
+	          <?php
+							if(strtotime($row['Date']['date']) >= strtotime(date('Y-m-d'))){
+								switch($row['Attendance']['status']){
+    							case 0:
+        						echo __("欠席予定");
+        						break;
+									case 1:
+										echo __("出席済");
+										break;
+    							case 3:
+        						echo __("遅刻予定");
+        						break;
+    							case 4:
+        						echo __("早退予定");
+        						break;
+									case 5:
+										echo __("時限変更予定");
+										break;
+									default:
+										echo __("出席予定");
+										break;
+								}
+							}else{
+	            	if($row['Attendance']['status'] != 1){
+	              	echo h('欠席');
+	            	}else{
+	              	echo h('出席');
+	            	}
+							}
+	          ?>
+	        </div>
+				<?php endforeach;?>
+			</div>
 			</div>
 		</div>
 	</div>
-
 
 	<div class="panel panel-success">
 		<div class="panel-heading"><?php echo __('お知らせ'); ?></div>

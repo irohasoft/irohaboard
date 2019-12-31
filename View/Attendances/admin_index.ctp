@@ -81,6 +81,10 @@ function downloadCSV()
 								$color = 'blue';
 								$mark  = '○(!)';
 								break;
+							case 5:  // 時限変更予定
+								$color = 'blue';
+								$mark  = '○(←→)';
+								break;
 						endswitch;
 				?>
 				<td nowrap><span style = "font-size : 15pt">
@@ -176,8 +180,12 @@ function downloadCSV()
 								$mark  = '△';
 								break;
 							case 4:  // 早退予定
-								$color = 'blue';
-								$mark  = '○(!)';
+								$color = 'orange';
+								$mark  = '?(!)';
+								break;
+							case 5:  // 時限変更予定
+								$color = 'orange';
+								$mark  = '?(←→)';
 								break;
 						endswitch;
 				?>

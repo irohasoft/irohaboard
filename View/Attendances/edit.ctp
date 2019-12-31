@@ -2,7 +2,7 @@
 <?php echo $this->Html->css('attendance');?>
 <div class="container-fluid">
   <div class="row">
-     <div class="col"><?php echo $this->Html->link(__('<< 戻る'), array('controller' => 'userscourses', 'action' => 'index'))?></div>
+     <div class="col"><?php echo $this->Html->link(__('<< 戻る'), array('controller' => 'users_courses', 'action' => 'index'))?></div>
   </div>
 	<div class="row">
 	   <div class="col"><h2><?php echo __("出欠連絡");?></h2></div>

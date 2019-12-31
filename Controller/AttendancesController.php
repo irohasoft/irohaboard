@@ -78,7 +78,7 @@ class AttendancesController extends AppController{
       ));
       if($this->Attendance->save()){
         $this->Flash->success(__('出欠連絡を完了しました。'));
-        return $this->redirect(array('controller' => 'userscourses', 'action' => 'index'));
+        return $this->redirect(array('controller' => 'users_courses', 'action' => 'index'));
       }
       $this->Flash->error(__('出欠連絡に失敗しました、もう一度お試しください。'));
     }

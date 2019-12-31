@@ -104,6 +104,20 @@ class Attendance extends AppModel {
 		}
 	}
 
+	public function getAllTimeAttendances($user_id){
+		$data = $this->find('all',array(
+			'conditions' => array(
+				'Attendance.user_id' => $user_id
+			),
+			'order' => array(
+				'Date.date' => 'DESC'
+			),
+			'limit' => 8,
+			'recursive' => 0
+		));
+		return $data;
+	}
+
 	public function findRecentAttendances($user_id){
 		$today=date('Y-m-d');
 		$data = $this->find('all',array(

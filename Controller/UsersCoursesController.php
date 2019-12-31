@@ -131,7 +131,7 @@ class UsersCoursesController extends AppController
 			}
 		}
 
-		$user_info = $this->Attendance->findRecentAttendances($user_id);
+		$user_info = $this->Attendance->getAllTimeAttendances($user_id);
 		$this->set(compact("user_info"));
 		$this->log($user_info);
 	}

@@ -60,11 +60,11 @@
 		</div>
 	</div>
 
-	<div class="panel panel-success">
-		<div class="panel-heading"><?php echo __('お知らせ'); ?></div>
-		<div class="panel-body">
+	<div class="card border-light">
+		<div class="card-header"><?php echo __('お知らせ'); ?></div>
+		<div class="card-body">
 			<?php if($info!=""){?>
-			<div class="well">
+			<div>
 				<?php
 				$info = $this->Text->autoLinkUrls($info, array( 'target' => '_blank'));
 				$info = nl2br($info);
@@ -89,25 +89,36 @@
 			<?php echo $no_info;?>
 		</div>
 	</div>
-	<div class="panel panel-info">
-	<div class="panel-heading"><?php echo __('コース一覧'); ?></div>
-	<div class="panel-body">
-		<ul class="list-group">
-		<?php foreach ($courses as $course): ?>
-		<?php //debug($course)?>
-			<a href="<?php echo Router::url(array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));?>" class="list-group-item">
-				<?php if($course[0]['left_cnt']!=0){?>
-				<button type="button" class="btn btn-danger btn-rest"><?php echo __('残り')?> <span class="badge"><?php echo h($course[0]['left_cnt']); ?></span></button>
-				<?php }?>
-				<h4 class="list-group-item-heading"><?php echo h($course['Course']['title']);?></h4>
-				<p class="list-group-item-text">
-					<span><?php echo __('学習開始日').': '.Utils::getYMD($course['Record']['first_date']); ?></span>
-					<span><?php echo __('最終学習日').': '.Utils::getYMD($course['Record']['last_date']); ?></span>
-				</p>
-			</a>
-		<?php endforeach; ?>
-		<?php echo $no_record;?>
-		</ul>
+
+	<?php if($next_goal){?>
+	<div class="card border-light">
+  	<div class="card-header">次回の授業に来る時までに達成するゴール</div>
+  	<div class="card-body">
+    	<?php echo h($next_goal); ?>
+  	</div>
 	</div>
+	<?php }?>
+
+	<div class="card border-light">
+		<div class="card-header"><?php echo __('コース一覧'); ?></div>
+		<div class="card-body">
+			<ul class="list-group">
+				<?php foreach ($courses as $course): ?>
+				<?php //debug($course)?>
+				<a href="<?php echo Router::url(array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));?>" class="list-group-item">
+					<?php if($course[0]['left_cnt']!=0){?>
+						<button type="button" class="btn btn-danger btn-rest"><?php echo __('残り')?> <span class="badge"><?php echo h($course[0]['left_cnt']); ?></span></button>
+					<?php }?>
+					<h4 class="list-group-item-heading"><?php echo h($course['Course']['title']);?></h4>
+					<p class="list-group-item-text">
+						<span><?php echo __('学習開始日').': '.Utils::getYMD($course['Record']['first_date']); ?></span>
+						<span><?php echo __('最終学習日').': '.Utils::getYMD($course['Record']['last_date']); ?></span>
+					</p>
+				</a>
+				<?php endforeach; ?>
+				<?php echo $no_record;?>
+			</ul>
+		</div>
 	</div>
+
 </div>

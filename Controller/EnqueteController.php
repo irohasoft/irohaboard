@@ -62,12 +62,10 @@ class EnqueteController extends AppController{
     $conditions = [];
     $conditions['Enquete.user_id'] = $user_id;
 
-
     $conditions['Enquete.created BETWEEN ? AND ?'] = array(
 			$today,
 			$today.' 23:59:59'
     );
-
 
     $enquete_history = $this->Enquete->find('first',array(
       'conditions' => $conditions
@@ -88,6 +86,11 @@ class EnqueteController extends AppController{
     //今所属するグループのidを探す．
     $group_id = $this->User->findUserGroup($user_id);
     $this->set('group_id',$group_id);
+
+    // 前回設定したゴールを検索
+    $previous_next_goal = $this->Enquete->findPreviousNextGoal($user_id);
+    if(!$previous_next_goal){ $previous_next_goal = 'なし'; }
+    $this->set('previous_next_goal', $previous_next_goal);
 
     //$entity = $this->Enquete->newEntity($this->request->data);
 
@@ -313,11 +316,11 @@ class EnqueteController extends AppController{
 		{
       if(@$this->request->query['cmd']=='today'){
 				$this->log('work');
-	
+
 				$from_date = array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
 				$to_date = array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
-	
-				
+
+
 				// 学習日付による絞り込み
 				$conditions['Enquete.created BETWEEN ? AND ?'] = array(
 					implode("/", $from_date),

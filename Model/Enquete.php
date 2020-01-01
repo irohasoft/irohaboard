@@ -141,4 +141,19 @@ class Enquete extends AppModel
 		return $next_goal;
 	}
 
+	public function findPreviousNextGoal($user_id){
+		$today = date('Y-m-d');
+		$data = $this->find('first', array(
+			'fields' => array('next_goal'),
+			'conditions' => array(
+				'user_id' => $user_id,
+				'created < ?' => $today.' 00:00:00'
+			),
+			'order' => array('created' => 'desc'),
+			'recursive' => -1
+		));
+		$next_goal = $data['Enquete']['next_goal'];
+		return $next_goal;
+	}
+
 }

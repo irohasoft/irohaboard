@@ -78,7 +78,7 @@ class Enquete extends AppModel
 				'message' => '入力は200文字以下にしてください．'
 			)
 		),
-		
+
 		'today_impressions' => array(
 			/*
 			'notBlank' => array(
@@ -129,5 +129,16 @@ class Enquete extends AppModel
 
 	public $filterArgs = array(
 	);
+
+	public function findCurrentNextGoal($user_id){
+		$data = $this->find('first', array(
+			'fields' => array('next_goal'),
+			'conditions' => array('user_id' => $user_id),
+			'order' => array('created' => 'desc'),
+			'recursive' => -1
+		));
+		$next_goal = $data['Enquete']['next_goal'];
+		return $next_goal;
+	}
 
 }

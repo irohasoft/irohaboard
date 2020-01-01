@@ -29,6 +29,7 @@ class UsersCoursesController extends AppController
 		$this->loadModel('User');
 		$this->loadModel('Attendance');
 		$this->loadModel('Date');
+		$this->loadModel('Enquete');
 
 		$user_id = $this->Auth->user('id');
 
@@ -57,6 +58,10 @@ class UsersCoursesController extends AppController
 		// 全体のお知らせもお知らせも存在しない場合
 		if(($info=="") && count($infos)==0)
 			$no_info = __('お知らせはありません');
+
+		// 次回までのゴールを取得
+		$next_goal = $this->Enquete->findCurrentNextGoal($user_id);
+		$this->set('next_goal', $next_goal);
 
 		// 受講コース情報の取得
 		//$courses = $this->UsersCourse->getCourseRecord($user_id);

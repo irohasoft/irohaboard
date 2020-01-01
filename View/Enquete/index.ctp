@@ -24,11 +24,12 @@
   	  'style' => ''
     ));
   echo "</div>";
-  echo "<div class = 'form-input-block before-goal-block'>";
 
+  echo "<div class = 'form-input-block before-goal-block'>";
   echo $this->Form->input('before_goal_cleared',	array(
     'type' => 'radio',
     'before' => '<label class = "before-goal-label">前回に設定したゴールは達成できたか？</label>',
+    'after'  => '<div class = "text-url-input"></div><span class="status-exp">前回設定したゴール: '.h($previous_next_goal).'</span>',
     'separator'=>"  ",
     'legend' => false,
     'div' => '',
@@ -40,7 +41,6 @@
   ));
   echo "</div>";
 
-
   echo "<div class = 'form-input-block before-goal-false-reason' >";
   echo $this->Form->input('before_false_reason',array(
     'label' => __('前回に設定したゴールは達成できなかったら，その理由を書いてください．'),
@@ -51,7 +51,6 @@
     'value' => $enquete_inputted['Enquete']['before_false_reason']
   ));
   echo "</div>";
-
 
   echo "<div class = 'form-input-block today-goal required-input ' >";
   echo $this->Form->input('today_goal',array(

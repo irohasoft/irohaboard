@@ -42,6 +42,7 @@
           $last  = $cleared_rate['last_date'];
           $rate  = $cleared_rate['cleared_rate'];
         ?>
+        <?php if(!is_null($rate)){?>
           <tr>
             <td nowrap><?php echo h($title)?>:&nbsp;<td/>
             <td nowrap><?php echo h($start)?>&nbsp;<td/>
@@ -49,6 +50,7 @@
             <td><?php echo h(round($rate*100));?>%&nbsp;<td/>
             <td nowrap><?php echo h($last)?>&nbsp;<td/>
           </tr>
+        <?php }?>
         <?php endforeach; ?>
         </tbody>
       </table>

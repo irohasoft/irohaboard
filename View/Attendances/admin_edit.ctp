@@ -23,6 +23,14 @@
       'timeFormat' => 24,
       'selected'   => $login_time
     ));
+    echo $this->Form->input('reason', array(
+      'label' => __('理由'),
+      'type' => 'textarea',
+      'value' => $attendance_reason,
+      'div' => false,
+      'class' => '',
+      'style' => ''
+    ));
     echo $this->Form->submit(__('更新'), array(
       'class' => 'btn btn-info',
       'div' => false

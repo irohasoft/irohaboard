@@ -184,14 +184,17 @@ class AttendancesController extends AppController{
     $date = $this->Attendance->findAttendanceDate($attendance_id, 'm月d日');
     $this->set('date', $date);
 
-    $attendance_status = $this->Attendance->find('first', array(
-      'fields' => array('status'),
+    $data = $this->Attendance->find('first', array(
+      'fields' => array('status', 'reason'),
       'conditions' => array(
         'id' => $attendance_id
       ),
       'recursive' => -1
-    ))['Attendance']['status'];
+    ));
+    $attendance_status = $data['Attendance']['status'];
+    $attendance_reason = $data['Attendance']['reason'];
     $this->set('attendance_status', $attendance_status);
+    $this->set('attendance_reason', $attendance_reason);
 
     $login_time = $this->Attendance->findLoginTime($attendance_id);
     $this->set('login_time', $login_time);
@@ -199,6 +202,7 @@ class AttendancesController extends AppController{
     if($this->request->is('post')){
       $request_data = $this->request->data;
       $edited_status = $request_data['Attendance']['status'];
+      $edited_reason = $request_data['Attendance']['reason'];
       if($edited_status == 0 or $edited_status == 2){  // 欠席または未定
         $edited_login_time = null;
         $late_time = null;
@@ -224,6 +228,7 @@ class AttendancesController extends AppController{
       $this->Attendance->read(null, $attendance_id);
       $this->Attendance->set(array(
         'status'     => $edited_status,
+        'reason'     => $edited_reason,
         'login_time' => $edited_login_time,
         'late_time'  => $late_time
       ));

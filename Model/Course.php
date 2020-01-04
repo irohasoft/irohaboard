@@ -271,7 +271,7 @@ EOF;
 			),
 			'recursive' => -1
 		));
-		if($total_content == 0){ return 0; }
+		if($total_content == 0){ return null; }  // コンテンツが存在しない場合
 
 		// 合格したコンテンツ数
 		App::import('Model', 'ClearedContent');

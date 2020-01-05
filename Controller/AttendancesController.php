@@ -136,7 +136,10 @@ class AttendancesController extends AppController{
 
     $last_class_date_id = $this->Date->getLastClassId();
     $rows = $this->Attendance->find('all', array(
-      'conditions' => array('date_id' => $last_class_date_id),
+      'conditions' => array(
+        'role'    => 'user',
+        'date_id' => $last_class_date_id
+      ),
       'order' => 'User.username ASC'
     ));
 

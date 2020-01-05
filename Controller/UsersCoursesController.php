@@ -127,8 +127,8 @@ class UsersCoursesController extends AppController
 				if($save_info['status'] != 1){  // 元の出欠情報が出席済以外なら
 					$save_info['status'] = 1;
 
-					$save_info['login_time'] = date('Y-m-d H:i:s');
-					$login_time = (int)strtotime($save_info['login_time']);
+					$login_time = date('Y-m-d H:i:s');
+					$save_info['login_time'] = $login_time;
 					$save_info['late_time'] = $this->Attendance->calcLateTime($today_date_id, $login_time);
 
 					$this->Attendance->save($save_info);

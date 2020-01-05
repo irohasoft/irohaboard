@@ -124,7 +124,7 @@ class UsersCoursesController extends AppController
 
 				$save_info = $today_attendance_info['Attendance'];
 
-				if($save_info['status'] == 0 or $save_info['status'] == 2){  // 元の出欠情報が欠席または未定なら
+				if($save_info['status'] != 1){  // 元の出欠情報が出席済以外なら
 					$save_info['status'] = 1;
 
 					$save_info['login_time'] = date('Y-m-d H:i:s');

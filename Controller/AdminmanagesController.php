@@ -286,18 +286,10 @@ class AdminManagesController extends AppController{
 			$header = array(
         "学籍番号",
         "氏名",
-        "ふりがな",
-        "時限",
         "出席状況",
         "担当講師",
         "今日の感想",
-        "SOAP",
-        "前回ゴールT/F",
-        "前回ゴールF理由",
-        "今日のゴール",
-        "今日のゴールT/F",
-        "今日のゴールF理由",
-        "次回までゴール"
+        "SOAP"
       );
 
 			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
@@ -310,17 +302,7 @@ class AdminManagesController extends AppController{
         $output_list[] = $user['User']['username'];
         //氏名
         $output_list[] = $user['User']['name'];
-        //ふりがな
-        $output_list[] = $user['User']['name_furigana'];
-        //時限
-        if($user['User']['period'] == 0) {
-          $class_hour = "1限";
-        } elseif($user['User']['period'] == 1) {
-          $class_hour = "2限";
-        } else {
-          $class_hour = "時限未設定";
-        }
-        $output_list[] = $class_hour;
+        
         //出席
         $flag = 0;
         $attendance_info = $user['Attendance'];
@@ -378,28 +360,13 @@ class AdminManagesController extends AppController{
               $output_list[] = '';
             }
             $flag = 1;
-            if($row['before_goal_cleared']){
-              $before_goal_cleared = "True";
-            } else {
-              $before_goal_cleared = "False";
-            }
-            $output_list[] = $row['before_false_reason'];
-            $output_list[] = $row['today_goal'];
-            $output_list[] = $before_goal_cleared;
-            if($row['today_goal_cleared']){
-              $today_goal_cleared = "True";
-            } else {
-              $today_goal_cleared = "False";
-            }
-            $output_list[] = $today_goal_cleared;
-            $output_list[] = $row['today_false_reason'];
-            $output_list[] = $row['next_goal'];
+            
           }
         }
 
         if($flag != 1){
           $output_list += array(
-            '','','','','','','',''
+            '',''
           );
         }
 

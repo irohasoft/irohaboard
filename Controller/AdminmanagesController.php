@@ -249,13 +249,13 @@ class AdminManagesController extends AppController{
 
     $group_list = $this->Group->find('list');
 
+    $today = date('Y-m-d');
     $date_list = [];
     $date_list = $this->Date->find('list',array(
-      'fields' => array(
-        'id','date'
-      )
+      'fields' => array('id', 'date'),
+      'conditions' => array('date <= ?' => $today),
+      'recursive' => -1
     ));
-    
     $this->set('date_list',$date_list);
 
     if(isset($this->request->data['User']['target_date'])){
@@ -331,16 +331,16 @@ class AdminManagesController extends AppController{
             if($row['status']){
               if($row['late_time'] != 0){
                 $late_time = $row['late_time'];
-                $output_list[] = '△'."($late_time)";
+                $output_list[] = '遅刻('."$late_time".'分)';
               }else{
-                $output_list[] = '○';
+                $output_list[] = '出席';
               }
             }else{
-              $output_list[] = '×';
+              $output_list[] = '欠席';
             }
             break;
           }
-          
+
         }
         if($flag != 1){
           $output_list[] = '';
@@ -400,8 +400,6 @@ class AdminManagesController extends AppController{
             '','','','','','','',''
           );
         }
-
-        
 
 				mb_convert_variables("SJIS-WIN", "UTF-8", $output_list);
 				fputcsv($fp, $output_list);

@@ -54,6 +54,7 @@ class AdminManagesController extends AppController{
   public function admin_index(){
     $this->loadModel('User');
     $this->loadModel('Group');
+    $this->loadModel('Date');
 
     $user_list = $this->User->find('all',array(
       'conditions' => array(
@@ -70,6 +71,9 @@ class AdminManagesController extends AppController{
 
     //$this->log($user_list);
     $date_list = [];
+    $date_list = $this->Date->find('list');
+    $this->log($date_list);
+    /*
     foreach($user_list as $user){
       $attendance_list = $user['Attendance'];
       foreach($attendance_list as $attendance){
@@ -79,6 +83,7 @@ class AdminManagesController extends AppController{
       }
       break;
     }
+    */
     $this->set('date_list',$date_list);
     //$this->log($this->request->data);
 
@@ -233,6 +238,7 @@ class AdminManagesController extends AppController{
   public function admin_download(){
     $this->loadModel('User');
     $this->loadModel('Group');
+    $this->loadModel('Date');
 
     $user_list = $this->User->find('all',array(
       'conditions' => array(
@@ -244,15 +250,12 @@ class AdminManagesController extends AppController{
     $group_list = $this->Group->find('list');
 
     $date_list = [];
-    foreach($user_list as $user){
-      $attendance_list = $user['Attendance'];
-      foreach($attendance_list as $attendance){
-        $created = new DateTime($attendance['created']);
-        $created_day = $created->format('Y-m-d');
-        $date_list[] = $created_day;
-      }
-      break;
-    }
+    $date_list = $this->Date->find('list',array(
+      'fields' => array(
+        'id','date'
+      )
+    ));
+    
     $this->set('date_list',$date_list);
 
     if(isset($this->request->data['User']['target_date'])){
@@ -287,19 +290,20 @@ class AdminManagesController extends AppController{
         "出席状況",
         "担当講師",
         "今日の感想",
+        "SOAP",
         "前回ゴールT/F",
         "前回ゴールF理由",
         "今日のゴール",
         "今日のゴールT/F",
         "今日のゴールF理由",
-        "次回までゴール",
-        "SOAP"
+        "次回までゴール"
       );
 
 			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
       fputcsv($fp, $header);
 
       foreach($user_list as $user){
+        //$this->log($user);
         $output_list = [];
         //学籍番号
         $output_list[] = $user['User']['username'];
@@ -320,8 +324,9 @@ class AdminManagesController extends AppController{
         $flag = 0;
         $attendance_info = $user['Attendance'];
         foreach($attendance_info as $row){
-          $row_time = (int)strtotime($row['created']);
-          if($from_date_time <= $row_time && $row_time <= $to_date_time){
+          /** 条件を満たすログイン時間を探す */
+          $login_time = (int)strtotime($row['login_time']);
+          if($from_date_time <= $login_time && $login_time <= $to_date_time){
             $flag = 1;
             if($row['status']){
               if($row['late_time'] != 0){
@@ -333,8 +338,9 @@ class AdminManagesController extends AppController{
             }else{
               $output_list[] = '×';
             }
-
+            break;
           }
+          
         }
         if($flag != 1){
           $output_list[] = '';
@@ -349,6 +355,27 @@ class AdminManagesController extends AppController{
             $flag = 1;
             $output_list[] = $group_list[$row['group_id']];
             $output_list[] = $row['today_impressions'];
+            //SOAP
+            $flag = 0;
+            $soap_info = $user['Soap'];
+            foreach($soap_info as $row){
+              $row_time = (int)strtotime($row['created']);
+              if($from_date_time <= $row_time && $row_time <= $to_date_time){
+                $flag = 1;
+                $S = "S:".$row['S']."\n";
+                $O = "O:".$row['O']."\n";
+                $A = "A:".$row['A']."\n";
+                $P = "P:".$row['P'];
+                $SOAP = $S.$O.$A.$P;
+                //$this->log($SOAP);
+                $output_list[] = $SOAP;
+              }
+            }
+
+            if($flag != 1){
+              $output_list[] = '';
+            }
+            $flag = 1;
             if($row['before_goal_cleared']){
               $before_goal_cleared = "True";
             } else {
@@ -374,26 +401,7 @@ class AdminManagesController extends AppController{
           );
         }
 
-        //SOAP
-        $flag = 0;
-        $soap_info = $user['Soap'];
-        foreach($soap_info as $row){
-          $row_time = (int)strtotime($row['created']);
-          if($from_date_time <= $row_time && $row_time <= $to_date_time){
-            $flag = 1;
-            $S = "S:".$row['S']."\n";
-            $O = "O:".$row['O']."\n";
-            $A = "A:".$row['A']."\n";
-            $P = "P:".$row['P'];
-            $SOAP = $S.$O.$A.$P;
-            //$this->log($SOAP);
-            $output_list[] = $SOAP;
-          }
-        }
-
-        if($flag != 1){
-          $output_list[] = '';
-        }
+        
 
 				mb_convert_variables("SJIS-WIN", "UTF-8", $output_list);
 				fputcsv($fp, $output_list);

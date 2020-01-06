@@ -262,6 +262,7 @@ class AdminManagesController extends AppController{
       $target_date = $date_list[$this->request->data['User']['target_date']];
       $from_date_time = (int)strtotime($target_date);
       $to_date_time = $from_date_time + 172800;
+      $target_date_id = array_search($target_date, $date_list);
 
       $this->autoRender = false;
 
@@ -325,8 +326,9 @@ class AdminManagesController extends AppController{
         $attendance_info = $user['Attendance'];
         foreach($attendance_info as $row){
           /** 条件を満たすログイン時間を探す */
+          $date_id = $row['date_id'];
           $login_time = (int)strtotime($row['login_time']);
-          if($from_date_time <= $login_time && $login_time <= $to_date_time){
+          if($date_id == $target_date_id){
             $flag = 1;
             if($row['status']){
               if($row['late_time'] != 0){

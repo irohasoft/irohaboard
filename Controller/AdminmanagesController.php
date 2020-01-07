@@ -102,7 +102,7 @@ class AdminManagesController extends AppController{
 			$this->response->type('csv');
 
 			header('Content-Type: text/csv');
-			header('Content-Disposition: attachment; filename="target_date_records.csv"');
+			header('Content-Disposition: attachment; filename="'.$target_date.'.csv"');
 
 			$fp = fopen('php://output','w');
 
@@ -244,7 +244,7 @@ class AdminManagesController extends AppController{
       'conditions' => array(
         'User.role' => 'user'
       ),
-      'order' => 'User.created ASC'
+      'order' => 'User.username ASC'
     ));
 
     $group_list = $this->Group->find('list');
@@ -252,9 +252,10 @@ class AdminManagesController extends AppController{
     $today = date('Y-m-d');
     $date_list = [];
     $date_list = $this->Date->find('list',array(
-      'fields' => array('id', 'date'),
+      'fields'     => array('id', 'date'),
       'conditions' => array('date <= ?' => $today),
-      'recursive' => -1
+      'order'      => 'date DESC',
+      'recursive'  => -1
     ));
     $this->set('date_list',$date_list);
 
@@ -274,7 +275,7 @@ class AdminManagesController extends AppController{
 			$this->response->type('csv');
 
 			header('Content-Type: text/csv');
-			header('Content-Disposition: attachment; filename="target_date_records.csv"');
+			header('Content-Disposition: attachment; filename="'.$target_date.'.csv"');
 
 			$fp = fopen('php://output','w');
 
@@ -302,7 +303,7 @@ class AdminManagesController extends AppController{
         $output_list[] = $user['User']['username'];
         //氏名
         $output_list[] = $user['User']['name'];
-        
+
         //出席
         $flag = 0;
         $attendance_info = $user['Attendance'];
@@ -324,7 +325,6 @@ class AdminManagesController extends AppController{
             }
             break;
           }
-
         }
         if($flag != 1){
           $output_list[] = '';
@@ -360,7 +360,7 @@ class AdminManagesController extends AppController{
               $output_list[] = '';
             }
             $flag = 1;
-            
+
           }
         }
 

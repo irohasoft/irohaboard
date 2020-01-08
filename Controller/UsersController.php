@@ -481,6 +481,14 @@ class UsersController extends AppController
 	 */
 	public function admin_setting()
 	{
+		$this->setting();
+	}
+
+	public function admin_email_setting(){
+		$this->email_setting();
+	}
+
+	public function admin_password_setting(){
 		$this->password_setting();
 	}
 

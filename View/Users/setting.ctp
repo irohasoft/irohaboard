@@ -1,3 +1,4 @@
+<?php echo $this->element('menu')?>
 <?php echo $this->Html->css('custom');?>
 <div class="users-setting full-view">
 	<div class="breadcrumb">

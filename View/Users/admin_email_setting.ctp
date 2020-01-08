@@ -1,14 +1,14 @@
-<?php echo $this->element('menu')?>
+<?php echo $this->element('admin_menu'); ?>
 <?php echo $this->Html->css('custom'); ?>
-<div class="users-setting full-view">
-	<div class="breadcrumb">
-	<?php
-	$this->Html->addCrumb('HOME', array(
-		'controller' => 'users_courses',
-		'action' => 'index'
-	));
-	echo $this->Html->getCrumbs(' / ');
-	?>
+<div class="admin-users-setting full-view">
+  <div class="breadcrumb">
+	  <?php
+	    $this->Html->addCrumb('HOME', array(
+		    'controller' => 'recentstates',
+		    'action' => 'index'
+	    ));
+	    echo $this->Html->getCrumbs(' / ');
+	  ?>
 	</div>
 	<?php echo $this->Html->link(__('<< 戻る'), array('action' => 'setting'))?>
 	<div class="panel panel-default">

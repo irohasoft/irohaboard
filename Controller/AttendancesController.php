@@ -108,7 +108,7 @@ class AttendancesController extends AppController{
     $this->set(compact("period1_members", "period2_members"));
 
     $attendance_list = $this->Attendance->findAllUserAttendances();
-    //$this->log($attendance_list);
+    $this->log($attendance_list);
     $name_list = $this->User->find('list',array(
       'fields' => array(
         'User.id',
@@ -130,7 +130,7 @@ class AttendancesController extends AppController{
       'order' => 'User.id ASC'
     ));
 
-    $date_list = $this->Date->getDateListUntilToday('m月d日');
+    $date_list = $this->Date->getDateListUntilNextLecture('m月d日');
 
     $last_day = $this->Date->getLastClassDate('Y-m-d');
 

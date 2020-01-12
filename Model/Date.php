@@ -134,4 +134,20 @@ class Date extends AppModel
 		}
 		return $date_list;
 	}
+
+	public function getDateListUntilNextLecture($format_str='Y-m-d', $limit=8){
+		$date_list = array();
+		$today=date('Y-m-d', strtotime('+1 week'));
+		$data = $this->find('all', array(
+			'fields' => array('date'),
+			'conditions' => array('date <= ?' => $today),
+			'order' => 'date DESC',
+			'limit' => $limit,
+			'recursive' => -1
+		));
+		foreach($data as $datum){
+			$date_list[] = (new DateTime($datum['Date']['date']))->format($format_str);
+		}
+		return $date_list;
+	}
 }

@@ -119,7 +119,7 @@ class Attendance extends AppModel {
 	}
 
 	public function findRecentAttendances($user_id){
-		$today=date('Y-m-d');
+		$today=date('Y-m-d', strtotime('+1 week'));
 		$data = $this->find('all',array(
 			'conditions' => array(
 				'Attendance.user_id' => $user_id,

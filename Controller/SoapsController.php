@@ -51,6 +51,7 @@ class SoapsController extends AppController{
     $this->loadModel('User');
     $this->loadModel('Enquete');
     $this->loadModel('Attendance');
+    $this->loadModel('Date');
 
     //日付リスト
     $today_date = (isset($this->request->query['today_date'])) ?
@@ -112,8 +113,19 @@ class SoapsController extends AppController{
       ),
       'order' => 'Attendance.created DESC'
     ));
-    $created = new DateTime($attendance_info['Attendance']['created']);
-    $created_day = $created->format('Y-m-d');
+    
+    $today=date('Y-m-d');
+    
+    $lecture_date_info = $this->Date->find('first',array(
+      'fields' => array('id','date'),
+      'conditions' => array(
+        'date >= ' =>  $today
+      ),
+      'recursive' => -1
+    ));
+
+    $created_day = $lecture_date_info['Date']['date'];
+
 
     $edate = date('y-m-d', strtotime(" next saturday ",strtotime($created_day)));
 

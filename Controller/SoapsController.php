@@ -34,7 +34,6 @@ class SoapsController extends AppController{
       $username = $conditions['Search']['username'];
       $name = $conditions['Search']['name'];
 
-      //$this->log($name);
       $user_list = $this->User->findUserList($username, $name);
 
     }else{
@@ -75,7 +74,6 @@ class SoapsController extends AppController{
     $enquete_history = $this->Enquete->find('all',array(
       'conditions' => $conditions
     ));
-    //$this->log($enquete_history);
 
     $enquete_inputted = [];
     foreach($enquete_history as $history){
@@ -105,8 +103,7 @@ class SoapsController extends AppController{
 
     //入力したSOAPを検索（前回の授業から）
     $conditions = [];
-    $conditions['Soap.group_id'] = $group_id;
-
+    
     $attendance_info = $this->Attendance->find('first',array(
       'conditions' => array(
 
@@ -115,54 +112,55 @@ class SoapsController extends AppController{
     ));
     
     $today=date('Y-m-d');
+    $fdate = date('w') == 0 ? $today : date('Y-m-d', strtotime(" last sunday ",strtotime($today)));
     
     $lecture_date_info = $this->Date->find('first',array(
       'fields' => array('id','date'),
       'conditions' => array(
-        'date >= ' =>  $today
+        'date >= ' =>  $fdate
       ),
       'recursive' => -1
     ));
 
     $created_day = $lecture_date_info['Date']['date'];
 
-
-    $edate = date('y-m-d', strtotime(" next saturday ",strtotime($created_day)));
+    $edate = date('Y-m-d', strtotime(" next saturday ",strtotime($created_day)));
 
     $conditions['Soap.created BETWEEN ? AND ?'] = array(
       $created_day,
 			$edate.' 23:59:59'
-		);
+    );
+    
 
     $soap_history = $this->Soap->find('all',array(
       'conditions' => $conditions
     ));
-    //$this->log($soap_history);
     $soap_inputted = [];
     foreach($soap_history as $history){
       $his_user_id = $history['Soap']['user_id'];
       $soap_inputted["$his_user_id"] = $history['Soap'];
     }
-    //$this->log($soap_inputted);
     $this->set('soap_inputted',$soap_inputted);
 
 
     //教材現状
     $course_list = $this->Course->find('list');
     $this->set('course_list', $course_list);
-    //$this->log($current_status);
 
     //登録
     if($this->request->is('post')){
       $soaps = $this->request->data;
 
       $created = $today_date['year']."-".$today_date['month']."-".$today_date['day'];
+
       foreach($soaps as &$soap){
         if($soap['S'] == '' && $soap['O'] == '' && $soap['A'] == '' && $soap['P'] == ''){
           continue;
         }
         $inputed = $soap['today_date'];
         $input_date = $inputed['year']."-".$inputed['month']."-".$inputed['day'];
+        $input_date = date($input_date) == 0 ? $input_date : date('Y-m-d', strtotime(" last sunday ",strtotime($input_date)));
+
         $soap['created'] = $input_date.date(' H:i:s');
 
         if($this->Soap->save($soap)){
@@ -181,6 +179,8 @@ class SoapsController extends AppController{
     $this->loadModel('User');
     $this->loadModel('Enquete');
     $this->loadModel('Attendance');
+    $this->loadModel('Date');
+
 
     $pic_path = $this->User->findUserPicPath($user_id);
     $this->set('pic_path', $pic_path);
@@ -201,7 +201,6 @@ class SoapsController extends AppController{
     $enquete_history = $this->Enquete->find('all',array(
       'conditions' => $conditions
     ));
-    //$this->log($enquete_history);
 
     $enquete_inputted = [];
     foreach($enquete_history as $history){
@@ -213,17 +212,14 @@ class SoapsController extends AppController{
     //メンバーリスト
 
     $user_list = $this->User->find('list');
-    //$this->log($user_list);
     $this->set('user_list', $user_list);
 
     //メンバーのグループを探す
     $group_id = $this->User->findUserGroup($user_id);
-    //$this->log($group_id);
 
     $this->set('user_id', $user_id);
 
     //グループ一覧を作り，配列の形を整形する
-    //$this->log($this->Group->find('list'));
     $group_list = $this->Group->find('list');
     $this->set('group_list',$group_list);
 
@@ -239,15 +235,26 @@ class SoapsController extends AppController{
       ),
       'order' => 'Attendance.created DESC'
     ));
-    $created = new DateTime($attendance_info['Attendance']['created']);
-    $created_day = $created->format('Y-m-d');
 
-    $edate = date('y-m-d', strtotime(" next saturday ",strtotime($created_day)));
+    $today=date('Y-m-d');
+    $fdate = date('w') == 0 ? $today : date('Y-m-d', strtotime(" last sunday ",strtotime($today)));
+    
+    $lecture_date_info = $this->Date->find('first',array(
+      'fields' => array('id','date'),
+      'conditions' => array(
+        'date >= ' =>  $fdate
+      ),
+      'recursive' => -1
+    ));
+
+    $created_day = $lecture_date_info['Date']['date'];
+
+    $edate = date('Y-m-d', strtotime(" next saturday ",strtotime($created_day)));
 
     $conditions['Soap.created BETWEEN ? AND ?'] = array(
       $created_day,
 			$edate.' 23:59:59'
-		);
+    );
 
     $soap_history = $this->Soap->find('all',array(
       'conditions' => $conditions
@@ -259,20 +266,17 @@ class SoapsController extends AppController{
       $soap_inputted["$his_user_id"] = $history['Soap'];
       $group_id = $history['Soap']['group_id'];
     }
-    //$this->log($soap_inputted);
     $this->set('soap_inputted',$soap_inputted);
     $this->set('group_id',$group_id);
 
     //教材現状
     $course_list = $this->Course->find('list');
     $this->set('course_list', $course_list);
-    //$this->log($current_status);
 
     //登録
     if($this->request->is('post')){
       $this->loadModel('Record');
       $soaps = $this->request->data;
-      //$this->log($soaps);
       $created = $today_date['year']."-".$today_date['month']."-".$today_date['day'];
       foreach($soaps as &$soap){
         if($soap['S'] == '' && $soap['O'] == '' && $soap['A'] == '' && $soap['P'] == ''){

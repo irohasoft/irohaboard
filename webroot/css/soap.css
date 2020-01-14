@@ -19,7 +19,8 @@
   margin-top:    25px;
   margin-bottom: 25px;
   width: 1100px;
-  height: 400px;
+  height: 500px;
+  border: solid #CCCCCC;
 }
 
 .soap_input{

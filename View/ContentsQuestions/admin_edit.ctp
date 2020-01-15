@@ -3,6 +3,7 @@
 <?php $this->start('script-embedded'); ?>
 <?php echo $this->Html->script('summernote.min.js');?>
 <?php echo $this->Html->script('lang/summernote-ja-JP.js');?>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
 <script>
 	$(document).ready(function()
 	{
@@ -161,7 +162,7 @@
 				<div class="col col-sm-9 required">
 				「＋」で選択肢の追加、「−」で選択された選択肢を削除します。（※最大10個まで）<br>
 				また選択された選択肢が正解となります。Ctrlキーを押下したまま選択することで、複数の正解の設定も可能です。<br>
-				<input type="text" size="20" name="option" style="width:200px;display:inline-block;">
+				<input type="text" size="20" name="option" style="width:85%;display:inline-block;">
 				<button class="btn" onclick="add_option();return false;">＋</button>
 				<button class="btn" onclick="del_option();return false;">−</button><br>
 			<?php
@@ -170,7 +171,11 @@
 					'label' => false,
 					'multiple' => true,
 					'size' => 5,
-					'onchange' => 'update_correct()'
+					'onchange' => 'update_correct()',
+					'style' => array(
+						'width : 114%;',
+						'font-size : 12px;',
+					)
 				));
 				echo $this->Form->hidden('options',		array('label' => __('選択肢')));
 			?>

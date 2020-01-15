@@ -376,6 +376,7 @@ class ContentsQuestionsController extends AppController
 			));
 			
 			$this->request->data = $this->ContentsQuestion->find('first', $options);
+			$this->log($this->request->data);
 		}
 		
 		$this->set(compact('content'));

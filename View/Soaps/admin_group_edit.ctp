@@ -126,7 +126,6 @@
 				'label' => __('自由記述:'),
 				'value' => $soap_inputted[$user_id]['comment'],
   			'div' => false,
-  			'class' => 'soap',
   			'style' => ''
   		));
       echo "</div>";
@@ -138,7 +137,6 @@
 			<?php echo $enquete_inputted[$user_id]['today_impressions'];?>
 		</div>
   </div>
-  <div class = "under_element"><?php echo __('-----------------------------------');?></div>
   <?php endforeach;?>
   <input type = "submit" class = "btn btn-info btn-add pull-right" value = "登録">
   <?php echo $this->Form->end(); ?>

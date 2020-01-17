@@ -230,8 +230,14 @@ $(function(){
 					'action' => 'clear',
 					$this->request->data['User']['id']
 				), array(
-					'class' => 'btn btn-danger btn-delete float-left'
+					'class' => 'btn btn-warning float-left'
 				), __('学習履歴を削除してもよろしいですか？', $this->request->data['User']['name']));
+				echo $this->Form->postLink(__('削除'), array(
+					'action' => 'delete',
+					$this->request->data['User']['id']
+				), array(
+					'class' => 'btn btn-danger btn-delete float-left'
+				), __('[%s] を削除してもよろしいですか?', $this->request->data['User']['name']));
 			}
 			?>
 		</div>

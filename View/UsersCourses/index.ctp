@@ -10,7 +10,7 @@
 	         <div class = "date">
 	           <?php
 	             $class_date = (new DateTime($row['Date']['date']))->format('m月d日');
-							 if(strtotime($row['Date']['date']) > strtotime(date('Y-m-d'))){
+							 if(strtotime($row['Date']['date']) >= strtotime(date('Y-m-d'))){
 								 $attendance_id = $row['Attendance']['id'];
 								 echo $this->Html->link($class_date, array('controller' => 'attendances', 'action' => 'edit', $attendance_id));
 							 }else{
@@ -27,19 +27,19 @@
 							if(strtotime($row['Date']['date']) >= strtotime(date('Y-m-d'))){
 								switch($row['Attendance']['status']){
     							case 0:
-        						echo __("欠席予定");
+        						echo __("欠席");
         						break;
 									case 1:
 										echo __("出席済");
 										break;
     							case 3:
-        						echo __("遅刻予定");
+        						echo __("遅刻");
         						break;
     							case 4:
-        						echo __("早退予定");
+        						echo __("早退");
         						break;
 									case 5:
-										echo __("時限変更予定");
+										echo __("時限変更");
 										break;
 									default:
 										echo __("出席予定");

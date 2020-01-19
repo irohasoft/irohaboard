@@ -159,7 +159,7 @@ class SoapsController extends AppController{
         }
         $inputed = $soap['today_date'];
         $input_date = $inputed['year']."-".$inputed['month']."-".$inputed['day'];
-        $input_date = date($input_date) == 0 ? $input_date : date('Y-m-d', strtotime(" last sunday ",strtotime($input_date)));
+        $input_date = date('w',strtotime($input_date)) == 0 ? $input_date : date('Y-m-d', strtotime(" last sunday ",strtotime($input_date)));
 
         $soap['created'] = $input_date.date(' H:i:s');
 

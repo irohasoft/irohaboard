@@ -246,7 +246,6 @@ class AdminManagesController extends AppController{
       ),
       'order' => 'User.username ASC'
     ));
-    $this->log($user_list);
 
     $group_list = $this->Group->find('list');
 

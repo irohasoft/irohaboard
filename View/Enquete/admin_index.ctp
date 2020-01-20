@@ -30,7 +30,7 @@ function setTodayDate(){
 			echo '</div>';
 
 			echo '<div class="ib-row">';
-			
+
 			echo $this->Form->input('group_id',	array(
 				'label' => 'グループ :',
 				'options'=>$groups,
@@ -141,7 +141,7 @@ function setTodayDate(){
 				<td nowrap><?php echo h($record['User']['name']); ?>&nbsp;</td>
 				<td nowrap><?php echo h($groups[$record['Enquete']['group_id']]); ?>&nbsp;</td>
 				<td nowrap><?php echo h($period_list[$record['User']['period']]); ?>&nbsp;</td>
-				<td><?php echo h($record['Enquete']['today_impressions']); ?>&nbsp;</td>
+				<td><div class="text-item"><?php echo h($record['Enquete']['today_impressions']); ?></div></td>
 				<td nowrap><?php echo h($TF_list[$record['Enquete']['before_goal_cleared']]); ?>&nbsp;</td>
 				<td><?php echo h($record['Enquete']['before_false_reason']); ?>&nbsp;</td>
 				<td><?php echo h($record['Enquete']['today_goal']); ?>&nbsp;</td>

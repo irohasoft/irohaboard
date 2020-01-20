@@ -296,6 +296,8 @@ class AdminManagesController extends AppController{
 			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
       fputcsv($fp, $header);
 
+
+
       foreach($user_list as $user){
         //$this->log($user);
         $output_list = [];
@@ -339,36 +341,37 @@ class AdminManagesController extends AppController{
             $flag = 1;
             $output_list[] = $group_list[$row['group_id']];
             $output_list[] = $row['today_impressions'];
-            //SOAP
-            $flag = 0;
-            $soap_info = $user['Soap'];
-            foreach($soap_info as $row){
-              $row_time = (int)strtotime($row['created']);
-              if($from_date_time <= $row_time && $row_time <= $to_date_time){
-                $flag = 1;
-                $S = "S:".$row['S']."\n";
-                $O = "O:".$row['O']."\n";
-                $A = "A:".$row['A']."\n";
-                $P = "P:".$row['P'];
-                $SOAP = $S.$O.$A.$P;
-                //$this->log($SOAP);
-                $output_list[] = $SOAP;
-              }
-            }
-
-            if($flag != 1){
-              $output_list[] = '';
-            }
-            $flag = 1;
-
           }
         }
 
         if($flag != 1){
-          $output_list += array(
-            '',''
-          );
+          $output_list[] = '';          
+          $output_list[] = '';
         }
+
+        //SOAP
+        $flag = 0;
+        $soap_info = $user['Soap'];
+        foreach($soap_info as $row){
+          $row_time = (int)strtotime($row['created']);
+          if($from_date_time <= $row_time && $row_time <= $to_date_time){
+            $flag = 1;
+            $S = "S:".$row['S']."\n";
+            $O = "O:".$row['O']."\n";
+            $A = "A:".$row['A']."\n";
+            $P = "P:".$row['P'];
+            $SOAP = $S.$O.$A.$P;
+            //$this->log($SOAP);
+          }
+        }
+        if($flag == 1){
+          $output_list[] = $SOAP;
+        }
+
+        if($flag != 1){
+          $output_list[] = '';
+        }
+        $flag = 1;
 
 				mb_convert_variables("SJIS-WIN", "UTF-8", $output_list);
 				fputcsv($fp, $output_list);

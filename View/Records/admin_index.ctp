@@ -107,7 +107,15 @@
 	<tr>
 		<td><a href="javascript:openRecord(<?php echo h($record['Course']['id']); ?>, <?php echo h($record['User']['id']); ?>);"><?php echo h($record['Course']['title']); ?></a></td>
 		<td><?php echo h($record['Content']['title']); ?>&nbsp;</td>
-		<td><?php echo h($record['User']['name']); ?>&nbsp;</td>
+		<td>
+			<?php
+				echo $this->Html->link(h($record['User']['name']),
+					array(
+						'controller' => 'recentstates',
+						'action' => 'admin_student_view', $record['User']['id']
+				));
+			?>
+		</td>
 		<td class="ib-col-center"><?php echo h($record['Record']['score']); ?>&nbsp;</td>
 		<td class="ib-col-center"><?php echo h($record['Record']['pass_score']); ?>&nbsp;</td>
 		<td nowrap class="ib-col-center"><a href="javascript:openTestRecord(<?php echo h($record['Content']['id']); ?>, <?php echo h($record['Record']['id']); ?>);"><?php echo Configure::read('record_result.'.$record['Record']['is_passed']); ?></a></td>

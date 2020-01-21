@@ -138,7 +138,15 @@ function setTodayDate(){
 		?>
 			<tr>
 				<td nowrap><?php echo h(Utils::getYMD($record['Enquete']['created'])); ?>&nbsp;</td>
-				<td nowrap><?php echo h($record['User']['name']); ?>&nbsp;</td>
+				<td nowrap>
+					<?php
+						echo $this->Html->link(h($record['User']['name']),
+							array(
+								'controller' => 'recentstates',
+								'action' => 'admin_student_view', $record['User']['id']
+						));
+					?>
+				</td>
 				<td nowrap><?php echo h($groups[$record['Enquete']['group_id']]); ?>&nbsp;</td>
 				<td nowrap><?php echo h($period_list[$record['User']['period']]); ?>&nbsp;</td>
 				<td><div class="text-item"><?php echo h($record['Enquete']['today_impressions']); ?></div></td>

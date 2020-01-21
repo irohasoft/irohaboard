@@ -111,7 +111,15 @@
 		?>
 			<tr>
 				<td nowrap class="ib-col-date"><?php echo h(Utils::getYMD($record['Soap']['created'])); ?>&nbsp;</td>
-				<td><?php echo h($record['User']['name']); ?>&nbsp;</td>
+				<td>
+					<?php
+						echo $this->Html->link(h($record['User']['name']),
+							array(
+								'controller' => 'recentstates',
+								'action' => 'admin_student_view', $record['User']['id']
+						));
+					?>
+				</td>
 				<td nowrap><?php echo h($record['Group']['title']); ?>&nbsp;</td>
 				<td nowrap><?php echo h($class_hour); ?>&nbsp;</td>
 				<td nowrap><?php echo h($record['Course']['title']); ?>&nbsp;</td>

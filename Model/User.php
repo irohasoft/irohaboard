@@ -404,7 +404,8 @@ class User extends AppModel
 	public function calcGrade($birthyear){
 		if ($birthyear <= 0){ return "生年度未設定"; }
 		$this_year = date("Y");
-		$age = $this_year - $birthyear;
+		$this_fiscal_year = (date("Y-m-d") < strtotime($this_year."-04-01")) ? $this_year - 1 : $this_year;
+		$age = $this_fiscal_year - $birthyear;
 
 		if($age <= 6) {
 			$grade = "未就学";

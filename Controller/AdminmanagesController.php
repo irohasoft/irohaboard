@@ -315,7 +315,7 @@ class AdminManagesController extends AppController{
           $login_time = (int)strtotime($row['login_time']);
           if($date_id == $target_date_id){
             $flag = 1;
-            if($row['status']){
+            if($row['status'] == 1){
               if($row['late_time'] != 0){
                 $late_time = $row['late_time'];
                 $output_list[] = '遅刻('."$late_time".'分)';
@@ -345,7 +345,7 @@ class AdminManagesController extends AppController{
         }
 
         if($flag != 1){
-          $output_list[] = '';          
+          $output_list[] = '';
           $output_list[] = '';
         }
 

@@ -104,6 +104,34 @@ class Attendance extends AppModel {
 		}
 	}
 
+	public function setNewUserAttendanceInfo($date_id){
+		$user_list = $this->User->find('all',array(
+			'conditions' => array(
+				'User.role' => 'user'
+			),
+			'order' => 'User.id ASC'
+		));
+		foreach($user_list as $user){
+			$user_id = $user['User']['id'];
+			$user_info = $this->find('all',array(
+				'conditions' => array(
+					'User.id' => $user_id,
+					'Date.id' => $date_id
+				)
+			));
+			if(!isset($user_info[0])){
+				$init_info = array(
+					'user_id' => $user['User']['id'],
+					'period'  => $user['User']['period'],
+					'date_id' => $date_id,
+					'status'  => 2
+				);
+				$this->create();
+				$this->save($init_info);
+			}
+		}
+	}
+
 	public function getAllTimeAttendances($user_id){
 		$data = $this->find('all',array(
 			'conditions' => array(
@@ -131,7 +159,6 @@ class Attendance extends AppModel {
 			'limit' => 8,
 			'recursive' => 0
 		));
-		//$this->log($data);
 		return $data;
 	}
 

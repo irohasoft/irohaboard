@@ -150,7 +150,7 @@
 
 .admin-contents-questions-edit #ContentsQuestionOptionList
 {
-	width			: 200px;
+	width			: 100%;
 }
 
 .admin-contents-questions-edit #ContentsQuestionOptionList option
@@ -164,9 +164,10 @@
 	font-family: Verdana, Geneva, sans-serif;
 	*/
 	color			: #444455;
-	width			: 160px;
+	width			: 100%;
 	margin			: 6px;
 	padding			: 5px;
+	overflow		: auto;
 }
 
 .admin-contents-questions-edit input[name="data[ContentsQuestion][image]"]

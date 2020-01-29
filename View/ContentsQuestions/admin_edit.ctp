@@ -20,9 +20,9 @@
 			return false;
 		}
 		
-		if(txt.value.length > 50)
+		if(txt.value.length > 100)
 		{
-			alert("選択肢は50文字以内で入力してください");
+			alert("選択肢は100文字以内で入力してください");
 			return false;
 		}
 		
@@ -161,7 +161,7 @@
 				<div class="col col-sm-9 required">
 				「＋」で選択肢の追加、「−」で選択された選択肢を削除します。（※最大10個まで）<br>
 				また選択された選択肢が正解となります。Ctrlキーを押下したまま選択することで、複数の正解の設定も可能です。<br>
-				<input type="text" size="20" name="option" style="width:200px;display:inline-block;">
+				<input type="text" size="20" name="option" style="width: 80%;display:inline-block;">
 				<button class="btn" onclick="add_option();return false;">＋</button>
 				<button class="btn" onclick="del_option();return false;">−</button><br>
 			<?php

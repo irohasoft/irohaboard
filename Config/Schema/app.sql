@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `ib_contents_questions` (
   `title` varchar(200) NOT NULL DEFAULT '',
   `body` text NOT NULL,
   `image` varchar(200) DEFAULT NULL,
-  `options` varchar(200) DEFAULT NULL,
+  `options` varchar(2000) DEFAULT NULL,
   `correct` varchar(200) NOT NULL DEFAULT '',
   `score` int(8) NOT NULL DEFAULT '0',
   `explain` text,

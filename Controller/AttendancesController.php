@@ -108,7 +108,6 @@ class AttendancesController extends AppController{
     $this->set(compact("period1_members", "period2_members"));
 
     $attendance_list = $this->Attendance->findAllUserAttendances();
-    $this->log($attendance_list);
     $name_list = $this->User->find('list',array(
       'fields' => array(
         'User.id',

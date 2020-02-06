@@ -220,4 +220,121 @@ class SoapRecordsController extends AppController
 			$this->set('oldest_created_year', $oldest_created_year);
 		}
 	}
+
+	public function admin_submission_status(){
+    $this->loadModel('User');
+    $this->loadModel('Attendance');
+		$this->loadModel('Date');
+		$this->loadModel('Soap');
+
+    $user_list = $this->User->find('all',array(
+      'conditions' => array(
+        'User.role' => 'user'
+      ),
+      'order' => 'User.id ASC'
+    ));
+
+    $last_day = $this->Date->getLastClassDate('Y-m-d');
+
+    $last_class_date_id = $this->Date->getLastClassId();
+    //１限に出席した人のリスト
+    $period_1_attendance_user_list = $this->Attendance->find('all',array(
+      'conditions' => array(
+        'Attendance.date_id' => $last_class_date_id,
+        'Attendance.period' => 0,
+        'Attendance.status' => 1
+      ),
+      'order' => 'Attendance.user_id ASC'
+    ));
+
+    $today=date('Y-m-d');
+    $from_date = date('w') == 0 ? $today : date('Y-m-d', strtotime(" last sunday ",strtotime($today)));
+    $to_date = date('Y-m-d', strtotime(" next saturday ",strtotime($today)));
+
+    /**
+     * period_1_submitted = array(
+     *   [Member] => array(
+     *      string
+     *   ),
+     *   [cnt] => number
+     * )
+     */
+    $period_1_submitted = [];
+    $period_1_submitted['Member'] = "";
+    $period_1_submitted['Count'] = 0;
+    
+    $period_1_unsubmitted = [];
+    $period_1_unsubmitted['Member'] = "";
+    $period_1_unsubmitted['Count'] = 0;
+    foreach($period_1_attendance_user_list as $user){
+      $user_id = $user['User']['id'];
+      $enquete_info = $this->Soap->find('all',array(
+        'conditions' => array(
+          'User.id' => $user_id,
+          'Soap.created BETWEEN ? AND ?' => array(
+            $from_date,
+			      $to_date.' 23:59:59'
+          )
+        )
+      ));
+      if(isset($enquete_info[0])){
+        $period_1_submitted['Member'] = $period_1_submitted['Member'] . $user['User']['name'] . '<br>';
+        $period_1_submitted['Count'] += 1;
+      }else{
+        $period_1_unsubmitted['Member'] = $period_1_unsubmitted['Member'] . $user['User']['name'] . '<br>';
+        $period_1_unsubmitted['Count'] += 1;
+      }
+		}
+
+    $this->set(compact("period_1_submitted","period_1_unsubmitted"));
+
+    //２限に出席した人のリスト
+    $period_2_attendance_user_list = $this->Attendance->find('all',array(
+      'conditions' => array(
+        'Attendance.date_id' => $last_class_date_id,
+        'Attendance.period' => 1,
+        'Attendance.status' => 1
+      ),
+      'order' => 'Attendance.user_id ASC'
+    ));
+
+    /**
+     * period_2_submitted = array(
+     *   [Member] => array(
+     *      string
+     *   ),
+     *   [cnt] => number
+     * )
+     */
+    $period_2_submitted = [];
+    $period_2_submitted['Member'] = "";
+    $period_2_submitted['Count'] = 0;
+    
+    $period_2_unsubmitted = [];
+    $period_2_unsubmitted['Member'] = "";
+    $period_2_unsubmitted['Count'] = 0;
+    foreach($period_2_attendance_user_list as $user){
+      $user_id = $user['User']['id'];
+      $enquete_info = $this->Soap->find('all',array(
+        'conditions' => array(
+          'User.id' => $user_id,
+          'Soap.created BETWEEN ? AND ?' => array(
+            $from_date,
+			      $to_date.' 23:59:59'
+          )
+        )
+      ));
+      if(isset($enquete_info[0])){
+        $period_2_submitted['Member'] = $period_2_submitted['Member'] . $user['User']['name'] . '<br>';
+        $period_2_submitted['Count'] += 1;
+      }else{
+        $period_2_unsubmitted['Member'] = $period_2_unsubmitted['Member'] . $user['User']['name'] . '<br>';
+        $period_2_unsubmitted['Count'] += 1;
+      }
+    }
+
+    $this->set(compact("period_2_submitted","period_2_unsubmitted"));
+
+    $this->set(compact("last_day","last_class_date_id"));
+  }
 }

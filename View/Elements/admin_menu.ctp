@@ -22,7 +22,7 @@
 		</a>
 		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 			<?php echo $this->Html->link(__('学習履歴'), array('controller' => 'records', 'action' => 'index'), array('class' => 'dropdown-item')); ?>
-			<?php echo $this->Html->link(__('SOAP'), array('controller' => 'soaprecords', 'action' => 'index'), array('class' => 'dropdown-item')); ?>
+			<?php echo $this->Html->link(__('SOAP'), array('controller' => 'soaprecords', 'action' => 'submission_status'), array('class' => 'dropdown-item')); ?>
 			<?php echo $this->Html->link(__('アンケート'), array('controller' => 'enquete', 'action' => 'submission_status'), array('class' => 'dropdown-item')); ?>
 			<?php echo $this->Html->link(__('出欠席'), array('controller' => 'attendances', 'action' => 'index'), array('class' => 'dropdown-item')); ?>
 			<?php echo $this->Html->link(__('授業データ'), array('controller' => 'adminmanages', 'action' => 'download'), array('class' => 'dropdown-item')); ?>

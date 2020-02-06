@@ -241,5 +241,140 @@ class AttendancesController extends AppController{
       $this->Flash->error(__('編集に失敗しました、もう一回やってください。'));
     }
   }
+
+  public function admin_attendance_status(){
+    $this->loadModel('User');
+    $this->loadModel('Attendance');
+    $this->loadModel('Date');
+
+    $user_list = $this->User->find('all',array(
+      'conditions' => array(
+        'User.role' => 'user'
+      ),
+      'order' => 'User.id ASC'
+    ));
+
+    $last_day = $this->Date->getLastClassDate('Y-m-d');
+
+    $last_class_date_id = $this->Date->getLastClassId();
+
+    $today=date('Y-m-d');
+    $from_date = date('w') == 0 ? $today : date('Y-m-d', strtotime(" last sunday ",strtotime($today)));
+    $to_date = date('Y-m-d', strtotime(" next saturday ",strtotime($today)));
+
+    //1限の受講生リスト
+    $period1_user_list = $this->User->find('all',array(
+      'conditions' => array(
+        'User.role' => 'user',
+        'User.period' => 0
+      ),
+      'order' => 'User.id ASC'
+    ));
+
+    //１限に出席した人のリスト
+    $period_1_attendance_user_list = $this->Attendance->find('all',array(
+      'conditions' => array(
+        'Attendance.date_id' => $last_class_date_id,
+        'Attendance.period' => 0,
+        'Attendance.status' => 1
+      ),
+      'order' => 'Attendance.user_id ASC'
+    ));
+
+    /**
+     * period_1_submitted = array(
+     *   [Member] => array(
+     *      string
+     *   ),
+     *   [cnt] => number
+     * )
+     */
+    $period_1_submitted = [];
+    $period_1_submitted['Member'] = "";
+    $period_1_submitted['Count'] = 0;
+    
+    $period_1_unsubmitted = [];
+    $period_1_unsubmitted['Member'] = "";
+    $period_1_unsubmitted['Count'] = 0;
+
+    foreach($period1_user_list as $user){
+      $user_id = $user['User']['id'];
+      $attendance_info = $this->Attendance->find('all',array(
+        'conditions' => array(
+          'User.id' => $user_id,
+          'Attendance.date_id' => $last_class_date_id,
+          'Attendance.status' => 1
+        )
+      ));
+      if(isset($attendance_info[0])){
+        $period_1_submitted['Member'] = $period_1_submitted['Member'] . $user['User']['name'] . '<br>';
+        $period_1_submitted['Count'] += 1;
+      }else{
+        $period_1_unsubmitted['Member'] = $period_1_unsubmitted['Member'] . $user['User']['name'] . '<br>';
+        $period_1_unsubmitted['Count'] += 1;
+      }
+    }
+  
+    $this->set(compact("period_1_submitted","period_1_unsubmitted"));
+
+
+    //2限の受講生リスト
+    $period2_user_list = $this->User->find('all',array(
+      'conditions' => array(
+        'User.role' => 'user',
+        'User.period' => 1
+      ),
+      'order' => 'User.id ASC'
+    ));
+    $this->log($period2_user_list);
+
+    //２限に出席した人のリスト
+    $period_2_attendance_user_list = $this->Attendance->find('all',array(
+      'conditions' => array(
+        'Attendance.date_id' => $last_class_date_id,
+        'Attendance.period' => 1,
+        'Attendance.status' => 1
+      ),
+      'order' => 'Attendance.user_id ASC'
+    ));
+
+    /**
+     * period_2_submitted = array(
+     *   [Member] => array(
+     *      string
+     *   ),
+     *   [cnt] => number
+     * )
+     */
+    $period_2_submitted = [];
+    $period_2_submitted['Member'] = "";
+    $period_2_submitted['Count'] = 0;
+    
+    $period_2_unsubmitted = [];
+    $period_2_unsubmitted['Member'] = "";
+    $period_2_unsubmitted['Count'] = 0;
+    foreach($period2_user_list as $user){
+      $user_id = $user['User']['id'];
+      $attendance_info = $this->Attendance->find('all',array(
+        'conditions' => array(
+          'User.id' => $user_id,
+          'Attendance.date_id' => $last_class_date_id,
+          'Attendance.status' => 1
+        )
+      ));
+      if(isset($attendance_info[0])){
+        $period_2_submitted['Member'] = $period_2_submitted['Member'] . $user['User']['name'] . '<br>';
+        $period_2_submitted['Count'] += 1;
+      }else{
+        $period_2_unsubmitted['Member'] = $period_2_unsubmitted['Member'] . $user['User']['name'] . '<br>';
+        $period_2_unsubmitted['Count'] += 1;
+      }
+    }
+
+    $this->set(compact("period_2_submitted","period_2_unsubmitted"));
+
+    $this->set(compact("last_day","last_class_date_id"));
+  }
+
 }
 ?>

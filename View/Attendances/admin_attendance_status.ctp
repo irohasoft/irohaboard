@@ -1,5 +1,4 @@
 <?php echo $this->element('admin_menu');?>
-<?php echo $this->Html->css('soap');?>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript">
@@ -19,8 +18,8 @@
     var p1_unsub_count = <?php echo $period_1_unsubmitted['Count'];?>;
     var p1_unsub_member = "<p style='font-size : 20px; white-space : nowrap;'>" + "<?php echo $period_1_unsubmitted['Member'];?>" + "</p>";
     data.addRows([
-      ['記入数',p1_sub_count, p1_sub_member],
-      ['未記入数',p1_unsub_count, p1_unsub_member]
+      ['出席数',p1_sub_count, p1_sub_member],
+      ['欠席数',p1_unsub_count, p1_unsub_member]
     ])
     var options = {
       pieHole: 0.4,
@@ -45,8 +44,8 @@
     var p2_unsub_count = <?php echo $period_2_unsubmitted['Count'];?>;
     var p2_unsub_member = "<p style='font-size : 20px; white-space : nowrap;'>" + "<?php echo $period_2_unsubmitted['Member'];?>" + "</p>";
     data.addRows([
-      ['記入数',p2_sub_count, p2_sub_member],
-      ['未記入数',p2_unsub_count, p2_unsub_member]
+      ['出席数',p2_sub_count, p2_sub_member],
+      ['欠席数',p2_unsub_count, p2_unsub_member]
     ])
     var options = {
       pieHole: 0.4,
@@ -65,7 +64,7 @@
 <div class="admin-submission-status full-view">
   <div class="row">
     <div class="col" style = "font-size : 24px;">
-      <?php echo __('SOAP記入状況'); ?>
+      <?php echo __('出席状況'); ?>
     </div>
   </div>
   <div class="row">
@@ -75,10 +74,10 @@
   </div>
   <div class="row">
     <div class="col">
-      <p class="text-center" style="font-size:18px;">１限 出席人数: <?php echo ($period_1_submitted['Count'] + $period_1_unsubmitted['Count']);?>人, 記入: <?php echo ($period_1_submitted['Count']);?>人, 未記入: <?php echo ($period_1_unsubmitted['Count']);?>人</p>
+      <p class="text-center" style="font-size:18px;">１限 人数: <?php echo ($period_1_submitted['Count'] + $period_1_unsubmitted['Count']);?>人, 出席: <?php echo ($period_1_submitted['Count']);?>人, 欠席: <?php echo ($period_1_unsubmitted['Count']);?>人</p>
     </div>
     <div class="col">
-      <p class="text-center" style="font-size:18px;">２限 出席人数: <?php echo ($period_2_submitted['Count'] + $period_2_unsubmitted['Count']);?>人, 記入: <?php echo ($period_2_submitted['Count']);?>人, 未記入: <?php echo ($period_2_unsubmitted['Count']);?>人</p>
+      <p class="text-center" style="font-size:18px;">２限 人数: <?php echo ($period_2_submitted['Count'] + $period_2_unsubmitted['Count']);?>人, 出席: <?php echo ($period_2_submitted['Count']);?>人, 欠席: <?php echo ($period_2_unsubmitted['Count']);?>人</p>
     </div>
   </div>
   <div class="row">
@@ -99,7 +98,7 @@
   </div>
   <div class="row">
     <div class="col" style = "font-size : 18px;">
-		  <?php echo $this->Html->link(__('SOAPの詳細内容はこちら'), array('controller' => 'soaprecords', 'action' => 'index')); ?>
+		  <?php echo $this->Html->link(__('出欠席の詳細内容はこちら'), array('controller' => 'attendances', 'action' => 'index')); ?>
     </div>
   </div>
 </div>

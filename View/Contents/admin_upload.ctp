@@ -1,4 +1,4 @@
-<?php echo $this->Html->css('summernote.css');?>
+<?php $this->start('css-embedded'); ?>
 <style type='text/css'>
 	.header
 	,.irohasoft
@@ -18,7 +18,7 @@
 	}
 </style>
 <?php $this->end(); ?>
-
+<?php $this->start('script-embedded'); ?>
 <script>
 	$(document).ready(function()
 	{
@@ -34,6 +34,7 @@
 		}
 	});
 </script>
+<?php $this->end(); ?>
 <div class="panel panel-default">
 	<div class="panel-heading">
 		ファイルのアップロード

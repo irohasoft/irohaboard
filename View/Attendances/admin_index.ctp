@@ -14,7 +14,6 @@ function downloadCSV()
 <div class="admin-records-index full-view">
 	<div class="ib-page-title"><?php echo __('出欠席'); ?></div><br/><br/>
 
-	<div id="First">
 	<div class = "ib-row">
 	  <span style = "margin-right : 20px" ><?php echo "受講日：".$last_day;?></span>
 		<span style = "margin-right : 20px" ><?php echo "１限：".$cnt_1."名";?></span>
@@ -114,9 +113,8 @@ function downloadCSV()
 		</tbody>
 	</table>
 	</div>
-	</div>
 
-	<div id="Second">
+
 	<div class = "ib-row" style = "margin-bottom : 10px">
 	  <span style = "margin-right : 20px" ><?php echo "受講日：".$last_day;?></span>
 		<span style = "margin-right : 20px" ><?php echo "２限：".$cnt_2."名";?></span>
@@ -215,6 +213,5 @@ function downloadCSV()
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-	</div>
 	</div>
 </div>

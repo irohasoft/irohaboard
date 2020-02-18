@@ -81,14 +81,14 @@
     </div>
   </div>
   <div class="row">
-    <div class="col" onclick="location.href='<?php echo Router::url(array('controller' => 'attendances', 'action' => 'index', '#' => 'First')) ?>'">
+    <div class="col" onclick="location.href='<?php echo Router::url(array('controller' => 'attendances', 'action' => 'index')) ?>'">
       <div class="card">
         <div class="card-body">
           <div id="period1Chart" style="height: 400px;"></div>
         </div>
       </div>
     </div>
-    <div class="col" onclick="location.href='<?php echo Router::url(array('controller' => 'attendances', 'action' => 'index', '#' => 'Second')) ?>'">
+    <div class="col" onclick="location.href='<?php echo Router::url(array('controller' => 'attendances', 'action' => 'index')) ?>'">
       <div class="card">
         <div class="card-body">
           <div id="period2Chart" style="height: 400px;"></div>

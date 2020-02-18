@@ -12,7 +12,7 @@
     // Use custom HTML content for the domain tooltip.
     data.addColumn('number', 'Number');
     data.addColumn({'type': 'string', 'role': 'tooltip', 'p': {'html': true}});
-    
+
     var p1_sub_count = <?php echo $period_1_submitted['Count'];?>;
     var p1_sub_member = p1_sub_count >= 10 ? "" : "<p style='font-size : 20px; white-space : nowrap;'>" + "<?php echo $period_1_submitted['Member'];?>" + "</p>";
     var p1_unsub_count = <?php echo $period_1_unsubmitted['Count'];?>;
@@ -38,7 +38,7 @@
     // Use custom HTML content for the domain tooltip.
     data.addColumn('number', 'Number');
     data.addColumn({'type': 'string', 'role': 'tooltip', 'p': {'html': true}});
-    
+
     var p2_sub_count = <?php echo $period_2_submitted['Count'];?>;
     var p2_sub_member = p2_sub_count >= 10 ? "" : "<p style='font-size : 20px; white-space : nowrap;'>" + "<?php echo $period_2_submitted['Member'];?>" + "</p>";
     var p2_unsub_count = <?php echo $period_2_unsubmitted['Count'];?>;
@@ -58,8 +58,8 @@
     chart.draw(data, options);
   }
 
-  
-  
+
+
 </script>
 <div class="admin-submission-status full-view">
   <div class="row">
@@ -81,14 +81,14 @@
     </div>
   </div>
   <div class="row">
-    <div class="col">
+    <div class="col" onclick="location.href='<?php echo Router::url(array('controller' => 'attendances', 'action' => 'index', '#' => 'First')) ?>'">
       <div class="card">
         <div class="card-body">
           <div id="period1Chart" style="height: 400px;"></div>
         </div>
       </div>
     </div>
-    <div class="col">
+    <div class="col" onclick="location.href='<?php echo Router::url(array('controller' => 'attendances', 'action' => 'index', '#' => 'Second')) ?>'">
       <div class="card">
         <div class="card-body">
           <div id="period2Chart" style="height: 400px;"></div>

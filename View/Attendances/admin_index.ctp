@@ -18,7 +18,7 @@ function downloadCSV()
 		<span style = "margin-right : 20px" ><?php echo "１限：".$cnt_1."名";?></span>
 		<span style = "margin-right : 20px" ><?php echo "出席：".$att_1."名";?></span>
 		<span style = "margin-right : 20px" ><?php echo "欠席：".$abs_1."名";?></span>
-		<span style = "margin-right : 20px" ><?php echo "出席率：".(int)(($att_1 / $cnt_1) * 100)."%";?></span>
+		<span style = "margin-right : 20px" ><?php echo "出席率：".round(($att_1 / $cnt_1) * 100)."%";?></span>
 	</div>
 
 	<?php //１限のリスト?>
@@ -120,7 +120,7 @@ function downloadCSV()
 		<span style = "margin-right : 20px" ><?php echo "２限：".$cnt_2."名";?></span>
 		<span style = "margin-right : 20px" ><?php echo "出席：".$att_2."名";?></span>
 		<span style = "margin-right : 20px" ><?php echo "欠席：".$abs_2."名";?></span>
-		<span style = "margin-right : 20px" ><?php echo "出席率：".(int)(($att_2 / $cnt_2) * 100)."%";?></span>
+		<span style = "margin-right : 20px" ><?php echo "出席率：".round(($att_2 / $cnt_2) * 100)."%";?></span>
 	</div>
 
 	<?php //２限のリスト?>

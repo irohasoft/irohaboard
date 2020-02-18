@@ -52,7 +52,21 @@ function downloadCSV()
 		?>
 			<tr>
 				<td nowrap class="ib-col-center"><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
-				<td nowrap><?php echo h($name_list[$user_id]); ?>&nbsp;</td>
+				<td nowrap>
+					<div class="name"><?php echo h($name_list[$user_id]); ?>&nbsp;</div>
+					<div class="popup" style="background-color: <?php echo h($this->Session->read('Setting.color')); ?>;">
+						<?php
+							$pic_path = $member['User']['pic_path'];
+							if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
+								$pic_path = 'student_img/noPic.png';
+							}
+							echo $this->Html->image($pic_path,
+										array('height'=> '200',
+													'alt' => $name_list[$user_id]
+										));
+						?>
+					</div>
+				</td>
 				<?php
 					foreach ($attendance_info as $row):
 						switch($row['Attendance']['status']):
@@ -153,7 +167,21 @@ function downloadCSV()
 		?>
 			<tr>
 				<td nowrap class="ib-col-center"><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
-				<td nowrap><?php echo h($name_list[$user_id]); ?>&nbsp;</td>
+				<td nowrap>
+					<div class="name"><?php echo h($name_list[$user_id]); ?>&nbsp;</div>
+					<div class="popup" style="background-color: <?php echo h($this->Session->read('Setting.color')); ?>;">
+						<?php
+							$pic_path = $member['User']['pic_path'];
+							if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
+								$pic_path = 'student_img/noPic.png';
+							}
+							echo $this->Html->image($pic_path,
+										array('height'=> '200',
+													'alt' => $name_list[$user_id]
+										));
+						?>
+					</div>
+				</td>
 				<?php
 					foreach ($attendance_info as $row):
 						switch($row['Attendance']['status']):

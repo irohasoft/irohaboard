@@ -10,26 +10,17 @@ https://demoib.irohasoft.com/
 ## System Requirements
 * PHP : 5.4 or later
 * MySQL : 5.1 or later
-* CakePHP : 2.10.x
+* CakePHP : 2.10
 
 ## Installation
-1. Download the source of iroha Board.
+1. Download CakePHP's source file extract the file.
+https://github.com/cakephp/cakephp/releases/tag/2.10.20
+2. Download iroha Board's source file and extract the file.
 https://github.com/irohasoft/irohaboard/releases
-2. Download the source of CakePHP.
-https://github.com/cakephp/cakephp/releases/tag/2.10.13
-3. Make [cake] directory on your web server and upload the source of CakePHP.
-4. Upload the source of iroha Board to public direcotry on your web server.  
-/cake  
-┗ /lib  
-/public_html  
-┣ /Config  
-┣ /Controller  
-┣ /Model  
-┣ ・・・  
-┣ /View  
-┗ /webroot  
-5. Modify the database configuration on Config/database.php file.
+3. Replace CakePHP app directory with iroha Board's source files.
+4. Modify database configuration file (app/Config/database.php).
 Make sure you have created an empty database on you MySQL server.
+5. Upload all files to public direcotry on your web server.
 6. Open http://(your-domain-name)/install on your web browser.
 
 ## Features

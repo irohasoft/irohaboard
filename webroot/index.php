@@ -1,11 +1,19 @@
 <?php
 /**
- * iroha Board Project
+ * The Front Controller for handling every request
  *
- * @author        Kotaro Miura
- * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
- * @link          http://irohaboard.irohasoft.jp
- * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
+ * @package       app.webroot
+ * @since         CakePHP(tm) v 0.2.9
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 // PHPのバージョンチェック
@@ -16,14 +24,10 @@ if (version_compare(PHP_VERSION, '5.4.0') <= 0)
 	exit;
 }
 
-// タイムゾーンの設定
-date_default_timezone_set('Asia/Tokyo');
-
 /**
  * Use the DS to separate the directories in other defines
  */
-if (!defined('DS'))
-{
+if (!defined('DS')) {
 	define('DS', DIRECTORY_SEPARATOR);
 }
 
@@ -34,71 +38,17 @@ if (!defined('DS'))
  */
 
 /**
- * 1. iroha Board のルートディレクトリのパスの設定
+ * The full path to the directory which holds "app", WITHOUT a trailing DS.
  */
-if (!defined('ROOT'))
-{
-	// webroot ディレクトリがアプリケーションディレクトリ(Model, Contoller, View などを格納しているディレクトリ)内に存在する場合
+if (!defined('ROOT')) {
 	define('ROOT', dirname(dirname(dirname(__FILE__))));
-	
-	// webroot と app ディレクトリを分離する場合
-	//define('ROOT', dirname(dirname(__FILE__)));
-}
-
-if(!file_exists(ROOT))
-{
-	header('Content-Type: text/html; charset=UTF-8');
-	echo "ERROR-002 : ROOTディレクトリが見つかりません\n index.php の ROOT の設定を確認して下さい。<br>";
-	echo "現在の設定<br>".
-		"ROOT : ".ROOT."<br>".
-	exit;
 }
 
 /**
- * 2. アプリケーションディレクトリ名の設定
+ * The actual directory name for the "app".
  */
-if (!defined('APP_DIR'))
-{
-	// webroot ディレクトリがアプリケーションディレクトリ内に存在する場合
+if (!defined('APP_DIR')) {
 	define('APP_DIR', basename(dirname(dirname(__FILE__))));
-
-	// webroot と app ディレクトリと分離する場合
-	//define('APP_DIR', 'app');
-}
-
-if(!file_exists(ROOT.DS.APP_DIR))
-{
-	header('Content-Type: text/html; charset=UTF-8');
-	echo "ERROR-003 : アプリケーションディレクトリが見つかりません\n index.php の APP_DIR の設定を確認して下さい。<br>";
-	echo "現在の設定<br>".
-		"ROOT : ".ROOT."<br>".
-		"APP_DIR : ".APP_DIR."<br>";
-	exit;
-}
-
-/**
- * 2. CakePHP のライブラリディレクトリ(cake/lib)のパスの設定
- */
-if (!defined('CAKE_CORE_INCLUDE_PATH')) {
-	// cake ディレクトリが webroot と同じ階層に存在する場合
-	//define('CAKE_CORE_INCLUDE_PATH', dirname(dirname(__FILE__)).DS.'cake'.DS.'lib');
-	
-	// cake ディレクトリが webroot の1階層上に存在する場合
-	define('CAKE_CORE_INCLUDE_PATH', dirname(dirname(dirname(__FILE__))).DS.'cake'.DS.'lib');
-	
-	// cake ディレクトリが webroot の2階層上に存在する場合
-	//define('CAKE_CORE_INCLUDE_PATH', dirname(dirname(dirname(dirname(__FILE__)))).DS.'cake'.DS.'lib');
-}
-
-if(!file_exists(CAKE_CORE_INCLUDE_PATH))
-{
-	header('Content-Type: text/html; charset=UTF-8');
-	echo "ERROR-004 : libディレクトリが見つかりません\n index.php の CAKE_CORE_INCLUDE_PATH の設定を確認して下さい。<br>";
-	echo "現在の設定<br>".
-		"ROOT : ".ROOT."<br>".
-		"APP_DIR : ".APP_DIR."<br>".
-		"CAKE_CORE_INCLUDE_PATH : ".CAKE_CORE_INCLUDE_PATH."<br>";
-	exit;
 }
 
 // tmpディレクトリが存在しない場合、作成
@@ -110,55 +60,54 @@ if(!file_exists(ROOT.DS.APP_DIR.DS.'tmp'))
 }
 
 /**
+ * Config Directory
+ */
+if (!defined('CONFIG')) {
+	define('CONFIG', ROOT . DS . APP_DIR . DS . 'Config' . DS);
+}
+
+/**
+ * The absolute path to the "cake" directory, WITHOUT a trailing DS.
+ *
+ * Un-comment this line to specify a fixed path to CakePHP.
+ * This should point at the directory containing `Cake`.
+ *
+ * For ease of development CakePHP uses PHP's include_path. If you
+ * cannot modify your include_path set this value.
+ *
+ * Leaving this constant undefined will result in it being defined in Cake/bootstrap.php
+ *
+ * The following line differs from its sibling
+ * /lib/Cake/Console/Templates/skel/webroot/index.php
+ */
+//define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'lib');
+
+/**
  * This auto-detects CakePHP as a composer installed library.
  * You may remove this if you are not planning to use composer (not recommended, though).
  */
-$vendorPath = ROOT . DS . APP_DIR . DS . 'Vendor' . DS . 'cake' . DS . 'lib';
+$vendorPath = ROOT . DS . APP_DIR . DS . 'Vendor' . DS . 'cakephp' . DS . 'cakephp' . DS . 'lib';
 $dispatcher = 'Cake' . DS . 'Console' . DS . 'ShellDispatcher.php';
-if (!defined('CAKE_CORE_INCLUDE_PATH') && file_exists($vendorPath . DS . $dispatcher))
-{
+if (!defined('CAKE_CORE_INCLUDE_PATH') && file_exists($vendorPath . DS . $dispatcher)) {
 	define('CAKE_CORE_INCLUDE_PATH', $vendorPath);
 }
+
+
 
 /**
  * Editing below this line should NOT be necessary.
  * Change at your own risk.
  */
-if (!defined('WEBROOT_DIR'))
-{
-	// webroot ディレクトリがアプリケーションディレクトリ内に存在する場合
+if (!defined('WEBROOT_DIR')) {
 	define('WEBROOT_DIR', basename(dirname(__FILE__)));
-	
-	// webroot と app ディレクトリを分離する場合
-	//define('WEBROOT_DIR', '');
 }
-
-if (!defined('WWW_ROOT'))
-{
+if (!defined('WWW_ROOT')) {
 	define('WWW_ROOT', dirname(__FILE__) . DS);
-}
-
-if(!file_exists(ROOT.DS.APP_DIR.DS.WEBROOT_DIR))
-{
-	header('Content-Type: text/html; charset=UTF-8');
-	echo "ERROR-005 : WEBROOTディレクトリが見つかりません\n index.php の WEBROOT_DIR の設定を確認して下さい。<br>";
-	echo "現在の設定<br>".
-		"ROOT : ".ROOT."<br>".
-		"APP_DIR : ".APP_DIR."<br>".
-		"CAKE_CORE_INCLUDE_PATH : ".CAKE_CORE_INCLUDE_PATH."<br>".
-		"WEBROOT_DIR : ".WEBROOT_DIR."<br>";
-	exit;
-}
-
-// uploadsディレクトリが存在しない場合、作成
-if(!file_exists(ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'/uploads'))
-{
-	mkdir(ROOT.DS.APP_DIR.DS.WEBROOT_DIR.DS.'/uploads');
 }
 
 // For the built-in server
 if (PHP_SAPI === 'cli-server') {
-	if ($_SERVER['REQUEST_URI'] !== '/' && file_exists(WWW_ROOT . $_SERVER['PHP_SELF'])) {
+	if ($_SERVER['PHP_SELF'] !== '/' . basename(__FILE__) && file_exists(WWW_ROOT . $_SERVER['PHP_SELF'])) {
 		return false;
 	}
 	$_SERVER['PHP_SELF'] = '/' . basename(__FILE__);
@@ -172,12 +121,12 @@ if (!defined('CAKE_CORE_INCLUDE_PATH')) {
 		$failed = true;
 	}
 } elseif (!include CAKE_CORE_INCLUDE_PATH . DS . 'Cake' . DS . 'bootstrap.php') {
-echo CAKE_CORE_INCLUDE_PATH;
 	$failed = true;
 }
 if (!empty($failed)) {
 	trigger_error("CakePHP core could not be found. Check the value of CAKE_CORE_INCLUDE_PATH in APP/webroot/index.php. It should point to the directory containing your " . DS . "cake core directory and your " . DS . "vendors root directory.", E_USER_ERROR);
 }
+
 
 App::uses('Dispatcher', 'Routing');
 

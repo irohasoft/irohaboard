@@ -1,12 +1,22 @@
 <?php
 /**
- * @link          http://cakephp.org CakePHP(tm) Project
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @package       app.Config
  * @since         CakePHP(tm) v 0.2.9
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
  * Database configuration class.
+ *
  * You can specify multiple configurations for production, development and testing.
  *
  * datasource => The name of a supported datasource; valid options are as follows:
@@ -30,12 +40,17 @@
  * on a per-table basis with the Model::$tablePrefix property.
  *
  * schema =>
- * For Postgres/Sqlserver specifies which schema you would like to use the tables in. Postgres defaults to 'public'. For Sqlserver, it defaults to empty and use
+ * For Postgres/Sqlserver specifies which schema you would like to use the tables in.
+ * Postgres defaults to 'public'. For Sqlserver, it defaults to empty and use
  * the connected user's default schema (typically 'dbo').
  *
  * encoding =>
  * For MySQL, Postgres specifies the character encoding to use when connecting to the
  * database. Uses database default not specified.
+ *
+ * sslmode =>
+ * For Postgres specifies whether to 'disable', 'allow', 'prefer', or 'require' SSL for the 
+ * connection. The default value is 'allow'.
  *
  * unix_socket =>
  * For MySQL to connect via socket specify the `unix_socket` parameter instead of `host` and `port`

@@ -4,10 +4,22 @@
  *
  * Use it to configure core behavior of Cake.
  *
- * @link          http://cakephp.org CakePHP(tm) Project
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @package       app.Config
  * @since         CakePHP(tm) v 0.2.9
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
+
+//setLocale(LC_ALL, 'deu');
+//Configure::write('Config.language', 'deu');
 
 /**
  * CakePHP Debug Level:
@@ -42,7 +54,7 @@
  */
 	Configure::write('Error', array(
 		'handler' => 'ErrorHandler::handleError',
-		'level' => E_ALL & ~E_DEPRECATED & ~E_STRICT,
+		'level' => E_ALL & ~E_DEPRECATED,
 		'trace' => true
 	));
 
@@ -60,6 +72,8 @@
  * - `renderer` - string - The class responsible for rendering uncaught exceptions. If you choose a custom class you
  *   should place the file for that class in app/Lib/Error. This class needs to implement a render method.
  * - `log` - boolean - Should Exceptions be logged?
+ * - `extraFatalErrorMemory` - integer - Increases memory limit at shutdown so fatal errors are logged. Specify
+ *   amount in megabytes or use 0 to disable (default: 4 MB)
  * - `skipLog` - array - list of exceptions to skip for logging. Exceptions that
  *   extend one of the listed exceptions will also be skipped for logging.
  *   Example: `'skipLog' => array('NotFoundException', 'UnauthorizedException')`
@@ -103,9 +117,16 @@
  * for any URL generation inside the application, set the following
  * configuration variable to the http(s) address to your domain. This
  * will override the automatic detection of full base URL and can be
- * useful when generating links from the CLI (e.g. sending emails)
+ * useful when generating links from the CLI (e.g. sending emails).
+ * If the application runs in a subfolder, you should also set App.base.
  */
 	//Configure::write('App.fullBaseUrl', 'http://example.com');
+
+/**
+ * The base directory the app resides in. Should be used if the
+ * application runs in a subfolder and App.fullBaseUrl is set.
+ */
+	//Configure::write('App.base', '/my_app');
 
 /**
  * Web path to the public images directory under webroot.
@@ -178,6 +199,7 @@
  *
  * - `Session.cookie` - The name of the cookie to use. Defaults to 'CAKEPHP'
  * - `Session.timeout` - The number of minutes you want sessions to live for. This timeout is handled by CakePHP
+ * - `Session.useForwardsCompatibleTimeout` - Whether or not to make timeout 3.x compatible.
  * - `Session.cookieTimeout` - The number of minutes you want session cookies to live for.
  * - `Session.checkAgent` - Do you want the user agent to be checked when starting sessions? You might want to set the
  *    value to false, when dealing with older versions of IE, Chrome Frame or certain web-browsing devices and AJAX
@@ -188,6 +210,8 @@
  *    to the ini array.
  * - `Session.autoRegenerate` - Enabling this setting, turns on automatic renewal of sessions, and
  *    sessionids that change frequently. See CakeSession::$requestCountdown.
+ * - `Session.cacheLimiter` - Configure the cache control headers used for the session cookie.
+ *   See http://php.net/session_cache_limiter for accepted values.
  * - `Session.ini` - An associative array of additional ini values to set.
  *
  * The built in defaults are:
@@ -254,6 +278,15 @@
  * any date & time related errors.
  */
 	//date_default_timezone_set('UTC');
+	date_default_timezone_set('Asia/Tokyo');
+
+/**
+ * `Config.timezone` is available in which you can set users' timezone string.
+ * If a method of CakeTime class is called with $timezone parameter as null and `Config.timezone` is set,
+ * then the value of `Config.timezone` will be used. This feature allows you to set users' timezone just
+ * once instead of passing it each time in function calls.
+ */
+	//Configure::write('Config.timezone', 'Europe/Paris');
 
 /**
  * Cache Engine Configuration
@@ -292,18 +325,20 @@
  *		'password' => 'password', //plaintext password (xcache.admin.pass)
  *	));
  *
- * Memcache (http://www.danga.com/memcached/)
+ * Memcached (http://www.danga.com/memcached/)
+ *
+ * Uses the memcached extension. See http://php.net/memcached
  *
  * 	 Cache::config('default', array(
- *		'engine' => 'Memcache', //[required]
+ *		'engine' => 'Memcached', //[required]
  *		'duration' => 3600, //[optional]
  *		'probability' => 100, //[optional]
  * 		'prefix' => Inflector::slug(APP_DIR) . '_', //[optional]  prefix every cache file with this string
  * 		'servers' => array(
  * 			'127.0.0.1:11211' // localhost, default port 11211
  * 		), //[optional]
- * 		'persistent' => true, // [optional] set this to false for non-persistent connections
- * 		'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
+ * 		'persistent' => 'my_connection', // [optional] The name of the persistent connection.
+ * 		'compress' => false, // [optional] compress data in Memcached (slower, but uses less memory)
  *	));
  *
  *  Wincache (http://php.net/wincache)

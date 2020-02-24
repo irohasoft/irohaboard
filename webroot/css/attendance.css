@@ -104,13 +104,3 @@ input[type = "radio"] + label{
 .last-column{
   width: auto;
 }
-
-.popup{
-  display: none;
-  position: absolute;
-  padding: 10px;
-  border-radius: 5px;
-}
-.name:hover + .popup{
-  display: block;
-}

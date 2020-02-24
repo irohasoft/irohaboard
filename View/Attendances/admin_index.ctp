@@ -2,6 +2,14 @@
 <?php echo $this->Html->css('attendance');?>
 <?php $this->start('script-embedded'); ?>
 <script>
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip({
+		boundary: 'window',
+		trigger: 'focus hover',
+		html: true
+	});
+});
+
 function downloadCSV()
 {
 	var url = '<?php echo Router::url(array('action' => 'csv')) ?>/' + $('#MembersEventEventId').val() + '/' + $('#MembersEventStatus').val() + '/' + $('#MembersEventUsername').val();
@@ -53,19 +61,16 @@ function downloadCSV()
 			<tr>
 				<td nowrap class="ib-col-center"><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
 				<td nowrap>
-					<div class="name"><?php echo h($name_list[$user_id]); ?>&nbsp;</div>
-					<div class="popup" style="background-color: <?php echo h($this->Session->read('Setting.color')); ?>;">
-						<?php
-							$pic_path = $member['User']['pic_path'];
-							if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
-								$pic_path = 'student_img/noPic.png';
-							}
-							echo $this->Html->image($pic_path,
-										array('height'=> '200',
-													'alt' => $name_list[$user_id]
-										));
-						?>
-					</div>
+					<?php
+						$pic_path = $member['User']['pic_path'];
+						if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
+							$pic_path = 'student_img/noPic.png';
+						}
+						$options = array('height'=> '150', 'alt' => $name_list[$user_id]);
+					?>
+					<span data-toggle="tooltip" title='<?php echo h($this->Html->image($pic_path, $options)); ?>'>
+						<?php echo h($name_list[$user_id]); ?>&nbsp;
+					</span>
 				</td>
 				<?php
 					foreach ($attendance_info as $row):
@@ -168,19 +173,16 @@ function downloadCSV()
 			<tr>
 				<td nowrap class="ib-col-center"><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
 				<td nowrap>
-					<div class="name"><?php echo h($name_list[$user_id]); ?>&nbsp;</div>
-					<div class="popup" style="background-color: <?php echo h($this->Session->read('Setting.color')); ?>;">
-						<?php
-							$pic_path = $member['User']['pic_path'];
-							if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
-								$pic_path = 'student_img/noPic.png';
-							}
-							echo $this->Html->image($pic_path,
-										array('height'=> '200',
-													'alt' => $name_list[$user_id]
-										));
-						?>
-					</div>
+					<?php
+						$pic_path = $member['User']['pic_path'];
+						if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
+							$pic_path = 'student_img/noPic.png';
+						}
+						$options = array('height'=> '150', 'alt' => $name_list[$user_id]);
+					?>
+					<span data-toggle="tooltip" title='<?php echo h($this->Html->image($pic_path, $options)); ?>'>
+						<?php echo h($name_list[$user_id]); ?>&nbsp;
+					</span>
 				</td>
 				<?php
 					foreach ($attendance_info as $row):

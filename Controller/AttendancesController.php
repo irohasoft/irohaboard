@@ -292,7 +292,7 @@ class AttendancesController extends AppController{
     $period_1_submitted = [];
     $period_1_submitted['Member'] = "";
     $period_1_submitted['Count'] = 0;
-    
+
     $period_1_unsubmitted = [];
     $period_1_unsubmitted['Member'] = "";
     $period_1_unsubmitted['Count'] = 0;
@@ -314,7 +314,7 @@ class AttendancesController extends AppController{
         $period_1_unsubmitted['Count'] += 1;
       }
     }
-  
+
     $this->set(compact("period_1_submitted","period_1_unsubmitted"));
 
 
@@ -349,7 +349,7 @@ class AttendancesController extends AppController{
     $period_2_submitted = [];
     $period_2_submitted['Member'] = "";
     $period_2_submitted['Count'] = 0;
-    
+
     $period_2_unsubmitted = [];
     $period_2_unsubmitted['Member'] = "";
     $period_2_unsubmitted['Count'] = 0;

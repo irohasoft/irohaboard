@@ -137,7 +137,7 @@ class Date extends AppModel
 
 	public function getDateListUntilNextLecture($format_str='Y-m-d', $limit=8){
 		$date_list = array();
-		$today=date('Y-m-d', strtotime('+1 week'));
+		$today=date('Y-m-d', strtotime('+6 days'));
 		$data = $this->find('all', array(
 			'fields' => array('date'),
 			'conditions' => array('date <= ?' => $today),

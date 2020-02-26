@@ -52,12 +52,15 @@ class SoapRecordsController extends AppController
 	 */
 	public function admin_index(){
 		$this->loadModel('Soap');
+		$this->loadModel('Date');
 
 		// SearchPluginの呼び出し
 		$this->Prg->commonProcess('Soap');
 		// Model の filterArgs に定義した内容にしたがって検索条件を作成
 		// ただしアソシエーションテーブルには対応していないため、独自に検索条件を設定する必要がある
 		$conditions = $this->Soap->parseCriteria($this->Prg->parsedParams());
+
+		$last_day = $this->Date->getLastClassDate('Y-m-d');
 
 		$name	        = (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
 		$period       = (isset($this->request->query['period'])) ? $this->request->query['period'] : "";
@@ -66,9 +69,9 @@ class SoapRecordsController extends AppController
 		$from_date	  = (isset($this->request->query['from_date'])) ?
 			$this->request->query['from_date'] :
 				array(
-					'year' => date('Y', strtotime("-1 month")),
-					'month' => date('m', strtotime("-1 month")),
-					'day' => date('d', strtotime("-1 month"))
+					'year'  => date('Y', strtotime($last_day)),
+					'month' => date('m', strtotime($last_day)),
+					'day'   => date('d', strtotime($last_day))
 				);
 		$to_date	= (isset($this->request->query['to_date'])) ?
 			$this->request->query['to_date'] :
@@ -173,11 +176,11 @@ class SoapRecordsController extends AppController
 		{
 			if(@$this->request->query['cmd']=='today'){
 				$this->log('work');
-	
+
 				$from_date = array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
 				$to_date = array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
-	
-				
+
+
 				// 学習日付による絞り込み
 				$conditions['Soap.created BETWEEN ? AND ?'] = array(
 					implode("/", $from_date),
@@ -262,7 +265,7 @@ class SoapRecordsController extends AppController
     $period_1_submitted = [];
     $period_1_submitted['Member'] = "";
     $period_1_submitted['Count'] = 0;
-    
+
     $period_1_unsubmitted = [];
     $period_1_unsubmitted['Member'] = "";
     $period_1_unsubmitted['Count'] = 0;
@@ -309,7 +312,7 @@ class SoapRecordsController extends AppController
     $period_2_submitted = [];
     $period_2_submitted['Member'] = "";
     $period_2_submitted['Count'] = 0;
-    
+
     $period_2_unsubmitted = [];
     $period_2_unsubmitted['Member'] = "";
     $period_2_unsubmitted['Count'] = 0;

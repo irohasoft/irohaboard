@@ -183,6 +183,7 @@ class EnqueteController extends AppController{
   }
 
   public function admin_index(){
+    $this->loadModel('Date');
 
     $this->Prg->commonProcess();
 
@@ -210,13 +211,13 @@ class EnqueteController extends AppController{
     if($period != "")
 			$conditions['User.period'] = $period;
 
-
+    $last_day = $this->Date->getLastClassDate('Y-m-d');
 		$from_date	= (isset($this->request->query['from_date'])) ?
 		$this->request->query['from_date'] :
 			array(
-				'year' => date('Y', strtotime("-1 month")),
-				'month' => date('m', strtotime("-1 month")),
-				'day' => date('d', strtotime("-1 month"))
+				'year'  => date('Y', strtotime($last_day)),
+				'month' => date('m', strtotime($last_day)),
+				'day'   => date('d', strtotime($last_day))
 			);
 
 		$to_date	= (isset($this->request->query['to_date'])) ?
@@ -407,7 +408,7 @@ class EnqueteController extends AppController{
     $period_1_submitted = [];
     $period_1_submitted['Member'] = "";
     $period_1_submitted['Count'] = 0;
-    
+
     $period_1_unsubmitted = [];
     $period_1_unsubmitted['Member'] = "";
     $period_1_unsubmitted['Count'] = 0;
@@ -454,7 +455,7 @@ class EnqueteController extends AppController{
     $period_2_submitted = [];
     $period_2_submitted['Member'] = "";
     $period_2_submitted['Count'] = 0;
-    
+
     $period_2_unsubmitted = [];
     $period_2_unsubmitted['Member'] = "";
     $period_2_unsubmitted['Count'] = 0;

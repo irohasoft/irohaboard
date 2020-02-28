@@ -66,7 +66,6 @@ class UsersCoursesController extends AppController
 		// 受講コース情報の取得
 		//$courses = $this->UsersCourse->getCourseRecord($user_id);
 		$all_courses = $this->UsersCourse->getCourseRecord($user_id);
-    //$this->log($all_courses);
 		$courses = [];
 		// 管理者の場合，コースを全部表示
     if($role === 'admin'){
@@ -83,7 +82,6 @@ class UsersCoursesController extends AppController
         $now_course_id = $course['Course']['id'];
         // 前庭コースが無いか，既にクリアしたコンテンツが一つ以上ある
         if($this->Course->existCleared($user_id, $now_course_id) || $before_course_id === null){
-          //$this->log($course);
           array_push($courses, $course);
         }else{
           $result = $this->Course->goToNextCourse($user_id, $before_course_id, $now_course_id);
@@ -112,7 +110,7 @@ class UsersCoursesController extends AppController
 			$user_ip = $this->request->ClientIp();
 
 			//実用する時，ここを==にする．
-			if($user_ip == $standard_ip){
+			// if($user_ip == $standard_ip){
 
 				$today_attendance_info = $this->Attendance->find('first', array(
 					'conditions' => array(
@@ -133,11 +131,10 @@ class UsersCoursesController extends AppController
 
 					$this->Attendance->save($save_info);
 				}
-			}
+			// }
 		}
 
 		$user_info = $this->Attendance->getAllTimeAttendances($user_id);
 		$this->set(compact("user_info"));
-		$this->log($user_info);
 	}
 }

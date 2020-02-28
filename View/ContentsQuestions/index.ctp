@@ -45,6 +45,22 @@
 
 
 	$(function(){
+		$(document).ready(function(){
+			var quiz = document.getElementById('quiz_block');
+			var text = document.getElementById('contentFrame');
+			const non_text_url = '<?php echo h($content['Content']['url']) ?>' ? false : true;
+			if(non_text_url){
+				text.style.display = "none";
+				quiz.style.display = "block";
+				quiz.style.width = "95%";
+			}else{
+				text.style.display = "block";
+				text.style.width = "60%";
+				quiz.style.display = "block";
+				quiz.style.width = "35%";
+			}
+		});
+
 		$('.screen_status').click(function(e){
 			var quiz = document.getElementById('quiz_block');
 			var text = document.getElementById('contentFrame');
@@ -119,62 +135,59 @@
 			}
 		}
 	?>
-	<!--<div style = "float:left;">-->
-	<?php
-		echo $this->Html->image("screen_left.png", array(
-			'id'    => 'display_left',
-			'class' => 'screen_status',
-			'style' => 'cursor: pointer; filter: brightness(60%);',
-			'width' =>'50',
-			'height'=>'50',
-			'alt'   =>'テキストのみ表示'));
-	?>
-	<?php
-		echo $this->Html->image("screen_middle.png", array(
-			'id'    => 'display_middle',
-			'class' => 'screen_status',
-			'style' => 'cursor: pointer; filter: brightness(100%);',
-			'width' =>'50',
-			'height'=>'50',
-			'alt'   =>'クイズ・テキストを両方表示'));
-	?>
-	<?php
-		echo $this->Html->image("screen_right.png", array(
-			'id'    => 'display_right',
-			'class' => 'screen_status',
-			'style' => 'cursor: pointer; filter: brightness(60%);',
-			'width' =>'50',
-			'height'=>'50',
-			'alt'   =>'クイズのみ表示'));
-	?>
-	<!--</div>-->
-	<?php
-		echo $this->Html->link(
-			'Python環境を開く',
-			'https://repl.it/languages/python3',
-			array('class' => 'btn btn-primary', 'target' => '_blank')
-		);
-		echo '&nbsp;';
-		echo $this->Html->link(
-			'Turtle環境を開く',
-			'https://repl.it/languages/python_turtle',
-			array('class' => 'btn btn-primary', 'target' => '_blank')
-		);
-	?>
-	<br/>
-  <div class = "text-block">
-	<?php
-		$body = '<iframe seamless id="contentFrame" width="60%" height="100%" scrolling="yes" style="float : left; height: 800px; display : block;" src="'.h($content['Content']['url']).'"></iframe>';
-		echo $body;
-	?>
 
-	</div>
 	<?php
-		if($is_record){
-			echo '<input type="button" value="戻る" class="btn btn-secondary" onclick="location.href=\''.Router::url($course_url).'\'">';
-			echo '<input type="button" value="もう一回やる" class="btn btn-primary" onclick="location.href=\''.Router::url($content_url).'\'">';
+		if($content['Content']['url']){
+			echo $this->Html->image("screen_left.png", array(
+				'id'    => 'display_left',
+				'class' => 'screen_status',
+				'style' => 'cursor: pointer; filter: brightness(60%);',
+				'width' =>'50',
+				'height'=>'50',
+				'alt'   =>'テキストのみ表示'
+			));
+			echo $this->Html->image("screen_middle.png", array(
+				'id'    => 'display_middle',
+				'class' => 'screen_status',
+				'style' => 'cursor: pointer; filter: brightness(100%);',
+				'width' =>'50',
+				'height'=>'50',
+				'alt'   =>'クイズ・テキストを両方表示'
+			));
+			echo $this->Html->image("screen_right.png", array(
+				'id'    => 'display_right',
+				'class' => 'screen_status',
+				'style' => 'cursor: pointer; filter: brightness(60%);',
+				'width' =>'50',
+				'height'=>'50',
+				'alt'   =>'クイズのみ表示'
+			));
 		}
 	?>
+
+	<?php
+		if(!$is_record){
+			echo $this->Html->link(
+				'Python環境を開く',
+				'https://repl.it/languages/python3',
+				array('class' => 'btn btn-primary', 'target' => '_blank')
+			);
+			echo '&nbsp;';
+			echo $this->Html->link(
+				'Turtle環境を開く',
+				'https://repl.it/languages/python_turtle',
+				array('class' => 'btn btn-primary', 'target' => '_blank')
+			);
+		}
+	?>
+	<br/>
+
+  <div class = "text-block">
+	<?php
+		$body = '<iframe seamless id="contentFrame" height="100%" scrolling="yes" style="float : left; height: 800px; display : block;" src="'.h($content['Content']['url']).'"></iframe>';
+		echo $body;
+	?>
+	</div>
 
 	<div class = "quiz-block" id = "quiz_block">
 
@@ -281,11 +294,11 @@
 		<?php
 			echo '<input type="button" value="戻る" class="btn btn-secondary btn-lg" onclick="location.href=\''.Router::url($course_url).'\'">';
 			echo '&nbsp;';
-			// テスト実施の場合のみ、採点ボタンを表示
-			if (!$is_record)
-			{
+			if (!$is_record){  // 解答画面
 				echo $this->Form->hidden('study_sec');
 				echo '<input type="button" value="採点" class="btn btn-primary btn-lg btn-score" onclick="$(\'#confirmModal\').modal()">';
+			}else{  // 結果画面
+				echo '<input type="button" value="もう一回やる" class="btn btn-primary btn-lg btn-score" onclick="location.href=\''.Router::url($content_url).'\'">';
 			}
 		?>
 		</div><!--end-->

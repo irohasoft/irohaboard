@@ -148,6 +148,19 @@
 			'alt'   =>'クイズのみ表示'));
 	?>
 	<!--</div>-->
+	<?php
+		echo $this->Html->link(
+			'Python環境を開く',
+			'https://repl.it/languages/python3',
+			array('class' => 'btn btn-primary', 'target' => '_blank')
+		);
+		echo '&nbsp;';
+		echo $this->Html->link(
+			'Turtle環境を開く',
+			'https://repl.it/languages/python_turtle',
+			array('class' => 'btn btn-primary', 'target' => '_blank')
+		);
+	?>
 	<br/>
   <div class = "text-block">
 	<?php
@@ -287,8 +300,8 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 				<h4 class="modal-title">採点確認</h4>
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 			</div>
 			<div class="modal-body">
 				<p>採点してよろしいですか？</p>

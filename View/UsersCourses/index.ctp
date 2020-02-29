@@ -2,7 +2,7 @@
 <?php echo $this->Html->css('user_course');?>
 <div class="users-courses-index full-view">
 
-	<div class = "attendance-block">
+	<div class = "attendance-block mb-4">
 	  <div class = "attendance-info">
 	    <div class = "attendance-date-block">
 			<div class = "attendance-date">
@@ -60,11 +60,11 @@
 		</div>
 	</div>
 
-	<div class="card border-light">
+	<div class="card bg-light mb-4">
 		<div class="card-header"><?php echo __('お知らせ'); ?></div>
 		<div class="card-body">
 			<?php if($info!=""){?>
-			<div>
+			<div class="mb-4">
 				<?php
 				$info = $this->Text->autoLinkUrls($info, array( 'target' => '_blank'));
 				$info = nl2br($info);
@@ -78,7 +78,7 @@
 			<tbody>
 			<?php foreach ($infos as $info): ?>
 			<tr>
-				<td width="100" valign="top"><?php echo h(Utils::getYMD($info['Info']['created'])); ?></td>
+				<td width="150" valign="top"><?php echo h(Utils::getYMD($info['Info']['created'])); ?></td>
 				<td><?php echo $this->Html->link($info['Info']['title'], array('controller' => 'infos', 'action' => 'view', $info['Info']['id'])); ?></td>
 			</tr>
 			<?php endforeach; ?>

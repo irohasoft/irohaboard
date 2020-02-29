@@ -140,18 +140,18 @@
 
 		echo $this->Html->getCrumbs(' / ');
 	?>
-	<div class="panel panel-default">
-		<div class="panel-heading">
+	<div class="card bg-light">
+		<div class="card-header">
 			<?php echo ($this->action == 'admin_edit') ? __('編集') :  __('新規コンテンツ'); ?>
 		</div>
-		<div class="panel-body">
+		<div class="card-body">
 			<?php echo $this->Form->create('Content',array(
         'inputDefaults' => array(
 		      'div' => 'form-group',
 		      'label' => array(
 			      'class' => 'col col-sm-3 control-label'
 		      ),
-		      'wrapInput' => 'col col-sm-9',
+		      'wrapInput' => 'col col-sm-12',
 		      'class' => 'form-control'
 	      ),
 	        'class' => 'form-horizontal',
@@ -250,7 +250,7 @@
 
 			?>
 			<div class="form-group">
-				<div class="col col-sm-9 col-sm-offset-3">
+				<div class="col col-sm-12 col-sm-offset-3">
 					<button id="btnPreview" class="btn btn-secondary" value="プレビュー" onclick="preview(); return false;" type="submit">プレビュー</button>
 					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 				</div>

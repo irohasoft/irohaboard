@@ -146,12 +146,12 @@
 		echo $this->Html->getCrumbs(' / ');
 	?>
 	</div>
-	<div class="panel panel-default">
-		<div class="panel-heading">
+	<div class="card bg-light">
+		<div class="card-header">
 			<?php echo ($this->action == 'admin_edit') ? __('編集') :  __('新規問題'); ?>
 		</div>
-		<div class="panel-body">
-			<?php echo $this->Form->create('ContentsQuestion', Configure::read('form_defaults')); ?>
+		<div class="card-body">
+			<?php echo $this->Form->create('ContentsQuestion', Configure::read('form_defaults_bs4')); ?>
 			<?php
 				echo $this->Form->input('id');
 				echo $this->Form->input('title',	array('label' => __('タイトル')));
@@ -159,7 +159,7 @@
 			?>
 			<div class="form-group required">
 				<label for="ContentsQuestionOptions" class="col col-sm-3 control-label">選択肢／正解</label>
-				<div class="col col-sm-9 required">
+				<div class="col col-sm-11 required">
 				「＋」で選択肢の追加、「−」で選択された選択肢を削除します。（※最大10個まで）<br>
 				また選択された選択肢が正解となります。Ctrlキーを押下したまま選択することで、複数の正解の設定も可能です。<br>
 				<input type="text" size="20" name="option" style="width:85%;display:inline-block;">
@@ -190,7 +190,7 @@
 				echo $this->Form->input('comment',	array('label' => __('備考')));
 			?>
 			<div class="form-group">
-				<div class="col col-sm-9 col-sm-offset-3">
+				<div class="col col-sm-12 col-sm-offset-3">
 					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>

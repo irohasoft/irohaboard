@@ -27,7 +27,9 @@ class InfosController extends AppController
 	public $components = array(
 		'Paginator',
 		'Security' => array(
+			'validatePost' => false,
 			'csrfUseOnce' => false,
+			'unlockedActions' => array('admin_order', 'index')
 		),
 	);
 
@@ -39,9 +41,9 @@ class InfosController extends AppController
 		// お知らせ一覧を取得
 		$this->loadModel('Info');
 		$this->paginate = $this->Info->getInfoOption($this->Auth->user('id'));
-		
+
 		$infos = $this->paginate();
-		
+
 		$this->set('infos', $infos);
 	}
 
@@ -69,7 +71,7 @@ class InfosController extends AppController
 	public function admin_index()
 	{
 		$this->Info->virtualFields['group_title'] = 'InfoGroup.group_title'; // 外部結合テーブルのフィールドによるソート用
-		
+
 		$this->Paginator->settings = array(
 			'fields' => array('*', 'InfoGroup.group_title'),
 			'limit' => 20,
@@ -80,9 +82,9 @@ class InfosController extends AppController
 						'conditions' => 'Info.id = InfoGroup.info_id'),
 			)
 		);
-		
+
 		$result = $this->paginate();
-		
+
 		$this->set('infos', $result);
 	}
 
@@ -112,10 +114,10 @@ class InfosController extends AppController
 		{
 			if(Configure::read('demo_mode'))
 				return;
-			
+
 			// 作成者を設定
 			$this->request->data['Info']['user_id'] = $this->Auth->user('id');
-			
+
 			if ($this->Info->save($this->request->data))
 			{
 				$this->Flash->success(__('お知らせが保存されました'));
@@ -140,7 +142,7 @@ class InfosController extends AppController
 		//$users = $this->Info->User->find('list');
 
 		$this->Group = new Group();
-		
+
 		$groups = $this->Group->find('list');
 		$this->set(compact('groups'));
 	}

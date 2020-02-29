@@ -1,8 +1,7 @@
 <?php echo $this->element('menu');?>
 <?php echo $this->Html->css('enquete');?>
 <div class="enquete-input-header">
-  <div class="ib-page-title"><?php echo __('アンケート'.'('.$today.')'.'記入')?></div>
-  </br></br>
+  <div class="ib-page-title mb-3"><?php echo __('アンケート'.'('.$today.')'.'記入')?></div>
   <div class="enquete-input-block">
   <?php
     //echo $this->Form->create("enquete-input",array('novalidate' => true));

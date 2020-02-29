@@ -21,7 +21,7 @@
 			<tbody>
 			<?php foreach ($infos as $info): ?>
 			<tr>
-				<td width="100" valign="top"><?php echo h(Utils::getYMD($info['Info']['created'])); ?>&nbsp;</td>
+				<td width="150" valign="top"><?php echo h(Utils::getYMD($info['Info']['created'])); ?>&nbsp;</td>
 				<td><?php echo $this->Html->link($info['Info']['title'], array('action' => 'view', $info['Info']['id'])); ?>&nbsp;</td>
 			</tr>
 			<?php endforeach; ?>

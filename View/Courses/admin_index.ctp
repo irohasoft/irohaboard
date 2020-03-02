@@ -55,23 +55,23 @@
 	<table id='sortable-table'>
 	<thead>
 	<tr>
-		<th><?php echo __('コース名'); ?></th>
-		<th class="ib-col-datetime"><?php echo __('作成日時'); ?></th>
-		<th class="ib-col-datetime"><?php echo __('更新日時'); ?></th>
+		<th nowrap><?php echo __('コース名'); ?></th>
+		<th nowrap class="ib-col-datetime"><?php echo __('作成日時'); ?></th>
+		<th nowrap class="ib-col-datetime"><?php echo __('更新日時'); ?></th>
 		<th class="ib-col-action"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php foreach ($courses as $course): ?>
 	<tr>
-		<td>
+		<td nowrap>
 			<?php
 				echo $this->Html->link($course['Course']['title'], array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));
 				echo $this->Form->hidden('id', array('id'=>'', 'class'=>'course_id', 'value'=>$course['Course']['id']));
 			?>
 		</td>
-		<td class="ib-col-date"><?php echo h(Utils::getYMDHN($course['Course']['created'])); ?>&nbsp;</td>
-		<td class="ib-col-date"><?php echo h(Utils::getYMDHN($course['Course']['modified'])); ?>&nbsp;</td>
+		<td nowrap class="ib-col-datetime"><?php echo h(Utils::getYMDHN($course['Course']['created'])); ?>&nbsp;</td>
+		<td nowrap class="ib-col-datetime"><?php echo h(Utils::getYMDHN($course['Course']['modified'])); ?>&nbsp;</td>
 		<td class="ib-col-action">
 			<?php
 			if($loginedUser['role']=='admin')

@@ -211,7 +211,6 @@ form .required .control-label:after
 
 .ib-col-date
 {
-	width				: 160px;
 	text-align			: center;
 }
 
@@ -223,7 +222,6 @@ form .required .control-label:after
 .ib-col-datetime,
 .ib-col-action
 {
-	width				: 160px;
 	text-align			: center;
 }
 

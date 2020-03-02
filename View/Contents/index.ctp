@@ -22,11 +22,11 @@
 <?php }?>
 </style>
 <?php $this->end(); ?>
-<div class="contents-index">
+<div class="contents-index full-view">
 	<div class="ib-breadcrumb">
 	<?php
 	$is_admin_record = ($this->action=='admin_record');
-	
+
 	// 管理者による学習履歴表示の場合、パンくずリストを表示しない
 	if(!$is_admin_record)
 	{
@@ -72,7 +72,7 @@
 		$kind			= Configure::read('content_kind.'.$content['Content']['kind']); // 学習種別
 		$understanding	= ''; // 理解度・テスト結果
     //$this->log($content);
-		
+
 		// コンテンツの種別
 		switch($content['Content']['kind'])
 		{
@@ -101,7 +101,7 @@
 				if ($content['Record']['record_id'] != null)
 				{
 					$result = Configure::read('record_result.'.$content[0]['is_passed']);
-					
+
 					$understanding = $this->Html->link(
 						$result, array(
 						'controller' => 'contents_questions',
@@ -114,16 +114,16 @@
 			case 'file': // 配布資料
 				// 配布資料のURL
 				$url = $content['Content']['url'];
-				
+
 				// 相対URLの場合、絶対URLに変更する
 				if(mb_substr($url, 0, 1)=='/')
 					$url = FULL_BASE_URL.$url;
 
         //$this->log($url);
-				
+
 				$icon  = 'glyphicon glyphicon-file text-success';
 				$title_link = $this->Html->link(
-					$content['Content']['title'], 
+					$content['Content']['title'],
 					$url,
 					array(
 						'target'=>'_blank',
@@ -143,14 +143,14 @@
 				$understanding = h(Configure::read('record_understanding.'.$content[0]['understanding']));
 				break;
 		}
-		
+
 		// 管理者による学習履歴表示の場合、学習画面へのリンクを出力しない
 		if($is_admin_record)
 			$title_link = h($content['Content']['title']);
-		
+
 		if($content['Content']['status']==0)
 			$title_link .= ' <span class="status-closed">(非公開)</span>';
-		
+
 		?>
 		<?php if($content['Content']['kind']=='label') { // ラベルの場合、タイトルのみ表示 ?>
 		<tr>

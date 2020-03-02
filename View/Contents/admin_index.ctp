@@ -46,7 +46,7 @@
 </script>
 <?php $this->end(); ?>
 
-<div class="admin-contents-index">
+<div class="admin-contents-index full-view">
 	<div class="ib-breadcrumb">
 	<?php
 		$this->Html->addCrumb('コース一覧', array('controller' => 'courses', 'action' => 'index'));
@@ -93,7 +93,7 @@
 		<td class="ib-col-action">
 			<?php
 			echo $this->Form->hidden('id', array('id'=>'', 'class'=>'content_id', 'value'=>$content['Content']['id']));
-			
+
 			if($loginedUser['role']=='admin')
 			{
 				echo $this->Form->postLink(__('削除'),
@@ -104,7 +104,7 @@
 			}?>
 			<button type="button" class="btn btn-info" onclick="location.href='<?php echo Router::url(array('action' => 'copy', $course['Course']['id'], $content['Content']['id'])) ?>'">複製</button>
 			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $course['Course']['id'], $content['Content']['id'])) ?>'">編集</button>
-			
+
 
 		</td>
 	</tr>

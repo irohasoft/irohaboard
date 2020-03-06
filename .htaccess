@@ -1,5 +1,6 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine on
+	Options -Indexes
 	RewriteRule ^$ webroot/ [L]
 	RewriteRule (.*) webroot/$1 [L]
 </IfModule>

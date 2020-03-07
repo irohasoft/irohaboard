@@ -100,8 +100,8 @@ class UsersCoursesController extends AppController
 
 		$this->set(compact('courses', 'no_record', 'info', 'infos', 'no_info'));
 
-		// role == 'user'の出席情報を取る(授業日のみ)
-		if($role === 'user' && $this->Date->isClassDate()){
+		// role == 'user'の出席情報を取る(オフライン授業日のみ)
+		if($role === 'user' && $this->Date->isClassDate() && !$this->Date->isOnlineClass()){
 			$this->loadModel('Log');
 
 			$today_date_id = $this->Date->getTodayClassId();
@@ -110,7 +110,7 @@ class UsersCoursesController extends AppController
 			$user_ip = $this->request->ClientIp();
 
 			//実用する時，ここを==にする．
-			// if($user_ip == $standard_ip){
+			if($user_ip == $standard_ip){
 
 				$today_attendance_info = $this->Attendance->find('first', array(
 					'conditions' => array(
@@ -131,7 +131,7 @@ class UsersCoursesController extends AppController
 
 					$this->Attendance->save($save_info);
 				}
-			// }
+			}
 		}
 
 		$user_info = $this->Attendance->getAllTimeAttendances($user_id);

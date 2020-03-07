@@ -50,4 +50,17 @@ class Lesson extends AppModel
 		return $data;
 	}
 
+	public function checkLessonCode($input_code){
+		$today = date("Y-m-d");
+		$data = $this->find('all', array(
+			'fields' => array('Lesson.id', 'Lesson.code'),
+			'conditions' => array('Date.date' => $today),
+			'recursive' => 0
+		));
+		foreach($data as $datum){
+			if($datum['Lesson']['code'] == $input_code){ return true; }
+		}
+		return false;
+	}
+
 }

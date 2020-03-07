@@ -17,6 +17,7 @@ App::uses('Group',           'Group');
 App::uses('Enquete',         'Enquete');
 App::uses('Attendance',      'Attendance');
 App::uses('Date',            'Date');
+App::uses('Lesson',          'Lesson');
 
 
 class AttendancesController extends AppController{
@@ -81,6 +82,59 @@ class AttendancesController extends AppController{
         return $this->redirect(array('controller' => 'users_courses', 'action' => 'index'));
       }
       $this->Flash->error(__('出欠連絡に失敗しました、もう一度お試しください。'));
+    }
+  }
+
+  // 授業コード入力（オンライン授業時のみ）
+  public function lesson_code(){
+      $this->loadModel('Date');
+    $this->loadModel('Lesson');
+
+    $user_id = $this->Auth->user('id');
+    $role = $this->Auth->user('role');
+    $today_date_id = $this->Date->getTodayClassId();
+    $today_attendance_info = $this->Attendance->find('first', array(
+      'conditions' => array(
+        'user_id' => $user_id,
+        'date_id' => $today_date_id
+      ),
+      'recursive' => -1
+    ));
+    $save_info = $today_attendance_info['Attendance'];
+
+    if($role != 'user'){  // 受講生ではない
+      $this->Flash->error(__('授業コードを入力できるのは受講生のみです。'));
+      return $this->redirect(array('controller' => 'users_courses', 'action' => 'index'));
+    } else if(!$this->Date->isClassDate()){  // 今日は授業日ではない
+      $this->Flash->error(__('今日は授業はありません。'));
+      return $this->redirect(array('controller' => 'users_courses', 'action' => 'index'));
+    } else if(!$this->Date->isOnlineClass()){  // オンライン授業ではない
+      $this->Flash->error(__('今日は通常授業です。'));
+      return $this->redirect(array('controller' => 'users_courses', 'action' => 'index'));
+    } else if($save_info['status'] == 1){  // すでに出席済み
+      $this->Flash->error(__('すでに出席済みです。'));
+      return $this->redirect(array('controller' => 'users_courses', 'action' => 'index'));
+    }
+
+    if($this->request->is('post')){
+      $request_data = $this->request->data;
+      $input_code = $request_data['Attendance']['lesson_code'];
+
+      if($this->Lesson->checkLessonCode($input_code)){
+        $save_info['status'] = 1;
+
+        $login_time = date('Y-m-d H:i:s');
+        $save_info['login_time'] = $login_time;
+        $save_info['late_time'] = $this->Attendance->calcLateTime($today_date_id, $login_time);
+
+        if($this->Attendance->save($save_info)){
+          $this->Flash->success(__('授業コードを受け付けました。'));
+          return $this->redirect(array('controller' => 'users_courses', 'action' => 'index'));
+        }
+        $this->Flash->error(__('授業コードの受け付けに失敗しました。もう一度お試しください。'));
+      } else {
+        $this->Flash->error(__('授業コードが違います。コードを確認して、もう一度お試しください。'));
+      }
     }
   }
 

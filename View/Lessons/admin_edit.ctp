@@ -32,6 +32,13 @@
           'class'=>'form-inline',
           'style' => 'display: inline;'
         ));
+				echo $this->Form->input('code', array(
+					'label' => __('授業コード'),
+					'type' => 'number',
+					'div' => false,
+					'class' => '',
+					'style' => ''
+				));
 			?>
 			<div class="form-group">
         <div class="pull-right">

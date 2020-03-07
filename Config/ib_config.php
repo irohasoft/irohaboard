@@ -194,3 +194,5 @@ $config['attendance_status_for_admin_edit'] = array(
 	'1' => '出席済',
 	'2' => '未定'
 );
+
+$config['online_lesson']	= array('1' => 'オンライン授業', '0' => '通常授業');

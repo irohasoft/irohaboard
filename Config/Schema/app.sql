@@ -287,6 +287,7 @@ CREATE TABLE IF NOT EXISTS `ib_os_types` (
 CREATE TABLE IF NOT EXISTS `ib_dates` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `date` date DEFAULT NULL,
+  `online` int(1) NOT NULL DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -302,6 +303,7 @@ CREATE TABLE IF NOT EXISTS `ib_lessons` (
   `start` time DEFAULT NULL,
   `end` time DEFAULT NULL,
   `period` int(8) DEFAULT NULL,
+  `code` int(4) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)

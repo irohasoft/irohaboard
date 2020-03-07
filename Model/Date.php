@@ -84,6 +84,18 @@ class Date extends AppModel
 		return false;
 	}
 
+	// 今日はオンライン授業か判定
+	public function isOnlineClass(){
+		$today = date("Y-m-d");
+		$data = $this->find('first', array(
+			'fields' => array('id', 'online'),
+			'conditions' => array('date' => $today),
+			'recursive' => -1
+		));
+		if($data['Date']['online']){ return true; }
+		return false;
+	}
+
 	public function getTodayClassId(){
 		$today=date('Y-m-d');
 		$data = $this->find('first', array(

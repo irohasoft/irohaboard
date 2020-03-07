@@ -16,6 +16,7 @@
 	  <thead>
 	    <tr>
         <th nowrap><?php echo $this->Paginator->sort('period', '時限'); ?></th>
+        <th nowrap><?php echo __('授業コード'); ?></th>
         <th class="ib-col-date"><?php echo __('開始時刻'); ?></th>
         <th class="ib-col-date"><?php echo __('終了時刻'); ?></th>
         <th class="ib-col-action"><?php echo __('Actions'); ?></th>
@@ -24,9 +25,11 @@
     <tbody>
       <?php foreach($lessons as $lesson):
         $period = Configure::read('period')[$lesson['Lesson']['period']];
+        $lesson_code = $lesson['Lesson']['code'] ? $lesson['Lesson']['code'] : 'なし';
       ?>
       <tr>
         <td nowrap><?php echo h($period); ?></td>
+        <td nowrap><?php echo h($lesson_code); ?></td>
         <td nowrap class="ib-col-date"><?php echo h($lesson['Lesson']['start']); ?>&nbsp;</td>
         <td nowrap class="ib-col-date"><?php echo h($lesson['Lesson']['end']); ?>&nbsp;</td>
         <td nowrap class="ib-col-action">

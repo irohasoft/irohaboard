@@ -21,6 +21,15 @@
           'class'=>'form-inline',
           'style' => 'display: inline;'
         ));
+				echo $this->Form->input('online', array(
+					'type' => 'radio',
+					'label' => '授業形式',
+					'separator' => '　',
+					'legend' => false,
+					'class' => false,
+					'default' => 0,
+					'options' => Configure::read('online_lesson')
+					));
 			?>
 			<div class="form-group">
         <div class="pull-right">

@@ -9,11 +9,14 @@
 	  <thead>
 	    <tr>
         <th nowrap><?php echo $this->Paginator->sort('date', '授業日'); ?></th>
+        <th nowrap><?php echo __('授業形式'); ?></th>
         <th class="ib-col-action"><?php echo __('Actions'); ?></th>
       </tr>
     </thead>
     <tbody>
-      <?php foreach($dates as $date): ?>
+      <?php foreach($dates as $date):
+        $is_online = $date['Date']['online'] ? 'オンライン授業' : '通常授業';
+      ?>
       <tr>
         <td nowrap>
           <?php
@@ -21,6 +24,7 @@
             echo $this->Form->hidden('id', array('id'=>'', 'class'=>'date_id', 'value'=>$date['Date']['id']));
           ?>
         </td>
+        <td nowrap><?php echo h($is_online); ?></td>
         <td nowrap class="ib-col-action">
           <button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $date['Date']['id'])) ?>'">編集</button>
           <?php echo $this->Form->postLink(__('削除'),

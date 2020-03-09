@@ -16,12 +16,9 @@
         if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
           $pic_path = 'student_img/noPic.png';
         }
-        echo $this->Html->image($pic_path,
-          array(
-            'height'=> '150',
-            'alt' => $pic_path
-          ));
+        $img_src = $this->Image->makeInlineImage(Configure::read('student_img').$pic_path);
       ?>
+      <img src="<?php echo $img_src; ?>" height="150" alt="<?php echo $pic_path ?>"/>
     </div>
     <div class = "student-progress">
       <div class="progress-meter">

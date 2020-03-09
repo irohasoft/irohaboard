@@ -19,7 +19,7 @@ App::uses('Attendance',      'Attendance');
 
 
 class AdminManagesController extends AppController{
-  public $helpers = array('Html', 'Form');
+  public $helpers = array('Html', 'Form', 'Image');
 
   public $components = array(
     'Paginator',

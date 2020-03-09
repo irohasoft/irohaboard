@@ -104,13 +104,18 @@
 
   <div class = "student-photo">
     <?php
+
       $pic_path = $user['User']['pic_path'];
       if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
         $pic_path = 'student_img/noPic.png';
       }
-      $img_src = $this->Image->makeInlineImage(Configure::read('student_img').$pic_path);
+      echo $this->Html->image($pic_path,
+        array(
+          'height'=> '100',
+          'alt' => $pic_path
+        ));
+
     ?>
-    <img src="<?php echo $img_src; ?>" height="100" alt="<?php echo $pic_path ?>"/>
   </div>
 
   <div class = "attendance-block">

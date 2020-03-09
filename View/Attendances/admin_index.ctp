@@ -57,17 +57,20 @@ function downloadCSV()
 		<?php
 			$user_id = $member['User']['id'];
 			$attendance_info = $attendance_list[$user_id];
-			$pic_path = $member['User']['pic_path'];
-			if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
-				$pic_path = 'student_img/noPic.png';
-			}
-			$img_src = $this->Image->makeInlineImage(Configure::read('student_img').$pic_path);
 		?>
 			<tr>
 				<td nowrap class="ib-col-center"><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
-				<td nowrap class="name">
-					<?php echo h($name_list[$user_id]); ?>
-					<img src="<?php echo $img_src; ?>" height="150" alt="<?php echo $name_list[$user_id]; ?>"/>
+				<td nowrap>
+					<?php
+						$pic_path = $member['User']['pic_path'];
+						if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
+							$pic_path = 'student_img/noPic.png';
+						}
+						$options = array('height'=> '150', 'alt' => $name_list[$user_id]);
+					?>
+					<span data-toggle="tooltip" title='<?php echo h($this->Html->image($pic_path, $options)); ?>'>
+						<?php echo h($name_list[$user_id]); ?>&nbsp;
+					</span>
 				</td>
 				<?php
 					foreach ($attendance_info as $row):
@@ -166,17 +169,20 @@ function downloadCSV()
 		<?php
 			$user_id = $member['User']['id'];
 			$attendance_info = $attendance_list[$user_id];
-			$pic_path = $member['User']['pic_path'];
-			if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
-				$pic_path = 'student_img/noPic.png';
-			}
-			$img_src = $this->Image->makeInlineImage(Configure::read('student_img').$pic_path);
 		?>
 			<tr>
 				<td nowrap class="ib-col-center"><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
-				<td nowrap class="name">
-					<?php echo h($name_list[$user_id]); ?>
-					<img src="<?php echo $img_src; ?>" height="150" alt="<?php echo $name_list[$user_id]; ?>"/>
+				<td nowrap>
+					<?php
+						$pic_path = $member['User']['pic_path'];
+						if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
+							$pic_path = 'student_img/noPic.png';
+						}
+						$options = array('height'=> '150', 'alt' => $name_list[$user_id]);
+					?>
+					<span data-toggle="tooltip" title='<?php echo h($this->Html->image($pic_path, $options)); ?>'>
+						<?php echo h($name_list[$user_id]); ?>&nbsp;
+					</span>
 				</td>
 				<?php
 					foreach ($attendance_info as $row):

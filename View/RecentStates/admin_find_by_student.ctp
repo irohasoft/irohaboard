@@ -53,21 +53,23 @@
   ?>
     <div class = "student-block">
       <div class = "pic-block">
-        <?php
-          $pic_path = $user['User']['pic_path'];
-          if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
-            $pic_path = 'student_img/noPic.png';
-          }
-          $img_src = $this->Image->makeInlineImage(Configure::read('student_img').$pic_path);
-          echo $this->Html->link(
-            '<img src="'.$img_src.'" height="150" alt="'.$pic_path.'"/>',
+      <?php
+        $pic_path = $user['User']['pic_path'];
+        if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
+          $pic_path = 'student_img/noPic.png';
+        }
+        echo $this->Html->image($pic_path,
             array(
-              'controller' => 'recentstates',
-              'action' => 'student_view',$user['User']['id']
-            ),
-            array('escape' => false)
-          );
-        ?>
+              //'width' => '150',
+              'height'=> '150',
+              'alt' => $pic_path,
+              'url' => array(
+                  'controller' => 'recentstates',
+                  'action' => 'student_view',$user['User']['id']
+
+                  )
+            ));
+      ?>
       </div>
       <div class = "number-block">
         <?php echo h($user['User']['username']);?>

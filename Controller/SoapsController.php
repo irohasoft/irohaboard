@@ -103,17 +103,17 @@ class SoapsController extends AppController{
 
     //入力したSOAPを検索（前回の授業から）
     $conditions = [];
-
+    
     $attendance_info = $this->Attendance->find('first',array(
       'conditions' => array(
 
       ),
       'order' => 'Attendance.created DESC'
     ));
-
+    
     $today=date('Y-m-d');
     $fdate = date('w') == 0 ? $today : date('Y-m-d', strtotime(" last sunday ",strtotime($today)));
-
+    
     $lecture_date_info = $this->Date->find('first',array(
       'fields' => array('id','date'),
       'conditions' => array(
@@ -130,7 +130,7 @@ class SoapsController extends AppController{
       $created_day,
 			$edate.' 23:59:59'
     );
-
+    
 
     $soap_history = $this->Soap->find('all',array(
       'conditions' => $conditions
@@ -238,7 +238,7 @@ class SoapsController extends AppController{
 
     $today=date('Y-m-d');
     $fdate = date('w') == 0 ? $today : date('Y-m-d', strtotime(" last sunday ",strtotime($today)));
-
+    
     $lecture_date_info = $this->Date->find('first',array(
       'fields' => array('id','date'),
       'conditions' => array(

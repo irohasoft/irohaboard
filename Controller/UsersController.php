@@ -317,10 +317,10 @@ class UsersController extends AppController
         $tmp = $this->request->data;
         //$this->log($tmp);
         $fileName = $tmp['User']['front_image'];
-        $path = Configure::read('student_img').'student_img'.DS;
+        $path = '../webroot/img/student_img/';
 
         $newName = $fileName['name'];
-        $picPath = 'student_img'.DS.$newName;
+        $picPath = "student_img/".$newName;
 
         move_uploaded_file($fileName['tmp_name'],$path.$newName);
         $this->request->data['User']['pic_path'] = $picPath;

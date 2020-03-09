@@ -54,9 +54,15 @@ $(function(){
         'label' => '写真',
         'type' => 'file', 'multiple'
       ));
-			$img_src = $this->Image->makeInlineImage(Configure::read('student_img').$pic_path);
+
+			echo $this->Html->image($pic_path,
+				array(
+					'id' => 'img1',
+					'width' => '300',
+					//'height'=> '300',
+					'alt' => $pic_path,
+				));
 		?>
-		<img src="<?php echo $img_src; ?>" id="img1" width="300" alt="<?php echo $pic_path ?>"/>
   </div>
 
   <div class = "info-input-block">

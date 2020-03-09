@@ -37,7 +37,6 @@ class UsersController extends AppController
 					)
 			)
 	);
-	public $helpers = array('Image');
 
 	// この関数内で指定したアクションはログイン不要
 	public function beforeFilter(){

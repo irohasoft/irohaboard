@@ -57,7 +57,7 @@
 				}
 				$img_src = $this->Image->makeInlineImage(Configure::read('student_img').$pic_path);
 				echo $this->Html->link(
-					'<img src="'.$img_src.'" id="img1" height="60" alt="'.$pic_path.'"/>',
+					'<img src="'.$img_src.'" height="60" alt="'.$pic_path.'"/>',
 					array(
 						'controller' => 'users',
 						'action' => 'admin_edit',$user['User']['id']

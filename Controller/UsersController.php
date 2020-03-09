@@ -317,7 +317,7 @@ class UsersController extends AppController
         $tmp = $this->request->data;
         //$this->log($tmp);
         $fileName = $tmp['User']['front_image'];
-        $path = Configure::read('student_img').DS.'student_img'.DS;
+        $path = Configure::read('student_img').'student_img'.DS;
 
         $newName = $fileName['name'];
         $picPath = 'student_img'.DS.$newName;

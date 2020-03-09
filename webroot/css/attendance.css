@@ -104,3 +104,22 @@ input[type = "radio"] + label{
 .last-column{
   width: auto;
 }
+
+td.name:hover{
+  position: relative;
+  text-decoration: none;
+}
+td.name img{
+  display: none;
+  position: fixed;
+  top: 1em;
+  left: 0;
+}
+td.name:hover img{
+  border: 5px #000000 solid;
+  display: block;
+  margin-top: 5em;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-left: 15em;
+}

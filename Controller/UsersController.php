@@ -317,10 +317,10 @@ class UsersController extends AppController
         $tmp = $this->request->data;
         //$this->log($tmp);
         $fileName = $tmp['User']['front_image'];
-        $path = '../webroot/img/student_img/';
+        $path = Configure::read('student_img').'student_img'.DS;
 
         $newName = $fileName['name'];
-        $picPath = "student_img/".$newName;
+        $picPath = 'student_img'.DS.$newName;
 
         move_uploaded_file($fileName['tmp_name'],$path.$newName);
         $this->request->data['User']['pic_path'] = $picPath;
@@ -832,4 +832,20 @@ class UsersController extends AppController
 
 		fclose($fp);
 	}
+
+	public function admin_show_picture($user_id=NULL){
+		$this->show_picture($user_id);
+	}
+
+	public function show_picture($user_id=NULL){
+		$pic_path = $this->User->findUserPicPath($user_id);
+		$file_path = Configure::read('student_img').$pic_path;
+
+		$this->autoRender = false;
+		$mime_type = mime_content_type($file_path);
+		$this->response->type($mime_type);
+		$this->response->file($file_path);
+		echo $this->response;
+	}
+
 }

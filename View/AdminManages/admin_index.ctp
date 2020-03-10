@@ -110,7 +110,7 @@
         $user['User']['id']
       ), false);
     ?>
-    <img src="<?php echo $img_src; ?>" height="100" alt="<?php echo $user['User']['id'] ?>"/>
+    <img src="<?php echo $img_src; ?>" height="100" alt="<?php echo $user['User']['name'] ?>"/>
   </div>
 
   <div class = "attendance-block">

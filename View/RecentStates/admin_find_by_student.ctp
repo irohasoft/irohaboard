@@ -60,7 +60,7 @@
             $user['User']['id']
           ), false);
           echo $this->Html->link(
-            '<img src="'.$img_src.'" height="150" alt="'.h($user['User']['username']).'"/>',
+            '<img src="'.$img_src.'" height="150" alt="'.h($user['User']['name']).'"/>',
             array(
               'controller' => 'recentstates',
               'action' => 'student_view',$user['User']['id']

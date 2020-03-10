@@ -18,7 +18,7 @@
           $user_id
         ), false);
       ?>
-      <img src="<?php echo $img_src; ?>" height="150" alt="<?php echo $user_id ?>"/>
+      <img src="<?php echo $img_src; ?>" height="150" alt="<?php echo h($name_list[$user_id]); ?>"/>
     </div>
     <div class = "student-progress">
       <div class="progress-meter">

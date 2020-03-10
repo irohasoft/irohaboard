@@ -60,7 +60,7 @@
             $user['User']['id']
           ), false);
           echo $this->Html->link(
-            '<img src="'.$img_src.'" height="150" alt="'.$user['User']['id'].'"/>',
+            '<img src="'.$img_src.'" height="150" alt="'.$user['User']['name'].'"/>',
             array(
               'controller' => 'soaps',
               'action' => 'student_edit',$user['User']['id']

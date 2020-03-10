@@ -155,6 +155,10 @@ $config['import_group_count']  = 10;
 $config['import_course_count'] = 20;
 
 //Ripple
+
+// student_img(顔写真ディレクトリ)のパス
+$config['student_img'] = WWW_ROOT.'img'.DS;
+
 $config['true_or_false'] = array(
 	'0' => 'False',
 	'1' => 'True'

@@ -53,21 +53,23 @@
   ?>
     <div class = "student-block">
       <div class = "pic-block">
-        <?php
-          $img_src = $this->Html->url(array(
-            "controller" => "users",
-            "action" => "show_picture",
-            $user['User']['id']
-          ), false);
-          echo $this->Html->link(
-            '<img src="'.$img_src.'" height="150" alt="'.$user['User']['name'].'"/>',
+      <?php
+        $pic_path = $user['User']['pic_path'];
+        if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
+          $pic_path = 'student_img/noPic.png';
+        }
+        echo $this->Html->image($pic_path,
             array(
-              'controller' => 'soaps',
-              'action' => 'student_edit',$user['User']['id']
-            ),
-            array('escape' => false)
-          );
-        ?>
+              //'width' => '150',
+              'height'=> '150',
+              'alt' => $pic_path,
+              'url' => array(
+                  'controller' => 'soaps',
+                  'action' => 'student_edit',$user['User']['id']
+
+                  )
+            ));
+      ?>
       </div>
       <div class = "number-block">
         <?php echo h($user['User']['username']);?>

@@ -12,13 +12,16 @@
     </div>
     <div class = "student-photo">
       <?php
-        $img_src = $this->Html->url(array(
-          "controller" => "users",
-          "action" => "show_picture",
-          $user_id
-        ), false);
+        $pic_path = $group_pic_paths[$user_id];
+        if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
+          $pic_path = 'student_img/noPic.png';
+        }
+        echo $this->Html->image($pic_path,
+          array(
+            'height'=> '150',
+            'alt' => $pic_path
+          ));
       ?>
-      <img src="<?php echo $img_src; ?>" height="150" alt="<?php echo h($name_list[$user_id]); ?>"/>
     </div>
     <div class = "student-progress">
       <div class="progress-meter">

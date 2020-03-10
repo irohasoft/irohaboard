@@ -51,13 +51,13 @@
 	<tr>
     <td align="center">
     	<?php
-				$pic_path = $user['User']['pic_path'];
-				if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
-					$pic_path = 'student_img/noPic.png';
-				}
-				$img_src = $this->Image->makeInlineImage(Configure::read('student_img').$pic_path);
+				$img_src = $this->Html->url(array(
+    			"controller" => "users",
+    			"action" => "show_picture",
+    			$user['User']['id']
+				), false);
 				echo $this->Html->link(
-					'<img src="'.$img_src.'" height="60" alt="'.$pic_path.'"/>',
+					'<img src="'.$img_src.'" height="60" alt="'.h($user['User']['name']).'"/>',
 					array(
 						'controller' => 'users',
 						'action' => 'admin_edit',$user['User']['id']

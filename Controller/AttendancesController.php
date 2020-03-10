@@ -380,7 +380,7 @@ class AttendancesController extends AppController{
       ),
       'order' => 'User.id ASC'
     ));
-    $this->log($period2_user_list);
+    //$this->log($period2_user_list);
 
     //２限に出席した人のリスト
     $period_2_attendance_user_list = $this->Attendance->find('all',array(

@@ -12,13 +12,13 @@
     </div>
     <div class = "student-photo">
       <?php
-        $pic_path = $group_pic_paths[$user_id];
-        if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
-          $pic_path = 'student_img/noPic.png';
-        }
-        $img_src = $this->Image->makeInlineImage(Configure::read('student_img').$pic_path);
+        $img_src = $this->Html->url(array(
+          "controller" => "users",
+          "action" => "show_picture",
+          $user_id
+        ), false);
       ?>
-      <img src="<?php echo $img_src; ?>" height="150" alt="<?php echo $pic_path ?>"/>
+      <img src="<?php echo $img_src; ?>" height="150" alt="<?php echo $user_id ?>"/>
     </div>
     <div class = "student-progress">
       <div class="progress-meter">

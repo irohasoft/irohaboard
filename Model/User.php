@@ -337,7 +337,7 @@ class User extends AppModel
 	}
 
   ///写真パスを更新する
-  public function updatePicPath($user_id, $newPath){
+  public function updatePicPath($user_id,$newPath){
 		$data = array('id' => $user_id, 'pic_path' => $newPath);
 		$this->save($data);
     return 1;
@@ -354,12 +354,12 @@ class User extends AppModel
 
 	public function findUserPicPath($user_id){
 		if($user_id == NULL){ return 'student_img/noPic.png'; }
-		$data = $this->find('first', array(
+		$data = $this->find('all', array(
 			'fields' => array('id', 'pic_path'),
 			'conditions' => array('id' => $user_id),
 			'recursive' => -1
 		));
-		$pic_path = $data['User']['pic_path'];
+		$pic_path = $data['0']['User']['pic_path'];
 		if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
 			return 'student_img/noPic.png';
 		}

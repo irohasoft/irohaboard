@@ -84,8 +84,8 @@
     <div class="col">
       <div class="card" onclick="location.href='<?php echo Router::url(array('controller' => 'enquete', 'action' => 'index')) ?>'">
         <div class="card-body">
-          <div id="period1Chart" style="height: 400px;"></div>
-          <div id="labelOverlay">
+          <div class="pie-chart" id="period1Chart"></div>
+          <div class="labelOverlay">
             <p class="total-caption">一限出席者</p>
             <p class="total-value"><?php echo ($period_1_submitted['Count'] + $period_1_unsubmitted['Count']);?>人</p>
           </div>
@@ -95,8 +95,8 @@
     <div class="col">
       <div class="card" onclick="location.href='<?php echo Router::url(array('controller' => 'enquete', 'action' => 'index')) ?>'">
         <div class="card-body">
-          <div id="period2Chart" style="height: 400px;"></div>
-          <div id="labelOverlay">
+          <div class="pie-chart" id="period2Chart"></div>
+          <div class="labelOverlay">
             <p class="total-caption">二限出席者</p>
             <p class="total-value"><?php echo ($period_2_submitted['Count'] + $period_2_unsubmitted['Count']);?>人</p>
           </div>

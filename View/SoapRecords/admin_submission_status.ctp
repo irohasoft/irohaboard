@@ -86,8 +86,8 @@
     <div class="col">
       <div class="card" nclick="location.href='<?php echo Router::url(array('controller' => 'soaprecords', 'action' => 'index')) ?>'">
         <div class="card-body">
-          <div id="period1Chart" style="height: 400px;"></div>
-          <div id="labelOverlay">
+          <div class="pie-chart" id="period1Chart"></div>
+          <div class="labelOverlay">
             <p class="total-caption">一限受講生</p>
             <p class="total-value"><?php echo ($period_1_submitted['Count'] + $period_1_unsubmitted['Count']);?>人</p>
           </div>
@@ -97,8 +97,8 @@
     <div class="col">
       <div class="card" nclick="location.href='<?php echo Router::url(array('controller' => 'soaprecords', 'action' => 'index')) ?>'">
         <div class="card-body">
-          <div id="period2Chart" style="height: 400px;"></div>
-          <div id="labelOverlay">
+          <div class="pie-chart" id="period2Chart"></div>
+          <div class="labelOverlay">
             <p class="total-caption">二限受講生</p>
             <p class="total-value"><?php echo ($period_1_submitted['Count'] + $period_1_unsubmitted['Count']);?>人</p>
           </div>

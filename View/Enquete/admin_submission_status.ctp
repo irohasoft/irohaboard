@@ -82,8 +82,8 @@
   </div>
   <div class="row">
     <div class="col">
-      <div class="card" onclick="location.href='<?php echo Router::url(array('controller' => 'enquete', 'action' => 'index')) ?>'">
-        <div class="card-body">
+      <div class="card" id="chart" onclick="location.href='<?php echo Router::url(array('controller' => 'enquete', 'action' => 'index')) ?>'">
+        <div class="card-body" id="chart-body">
           <div class="pie-chart" id="period1Chart"></div>
           <div class="labelOverlay">
             <p class="total-caption">一限出席者</p>
@@ -93,8 +93,8 @@
       </div>
     </div>
     <div class="col">
-      <div class="card" onclick="location.href='<?php echo Router::url(array('controller' => 'enquete', 'action' => 'index')) ?>'">
-        <div class="card-body">
+      <div class="card" id="chart" onclick="location.href='<?php echo Router::url(array('controller' => 'enquete', 'action' => 'index')) ?>'">
+        <div class="card-body" id="chart-body">
           <div class="pie-chart" id="period2Chart"></div>
           <div class="labelOverlay">
             <p class="total-caption">二限出席者</p>

@@ -100,7 +100,7 @@
           <div class="pie-chart" id="period2Chart"></div>
           <div class="labelOverlay">
             <p class="total-caption">二限出席者</p>
-            <p class="total-value"><?php echo ($period_1_submitted['Count'] + $period_1_unsubmitted['Count']);?>人</p>
+            <p class="total-value"><?php echo ($period_2_submitted['Count'] + $period_2_unsubmitted['Count']);?>人</p>
           </div>
         </div>
       </div>

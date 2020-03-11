@@ -1,4 +1,5 @@
 <?php echo $this->element('admin_menu');?>
+<?php echo $this->Html->css('custom');?>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript">
@@ -22,7 +23,7 @@
       ['欠席数',p1_unsub_count, p1_unsub_member]
     ])
     var options = {
-      pieHole: 0.4,
+      pieHole: 0.6,
       fontSize: 18,
       legend: { position: 'top', alignment: 'center' },
       'chartArea': {'width': '100%', 'height': '80%'},
@@ -48,7 +49,7 @@
       ['欠席数',p2_unsub_count, p2_unsub_member]
     ])
     var options = {
-      pieHole: 0.4,
+      pieHole: 0.6 ,
       fontSize: 18,
       legend: { position: 'top', alignment: 'center' },
       'chartArea': {'width': '100%', 'height': '80%'},
@@ -57,10 +58,8 @@
     var chart = new google.visualization.PieChart(document.getElementById('period2Chart'));
     chart.draw(data, options);
   }
-
-
-
 </script>
+
 <div class="admin-submission-status full-view">
   <div class="row">
     <div class="col" style = "font-size : 24px;">
@@ -81,24 +80,27 @@
     </div>
   </div>
   <div class="row">
-    <div class="col" onclick="location.href='<?php echo Router::url(array('controller' => 'attendances', 'action' => 'index')) ?>'">
-      <div class="card">
+    <div class="col">
+      <div class="card" onclick="location.href='<?php echo Router::url(array('controller' => 'attendances', 'action' => 'index')) ?>'">
         <div class="card-body">
           <div id="period1Chart" style="height: 400px;"></div>
+          <div id="labelOverlay">
+            <p class="total-caption">一限受講生</p>
+            <p class="total-value"><?php echo ($period_1_submitted['Count'] + $period_1_unsubmitted['Count']);?>人</p>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col" onclick="location.href='<?php echo Router::url(array('controller' => 'attendances', 'action' => 'index')) ?>'">
-      <div class="card">
+    <div class="col">
+      <div class="card" onclick="location.href='<?php echo Router::url(array('controller' => 'attendances', 'action' => 'index')) ?>'">
         <div class="card-body">
           <div id="period2Chart" style="height: 400px;"></div>
+          <div id="labelOverlay">
+            <p class="total-caption">二限受講生</p>
+            <p class="total-value"><?php echo ($period_2_submitted['Count'] + $period_2_unsubmitted['Count']);?>人</p>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col" style = "font-size : 18px;">
-		  <?php echo $this->Html->link(__('出欠席の詳細内容はこちら'), array('controller' => 'attendances', 'action' => 'index')); ?>
     </div>
   </div>
 </div>

@@ -29,3 +29,33 @@
 .current-address{
   font-size: 20px;
 }
+
+.card{
+  cursor : pointer;
+}
+
+#labelOverlay {
+    width: 150px;
+    height: 100px;
+    position: absolute;
+    top: 190px;
+    left: 270px;
+    text-align: center;
+    cursor: default;
+}
+#labelOverlay p {
+  line-height: 0.3;
+  padding:0;
+  margin: 8px;
+}
+#labelOverlay p.total-caption {
+  line-height: 0.5;
+  font-size: 16pt;
+  color: #8e8e8e;
+  margin-bottom: 1em;
+}
+#labelOverlay p.total-value {
+  line-height: 0.5;
+  font-size: 28pt;
+  color: #000000;
+}

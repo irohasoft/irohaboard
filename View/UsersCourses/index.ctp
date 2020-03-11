@@ -68,7 +68,7 @@
 						<?php foreach ($infos as $an_info): ?>
 							<tr>
 								<td><?php echo $this->Html->link($an_info['Info']['title'], array('controller' => 'infos', 'action' => 'view', $an_info['Info']['id'])); ?></td>
-								<td width="150" valign="top"><?php echo h(Utils::getYMD($an_info['Info']['created'])); ?></td>
+								<td width="150" valign="top"><?php echo (new DateTime($an_info['Info']['created']))->format('Y年m月d日'); ?></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>

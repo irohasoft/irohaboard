@@ -60,33 +60,38 @@
 		</div>
 	</div>
 
+	<?php if(count($infos) > 0){?>
+		<div class="card bg-light mb-4">
+			<div class="card-body">
+				<table cellpadding="0" cellspacing="0">
+					<tbody>
+						<?php foreach ($infos as $an_info): ?>
+							<tr>
+								<td><?php echo $this->Html->link($an_info['Info']['title'], array('controller' => 'infos', 'action' => 'view', $an_info['Info']['id'])); ?></td>
+								<td width="150" valign="top"><?php echo h(Utils::getYMD($an_info['Info']['created'])); ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+				<div class="text-right"><?php echo $this->Html->link(__('一覧を表示'), array('controller' => 'infos', 'action' => 'index')); ?></div>
+			</div>
+		</div>
+	<?php }?>
+
 	<div class="card bg-light mb-4">
-		<div class="card-header"><?php echo __('お知らせ'); ?></div>
+		<div class="card-header"><?php echo __('全体のお知らせ'); ?></div>
 		<div class="card-body">
 			<?php if($info!=""){?>
-			<div class="mb-4">
-				<?php
-				$info = $this->Text->autoLinkUrls($info, array( 'target' => '_blank'));
-				$info = nl2br($info);
-				echo $info;
-				?>
-			</div>
-			<?php }?>
-
-			<?php if(count($infos) > 0){?>
-			<table cellpadding="0" cellspacing="0">
-			<tbody>
-			<?php foreach ($infos as $info): ?>
-			<tr>
-				<td width="150" valign="top"><?php echo h(Utils::getYMD($info['Info']['created'])); ?></td>
-				<td><?php echo $this->Html->link($info['Info']['title'], array('controller' => 'infos', 'action' => 'view', $info['Info']['id'])); ?></td>
-			</tr>
-			<?php endforeach; ?>
-			</tbody>
-			</table>
-			<div class="text-right"><?php echo $this->Html->link(__('一覧を表示'), array('controller' => 'infos', 'action' => 'index')); ?></div>
-			<?php }?>
-			<?php echo $no_info;?>
+				<div class="mb-4">
+					<?php
+						$info = $this->Text->autoLinkUrls($info, array( 'target' => '_blank'));
+						$info = nl2br($info);
+						echo $info;
+					?>
+				</div>
+			<?php } else {
+				echo $no_info;
+			}?>
 		</div>
 	</div>
 

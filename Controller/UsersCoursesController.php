@@ -55,9 +55,8 @@ class UsersCoursesController extends AppController
 
 		$no_info = "";
 
-		// 全体のお知らせもお知らせも存在しない場合
-		if(($info=="") && count($infos)==0)
-			$no_info = __('お知らせはありません');
+		// 全体のお知らせが存在しない場合
+		if($info==""){ $no_info = __('お知らせはありません'); }
 
 		// 次回までのゴールを取得
 		$next_goal = $this->Enquete->findCurrentNextGoal($user_id);

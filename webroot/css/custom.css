@@ -30,16 +30,16 @@
   font-size: 20px;
 }
 
-.card{
+#chart{
   cursor : pointer;
 }
-.card-body,
+#chart-body,
 .pie-chart{
   height: 400px;
   display: block;
   margin: 0 auto;
 }
-.card-body{
+#chart-body{
   position: relative;
 }
 .labelOverlay {

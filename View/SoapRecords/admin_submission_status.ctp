@@ -1,4 +1,5 @@
 <?php echo $this->element('admin_menu');?>
+<?php echo $this->Html->css('custom');?>
 <?php echo $this->Html->css('soap');?>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -13,7 +14,7 @@
     // Use custom HTML content for the domain tooltip.
     data.addColumn('number', 'Number');
     data.addColumn({'type': 'string', 'role': 'tooltip', 'p': {'html': true}});
-    
+
     var p1_sub_count = <?php echo $period_1_submitted['Count'];?>;
     var p1_sub_member = p1_sub_count >= 10 ? "" : "<p style='font-size : 20px; white-space : nowrap;'>" + "<?php echo $period_1_submitted['Member'];?>" + "</p>";
     var p1_unsub_count = <?php echo $period_1_unsubmitted['Count'];?>;
@@ -23,7 +24,7 @@
       ['未記入数',p1_unsub_count, p1_unsub_member]
     ])
     var options = {
-      pieHole: 0.4,
+      pieHole: 0.6,
       fontSize: 18,
       legend: { position: 'top', alignment: 'center' },
       'chartArea': {'width': '100%', 'height': '80%'},
@@ -39,7 +40,7 @@
     // Use custom HTML content for the domain tooltip.
     data.addColumn('number', 'Number');
     data.addColumn({'type': 'string', 'role': 'tooltip', 'p': {'html': true}});
-    
+
     var p2_sub_count = <?php echo $period_2_submitted['Count'];?>;
     var p2_sub_member = p2_sub_count >= 10 ? "" : "<p style='font-size : 20px; white-space : nowrap;'>" + "<?php echo $period_2_submitted['Member'];?>" + "</p>";
     var p2_unsub_count = <?php echo $period_2_unsubmitted['Count'];?>;
@@ -49,7 +50,7 @@
       ['未記入数',p2_unsub_count, p2_unsub_member]
     ])
     var options = {
-      pieHole: 0.4,
+      pieHole: 0.6,
       fontSize: 18,
       legend: { position: 'top', alignment: 'center' },
       'chartArea': {'width': '100%', 'height': '80%'},
@@ -59,8 +60,8 @@
     chart.draw(data, options);
   }
 
-  
-  
+
+
 </script>
 <div class="admin-submission-status full-view">
   <div class="row">
@@ -83,23 +84,26 @@
   </div>
   <div class="row">
     <div class="col">
-      <div class="card">
+      <div class="card" nclick="location.href='<?php echo Router::url(array('controller' => 'soaprecords', 'action' => 'index')) ?>'">
         <div class="card-body">
-          <div id="period1Chart" style="height: 400px;"></div>
+          <div class="pie-chart" id="period1Chart"></div>
+          <div class="labelOverlay">
+            <p class="total-caption">一限出席者</p>
+            <p class="total-value"><?php echo ($period_1_submitted['Count'] + $period_1_unsubmitted['Count']);?>人</p>
+          </div>
         </div>
       </div>
     </div>
     <div class="col">
-      <div class="card">
+      <div class="card" nclick="location.href='<?php echo Router::url(array('controller' => 'soaprecords', 'action' => 'index')) ?>'">
         <div class="card-body">
-          <div id="period2Chart" style="height: 400px;"></div>
+          <div class="pie-chart" id="period2Chart"></div>
+          <div class="labelOverlay">
+            <p class="total-caption">二限出席者</p>
+            <p class="total-value"><?php echo ($period_1_submitted['Count'] + $period_1_unsubmitted['Count']);?>人</p>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col" style = "font-size : 18px;">
-		  <?php echo $this->Html->link(__('SOAPの詳細内容はこちら'), array('controller' => 'soaprecords', 'action' => 'index')); ?>
     </div>
   </div>
 </div>

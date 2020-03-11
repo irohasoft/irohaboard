@@ -29,3 +29,43 @@
 .current-address{
   font-size: 20px;
 }
+
+.card{
+  cursor : pointer;
+}
+.card-body,
+.pie-chart{
+  height: 400px;
+  display: block;
+  margin: 0 auto;
+}
+.card-body{
+  position: relative;
+}
+.labelOverlay {
+    width: 150px;
+    height: 100px;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    cursor: default;
+}
+.labelOverlay p {
+  line-height: 0.3;
+  padding:0;
+  margin: 8px;
+}
+.labelOverlay p.total-caption {
+  line-height: 0.5;
+  font-size: 16pt;
+  color: #8e8e8e;
+  margin-bottom: 1em;
+}
+.labelOverlay p.total-value {
+  line-height: 0.5;
+  font-size: 28pt;
+  color: #000000;
+}

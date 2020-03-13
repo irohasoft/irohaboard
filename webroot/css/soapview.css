@@ -55,6 +55,12 @@
   min-width: 10em;
 }
 
+.record-table{
+  float: left;
+  width : 100%;
+  overflow-x : scroll;
+}
+
 .soap-item {
   margin:1px;
   padding:0px;

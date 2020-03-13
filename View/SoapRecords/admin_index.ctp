@@ -88,6 +88,7 @@
 		?>
 	</div>
 
+	<div class = "record-table">
 	<table cellpadding="0" cellspacing="0">
 		<thead>
 			<tr>
@@ -135,4 +136,5 @@
 		</tbody>
 	</table>
 	<?php echo $this->element('paging');?>
+	</div>
 </div>

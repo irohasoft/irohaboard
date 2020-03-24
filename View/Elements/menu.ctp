@@ -14,9 +14,5 @@
 			<?php echo $this->Html->link(__('履歴'), array('controller' => 'enquete', 'action' => 'records'), array('class' => 'dropdown-item')); ?>
 		</div>
 	</li>
-	<?php $is_active = ($this->name=='Attendances' && $this->action=='lesson_code') ? ' active' : ''; ?>
-	<li class="nav-item <?php echo $is_active; ?>">
-		<?php echo $this->Html->link(__('授業コード入力'), array('controller' => 'attendances', 'action' => 'lesson_code'), array('class' => 'nav-link')); ?>
-	</li>
 </ul>
 <?php $this->end(); ?>

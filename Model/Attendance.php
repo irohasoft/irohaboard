@@ -8,9 +8,11 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
 */
 App::uses('AppModel', 'Model');
+App::import('Model', 'Group');
 App::import('Model', 'User');
 App::import('Model', 'Date');
 App::import('Model', 'Lesson');
+App::import('Model', 'Log');
 /**
  * Attendance Model
  *
@@ -200,6 +202,54 @@ class Attendance extends AppModel {
 		return (new DateTime($login_time))->format($format_str);
 	}
 
+	public function findStandardIP(){
+		$this->Group = new Group();
+		$this->User  = new User();
+		$this->Log   = new Log();
+
+		//スタッフグループのidを探す
+		$staff_group_info = $this->Group->find('first',array(
+			'conditions' => array(
+				'Group.title like' => 'スタッフ'
+			)
+		));
+		$staff_group_id = $staff_group_info['Group']['id'];
+
+		//スタッフグループに所属するメンバーリストを探す
+		$staff_member_list = $this->User->find('list',array(
+			'conditions' => array(
+				'User.group_id' => $staff_group_id
+			),
+			'fields' => array(
+				'User.id',
+				'User.id'
+			),
+			'order' => array(
+				'User.id ASC'
+			)
+		));
+
+		//メンバーのログインipを探し，当日の基準ipを決める
+		$staff_member_last_login_ip_list = [];
+		foreach ($staff_member_list as $row){
+			$row_info = $this->Log->find('first',array(
+				'conditions' => array(
+					'Log.user_id' => $row
+				),
+				'order' => array(
+					'Log.created' => 'desc'
+				)
+			));
+			$row_ip = $row_info['Log']['user_ip'];
+			$staff_member_last_login_ip_list[$row] = (string)$row_ip;
+		}
+
+		$ip_count = array_count_values($staff_member_last_login_ip_list);
+		$standard = array_keys($ip_count, max($ip_count));
+		$standard_ip = $standard[0];
+		return $standard_ip;
+	}
+
 	public function calcLateTime($date_id, $login_time){
 		$this->Date   = new Date();
 		$this->Lesson = new Lesson();
@@ -224,4 +274,72 @@ class Attendance extends AppModel {
 		$late_time = null;
 		return $late_time;
 	}
+
+	public function takeAttendance($user_id, $user_ip){
+		$this->Date   = new Date();
+		$this->Lesson = new Lesson();
+		if(!$this->Date->isClassDate()){ return null; }
+
+		$today_date_id = $this->Date->getTodayClassId();
+		$is_online_class = $this->Date->isOnlineClass();
+		if($is_online_class){
+			$today_attendance_info = $this->find('first', array(
+				'conditions' => array(
+					'user_id' => $user_id,
+					'date_id' => $today_date_id
+				),
+				'recursive' => -1
+			));
+
+			$save_info = $today_attendance_info['Attendance'];
+			if($save_info['status'] != 1){  // 元の出欠情報が出席済以外なら
+				$now_time = date('Y-m-d H:i:s');
+				$now_time_int = (int)strtotime($now_time);
+
+				$lesson_date = $this->Date->getDate($today_date_id);
+				$lessons = $this->Lesson->findLessons($today_date_id);
+				foreach($lessons as $lesson){
+					$period = $lesson['Lesson']['period'];
+					$start                  = (int)strtotime($lesson_date.' '.$lesson['Lesson']['start']);
+					$half_hour_before_start = (int)strtotime($lesson_date.' '.$lesson['Lesson']['start'].' -30 minute');
+					$half_hour_after_start  = (int)strtotime($lesson_date.' '.$lesson['Lesson']['start'].' +30 minute');
+					$end                    = (int)strtotime($lesson_date.' '.$lesson['Lesson']['end']);
+					if($half_hour_before_start <= $now_time_int && $now_time_int <= $half_hour_after_start){
+						$save_info['status'] = 1;
+						$save_info['login_time'] = $now_time;
+						$save_info['late_time'] = 0;
+						$this->save($save_info);
+						return;
+					}else if($half_hour_after_start < $now_time_int && $now_time_int < $end){
+						$save_info['status'] = 1;
+						$save_info['login_time'] = $now_time;
+						$save_info['late_time'] = (int)(($now_time_int - $start) / 60);
+					}
+				}
+				if($save_info['status'] == 1){ $this->save($save_info); }
+			}
+		}else{
+			$standard_ip = $this->findStandardIP();
+			if($user_ip != $standard_ip){ return null; }
+
+			$today_attendance_info = $this->find('first', array(
+				'conditions' => array(
+					'user_id' => $user_id,
+					'date_id' => $today_date_id
+				),
+				'recursive' => -1
+			));
+
+			$save_info = $today_attendance_info['Attendance'];
+			if($save_info['status'] != 1){  // 元の出欠情報が出席済以外なら
+				$save_info['status'] = 1;
+
+				$login_time = date('Y-m-d H:i:s');
+				$save_info['login_time'] = $login_time;
+				$save_info['late_time'] = $this->calcLateTime($today_date_id, $login_time);
+				$this->save($save_info);
+			}
+		}
+	}
+
 }

@@ -79,7 +79,7 @@ class UsersCoursesController extends AppController
 
         $before_course_id = $course['Course']['before_course'];
         $now_course_id = $course['Course']['id'];
-        // 前庭コースが無いか，既にクリアしたコンテンツが一つ以上ある
+        // 前提コースが無いか，既にクリアしたコンテンツが一つ以上ある
         if($this->Course->existCleared($user_id, $now_course_id) || $before_course_id === null){
           array_push($courses, $course);
         }else{
@@ -99,38 +99,10 @@ class UsersCoursesController extends AppController
 
 		$this->set(compact('courses', 'no_record', 'info', 'infos', 'no_info'));
 
-		// role == 'user'の出席情報を取る(オフライン授業日のみ)
-		if($role === 'user' && $this->Date->isClassDate() && !$this->Date->isOnlineClass()){
-			$this->loadModel('Log');
-
-			$today_date_id = $this->Date->getTodayClassId();
-
-			$standard_ip = $this->findStandardIP();
+		// role == 'user'の出席情報を取る
+		if($role === 'user' && $this->Date->isClassDate()){
 			$user_ip = $this->request->ClientIp();
-
-			//実用する時，ここを==にする．
-			if($user_ip == $standard_ip){
-
-				$today_attendance_info = $this->Attendance->find('first', array(
-					'conditions' => array(
-						'user_id' => $user_id,
-						'date_id' => $today_date_id
-					),
-					'recursive' => -1
-				));
-
-				$save_info = $today_attendance_info['Attendance'];
-
-				if($save_info['status'] != 1){  // 元の出欠情報が出席済以外なら
-					$save_info['status'] = 1;
-
-					$login_time = date('Y-m-d H:i:s');
-					$save_info['login_time'] = $login_time;
-					$save_info['late_time'] = $this->Attendance->calcLateTime($today_date_id, $login_time);
-
-					$this->Attendance->save($save_info);
-				}
-			}
+			$this->Attendance->takeAttendance($user_id, $user_ip);
 		}
 
 		$user_info = $this->Attendance->getAllTimeAttendances($user_id);

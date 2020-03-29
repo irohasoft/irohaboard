@@ -26,6 +26,7 @@ class UsersCoursesController extends AppController
 	 */
 	public function index()
 	{
+		$this->loadModel('Group');
 		$this->loadModel('User');
 		$this->loadModel('Attendance');
 		$this->loadModel('Date');
@@ -102,7 +103,13 @@ class UsersCoursesController extends AppController
 		// role == 'user'の出席情報を取る
 		if($role === 'user' && $this->Date->isClassDate()){
 			$user_ip = $this->request->ClientIp();
-			$this->Attendance->takeAttendance($user_id, $user_ip);
+			$have_to_write_today_goal = $this->Attendance->takeAttendance($user_id, $user_ip);
+			$this->set('have_to_write_today_goal', $have_to_write_today_goal);
+
+			$group_list = $this->Group->find('list');
+			$this->set('group_list',$group_list);
+			$group_id = $this->User->findUserGroup($user_id);
+			$this->set('group_id',$group_id);
 		}
 
 		$user_info = $this->Attendance->getAllTimeAttendances($user_id);

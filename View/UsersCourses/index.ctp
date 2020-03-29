@@ -1,6 +1,60 @@
 <?php echo $this->element('menu');?>
 <?php echo $this->Html->css('user_course');?>
+<script>
+	function check(){
+		if(document.getElementById("today_goal").value == ""){
+			alert("今日の授業のゴールを書いてください");
+			return false;
+		}else{
+			return true;
+		}
+	}
+</script>
+
 <div class="users-courses-index full-view">
+
+	<?php if($have_to_write_today_goal){ ?>
+		<div class="modal js-modal">
+			<div class="modal__bg"></div>
+			<div class="modal__content">
+				<p>今日の担当講師を選び、今日の授業のゴールを書いてください。これを送信すると出席扱いになります。</p>
+				<?php
+					echo $this->Form->create(false,['type' => 'post','url'=> ['controller' => 'enquete','action' => 'index'],'novalidate' => true]);
+					echo $this->Form->hidden('group_id', array('value' => $group_id));
+
+					echo $this->Form->hidden('next_goal', array('value' => ''));
+					echo $this->Form->hidden('today_impressions', array('value' => ''));
+
+					echo "<div class='form-input-block enquete-input-group required-input'>";
+					echo $this->Form->input('group_id',array(
+						'label' => __('個別指導の担当講師：'),
+						'div' => false,
+						'class' => '',
+						'required'=> 'required',
+						'options' => $group_list,
+						'empty' => '',
+						'value' => $enquete_inputted['Enquete']['group_id'],
+						'style' => ''
+					));
+					echo "</div>";
+
+					echo "<div class = 'form-input-block today-goal required-input ' >";
+					echo $this->Form->input('today_goal', array(
+						'label' => __('今日の授業のゴールを書いてください。'),
+						'type' => 'textarea',
+						'div' => false,
+						'class' => '',
+						'required'=> 'required',
+						'style' => '',
+						'value' => $enquete_inputted['Enquete']['today_goal']
+					));
+					echo "</div>";
+				?>
+				<input type="submit" class="btn btn-info btn-add" value="送信" onclick="return check()">
+				<?php echo $this->Form->end(); ?>
+			</div>
+		</div>
+	<?php } ?>
 
 	<div class = "attendance-block mb-4">
 	  <div class = "attendance-info">

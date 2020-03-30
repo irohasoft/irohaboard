@@ -316,6 +316,7 @@ CREATE TABLE IF NOT EXISTS `ib_attendances` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `user_id` int(8) NOT NULL,
   `period` int(1) DEFAULT NULL,
+  `date_id` int(20) DEFAULT NULL,
   `login_time` datetime DEFAULT NULL,
   `late_time` int(8) DEFAULT NULL,
   `status` int(1) NOT NULL DEFAULT '0',

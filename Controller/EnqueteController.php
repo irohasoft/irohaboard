@@ -414,16 +414,20 @@ class EnqueteController extends AppController{
     $period_1_unsubmitted['Count'] = 0;
     foreach($period_1_attendance_user_list as $user){
       $user_id = $user['User']['id'];
-      $enquete_info = $this->Enquete->find('all',array(
+      $enquete_info = $this->Enquete->find('first', array(
         'conditions' => array(
           'User.id' => $user_id,
           'Enquete.created BETWEEN ? AND ?' => array(
             $from_date,
 			      $to_date.' 23:59:59'
           )
-        )
+        ),
+        'order' => array(
+          'Enquete.created' => 'desc'
+        ),
+        'recursive' => 0
       ));
-      if(isset($enquete_info[0])){
+      if($enquete_info['Enquete']['today_impressions'] != ''){
         $period_1_submitted['Member'] = $period_1_submitted['Member'] . $user['User']['name'] . '<br>';
         $period_1_submitted['Count'] += 1;
       }else{
@@ -461,16 +465,20 @@ class EnqueteController extends AppController{
     $period_2_unsubmitted['Count'] = 0;
     foreach($period_2_attendance_user_list as $user){
       $user_id = $user['User']['id'];
-      $enquete_info = $this->Enquete->find('all',array(
+      $enquete_info = $this->Enquete->find('first', array(
         'conditions' => array(
           'User.id' => $user_id,
           'Enquete.created BETWEEN ? AND ?' => array(
             $from_date,
 			      $to_date.' 23:59:59'
           )
-        )
+        ),
+        'order' => array(
+          'Enquete.created' => 'desc'
+        ),
+        'recursive' => 0
       ));
-      if(isset($enquete_info[0])){
+      if($enquete_info['Enquete']['today_impressions'] != ''){
         $period_2_submitted['Member'] = $period_2_submitted['Member'] . $user['User']['name'] . '<br>';
         $period_2_submitted['Count'] += 1;
       }else{

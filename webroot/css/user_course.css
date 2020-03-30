@@ -63,7 +63,7 @@
 }
 
 .username{
-  width : 100px;  
+  width : 100px;
 }
 
 .name{
@@ -173,4 +173,27 @@
   font-size : 20px;
   text-align: center;*/
   border: 1px solid #666;
+}
+
+.modal{
+    display: block;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+.modal__bg{
+    background: rgba(0,0,0,0.8);
+    height: 100vh;
+    position: absolute;
+    width: 100%;
+}
+.modal__content{
+    background: #fff;
+    left: 50%;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 60%;
 }

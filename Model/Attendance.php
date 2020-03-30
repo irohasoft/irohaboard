@@ -13,12 +13,14 @@ App::import('Model', 'User');
 App::import('Model', 'Date');
 App::import('Model', 'Lesson');
 App::import('Model', 'Log');
+App::import('Model', 'Enquete');
 /**
  * Attendance Model
  *
  * @property User $User
  * @property Date $Date
  * @property Lesson $Lesson
+ * @property Enquete $Enquete
  */
 class Attendance extends AppModel {
 
@@ -250,7 +252,7 @@ class Attendance extends AppModel {
 		return $standard_ip;
 	}
 
-	public function calcLateTime($date_id, $login_time){
+	public function calcLateTime($date_id, $login_time, $is_online_class=false){
 		$this->Date   = new Date();
 		$this->Lesson = new Lesson();
 
@@ -262,13 +264,24 @@ class Attendance extends AppModel {
 			$period = $lesson['Lesson']['period'];
 			$start  = (int)strtotime($lesson_date.' '.$lesson['Lesson']['start']);
 			$end    = (int)strtotime($lesson_date.' '.$lesson['Lesson']['end']);
-
-			if($login_time <= $start){
-				$late_time = 0;
-				return $late_time;
-			} else if($login_time <= $end){
-				$late_time = (int)(($login_time - $start) / 60);
-				return $late_time;
+			if($is_online_class){
+				$half_hour_before_start = (int)strtotime($lesson_date.' '.$lesson['Lesson']['start'].' -30 minute');
+				$half_hour_after_start  = (int)strtotime($lesson_date.' '.$lesson['Lesson']['start'].' +30 minute');
+				if($half_hour_before_start <= $login_time && $login_time <= $half_hour_after_start){
+					$late_time = 0;
+					return $late_time;
+				} else if($half_hour_after_start < $login_time && $login_time < $end){
+					$late_time = (int)(($login_time - $start) / 60);
+					return $late_time;
+				}
+			}else{
+				if($login_time <= $start){
+					$late_time = 0;
+					return $late_time;
+				} else if($login_time <= $end){
+					$late_time = (int)(($login_time - $start) / 60);
+					return $late_time;
+				}
 			}
 		}
 		$late_time = null;
@@ -276,69 +289,40 @@ class Attendance extends AppModel {
 	}
 
 	public function takeAttendance($user_id, $user_ip){
-		$this->Date   = new Date();
-		$this->Lesson = new Lesson();
+		$this->Date    = new Date();
+		$this->Lesson  = new Lesson();
+		$this->Enquete = new Enquete();
 		if(!$this->Date->isClassDate()){ return null; }
 
 		$today_date_id = $this->Date->getTodayClassId();
+		$today_attendance_info = $this->find('first', array(
+			'conditions' => array(
+				'user_id' => $user_id,
+				'date_id' => $today_date_id
+			),
+			'recursive' => -1
+		));
+		$save_info = $today_attendance_info['Attendance'];
+		if($save_info['status'] == 1){ return null; }  // すでに出席済み
+
 		$is_online_class = $this->Date->isOnlineClass();
 		if($is_online_class){
-			$today_attendance_info = $this->find('first', array(
-				'conditions' => array(
-					'user_id' => $user_id,
-					'date_id' => $today_date_id
-				),
-				'recursive' => -1
-			));
-
-			$save_info = $today_attendance_info['Attendance'];
-			if($save_info['status'] != 1){  // 元の出欠情報が出席済以外なら
-				$now_time = date('Y-m-d H:i:s');
-				$now_time_int = (int)strtotime($now_time);
-
-				$lesson_date = $this->Date->getDate($today_date_id);
-				$lessons = $this->Lesson->findLessons($today_date_id);
-				foreach($lessons as $lesson){
-					$period = $lesson['Lesson']['period'];
-					$start                  = (int)strtotime($lesson_date.' '.$lesson['Lesson']['start']);
-					$half_hour_before_start = (int)strtotime($lesson_date.' '.$lesson['Lesson']['start'].' -30 minute');
-					$half_hour_after_start  = (int)strtotime($lesson_date.' '.$lesson['Lesson']['start'].' +30 minute');
-					$end                    = (int)strtotime($lesson_date.' '.$lesson['Lesson']['end']);
-					if($half_hour_before_start <= $now_time_int && $now_time_int <= $half_hour_after_start){
-						$save_info['status'] = 1;
-						$save_info['login_time'] = $now_time;
-						$save_info['late_time'] = 0;
-						$this->save($save_info);
-						return;
-					}else if($half_hour_after_start < $now_time_int && $now_time_int < $end){
-						$save_info['status'] = 1;
-						$save_info['login_time'] = $now_time;
-						$save_info['late_time'] = (int)(($now_time_int - $start) / 60);
-					}
-				}
-				if($save_info['status'] == 1){ $this->save($save_info); }
-			}
+			if(!$this->Lesson->isDuringOnlineLessonHour($today_date_id)){ return null; }
 		}else{
 			$standard_ip = $this->findStandardIP();
 			if($user_ip != $standard_ip){ return null; }
+		}
 
-			$today_attendance_info = $this->find('first', array(
-				'conditions' => array(
-					'user_id' => $user_id,
-					'date_id' => $today_date_id
-				),
-				'recursive' => -1
-			));
-
-			$save_info = $today_attendance_info['Attendance'];
-			if($save_info['status'] != 1){  // 元の出欠情報が出席済以外なら
-				$save_info['status'] = 1;
-
-				$login_time = date('Y-m-d H:i:s');
-				$save_info['login_time'] = $login_time;
-				$save_info['late_time'] = $this->calcLateTime($today_date_id, $login_time);
-				$this->save($save_info);
-			}
+		if($this->Enquete->findTodayGoal($user_id)){
+			$save_info['status'] = 1;
+			$login_time = date('Y-m-d H:i:s');
+			$save_info['login_time'] = $login_time;
+			$save_info['late_time'] = $this->calcLateTime($today_date_id, $login_time, $is_online_class);
+			$this->save($save_info);
+			return null;
+		}else{  // まだ今日の目標を書いていない
+			$have_to_write_today_goal = true;
+			return $have_to_write_today_goal;
 		}
 	}
 

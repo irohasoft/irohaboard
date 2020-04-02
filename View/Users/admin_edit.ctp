@@ -46,6 +46,7 @@ $(function(){
         'type' => 'file',
         'enctype' => 'multipart/form-data'
       ));
+			echo $this->Form->UnlockField('group_id');
       echo $this->Form->input('id');
       echo $this->Form->input('front_image',array(
         'id' => 'myfile',

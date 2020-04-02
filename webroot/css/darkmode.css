@@ -1,0 +1,68 @@
+@charset "utf-8";
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #000 !important;
+    color: #fff !important;
+  }
+
+  element.style {
+      background-color: #001a35 !important;
+  }
+
+  .card-body {
+    background-color: #000 !important;
+  }
+
+  .breadcrumb {
+    background-color: #aaa !important;
+  }
+
+  .card-header {
+    background-color: #333333 !important;
+    border-bottom: 1px solid rgba(0,0,0,.125) !important;
+  }
+
+  .card {
+    background-color: #000000 !important;
+    border: 1px solid #aaa !important;
+    border-bottom: 1px solid #fefefe30 !important;
+  }
+
+  .date {
+    border: 1px solid #aaa !important;
+  }
+
+  .navbar-dark .navbar-nav .nav-link {
+      color: #fff !important;
+  }
+
+  table tr:nth-child(even) {
+    background: #101010 !important;
+  }
+
+  table {
+    color: #fff !important;
+  }
+
+  .border-light {
+    border-color: #aaa !important;
+  }
+
+  .status {
+    border: 1px solid #aaa !important;
+  }
+
+  .list-group-item {
+    background-color: #000 !important;
+    border: 1px solid #aaa !important;
+  }
+
+  input[type='text'], textarea {
+    color: #fff !important;
+    background-color: #000 !important;
+  }
+
+  form .input {
+    color: #fff !important;
+  }
+}

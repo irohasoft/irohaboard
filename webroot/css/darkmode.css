@@ -5,6 +5,20 @@
     color: #fff !important;
   }
 
+  .dropdown-menu.show {
+    background-color: #000 !important;
+    color:#fff !important;
+  }
+  .dropdown-item {
+    color: #fff !important;
+    background-color:rgba(#000, 0.01) !important;
+  }
+
+  .dropdown-item:focus, .dropdown-item:hover {
+    color: #fff;
+    background-color: #8b8b8b;
+  }
+
   element.style {
       background-color: #001a35 !important;
   }
@@ -65,3 +79,4 @@
     color: #fff !important;
     background-color: #000 !important;
   }
+}

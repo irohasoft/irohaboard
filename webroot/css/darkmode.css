@@ -95,4 +95,8 @@
     background-color: #000 ;
     color: #fff ;
   }
+  select{
+    background: black ;
+    color: white ;
+  }
 }

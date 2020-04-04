@@ -1,0 +1,56 @@
+@charset "utf-8";
+
+.form-control {
+  background: #000 ;
+  color: #fff ;
+}
+
+.form-control option:first-child{
+background:#337ab7 !important;
+color:#fff;
+}
+
+#SettingColor.form-control option:nth-child(2){
+background:#003f8e;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(3){
+background:#4169e1;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(4){
+background:#00bfff;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(5){
+background:#483d8b;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(6){
+background:#00a960;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(7){
+background:#006948;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(8){
+background:#288c66;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(9){
+background:#556b2f;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(4){
+background:;
+color:#fff;
+}

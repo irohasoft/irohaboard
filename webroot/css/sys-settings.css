@@ -2,7 +2,7 @@
 
 
 .form-control option:first-child{
-background:#337ab7 !important;
+background:#337ab7;
 color:#fff;
 }
 
@@ -17,36 +17,86 @@ color:#fff;
 }
 
 select#SettingColor.form-control option:nth-child(4){
-background:#00bfff;
+background:#006888;
 color:#fff;
 }
 
 select#SettingColor.form-control option:nth-child(5){
-background:#483d8b;
+background:#00bfff;
 color:#fff;
 }
 
 select#SettingColor.form-control option:nth-child(6){
-background:#00a960;
+background:#483d8b;
 color:#fff;
 }
 
 select#SettingColor.form-control option:nth-child(7){
-background:#006948;
+background:#00a960;
 color:#fff;
 }
 
 select#SettingColor.form-control option:nth-child(8){
-background:#288c66;
+background:#006948;
 color:#fff;
 }
 
 select#SettingColor.form-control option:nth-child(9){
+background:#288c66;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(10){
 background:#556b2f;
 color:#fff;
 }
 
-select#SettingColor.form-control option:nth-child(4){
-background:;
+select#SettingColor.form-control option:nth-child(11){
+background:#8b0000;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(12){
+background:#d84450;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(13){
+background:#c71585;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(14){
+background:#a52a2a;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(15){
+background:#ee7800;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(16){
+background:#fcc800;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(17){
+background:#7d7d7d;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(18){
+background:#696969;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(19){
+background:#2f4f4f;
+color:#fff;
+}
+
+select#SettingColor.form-control option:nth-child(20){
+background:#000000;
 color:#fff;
 }

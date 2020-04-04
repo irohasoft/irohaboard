@@ -16,7 +16,7 @@
 
   .dropdown-item:focus, .dropdown-item:hover {
     color: #fff;
-    background-color: #8b8b8b;
+    background-color: #8b8b8b !important;
   }
 
   element.style {
@@ -40,6 +40,10 @@
     background-color: #000000 !important;
     border: 1px solid #aaa !important;
     border-bottom: 1px solid #fefefe30 !important;
+  }
+
+  form .input {
+    color: #fff;
   }
 
   .date {
@@ -78,5 +82,17 @@
   input#UserPassword.form-control{
     color: #fff !important;
     background-color: #000 !important;
+  }
+  input#UserBirthyear {
+    background-color: #000 ;
+    color: #fff ;
+  }
+  input#UserNewPassword {
+    background-color: #000 ;
+    color: #fff ;
+  }
+  input#UserEmail {
+    background-color: #000 ;
+    color: #fff ;
   }
 }

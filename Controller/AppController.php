@@ -122,8 +122,8 @@ class AppController extends Controller
 					'action' => 'login',
 					'admin' => true
 			);
-			$this->set('loginURL', "/admin/users/login/");
-			$this->set('logoutURL', "/admin/users/logout/");
+			$this->set('loginURL', "/users/login/");
+			$this->set('logoutURL', "/users/logout/");
 
 			// グループモデルを共通で保持する
 			$this->loadModel('Group');

@@ -10,6 +10,7 @@
 
 App::uses('AppController', 'Controller');
 App::uses('Group', 'Group');
+App::uses('Attendance', 'Attendance');
 App::uses('CakeEmail', 'Network/Email');
 
 /**
@@ -328,6 +329,12 @@ class UsersController extends AppController
 
 			if ($this->User->save($this->request->data))
 			{
+				$user_id = $this->User->id;
+				$period = $this->request->data['User']['period'];
+				if($this->request->data['User']['role'] === 'user'){
+					$this->loadModel('Attendance');
+					$this->Attendance->setNewUserAttendanceInfo($user_id, $period);
+				}
         //$this->log($picPath);
         /*
         if($this->User->updatePicPath($user_id, $picPath) !== 1){

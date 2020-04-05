@@ -68,6 +68,17 @@ class Attendance extends AppModel {
 		return false;
 	}
 
+	public function isExistTheUserAttendanceInfo($user_id, $date_id){
+		$data = $this->find('first', array(
+			'conditions' => array(
+				'User.id' => $user_id,
+				'Date.id' => $date_id
+			)
+		));
+		if($data){ return true; }
+		return false;
+	}
+
 	public function getAttendanceInfo(){
 		//今日の日付を生成
     $today = date("Y-m-d");
@@ -88,27 +99,7 @@ class Attendance extends AppModel {
 	}
 
 	public function setAttendanceInfo($date_id){
-		//$user_model = new User();
-		$user_list = $this->User->find('all',array(
-			'conditions' => array(
-				'User.role' => 'user'
-			),
-			'order' => 'User.id ASC'
-		));
-		foreach($user_list as $user){
-			$init_info = [];
-			$init_info = array(
-				'user_id' => $user['User']['id'],
-				'period'  => $user['User']['period'],
-				'date_id' => $date_id,
-				'status'  => 2
-			);
-			$this->create();
-			$this->save($init_info);
-		}
-	}
-
-	public function setNewUserAttendanceInfo($date_id){
+		$is_exist_attendance_info = $this->isExistAttendanceInfo($date_id);
 		$user_list = $this->User->find('all',array(
 			'conditions' => array(
 				'User.role' => 'user'
@@ -117,16 +108,29 @@ class Attendance extends AppModel {
 		));
 		foreach($user_list as $user){
 			$user_id = $user['User']['id'];
-			$user_info = $this->find('all',array(
-				'conditions' => array(
-					'User.id' => $user_id,
-					'Date.id' => $date_id
-				)
-			));
-			if(!isset($user_info[0])){
+			if(!$is_exist_attendance_info ||
+				 !$this->isExistTheUserAttendanceInfo($user_id, $date_id))
+			{
 				$init_info = array(
 					'user_id' => $user['User']['id'],
 					'period'  => $user['User']['period'],
+					'date_id' => $date_id,
+					'status'  => 2
+				);
+				$this->create();
+				$this->save($init_info);
+			}
+		}
+	}
+
+	public function setNewUserAttendanceInfo($user_id, $period){
+		$this->Date = new Date();
+		$date_ids = $this->Date->getDateIDsFromToday();
+		foreach($date_ids as $date_id){
+			if(!$this->isExistTheUserAttendanceInfo($user_id, $date_id)){
+				$init_info = array(
+					'user_id' => $user_id,
+					'period'  => $period,
 					'date_id' => $date_id,
 					'status'  => 2
 				);

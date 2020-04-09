@@ -53,6 +53,9 @@
 	function render()
 	{
 		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
+		
+		document.getElementById("testURL").name = "data[Content][testURL]";
+		document.getElementById("textURL").name = "data[Content][url]";
 
 		$(".kind").hide();
 		$(".kind-"+content_kind).show();
@@ -87,6 +90,10 @@
 				$("#btnUpload").show();
 				break;
 			case 'test':
+				
+				document.getElementById("testURL").name = "data[Content][url]";
+				document.getElementById("textURL").name = "data[Content][textURL]";
+				
 				break;
       case 'textAndTest':
         CommonUtil.setRichTextEditor('#ContentBody', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
@@ -173,7 +180,11 @@
 				);
 
 				echo "<div class='kind kind-movie kind-url kind-file'>";
-				echo $this->Form->input('url',		array('label' => 'URL', 'class' => 'form-control form-control-upload'));
+				echo $this->Form->input('url',		array(
+					'label' => 'URL', 
+					'class' => 'form-control form-control-upload',
+					'id' => 'textURL'
+				));
 				echo "</div>";
 
 				// 配布資料
@@ -188,7 +199,11 @@
 
 				// テスト
 				echo "<span class='kind kind-test'>";
-				echo $this->Form->input('url',		array('label' => 'URL', 'class' => 'form-control'));
+				echo $this->Form->input('url',		array(
+					'label' => 'URL', 
+					'class' => 'form-control',
+					'id' => 'testURL'
+				));
 				/*
         echo $this->Form->input('form_text_url',array(
           'label' => 'ファイル名',
@@ -227,7 +242,6 @@
 					'options' => Configure::read('content_status')
 					)
 				);
-        //$this->log($content_list);
 
         echo $this->Form->input('before_content',array(
           'label' => '前提コンテンツ：',

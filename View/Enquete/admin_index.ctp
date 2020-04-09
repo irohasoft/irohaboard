@@ -15,6 +15,20 @@ function setTodayDate(){
 		$("#EnqueteAdminIndexForm").submit();
 		$("#EnqueteCmd").val("");
 }
+
+function dis_item(obj, className){
+	var i;
+	var elements = document.getElementsByClassName(className);
+	if( obj.checked ){
+		for( i = 0; i < elements.length; i++){
+			elements[i].style.display = "";
+		}
+	}else{
+		for( i = 0; i < elements.length; i++){
+			elements[i].style.display = "none";
+		}
+	}
+}
 </script>
 <?php $this->end(); ?>
 <div class="admin-records-index full-view">
@@ -105,7 +119,38 @@ function setTodayDate(){
 				'value' => $to_date
 			));
 			echo '</div>';
+		?>
+	</div>
+
+	<div class="ib-horizontal">
+		<label>表示項目：</label>
+		<?php
+			echo $this->Form->input('dis_before_goal_cleared', array(
+				'type' => 'checkbox',
+				'label' => '前回T/F',
+				'class' => 'form-control',
+				'style' => 'display: inline;',
+				'onclick' => 'dis_item(this,"beforeGoalCleared")',
+			));
+
+			echo $this->Form->input('dis_before_false_reason', array(
+				'type' => 'checkbox',
+				'label' => '前回F理由',
+				'class' => 'form-control',
+				'style' => 'display: inline;',
+				'onclick' => 'dis_item(this,"beforeFalseReason")',
+			));
+
+			echo $this->Form->input('dis_next_goal', array(
+				'type' => 'checkbox',
+				'label' => '次回までゴール',
+				'class' => 'form-control',
+				'style' => 'display: inline;',
+				'onclick' => 'dis_item(this,"nextGoal")',
+			));
+
 			echo $this->Form->end();
+
 		?>
 	</div>
 
@@ -118,12 +163,12 @@ function setTodayDate(){
 				<th nowrap><?php echo $this->Paginator->sort('Enquete.group_id', '担当講師'); ?></th>
 				<th nowrap><?php echo $this->Paginator->sort('User.period', '所属'); ?></th>
 				<th nowrap><?php echo $this->Paginator->sort('Enquete.today_impressions', '今日の感想'); ?></th>
-				<th nowrap><?php echo $this->Paginator->sort('Enquete.before_goal_cleared', '前回T/F'); ?></th>
-				<th nowrap><?php echo $this->Paginator->sort('Enquete.before_false_reason', '前回F理由'); ?></th>
+				<th nowrap class="beforeGoalCleared" style="display : none;"><?php echo $this->Paginator->sort('Enquete.before_goal_cleared', '前回T/F'); ?></th>
+				<th nowrap class="beforeFalseReason" style="display : none;"><?php echo $this->Paginator->sort('Enquete.before_false_reason', '前回F理由'); ?></th>
 				<th nowrap><?php echo $this->Paginator->sort('Enquete.today_goal', '今日のゴール'); ?></th>
 				<th nowrap><?php echo $this->Paginator->sort('Enquete.today_goal_cleared', '今日T/F'); ?></th>
 				<th nowrap><?php echo $this->Paginator->sort('Enquete.today_false_reason', '今日F理由'); ?></th>
-				<th nowrap><?php echo $this->Paginator->sort('Enquete.next_goal', '次回までゴール'); ?></th>
+				<th nowrap class="nextGoal" style="display : none;"><?php echo $this->Paginator->sort('Enquete.next_goal', '次回までゴール'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -150,12 +195,12 @@ function setTodayDate(){
 				<td nowrap><?php echo h($groups[$record['Enquete']['group_id']]); ?>&nbsp;</td>
 				<td nowrap><?php echo h($period_list[$record['User']['period']]); ?>&nbsp;</td>
 				<td><div class="text-item"><?php echo h($record['Enquete']['today_impressions']); ?></div></td>
-				<td nowrap><?php echo h($TF_list[$record['Enquete']['before_goal_cleared']]); ?>&nbsp;</td>
-				<td><?php echo h($record['Enquete']['before_false_reason']); ?>&nbsp;</td>
+				<td nowrap class="beforeGoalCleared" style="display : none;"><?php echo h($TF_list[$record['Enquete']['before_goal_cleared']]); ?>&nbsp;</td>
+				<td class="beforeFalseReason" style="display : none;"><?php echo h($record['Enquete']['before_false_reason']); ?>&nbsp;</td>
 				<td><?php echo h($record['Enquete']['today_goal']); ?>&nbsp;</td>
 				<td nowrap><?php echo h($TF_list[$record['Enquete']['today_goal_cleared']]); ?>&nbsp;</td>
 				<td><?php echo h($record['Enquete']['today_false_reason']); ?>&nbsp;</td>
-				<td><?php echo h($record['Enquete']['next_goal']); ?>&nbsp;</td>
+				<td class="nextGoal" style="display : none;"><?php echo h($record['Enquete']['next_goal']); ?>&nbsp;</td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>

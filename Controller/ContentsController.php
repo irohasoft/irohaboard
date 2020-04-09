@@ -275,6 +275,8 @@ class ContentsController extends AppController
 				'put'
 		)))
 		{
+
+			$this->log($this->request->data);
 			if(Configure::read('demo_mode'))
 				return;
 

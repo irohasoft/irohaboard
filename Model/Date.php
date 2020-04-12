@@ -162,4 +162,20 @@ class Date extends AppModel
 		}
 		return $date_list;
 	}
+
+	public function getDateIDsFromToday(){
+		$date_ids = array();
+		$today=date('Y-m-d');
+		$data = $this->find('all', array(
+			'fields' => array('id'),
+			'conditions' => array('date >= ?' => $today),
+			'order' => 'date DESC',
+			'recursive' => -1
+		));
+		foreach($data as $datum){
+			$date_ids[] = $datum['Date']['id'];
+		}
+		return $date_ids;
+	}
+
 }

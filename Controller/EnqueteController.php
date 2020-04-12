@@ -313,10 +313,10 @@ class EnqueteController extends AppController{
 
       fclose($fp);
 		}
-		else
+    else
 		{
+      $this->log($this->request->query);
       if(@$this->request->query['cmd']=='today'){
-				$this->log('work');
 
 				$from_date = array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
 				$to_date = array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
@@ -327,7 +327,8 @@ class EnqueteController extends AppController{
 					implode("/", $from_date),
 					implode("/", $to_date).' 23:59:59'
 				);
-			}
+      }
+      
 			$this->Paginator->settings['conditions'] = $conditions;
       $this->Paginator->settings['order']      = 'Enquete.created desc';
       $this->Paginator->settings['limit'] = 1000;

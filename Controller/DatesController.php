@@ -56,13 +56,8 @@ class DatesController extends AppController{
  			if ($this->Date->save($this->request->data))
       {
         $date_id = $this->Date->id;
-        // もしレコードがすでに存在する場合
-        if(!$this->Attendance->isExistAttendanceInfo($date_id))
-        {
-          $this->Attendance->setAttendanceInfo($date_id);
-        }else{
-          $this->Attendance->setNewUserAttendanceInfo($date_id);
-        }
+        $this->Attendance->setAttendanceInfo($date_id);
+
  				$this->Flash->success(__('授業日を保存しました'));
  				return $this->redirect(array(
  						'action' => 'index'

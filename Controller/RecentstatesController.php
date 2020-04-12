@@ -19,14 +19,7 @@ App::uses('Soap',            'Soap');
 class RecentStatesController extends AppController{
   public $helpers = array('Html', 'Form');
 
-  public function admin_index(){
-    /*
-    $this->loadModel('Attendance');
-    if($this->Attendance->getAttendanceInfo() == false && date('w') == 0){
-      $this->Attendance->setAttendanceInfo();
-    }
-    */
-  }
+  public function admin_index(){}
 
   public function admin_find_by_group(){
     $this->loadModel('Group');

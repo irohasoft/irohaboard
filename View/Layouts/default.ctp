@@ -80,8 +80,7 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: <?php echo h($this->Session->read('Setting.color')); ?>;">
-	<?php $top_url = (($loginedUser['role']=='admin') && (!$is_admin_page)) ? '/admin/recentstates' : '/'; ?>
-	<a class="navbar-brand" href="<?php echo $this->Html->url($top_url)?>"><?php echo h($this->Session->read('Setting.title')); ?></a>
+	<a class="navbar-brand" href="<?php echo $this->Html->url('/')?>"><?php echo h($this->Session->read('Setting.title')); ?></a>
 	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#Navber" aria-controls="Navber" aria-expanded="false" aria-label="ナビゲーションの切替">
 		<span class="navbar-toggler-icon"></span>
 	</button>

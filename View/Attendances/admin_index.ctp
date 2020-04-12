@@ -35,8 +35,8 @@ function downloadCSV()
 	<table cellpadding="0" cellspacing="0">
 		<thead>
 			<tr>
-			<th nowrap class="non-last-column ib-col-center"><?php echo __('受講生番号');?>
-			<th nowrap class="non-last-column"><?php echo __('氏名');?>
+				<th nowrap class="non-last-column ib-col-center"><?php echo __('受講生番号');?></th>
+				<th nowrap class="non-last-column"><?php echo __('氏名');?></th>
 			<?php
 				$no = 0;
 				$length = count($date_list);
@@ -52,9 +52,8 @@ function downloadCSV()
 			</tr>
 		</thead>
 		<tbody>
-		<?php //$this->log(count($date_list));?>
-		<?php foreach ($period1_members as $member):?>
 		<?php
+		foreach ($period1_members as $member):
 			$user_id = $member['User']['id'];
 			$attendance_info = $attendance_list[$user_id];
 			$img_src = $this->Html->url(array(
@@ -145,8 +144,8 @@ function downloadCSV()
 	<table cellpadding="0" cellspacing="0">
 		<thead>
 			<tr>
-			<th nowrap class="non-last-column ib-col-center"><?php echo __('受講生番号');?>
-			<th nowrap class="non-last-column"><?php echo __('氏名');?>
+				<th nowrap class="non-last-column ib-col-center"><?php echo __('受講生番号');?></th>
+				<th nowrap class="non-last-column"><?php echo __('氏名');?></th>
 			<?php
 				$no = 0;
 				$length = count($date_list);
@@ -162,9 +161,8 @@ function downloadCSV()
 			</tr>
 		</thead>
 		<tbody>
-		<?php //$this->log(count($date_list));?>
-		<?php foreach ($period2_members as $member):?>
 		<?php
+		foreach ($period2_members as $member):
 			$user_id = $member['User']['id'];
 			$attendance_info = $attendance_list[$user_id];
 			$img_src = $this->Html->url(array(

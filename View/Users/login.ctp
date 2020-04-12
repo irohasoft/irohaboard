@@ -1,8 +1,5 @@
 <div class="users-login full-view">
 	<div class="panel panel-info form-signin">
-		<div class="panel-heading">
-			受講者ログイン
-		</div>
 		<div class="panel-body">
 			<?php echo $this->Flash->render('auth'); ?>
 			<?php echo $this->Form->create('User'); ?>

@@ -199,11 +199,17 @@
 
 				// テスト
 				echo "<span class='kind kind-test'>";
+				echo "<div class='card text-white bg-info mb-3'>";
+  			echo "<div class='card-body'>";
+    		echo "<p class='card-text'>YouTubeのリンクを貼るときは、<br>https://www.youtube.com/embed/XXXXXXX?rel=0 (XXX...の部分は動画により異なります)<br>の形で貼ってください。</p>";
+  			echo "</div>";
+				echo "</div>";
 				echo $this->Form->input('url',		array(
 					'label' => 'URL', 
 					'class' => 'form-control',
 					'id' => 'testURL'
 				));
+
 				/*
         echo $this->Form->input('form_text_url',array(
           'label' => 'ファイル名',

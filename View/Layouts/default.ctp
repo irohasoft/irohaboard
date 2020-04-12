@@ -31,6 +31,7 @@
 		echo $this->Html->css('jquery-ui');
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('common.css?20190401');
+		echo $this->Html->css('darkmode.css');
 		echo $this->Html->css('sys-settings.css');
 
 		// 管理画面用CSS

@@ -17,89 +17,113 @@ html, body
 	background-color	: #EDEFF1;
 }
 
+.content-view
+{
+	height				: 100%;
+}
+
+.content-title
+{
+	font-size			: 14px;
+	padding				: 5px;
+	border-bottom		: 1px solid #ddd;
+
+}
+
+.content-body
+{
+	height				: calc(100% - 110px);
+	border-bottom		: 1px solid #ddd;
+	background			: #f9f9f9;
+	padding				: 5px;
+
+}
+
+.content-body-html
+{
+	overflow-y			: scroll;
+}
+
+.content-body-movie
+{
+	display				: flex;
+	justify-content		: center;
+	align-items			: center;
+}
+
+.content-foot
+{
+	position			: fixed;
+	bottom				: 0px;
+	width				: 100%;
+	background-color	: #EDEFF1;
+	display				: flex;
+	justify-content		: center;
+	align-items			: center;
+	height				: 80px;
+}
+
+.content-foot button
+{
+	margin-left			: 5px;
+}
+
+.content-foot .understanding-spn
+{
+	display				: none;
+}
+
+.content-foot .select-message
+{
+	padding-bottom		: 5px;
+	text-align			: center;
+}
+
 #contentFrame
 {
 	min-height			: 600px;
 	border				: 1px;
 }
-table, td, tr
-{
-	margin:0px;
-	padding:0px;
-}
-
-.buttons-container-title
-{
-	font-size			: 18px;
-	font-weight			: bold;
-}
-
-.buttons-container-spn
-{
-	display				: none;
-}
-
-.select-message
-{
-	padding-bottom		: 10px;
-}
-
-.content-table
-{
-	width				: 100%;
-	height				: 99%;
-}
-
-.top-row
-{
-	height				: 30px;
-}
-
-.content-movie
-{
-	vertical-align		: middle;
-}
-
-.content-text,
-.content-html
-{
-	vertical-align		: top;
-}
-
-.bottom-row
-{
-	height				: 60px;
-}
-
-.bottom-row td
-{
-	text-align			: center;
-}
 
 @media only screen and (max-width:800px)
 {
-	button
-	{
-		margin			: 5px;
-	}
-	
-	.select-message
-	{
-		padding			: 0px;
-	}
-	
-	.buttons-container-pc
-	{
-		display			: none;
-	}
-	.buttons-container-spn
-	{
-		display			: block;
-	}
-	
 	img,
 	iframe
 	{
 		max-width		: 100%;
+	}
+	
+	.content-body
+	{
+		height			: initial;
+		min-height		: calc(100% - 100px);
+		overflow-y			: scroll;
+}
+
+	.content-foot
+{
+		height			: initial;
+		padding-bottom	: 10px;
+
+	}
+
+	.content-foot button
+	{
+		min-width		: 40px;
+	}
+	
+	.content-foot .select-message
+	{
+		padding			: 0px;
+	}
+	
+	.content-foot .understanding-pc
+	{
+		display			: none;
+	}
+	
+	.content-foot .understanding-spn
+	{
+		display			: initial;
 	}
 }

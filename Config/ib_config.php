@@ -38,7 +38,28 @@ $config['content_category']	= array(
 
 $config['record_result'] = array('-1' => '', '1' => '合格', '0' => '不合格');
 $config['record_complete'] = array('1' => '完了', '0' => '未完了');
-$config['record_understanding'] = array('0' => '中断', '2' => '×', '3' => '△', '4' => '〇', '5' => '◎');
+
+// 理解度
+$config['record_understanding'] = array('0' => '中断', '1' => '終了', '2' => '×', '3' => '△', '4' => '〇', '5' => '◎');
+
+// PC向け理解度ボタンラベル
+$config['record_understanding_pc'] = array(
+//	'1'		=> '終了',
+	'2'		=> '✕全く理解できなかった',
+	'3'		=> '△あまりよく理解できなかった',
+	'4'		=> '〇まあまあ理解できた',
+	'5'		=> '◎よく理解できた',
+);
+
+// スマートフォン向け理解度ボタンラベル
+$config['record_understanding_spn'] = array(
+//	'1'		=> '終了',
+	'2'		=> '✕',
+	'3'		=> '△',
+	'4'		=> '〇',
+	'5'		=> '◎',
+);
+
 $config['user_role'] = array('admin' => '管理者', 'user' => '受講者');
 
 

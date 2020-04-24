@@ -157,8 +157,8 @@ class AppController extends Controller
 	{
 		//header("X-XSS-Protection: 1; mode=block")
 		
-		// iframeへの埋め込みの禁止
-		header("X-Frame-Options: DENY");
+		// 他のドメインからのiframeへの埋め込みの禁止
+		header("X-Frame-Options: SAMEORIGIN");
 	}
 
 	function writeLog($log_type, $log_content)

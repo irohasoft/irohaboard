@@ -10,7 +10,7 @@
 	{
 		$url = $('.form-control-upload');
 
-		$url.after('<input id="btnUpload" type="button" value="アップロード">');
+		$url.after('<input id="btnUpload" type="button" value="ファイルを指定">');
 
 		$("#btnUpload").click(function(){
 			var val = $('input[name="data[Content][kind]"]:checked').val();
@@ -27,7 +27,11 @@
 			if(val=='url')
 				val = 'file';
 			
-			window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/'+val, '_upload', 'width=650,height=500,resizable=no');
+			//window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/'+val, '_upload', 'width=650,height=500,resizable=no');
+			$('#uploadDialog').modal('show');
+
+			//モーダル画面にiframeを追加する
+			$("#uploadFrame").attr("src", "<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/" + val);
 			return false;
 		});
 
@@ -73,7 +77,7 @@
 				$("#btnPreview").show();
 				break;
 			case 'movie': // 動画
-				$(".form-control-upload").css('width', '85%');
+				$(".form-control-upload").css('width', '80%');
 				$("#btnUpload").show();
 				$("#btnPreview").show();
 				break;
@@ -83,7 +87,7 @@
 				$("#btnPreview").show();
 				break;
 			case 'file':
-				$(".form-control-upload").css('width', '85%');
+				$(".form-control-upload").css('width', '80%');
 				$("#btnUpload").show();
 				break;
 			case 'test':
@@ -125,6 +129,13 @@
 		
 		if(file_name)
 			$('.form-control-filename').val(file_name);
+
+		$('#uploadDialog').modal('hide');
+	}
+	
+	function closeDialog(url, file_name)
+	{
+		$('#uploadDialog').modal('hide');
 	}
 </script>
 <?php $this->end(); ?>
@@ -224,4 +235,16 @@
 			<?php echo $this->Form->end(); ?>
 		</div>
 	</div>
+</div>
+
+<div class="modal fade" id="uploadDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-id='1'>
+	<div class="modal-dialog">
+		<div class="modal-content" style="width:660px;">
+			<div class="modal-body" id='modal-body_1'>
+				<iframe id="uploadFrame" width="100%" style="height: 440px;" scrolling="no" frameborder="no"></iframe>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
 </div>

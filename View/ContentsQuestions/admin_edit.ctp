@@ -97,14 +97,6 @@
 
 	function init()
 	{
-		$url = $('input[name="data[ContentsQuestion][image]"]');
-		
-		$url.after('<input id="btnUpload" type="button" value="アップロード">');
-		$("#btnUpload").click(function(){
-			window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/image', '_upload', 'width=650,height=500,resizable=no');
-			return false;
-		});
-		
 		// リッチテキストエディタを起動
 		CommonUtil.setRichTextEditor('#ContentsQuestionBody', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
 		CommonUtil.setRichTextEditor('#ContentsQuestionExplain', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
@@ -127,11 +119,6 @@
 			
 			$("#ContentsQuestionOptionList").append($option);
 		}
-	}
-
-	function setURL(url)
-	{
-		$('input[name="data[ContentsQuestion][image]"]').val(url);
 	}
 </script>
 <?php $this->end(); ?>

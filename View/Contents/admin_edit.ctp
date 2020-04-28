@@ -237,6 +237,7 @@
 	</div>
 </div>
 
+<!--ファイルアップロードダイアログ-->
 <div class="modal fade" id="uploadDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-id='1'>
 	<div class="modal-dialog">
 		<div class="modal-content" style="width:660px;">

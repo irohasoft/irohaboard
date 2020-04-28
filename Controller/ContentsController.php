@@ -328,16 +328,20 @@ class ContentsController extends AppController
 				throw new NotFoundException(__('Invalid access'));
 		}
 		
-		$upload_max_filesize = $fileUpload->getBytes(ini_get('upload_max_filesize'));
-		$post_max_size		 = $fileUpload->getBytes(ini_get('post_max_size'));
-		
-		// upload_max_filesize が設定サイズより小さい場合、upload_max_filesize を優先する
-		if($upload_max_filesize < $upload_maxsize)
-			$upload_maxsize	= $upload_max_filesize;
-		
-		// post_max_size が設定サイズより小さい場合、post_max_size を優先する
-		if($post_max_size < $upload_maxsize)
-			$upload_maxsize	= $post_max_size;
+		// php.ini の upload_max_filesize, post_max_size の値を確認（互換性維持のためメソッドが存在する場合のみ）
+		if(method_exists($fileUpload, 'getBytes'))
+		{
+			$upload_max_filesize = $fileUpload->getBytes(ini_get('upload_max_filesize'));
+			$post_max_size		 = $fileUpload->getBytes(ini_get('post_max_size'));
+			
+			// upload_max_filesize が設定サイズより小さい場合、upload_max_filesize を優先する
+			if($upload_max_filesize < $upload_maxsize)
+				$upload_maxsize	= $upload_max_filesize;
+			
+			// post_max_size が設定サイズより小さい場合、post_max_size を優先する
+			if($post_max_size < $upload_maxsize)
+				$upload_maxsize	= $post_max_size;
+		}
 		
 		$fileUpload->setExtension($upload_extensions);
 		$fileUpload->setMaxSize($upload_maxsize);

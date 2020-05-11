@@ -66,7 +66,7 @@
 			<span class='understanding-pc'></span>
 			<span class='understanding-spn'></span>
 				<button type="button" class="btn btn-danger" onclick="finish(0);">中断</button>
-			<button type="button" class="btn btn-primary" onclick="finish(-1);">目次へ戻る</button>
+			<button type="button" class="btn btn-default" onclick="finish(-1);">戻る</button>
 		</div>
 	</div>
 			</div>

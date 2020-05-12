@@ -13,7 +13,7 @@ $config['course_status']	= array('1' => '有効', '0' => '無効');
 $config['content_status']	= array('1' => '公開', '0' => '非公開');
 $config['content_kind']		= array(
 	'label'		=> 'ラベル',
-	'text'		=> 'テキスト',
+//	'text'		=> 'テキスト',
 	'html'		=> 'リッチテキスト',
 	'movie'		=> '動画',
 	'url'		=> 'URL',
@@ -23,7 +23,7 @@ $config['content_kind']		= array(
 
 $config['content_kind_comment']		= array(
 	'label'		=> 'ラベル <span>(実際の学習項目とならない章名の表示などに使用します)</span>',
-	'text'		=> 'テキスト <span>(テキスト文章のみで学習項目を作成します。)</span>',
+//	'text'		=> 'テキスト <span>(テキスト文章のみで学習項目を作成します。)</span>',
 	'html'		=> 'リッチテキスト <span>(HTML形式で学習項目を作成します。YouTubeなどの動画の埋め込みなどにも使用可能です。)</span>',
 	'movie'		=> '動画 <span>(動画をアップロードします。HTML5のVIDEOタグで再生できるものに限られます。)</span>',
 	'url'		=> 'URL <span>(外部のWebページを学習項目として追加します。)</span>',

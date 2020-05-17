@@ -248,25 +248,57 @@ class UsersController extends AppController
 */
 		));
 
-		//$this->log($this->paginate);
+		// 受講生 -- user
+		$user_conditions = array_merge($conditions,array(
+			'User.role' => 'user'
+		));
+
+		$user_list = $this->User->find('all',array(
+			'conditions' => $user_conditions,
+			'order' => 'User.username asc'
+		));
+
+
+		// 管理者 -- admin
+
+		$admin_conditions = array_merge($conditions,array(
+			'User.role' => 'admin'
+		));
+
+		$admin_list = $this->User->find('all',array(
+			'conditions' => $admin_conditions,
+			'order' => 'User.username asc'
+		));
+
+
+		// 卒業生 -- graduate
+
+		$graduate_conditions = array_merge($conditions,array(
+			'User.role' => 'graduate'
+		));
+
+		$graduate_list = $this->User->find('all',array(
+			'conditions' => $graduate_conditions,
+			'order' => 'User.username asc'
+		));
+
 
 		// ユーザ一覧を取得
 		try
 		{
-			$users = $this->paginate();
+
 		}
 		catch (Exception $e)
 		{
 			// 指定したページが存在しなかった場合（主に検索条件変更時に発生）、1ページ目を設定
 			$this->request->params['named']['page'] = 1;
-			$users = $this->paginate();
+			$user_list = $admin_list = $graduate_list = $this->paginate();
 		}
 
 		// グループ一覧を取得
 		$groups = $this->Group->find('list');
-    //$this->log($groups);
-
-		$this->set(compact('groups', 'users', 'group_id'));
+	
+		$this->set(compact('groups', 'user_list', 'admin_list', 'graduate_list' , 'group_id'));
 	}
 
 	/**

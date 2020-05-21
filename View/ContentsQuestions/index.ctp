@@ -1,3 +1,4 @@
+<?php echo $this->element('menu');?>
 <?php echo $this->Html->css('contentsquestions')?>
 <div class="contents-questions-index full-view">
 	<div class="breadcrumb">
@@ -184,7 +185,12 @@
 
   <div class = "text-block">
 	<?php
-		$body = '<iframe seamless id="contentFrame" height="100%" scrolling="yes" style="float : left; height: 800px; display : block;" src="'.h($content['Content']['url']).'"></iframe>';
+		$text_src = $this->Html->url(array(
+				"controller" => "contents_questions",
+				"action" => "show_text_url",
+				$content_id
+		), false);
+		$body = '<iframe seamless id="contentFrame" height="100%" scrolling="yes" style="float : left; height: 800px; display : block;" src="'. h($text_src) .'"></iframe>';
 		echo $body;
 	?>
 	</div>

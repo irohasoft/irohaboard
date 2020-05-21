@@ -47,7 +47,8 @@ class ContentsQuestionsController extends AppController
 			)
 		));
     //$this->log($content);
-    $url = $content['Content']['text_url'];
+		$url = $content['Content']['text_url'];
+		$this->set('content_id',$content_id);
 				
 		// 相対URLの場合、絶対URLに変更する
 		if(mb_substr($url, 0, 1)=='/'){
@@ -452,5 +453,24 @@ class ContentsQuestionsController extends AppController
 		
 		// 全て含まれていれば正解
 		return true;
+	}
+
+	public function admin_show_text_url($content_id = NULL){
+		$this->show_text_url($content_id);
+	}
+
+	public function show_text_url($content_id = NULL, $user_role = NULL){
+		
+
+		$this->loadModel('Content');
+		$data = $this->Content->find('first', array(
+			'fields' => array('id', 'url'),
+			'conditions' => array('id' => $content_id),
+			'recursive' => -1
+		));
+
+		$url_path = $data['Content']['url'];
+		
+		$this->redirect($url_path);
 	}
 }

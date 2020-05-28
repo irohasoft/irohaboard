@@ -30,11 +30,12 @@ function downloadCSV()
 		<span style = "margin-right : 20px" ><?php echo "出席率：".round(($att_1 / $cnt_1) * 100)."%";?></span>
 	</div>
 
-	<?php //１限のリスト?>
+	<?php //１限のリスト ?>
 	<div class = "record-table" style = "margin-bottom : 20px">
 	<table cellpadding="0" cellspacing="0">
 		<thead>
 			<tr>
+				<th nowrap ><?php echo __('No.');?></th>
 				<th nowrap class="non-last-column ib-col-center"><?php echo __('受講生番号');?></th>
 				<th nowrap class="non-last-column"><?php echo __('氏名');?></th>
 			<?php
@@ -53,6 +54,7 @@ function downloadCSV()
 		</thead>
 		<tbody>
 		<?php
+		$tmp_cnt = 1;
 		foreach ($period1_members as $member):
 			$user_id = $member['User']['id'];
 			$attendance_info = $attendance_list[$user_id];
@@ -63,6 +65,7 @@ function downloadCSV()
 			), false);
 		?>
 			<tr>
+				<td><?php echo h($tmp_cnt++);?></td>
 				<td nowrap class="ib-col-center"><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
 				<td nowrap>
 					<span data-toggle="tooltip" title='<img src="<?php echo $img_src; ?>" height="150" alt="<?php echo $name_list[$user_id]; ?>"/>'>
@@ -144,6 +147,7 @@ function downloadCSV()
 	<table cellpadding="0" cellspacing="0">
 		<thead>
 			<tr>
+				<th nowrap ><?php echo __('No.');?></th>
 				<th nowrap class="non-last-column ib-col-center"><?php echo __('受講生番号');?></th>
 				<th nowrap class="non-last-column"><?php echo __('氏名');?></th>
 			<?php
@@ -162,6 +166,7 @@ function downloadCSV()
 		</thead>
 		<tbody>
 		<?php
+		$tmp_cnt = 1;
 		foreach ($period2_members as $member):
 			$user_id = $member['User']['id'];
 			$attendance_info = $attendance_list[$user_id];
@@ -172,6 +177,7 @@ function downloadCSV()
 			), false);
 		?>
 			<tr>
+				<td><?php echo h($tmp_cnt++);?></td>
 				<td nowrap class="ib-col-center"><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
 				<td nowrap>
 					<span data-toggle="tooltip" title='<img src="<?php echo $img_src; ?>" height="150" alt="<?php echo $name_list[$user_id]; ?>"/>'>

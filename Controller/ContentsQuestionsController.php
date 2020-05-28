@@ -473,4 +473,21 @@ class ContentsQuestionsController extends AppController
 		
 		$this->redirect($url_path);
 	}
+
+	public function play_sound($speech="リアルタイム更新"){
+		$speech = str_replace(array(" ", "　"), "", $speech);
+		$file_path = Configure::read('speech').$speech.".wav";
+		if(!file_exists($file_path)){
+			$openjtalk_path       = Configure::read('openjtalk_path');
+			$openjtalk_voice      = Configure::read('openjtalk_voice');
+			$openjtalk_dictionary = Configure::read('openjtalk_dictionary');
+			$cmd = "echo \"".$speech."\" | ".$openjtalk_path." -m ".$openjtalk_voice." -x ".$openjtalk_dictionary." -r 1.1 -ow ".$file_path;
+			exec($cmd, $out, $status);
+		}
+		$this->autoRender = false;
+		$mime_type = mime_content_type($file_path);
+		$this->response->type($mime_type);
+		$this->response->file($file_path);
+		echo $this->response;
+	}
 }

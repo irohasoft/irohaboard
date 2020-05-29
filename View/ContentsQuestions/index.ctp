@@ -102,7 +102,12 @@
 	<?php if($slide_url){ ?>
 
 	<script type="text/javascript">
-	var count, stopped, date, SLIDE, SRC, voice, textData, showText, i, wait , count = 1, stopped = true;
+	var page, sentence, stopped, date, SLIDE, SRC, voice, textLines, textData, showText, i, wait; 
+	
+	page = 1;
+	sentence = 1;
+	stopped = true;
+
 	date = new Date();
 	SLIDE = '<?php echo $slide_name; ?>';
 	SRC = '<?php echo $this->webroot.'slide/'?>' + SLIDE + '/';
@@ -111,43 +116,67 @@
 	$.ajax(
 		SRC + SLIDE + '-scenario.txt', 'post'
 	).done(function (beforeData) { 
+
 		textData = beforeData.split('\n');
 		console.log(beforeData);
 		console.log(textData);
-		})
+
+		textLines = beforeData.split('\n');
+		textData = Array();
+		textLines.forEach(function (element) {
+			textData.push(
+				element.split(/(?<=。|．|\.|？|\?)/)
+				.filter(function(e){return e !== "";})
+				.map(function(e){return e.replace('?', '？')})
+			)
+		})	
+	})
 	showText = function () {
 		wait = 150;
-		if ('，．, .'.indexOf(textData[count - 1][i]) != -1) {
-			wait = 600;
+		if ('，．, .'.indexOf(textData[page - 1][sentence - 1][i]) != -1) {
+			wait = 600
 		}
-		$('span#text')[0].innerText += textData[count - 1][i]; i++
-		if (i >= textData[count - 1].length) {
+		$('span#text')[0].innerText += textData[page - 1][sentence - 1][i]; i++
+		if (i >= textData[page - 1][sentence - 1].length) {
 			$('button#next')[0].innerText = '次へ'
-			stopped = true; count++
+			stopped = true;	sentence++;
 		} else {
 			setTimeout(showText, wait)
 		}
 	}
-	window.onload = function () {
-		$('button#next')[0].onclick = function () {
 
-			if (!stopped) { 
-				console.log('No!') 
-			} else {
-				if (textData[count - 1] == undefined) { count = 1 }
-				$('button#next')[0].innerText = '...'
-				stopped = false
-				$('img#presen')[0].src = SRC + ('000' + count).slice(-3) + '.jpeg'
-				voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[count - 1]
-				voice.load(); voice.play()
-				$('span#text')[0].innerText = ''
-				i = 0
-				showText()
-			}
+	function playSlideAndText() {
+		if (!stopped) { 
+			console.log('No!') 
+		} else {
+			if (textData[page - 1][sentence - 1] == undefined) { page++; sentence = 1 }
+			if (textData[page - 1] == undefined || textData[page - 1].length == 0) { page = 1; sentence = 1 }
+			$('button#next')[0].innerText = '...'
+			stopped = false
+			if(sentence == 1){ $('img#presen')[0].src = SRC + ('000' + page).slice(-3) + '.jpeg'; }
+			voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[page - 1][sentence - 1]
+			voice.load(); voice.play()
+			$('span#text')[0].innerText = ''
+			i = 0
+			showText()
 		}
+	}
+
+	window.onload = function () {
+		$('button#next')[0].onclick = playSlideAndText;
 	}
 	</script>
 	<?php } ?>
+	<script>
+	document.addEventListener('keydown',(event)=>{
+		var keyName = event.key;
+		if(keyName == 'ArrowRight'){
+			playSlideAndText();
+		}else if(keyName == 'ArrowLeft'){
+			// 暫定処理
+		}
+	})
+	</script>
 
 	<?php $this->end(); ?>
 
@@ -237,14 +266,21 @@
   <div class = "text-block" id="TextBlock"  height="100%" scrolling="yes" style="float : left; height: 800px; display : block;">
 	<?php
 	  if($slide_url){
-			echo $this->Html->image('TestImage.jpg', array(
+			echo "<div style='max-height: 90vh;'>";
+			echo $this->Html->image('TestImage.png', array(
 				'id'  => 'presen',
-				'alt' => 'スライドがここに表示されます'
+				'alt' => 'スライドがここに表示されます',
+				'style' => 'max-height: 80vh;'
 			));
 	?>
 			<br>
 			<span id="text"></span><br>
-			<button id="next">クリックして始める</button>
+			<button id="next" style="margin-bottom: 10px;">クリックして始める</button>
+			</div>
+			<div class="alert alert-info">
+				使い方説明:<br>
+				右矢印キーを押すか，「次へ」をクリックすると，次にスライドが表示されます．
+			</div>
 	<?php
 	
 		}else{
@@ -253,7 +289,7 @@
 				"action" => "show_text_url",
 				$content_id
 			), false);
-			$body = '<iframe seamless id="contentFrame" height="100%" scrolling="yes" style="float : left; height: 800px; display : block;" src="'. h($text_src) .'"></iframe>';
+			$body = '<iframe seamless id="contentFrame" height="100%" scrolling="yes" style="float : left; height: 800px; display : block; width: 100%;" src="'. h($text_src) .'"></iframe>';
 			echo $body;
 		}
 		

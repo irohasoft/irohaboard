@@ -22,12 +22,21 @@
 		}
 	});
 </script>
-<div class="panel panel-default">
-	<div class="panel-heading">
+<div class="card panel-default">
+	<div class="card-header">
 		ファイルのアップロード
 	</div>
-	<div class="panel-body">
-		<div class="alert alert-warning">アップロードするファイルを指定して、アップロードボタンをクリックしてください。<br>ファイルが複数ある場合には、ZIP形式で圧縮してアップロードを行ってください。</div>
+	<div class="card-body">
+		<div class="alert alert-info">
+			アップロードするファイルを指定して、アップロードボタンをクリックしてください。<br>
+			ファイルが複数ある場合には、ZIP形式で圧縮してアップロードを行ってください。
+		</div>
+		<div class="alert alert-warning">
+			Google DriveからダウンロードしたZIPファイルは、アップロードの際に文字化けすることがあります。<br>
+			その場合は、一度展開してから圧縮し直したものをアップロードしてください。<br>
+			エラーを避けるために，スライドからファイルを生成する時，ファイル名を必ず英語にしてください．例： CPU_basic<br>
+			アップロードするファイル名も英語にしてください．例：CPU_basic.zip
+		</div>
 		<div class="form-group">
 			<h4>アップロード可能拡張子</h4>
 			<?php echo $upload_extensions;?>

@@ -1,3 +1,4 @@
+<?php echo $this->element('menu');?>
 <?php $this->start('css-embedded'); ?>
 <style>
 @media only screen and (max-width:800px)

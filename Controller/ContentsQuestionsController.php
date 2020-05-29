@@ -56,7 +56,14 @@ class ContentsQuestionsController extends AppController
     }
     //$url = urlencode($url);
     $this->set('text_url',$url);
-    //$this->log($url);
+		//$this->log($url);
+		
+		if($content['Content']['kind'] == 'slide'){
+			$slide_url = $this->webroot.'contents_questions/presen/'.$content_id;
+			$this->set('slide_url', $slide_url);
+			$slide_name = $this->Content->findFileName($content_id);
+			$this->set('slide_name', $slide_name);
+		}
 
     //------------------------------//
 		//	権限チェック				//
@@ -474,7 +481,8 @@ class ContentsQuestionsController extends AppController
 		$this->redirect($url_path);
 	}
 
-	public function play_sound($speech="リアルタイム更新"){
+	public function play_sound($speech="台詞がありません．"){
+		setlocale(LC_ALL, 'ja_JP.UTF-8');
 		$speech = str_replace(array(" ", "　"), "", $speech);
 		$file_path = Configure::read('speech').$speech.".wav";
 		if(!file_exists($file_path)){
@@ -490,4 +498,17 @@ class ContentsQuestionsController extends AppController
 		$this->response->file($file_path);
 		echo $this->response;
 	}
+
+	public function presen($content_id){
+		$this->loadModel('Content');
+		$slide_name = $this->Content->findFileName($content_id);
+		$this->log($slide_name);
+		//レイアウトを適用しない（ビューは使用する。）
+		$this->layout = '';
+
+		$slide_path = Configure::read('slide');
+		$this->set('slide_path', $slide_path);
+		$this->set('slide_name', $slide_name);
+	}
+
 }

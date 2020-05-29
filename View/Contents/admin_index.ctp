@@ -76,6 +76,7 @@
 	<?php
 		switch($content['Content']['kind'])
 		{
+			case 'slide':
 			case 'test':
 				$title = $this->Html->link($content['Content']['title'], array('controller' => 'contents_questions', 'action' => 'index', $content['Content']['id']));
 				break;

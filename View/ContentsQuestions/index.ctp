@@ -48,8 +48,8 @@
 	$(function(){
 		$(document).ready(function(){
 			var quiz = document.getElementById('quiz_block');
-			var text = document.getElementById('contentFrame');
-			const non_text_url = '<?php echo h($content['Content']['url']) ?>' ? false : true;
+			var text = document.getElementById('TextBlock');
+			const non_text_url = ('<?php echo h($content['Content']['url']) ?>' || '<?php echo h($slide_url) ?>') ? false : true;
 			if(non_text_url){
 				text.style.display = "none";
 				quiz.style.display = "block";
@@ -64,7 +64,8 @@
 
 		$('.screen_status').click(function(e){
 			var quiz = document.getElementById('quiz_block');
-			var text = document.getElementById('contentFrame');
+			// var text = document.getElementById('contentFrame');
+			var text = document.getElementById('TextBlock');
 			var flag = document.getElementById('quiz');
 			var id   = $(this).attr("id");
 			if(id == 'display_left'){
@@ -98,6 +99,56 @@
 
 	</script>
 	<?php echo $this->Html->script('contents_questions.js?20190401');?>
+	<?php if($slide_url){ ?>
+
+	<script type="text/javascript">
+	var count, stopped, date, SLIDE, SRC, voice, textData, showText, i, wait , count = 1, stopped = true;
+	date = new Date();
+	SLIDE = '<?php echo $slide_name; ?>';
+	SRC = '<?php echo $this->webroot.'slide/'?>' + SLIDE + '/';
+	console.log(SRC);
+	voice = new Audio();
+	$.ajax(
+		SRC + SLIDE + '-scenario.txt', 'post'
+	).done(function (beforeData) { 
+		textData = beforeData.split('\n');
+		console.log(beforeData);
+		console.log(textData);
+		})
+	showText = function () {
+		wait = 150;
+		if ('，．, .'.indexOf(textData[count - 1][i]) != -1) {
+			wait = 600;
+		}
+		$('span#text')[0].innerText += textData[count - 1][i]; i++
+		if (i >= textData[count - 1].length) {
+			$('button#next')[0].innerText = '次へ'
+			stopped = true; count++
+		} else {
+			setTimeout(showText, wait)
+		}
+	}
+	window.onload = function () {
+		$('button#next')[0].onclick = function () {
+
+			if (!stopped) { 
+				console.log('No!') 
+			} else {
+				if (textData[count - 1] == undefined) { count = 1 }
+				$('button#next')[0].innerText = '...'
+				stopped = false
+				$('img#presen')[0].src = SRC + ('000' + count).slice(-3) + '.jpeg'
+				voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[count - 1]
+				voice.load(); voice.play()
+				$('span#text')[0].innerText = ''
+				i = 0
+				showText()
+			}
+		}
+	}
+	</script>
+	<?php } ?>
+
 	<?php $this->end(); ?>
 
 	<!-- テスト結果ヘッダ表示 -->
@@ -138,7 +189,7 @@
 	?>
 
 	<?php
-		if($content['Content']['url']){
+		if($content['Content']['url'] || $slide_url){
 			echo $this->Html->image("screen_left.png", array(
 				'id'    => 'display_left',
 				'class' => 'screen_status',
@@ -183,15 +234,29 @@
 	?>
 	<br/>
 
-  <div class = "text-block">
+  <div class = "text-block" id="TextBlock"  height="100%" scrolling="yes" style="float : left; height: 800px; display : block;">
 	<?php
-		$text_src = $this->Html->url(array(
+	  if($slide_url){
+			echo $this->Html->image('TestImage.jpg', array(
+				'id'  => 'presen',
+				'alt' => 'スライドがここに表示されます'
+			));
+	?>
+			<br>
+			<span id="text"></span><br>
+			<button id="next">クリックして始める</button>
+	<?php
+	
+		}else{
+			$text_src = $this->Html->url(array(
 				"controller" => "contents_questions",
 				"action" => "show_text_url",
 				$content_id
-		), false);
-		$body = '<iframe seamless id="contentFrame" height="100%" scrolling="yes" style="float : left; height: 800px; display : block;" src="'. h($text_src) .'"></iframe>';
-		echo $body;
+			), false);
+			$body = '<iframe seamless id="contentFrame" height="100%" scrolling="yes" style="float : left; height: 800px; display : block;" src="'. h($text_src) .'"></iframe>';
+			echo $body;
+		}
+		
 	?>
 	</div>
 

@@ -76,6 +76,7 @@
 		// コンテンツの種別
 		switch($content['Content']['kind'])
 		{
+			case 'slide':
 			case 'test': // テスト
 				$icon  = 'glyphicon glyphicon-check text-danger';
         $before_content = $content['Content']['before_content'];

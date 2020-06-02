@@ -102,10 +102,11 @@
 	<?php if($slide_url){ ?>
 
 	<script type="text/javascript">
+	// スライド読み上げ設定
 	var page, sentence, stopped, date, SLIDE, SRC, voice, textLines, textData, showText, i, wait; 
 	
 	page = 1;
-	sentence = 1;
+	sentence = 0;
 	stopped = true;
 
 	date = new Date();
@@ -136,16 +137,48 @@
 		if ('，．, .'.indexOf(textData[page - 1][sentence - 1][i]) != -1) {
 			wait = 600
 		}
-		$('span#text')[0].innerText += textData[page - 1][sentence - 1][i]; i++
+		$('span#text')[0].innerText += textData[page - 1][sentence - 1][i]; i++;
+		console.log($('span#text')[0].innerText);
 		if (i >= textData[page - 1][sentence - 1].length) {
 			$('button#next')[0].innerText = '次へ'
-			stopped = true;	sentence++;
+			stopped = true;
 		} else {
 			setTimeout(showText, wait)
 		}
 	}
 
+	let showWords = function(input){
+		$('span#text')[0].innerText += input;
+	}
+
+	let showTextBeta = function(){
+		return new Promise( (res,rej) => {
+			for( let i = 0; i < textData[page - 1][sentence - 1].length; i++){
+				if ('，．, .'.indexOf(textData[page - 1][sentence - 1][i]) != -1) {
+					wait = 600;
+				}else{
+					wait = 150;
+				}
+				// setTimeout( showWords(textData[page - 1][sentence - 1][i]), wait);
+				// (function(pram){
+				// 	setTimeout( showWords(textData[page - 1][sentence - 1][pram]), wait);
+				// });
+				// console.log($('span#text')[0].innerText);
+				$('span#text')[0].innerText += textData[page - 1][sentence - 1][i];
+			}
+			$('button#next')[0].innerText = '次へ';
+			$('button#back')[0].innerText = '戻る';
+			$('button#back').css('display','');
+			stopped = true;
+			res();
+		});
+
+	}
+	
+
 	function playSlideAndText() {
+		sentence++;
+		console.log(textData[page - 1].length);
 		if (!stopped) { 
 			console.log('No!') 
 		} else {
@@ -155,15 +188,52 @@
 			stopped = false
 			if(sentence == 1){ $('img#presen')[0].src = SRC + ('000' + page).slice(-3) + '.jpeg'; }
 			voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[page - 1][sentence - 1]
-			voice.load(); voice.play()
-			$('span#text')[0].innerText = ''
-			i = 0
-			showText()
+			console.log(voice.src);
+			voice.load(); voice.play();
+			$('span#text')[0].innerText = '';
+			i = 0;
+			// showText();
+			showTextBeta().then(() => {
+				// console.log(sentence);
+			});
+		}
+	}
+
+	function slideBackAndText(){
+		sentence--;
+		if (!stopped) { 
+			console.log('No!') 
+		} else {
+			if(page == 1 && sentence == 0){
+				// 暫定処理
+				page = sentence = 1;
+			}
+
+			if (sentence == 0){
+				page--;
+				sentence = textData[page-1].length;
+			}
+
+			
+
+			$('button#next')[0].innerText = '...'
+			stopped = false
+			if(sentence == textData[page-1].length){ $('img#presen')[0].src = SRC + ('000' + page).slice(-3) + '.jpeg'; }
+			voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[page - 1][sentence - 1];
+			voice.load(); voice.play();
+			$('span#text')[0].innerText = '';
+			i = 0;
+			// showText();
+			showTextBeta().then(() => {
+				// sentence--;
+				// console.log(sentence);
+			});
 		}
 	}
 
 	window.onload = function () {
 		$('button#next')[0].onclick = playSlideAndText;
+		$('button#back')[0].onclick = slideBackAndText;
 	}
 	</script>
 	<?php } ?>
@@ -173,7 +243,7 @@
 		if(keyName == 'ArrowRight'){
 			playSlideAndText();
 		}else if(keyName == 'ArrowLeft'){
-			// 暫定処理
+			slideBackAndText();
 		}
 	})
 	</script>
@@ -275,7 +345,8 @@
 	?>
 			<br>
 			<span id="text"></span><br>
-			<button id="next" style="margin-bottom: 10px;">クリックして始める</button>
+			<button id="back" class="btn btn-outline-secondary" style="margin-bottom: 10px; display: none">クリックして始める</button>
+			<button id="next" class="btn btn-outline-primary" style="margin-bottom: 10px;">クリックして始める</button>
 			</div>
 			<div class="alert alert-info">
 				使い方説明:<br>

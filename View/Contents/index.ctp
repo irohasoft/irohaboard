@@ -40,9 +40,9 @@
 	?>
 	</div>
 
-	<div class="panel panel-info">
-	<div class="panel-heading"><?php echo h($course['Course']['title']); ?></div>
-	<div class="panel-body">
+	<div class="card">
+	<div class="card-header"><?php echo h($course['Course']['title']); ?></div>
+	<div class="card-body">
 	<?php if($course['Course']['introduction']!='') {?>
 	<div class="well">
 		<?php

@@ -339,5 +339,15 @@ EOF;
 			$cleared_list[$content_id] = $user_id;
 		}
     return $cleared_list;
-  }
+	}
+	
+	public function findFileName($content_id){
+		$data = $this->find('first', array(
+			'fields' => array('id', 'file_name'),
+			'conditions' => array('id' => $content_id),
+			'recursive' => -1
+		));
+		$file_name = $data['Content']['file_name'];
+		return $file_name;
+	}
 }

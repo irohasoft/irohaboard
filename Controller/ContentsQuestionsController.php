@@ -47,7 +47,8 @@ class ContentsQuestionsController extends AppController
 			)
 		));
     //$this->log($content);
-    $url = $content['Content']['text_url'];
+		$url = $content['Content']['text_url'];
+		$this->set('content_id',$content_id);
 				
 		// 相対URLの場合、絶対URLに変更する
 		if(mb_substr($url, 0, 1)=='/'){
@@ -55,7 +56,14 @@ class ContentsQuestionsController extends AppController
     }
     //$url = urlencode($url);
     $this->set('text_url',$url);
-    //$this->log($url);
+		//$this->log($url);
+		
+		if($content['Content']['kind'] == 'slide'){
+			$slide_url = $this->webroot.'contents_questions/presen/'.$content_id;
+			$this->set('slide_url', $slide_url);
+			$slide_name = $this->Content->findFileName($content_id);
+			$this->set('slide_name', $slide_name);
+		}
 
     //------------------------------//
 		//	権限チェック				//
@@ -453,4 +461,54 @@ class ContentsQuestionsController extends AppController
 		// 全て含まれていれば正解
 		return true;
 	}
+
+	public function admin_show_text_url($content_id = NULL){
+		$this->show_text_url($content_id);
+	}
+
+	public function show_text_url($content_id = NULL, $user_role = NULL){
+		
+
+		$this->loadModel('Content');
+		$data = $this->Content->find('first', array(
+			'fields' => array('id', 'url'),
+			'conditions' => array('id' => $content_id),
+			'recursive' => -1
+		));
+
+		$url_path = $data['Content']['url'];
+		
+		$this->redirect($url_path);
+	}
+
+	public function play_sound($speech="台詞がありません．"){
+		setlocale(LC_ALL, 'ja_JP.UTF-8');
+		$speech = str_replace(array(" ", "　"), "", $speech);
+		$file_path = Configure::read('speech').$speech.".wav";
+		if(!file_exists($file_path)){
+			$openjtalk_path       = Configure::read('openjtalk_path');
+			$openjtalk_voice      = Configure::read('openjtalk_voice');
+			$openjtalk_dictionary = Configure::read('openjtalk_dictionary');
+			$cmd = "echo \"".$speech."\" | ".$openjtalk_path." -m ".$openjtalk_voice." -x ".$openjtalk_dictionary." -r 1.1 -ow ".$file_path;
+			exec($cmd, $out, $status);
+		}
+		$this->autoRender = false;
+		$mime_type = mime_content_type($file_path);
+		$this->response->type($mime_type);
+		$this->response->file($file_path);
+		echo $this->response;
+	}
+
+	public function presen($content_id){
+		$this->loadModel('Content');
+		$slide_name = $this->Content->findFileName($content_id);
+		$this->log($slide_name);
+		//レイアウトを適用しない（ビューは使用する。）
+		$this->layout = '';
+
+		$slide_path = Configure::read('slide');
+		$this->set('slide_path', $slide_path);
+		$this->set('slide_name', $slide_name);
+	}
+
 }

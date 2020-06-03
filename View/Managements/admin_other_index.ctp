@@ -6,6 +6,4 @@
     onclick = "location.href = '<?php echo Router::url(array('controller' => 'infos', 'action' => 'index'))?>'">お知らせ</button>
   <button type = "button" class = "btn btn-primary select-btn"
     onclick = "location.href = '<?php echo Router::url(array('controller' => 'settings', 'action' => 'index'))?>'">システム設定</button>
-  <button type = "button" class = "btn btn-primary select-btn"
-    onclick = "location.href = '<?php echo Router::url(array('controller' => 'adminmanages', 'action' => 'index'))?>'">管理者ページ</button>
 </div>

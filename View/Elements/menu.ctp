@@ -65,7 +65,7 @@
 				<?php echo $this->Html->link(__('コース'), array('admin' => true, 'controller' => 'courses', 'action' => 'index'), array('class' => 'dropdown-item')); ?>
 				<?php echo $this->Html->link(__('授業日'), array('admin' => true, 'controller' => 'dates', 'action' => 'index'), array('class' => 'dropdown-item')); ?>
 				<div class="dropdown-divider"></div>
-				<?php echo $this->Html->link(__('その他管理'), array('controller' => 'managements', 'action' => 'other_index'), array('class' => 'dropdown-item')); ?>
+				<?php echo $this->Html->link(__('その他管理'), array('admin' => true,'controller' => 'managements', 'action' => 'other_index'), array('class' => 'dropdown-item')); ?>
 			</div>
 		</li>
 

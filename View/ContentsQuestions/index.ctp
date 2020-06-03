@@ -1,3 +1,4 @@
+<?php echo $this->element('menu');?>
 <?php echo $this->Html->css('contentsquestions')?>
 <div class="contents-questions-index full-view">
 	<div class="breadcrumb">
@@ -47,8 +48,8 @@
 	$(function(){
 		$(document).ready(function(){
 			var quiz = document.getElementById('quiz_block');
-			var text = document.getElementById('contentFrame');
-			const non_text_url = '<?php echo h($content['Content']['url']) ?>' ? false : true;
+			var text = document.getElementById('TextBlock');
+			const non_text_url = ('<?php echo h($content['Content']['url']) ?>' || '<?php echo h($slide_url) ?>') ? false : true;
 			if(non_text_url){
 				text.style.display = "none";
 				quiz.style.display = "block";
@@ -63,7 +64,8 @@
 
 		$('.screen_status').click(function(e){
 			var quiz = document.getElementById('quiz_block');
-			var text = document.getElementById('contentFrame');
+			// var text = document.getElementById('contentFrame');
+			var text = document.getElementById('TextBlock');
 			var flag = document.getElementById('quiz');
 			var id   = $(this).attr("id");
 			if(id == 'display_left'){
@@ -97,6 +99,155 @@
 
 	</script>
 	<?php echo $this->Html->script('contents_questions.js?20190401');?>
+	<?php if($slide_url){ ?>
+
+	<script type="text/javascript">
+	// スライド読み上げ設定
+	var page, sentence, stopped, date, SLIDE, SRC, voice, textLines, textData, showText, i, wait; 
+	
+	page = 1;
+	sentence = 0;
+	stopped = true;
+
+	date = new Date();
+	SLIDE = '<?php echo $slide_name; ?>';
+	SRC = '<?php echo $this->webroot.'slide/'?>' + SLIDE + '/';
+	console.log(SRC);
+	voice = new Audio();
+	$.ajax(
+		SRC + SLIDE + '-scenario.txt', 'post'
+	).done(function (beforeData) { 
+
+		textData = beforeData.split('\n');
+		console.log(beforeData);
+		console.log(textData);
+
+		textLines = beforeData.split('\n');
+		textData = Array();
+		textLines.forEach(function (element) {
+			textData.push(
+				element.split(/(?<=。|．|\.|？|\?)/)
+				.filter(function(e){return e !== "";})
+				.map(function(e){return e.replace('?', '？')})
+			)
+		})	
+	})
+	showText = function () {
+		wait = 150;
+		if ('，．, .'.indexOf(textData[page - 1][sentence - 1][i]) != -1) {
+			wait = 600
+		}
+		$('span#text')[0].innerText += textData[page - 1][sentence - 1][i]; i++;
+		console.log($('span#text')[0].innerText);
+		if (i >= textData[page - 1][sentence - 1].length) {
+			$('button#next')[0].innerText = '次へ'
+			stopped = true;
+		} else {
+			setTimeout(showText, wait)
+		}
+	}
+
+	let showWords = function(input){
+		$('span#text')[0].innerText += input;
+	}
+
+	let showTextBeta = function(){
+		return new Promise( (res,rej) => {
+			for( let i = 0; i < textData[page - 1][sentence - 1].length; i++){
+				if ('，．, .'.indexOf(textData[page - 1][sentence - 1][i]) != -1) {
+					wait = 600;
+				}else{
+					wait = 150;
+				}
+				// setTimeout( showWords(textData[page - 1][sentence - 1][i]), wait);
+				// (function(pram){
+				// 	setTimeout( showWords(textData[page - 1][sentence - 1][pram]), wait);
+				// });
+				// console.log($('span#text')[0].innerText);
+				$('span#text')[0].innerText += textData[page - 1][sentence - 1][i];
+			}
+			$('button#next')[0].innerText = '次へ';
+			$('button#back')[0].innerText = '戻る';
+			$('button#back').css('display','');
+			stopped = true;
+			res();
+		});
+
+	}
+	
+
+	function playSlideAndText() {
+		sentence++;
+		console.log(textData[page - 1].length);
+		if (!stopped) { 
+			console.log('No!') 
+		} else {
+			if (textData[page - 1][sentence - 1] == undefined) { page++; sentence = 1 }
+			if (textData[page - 1] == undefined || textData[page - 1].length == 0) { page = 1; sentence = 1 }
+			$('button#next')[0].innerText = '...'
+			stopped = false
+			if(sentence == 1){ $('img#presen')[0].src = SRC + ('000' + page).slice(-3) + '.jpeg'; }
+			voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[page - 1][sentence - 1]
+			console.log(voice.src);
+			voice.load(); voice.play();
+			$('span#text')[0].innerText = '';
+			i = 0;
+			// showText();
+			showTextBeta().then(() => {
+				// console.log(sentence);
+			});
+		}
+	}
+
+	function slideBackAndText(){
+		sentence--;
+		if (!stopped) { 
+			console.log('No!') 
+		} else {
+			if(page == 1 && sentence == 0){
+				// 暫定処理
+				page = sentence = 1;
+			}
+
+			if (sentence == 0){
+				page--;
+				sentence = textData[page-1].length;
+			}
+
+			
+
+			$('button#next')[0].innerText = '...'
+			stopped = false
+			if(sentence == textData[page-1].length){ $('img#presen')[0].src = SRC + ('000' + page).slice(-3) + '.jpeg'; }
+			voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[page - 1][sentence - 1];
+			voice.load(); voice.play();
+			$('span#text')[0].innerText = '';
+			i = 0;
+			// showText();
+			showTextBeta().then(() => {
+				// sentence--;
+				// console.log(sentence);
+			});
+		}
+	}
+
+	window.onload = function () {
+		$('button#next')[0].onclick = playSlideAndText;
+		$('button#back')[0].onclick = slideBackAndText;
+	}
+	</script>
+	<?php } ?>
+	<script>
+	document.addEventListener('keydown',(event)=>{
+		var keyName = event.key;
+		if(keyName == 'ArrowRight'){
+			playSlideAndText();
+		}else if(keyName == 'ArrowLeft'){
+			slideBackAndText();
+		}
+	})
+	</script>
+
 	<?php $this->end(); ?>
 
 	<!-- テスト結果ヘッダ表示 -->
@@ -137,7 +288,7 @@
 	?>
 
 	<?php
-		if($content['Content']['url']){
+		if($content['Content']['url'] || $slide_url){
 			echo $this->Html->image("screen_left.png", array(
 				'id'    => 'display_left',
 				'class' => 'screen_status',
@@ -182,10 +333,37 @@
 	?>
 	<br/>
 
-  <div class = "text-block">
+  <div class = "text-block" id="TextBlock"  height="100%" scrolling="yes" style="float : left; height: 800px; display : block;">
 	<?php
-		$body = '<iframe seamless id="contentFrame" height="100%" scrolling="yes" style="float : left; height: 800px; display : block;" src="'.h($content['Content']['url']).'"></iframe>';
-		echo $body;
+	  if($slide_url){
+			echo "<div style='max-height: 90vh;'>";
+			echo $this->Html->image('TestImage.png', array(
+				'id'  => 'presen',
+				'alt' => 'スライドがここに表示されます',
+				'style' => 'max-height: 80vh;'
+			));
+	?>
+			<br>
+			<span id="text"></span><br>
+			<button id="back" class="btn btn-outline-secondary" style="margin-bottom: 10px; display: none">クリックして始める</button>
+			<button id="next" class="btn btn-outline-primary" style="margin-bottom: 10px;">クリックして始める</button>
+			</div>
+			<div class="alert alert-info">
+				使い方説明:<br>
+				右矢印キーを押すか，「次へ」をクリックすると，次にスライドが表示されます．
+			</div>
+	<?php
+	
+		}else{
+			$text_src = $this->Html->url(array(
+				"controller" => "contents_questions",
+				"action" => "show_text_url",
+				$content_id
+			), false);
+			$body = '<iframe seamless id="contentFrame" height="100%" scrolling="yes" style="float : left; height: 800px; display : block; width: 100%;" src="'. h($text_src) .'"></iframe>';
+			echo $body;
+		}
+		
 	?>
 	</div>
 

@@ -2,4 +2,7 @@ tmp/
 webroot/text/
 webroot/uploads/
 webroot/img/student_img/
+webroot/slide/
+webroot/text/
+webroot/speech/
 *.swp

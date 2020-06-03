@@ -1,3 +1,4 @@
+<?php echo $this->element('menu');?>
 <div class="infos-index full-view">
 	<div class="breadcrumb">
 	<?php

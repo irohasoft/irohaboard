@@ -185,7 +185,7 @@
 			if (textData[page - 1][sentence - 1] == undefined) { page++; sentence = 1 }
 			if (textData[page - 1] == undefined || textData[page - 1].length == 0) { page = 1; sentence = 1 }
 			$('button#next')[0].innerText = '...'
-			stopped = false
+			// stopped = false
 			if(sentence == 1){ $('img#presen')[0].src = SRC + ('000' + page).slice(-3) + '.jpeg'; }
 			voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[page - 1][sentence - 1]
 			console.log(voice.src);
@@ -206,7 +206,9 @@
 		} else {
 			if(page == 1 && sentence == 0){
 				// 暫定処理
-				page = sentence = 1;
+				// page = sentence = 1;
+				page = textData.length;
+				sentence = textData[page - 1].length;
 			}
 
 			if (sentence == 0){
@@ -217,7 +219,7 @@
 			
 
 			$('button#next')[0].innerText = '...'
-			stopped = false
+			// stopped = false
 			if(sentence == textData[page-1].length){ $('img#presen')[0].src = SRC + ('000' + page).slice(-3) + '.jpeg'; }
 			voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[page - 1][sentence - 1];
 			voice.load(); voice.play();

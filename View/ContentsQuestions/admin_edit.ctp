@@ -119,6 +119,13 @@
 			
 			$("#ContentsQuestionOptionList").append($option);
 		}
+
+		// 保存時、コード表示モードの場合、解除する（編集中の内容を反映するため）
+		$('#ContentsQuestionAdminEditForm').submit( function() {
+			if ($('#ContentsQuestionExplain').summernote('codeview.isActivated')) {
+				$('#ContentsQuestionExplain').summernote('codeview.deactivate')
+			}
+		});
 	}
 </script>
 <?php $this->end(); ?>

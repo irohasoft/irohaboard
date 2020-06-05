@@ -422,4 +422,10 @@ form .required .control-label:after
 		text-align			: left;
 		width				: 100%;
 	}
+
+	.contents-questions-index iframe,
+	.contents-questions-index img
+	{
+		max-width			: 100%;
+	}
 }

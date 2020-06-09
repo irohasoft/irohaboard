@@ -40,215 +40,7 @@
 	<?php $this->end(); ?>
 
 	<?php $this->start('script-embedded'); ?>
-	<script>
-	var TIMELIMIT_SEC	= parseInt('<?php echo $content['Content']['timelimit'] ?>') * 60;	// 制限時間（単位：秒）
-	var IS_RECORD		= '<?php echo $is_record ?>';										// テスト結果表示フラグ
-
-
-	$(function(){
-		$(document).ready(function(){
-			var quiz = document.getElementById('quiz_block');
-			var text = document.getElementById('TextBlock');
-			const non_text_url = ('<?php echo h($content['Content']['url']) ?>' || '<?php echo h($slide_url) ?>') ? false : true;
-			if(non_text_url){
-				text.style.display = "none";
-				quiz.style.display = "block";
-				quiz.style.width = "95%";
-			}else{
-				text.style.display = "block";
-				text.style.width = "60%";
-				quiz.style.display = "block";
-				quiz.style.width = "35%";
-			}
-		});
-
-		$('.screen_status').click(function(e){
-			var quiz = document.getElementById('quiz_block');
-			// var text = document.getElementById('contentFrame');
-			var text = document.getElementById('TextBlock');
-			var flag = document.getElementById('quiz');
-			var id   = $(this).attr("id");
-			if(id == 'display_left'){
-				flag.className = "none";
-				text.style.display = "block";
-				text.style.width = "95%";
-				quiz.style.display = "none";
-				$("#display_left").attr("style",   "cursor: pointer; filter: brightness(100%);");
-				$("#display_middle").attr("style", "cursor: pointer; filter: brightness(60%);");
-				$("#display_right").attr("style",  "cursor: pointer; filter: brightness(60%);");
-			}else if(id == 'display_middle'){
-				flag.className = "parallel";
-				text.style.display = "block";
-				text.style.width = "60%";
-				quiz.style.display = "block";
-				quiz.style.width = "35%";
-				$("#display_left").attr("style",   "cursor: pointer; filter: brightness(60%);");
-				$("#display_middle").attr("style", "cursor: pointer; filter: brightness(100%);");
-				$("#display_right").attr("style",  "cursor: pointer; filter: brightness(60%);");
-			}else{
-				flag.className = "full";
-				text.style.display = "none";
-				quiz.style.display = "block";
-				quiz.style.width = "95%";
-				$("#display_left").attr("style",   "cursor: pointer; filter: brightness(60%);");
-				$("#display_middle").attr("style", "cursor: pointer; filter: brightness(60%);");
-				$("#display_right").attr("style",  "cursor: pointer; filter: brightness(100%);");
-			}
-		});
-	});
-
-	</script>
-	<?php echo $this->Html->script('contents_questions.js?20190401');?>
-	<?php if($slide_url){ ?>
-
-	<script type="text/javascript">
-	// スライド読み上げ設定
-	var page, sentence, stopped, date, SLIDE, SRC, voice, textLines, textData, showText, i, wait; 
 	
-	page = 1;
-	sentence = 0;
-	stopped = true;
-
-	date = new Date();
-	SLIDE = '<?php echo $slide_name; ?>';
-	SRC = '<?php echo $this->webroot.'slide/'?>' + SLIDE + '/';
-	console.log(SRC);
-	voice = new Audio();
-	$.ajax(
-		SRC + SLIDE + '-scenario.txt', 'post'
-	).done(function (beforeData) { 
-
-		textData = beforeData.split('\n');
-		console.log(beforeData);
-		console.log(textData);
-
-		textLines = beforeData.split('\n');
-		textData = Array();
-		textLines.forEach(function (element) {
-			textData.push(
-				element.split(/(?<=。|．|\.|？|\?)/)
-				.filter(function(e){return e !== "";})
-				.map(function(e){return e.replace('?', '？')})
-			)
-		})	
-	})
-	showText = function () {
-		wait = 150;
-		if ('，．, .'.indexOf(textData[page - 1][sentence - 1][i]) != -1) {
-			wait = 600
-		}
-		$('span#text')[0].innerText += textData[page - 1][sentence - 1][i]; i++;
-		console.log($('span#text')[0].innerText);
-		if (i >= textData[page - 1][sentence - 1].length) {
-			$('button#next')[0].innerText = '次へ'
-			stopped = true;
-		} else {
-			setTimeout(showText, wait)
-		}
-	}
-
-	let showWords = function(input){
-		$('span#text')[0].innerText += input;
-	}
-
-	let showTextBeta = function(){
-		return new Promise( (res,rej) => {
-			for( let i = 0; i < textData[page - 1][sentence - 1].length; i++){
-				if ('，．, .'.indexOf(textData[page - 1][sentence - 1][i]) != -1) {
-					wait = 600;
-				}else{
-					wait = 150;
-				}
-				// setTimeout( showWords(textData[page - 1][sentence - 1][i]), wait);
-				// (function(pram){
-				// 	setTimeout( showWords(textData[page - 1][sentence - 1][pram]), wait);
-				// });
-				// console.log($('span#text')[0].innerText);
-				$('span#text')[0].innerText += textData[page - 1][sentence - 1][i];
-			}
-			$('button#next')[0].innerText = '次へ';
-			$('button#back')[0].innerText = '戻る';
-			$('button#back').css('display','');
-			stopped = true;
-			res();
-		});
-
-	}
-	
-
-	function playSlideAndText() {
-		sentence++;
-		console.log(textData[page - 1].length);
-		if (!stopped) { 
-			console.log('No!') 
-		} else {
-			if (textData[page - 1][sentence - 1] == undefined) { page++; sentence = 1 }
-			if (textData[page - 1] == undefined || textData[page - 1].length == 0) { page = 1; sentence = 1 }
-			$('button#next')[0].innerText = '...'
-			// stopped = false
-			if(sentence == 1){ $('img#presen')[0].src = SRC + ('000' + page).slice(-3) + '.jpeg'; }
-			voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[page - 1][sentence - 1]
-			console.log(voice.src);
-			voice.load(); voice.play();
-			$('span#text')[0].innerText = '';
-			i = 0;
-			// showText();
-			showTextBeta().then(() => {
-				// console.log(sentence);
-			});
-		}
-	}
-
-	function slideBackAndText(){
-		sentence--;
-		if (!stopped) { 
-			console.log('No!') 
-		} else {
-			if(page == 1 && sentence == 0){
-				// 暫定処理
-				// page = sentence = 1;
-				page = textData.length;
-				sentence = textData[page - 1].length;
-			}
-
-			if (sentence == 0){
-				page--;
-				sentence = textData[page-1].length;
-			}
-
-			
-
-			$('button#next')[0].innerText = '...'
-			// stopped = false
-			if(sentence == textData[page-1].length){ $('img#presen')[0].src = SRC + ('000' + page).slice(-3) + '.jpeg'; }
-			voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[page - 1][sentence - 1];
-			voice.load(); voice.play();
-			$('span#text')[0].innerText = '';
-			i = 0;
-			// showText();
-			showTextBeta().then(() => {
-				// sentence--;
-				// console.log(sentence);
-			});
-		}
-	}
-
-	window.onload = function () {
-		$('button#next')[0].onclick = playSlideAndText;
-		$('button#back')[0].onclick = slideBackAndText;
-	}
-	</script>
-	<?php } ?>
-	<script>
-	document.addEventListener('keydown',(event)=>{
-		var keyName = event.key;
-		if(keyName == 'ArrowRight'){
-			playSlideAndText();
-		}else if(keyName == 'ArrowLeft'){
-			slideBackAndText();
-		}
-	})
-	</script>
 
 	<?php $this->end(); ?>
 
@@ -349,11 +141,13 @@
 			<span id="text"></span><br>
 			<button id="back" class="btn btn-outline-secondary" style="margin-bottom: 10px; display: none">クリックして始める</button>
 			<button id="next" class="btn btn-outline-primary" style="margin-bottom: 10px;">クリックして始める</button>
+			<span style="float:right;">再生速度：<input type="number" id="playback-rate" value="1.0" min="-10.0" max="10.0" step="0.01"></span>
 			</div>
 			<div class="alert alert-info">
-				使い方説明:<br>
+				使い方説明：<br>
 				右矢印キーを押すか，「次へ」をクリックすると，次のスライドが表示されます．<br>
 				左矢印キーを押すか，「戻る」をクリックすると，一つ前のスライドが表示されます．<br>
+				再生速度：-10.0 ~ 10.0
 			</div>
 	<?php
 	
@@ -507,3 +301,232 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<script>
+	var TIMELIMIT_SEC	= parseInt('<?php echo $content['Content']['timelimit'] ?>') * 60;	// 制限時間（単位：秒）
+	var IS_RECORD		= '<?php echo $is_record ?>';										// テスト結果表示フラグ
+
+
+	$(function(){
+		$(document).ready(function(){
+			var quiz = document.getElementById('quiz_block');
+			var text = document.getElementById('TextBlock');
+			const non_text_url = ('<?php echo h($content['Content']['url']) ?>' || '<?php echo h($slide_url) ?>') ? false : true;
+			if(non_text_url){
+				text.style.display = "none";
+				quiz.style.display = "block";
+				quiz.style.width = "95%";
+			}else{
+				text.style.display = "block";
+				text.style.width = "60%";
+				quiz.style.display = "block";
+				quiz.style.width = "35%";
+			}
+		});
+
+		$('.screen_status').click(function(e){
+			var quiz = document.getElementById('quiz_block');
+			// var text = document.getElementById('contentFrame');
+			var text = document.getElementById('TextBlock');
+			var flag = document.getElementById('quiz');
+			var id   = $(this).attr("id");
+			if(id == 'display_left'){
+				flag.className = "none";
+				text.style.display = "block";
+				text.style.width = "95%";
+				quiz.style.display = "none";
+				$("#display_left").attr("style",   "cursor: pointer; filter: brightness(100%);");
+				$("#display_middle").attr("style", "cursor: pointer; filter: brightness(60%);");
+				$("#display_right").attr("style",  "cursor: pointer; filter: brightness(60%);");
+			}else if(id == 'display_middle'){
+				flag.className = "parallel";
+				text.style.display = "block";
+				text.style.width = "60%";
+				quiz.style.display = "block";
+				quiz.style.width = "35%";
+				$("#display_left").attr("style",   "cursor: pointer; filter: brightness(60%);");
+				$("#display_middle").attr("style", "cursor: pointer; filter: brightness(100%);");
+				$("#display_right").attr("style",  "cursor: pointer; filter: brightness(60%);");
+			}else{
+				flag.className = "full";
+				text.style.display = "none";
+				quiz.style.display = "block";
+				quiz.style.width = "95%";
+				$("#display_left").attr("style",   "cursor: pointer; filter: brightness(60%);");
+				$("#display_middle").attr("style", "cursor: pointer; filter: brightness(60%);");
+				$("#display_right").attr("style",  "cursor: pointer; filter: brightness(100%);");
+			}
+		});
+	});
+
+	</script>
+	<?php echo $this->Html->script('contents_questions.js?20190401');?>
+	<?php if($slide_url){ ?>
+
+	<script type="text/javascript">
+	// スライド読み上げ設定
+	var page, sentence, stopped, date, SLIDE, SRC, voice, textLines, textData, showText, i, wait; 
+	
+	page = 1;
+	sentence = 0;
+	stopped = true;
+
+	date = new Date();
+	SLIDE = '<?php echo $slide_name; ?>';
+	SRC = '<?php echo $this->webroot.'slide/'?>' + SLIDE + '/';
+	voice = new Audio();
+	$.ajax(
+		SRC + SLIDE + '-scenario.txt', 'post'
+	).done(function (beforeData) { 
+
+		textData = beforeData.split('\n');
+
+		textLines = beforeData.split('\n');
+		textData = Array();
+
+		textLines.forEach(function (element) {
+			textData.push(
+				// element.split(/(?<=。|．|\.|？|\?)/)
+				element.split(/(。|．|\.|？|\?)/)
+				.filter(function(e){return e !== "";})
+				.map(function(e){return e.replace('?', '？')})
+			)
+		});
+
+		textDataTmp = new Array(textData.length);
+		for(let i = 0; i < textData.length; i++){
+			let size = textData[i].length / 2;
+			textDataTmp[i] = new Array(Math.floor(size)).fill(" ");
+		}
+
+		for(i = 0; i < textData.length; i++){
+			k = 0;
+			for(j = 0; j< textData[i].length; j += 2){
+				textDataTmp[i][k] = textData[i][j] + textData[i][j+1];
+				k++;
+			}
+		}
+
+		textData = textDataTmp;
+	})
+	showText = function () {
+		wait = 150;
+		if ('，．, .'.indexOf(textData[page - 1][sentence - 1][i]) != -1) {
+			wait = 600
+		}
+		$('span#text')[0].innerText += textData[page - 1][sentence - 1][i]; i++;
+		if (i >= textData[page - 1][sentence - 1].length) {
+			$('button#next')[0].innerText = '次へ'
+			stopped = true;
+		} else {
+			setTimeout(showText, wait)
+		}
+	}
+
+	let showWords = function(input){
+		$('span#text')[0].innerText += input;
+	}
+
+	let showTextBeta = function(){
+		return new Promise( (res,rej) => {
+			for( let i = 0; i < textData[page - 1][sentence - 1].length; i++){
+				if ('，．, .'.indexOf(textData[page - 1][sentence - 1][i]) != -1) {
+					wait = 600;
+				}else{
+					wait = 150;
+				}
+				// setTimeout( showWords(textData[page - 1][sentence - 1][i]), wait);
+				// (function(pram){
+				// 	setTimeout( showWords(textData[page - 1][sentence - 1][pram]), wait);
+				// });
+				// console.log($('span#text')[0].innerText);
+				$('span#text')[0].innerText += textData[page - 1][sentence - 1][i];
+			}
+			$('button#next')[0].innerText = '次へ';
+			$('button#back')[0].innerText = '戻る';
+			$('button#back').css('display','');
+			stopped = true;
+			res();
+		});
+
+	}
+	
+
+	function playSlideAndText() {
+		sentence++;
+		if (!stopped) { 
+			console.log('No!') 
+		} else {
+			if (textData[page - 1][sentence - 1] == undefined) { page++; sentence = 1 }
+			if (textData[page - 1] == undefined || textData[page - 1].length == 0) { page = 1; sentence = 1 }
+			$('button#next')[0].innerText = '...'
+			// stopped = false
+			if(sentence == 1){ $('img#presen')[0].src = SRC + ('000' + page).slice(-3) + '.jpeg'; }
+			voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[page - 1][sentence - 1]
+			voice.load(); voice.play();
+			$('span#text')[0].innerText = '';
+			i = 0;
+			// showText();
+			showTextBeta().then(() => {
+				// console.log(sentence);
+			});
+		}
+	}
+
+	function slideBackAndText(){
+		sentence--;
+		if (!stopped) { 
+			console.log('No!') 
+		} else {
+			if(page == 1 && sentence == 0){
+				// 暫定処理
+				// page = sentence = 1;
+				page = textData.length;
+				sentence = textData[page - 1].length;
+			}
+
+			if (sentence == 0){
+				page--;
+				sentence = textData[page-1].length;
+			}
+
+			
+
+			$('button#next')[0].innerText = '...'
+			// stopped = false
+			if(sentence == textData[page-1].length){ $('img#presen')[0].src = SRC + ('000' + page).slice(-3) + '.jpeg'; }
+			voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[page - 1][sentence - 1];
+			voice.load(); voice.play();
+			$('span#text')[0].innerText = '';
+			i = 0;
+			// showText();
+			showTextBeta().then(() => {
+				// sentence--;
+				// console.log(sentence);
+			});
+		}
+	}
+
+	window.onload = function () {
+		$('button#next')[0].onclick = playSlideAndText;
+		$('button#back')[0].onclick = slideBackAndText;
+	}
+	</script>
+	<?php } ?>
+	<script>
+	document.addEventListener('keydown',(event)=>{
+		var keyName = event.key;
+		if(keyName == 'ArrowRight'){
+			playSlideAndText();
+		}else if(keyName == 'ArrowLeft'){
+			slideBackAndText();
+		}
+	});
+
+	var element_rate = document.getElementById("playback-rate");
+
+	setInterval(function(){
+		let v;
+		v = element_rate.value;
+		voice.playbackRate = v;
+	}, 1000 );
+</script>

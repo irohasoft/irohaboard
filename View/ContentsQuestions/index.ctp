@@ -394,14 +394,23 @@
 
 		textDataTmp = new Array(textData.length);
 		for(let i = 0; i < textData.length; i++){
-			let size = textData[i].length / 2;
+			let size;
+			if(textData[i].length == 1){
+				size = textData[i].length;
+			}else{
+				size = textData[i].length / 2;
+			}
 			textDataTmp[i] = new Array(Math.floor(size)).fill(" ");
 		}
 
 		for(i = 0; i < textData.length; i++){
 			k = 0;
 			for(j = 0; j< textData[i].length; j += 2){
-				textDataTmp[i][k] = textData[i][j] + textData[i][j+1];
+				if(textData[i].length == 1){
+					textDataTmp[i][k] = textData[i][j]
+				}else{
+					textDataTmp[i][k] = textData[i][j] + textData[i][j+1];
+				}
 				k++;
 			}
 		}

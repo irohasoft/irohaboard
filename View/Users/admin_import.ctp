@@ -33,7 +33,7 @@
 			?>
 			<div style="color:red;">
 			<?php echo $err_msg; ?>
-			<div>
+			</div>
 		</div>
 	</div>
 </div>

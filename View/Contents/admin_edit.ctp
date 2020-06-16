@@ -40,7 +40,7 @@
 		});
 
 		// 保存時、コード表示モードの場合、解除する（編集中の内容を反映するため）
-		$('#ContentAdminEditForm').submit( function() {
+		$("form").submit( function() {
 			var val = $('input[name="data[Content][kind]"]:checked').val();
 			
 			if(val=='html')

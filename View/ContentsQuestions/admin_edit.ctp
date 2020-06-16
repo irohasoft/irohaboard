@@ -101,6 +101,13 @@
 		CommonUtil.setRichTextEditor('#ContentsQuestionBody', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
 		CommonUtil.setRichTextEditor('#ContentsQuestionExplain', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
 		
+		// 保存時、コード表示モードの場合、解除する（編集中の内容を反映するため）
+		$("form").submit( function() {
+			if ($('#ContentsQuestionExplain').summernote('codeview.isActivated')) {
+				$('#ContentsQuestionExplain').summernote('codeview.deactivate')
+			}
+		});
+		
 		if($("#ContentsQuestionOptions").val()=="")
 			return;
 		
@@ -119,13 +126,6 @@
 			
 			$("#ContentsQuestionOptionList").append($option);
 		}
-
-		// 保存時、コード表示モードの場合、解除する（編集中の内容を反映するため）
-		$('#ContentsQuestionAdminEditForm').submit( function() {
-			if ($('#ContentsQuestionExplain').summernote('codeview.isActivated')) {
-				$('#ContentsQuestionExplain').summernote('codeview.deactivate')
-			}
-		});
 	}
 </script>
 <?php $this->end(); ?>

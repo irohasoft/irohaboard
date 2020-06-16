@@ -56,7 +56,7 @@
 		echo $this->Html->getCrumbs(' / ');
 	?>
 	</div>
-	<div class="ib-page-title"><?php echo __('コンテンツ問題一覧'); ?></div>
+	<div class="ib-page-title"><?php echo __('テスト問題一覧'); ?></div>
 	
 	<div class="buttons_container">
 		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add', $content['Content']['id'])) ?>'">+ 追加</button>

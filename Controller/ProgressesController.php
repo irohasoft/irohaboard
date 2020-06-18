@@ -41,7 +41,7 @@ class ProgressesController extends AppController{
 			'put'
 		)))
 		{
-      $this->log($this->request->data);
+      // $this->log($this->request->data);
       if($this->Progress->save($this->request->data)){
         $this->Flash->success(__('成果発表が保存されました'));
 				return $this->redirect(array(
@@ -81,6 +81,8 @@ class ProgressesController extends AppController{
 		return $this->redirect(array(
 				'action' => 'index'
 		));
-	}
+  }
+
+  
 }
 ?>

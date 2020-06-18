@@ -4,7 +4,7 @@
 
 </script>
 <?php $this->end(); ?>
-<div class="admin-courses-index full-view">
+<div class="admin-progress-index full-view">
 	<div class="ib-page-title"><?php echo __('成果発表一覧'); ?></div>
 	<div class="buttons_container">
 		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add')) ?>'">+ 追加</button>
@@ -26,7 +26,7 @@
 	<tr>
 		<td nowrap>
 			<?php
-				echo $this->Html->link($progress['Progress']['title'], array('controller' => 'progressDetail', 'action' => 'index', $progress['Progress']['id']));
+				echo $this->Html->link($progress['Progress']['title'], array('controller' => 'progressesDetails', 'action' => 'index', $progress['Progress']['id']));
 				echo $this->Form->hidden('id', array('id'=>'', 'class'=>'progress_id', 'value'=>$progress['Progress']['id']));
 			?>
 		</td>

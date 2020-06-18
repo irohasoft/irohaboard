@@ -1,5 +1,5 @@
 <?php echo $this->element('admin_menu');?>
-<div class="admin-courses-edit full-view">
+<div class="admin-progress-edit full-view">
 <?php echo $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
 	<div class="card bg-light">
 		<div class="card-header">

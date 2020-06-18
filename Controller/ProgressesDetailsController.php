@@ -230,5 +230,32 @@ class ProgressesDetailsController extends AppController{
 		$this->set('upload_extensions',		join(', ', $upload_extensions));
 		$this->set('upload_maxsize',		$upload_maxsize);
 	}
+
+	public function index($progress_id){
+		$this->loadModel('Progress');
+		$this->loadModel('User');
+
+		$progress_id = intval($progress_id);
+
+    $progress_info = $this->Progress->find('first',array(
+			'conditions' => array(
+				'Progress.id' => $progress_id
+			),
+      'order' => array('Progress.id' => 'desc')
+    ));
+
+		$user_list = $this->User->find('list',array(
+			'conditions' => array(
+				'User.role' => 'user'
+			),
+			'order' => 'User.id asc'
+		));
+
+
+		$progress_details = $progress_info['ProgressesDetail'];
+		$this->log($progress_details);
+
+    $this->set(compact('progress_info','progress_details','user_list'));
+	}
 }
 ?>

@@ -18,7 +18,7 @@ class ProgressesController extends AppController{
     $progress_list = $this->Progress->find('all',array(
       'order' => array('Progress.id' => 'desc')
     ));
-    $this->log($progress_list);
+    // $this->log($progress_list);s
     $this->set(compact('progress_list'));
   }
 
@@ -83,6 +83,12 @@ class ProgressesController extends AppController{
 		));
   }
 
-  
+  public function index(){
+    $progress_list = $this->Progress->find('all',array(
+      'order' => array('Progress.id' => 'desc')
+    ));
+    // $this->log($progress_list);s
+    $this->set(compact('progress_list'));
+  }
 }
 ?>

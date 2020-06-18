@@ -24,7 +24,7 @@ class EnqueteController extends AppController{
   public $components = array(
     'Paginator',
     'Search.Prg'
-);
+  );
 
   //public $presetVars = true;
 

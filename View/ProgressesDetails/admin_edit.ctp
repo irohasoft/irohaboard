@@ -158,7 +158,7 @@
           'label' => '発表内容と資料リンク',
           'type' => 'textarea'
         ));
-        echo '<div class="bg-info text-white">ソースコードをアップしたい場合(.Zipでお願いします)</div>';
+        echo '<div class="bg-light text-black">ソースコードをアップしたい場合：(できれば<code>.zip</code>でお願いします)</div>';
         echo $this->Form->input('url',		array(
 					'label' => 'URL', 
 					'class' => 'form-control form-control-upload',

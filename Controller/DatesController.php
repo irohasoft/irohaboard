@@ -77,7 +77,93 @@ class DatesController extends AppController{
          'recursive' => -1
       ));
  		}
-   }
+  }
+
+
+  /**
+  * ４回分の授業日を追加
+  * @param string $type 授業のタイプ
+  */
+  public function admin_add_quadruple($type){
+    $this->loadModel('Attendance');
+    $this->loadModel('Lesson');
+
+    $is_online = $type === 'online' ? 1 : 0;
+    $last_date_info = $this->Date->find('first',array(
+      'order' => 'id desc'
+    ));
+    $last_date = $last_date_info['Date']['date'];
+
+
+    for($i = 1; $i <= 4; $i++){
+      $tmp_date = date('Y-m-d', strtotime( $last_date. " +". ( $i * 7 )." day"));
+      $dates_save_data = array();
+      $dates_save_data['Date'] = array(
+        "id" => "",
+        "date" => $tmp_date,
+        "online" => $is_online,
+      );
+      if($this->Date->save($dates_save_data)){
+        $this->Date->create(false); //これがないと，ループ内での保存はできない
+
+        // 保存した情報を検索し，IDを取得
+        $tmp_date_info = $this->Date->find('first',array(
+          'order' => 'id desc'
+        ));
+        $date_id = $tmp_date_info['Date']['id'];
+
+        // 出席情報をセット
+        $this->Attendance->setAttendanceInfo($date_id);
+
+
+        // 時限登録
+        // １限
+        $period_0 = array(
+          "id" => "",
+          "date_id" => $date_id,
+          "period" => 0,
+          "start" => array(
+            "hour" => "09",
+            "min" => "00"
+          ),
+          "end" => array(
+            "hour" => "10",
+            "min" => "30"
+          ),
+        );
+
+        //　２限 
+        $period_1 = array(
+          "id" => "",
+          "date_id" => $date_id,
+          "period" => 1,
+          "start" => array(
+            "hour" => "11",
+            "min" => "00"
+          ),
+          "end" => array(
+            "hour" => "12",
+            "min" => "30"
+          ),
+        );
+
+        if($this->Lesson->save($period_0)){
+          $this->Lesson->create(false);
+          if($this->Lesson->save($period_1)){
+
+          }
+        }else{
+          $this->Flash->error(__('追加は失敗しました、もう一回やってください。'));
+        }
+
+
+        continue;
+      }
+      $this->Flash->error(__('追加は失敗しました、もう一回やってください。'));
+    }
+    return $this->redirect(['action' => 'admin_index']);
+  }
+
 
   /**
   * 授業日の削除

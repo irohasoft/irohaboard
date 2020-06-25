@@ -36,7 +36,7 @@
 			if($loginedUser['role']=='admin')
 			{
 				echo $this->Form->postLink(__('削除'),
-					array('action' => 'delete', $detail['id']),
+					array('action' => 'delete', $progress_info['Progress']['id'], $detail['id']),
 					array('class'=>'btn btn-danger'),
 					__('[%s] を削除してもよろしいですか?', $detail['title'])
 				);

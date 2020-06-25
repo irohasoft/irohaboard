@@ -6,7 +6,7 @@
 	</li>
 	<?php $is_active = ($this->name=='Progresses') ? ' active' : ''; ?>
 	<li class="nav-item <?php echo $is_active; ?>">
-		<?php echo $this->Html->link(__('成果発表'), array('controller' => 'progresses', 'action' => 'index'), array('class' => 'nav-link')); ?>
+		<?php echo $this->Html->link(__('成果発表'), array('admin' => false,'controller' => 'progresses', 'action' => 'index'), array('class' => 'nav-link')); ?>
 	</li>
 
 	<?php if ($loginedUser['role']=='admin') { ?>

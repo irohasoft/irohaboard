@@ -1,4 +1,4 @@
-<?php echo $this->element('menu')?>
+<?php echo $this->element('admin_menu')?>
 <?php $this->start('script-embedded'); ?>
 <script>
 

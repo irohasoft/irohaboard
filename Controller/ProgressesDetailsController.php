@@ -119,23 +119,32 @@ class ProgressesDetailsController extends AppController{
 
   /**
 	 * 成果発表の削除
-	 * @param int $course_id コースID
+	 * @param int $progress_detail_id 作品id
 	 */
-	public function admin_delete($progress_id = null)
+	public function admin_delete($progress_id, $progress_detail_id = null)
 	{
 
-		$this->Progress->id = $progress_id;
-		if (! $this->Progress->exists())
+		$this->ProgressesDetail->id = intval($progress_detail_id);
+		if (! $this->ProgressesDetail->exists())
 		{
 			throw new NotFoundException(__('Invalid progress'));
 		}
 
 		$this->request->allowMethod('post', 'delete');
-		$this->Progress->deleteProgress($progress_id);
-		$this->Flash->success(__('成果発表が削除されました'));
+		$this->log("aaaaa!!!!!!!!!!!");
+		if ($this->ProgressesDetail->delete())
+		{
+			$this->Flash->success(__('成果発表が削除されました'));
+		}
+		else
+		{
+			$this->Flash->error(__('成果発表を削除できませんでした'));
+		}
+		// $this->ProgressesDetail->deleteProgressDetail($progress_detail_id);
+		// $this->Flash->success(__('成果発表が削除されました'));
 
 		return $this->redirect(array(
-				'action' => 'index'
+				'action' => 'index',$progress_id
 		));
 	}
 

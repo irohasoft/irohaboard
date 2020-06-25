@@ -60,6 +60,4 @@ class ProgressesDetail extends AppModel
 
 	public $filterArgs = array(
 	);
-
-
 }

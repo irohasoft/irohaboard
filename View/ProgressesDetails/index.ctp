@@ -35,11 +35,12 @@
         aria-labelledby=<?php echo h("header-".$cnt);?>
         data-parent="#progress">
           <div class="card-body">
-            <pre><?echo $detail['body']?></pre>
+            <pre><?php echo $detail['body']?></pre>
             <?php
               
+              $this->log($detail);
 
-              if(isset($detail['url'])){
+              if(!empty($detail['url'])){
                 $url = $detail['url'];
                 // 相対URLの場合、絶対URLに変更する
 				        if(mb_substr($url, 0, 1)=='/')
@@ -54,11 +55,12 @@
                     'class' => 'btn btn-primary'
                   )
                 );
-              }else{
-                $download_link = "";
+                ?>
+                  <p>ソースコード：<?php echo $download_link; ?></p>
+                <?php
               }
             ?>
-            <p>ソースコード：<?php echo $download_link; ?></p>
+
           </div>
         </div>
         

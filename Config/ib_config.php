@@ -72,6 +72,7 @@ $config['upload_extensions'] = array(
 	'.zip',
 	'.ppt',
 	'.pptx',
+	'.pps',
 	'.doc',
 	'.docx',
 	'.xls',

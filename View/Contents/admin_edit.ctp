@@ -73,7 +73,7 @@
 				break;
 			case 'html': // リッチテキスト
 				// リッチテキストエディタを起動
-				CommonUtil.setRichTextEditor('#ContentBody', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
+				CommonUtil.setRichTextEditor('#ContentBody', <?php echo Configure::read('upload_image_maxsize') ?>, '<?php echo $this->webroot ?>');
 				$("#btnPreview").show();
 				break;
 			case 'movie': // 動画

@@ -98,8 +98,8 @@
 	function init()
 	{
 		// リッチテキストエディタを起動
-		CommonUtil.setRichTextEditor('#ContentsQuestionBody', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
-		CommonUtil.setRichTextEditor('#ContentsQuestionExplain', <?php echo (Configure::read('use_upload_image') ? 'true' : 'false')?>, '<?php echo $this->webroot ?>');
+		CommonUtil.setRichTextEditor('#ContentsQuestionBody', <?php echo Configure::read('upload_image_maxsize') ?>, '<?php echo $this->webroot ?>');
+		CommonUtil.setRichTextEditor('#ContentsQuestionExplain', <?php echo Configure::read('upload_image_maxsize') ?>, '<?php echo $this->webroot ?>');
 		
 		// 保存時、コード表示モードの場合、解除する（編集中の内容を反映するため）
 		$("form").submit( function() {

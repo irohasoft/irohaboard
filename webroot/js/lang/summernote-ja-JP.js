@@ -21,7 +21,7 @@
         floatRight: '右寄せ',
         floatNone: '寄せ解除',
         dragImageHere: 'ここに画像ファイルをドラッグしてください',
-        selectFromFiles: '画像ファイルを選択してください (500KB以下, 英数字のみ)',
+        selectFromFiles: '画像ファイルを選択してください',
         url: 'URLから画像を挿入する',
         remove: '画像を削除する'
       },

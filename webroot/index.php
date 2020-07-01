@@ -1,19 +1,11 @@
 <?php
 /**
- * The Front Controller for handling every request
+ * iroha Board Project
  *
- * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @package       app.webroot
- * @since         CakePHP(tm) v 0.2.9
- * @license       https://opensource.org/licenses/mit-license.php MIT License
+ * @author        Kotaro Miura
+ * @copyright     2015-2020 iroha Soft, Inc. (http://irohasoft.jp)
+ * @link          http://irohaboard.irohasoft.jp
+ * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 // PHPのバージョンチェック
@@ -81,6 +73,12 @@ if (!defined('CONFIG')) {
  * /lib/Cake/Console/Templates/skel/webroot/index.php
  */
 //define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'lib');
+
+// cake ディレクトリが webroot の1階層上に存在する場合
+//define('CAKE_CORE_INCLUDE_PATH', dirname(dirname(dirname(__FILE__))).DS.'cake'.DS.'lib');
+
+// cake ディレクトリが webroot の2階層上に存在する場合
+//define('CAKE_CORE_INCLUDE_PATH', dirname(dirname(dirname(dirname(__FILE__)))).DS.'cake'.DS.'lib');
 
 /**
  * This auto-detects CakePHP as a composer installed library.

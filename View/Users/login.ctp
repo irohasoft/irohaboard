@@ -1,6 +1,6 @@
 <div class="users-login full-view">
-	<div class="panel panel-info form-signin">
-		<div class="panel-body">
+	<div class="card bg-light form-signin">
+		<div class="card-body">
 			<?php echo $this->Flash->render('auth'); ?>
 			<?php echo $this->Form->create('User'); ?>
 

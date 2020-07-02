@@ -1,7 +1,7 @@
 # iroha Board
 iroha Board is a Simple and Easy-to-Use Open Source LMS.  [[Japanese / 日本語]](/README.jp.md)
 
-## Project website
+## Official Website (Japanese)
 https://irohaboard.irohasoft.jp/
 
 ## Demo
@@ -13,26 +13,26 @@ https://demoib.irohasoft.com/
 * CakePHP : 2.10
 
 ## Installation
-1. Download CakePHP's source file extract the file.
+1. Download and extract the CakePHP source filese.
 https://github.com/cakephp/cakephp/releases/tag/2.10.20
-2. Download iroha Board's source file and extract the file.
+2. Download and extract the iroha Board source files.
 https://github.com/irohasoft/irohaboard/releases
-3. Replace CakePHP app directory with iroha Board's source files.
-4. Modify database configuration file (app/Config/database.php).
-Make sure you have created an empty database on you MySQL server.
-5. Upload all files to public direcotry on your web server.
-6. Open http://(your-domain-name)/install on your web browser.
+3. Replace the CakePHP's app directory with the iroha Board's source files.
+4. Modify the database configuration file (app/Config/database.php).
+Make sure that an empty database is created on the MySQL server.
+5. Upload all the files to a public directory on the web server.
+6. Open http://(your-domain-name)/install in your web browser.
 
 ## Features
 
 ### For students.
 
 - Learning.
-- Take tests.
+- Taking tests.
 - Show learning records.
 - Show informations from teachers.
 
-### For teachers.
+### For learners.
 - Manage users.
 - Manage user groups.
 - Manage informations.

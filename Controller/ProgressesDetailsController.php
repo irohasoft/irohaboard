@@ -30,8 +30,8 @@ class ProgressesDetailsController extends AppController{
 		$user_list = $this->User->find('list',array(
 			'conditions' => array(
 				'or' => array(
-					'User.role' => 'user',
-					'User.role' => 'graduate'
+					array('User.role' => 'user'),
+					array('User.role' => 'graduate')
 				)
 			),
 			'order' => 'User.id asc'
@@ -67,17 +67,18 @@ class ProgressesDetailsController extends AppController{
 		$user_list = $this->User->find('list',array(
 			'conditions' => array(
 				'or' => array(
-					'User.role' => 'user',
-					'User.role' => 'graduate'
+					array('User.role' => 'user'),
+					array('User.role' => 'graduate')
 				)
 			),
 			'order' => 'User.id asc'
 		));
+		$this->log($user_list);
 		$user_name_list = $this->User->find('list',array(
 			'conditions' => array(
 				'or' => array(
-					'User.role' => 'user',
-					'User.role' => 'graduate'
+					array('User.role' => 'user'),
+					array('User.role' => 'graduate')
 				)
 			),
 			'fields' => array('User.name'),
@@ -87,7 +88,7 @@ class ProgressesDetailsController extends AppController{
 		$tmp_data = array_values(array_unique($user_name_list));
 
 		$user_name_list_json = json_encode($tmp_data);
-		$this->log($user_name_list_json);
+		// $this->log($user_name_list_json);
 		$this->set(compact('user_name_list_json','progress_id','progress_info'));
 
     if ($this->action == 'edit' && ! $this->ProgressesDetail->exists($progress_detail_id))
@@ -264,8 +265,8 @@ class ProgressesDetailsController extends AppController{
 		$user_list = $this->User->find('list',array(
 			'conditions' => array(
 				'or' => array(
-					'User.role' => 'user',
-					'User.role' => 'graduate'
+					array('User.role' => 'user'),
+					array('User.role' => 'graduate')
 				)
 			),
 			'order' => 'User.id asc'

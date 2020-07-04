@@ -29,7 +29,10 @@ class ProgressesDetailsController extends AppController{
 
 		$user_list = $this->User->find('list',array(
 			'conditions' => array(
-				'User.role' => 'user'
+				'or' => array(
+					'User.role' => 'user',
+					'User.role' => 'graduate'
+				)
 			),
 			'order' => 'User.id asc'
 		));
@@ -63,13 +66,19 @@ class ProgressesDetailsController extends AppController{
 
 		$user_list = $this->User->find('list',array(
 			'conditions' => array(
-				'User.role' => 'user'
+				'or' => array(
+					'User.role' => 'user',
+					'User.role' => 'graduate'
+				)
 			),
 			'order' => 'User.id asc'
 		));
 		$user_name_list = $this->User->find('list',array(
 			'conditions' => array(
-				'User.role' => 'user'
+				'or' => array(
+					'User.role' => 'user',
+					'User.role' => 'graduate'
+				)
 			),
 			'fields' => array('User.name'),
 			'order' => 'User.id asc'
@@ -131,7 +140,6 @@ class ProgressesDetailsController extends AppController{
 		}
 
 		$this->request->allowMethod('post', 'delete');
-		$this->log("aaaaa!!!!!!!!!!!");
 		if ($this->ProgressesDetail->delete())
 		{
 			$this->Flash->success(__('成果発表が削除されました'));
@@ -246,16 +254,19 @@ class ProgressesDetailsController extends AppController{
 
 		$progress_id = intval($progress_id);
 
-    $progress_info = $this->Progress->find('first',array(
+    	$progress_info = $this->Progress->find('first',array(
 			'conditions' => array(
 				'Progress.id' => $progress_id
 			),
-      'order' => array('Progress.id' => 'desc')
-    ));
+      		'order' => array('Progress.id' => 'desc')
+    	));
 
 		$user_list = $this->User->find('list',array(
 			'conditions' => array(
-				'User.role' => 'user'
+				'or' => array(
+					'User.role' => 'user',
+					'User.role' => 'graduate'
+				)
 			),
 			'order' => 'User.id asc'
 		));

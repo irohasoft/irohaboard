@@ -386,7 +386,7 @@
 		textLines.forEach(function (element) {
 			textData.push(
 				// element.split(/(?<=。|．|\.|？|\?)/)
-				element.split(/(。|．|\.|？|\?)/)
+				element.split(/(。|．|\.(?![0-9])|？|\?)/)
 				.filter(function(e){return e !== "";})
 				.map(function(e){return e.replace('?', '？')})
 			)

@@ -95,6 +95,7 @@ class Record extends AppModel
 			'Course' => array(
 					'className' => 'Course',
 					'foreignKey' => 'course_id',
+					'type'=>'inner',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
@@ -102,6 +103,7 @@ class Record extends AppModel
 			'User' => array(
 					'className' => 'User',
 					'foreignKey' => 'user_id',
+					'type'=>'inner',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
@@ -109,6 +111,7 @@ class Record extends AppModel
 			'Content' => array(
 					'className' => 'Content',
 					'foreignKey' => 'content_id',
+					'type'=>'inner',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''

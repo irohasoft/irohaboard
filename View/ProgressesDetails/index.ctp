@@ -8,7 +8,7 @@
 
 		echo $this->Html->getCrumbs(' / ');
 	?>
-  <div class="accordion mt-3" id="progress">
+  <div class="accordion mt-3 mb-3" id="progress">
     <?php $cnt = 0;?>
     <?php foreach ($progress_details as $detail):?>
       <?php 

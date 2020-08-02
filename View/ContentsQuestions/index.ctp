@@ -229,13 +229,13 @@
 					$correct_label .= ($correct_label=='') ? $option_list[$correct_no - 1] : '</br>'.$option_list[$correct_no - 1];
 				}
 
-				$correct_tag	= sprintf('<p class="correct-text bg-success">正解 : </br>%s</p><p>%s</p>',
+				$correct_tag	= sprintf('<p class="correct-text border border-success shadow">正解 : </br>%s</p><p>%s</p>',
 					$correct_label, $this->Html->image($result_img, array('width'=>'60','height'=>'60')));
 
 				// 解説の設定
 				if($question['explain']!='')
 				{
-					$explain_tag = sprintf('<div class="correct-text bg-danger">%s</div>',
+					$explain_tag = sprintf('<div class="correct-text border border-danger shadow">%s</div>',
 						$question['explain']);
 				}
 			}
@@ -245,7 +245,7 @@
 				<div class="panel-body">
 					<!--問題タイトル-->
 					<h4><?php echo h($title) ?></h4>
-					<div class="question-text bg-warning">
+					<div class="question-text border border-warning shadow">
 						<!--問題文-->
 						<?php echo $body ?>
 					</div>

@@ -65,6 +65,7 @@ $config['upload_extensions'] = array(
 	'.mp3',
 	'.wma',
 	'.m4a',
+	'.py',
 );
 
 $config['upload_image_extensions'] = array(

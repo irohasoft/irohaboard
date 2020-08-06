@@ -141,13 +141,13 @@
 			<span id="text"></span><br>
 			<button id="back" class="btn btn-outline-secondary" style="margin-bottom: 10px; display: none">クリックして始める</button>
 			<button id="next" class="btn btn-outline-primary" style="margin-bottom: 10px;">クリックして始める</button>
-			<span style="float:right;">再生速度：<input type="number" id="playback-rate" value="1.0" min="-10.0" max="10.0" step="0.01"></span>
+			<span style="float:right;">再生速度：<input type="number" id="playback-rate" value="1.0" min="0.0" max="10.0" step="0.01"></span>
 			</div>
 			<div class="alert alert-info">
 				使い方説明：<br>
 				右矢印キーを押すか，「次へ」をクリックすると，次のスライドが表示されます．<br>
 				左矢印キーを押すか，「戻る」をクリックすると，一つ前のスライドが表示されます．<br>
-				再生速度：-10.0 ~ 10.0
+				再生速度：0.0 ~ 10.0
 			</div>
 	<?php
 	
@@ -202,8 +202,9 @@
 				{
 					$is_checked = (@$answer_list[0]==$option_index) ? 'checked' : '';
 					// 選択肢ラジオボタン
-					$option_tag .= sprintf('<input type="radio" value="%s" name="data[answer_%s]" %s %s> %s<br>',
-							$option_index, $question_id, $is_checked, $is_disabled, h($option));
+					$id_label = 'answer-'.$option_index.'-'.$question_id;
+					$option_tag .= sprintf('<input type="radio" value="%s" name="data[answer_%s]" id="%s" %s %s> <label for="%s"> %s</label><br>',
+							$option_index, $question_id, $id_label, $is_checked, $is_disabled, $id_label, h($option));
 				}
 
 
@@ -304,6 +305,7 @@
 <script>
 	var TIMELIMIT_SEC	= parseInt('<?php echo $content['Content']['timelimit'] ?>') * 60;	// 制限時間（単位：秒）
 	var IS_RECORD		= '<?php echo $is_record ?>';										// テスト結果表示フラグ
+	var element_rate = document.getElementById("playback-rate");
 
 
 	$(function(){
@@ -471,7 +473,9 @@
 			// stopped = false
 			if(sentence == 1){ $('img#presen')[0].src = SRC + ('000' + page).slice(-3) + '.jpeg'; }
 			voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[page - 1][sentence - 1]
-			voice.load(); voice.play();
+			voice.load(); 
+			voice.playbackRate = element_rate.value;
+			voice.play();
 			$('span#text')[0].innerText = '';
 			i = 0;
 			// showText();
@@ -504,7 +508,9 @@
 			// stopped = false
 			if(sentence == textData[page-1].length){ $('img#presen')[0].src = SRC + ('000' + page).slice(-3) + '.jpeg'; }
 			voice.src = '<?php echo $this->webroot ?>' + '/contents_questions/play_sound/' + textData[page - 1][sentence - 1];
-			voice.load(); voice.play();
+			voice.load(); 
+			voice.playbackRate = element_rate.value;
+			voice.play();
 			$('span#text')[0].innerText = '';
 			i = 0;
 			// showText();
@@ -531,11 +537,12 @@
 		}
 	});
 
-	var element_rate = document.getElementById("playback-rate");
+	document.getElementById('ContentsQuestionIndexForm').addEventListener('keydown',(e)=>{
+		e.preventDefault();
+	})
 
-	setInterval(function(){
-		let v;
-		v = element_rate.value;
-		voice.playbackRate = v;
-	}, 1000 );
+
+	element_rate.addEventListener('input', (e)=>{
+		voice.playbackRate = element_rate.value;
+	})
 </script>

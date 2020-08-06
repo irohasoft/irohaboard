@@ -176,8 +176,8 @@ $config['unzip_path'] = '/usr/bin/unzip';
 
 // OpenJTalkの設定 : 自分の環境に合わせてください
 $config['openjtalk_path']       = '/usr/bin/open_jtalk';
-$config['openjtalk_voice']      = '/usr/share/hts-voice/mei/mei_normal.htsvoice';
-$config['openjtalk_dictionary'] = '/usr/share/open_jtalk_dic';
+$config['openjtalk_voice']      = '/var/www/html/open-jtalk/1.11/voice/mei/mei_normal.htsvoice';
+$config['openjtalk_dictionary'] = '/var/www/html/open_jtalk_dic_utf_8-1.11';
 
 $config['true_or_false'] = array(
 	'0' => 'False',

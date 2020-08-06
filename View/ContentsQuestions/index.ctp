@@ -195,6 +195,7 @@
 					$is_checked = (in_array($option_index, $answer_list)) ? " checked" : "";
 
 					// 選択肢チェックボックス
+					$id_label = 'answer-'.$option_index.'-'.$question_id;
 					$option_tag .= sprintf('<input type="checkbox" value="%s" name="data[answer_%s][]" id="%s" %s %s> <label for="%s">%s</label><br>',
 						$option_index, $question_id, $id_label, $is_checked, $is_disabled, $id_label, h($option));
 				}

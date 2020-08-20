@@ -137,11 +137,11 @@
 				'style' => 'max-height: 80vh;'
 			));
 	?>
-			<br>
-			<span id="text"></span><br>
 			<button id="back" class="btn btn-outline-secondary" style="margin-bottom: 10px; display: none">クリックして始める</button>
 			<button id="next" class="btn btn-outline-primary" style="margin-bottom: 10px;">クリックして始める</button>
 			<span style="float:right;">再生速度：<input type="number" id="playback-rate" value="1.0" min="0.0" max="10.0" step="0.01"></span>
+			<br>
+			<span id="text"></span><br>
 			</div>
 			<div class="alert alert-info">
 				使い方説明：<br>
@@ -389,7 +389,7 @@
 		textLines.forEach(function (element) {
 			textData.push(
 				// element.split(/(?<=。|．|\.|？|\?)/)
-				element.split(/(。|．|\.(?![0-9])|？|\?)/)
+				element.split(/(。|．|\.(?![0-9])|？|\?|、$)/)
 				.filter(function(e){return e !== "";})
 				.map(function(e){return e.replace('?', '？')})
 			)

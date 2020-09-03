@@ -173,6 +173,7 @@ CREATE TABLE IF NOT EXISTS `ib_groups_courses` (
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS `ib_courses` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
+  `category_id` int(8) NOT NULL,
   `title` varchar(200) NOT NULL DEFAULT '',
   `introduction` text,
   `opened` datetime DEFAULT NULL,
@@ -374,6 +375,19 @@ CREATE TABLE IF NOT EXISTS `ib_soaps` (
   `comment` varchar(200) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `ib_categories`
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS `ib_categories` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) NOT NULL DEFAULT '',
+  `introduction` text,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `sort_no` int(8) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

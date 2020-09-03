@@ -1,8 +1,8 @@
 <?php echo $this->element('menu');?>
 <?php echo $this->Html->css('enquete');?>
-<div class="enquete-input-header">
-  <div class="ib-page-title mb-3"><?php echo __('アンケート'.'('.$today.')'.'記入')?></div>
-  <div class="enquete-input-block">
+<div class="enquete-input-header full-view">
+  <h1 class="text-center mb-3"><?php echo __('アンケート'.'('.$today.')'.'記入')?></h1>
+  <div class="col-sm-12 col-md-8 rounded shadow-lg mx-auto py-5 mb-5">
   <?php
     //echo $this->Form->create("enquete-input",array('novalidate' => true));
     echo $this->Form->create(false,['type' => 'post','url'=> ['controller' => 'enquete','action' => 'index'],'novalidate' => true]);
@@ -121,7 +121,7 @@
   ));
   echo "</div>"
 ;  ?>
-  <input type = "submit" class = "btn btn-info btn-add" value = "送信">
+  <input type = "submit" class = "btn btn-primary btn-add" value = "送信">
   <?php echo $this->Form->end(); ?>
   </div>
 </div>

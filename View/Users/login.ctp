@@ -1,5 +1,5 @@
 <div class="users-login full-view">
-	<div class="card bg-light form-signin">
+	<div class="card bg-light form-signin rounded shadow">
 		<div class="card-body">
 			<?php echo $this->Flash->render('auth'); ?>
 			<?php echo $this->Form->create('User'); ?>

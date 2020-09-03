@@ -65,7 +65,19 @@ class Course extends AppModel
 	 *
 	 * @var array
 	 */
+	/**
+	 * belongsTo associations
+	 *
+	 * @var array
+	 */
 	public $belongsTo = array(
+			'Category' => array(
+					'className' => 'Category',
+					'foreignKey' => 'category_id',
+					'conditions' => '',
+					'fields' => '',
+					'order' => ''
+			)
 	);
 
 	/**

@@ -31,6 +31,10 @@ class UsersCoursesController extends AppController
 		$this->loadModel('Attendance');
 		$this->loadModel('Date');
 		$this->loadModel('Enquete');
+		$this->loadModel('Category');
+		$this->loadModel('Course');
+		$this->loadModel('Content');
+		$this->loadModel('Record');
 
 		$user_id = $this->Auth->user('id');
 
@@ -65,34 +69,154 @@ class UsersCoursesController extends AppController
 
 		// 受講コース情報の取得
 		//$courses = $this->UsersCourse->getCourseRecord($user_id);
-		$all_courses = $this->UsersCourse->getCourseRecord($user_id);
+		// $all_courses = $this->UsersCourse->getCourseRecord($user_id);
+		$all_courses = [];
+
+		$in_category_courses_list = $this->Category->find('all',array(
+			'order' => 'Category.sort_no asc'
+		));
+
+		$out_category_courses = $this->Course->find('all',array(
+			'conditions' => array(
+				'Course.category_id' => NULL 
+			),
+			'order' => array('Course.sort_no' => 'asc')
+		));
+
+		foreach($in_category_courses_list as $category_info){
+			$tmp_arr = [];
+			$tmp_arr['Category'] = $category_info['Category'];
+			$tmp_arr['Course'] = $category_info['Course'];
+			foreach($tmp_arr['Course'] as &$course){
+				$course_id = $course['id'];
+				// 学習開始日
+				$first_date = $this->Record->find('first',array(
+					'conditions' => array(
+						'Record.course_id' => $course_id,
+						'Record.user_id' => $user_id
+					),
+					'order' => array(
+						'Record.created asc'
+					)
+				))['Record']['created'];
+				// 学習最終日
+				$latest_date = $this->Record->find('first',array(
+					'conditions' => array(
+						'Record.course_id' => $course_id,
+						'Record.user_id' => $user_id
+					),
+					'order' => array(
+						'Record.created desc'
+					)
+				))['Record']['created'];
+
+				$sum_content_cnt = $this->Content->find('count',array(
+					'conditions' => array(
+						'Content.course_id' => $course_id,
+					)
+				));
+				$did_content_cnt = $this->Record->find('count',array(
+					'conditions' => array(
+						'Record.course_id' => $course_id,
+						'Record.user_id' => $user_id
+					),
+					'fileds' => 'DISTINCT Record.content_id',
+				));
+				$course['add_info'] = array(
+					'sum_cnt' => $sum_content_cnt,
+					'did_cnt' => $did_content_cnt,
+					'first_date' => $first_date,
+					'last_date' => $latest_date
+				);
+			}
+			array_push($all_courses, $tmp_arr);
+		}
+
+		$other_course = [];
+		$other_course['Category'] = array(
+			'id' => 0,
+			'title' => '未分類'
+		);
+		
+		$other_course['Course'] = [];
+		foreach($out_category_courses as $category_info){
+			$tmp_arr = $category_info['Course'];
+			$course_id = $tmp_arr['id'];
+			// 学習開始日
+			$first_date = $this->Record->find('first',array(
+				'conditions' => array(
+					'Record.course_id' => $course_id,
+					'Record.user_id' => $user_id
+				),
+				'order' => array(
+					'Record.created asc'
+				)
+			))['Record']['created'];
+			// 学習最終日
+			$latest_date = $this->Record->find('first',array(
+				'conditions' => array(
+					'Record.course_id' => $course_id,
+					'Record.user_id' => $user_id
+				),
+				'order' => array(
+					'Record.created desc'
+				)
+			))['Record']['created'];
+			$sum_content_cnt = $this->Content->find('count',array(
+				'conditions' => array(
+					'Content.course_id' => $course_id,
+				)
+			));
+			$did_content_cnt = $this->Record->find('count',array(
+				'conditions' => array(
+					'Record.course_id' => $course_id,
+					'Record.user_id' => $user_id
+				),
+				'fileds' => 'DISTINCT Record.content_id',
+			));
+			$tmp_arr['add_info'] = array(
+				'sum_cnt' => $sum_content_cnt,
+				'did_cnt' => $did_content_cnt,
+			);
+			array_push($other_course['Course'], $tmp_arr);
+		}
+
+		array_push($all_courses,$other_course);
+
 		$courses = [];
 		// 管理者の場合，コースを全部表示
     if($role === 'admin'){
       $courses = $all_courses;
     }else{
 			//受講生の場合
-      foreach($all_courses as $course){
-				//もし,コースが非公開設定になっている場合
-				if($course['Course']['status'] == 0){
-					continue;
-				}
+      foreach($all_courses as &$course){
+				$new_course = [];
+				foreach($course['Course'] as $old_course){
 
-        $before_course_id = $course['Course']['before_course'];
-        $now_course_id = $course['Course']['id'];
-        // 前提コースが無いか，既にクリアしたコンテンツが一つ以上ある
-        if($this->Course->existCleared($user_id, $now_course_id) || $before_course_id === null){
-          array_push($courses, $course);
-        }else{
-          $result = $this->Course->goToNextCourse($user_id, $before_course_id, $now_course_id);
-          if($result){
-            array_push($courses, $course);
-          }else{
-            continue;
-          }
-        }
-      }
-    }
+					//もし,コースが非公開設定になっている場合
+					if($old_course['status'] == 0){
+						continue;
+					}
+
+					$before_course_id = $course['before_course'];
+					$now_course_id = $course['id'];
+
+					// 前提コースが無いか，既にクリアしたコンテンツが一つ以上ある
+        	if($this->Course->existCleared($user_id, $now_course_id) || $before_course_id === null){
+        	  array_push($new_course, $old_course);
+        	}else{
+        	  $result = $this->Course->goToNextCourse($user_id, $before_course_id, $now_course_id);
+        	  if($result){
+        	    array_push($new_course, $old_course);
+        	  }else{
+        	    continue;
+        	  }
+        	}
+				}
+				$course['Course'] = $new_course;
+			}
+			$courses = $all_courses;
+		}
 
 		$no_record = "";
 

@@ -30,10 +30,31 @@ class CoursesController extends AppController
 	 */
 	public function admin_index()
 	{
+		$this->Course->unbindModel(array(
+			'hasMany' => array('Content', 'Record', 'ClearedContent')
+		));
+
+		$this->loadModel('Category');
+		$in_category_courses = $this->Category->find('all',array(
+			'order' => array('Category.sort_no' => 'asc')
+		));
+
+		$in_category_courses_list = $this->Category->find('list',array(
+			'order' => array('Category.sort_no' => 'asc')
+		));
+		$json_list = json_encode($in_category_courses_list);
+
+		$out_category_courses = $this->Course->find('all',array(
+			'conditions' => array(
+				'Course.category_id' => NULL 
+			),
+			'order' => array('Course.sort_no' => 'asc')
+		));
+
 		$courses = $this->Course->find('all', array(
 			'order' => array('Course.sort_no' => 'asc')
 		));
-		$this->set(compact('courses'));
+		$this->set(compact('in_category_courses', 'out_category_courses','json_list'));
 	}
 
 	/**
@@ -51,6 +72,14 @@ class CoursesController extends AppController
 	 */
 	public function admin_edit($course_id = null)
 	{
+		$this->loadModel('Category');
+
+		$category_list = $this->Category->find('list',array(
+			'fields' => array('Category.id', 'Category.title'),
+			'order' => array('Category.sort_no' => 'asc')
+		));
+		$this->set(compact('category_list'));
+
 		if ($this->action == 'edit' && ! $this->Course->exists($course_id))
 		{
 			throw new NotFoundException(__('Invalid course'));
@@ -74,6 +103,7 @@ class CoursesController extends AppController
 
 			// 作成者を設定
 			$this->request->data['Course']['user_id'] = $this->Auth->user('id');
+			$this->log($this->request->data);
 
 			if ($this->Course->save($this->request->data))
 			{

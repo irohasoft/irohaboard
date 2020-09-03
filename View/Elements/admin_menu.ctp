@@ -59,6 +59,7 @@
 										$this->name=='Dates' or $this->name=='Lessons' or
 										$this->name=='Progresses' or
 										$this->name=='ProgressesDetails' or
+										$this->name=='Categories' or
 								 	 ($this->name=='AdminManages' && $this->action=='admin_index')) ? ' active' : '';
 		?>
 		<li class="nav-item dropdown <?php echo $is_active; ?>">
@@ -71,6 +72,7 @@
 				<?php echo $this->Html->link(__('コース'), array('admin' => true, 'controller' => 'courses', 'action' => 'index'), array('class' => 'dropdown-item')); ?>
 				<?php echo $this->Html->link(__('授業日'), array('admin' => true, 'controller' => 'dates', 'action' => 'index'), array('class' => 'dropdown-item')); ?>
 				<?php echo $this->Html->link(__('成果発表編集'), array('admin' => true, 'controller' => 'progresses', 'action' => 'index'), array('class' => 'dropdown-item')); ?>
+				<?php echo $this->Html->link(__('カテゴリ編集'), array('admin' => true, 'controller' => 'categories', 'action' => 'index'), array('class' => 'dropdown-item')); ?>
 				<div class="dropdown-divider"></div>
 				<?php echo $this->Html->link(__('その他管理'), array('admin' => true,'controller' => 'managements', 'action' => 'other_index'), array('class' => 'dropdown-item')); ?>
 			</div>

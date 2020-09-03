@@ -10,6 +10,13 @@
 			<?php
 				echo $this->Form->input('id');
 				echo $this->Form->input('title',	array('label' => __('コース名')));
+				echo $this->Form->input('category_id', array(
+					'label' => '所属カテゴリ：',
+					'options' => $category_list,
+					'empty' => '',
+					'required' => false,
+					'class' => 'form-control'
+				));
         echo $this->Form->input('before_course',array(
           'label' => '前提コース：',
           'options' => $course_list,

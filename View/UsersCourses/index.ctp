@@ -56,9 +56,9 @@
 		</div>
 	<?php } ?>
 
-	<div class = "attendance-block mb-4">
+	<div class = "attendance-block my-4 ">
 	  <div class = "attendance-info">
-	    <div class = "attendance-date-block">
+	    <div class = "attendance-date-block rounded shadow-lg">
 			<div class = "attendance-date">
 	       <?php foreach($user_info as $row):?>
 	         <div class = "date">
@@ -115,7 +115,7 @@
 	</div>
 
 	<?php if(count($infos) > 0){?>
-		<div class="card bg-light mb-4">
+		<div class="card bg-light mb-4 rounded shadow">
 			<div class="card-body">
 				<table cellpadding="0" cellspacing="0">
 					<tbody>
@@ -132,7 +132,7 @@
 		</div>
 	<?php }?>
 
-	<div class="card bg-light mb-4">
+	<div class="card bg-light mb-4 rounded shadow">
 		<div class="card-header"><?php echo __('全体のお知らせ'); ?></div>
 		<div class="card-body">
 			<?php if($info!=""){?>
@@ -150,7 +150,7 @@
 	</div>
 
 	<?php if($next_goal){?>
-	<div class="card border-light">
+	<div class="card border-light rounded shadow-lg">
   	<div class="card-header">次回の授業に来る時までに達成するゴール</div>
   	<div class="card-body">
     	<?php echo h($next_goal); ?>
@@ -161,22 +161,47 @@
 	<div class="card border-light">
 		<div class="card-header"><?php echo __('コース一覧'); ?></div>
 		<div class="card-body">
-			<ul class="list-group">
-				<?php foreach ($courses as $course): ?>
-				<?php //debug($course)?>
-				<a href="<?php echo Router::url(array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));?>" class="list-group-item">
-					<?php if($course[0]['left_cnt']!=0){?>
-						<button type="button" class="btn btn-danger btn-rest"><?php echo __('残り')?> <span class="badge"><?php echo h($course[0]['left_cnt']); ?></span></button>
-					<?php }?>
-					<h4 class="list-group-item-heading"><?php echo h($course['Course']['title']);?></h4>
-					<p class="list-group-item-text">
-						<span><?php echo __('学習開始日').': '.Utils::getYMD($course['Record']['first_date']); ?></span>
-						<span><?php echo __('最終学習日').': '.Utils::getYMD($course['Record']['last_date']); ?></span>
-					</p>
-				</a>
-				<?php endforeach; ?>
-				<?php echo $no_record;?>
-			</ul>
+			<div class="accordion">
+				<?php foreach($courses as $course):?>
+				<?php
+				  // コースがない時、非表示 
+					if(count($course['Course']) == 0){
+						continue;
+					}
+				?>
+					<div class="card mb-3 shadow rounded-lg">
+      			<div class="card-header" id='heading-<?php echo $course['Category']['id']?>'>
+        			<h5 class="mb-0">
+          			<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-<?php echo $course['Category']['id']?>" aria-expanded="true" aria-controls="collapse-<?php echo $course['Category']['id']?>">
+            			<?php echo $course['Category']['title']?>
+          			</button>
+        			</h5>
+      			</div>
+
+						<div id="collapse-<?php echo $course['Category']['id']?>" class="collapse" aria-labelledby="heading-<?php echo $course['Category']['id']?>'">
+      			  <div class="card-body">
+      			    <ul class="list-group rounded">
+									<?php foreach($course['Course'] as $course_info):?>
+									<?php $left_cnt = $course_info['add_info']['sum_cnt'] - $course_info['add_info']['did_cnt'];?>
+									<?php $bar_percent = round(($course_info['add_info']['did_cnt'] / $course_info['add_info']['sum_cnt']) * 100 );?>
+										<a href="<?php echo Router::url(array('controller' => 'contents', 'action' => 'index', $course_info['id']));?>" class="list-group-item">
+											<h4 class="list-group-item-heading"><?php echo h($course_info['title']);?></h4>
+											<p class="list-group-item-text">
+												<span style="color:black"><?php echo __('学習開始日').': '.Utils::getYMD($course_info['add_info']['first_date']); ?></span>
+												<span style="color:black"><?php echo __('最終学習日').': '.Utils::getYMD($course_info['add_info']['last_date']); ?></span>
+											</p>
+											<div class="progress">
+  											<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="<?php echo $bar_percent;?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $bar_percent?>%"></div>
+											</div>
+										</a>
+									<?php endforeach;?>
+
+								</ul>
+      			  </div>
+      			</div>
+					</div>
+				<?php endforeach;?>
+			</div>
 		</div>
 	</div>
 

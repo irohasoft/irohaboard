@@ -129,6 +129,11 @@
 	font-weight		: normal;
 }
 
+.admin-contents-edit input[name="data[Content][status]"]
+{
+	margin-top		: 10px;
+}
+
 .admin-contents-index .ib-col-action
 {
 	width			: 200px;

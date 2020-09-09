@@ -106,6 +106,7 @@ class User extends AppModel
 	 * @var array
 	 */
 	public $hasMany = array(
+	/*
 			'Content' => array(
 					'className' => 'Content',
 					'foreignKey' => 'user_id',
@@ -119,6 +120,7 @@ class User extends AppModel
 					'finderQuery' => '',
 					'counterQuery' => ''
 			)
+	*/
 	);
 
 	/**

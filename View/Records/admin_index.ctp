@@ -47,6 +47,7 @@
 			
 			echo '<div class="ib-row">';
 			echo $this->Form->input('group_id',		array('label' => 'グループ :', 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
+			echo $this->Form->input('username',		array('label' => 'ログインID :', 'value'=>$username, 'class'=>'form-control'));
 			echo $this->Form->input('name',			array('label' => '氏名 :', 'value'=>$name, 'class'=>'form-control'));
 			echo '</div>';
 			
@@ -84,9 +85,10 @@
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
+		<th nowrap><?php echo $this->Paginator->sort('User.username', 'ログインID'); ?></th>
+		<th nowrap><?php echo $this->Paginator->sort('User.name', '氏名'); ?></th>
 		<th nowrap><?php echo $this->Paginator->sort('course_id', 'コース'); ?></th>
 		<th nowrap><?php echo $this->Paginator->sort('content_id', 'コンテンツ'); ?></th>
-		<th nowrap><?php echo $this->Paginator->sort('User.name', '氏名'); ?></th>
 		<th nowrap class="ib-col-center"><?php echo $this->Paginator->sort('score', '得点'); ?></th>
 		<th class="ib-col-center" nowrap><?php echo $this->Paginator->sort('pass_score', '合格点'); ?></th>
 		<th nowrap class="ib-col-center"><?php echo $this->Paginator->sort('is_passed', '結果'); ?></th>
@@ -98,9 +100,10 @@
 	<tbody>
 	<?php foreach ($records as $record): ?>
 	<tr>
+		<td><?php echo h($record['User']['username']); ?>&nbsp;</td>
+		<td><?php echo h($record['User']['name']); ?>&nbsp;</td>
 		<td><a href="javascript:openRecord(<?php echo h($record['Course']['id']); ?>, <?php echo h($record['User']['id']); ?>);"><?php echo h($record['Course']['title']); ?></a></td>
 		<td><?php echo h($record['Content']['title']); ?>&nbsp;</td>
-		<td><?php echo h($record['User']['name']); ?>&nbsp;</td>
 		<td class="ib-col-center"><?php echo h($record['Record']['score']); ?>&nbsp;</td>
 		<td class="ib-col-center"><?php echo h($record['Record']['pass_score']); ?>&nbsp;</td>
 		<td nowrap class="ib-col-center"><a href="javascript:openTestRecord(<?php echo h($record['Content']['id']); ?>, <?php echo h($record['Record']['id']); ?>);"><?php echo Configure::read('record_result.'.$record['Record']['is_passed']); ?></a></td>

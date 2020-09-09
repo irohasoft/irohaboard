@@ -64,6 +64,7 @@ class RecordsController extends AppController
 		
 		$group_id			= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
 		$course_id			= (isset($this->request->query['course_id'])) ? $this->request->query['course_id'] : "";
+		$username			= (isset($this->request->query['username'])) ? $this->request->query['username'] : "";
 		$name				= (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
 		$content_category	= (isset($this->request->query['content_category'])) ? $this->request->query['content_category'] : "";
 		$contenttitle		= (isset($this->request->query['contenttitle'])) ? $this->request->query['contenttitle'] : "";
@@ -75,6 +76,9 @@ class RecordsController extends AppController
 		
 		if($course_id != "")
 			$conditions['Course.id'] = $course_id;
+		
+		if($username != "")
+			$conditions['User.username like'] = '%'.$username.'%';
 		
 		if($name != "")
 			$conditions['User.name like'] = '%'.$name.'%';
@@ -133,7 +137,7 @@ class RecordsController extends AppController
 			$this->Record->recursive = 0;
 			$rows = $this->Record->find('all', $options);
 			
-			$header = array("コース", "コンテンツ", "氏名", "得点", "合格点", "結果", "理解度", "学習時間", "学習日時");
+			$header = array("ログインID", "氏名", "コース", "コンテンツ", "得点", "合格点", "結果", "理解度", "学習時間", "学習日時");
 			
 			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
 			fputcsv($fp, $header);
@@ -141,9 +145,10 @@ class RecordsController extends AppController
 			foreach($rows as $row)
 			{
 				$row = array(
+					$row['User']['username'], 
+					$row['User']['name'], 
 					$row['Course']['title'], 
 					$row['Content']['title'], 
-					$row['User']['name'], 
 					$row['Record']['score'], 
 					$row['Record']['pass_score'], 
 					Configure::read('record_result.'.$row['Record']['is_passed']), 
@@ -189,6 +194,7 @@ class RecordsController extends AppController
 			$this->set('group_id',   $group_id);
 			$this->set('course_id',  $course_id);
 			$this->set('name',       $name);
+			$this->set('username',   $username);
 			$this->set('content_category',	$content_category);
 			$this->set('contenttitle',		$contenttitle);
 			$this->set('from_date', $from_date);

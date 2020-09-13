@@ -199,8 +199,8 @@ class AttendancesController extends AppController{
     $now = 1;
     $abs_1 = $att_1 = $abs_2 = $att_2 = $cnt_1 = $cnt_2 = 0;
     foreach($rows as $row){
-      $now = preg_match("/^2[0-9]/",$row['User']['username']) ? 2 : 1;
-      if($now == 1){
+      $now = $row['User']['period'];
+      if($now == 0){
         if($row['Attendance']['status'] == 1){
           $att_1++;
         }else{

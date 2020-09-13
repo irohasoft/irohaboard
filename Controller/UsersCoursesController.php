@@ -120,7 +120,7 @@ class UsersCoursesController extends AppController
 						'Record.course_id' => $course_id,
 						'Record.user_id' => $user_id
 					),
-					'fileds' => 'DISTINCT Record.content_id',
+					'fields' => 'DISTINCT Record.content_id',
 				));
 				$course['add_info'] = array(
 					'sum_cnt' => $sum_content_cnt,

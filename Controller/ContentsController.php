@@ -66,10 +66,10 @@ class ContentsController extends AppController
 		else
 		{
 			// コースの閲覧権限の確認
-			if(! $this->Course->hasRight($this->Auth->user('id'), $course_id))
-			{
-				throw new NotFoundException(__('Invalid access'));
-			}
+			// if(! $this->Course->hasRight($this->Auth->user('id'), $course_id))
+			// {
+			// 	throw new NotFoundException(__('Invalid access'));
+			// }
 
 			$contents = $this->Content->getContentRecord($this->Auth->user('id'), $course_id, $role);
 		}

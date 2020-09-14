@@ -612,12 +612,12 @@ class UsersController extends AppController
 		
 		for($n=0; $n < $group_count; $n++)
 		{
-			$header[count($header)] = 'グループ'.($n+1);
+			$header[count($header)] = __('グループ').($n+1);
 		}
 		
 		for($n=0; $n < $course_count; $n++)
 		{
-			$header[count($header)] = 'コース'.($n+1);
+			$header[count($header)] = __('コース').($n+1);
 		}
 		
 		// ヘッダー行をCSV出力

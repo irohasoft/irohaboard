@@ -142,7 +142,7 @@
 
 <div class="admin-contents-edit">
 	<?php
-		$this->Html->addCrumb('コース一覧', array('controller' => 'courses', 'action' => 'index'));
+		$this->Html->addCrumb(__('コース一覧'), array('controller' => 'courses', 'action' => 'index'));
 		$this->Html->addCrumb($course['Course']['title'],  array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));
 
 		echo $this->Html->getCrumbs(' / ');
@@ -155,10 +155,10 @@
 			<?php echo $this->Form->create('Content', Configure::read('form_defaults')); ?>
 			<?php
 				echo $this->Form->input('id');
-				echo $this->Form->input('title',	array('label' => 'コンテンツタイトル'));
+				echo $this->Form->input('title',	array('label' => __('コンテンツ名')));
 				echo $this->Form->input('kind',	array(
 					'type' => 'radio',
-					'before' => '<label class="col col-sm-3 control-label">コンテンツ種別</label>',
+					'before' => '<label class="col col-sm-3 control-label">'.__('コンテンツ種別').'</label>',
 					'separator'=>"<br>",
 					'disabled'=>false,
 					'legend' => false,
@@ -168,42 +168,42 @@
 				);
 
 				echo "<div class='kind kind-movie kind-url kind-file'>";
-				echo $this->Form->input('url',		array('label' => 'URL', 'class' => 'form-control form-control-upload'));
+				echo $this->Form->input('url',		array('label' => __('URL'), 'class' => 'form-control form-control-upload'));
 				echo "</div>";
 				
 				// 配布資料
 				echo "<div class='kind kind-file'>";
-				echo $this->Form->input('file_name', array('label' => 'ファイル名', 'class' => 'form-control-filename', 'readonly' => 'readonly'));
+				echo $this->Form->input('file_name', array('label' => __('ファイル名'), 'class' => 'form-control-filename', 'readonly' => 'readonly'));
 				echo "</div>";
 
 				// テキスト・リッチテキスト
 				echo "<div class='kind kind-text kind-html'>";
-				echo $this->Form->input('body',		array('label' => '内容'));
+				echo $this->Form->input('body',		array('label' => __('内容')));
 				echo "</div>";
 
 				// テスト
 				echo "<span class='kind kind-test'>";
 				echo $this->Form->input('timelimit', array(
-					'label' => '制限時間 (1-100分)',
-					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　指定した場合、制限時間を過ぎると自動的に採点されます。</span>',
+					'label' => __('制限時間 (1-100分)'),
+					'after' => '<div class="col col-sm-3"></div><span class="status-exp">'.__('　指定した場合、制限時間を過ぎると自動的に採点されます。').'</span>',
 				));
 				
 				echo $this->Form->input('pass_rate', array(
-					'label' => '合格とする得点率 (1-100%)',
+					'label' => __('合格とする得点率 (1-100%)'),
 				));
 				
 				// ランダム出題用
 				echo $this->Form->input('question_count', array(
-					'label' => '出題数 (1-100問)',
-					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　指定した場合、登録した問題の中からランダムに出題されます。</span>',
+					'label' => __('出題数 (1-100問)'),
+					'after' => '<div class="col col-sm-3"></div><span class="status-exp">'.__('　指定した場合、登録した問題の中からランダムに出題されます。').'</span>',
 				));
 				echo "</span>";
 
 				// ステータス
 				echo $this->Form->input('status',	array(
 					'type' => 'radio',
-					'before' => '<label class="col col-sm-3 control-label">ステータス</label>',
-					'after' => '<div class="col col-sm-3"></div><span class="status-exp">　非公開と設定した場合、管理者権限でログインした場合のみ表示されます。</span>',
+					'before' => '<label class="col col-sm-3 control-label">'.__('ステータス').'</label>',
+					'after' => '<div class="col col-sm-3"></div><span class="status-exp">'.__('　非公開と設定した場合、管理者権限でログインした場合のみ表示されます。').'</span>',
 					'separator' => '　', 
 					'legend' => false,
 					'class' => false,
@@ -216,20 +216,20 @@
 				if(($this->action == 'admin_edit'))
 				{
 					echo $this->Form->input('course_id', array(
-						'label' => '所属コース',
+						'label' => __('所属コース'),
 						'value'=>$course['Course']['id'],
-						'after' => '<div class="col col-sm-3"></div><span class="status-exp">　変更することで他のコースにコンテンツを移動できます。</span>',
+						'after' => '<div class="col col-sm-3"></div><span class="status-exp">'.__('　変更することで他のコースにコンテンツを移動できます。').'</span>',
 					));
 				}
 
 				echo "<span class='kind kind-text kind-html kind-movie kind-url kind-file kind-test'>";
-				echo $this->Form->input('comment', array('label' => '備考'));
+				echo $this->Form->input('comment', array('label' => __('備考')));
 				echo "</span>";
 			?>
 			<div class="form-group">
 				<div class="col col-sm-9 col-sm-offset-3">
 					<button id="btnPreview" class="btn btn-default" value="プレビュー" onclick="preview(); return false;" type="submit">プレビュー</button>
-					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
+					<?php echo $this->Form->submit(__('保存'), Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>
 			<?php echo $this->Form->end(); ?>

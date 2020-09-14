@@ -3,8 +3,8 @@
 <?php echo $this->Html->script( 'select2.min.js');?>
 <?php $this->Html->scriptStart(array('inline' => false)); ?>
 	$(function (e) {
-		$('#GroupGroup').select2({placeholder:   "所属するグループを選択して下さい。(複数選択可)", closeOnSelect: <?php echo (Configure::read('close_on_select') ? 'true' : 'false'); ?>,});
-		$('#CourseCourse').select2({placeholder: "受講するコースを選択して下さい。(複数選択可)", closeOnSelect: <?php echo (Configure::read('close_on_select') ? 'true' : 'false'); ?>,});
+		$('#GroupGroup').select2({placeholder:   "<?php echo __('所属するグループを選択して下さい。(複数選択可)')?>", closeOnSelect: <?php echo (Configure::read('close_on_select') ? 'true' : 'false'); ?>,});
+		$('#CourseCourse').select2({placeholder: "<?php echo __('受講するコースを選択して下さい。(複数選択可)')?>", closeOnSelect: <?php echo (Configure::read('close_on_select') ? 'true' : 'false'); ?>,});
 		// パスワードの自動復元を防止
 		setTimeout('$("#UserNewPassword").val("");', 500);
 	});
@@ -21,9 +21,9 @@
 				$password_label = ($this->request->data) ? __('新しいパスワード') : __('パスワード');
 				
 				echo $this->Form->input('id');
-				echo $this->Form->input('username',				array('label' => 'ログインID'));
+				echo $this->Form->input('username',				array('label' => __('ログインID')));
 				echo $this->Form->input('User.new_password',	array('label' => $password_label, 'type' => 'password', 'autocomplete' => 'new-password'));
-				echo $this->Form->input('name',					array('label' => '氏名'));
+				echo $this->Form->input('name',					array('label' => __('氏名')));
 				
 				// root アカウント、もしくは admin 権限以外の場合、権限変更を許可しない
 				$disabled = (($username == 'root')||($loginedUser['role']!='admin'));
@@ -39,14 +39,14 @@
 					)
 				);
 				
-				echo $this->Form->input('email',				array('label' => 'メールアドレス'));
-				echo $this->Form->input('Group',				array('label' => '所属グループ',	'size' => 20));
-				echo $this->Form->input('Course',				array('label' => '受講コース',		'size' => 20));
-				echo $this->Form->input('comment',				array('label' => '備考'));
+				echo $this->Form->input('email',				array('label' => __('メールアドレス')));
+				echo $this->Form->input('Group',				array('label' => __('所属グループ'),	'size' => 20));
+				echo $this->Form->input('Course',				array('label' => __('受講コース'),		'size' => 20));
+				echo $this->Form->input('comment',				array('label' => __('備考')));
 			?>
 			<div class="form-group">
 				<div class="col col-sm-9 col-sm-offset-3">
-					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
+					<?php echo $this->Form->submit(__('保存'), Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>
 			<?php echo $this->Form->end(); ?>

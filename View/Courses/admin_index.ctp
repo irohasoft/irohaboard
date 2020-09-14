@@ -51,7 +51,7 @@
 		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add')) ?>'">+ 追加</button>
 	</div>
 
-	<div class="alert alert-warning">ドラッグアンドドロップでコースの並び順が変更できます。</div>
+	<div class="alert alert-warning"><?php echo __('ドラッグアンドドロップでコースの並び順が変更できます。'); ?></div>
 	<table id='sortable-table'>
 	<thead>
 	<tr>
@@ -73,7 +73,7 @@
 		<td class="ib-col-date"><?php echo h(Utils::getYMDHN($course['Course']['created'])); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo h(Utils::getYMDHN($course['Course']['modified'])); ?>&nbsp;</td>
 		<td class="ib-col-action">
-			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $course['Course']['id'])) ?>'">編集</button>
+			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $course['Course']['id'])) ?>'"><?php echo __('編集')?></button>
 			<?php
 			if($loginedUser['role']=='admin')
 			{

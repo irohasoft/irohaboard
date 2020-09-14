@@ -137,7 +137,18 @@ class RecordsController extends AppController
 			$this->Record->recursive = 0;
 			$rows = $this->Record->find('all', $options);
 			
-			$header = array("ログインID", "氏名", "コース", "コンテンツ", "得点", "合格点", "結果", "理解度", "学習時間", "学習日時");
+			$header = array(
+				__('ログインID'),
+				__('氏名'),
+				__('コース'),
+				__('コンテンツ'),
+				__('得点'),
+				__('合格点'),
+				__('結果'),
+				__('理解度'),
+				__('学習時間'),
+				__('学習日時')
+			);
 			
 			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
 			fputcsv($fp, $header);

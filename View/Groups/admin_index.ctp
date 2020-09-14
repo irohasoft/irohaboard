@@ -10,8 +10,8 @@
 	<tr>
 		<th><?php echo $this->Paginator->sort('title', 'グループ名'); ?></th>
 		<th nowrap class="col-course"><?php echo __('受講コース'); ?></th>
-		<th class="ib-col-date"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
-		<th class="ib-col-date"><?php echo $this->Paginator->sort('modified', '更新日時'); ?></th>
+		<th class="ib-col-date"><?php echo $this->Paginator->sort('created', __('作成日時')); ?></th>
+		<th class="ib-col-date"><?php echo $this->Paginator->sort('modified', __('更新日時')); ?></th>
 		<th class="ib-col-action"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
@@ -23,7 +23,7 @@
 		<td class="ib-col-date"><?php echo h(Utils::getYMDHN($group['Group']['created'])); ?>&nbsp;</td>
 		<td class="ib-col-date"><?php echo h(Utils::getYMDHN($group['Group']['modified'])); ?>&nbsp;</td>
 		<td class="ib-col-action">
-			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $group['Group']['id'])) ?>'">編集</button>
+			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $group['Group']['id'])) ?>'"><?php echo __('編集')?></button>
 			<?php echo $this->Form->postLink(__('削除'), 
 					array('action' => 'delete', $group['Group']['id']), 
 					array('class'=>'btn btn-danger'), 

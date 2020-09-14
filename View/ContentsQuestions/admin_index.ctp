@@ -62,7 +62,7 @@
 		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add', $content['Content']['id'])) ?>'">+ 追加</button>
 	</div>
 	
-	<div class="alert alert-warning">ドラッグアンドドロップで出題順が変更できます。</div>
+	<div class="alert alert-warning"><?php echo __('ドラッグアンドドロップで出題順が変更できます。'); ?></div>
 	<table id='sortable-table' cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>

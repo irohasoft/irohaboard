@@ -40,15 +40,15 @@
 			echo '</div>';
 			
 			echo '<div class="ib-row">';
-			echo $this->Form->input('course_id',		array('label' => 'コース :', 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
-			echo $this->Form->input('content_category',	array('label' => 'コンテンツ種別 :', 'options'=>Configure::read('content_category'), 'selected'=>$content_category, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
-			echo $this->Form->input('contenttitle',		array('label' => 'コンテンツ名 :', 'value'=>$contenttitle, 'class'=>'form-control'));
+			echo $this->Form->input('course_id',		array('label' => __('コース :'), 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
+			echo $this->Form->input('content_category',	array('label' => __('コンテンツ種別 :'), 'options'=>Configure::read('content_category'), 'selected'=>$content_category, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
+			echo $this->Form->input('contenttitle',		array('label' => __('コンテンツ名 :'), 'value'=>$contenttitle, 'class'=>'form-control'));
 			echo '</div>';
 			
 			echo '<div class="ib-row">';
-			echo $this->Form->input('group_id',		array('label' => 'グループ :', 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
-			echo $this->Form->input('username',		array('label' => 'ログインID :', 'value'=>$username, 'class'=>'form-control'));
-			echo $this->Form->input('name',			array('label' => '氏名 :', 'value'=>$name, 'class'=>'form-control'));
+			echo $this->Form->input('group_id',		array('label' => __('グループ :'), 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
+			echo $this->Form->input('username',		array('label' => __('ログインID :'), 'value'=>$username, 'class'=>'form-control'));
+			echo $this->Form->input('name',			array('label' => __('氏名 :'), 'value'=>$name, 'class'=>'form-control'));
 			echo '</div>';
 			
 			echo '<div class="ib-search-date-container">';
@@ -60,7 +60,7 @@
 				'minYear' => date('Y') - 5,
 				'maxYear' => date('Y'),
 				'separator' => ' / ',
-				'label'=> '対象日時 : ',
+				'label'=> __('対象日時 : '),
 				'class'=>'form-control',
 				'style' => 'display: inline;',
 				'value' => $from_date
@@ -85,16 +85,16 @@
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
-		<th nowrap><?php echo $this->Paginator->sort('User.username', 'ログインID'); ?></th>
-		<th nowrap><?php echo $this->Paginator->sort('User.name', '氏名'); ?></th>
-		<th nowrap><?php echo $this->Paginator->sort('course_id', 'コース'); ?></th>
-		<th nowrap><?php echo $this->Paginator->sort('content_id', 'コンテンツ'); ?></th>
-		<th nowrap class="ib-col-center"><?php echo $this->Paginator->sort('score', '得点'); ?></th>
-		<th class="ib-col-center" nowrap><?php echo $this->Paginator->sort('pass_score', '合格点'); ?></th>
-		<th nowrap class="ib-col-center"><?php echo $this->Paginator->sort('is_passed', '結果'); ?></th>
-		<th class="ib-col-center" nowrap><?php echo $this->Paginator->sort('understanding', '理解度'); ?></th>
-		<th class="ib-col-center"><?php echo $this->Paginator->sort('study_sec', '学習時間'); ?></th>
-		<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', '学習日時'); ?></th>
+		<th nowrap><?php echo $this->Paginator->sort('User.username', __('ログインID')); ?></th>
+		<th nowrap><?php echo $this->Paginator->sort('User.name', __('氏名')); ?></th>
+		<th nowrap><?php echo $this->Paginator->sort('course_id', __('コース')); ?></th>
+		<th nowrap><?php echo $this->Paginator->sort('content_id', __('コンテンツ')); ?></th>
+		<th nowrap class="ib-col-center"><?php echo $this->Paginator->sort('score', __('得点')); ?></th>
+		<th class="ib-col-center" nowrap><?php echo $this->Paginator->sort('pass_score', __('合格点')); ?></th>
+		<th nowrap class="ib-col-center"><?php echo $this->Paginator->sort('is_passed', __('結果')); ?></th>
+		<th class="ib-col-center" nowrap><?php echo $this->Paginator->sort('understanding', __('理解度')); ?></th>
+		<th class="ib-col-center"><?php echo $this->Paginator->sort('study_sec', __('学習時間')); ?></th>
+		<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', __('学習日時')); ?></th>
 	</tr>
 	</thead>
 	<tbody>

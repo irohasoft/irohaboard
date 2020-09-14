@@ -20,10 +20,10 @@
 				'class' => 'form-control',
 				'onchange' => 'submit(this.form);'
 			));
-			echo $this->Form->input('username',		array('label' => 'ログインID : ', 'required' => false));
-			echo $this->Form->input('name',			array('label' => '氏名 : '  , 'required' => false));
+			echo $this->Form->input('username',		array('label' => __('ログインID : '), 'required' => false));
+			echo $this->Form->input('name',			array('label' => __('氏名 : '), 'required' => false));
 		?>
-		<input type="submit" class="btn btn-info btn-add" value="検索">
+		<input type="submit" class="btn btn-info btn-add" value="<?php echo __('検索')?>">
 		<?php
 			echo $this->Form->end();
 		?>
@@ -31,13 +31,13 @@
 	<table>
 	<thead>
 	<tr>
-		<th nowrap><?php echo $this->Paginator->sort('username', 'ログインID'); ?></th>
-		<th nowrap class="col-width"><?php echo $this->Paginator->sort('name', '氏名'); ?></th>
+		<th nowrap><?php echo $this->Paginator->sort('username', __('ログインID')); ?></th>
+		<th nowrap class="col-width"><?php echo $this->Paginator->sort('name', __('氏名')); ?></th>
 		<th nowrap><?php echo $this->Paginator->sort('role', '権限'); ?></th>
 		<th nowrap><?php echo __('所属グループ'); ?></th>
 		<th nowrap class="ib-col-datetime"><?php echo __('受講コース'); ?></th>
-		<th class="ib-col-datetime"><?php echo $this->Paginator->sort('last_logined', '最終ログイン日時'); ?></th>
-		<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', '作成日時'); ?></th>
+		<th class="ib-col-datetime"><?php echo $this->Paginator->sort('last_logined', __('最終ログイン日時')); ?></th>
+		<th class="ib-col-datetime"><?php echo $this->Paginator->sort('created', __('作成日時')); ?></th>
 		<?php if($loginedUser['role']=='admin') {?>
 		<th class="ib-col-action"><?php echo __('Actions'); ?></th>
 		<?php }?>
@@ -56,7 +56,7 @@
 		<?php if($loginedUser['role']=='admin') {?>
 		<td class="ib-col-action">
 			<button type="button" class="btn btn-success"
-				onclick="location.href='<?php echo Router::url(array('action' => 'edit', $user['User']['id'])) ?>'">編集</button>
+				onclick="location.href='<?php echo Router::url(array('action' => 'edit', $user['User']['id'])) ?>'"><?php echo __('編集')?></button>
 			<?php
 
 echo $this->Form->postLink(__('削除'), array(

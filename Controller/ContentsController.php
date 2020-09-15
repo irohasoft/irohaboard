@@ -104,10 +104,10 @@ class ContentsController extends AppController
 		// コンテンツの閲覧権限の確認
 		$this->loadModel('Course');
 
-		if(! $this->Course->hasRight($this->Auth->user('id'), $content['Content']['course_id']))
-		{
-			throw new NotFoundException(__('Invalid access'));
-		}
+		// if(! $this->Course->hasRight($this->Auth->user('id'), $content['Content']['course_id']))
+		// {
+		// 	throw new NotFoundException(__('Invalid access'));
+		// }
 
 		$this->set(compact('content'));
 	}

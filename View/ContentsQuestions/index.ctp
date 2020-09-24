@@ -141,8 +141,8 @@
 					$correct_label .= ($correct_label=='') ? $option_list[$correct_no - 1] : ', '.$option_list[$correct_no - 1];
 				}
 
-				$correct_tag	= sprintf('<p class="correct-text bg-success">正解 : %s</p><p>%s</p>',
-					$correct_label, $this->Html->image($result_img, array('width'=>'60','height'=>'60')));
+				$correct_tag	= sprintf('<p class="correct-text bg-success">%s : %s</p><p>%s</p>',
+					__('正解'), $correct_label, $this->Html->image($result_img, array('width'=>'60','height'=>'60')));
 				
 				// 解説の設定
 				if($question['explain']!='')
@@ -153,7 +153,7 @@
 			}
 			?>
 			<div class="panel panel-info">
-				<div class="panel-heading">問<?php echo $question_index;?></div>
+				<div class="panel-heading"><?php echo __('問').$question_index;?></div>
 				<div class="panel-body">
 					<!--問題タイトル-->
 					<h4><?php echo h($title) ?></h4>
@@ -183,11 +183,11 @@
 			if (!$is_record)
 			{
 				echo $this->Form->hidden('study_sec');
-				echo '<input type="button" value="採点" class="btn btn-primary btn-lg btn-score" onclick="$(\'#confirmModal\').modal()">';
+				echo '<input type="button" value="'.__('採点').'" class="btn btn-primary btn-lg btn-score" onclick="$(\'#confirmModal\').modal()">';
 				echo '&nbsp;';
 			}
 			
-			echo '<input type="button" value="戻る" class="btn btn-default btn-lg" onclick="location.href=\''.Router::url($course_url).'\'">';
+			echo '<input type="button" value="'.__('戻る').'" class="btn btn-default btn-lg" onclick="location.href=\''.Router::url($course_url).'\'">';
 			echo '</div><!--end-->';
 			echo $this->Form->end();
 		?>
@@ -200,14 +200,14 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title">採点確認</h4>
+				<h4 class="modal-title"><?php echo __('採点確認');?></h4>
 			</div>
 			<div class="modal-body">
-				<p>採点してよろしいですか？</p>
+				<p><?php echo __('採点してよろしいですか？');?></p>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
-				<button type="button" class="btn btn-primary btn-score" onclick="sendData();">採点</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __('キャンセル');?></button>
+				<button type="button" class="btn btn-primary btn-score" onclick="sendData();"><?php echo __('採点');?></button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

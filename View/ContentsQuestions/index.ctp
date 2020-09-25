@@ -152,7 +152,7 @@
 				}
 			}
 			?>
-			<div class="panel panel-info">
+			<div class="panel panel-info question question-<?php echo $question_index;?>">
 				<div class="panel-heading"><?php echo __('問').$question_index;?></div>
 				<div class="panel-body">
 					<!--問題タイトル-->
@@ -170,7 +170,6 @@
 					<?php echo $correct_tag ?>
 					<!--解説文-->
 					<?php echo $explain_tag ?>
-					<?php echo $this->Form->hidden('correct_'.$question_id, array('value' => $question['correct'])); ?>
 				</div>
 			</div>
 			<?php $question_index++;?>

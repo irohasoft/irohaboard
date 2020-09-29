@@ -86,7 +86,7 @@
 		<div class="ib-navi-sepa ib-right"></div>
 		<div class="ib-navi-item ib-right"><?php echo $this->Html->link(__('設定'), array('controller' => 'users', 'action' => 'setting')); ?></div>
 		<div class="ib-navi-sepa ib-right"></div>
-		<div class="ib-navi-item ib-right"><?php echo __('ようこそ ').h($loginedUser["name"]); ?> さん </div>
+		<div class="ib-navi-item ib-right"><?php echo __('ようこそ').' '.h($loginedUser["name"]).' '.__('さん'); ?></div>
 		<?php }?>
 	</div>
 	

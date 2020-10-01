@@ -65,10 +65,10 @@
 			<div class="select-message text-success"><?php echo __('理解度を選択して終了して下さい。');?></div>
 			<span class='understanding-pc'></span>
 			<span class='understanding-spn'></span>
-				<button type="button" class="btn btn-danger" onclick="finish(0);"><?php echo __('中断');?></button>
+			<button type="button" class="btn btn-danger" onclick="finish(0);"><?php echo __('中断');?></button>
 			<button type="button" class="btn btn-default" onclick="finish(-1);"><?php echo __('戻る');?></button>
 		</div>
 	</div>
-			</div>
+</div>
 </body>
 </html>

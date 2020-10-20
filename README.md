@@ -1,48 +1,49 @@
 # iroha Board
-iroha Board is a Simple and Easy-to-Use Open Source LMS.  [[Japanese / 日本語]](/README.jp.md)
 
-## Official Website (Japanese)
+iroha Board は日本で生まれたオープンソースのeラーニングシステム（LMS）です。
+シンプルでフラットな構造と、使いやすいユーザインターフェイスが特徴で、手軽に独自のeラーニングシステムが構築できます。
+
+## 公式サイト
 https://irohaboard.irohasoft.jp/
 
-## Demo
+## デモサイト
 https://demoib.irohasoft.com/
 
-## System Requirements
-* PHP : 5.4 or later
-* MySQL : 5.1 or later
+## 動作環境
+* PHP : 5.4以上
+* MySQL : 5.1以上
 * CakePHP : 2.10
 
-## Installation
-1. Download and extract the CakePHP source filese.
+## インストール方法
+1. CakePHP のソースをダウンロードし、解凍します。
 https://github.com/cakephp/cakephp/releases/tag/2.10.20
-2. Download and extract the iroha Board source files.
+2. iroha Board のソースをダウンロードし、解凍します。
 https://github.com/irohasoft/irohaboard/releases
-3. Replace the CakePHP's app directory with the iroha Board's source files.
-4. Modify the database configuration file (app/Config/database.php).
-Make sure that an empty database is created on the MySQL server.
-5. Upload all the files to a public directory on the web server.
-6. Open http://(your-domain-name)/install in your web browser.
+3. CakePHP の app ディレクトリ内のソースを iroha Board のソースに差し替えます。
+4. データベース(app/Config/database.php)の設定を行います。
+   ※事前に空のデータベースを作成しておく必要があります。(推奨文字コード : UTF-8)
+5. 公開ディレクトリに全ソースをアップロードします。
+6. ブラウザを開き、http://(your-domain-name)/install にてインストールを実行します。
 
-## Features
+## 主な機能
+### 受講者側
+* 学習機能
+* テスト実施機能
+* テストの自動採点および結果表示
+* 学習履歴の表示
+* お知らせの表示
 
-### For students.
+### 管理者側
+* ユーザ管理
+* グループ管理
+* お知らせ管理
+* コース管理  
+　- 学習コンテンツの作成  
+　- テストの作成  
+　- 配布資料のアップロード
+* 学習履歴の閲覧
+* システム設定
 
-- Learning.
-- Taking tests.
-- Show learning records.
-- Show informations from teachers.
-
-### For learners.
-- Manage users.
-- Manage user groups.
-- Manage informations.
-- Manage courses.
-- Manage learning contents.
-- Manage tests.
-- Manage records.
-
-### For administrators.
-- System setting
 
 ## License
 GPLv3

@@ -113,7 +113,7 @@ class InstallController extends AppController
 					if((strlen($password) < 4)||(strlen($password) > 32))
 					{
 						// エラー出力
-						$this->Flash->error('ログインIDは4文字以上32文字以内で入力して下さい');
+						$this->Flash->error('パスワードは4文字以上32文字以内で入力して下さい');
 						return;
 					}
 					

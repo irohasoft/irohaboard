@@ -151,6 +151,7 @@ class UsersController extends AppController
 			}
 			else
 			{
+				$this->writeLog('login_error', $this->request->data['User']['username']);
 				$this->Flash->error(__('ログインID、もしくはパスワードが正しくありません'));
 			}
 		}

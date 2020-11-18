@@ -9,7 +9,6 @@
  */
 
 App::uses('AppController', 'Controller');
-App::uses('Record', 'Record');
 
 /**
  * ContentsQuestions Controller
@@ -62,6 +61,8 @@ class ContentsQuestionsController extends AppController
 		//------------------------------//
 		//	問題情報を取得				//
 		//------------------------------//
+		$record = null;
+		
 		if($record_id != null) // テスト結果表示モードの場合
 		{
 			// テスト結果情報を取得

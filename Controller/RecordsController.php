@@ -9,11 +9,6 @@
  */
 
 App::uses('AppController',		'Controller');
-App::uses('RecordsQuestion',	'RecordsQuestion');
-App::uses('UsersGroup',			'UsersGroup');
-App::uses('Course', 'Course');
-App::uses('User',   'User');
-App::uses('Group',  'Group');
 
 /**
  * Records Controller
@@ -193,12 +188,8 @@ class RecordsController extends AppController
 			
 			$this->set('records', $result);
 			
-			//$groups = $this->Group->getGroupList();
-			
-			$this->Group = new Group();
-			$this->Course = new Course();
-			$this->User = new User();
-			//debug($this->User);
+			$this->loadModel('Group');
+			$this->loadModel('Course');
 			
 			$this->set('groups',     $this->Group->find('list'));
 			$this->set('courses',    $this->Course->find('list'));

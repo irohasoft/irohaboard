@@ -182,10 +182,6 @@ class User extends AppModel
 			'type' => 'like',
 			'field' => 'User.name'
 		),
-		'course_id' => array(
-			'type' => 'like',
-			'field' => 'course_id'
-		),
 	);
 
 	/**

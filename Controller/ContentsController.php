@@ -9,8 +9,6 @@
  */
 
 App::uses('AppController', 'Controller');
-App::uses('Course', 'Course');
-App::uses('Record', 'Record');
 
 /**
  * Contents Controller

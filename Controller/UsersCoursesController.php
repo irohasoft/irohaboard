@@ -29,9 +29,7 @@ class UsersCoursesController extends AppController
 		$user_id = $this->Auth->user('id');
 		
 		// 全体のお知らせの取得
-		App::import('Model', 'Setting');
-		$this->Setting = new Setting();
-		
+		$this->loadModel('Setting');
 		$data = $this->Setting->find('all', array(
 			'conditions' => array(
 				'Setting.setting_key' => 'information'

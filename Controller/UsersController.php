@@ -9,7 +9,6 @@
  */
 
 App::uses('AppController', 'Controller');
-App::uses('Group', 'Group');
 
 /**
  * Users Controller
@@ -297,10 +296,8 @@ class UsersController extends AppController
 				$username = $this->request->data['User']['username'];
 		}
 
-		$this->Group = new Group();
-		
 		$courses = $this->User->Course->find('list');
-		$groups = $this->Group->find('list');
+		$groups = $this->User->Group->find('list');
 		
 		$this->set(compact('courses', 'groups', 'username'));
 	}

@@ -82,7 +82,7 @@
 			<a href="<?php echo $this->Html->url('/')?>"><?php echo h($this->Session->read('Setting.title')); ?></a>
 		</div>
 		<?php if(@$loginedUser) {?>
-		<div class="ib-navi-item ib-right"><?php echo $this->Html->link(__('ログアウト'), $logoutURL); ?></div>
+		<div class="ib-navi-item ib-right"><?php echo $this->Html->link(__('ログアウト'), array('controller' => 'users', 'action' => 'logout')); ?></div>
 		<div class="ib-navi-sepa ib-right"></div>
 		<div class="ib-navi-item ib-right"><?php echo $this->Html->link(__('設定'), array('controller' => 'users', 'action' => 'setting')); ?></div>
 		<div class="ib-navi-sepa ib-right"></div>
@@ -99,7 +99,7 @@
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer" class="row">
-		</div>
+	</div>
 	</div>
 	
 	<div class="ib-theme-color text-center">

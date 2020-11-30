@@ -151,7 +151,6 @@ class InstallController extends AppController
 	 */
 	function installed()
 	{
-		$this->set('loginURL', "/users/login/");
 		$this->set('loginedUser', $this->Auth->user());
 	}
 	
@@ -160,7 +159,6 @@ class InstallController extends AppController
 	 */
 	function complete()
 	{
-		$this->set('loginURL', "/users/login/");
 		$this->set('loginedUser', $this->Auth->user());
 	}
 	
@@ -169,7 +167,6 @@ class InstallController extends AppController
 	 */
 	function error()
 	{
-		$this->set('loginURL', "/users/login/");
 		$this->set('loginedUser', $this->Auth->user());
 		$this->set('body', $this->err_msg);
 	}

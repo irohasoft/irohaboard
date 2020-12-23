@@ -299,6 +299,25 @@ form .required .control-label:after
 	float				: none;
 }
 
+.contents-questions-index .result-currect
+{
+	font-size			: 18px;
+	padding				: 10px;
+	line-height			: 180%;
+	color				: #0070c0;
+	font-weight			: bold;
+}
+
+.contents-questions-index .result-wrong
+{
+	font-size			: 18px;
+	padding				: 10px;
+	line-height			: 180%;
+	color				: #c00000;
+	font-weight			: bold;
+}
+
+
 .form-inline
 {
 }

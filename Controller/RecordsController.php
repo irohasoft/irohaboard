@@ -214,6 +214,8 @@ class RecordsController extends AppController
 	 */
 	public function add($content_id, $is_complete, $study_sec, $understanding)
 	{
+		$this->autoRender = FALSE;
+		
 		// コンテンツ情報を取得
 		$this->loadModel('Content');
 		$content = $this->Content->find('first', array(

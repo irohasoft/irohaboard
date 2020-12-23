@@ -21,7 +21,6 @@
 	
 	function downloadCSV()
 	{
-		var url = '<?php echo Router::url(array('action' => 'csv')) ?>/' + $('#MembersEventEventId').val() + '/' + $('#MembersEventStatus').val() + '/' + $('#MembersEventUsername').val();
 		$("#RecordCmd").val("csv");
 		$("#RecordAdminIndexForm").submit();
 		$("#RecordCmd").val("");

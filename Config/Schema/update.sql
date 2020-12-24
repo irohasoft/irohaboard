@@ -38,3 +38,5 @@ ALTER TABLE ib_records ADD INDEX idx_group_course_user_content_id(group_id, cour
 ALTER TABLE ib_records ADD INDEX idx_created(created);
 
 ALTER TABLE ib_contents ADD COLUMN wrong_mode int(1) NOT NULL DEFAULT 1 AFTER question_count;
+
+ALTER TABLE ib_contents_questions MODIFY options varchar(2000);

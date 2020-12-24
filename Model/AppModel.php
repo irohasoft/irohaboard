@@ -20,4 +20,14 @@ App::uses('Model', 'Model');
  */
 class AppModel extends Model
 {
+	/**
+	 * 英数字チェック（マルチバイト対応）
+	 */
+	public function alphaNumericMB($check)
+	{
+		$value = array_values($check);
+		$value = $value[0];
+		
+		return preg_match('/^[a-zA-Z0-9]+$/', $value);
+	}
 }

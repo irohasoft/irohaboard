@@ -61,7 +61,7 @@
 			</tr>
 			<tr>
 				<td><?php echo __('合格基準得点'); ?></td>
-				<td><?php echo $record['Record']['pass_score']; ?></td>
+				<td><?php echo ($record['Record']['pass_score']) ? $record['Record']['pass_score'] : __('設定されていません'); ?></td>
 			</tr>
 		</table>
 	<?php }?>
@@ -128,27 +128,48 @@
 			//------------------------------//
 			$explain_tag	= ''; // 解説用タグ
 			$correct_tag	= ''; // 正解用タグ
+			$result_tag		= ''; // 正誤用タグ
 			
 			// テスト結果表示モードの場合
 			if($is_record)
 			{
-				$result_img		= (@$question_records[$question_id]['is_correct']=='1') ? 'correct.png' : 'wrong.png';
-
+				$is_correct	= (@$question_records[$question_id]['is_correct']=='1');
+				$wrong_mode	= $content['Content']['wrong_mode'];
+				
 				// 正解番号から正解ラベルへ変換
 				$correct_label = ''; // 正解ラベル
+				
 				foreach($correct_list as $correct_no)
 				{
 					$correct_label .= ($correct_label=='') ? $option_list[$correct_no - 1] : ', '.$option_list[$correct_no - 1];
 				}
-
-				$correct_tag	= sprintf('<p class="correct-text bg-success">%s : %s</p><p>%s</p>',
-					__('正解'), $correct_label, $this->Html->image($result_img, array('width'=>'60','height'=>'60')));
-				
-				// 解説の設定
-				if($question['explain']!='')
+								
+				// 正解時は、解説のみを表示
+				if($is_correct)
 				{
-					$explain_tag = sprintf('<div class="correct-text bg-danger">%s</div>',
-						$question['explain']);
+//					$correct_tag = sprintf('<p class="correct-text bg-success">%s : %s</p>',__('正解'), $correct_label);
+					$result_tag  = sprintf('<p>%s<span class="result-currect">%s</span></p>', $this->Html->image('correct.png', array('width'=>'60','height'=>'60')), __('正解'));
+					
+					$explain_tag = getExplain($question['explain']);
+				}
+				else
+				{
+					$result_tag  = sprintf('<p>%s<span class="result-wrong">%s</span></p>', $this->Html->image('wrong.png', array('width'=>'60','height'=>'60')), __('不正解'));
+					
+					// 不正解時の表示
+					switch($wrong_mode)
+					{
+						case 0: // 正解と解説を表示しない
+							break;
+						case 1: // 正解と解説を表示する
+							$correct_tag = sprintf('<p class="correct-text bg-success">%s : %s</p>',__('正解'), $correct_label);
+							$explain_tag = getExplain($question['explain']);
+							break;
+						case 2: // 解説のみ表示する
+							$explain_tag = getExplain($question['explain']);
+							break;
+					}
+					
 				}
 			}
 			?>
@@ -166,8 +187,10 @@
 						<!--選択肢-->
 						<?php echo $option_tag; ?>
 					</div>
-					<!--正誤画像-->
+					<!--正解-->
 					<?php echo $correct_tag ?>
+					<!--正誤画像-->
+					<?php echo $result_tag ?>
 					<!--解説文-->
 					<?php echo $explain_tag ?>
 				</div>
@@ -192,7 +215,19 @@
 		?>
 	<br>
 </div>
-
+<?php 
+function getExplain($explain)
+{
+	$tag = '';
+	
+	if($explain!='')
+	{
+		$tag = sprintf('<div class="correct-text bg-danger">%s : %s</div>', __('解説'), $explain);
+	}
+	
+	return $tag;
+}
+?>
 <!--採点確認ダイアログ-->
 <div class="modal fade" id="confirmModal">
 	<div class="modal-dialog">

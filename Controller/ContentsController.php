@@ -9,8 +9,6 @@
  */
 
 App::uses('AppController', 'Controller');
-App::uses('Course', 'Course');
-App::uses('Record', 'Record');
 
 /**
  * Contents Controller
@@ -356,7 +354,11 @@ class ContentsController extends AppController
 			if(Configure::read('demo_mode'))
 				return;
 			
-			//debug($this->request->data);
+			/*
+			debug($this->request->data);
+			exit;
+			*/
+			
 			// ファイルの読み込み
 			$fileUpload->readFile( $this->request->data['Content']['file'] );
 
@@ -370,15 +372,18 @@ class ContentsController extends AppController
 			{
 				$mode = 'error';
 				
-				// 拡張子エラー
-				if($error_code == 1001)
-					$this->Flash->error('アップロードされたファイルの形式は許可されていません');
-				
-				// ファイルサイズエラー
-				if(($error_code == 1002)||($error_code == 1003))
+				switch ($error_code)
 				{
-					$size = $this->request->data['Content']['file']['size'];
-					$this->Flash->error('アップデートされたファイルサイズ（'.$size.'）は許可されていません');
+					case 1001 : // 拡張子エラー
+						$this->Flash->error('アップロードされたファイルの形式は許可されていません');
+						break;
+					case 1002 : // ファイルサイズが0
+					case 1003 : // ファイルサイズオバー
+						$size = $this->request->data['Content']['file']['size'];
+						$this->Flash->error('アップロードされたファイルのサイズ（'.$size.'）は許可されていません');
+						break;
+					default :
+						$this->Flash->error('アップロード中にエラーが発生しました ('.$error_code.')');
 				}
 			}
 			else

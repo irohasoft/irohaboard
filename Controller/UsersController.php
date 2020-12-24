@@ -9,7 +9,6 @@
  */
 
 App::uses('AppController', 'Controller');
-App::uses('Group', 'Group');
 
 /**
  * Users Controller
@@ -152,6 +151,7 @@ class UsersController extends AppController
 			}
 			else
 			{
+				$this->writeLog('login_error', $this->request->data['User']['username']);
 				$this->Flash->error(__('ログインID、もしくはパスワードが正しくありません'));
 			}
 		}
@@ -281,7 +281,7 @@ class UsersController extends AppController
 			}
 			else
 			{
-				$this->Flash->error(__('The user could not be saved. Please, try again.'));
+				$this->Flash->error(__('ユーザ情報が保存できませんでした'));
 			}
 		}
 		else
@@ -297,10 +297,8 @@ class UsersController extends AppController
 				$username = $this->request->data['User']['username'];
 		}
 
-		$this->Group = new Group();
-		
 		$courses = $this->User->Course->find('list');
-		$groups = $this->Group->find('list');
+		$groups = $this->User->Group->find('list');
 		
 		$this->set(compact('courses', 'groups', 'username'));
 	}

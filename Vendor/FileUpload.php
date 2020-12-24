@@ -15,6 +15,7 @@ class FileUpload
 	var $_file_name;															//	ファイル名
 	var $_file_name_ext;														//	ファイル名の拡張子
 	var $_file_size;															//	ファイルサイズ
+	var $_error_code;															//	エラーコード
 
 	var $upload_dir;															//	アップロードディレクトリ
 	var $extensions;															//	アップロード許可拡張子リスト
@@ -47,9 +48,10 @@ class FileUpload
 	public function readFile( $file )
 	{
 		$this->_file			= $file['tmp_name'];							//	ファイルの実体を取得
-		$this->_file_name 		= $file['name'];								//	ファイルの名前の取得
-		$this->_file_name_ext 	= $this->getExtension( $this->_file_name );	//	ファイルの拡張子を取得
+		$this->_file_name 		= basename( $file['name'] );					//	ファイルの名前の取得
+		$this->_file_name_ext 	= $this->getExtension( $this->_file_name );		//	ファイルの拡張子を取得
 		$this->_file_size 		= $file['size'];								//	ファイルサイズの取得
+		$this->_error_code 		= $file['error'];								//	PHP側のエラーコード
 	}
 
 	//------------------------------//
@@ -65,6 +67,9 @@ class FileUpload
 		
 		if($this->_file_size > $this->max_size)									//	ファイルサイズのチェック
 			return 1003;
+		
+		if($this->_error_code > 0)												//	PHP側のエラーコードのチェック
+			return $this->_error_code;
 		
 		return 0;
 	}
@@ -150,6 +155,14 @@ class FileUpload
 
 	//------------------------------//
 	//	ファイルの取得				//
+	//------------------------------//
+	public function getFileName()
+	{
+		return $this->_file_name;
+	}
+
+	//------------------------------//
+	//	ファイルの取得（非推奨）	//
 	//------------------------------//
 	public function get_file_name()
 	{

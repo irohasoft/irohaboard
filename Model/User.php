@@ -29,7 +29,7 @@ class User extends AppModel
 						'message' => 'ログインIDが重複しています'
 				),
 				array(
-						'rule' => 'alphaNumeric',
+						'rule' => 'alphaNumericMB',
 						'message' => 'ログインIDは英数字で入力して下さい'
 				),
 				array(
@@ -59,7 +59,7 @@ class User extends AppModel
 		),
 		'password' => array(
 				array(
-						'rule' => 'alphaNumeric',
+						'rule' => 'alphaNumericMB',
 						'message' => 'パスワードは英数字で入力して下さい'
 				),
 				array(
@@ -73,7 +73,7 @@ class User extends AppModel
 		),
 		'new_password' => array(
 				array(
-						'rule' => 'alphaNumeric',
+						'rule' => 'alphaNumericMB',
 						'message' => 'パスワードは英数字で入力して下さい',
 						'allowEmpty' => true
 				),
@@ -181,10 +181,6 @@ class User extends AppModel
 		'name' => array(
 			'type' => 'like',
 			'field' => 'User.name'
-		),
-		'course_id' => array(
-			'type' => 'like',
-			'field' => 'course_id'
 		),
 	);
 

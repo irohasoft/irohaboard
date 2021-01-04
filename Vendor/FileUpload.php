@@ -199,7 +199,7 @@ class FileUpload
 				break;
 			case "t":
 			case "tb":
-				$bytes = $matches[1]*1024*1024*1024;
+				$bytes = $matches[1]*1024*1024*1024*1024;
 				break;
 		}
 		

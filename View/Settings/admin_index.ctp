@@ -1,4 +1,17 @@
 <?php echo $this->element('admin_menu');?>
+<?php $this->start('script-embedded'); ?>
+<script>
+	$(document).ready(function()
+	{
+		$('option').each(function(){
+			console.log($(this).val());
+			$(this).css('color',		'white');
+			$(this).css('background',	$(this).val());
+			$(this).css('font-weight',	'bold');
+		});
+	});
+</script>
+<?php $this->end(); ?>
 <div class="admin-settings-index">
 	<div class="panel panel-default">
 		<div class="panel-heading">

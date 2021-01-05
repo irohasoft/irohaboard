@@ -91,15 +91,10 @@
 	</div>
 	
 	<div id="container">
-		<div id="header" class="row">
-		</div>
 		<div id="content" class="row">
 			<?php echo $this->Session->flash(); ?>
-
 			<?php echo $this->fetch('content'); ?>
 		</div>
-		<div id="footer" class="row">
-	</div>
 	</div>
 	
 	<div class="ib-theme-color text-center">

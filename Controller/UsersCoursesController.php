@@ -26,7 +26,7 @@ class UsersCoursesController extends AppController
 	 */
 	public function index()
 	{
-		$user_id = $this->Auth->user('id');
+		$user_id = $this->readAuthUser('id');
 		
 		// 全体のお知らせの取得
 		$this->loadModel('Setting');

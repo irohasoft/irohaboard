@@ -45,7 +45,7 @@ class ContentsController extends AppController
 		]);
 		
 		// ロールを取得
-		$role = $this->Auth->user('role');
+		$role = $this->readAuthUser('role');
 		
 		// 管理者かつ、学習履歴表示モードの場合、
 		if($this->action == 'admin_record')
@@ -55,12 +55,12 @@ class ContentsController extends AppController
 		else
 		{
 			// コースの閲覧権限の確認
-			if(! $this->Course->hasRight($this->Auth->user('id'), $course_id))
+			if(! $this->Course->hasRight($this->readAuthUser('id'), $course_id))
 			{
 				throw new NotFoundException(__('Invalid access'));
 			}
 			
-			$contents = $this->Content->getContentRecord($this->Auth->user('id'), $course_id, $role);
+			$contents = $this->Content->getContentRecord($this->readAuthUser('id'), $course_id, $role);
 		}
 		
 		$this->set(compact('course', 'contents'));
@@ -93,7 +93,7 @@ class ContentsController extends AppController
 		// コンテンツの閲覧権限の確認
 		$this->loadModel('Course');
 		
-		if(! $this->Course->hasRight($this->Auth->user('id'), $content['Content']['course_id']))
+		if(! $this->Course->hasRight($this->readAuthUser('id'), $content['Content']['course_id']))
 		{
 			throw new NotFoundException(__('Invalid access'));
 		}
@@ -112,17 +112,17 @@ class ContentsController extends AppController
 			$data = [
 				'Content' => [
 					'id'     => 0,
-					'title'  => $this->data['content_title'],
-					'kind'   => $this->data['content_kind'],
-					'url'    => $this->data['content_url'],
-					'body'  => $this->data['content_body']
+					'title'  => $this->getData('content_title'),
+					'kind'   => $this->getData('content_kind'),
+					'url'    => $this->getData('content_url'),
+					'body'   => $this->getData('content_body')
 				],
 				'Course' => [
 					'id'     => 0,
 				]
 			];
 			
-			$this->Session->write("Iroha.preview_content", $data);
+			$this->writeSession("Iroha.preview_content", $data);
 		}
 	}
 
@@ -133,7 +133,7 @@ class ContentsController extends AppController
 	{
 		// ヘッダー、フッターを非表示
 		$this->layout = '';
-		$this->set('content', $this->Session->read('Iroha.preview_content'));
+		$this->set('content', $this->readSession('Iroha.preview_content'));
 		$this->render('view');
 	}
 
@@ -252,7 +252,7 @@ class ContentsController extends AppController
 			// 新規追加の場合、コンテンツの作成者と所属コースを指定
 			if($this->action == 'admin_add')
 			{
-				$this->request->data['Content']['user_id']   = $this->Auth->user('id');
+				$this->request->data['Content']['user_id']   = $this->readAuthUser('id');
 				$this->request->data['Content']['course_id'] = $course_id;
 				$this->request->data['Content']['sort_no']   = $this->Content->getNextSortNo($course_id);
 			}
@@ -354,13 +354,8 @@ class ContentsController extends AppController
 			if(Configure::read('demo_mode'))
 				return;
 			
-			/*
-			debug($this->request->data);
-			exit;
-			*/
-			
 			// ファイルの読み込み
-			$fileUpload->readFile( $this->request->data['Content']['file'] );
+			$fileUpload->readFile( $this->getData('Content')['file'] );
 
 			$error_code = 0;
 			
@@ -379,7 +374,7 @@ class ContentsController extends AppController
 						break;
 					case 1002 : // ファイルサイズが0
 					case 1003 : // ファイルサイズオバー
-						$size = $this->request->data['Content']['file']['size'];
+						$size = $this->getData('Content')['file']['size'];
 						$this->Flash->error('アップロードされたファイルのサイズ（'.$size.'）は許可されていません');
 						break;
 					default :
@@ -388,7 +383,7 @@ class ContentsController extends AppController
 			}
 			else
 			{
-				$original_file_name = $this->request->data['Content']['file']['name'];
+				$original_file_name = $this->getData('Content')['file']['name'];
 
 				//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
 				$new_name = date("YmdHis").$fileUpload->getExtension( $fileUpload->get_file_name() );
@@ -440,11 +435,9 @@ class ContentsController extends AppController
 			
 			$fileUpload->setExtension($upload_extensions);
 			$fileUpload->setMaxSize($upload_maxsize);
-			//debug($this->request->params['form']['file']);
+			$fileUpload->readFile( $this->getParam('form')['file'] );								//	ファイルの読み込み
 			
-			$fileUpload->readFile( $this->request->params['form']['file'] );						//	ファイルの読み込み
-			
-			$new_name = date("YmdHis").$fileUpload->getExtension( $fileUpload->get_file_name() );	//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
+			$new_name = date("YmdHis").$fileUpload->getExtension( $fileUpload->getFileName() );		//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
 
 			$file_name = WWW_ROOT."uploads".DS.$new_name;											//	ファイルのパス
 			$file_url = $this->webroot.'uploads/'.$new_name;										//	ファイルのURL

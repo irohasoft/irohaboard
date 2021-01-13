@@ -57,13 +57,14 @@ class RecordsController extends AppController
 		// ただしアソシエーションテーブルには対応していないため、独自に検索条件を設定する必要がある
 		$conditions = $this->Record->parseCriteria($this->Prg->parsedParams());
 		
-		$group_id			= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
-		$course_id			= (isset($this->request->query['course_id'])) ? $this->request->query['course_id'] : "";
-		$username			= (isset($this->request->query['username'])) ? $this->request->query['username'] : "";
-		$name				= (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
-		$content_category	= (isset($this->request->query['content_category'])) ? $this->request->query['content_category'] : "";
-		$contenttitle		= (isset($this->request->query['contenttitle'])) ? $this->request->query['contenttitle'] : "";
-		
+		$group_id			= $this->getQuery('group_id');
+		$course_id			= $this->getQuery('course_id');
+		$username			= $this->getQuery('username');
+		$name				= $this->getQuery('name');
+		$content_category	= $this->getQuery('content_category');
+		$contenttitle		= $this->getQuery('contenttitle');
+		$from_date			= $this->getQuery('from_date');
+		$to_date			= $this->getQuery('to_date');
 		
 		// グループが指定されている場合、指定したグループに所属するユーザの履歴を抽出
 		if($group_id != "")
@@ -86,17 +87,15 @@ class RecordsController extends AppController
 		if($content_category == "test")
 			$conditions['Content.kind'] = ['test'];
 		
-		$from_date	= (isset($this->request->query['from_date'])) ? 
-			$this->request->query['from_date'] : 
-				[
-					'year' => date('Y', strtotime("-1 month")),
-					'month' => date('m', strtotime("-1 month")), 
-					'day' => date('d', strtotime("-1 month"))
-				];
+		if(!$from_date)
+			$from_date = [
+				'year' => date('Y', strtotime("-1 month")),
+				'month' => date('m', strtotime("-1 month")), 
+				'day' => date('d', strtotime("-1 month"))
+			];
 		
-		$to_date	= (isset($this->request->query['to_date'])) ? 
-			$this->request->query['to_date'] : 
-				['year' => date('Y'), 'month' => date('m'), 'day' => date('d')];
+		if(!$to_date)
+			$to_date = ['year' => date('Y'), 'month' => date('m'), 'day' => date('d')];
 		
 		if($contenttitle != "")
 			$conditions['Content.title like'] = '%'.$contenttitle.'%';
@@ -108,7 +107,7 @@ class RecordsController extends AppController
 		];
 		
 		// CSV出力モードの場合
-		if(@$this->request->query['cmd']=='csv')
+		if($this->getQuery('cmd')=='csv')
 		{
 			$this->autoRender = false;
 
@@ -226,8 +225,7 @@ class RecordsController extends AppController
 		
 		$this->Record->create();
 		$data = [
-//				'group_id' => $this->Session->read('Auth.User.Group.id'),
-			'user_id'		=> $this->Auth->user('id'),
+			'user_id'		=> $this->readAuthUser('id'),
 			'course_id'		=> $content['Course']['id'],
 			'content_id'	=> $content_id,
 			'study_sec'		=> $study_sec,

@@ -50,11 +50,11 @@ class ContentsQuestionsController extends AppController
 		//	権限チェック				//
 		//------------------------------//
 		// 管理者以外の場合、コンテンツの閲覧権限の確認
-		if($this->Auth->user('role') != 'admin')
+		if($this->readAuthUser('role') != 'admin')
 		{
 			$this->loadModel('Course');
 			
-			if(! $this->Course->hasRight($this->Auth->user('id'), $content['Content']['course_id']))
+			if(! $this->Course->hasRight($this->readAuthUser('id'), $content['Content']['course_id']))
 				throw new NotFoundException(__('Invalid access'));
 		}
 		
@@ -74,7 +74,7 @@ class ContentsQuestionsController extends AppController
 			// 受講者によるテスト結果表示の場合、自身のテスト結果か確認
 			if(
 				($this->action == 'record')&&
-				($record['Record']['user_id']!=$this->Auth->user('id'))
+				($record['Record']['user_id']!=$this->readAuthUser('id'))
 			)
 			{
 				throw new NotFoundException(__('Invalid access'));
@@ -93,10 +93,10 @@ class ContentsQuestionsController extends AppController
 				'order' => ['FIELD(ContentsQuestion.id,'.implode(',', $question_id_list).')'] // 指定したID順で並び替え
 			]);
 		}
-		else if($this->Session->read('Iroha.RondomQuestions.'.$content_id.'.id_list') != null) // 既にランダム出題情報がセッション上にある場合
+		else if($this->readSession('Iroha.RondomQuestions.'.$content_id.'.id_list') != null) // 既にランダム出題情報がセッション上にある場合
 		{
 			// セッションにランダム出題情報が存在する場合、その情報を使用
-			$question_id_list = $this->Session->read('Iroha.RondomQuestions.'.$content_id.'.id_list');
+			$question_id_list = $this->readSession('Iroha.RondomQuestions.'.$content_id.'.id_list');
 			
 			$contentsQuestions = $this->ContentsQuestion->find('all', [
 				'conditions' => ['content_id' => $content_id, 'ContentsQuestion.id' => $question_id_list],
@@ -123,7 +123,7 @@ class ContentsQuestionsController extends AppController
 			}
 			
 			// ランダム出題情報を一時的にセッションに格納（リロードによる変化や、採点時の問題情報との矛盾を防ぐため）
-			$this->Session->write('Iroha.RondomQuestions.'.$content_id.'.id_list', $question_id_list);
+			$this->writeSession('Iroha.RondomQuestions.'.$content_id.'.id_list', $question_id_list);
 		}
 		else // 通常の出題の場合
 		{
@@ -152,7 +152,7 @@ class ContentsQuestionsController extends AppController
 			foreach ($contentsQuestions as $contentsQuestion)
 			{
 				$question_id	= $contentsQuestion['ContentsQuestion']['id'];		// 問題ID
-				$answer			= @$this->request->data['answer_' . $question_id];	// 解答
+				$answer			= $this->getData('answer_' . $question_id);			// 解答
 				$correct		= $contentsQuestion['ContentsQuestion']['correct'];	// 正解
 				$corrects		= explode(',', $correct);							// 複数選択
 				
@@ -163,14 +163,14 @@ class ContentsQuestionsController extends AppController
 				// 複数選択問題の場合
 				if(count($corrects) > 1)
 				{
-					$answers	= @$this->request->data['answer_'.$question_id];
+					$answers	= $this->getData('answer_'.$question_id);
 					$answer		= @implode(',', $answers);
 					$is_correct	= $this->isMultiCorrect($answers, $corrects) ? 1 : 0;
 					//debug($is_correct);
 				}
 				else
 				{
-					$answer		= @$this->request->data['answer_'.$question_id];
+					$answer		= $this->getData('answer_'.$question_id);
 					$is_correct	= ($answer == $correct) ? 1 : 0;
 				}
 				
@@ -195,14 +195,14 @@ class ContentsQuestionsController extends AppController
 			$is_passed = ($my_score >= $pass_score) ? 1 : 0;
 			
 			// テスト実施時間
-			$study_sec = $this->request->data['ContentsQuestion']['study_sec'];
+			$study_sec = $this->getData('ContentsQuestion')['study_sec'];
 			
 			$this->loadModel('Record');
 			$this->Record->create();
 			
 			// 追加する成績情報
 			$data = [
-				'user_id'		=> $this->Auth->user('id'),						// ログインユーザのユーザID
+				'user_id'		=> $this->readAuthUser('id'),					// ログインユーザのユーザID
 				'course_id'		=> $content['Course']['id'],					// コースID
 				'content_id'	=> $content_id,									// コンテンツID
 				'full_score'	=> $full_score,									// 合計点
@@ -230,7 +230,7 @@ class ContentsQuestionsController extends AppController
 				}
 				
 				// ランダム出題用の問題IDリストを削除
-				$this->Session->delete('Iroha.RondomQuestions.'.$content_id.'.id_list');
+				$this->deleteSession('Iroha.RondomQuestions.'.$content_id.'.id_list');
 				
 				$this->redirect([
 					'action' => 'record',
@@ -335,7 +335,7 @@ class ContentsQuestionsController extends AppController
 		{
 			if ($question_id == null)
 			{
-				$this->request->data['ContentsQuestion']['user_id'] = $this->Auth->user('id');
+				$this->request->data['ContentsQuestion']['user_id'] = $this->readAuthUser('id');
 				$this->request->data['ContentsQuestion']['content_id'] = $content_id;
 				$this->request->data['ContentsQuestion']['sort_no']   = $this->ContentsQuestion->getNextSortNo($content_id);
 			}

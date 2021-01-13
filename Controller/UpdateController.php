@@ -80,7 +80,7 @@ class UpdateController extends AppController
 	 */
 	function error()
 	{
-		$this->set('loginedUser', $this->Auth->user());
+		$this->set('loginedUser', $this->readAuthUser());
 		$this->set('body', $this->err_msg);
 	}
 	

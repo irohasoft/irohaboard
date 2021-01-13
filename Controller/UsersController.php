@@ -116,7 +116,7 @@ class UsersController extends AppController
 			if($this->Auth->login())
 			{
 				// 最終ログイン日時を保存
-				$this->User->id = $this->Auth->user('id');
+				$this->User->id = $this->readAuthUser('id');
 				$this->User->saveField('last_logined', date(date('Y-m-d H:i:s')));
 				return $this->redirect( $this->Auth->redirect());
 			}
@@ -143,10 +143,10 @@ class UsersController extends AppController
 				}
 				
 				// 最終ログイン日時を保存
-				$this->User->id = $this->Auth->user('id');
+				$this->User->id = $this->readAuthUser('id');
 				$this->User->saveField('last_logined', date(date('Y-m-d H:i:s')));
 				$this->writeLog('user_logined', '');
-				$this->Session->delete('Auth.redirect');
+				$this->deleteSession('Auth.redirect');
 				$this->redirect($this->Auth->redirect());
 			}
 			else
@@ -189,11 +189,11 @@ class UsersController extends AppController
 		$conditions = $this->User->parseCriteria($this->Prg->parsedParams());
 		
 		// 選択中のグループをセッションから取得
-		if(isset($this->request->query['group_id']))
-			$this->Session->write('Iroha.group_id', intval($this->request->query['group_id']));
+		if($this->hasQuery('group_id'))
+			$this->writeSession('Iroha.group_id', intval($this->getQuery('group_id')));
 		
 		// GETパラメータから検索条件を抽出
-		$group_id	= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : $this->Session->read('Iroha.group_id');
+		$group_id	= ($this->hasQuery('group_id')) ? $this->getQuery('group_id') : $this->readSession('Iroha.group_id');
 		
 		// 独自の検索条件を追加（指定したグループに所属するユーザを検索）
 		if($group_id != "")
@@ -316,7 +316,7 @@ class UsersController extends AppController
 			if(Configure::read('demo_mode'))
 				return;
 			
-			$this->request->data['User']['id'] = $this->Auth->user('id');
+			$this->request->data['User']['id'] = $this->readAuthUser('id');
 			
 			if($this->request->data['User']['new_password'] != $this->request->data['User']['new_password2'])
 			{
@@ -346,7 +346,7 @@ class UsersController extends AppController
 		{
 			$options = [
 				'conditions' => [
-						'User.' . $this->User->primaryKey => $this->Auth->user('id')
+						'User.' . $this->User->primaryKey => $this->readAuthUser('id')
 				]
 			];
 			$this->request->data = $this->User->find('first', $options);

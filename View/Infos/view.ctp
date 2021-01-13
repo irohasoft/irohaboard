@@ -22,10 +22,10 @@
 	</div>
 
 	<div class="panel panel-success">
-		<div class="panel-heading"><?php echo $title; ?></div>
+		<div class="panel-heading"><?= $title; ?></div>
 		<div class="panel-body">
-			<div class="text-right"><?php echo $date; ?></div>
-			<?php echo $body; ?>
+			<div class="text-right"><?= $date; ?></div>
+			<?= $body; ?>
 		</div>
 	</div>
 </div>

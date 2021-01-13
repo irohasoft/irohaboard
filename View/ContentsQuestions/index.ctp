@@ -37,10 +37,10 @@
 	
 	<?php $this->start('script-embedded'); ?>
 	<script>
-	var TIMELIMIT_SEC	= parseInt('<?php echo $content['Content']['timelimit'] ?>') * 60;	// 制限時間（単位：秒）
-	var IS_RECORD		= '<?php echo $is_record ?>';										// テスト結果表示フラグ
+	var TIMELIMIT_SEC	= parseInt('<?= $content['Content']['timelimit'] ?>') * 60;	// 制限時間（単位：秒）
+	var IS_RECORD		= '<?= $is_record ?>';										// テスト結果表示フラグ
 	</script>
-	<?php echo $this->Html->script('contents_questions.js?20190401');?>
+	<?= $this->Html->script('contents_questions.js?20190401');?>
 	<?php $this->end(); ?>
 	
 	<!-- テスト結果ヘッダ表示 -->
@@ -50,18 +50,18 @@
 			$result_label  = ($record['Record']['is_passed']==1) ? __('合格') : __('不合格');
 		?>
 		<table class="result-table">
-			<caption><?php echo __('テスト結果'); ?></caption>
+			<caption><?= __('テスト結果'); ?></caption>
 			<tr>
-				<td><?php echo __('合否'); ?></td>
-				<td><div class="<?php echo $result_color; ?>"><?php echo $result_label; ?></div></td>
+				<td><?= __('合否'); ?></td>
+				<td><div class="<?= $result_color; ?>"><?= $result_label; ?></div></td>
 			</tr>
 			<tr>
-				<td><?php echo __('得点'); ?></td>
-				<td><?php echo $record['Record']['score'].' / '.$record['Record']['full_score']; ?></td>
+				<td><?= __('得点'); ?></td>
+				<td><?= $record['Record']['score'].' / '.$record['Record']['full_score']; ?></td>
 			</tr>
 			<tr>
-				<td><?php echo __('合格基準得点'); ?></td>
-				<td><?php echo ($record['Record']['pass_score']) ? $record['Record']['pass_score'] : __('設定されていません'); ?></td>
+				<td><?= __('合格基準得点'); ?></td>
+				<td><?= ($record['Record']['pass_score']) ? $record['Record']['pass_score'] : __('設定されていません'); ?></td>
 			</tr>
 		</table>
 	<?php }?>
@@ -79,7 +79,7 @@
 			}
 		}
 	?>
-	<?php echo $this->Form->create('ContentsQuestion'); ?>
+	<?= $this->Form->create('ContentsQuestion'); ?>
 		<?php foreach ($contentsQuestions as $contentsQuestion){ ?>
 			<?php
 			$question		= $contentsQuestion['ContentsQuestion'];	// 問題情報
@@ -173,26 +173,26 @@
 				}
 			}
 			?>
-			<div class="panel panel-info question question-<?php echo $question_index;?>">
-				<div class="panel-heading"><?php echo __('問').$question_index;?></div>
+			<div class="panel panel-info question question-<?= $question_index;?>">
+				<div class="panel-heading"><?= __('問').$question_index;?></div>
 				<div class="panel-body">
 					<!--問題タイトル-->
-					<h4><?php echo h($title) ?></h4>
+					<h4><?= h($title) ?></h4>
 					<div class="question-text bg-warning">
 						<!--問題文-->
-						<?php echo $body ?>
+						<?= $body ?>
 					</div>
 					
 					<div class="radio-group">
 						<!--選択肢-->
-						<?php echo $option_tag; ?>
+						<?= $option_tag; ?>
 					</div>
 					<!--正解-->
-					<?php echo $correct_tag ?>
+					<?= $correct_tag ?>
 					<!--正誤画像-->
-					<?php echo $result_tag ?>
+					<?= $result_tag ?>
 					<!--解説文-->
-					<?php echo $explain_tag ?>
+					<?= $explain_tag ?>
 				</div>
 			</div>
 			<?php $question_index++;?>
@@ -234,14 +234,14 @@ function getExplain($explain)
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title"><?php echo __('採点確認');?></h4>
+				<h4 class="modal-title"><?= __('採点確認');?></h4>
 			</div>
 			<div class="modal-body">
-				<p><?php echo __('採点してよろしいですか？');?></p>
+				<p><?= __('採点してよろしいですか？');?></p>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __('キャンセル');?></button>
-				<button type="button" class="btn btn-primary btn-score" onclick="sendData();"><?php echo __('採点');?></button>
+				<button type="button" class="btn btn-default" data-dismiss="modal"><?= __('キャンセル');?></button>
+				<button type="button" class="btn btn-primary btn-score" onclick="sendData();"><?= __('採点');?></button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->

@@ -1,10 +1,10 @@
-<?php echo $this->element('admin_menu');?>
+<?= $this->element('admin_menu');?>
 <?php $this->start('css-embedded'); ?>
-<?php echo $this->Html->css('summernote.css');?>
+<?= $this->Html->css('summernote.css');?>
 <?php $this->end(); ?>
 <?php $this->start('script-embedded'); ?>
-<?php echo $this->Html->script('summernote.min.js');?>
-<?php echo $this->Html->script('lang/summernote-ja-JP.js');?>
+<?= $this->Html->script('summernote.min.js');?>
+<?= $this->Html->script('lang/summernote-ja-JP.js');?>
 <script>
 	$(document).ready(function()
 	{
@@ -27,11 +27,11 @@
 			if(val=='url')
 				val = 'file';
 			
-			//window.open('<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/'+val, '_upload', 'width=650,height=500,resizable=no');
+			//window.open('<?= Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/'+val, '_upload', 'width=650,height=500,resizable=no');
 			$('#uploadDialog').modal('show');
 
 			//モーダル画面にiframeを追加する
-			$("#uploadFrame").attr("src", "<?php echo Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/" + val);
+			$("#uploadFrame").attr("src", "<?= Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/" + val);
 			return false;
 		});
 
@@ -73,7 +73,7 @@
 				break;
 			case 'html': // リッチテキスト
 				// リッチテキストエディタを起動
-				CommonUtil.setRichTextEditor('#ContentBody', <?php echo Configure::read('upload_image_maxsize') ?>, '<?php echo $this->webroot ?>');
+				CommonUtil.setRichTextEditor('#ContentBody', <?= Configure::read('upload_image_maxsize') ?>, '<?= $this->webroot ?>');
 				$("#btnPreview").show();
 				break;
 			case 'movie': // 動画
@@ -100,7 +100,7 @@
 		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
 		
 		$.ajax({
-			url: "<?php echo Router::url(array('action' => 'preview')) ?>",
+			url: "<?= Router::url(array('action' => 'preview')) ?>",
 			type: "POST",
 			data: {
 				content_title : $("#ContentTitle").val(),
@@ -112,7 +112,7 @@
 			success : function(response){
 				//通信成功時の処理
 				//alert(response);
-				var url = '<?php echo Router::url(array('controller' => 'contents', 'action' => 'preview'))?>'.replace('admin/', '');
+				var url = '<?= Router::url(array('controller' => 'contents', 'action' => 'preview'))?>'.replace('admin/', '');
 				
 				window.open(url, '_preview', 'width=1000,height=700,resizable=no');
 			},
@@ -149,10 +149,10 @@
 	?>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<?php echo ($this->action == 'admin_edit') ? __('編集') :  __('新規コンテンツ'); ?>
+			<?= ($this->action == 'admin_edit') ? __('編集') :  __('新規コンテンツ'); ?>
 		</div>
 		<div class="panel-body">
-			<?php echo $this->Form->create('Content', Configure::read('form_defaults')); ?>
+			<?= $this->Form->create('Content', Configure::read('form_defaults')); ?>
 			<?php
 				echo $this->Form->input('id');
 				echo $this->Form->input('title',	array('label' => __('コンテンツ名')));
@@ -245,10 +245,10 @@
 			<div class="form-group">
 				<div class="col col-sm-9 col-sm-offset-3">
 					<button id="btnPreview" class="btn btn-default" value="プレビュー" onclick="preview(); return false;" type="submit">プレビュー</button>
-					<?php echo $this->Form->submit(__('保存'), Configure::read('form_submit_defaults')); ?>
+					<?= $this->Form->submit(__('保存'), Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>
-			<?php echo $this->Form->end(); ?>
+			<?= $this->Form->end(); ?>
 		</div>
 	</div>
 </div>

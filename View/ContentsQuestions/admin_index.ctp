@@ -1,4 +1,4 @@
-<?php echo $this->element('admin_menu');?>
+<?= $this->element('admin_menu');?>
 <?php $this->start('script-embedded'); ?>
 	<script>
 		$(function(){
@@ -25,7 +25,7 @@
 					});
 
 					$.ajax({
-						url: "<?php echo Router::url(array('action' => 'order')) ?>",
+						url: "<?= Router::url(array('action' => 'order')) ?>",
 						type: "POST",
 						data: { id_list : id_list },
 						dataType: "text",
@@ -56,38 +56,38 @@
 		echo $this->Html->getCrumbs(' / ');
 	?>
 	</div>
-	<div class="ib-page-title"><?php echo __('テスト問題一覧'); ?></div>
+	<div class="ib-page-title"><?= __('テスト問題一覧'); ?></div>
 	
 	<div class="buttons_container">
-		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add', $content['Content']['id'])) ?>'">+ 追加</button>
+		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?= Router::url(array('action' => 'add', $content['Content']['id'])) ?>'">+ 追加</button>
 	</div>
 	
-	<div class="alert alert-warning"><?php echo __('ドラッグアンドドロップで出題順が変更できます。'); ?></div>
+	<div class="alert alert-warning"><?= __('ドラッグアンドドロップで出題順が変更できます。'); ?></div>
 	<table id='sortable-table' cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
-		<th><?php echo __('タイトル'); ?></th>
-		<th><?php echo __('問題文'); ?></th>
-		<th><?php echo __('選択肢'); ?></th>
-		<th width="40" nowap><?php echo __('正解'); ?></th>
-		<th width="40" nowap><?php echo __('得点'); ?></th>
-		<th class="ib-col-date"><?php echo __('作成日時'); ?></th>
-		<th class="ib-col-date"><?php echo __('更新日時'); ?></th>
-		<th class="actions text-center"><?php echo __('Actions'); ?></th>
+		<th><?= __('タイトル'); ?></th>
+		<th><?= __('問題文'); ?></th>
+		<th><?= __('選択肢'); ?></th>
+		<th width="40" nowap><?= __('正解'); ?></th>
+		<th width="40" nowap><?= __('得点'); ?></th>
+		<th class="ib-col-date"><?= __('作成日時'); ?></th>
+		<th class="ib-col-date"><?= __('更新日時'); ?></th>
+		<th class="actions text-center"><?= __('Actions'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php foreach ($contentsQuestions as $contentsQuestion): ?>
 	<tr>
-		<td class="td-reader"><?php echo h($contentsQuestion['ContentsQuestion']['title']); ?>&nbsp;</td>
-		<td class="td-reader"><?php echo h(strip_tags($contentsQuestion['ContentsQuestion']['body'])); ?>&nbsp;</td>
-		<td class="td-reader"><?php echo h($contentsQuestion['ContentsQuestion']['options']); ?>&nbsp;</td>
-		<td><?php echo h($contentsQuestion['ContentsQuestion']['correct']); ?>&nbsp;</td>
-		<td><?php echo h($contentsQuestion['ContentsQuestion']['score']); ?>&nbsp;</td>
-		<td class="ib-col-date"><?php echo Utils::getYMDHN($contentsQuestion['ContentsQuestion']['created']); ?>&nbsp;</td>
-		<td class="ib-col-date"><?php echo Utils::getYMDHN($contentsQuestion['ContentsQuestion']['modified']); ?>&nbsp;</td>
+		<td class="td-reader"><?= h($contentsQuestion['ContentsQuestion']['title']); ?>&nbsp;</td>
+		<td class="td-reader"><?= h(strip_tags($contentsQuestion['ContentsQuestion']['body'])); ?>&nbsp;</td>
+		<td class="td-reader"><?= h($contentsQuestion['ContentsQuestion']['options']); ?>&nbsp;</td>
+		<td><?= h($contentsQuestion['ContentsQuestion']['correct']); ?>&nbsp;</td>
+		<td><?= h($contentsQuestion['ContentsQuestion']['score']); ?>&nbsp;</td>
+		<td class="ib-col-date"><?= Utils::getYMDHN($contentsQuestion['ContentsQuestion']['created']); ?>&nbsp;</td>
+		<td class="ib-col-date"><?= Utils::getYMDHN($contentsQuestion['ContentsQuestion']['modified']); ?>&nbsp;</td>
 		<td class="actions text-center">
-			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $contentsQuestion['Content']['id'], $contentsQuestion['ContentsQuestion']['id'])) ?>'">編集</button>
+			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(array('action' => 'edit', $contentsQuestion['Content']['id'], $contentsQuestion['ContentsQuestion']['id'])) ?>'">編集</button>
 			<?php
 			if($loginedUser['role']=='admin')
 			{

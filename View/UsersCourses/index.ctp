@@ -1,6 +1,6 @@
 <div class="users-courses-index">
 	<div class="panel panel-success">
-		<div class="panel-heading"><?php echo __('お知らせ'); ?></div>
+		<div class="panel-heading"><?= __('お知らせ'); ?></div>
 		<div class="panel-body">
 			<?php if($info!=""){?>
 			<div class="well">
@@ -17,35 +17,35 @@
 			<tbody>
 			<?php foreach ($infos as $info): ?>
 			<tr>
-				<td width="100" valign="top"><?php echo h(Utils::getYMD($info['Info']['created'])); ?></td>
-				<td><?php echo $this->Html->link($info['Info']['title'], array('controller' => 'infos', 'action' => 'view', $info['Info']['id'])); ?></td>
+				<td width="100" valign="top"><?= h(Utils::getYMD($info['Info']['created'])); ?></td>
+				<td><?= $this->Html->link($info['Info']['title'], array('controller' => 'infos', 'action' => 'view', $info['Info']['id'])); ?></td>
 			</tr>
 			<?php endforeach; ?>
 			</tbody>
 			</table>
-			<div class="text-right"><?php echo $this->Html->link(__('一覧を表示'), array('controller' => 'infos', 'action' => 'index')); ?></div>
+			<div class="text-right"><?= $this->Html->link(__('一覧を表示'), array('controller' => 'infos', 'action' => 'index')); ?></div>
 			<?php }?>
-			<?php echo $no_info;?>
+			<?= $no_info;?>
 		</div>
 	</div>
 	<div class="panel panel-info">
-	<div class="panel-heading"><?php echo __('コース一覧'); ?></div>
+	<div class="panel-heading"><?= __('コース一覧'); ?></div>
 	<div class="panel-body">
 		<ul class="list-group">
 		<?php foreach ($courses as $course): ?>
 		<?php //debug($course)?>
-			<a href="<?php echo Router::url(array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));?>" class="list-group-item">
+			<a href="<?= Router::url(array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));?>" class="list-group-item">
 				<?php if($course[0]['left_cnt']!=0){?>
-				<button type="button" class="btn btn-danger btn-rest"><?php echo __('残り')?> <span class="badge"><?php echo h($course[0]['left_cnt']); ?></span></button>
+				<button type="button" class="btn btn-danger btn-rest"><?= __('残り')?> <span class="badge"><?= h($course[0]['left_cnt']); ?></span></button>
 				<?php }?>
-				<h4 class="list-group-item-heading"><?php echo h($course['Course']['title']);?></h4>
+				<h4 class="list-group-item-heading"><?= h($course['Course']['title']);?></h4>
 				<p class="list-group-item-text">
-					<span><?php echo __('学習開始日').': '.Utils::getYMD($course['Record']['first_date']); ?></span>
-					<span><?php echo __('最終学習日').': '.Utils::getYMD($course['Record']['last_date']); ?></span>
+					<span><?= __('学習開始日').': '.Utils::getYMD($course['Record']['first_date']); ?></span>
+					<span><?= __('最終学習日').': '.Utils::getYMD($course['Record']['last_date']); ?></span>
 				</p>
 			</a>
 		<?php endforeach; ?>
-		<?php echo $no_record;?>
+		<?= $no_record;?>
 		</ul>
 	</div>
 	</div>

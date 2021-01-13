@@ -1,12 +1,12 @@
 <?php $this->start('css-embedded'); ?>
 <style>
 @media only screen and (max-width:800px)
-{	.responsive-table tbody td:nth-of-type(2):before { width: 100px; display: inline-block; content: "<?php echo __('種別').' : '?>";}
-	.responsive-table tbody td:nth-of-type(3):before { content: "<?php echo __('学習開始日').' : '?>"; }
-	.responsive-table tbody td:nth-of-type(4):before { content: "<?php echo __('前回学習日').' : '?>"; }
-	.responsive-table tbody td:nth-of-type(5):before { content: "<?php echo __('学習時間').' : '?>"; }
-	.responsive-table tbody td:nth-of-type(6):before { content: "<?php echo __('学習回数').' : '?>"; }
-	.responsive-table tbody td:nth-of-type(7):before { content: "<?php echo __('理解度').' : '?>"; }
+{	.responsive-table tbody td:nth-of-type(2):before { width: 100px; display: inline-block; content: "<?= __('種別').' : '?>";}
+	.responsive-table tbody td:nth-of-type(3):before { content: "<?= __('学習開始日').' : '?>"; }
+	.responsive-table tbody td:nth-of-type(4):before { content: "<?= __('前回学習日').' : '?>"; }
+	.responsive-table tbody td:nth-of-type(5):before { content: "<?= __('学習時間').' : '?>"; }
+	.responsive-table tbody td:nth-of-type(6):before { content: "<?= __('学習回数').' : '?>"; }
+	.responsive-table tbody td:nth-of-type(7):before { content: "<?= __('理解度').' : '?>"; }
 }
 
 <?php if($this->action=='admin_record') { // 学習履歴表示モードの場合、メニューを表示しない ?>
@@ -40,7 +40,7 @@
 	</div>
 
 	<div class="panel panel-info">
-	<div class="panel-heading"><?php echo h($course['Course']['title']); ?></div>
+	<div class="panel-heading"><?= h($course['Course']['title']); ?></div>
 	<div class="panel-body">
 	<?php if($course['Course']['introduction']!='') {?>
 	<div class="well">
@@ -54,13 +54,13 @@
 	<table class="responsive-table">
 		<thead>
 			<tr>
-				<th><?php echo __('コンテンツ名'); ?></th>
-				<th class="ib-col-center"><?php echo __('種別'); ?></th>
-				<th class="ib-col-date"><?php echo __('学習開始日'); ?></th>
-				<th class="ib-col-date"><?php echo __('前回学習日'); ?></th>
-				<th nowrap class="ib-col-center"><?php echo __('学習時間'); ?></th>
-				<th nowrap class="ib-col-center"><?php echo __('学習回数'); ?></th>
-				<th nowrap class="ib-col-center"><?php echo __('理解度'); ?></th>
+				<th><?= __('コンテンツ名'); ?></th>
+				<th class="ib-col-center"><?= __('種別'); ?></th>
+				<th class="ib-col-date"><?= __('学習開始日'); ?></th>
+				<th class="ib-col-date"><?= __('前回学習日'); ?></th>
+				<th nowrap class="ib-col-center"><?= __('学習時間'); ?></th>
+				<th nowrap class="ib-col-center"><?= __('学習回数'); ?></th>
+				<th nowrap class="ib-col-center"><?= __('理解度'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -140,17 +140,17 @@
 		?>
 		<?php if($content['Content']['kind']=='label') { // ラベルの場合、タイトルのみ表示 ?>
 		<tr>
-			<td colspan="7" class="content-label"><?php echo h($content['Content']['title']); ?>&nbsp;</td>
+			<td colspan="7" class="content-label"><?= h($content['Content']['title']); ?>&nbsp;</td>
 		</tr>
 		<?php }else{?>
 		<tr>
-			<td><span class="<?php echo $icon; ?>"></span>&nbsp;<?php echo $title_link; ?>&nbsp;</td>
-			<td class="ib-col-center" nowrap><?php echo h($kind); ?>&nbsp;</td>
-			<td class="ib-col-date"><?php echo Utils::getYMD($content['Record']['first_date']); ?>&nbsp;</td>
-			<td class="ib-col-date"><?php echo Utils::getYMD($content['Record']['last_date']); ?>&nbsp;</td>
-			<td class="ib-col-center"><?php echo h(Utils::getHNSBySec($content['Record']['study_sec'])); ?>&nbsp;</td>
-			<td class="ib-col-center"><?php echo h($content['Record']['study_count']); ?>&nbsp;</td>
-			<td nowrap class="ib-col-center"><?php echo $understanding; ?></td>
+			<td><span class="<?= $icon; ?>"></span>&nbsp;<?= $title_link; ?>&nbsp;</td>
+			<td class="ib-col-center" nowrap><?= h($kind); ?>&nbsp;</td>
+			<td class="ib-col-date"><?= Utils::getYMD($content['Record']['first_date']); ?>&nbsp;</td>
+			<td class="ib-col-date"><?= Utils::getYMD($content['Record']['last_date']); ?>&nbsp;</td>
+			<td class="ib-col-center"><?= h(Utils::getHNSBySec($content['Record']['study_sec'])); ?>&nbsp;</td>
+			<td class="ib-col-center"><?= h($content['Record']['study_count']); ?>&nbsp;</td>
+			<td nowrap class="ib-col-center"><?= $understanding; ?></td>
 		</tr>
 		<?php
 		}

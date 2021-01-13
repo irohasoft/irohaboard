@@ -1,8 +1,8 @@
-<?php echo $this->element('admin_menu');?>
-<?php echo $this->Html->css('summernote.css');?>
+<?= $this->element('admin_menu');?>
+<?= $this->Html->css('summernote.css');?>
 <?php $this->start('script-embedded'); ?>
-<?php echo $this->Html->script('summernote.min.js');?>
-<?php echo $this->Html->script('lang/summernote-ja-JP.js');?>
+<?= $this->Html->script('summernote.min.js');?>
+<?= $this->Html->script('lang/summernote-ja-JP.js');?>
 <script>
 	$(document).ready(function()
 	{
@@ -98,8 +98,8 @@
 	function init()
 	{
 		// リッチテキストエディタを起動
-		CommonUtil.setRichTextEditor('#ContentsQuestionBody', <?php echo Configure::read('upload_image_maxsize') ?>, '<?php echo $this->webroot ?>');
-		CommonUtil.setRichTextEditor('#ContentsQuestionExplain', <?php echo Configure::read('upload_image_maxsize') ?>, '<?php echo $this->webroot ?>');
+		CommonUtil.setRichTextEditor('#ContentsQuestionBody', <?= Configure::read('upload_image_maxsize') ?>, '<?= $this->webroot ?>');
+		CommonUtil.setRichTextEditor('#ContentsQuestionExplain', <?= Configure::read('upload_image_maxsize') ?>, '<?= $this->webroot ?>');
 		
 		// 保存時、コード表示モードの場合、解除する（編集中の内容を反映するため）
 		$("form").submit( function() {
@@ -141,10 +141,10 @@
 	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<?php echo ($this->action == 'admin_edit') ? __('編集') :  __('新規問題'); ?>
+			<?= ($this->action == 'admin_edit') ? __('編集') :  __('新規問題'); ?>
 		</div>
 		<div class="panel-body">
-			<?php echo $this->Form->create('ContentsQuestion', Configure::read('form_defaults')); ?>
+			<?= $this->Form->create('ContentsQuestion', Configure::read('form_defaults')); ?>
 			<?php
 				echo $this->Form->input('id');
 				echo $this->Form->input('title',	array('label' => __('タイトル')));
@@ -180,10 +180,10 @@
 			?>
 			<div class="form-group">
 				<div class="col col-sm-9 col-sm-offset-3">
-					<?php echo $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
+					<?= $this->Form->submit('保存', Configure::read('form_submit_defaults')); ?>
 				</div>
 			</div>
-			<?php echo $this->Form->end(); ?>
+			<?= $this->Form->end(); ?>
 		</div>
 	</div>
 </div>

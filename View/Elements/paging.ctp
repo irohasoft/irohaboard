@@ -6,6 +6,6 @@ echo $this->Paginator->counter(array(
 ?>
 </div>
 <div class="text-center">
-	<?php echo $this->Paginator->pagination(array('ul' => 'pagination')); ?>
+	<?= $this->Paginator->pagination(array('ul' => 'pagination')); ?>
 </div>
 

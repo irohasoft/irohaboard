@@ -23,33 +23,33 @@ App::import('Vendor', 'Utils');
 class AppController extends Controller
 {
 
-	public $components = array(
+	public $components = [
 			'DebugKit.Toolbar',
 			'Session',
 			'Flash',
-			'Auth' => array(
-					'loginRedirect' => array(
+			'Auth' => [
+					'loginRedirect' => [
 							'controller' => 'users_courses',
 							'action' => 'index'
-					),
-					'logoutRedirect' => array(
+					],
+					'logoutRedirect' => [
 							'controller' => 'users',
 							'action' => 'login',
 							'home'
-					),
+					],
 					'authError' => false
-			)
-	);
+			]
+	];
 	
 	//public $helpers = array('Session');
-	public $helpers = array(
+	public $helpers = [
 		'Session',
-		'Html' => array('className' => 'BoostCake.BoostCakeHtml'),
-		'Form' => array('className' => 'BoostCake.BoostCakeForm'),
-		'Paginator' => array('className' => 'BoostCake.BoostCakePaginator'),
-	);
+		'Html' => ['className' => 'BoostCake.BoostCakeHtml'],
+		'Form' => ['className' => 'BoostCake.BoostCakeForm'],
+		'Paginator' => ['className' => 'BoostCake.BoostCakePaginator'],
+	];
 	
-	public $uses = array('Setting');
+	public $uses = ['Setting'];
 	
 	public function beforeFilter()
 	{
@@ -107,21 +107,21 @@ class AppController extends Controller
 				}
 			}
 			
-			$this->Auth->loginAction = array(
+			$this->Auth->loginAction = [
 					'controller' => 'users',
 					'action' => 'login',
 					'admin' => true
-			);
-			$this->Auth->loginRedirect = array(
+			];
+			$this->Auth->loginRedirect = [
 					'controller' => 'users',
 					'action' => 'index',
 					'admin' => true
-			);
-			$this->Auth->logoutRedirect = array(
+			];
+			$this->Auth->logoutRedirect = [
 					'controller' => 'users',
 					'action' => 'login',
 					'admin' => true
-			);
+			];
 			
 			/*
 			$this->set('loginURL', "/admin/users/login/");
@@ -133,21 +133,21 @@ class AppController extends Controller
 		}
 		else
 		{
-			$this->Auth->loginAction = array(
+			$this->Auth->loginAction = [
 					'controller' => 'users',
 					'action' => 'login',
 					'admin' => false
-			);
-			$this->Auth->loginRedirect = array(
+			];
+			$this->Auth->loginRedirect = [
 					'controller' => 'users',
 					'action' => 'index',
 					'admin' => false
-			);
-			$this->Auth->logoutRedirect = array(
+			];
+			$this->Auth->logoutRedirect = [
 					'controller' => 'users',
 					'action' => 'login',
 					'admin' => false
-			);
+			];
 			
 			/*
 			$this->set('loginURL', "/users/login/");
@@ -168,13 +168,13 @@ class AppController extends Controller
 
 	function writeLog($log_type, $log_content)
 	{
-		$data = array(
+		$data = [
 			'log_type'    => $log_type,
 			'log_content' => $log_content,
 			'user_id'     => $this->Auth->user('id'),
 			'user_ip'     => $_SERVER['REMOTE_ADDR'],
 			'user_agent'  => $_SERVER['HTTP_USER_AGENT']
-		);
+		];
 		
 		
 		$this->loadModel('Log');

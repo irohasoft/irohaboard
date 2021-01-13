@@ -23,7 +23,7 @@
  */
 
 // Setup a 'default' cache configuration for use in the application.
-Cache::config('default', array('engine' => 'File'));
+Cache::config('default', ['engine' => 'File']);
 
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
@@ -53,25 +53,25 @@ Cache::config('default', array('engine' => 'File'));
 
 // カスタマイズ用ディレクトリの登録（このディレクトリに格納されたソースを優先して読み込む）
 App::build(
-	array(
-		'Model'                     => array(APP.'Custom'.DS.'Model'.DS),
-		'Model/Behavior'            => array(APP.'Custom'.DS.'Model'.DS.'Behavior'.DS),
-		'Model/Datasource'          => array(APP.'Custom'.DS.'Model'.DS.'Datasource'.DS),
-		'Model/Datasource/Database' => array(APP.'Custom'.DS.'Model'.DS.'Datasource'.DS.'Database'.DS),
-		'Model/Datasource/Session'  => array(APP.'Custom'.DS.'Model'.DS.'Datasource'.DS.'Session'.DS),
-		'Controller'                => array(APP.'Custom'.DS.'Controller'.DS),
-		'Controller/Component'      => array(APP.'Custom'.DS.'Controller'.DS.'Component'.DS),
-		'Controller/Component/Auth' => array(APP.'Custom'.DS.'Controller'.DS.'Component'.DS.'Auth'.DS),
-		'Controller/Component/Acl'  => array(APP.'Custom'.DS.'Controller'.DS.'Component'.DS.'Acl'.DS),
-		'View'                      => array(APP.'Custom'.DS.'View'.DS),
-		'View/Helper'               => array(APP.'Custom'.DS.'View'.DS.'Helper'.DS),
-		'Console'                   => array(APP.'Custom'.DS.'Console'.DS),
-		'Console/Command'           => array(APP.'Custom'.DS.'Console'.DS.'Command'.DS),
-		'Lib'                       => array(APP.'Custom'.DS.'Lib'.DS),
-		'Locale'                    => array(APP.'Custom'.DS.'Locale'.DS),
-		'Vendor'                    => array(APP.'Custom'.DS.'Vendor'.DS),
-		'Plugin'                    => array(APP.'Custom'.DS.'Plugin'.DS),
-	)
+	[
+		'Model'                     => [APP.'Custom'.DS.'Model'.DS],
+		'Model/Behavior'            => [APP.'Custom'.DS.'Model'.DS.'Behavior'.DS],
+		'Model/Datasource'          => [APP.'Custom'.DS.'Model'.DS.'Datasource'.DS],
+		'Model/Datasource/Database' => [APP.'Custom'.DS.'Model'.DS.'Datasource'.DS.'Database'.DS],
+		'Model/Datasource/Session'  => [APP.'Custom'.DS.'Model'.DS.'Datasource'.DS.'Session'.DS],
+		'Controller'                => [APP.'Custom'.DS.'Controller'.DS],
+		'Controller/Component'      => [APP.'Custom'.DS.'Controller'.DS.'Component'.DS],
+		'Controller/Component/Auth' => [APP.'Custom'.DS.'Controller'.DS.'Component'.DS.'Auth'.DS],
+		'Controller/Component/Acl'  => [APP.'Custom'.DS.'Controller'.DS.'Component'.DS.'Acl'.DS],
+		'View'                      => [APP.'Custom'.DS.'View'.DS],
+		'View/Helper'               => [APP.'Custom'.DS.'View'.DS.'Helper'.DS],
+		'Console'                   => [APP.'Custom'.DS.'Console'.DS],
+		'Console/Command'           => [APP.'Custom'.DS.'Console'.DS.'Command'.DS],
+		'Lib'                       => [APP.'Custom'.DS.'Lib'.DS],
+		'Locale'                    => [APP.'Custom'.DS.'Locale'.DS],
+		'Vendor'                    => [APP.'Custom'.DS.'Vendor'.DS],
+		'Plugin'                    => [APP.'Custom'.DS.'Plugin'.DS],
+	]
 );
 
 /**
@@ -117,25 +117,25 @@ CakePlugin::load('BoostCake');
  *
  * ));
  */
-Configure::write('Dispatcher.filters', array(
+Configure::write('Dispatcher.filters', [
 	'AssetDispatcher',
 	'CacheDispatcher'
-));
+]);
 
 /**
  * Configures default file logging options
  */
 App::uses('CakeLog', 'Log');
-CakeLog::config('debug', array(
+CakeLog::config('debug', [
 	'engine' => 'File',
-	'types' => array('notice', 'info', 'debug'),
+	'types' => ['notice', 'info', 'debug'],
 	'file' => 'debug',
-));
-CakeLog::config('error', array(
+]);
+CakeLog::config('error', [
 	'engine' => 'File',
-	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
+	'types' => ['warning', 'error', 'critical', 'alert', 'emergency'],
 	'file' => 'error',
-));
+]);
 
 // iroha Board 設定ファイルをロード
 Configure::load("ib_config");

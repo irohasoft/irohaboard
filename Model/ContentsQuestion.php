@@ -24,46 +24,46 @@ class ContentsQuestion extends AppModel
 	 *
 	 * @var array
 	 */
-	public $validate = array(
-			'content_id' => array(
-					'numeric' => array(
-							'rule' => array(
+	public $validate = [
+			'content_id' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'question_type' => array(
-					'notBlank' => array(
-							'rule' => array(
+										]
+			],
+			'question_type' => [
+					'notBlank' => [
+							'rule' => [
 									'notBlank'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'body' => array(
-					'notBlank' => array(
-							'rule' => array(
+										]
+			],
+			'body' => [
+					'notBlank' => [
+							'rule' => [
 									'notBlank'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
+										]
+			],
 			/*
 			'correct' => array(
 					'notBlank' => array(
@@ -79,39 +79,39 @@ class ContentsQuestion extends AppModel
 										)
 			),
 			*/
-			'score' => array(
-					'numeric' => array(
-							'rule' => array(
+			'score' => [
+					'numeric' => [
+							'rule' => [
 									'range', -1, 101
-							),
+							],
 					'message' => '0-100の整数で入力して下さい。',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'sort_no' => array(
-					'numeric' => array(
-							'rule' => array(
+										]
+			],
+			'sort_no' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'option_list' => array(
-				'rule' => array('multiple', array(
+										]
+			],
+			'option_list' => [
+				'rule' => ['multiple', [
 					'min' => 1,
-				)),
+				]],
 				'message' => '正解を選択してください'
-			)
-	);
+			]
+	];
 	
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
@@ -121,15 +121,15 @@ class ContentsQuestion extends AppModel
 	 *
 	 * @var array
 	 */
-	public $belongsTo = array(
-			'Content' => array(
+	public $belongsTo = [
+			'Content' => [
 					'className' => 'Content',
 					'foreignKey' => 'content_id',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
-			)
-	);
+			]
+	];
 
 	/**
 	 * 問題の並べ替え
@@ -142,10 +142,10 @@ class ContentsQuestion extends AppModel
 		{
 			$sql = "UPDATE ib_contents_questions SET sort_no = :sort_no WHERE id= :id";
 
-			$params = array(
+			$params = [
 					'sort_no' => ($i+1),
 					'id' => $id_list[$i]
-			);
+			];
 
 			$this->query($sql, $params);
 		}
@@ -159,12 +159,12 @@ class ContentsQuestion extends AppModel
 	 */
 	public function getNextSortNo($content_id)
 	{
-		$options = array(
+		$options = [
 			'fields' => 'MAX(ContentsQuestion.sort_no) as sort_no',
-			'conditions' => array(
+			'conditions' => [
 				'ContentsQuestion.content_id' => $content_id
-			)
-		);
+			]
+		];
 		
 		$data = $this->find('first', $options);
 		

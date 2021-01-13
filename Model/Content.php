@@ -26,119 +26,119 @@ class Content extends AppModel
 	 *
 	 * @var array
 	 */
-	public $validate = array(
-			'course_id' => array(
-					'numeric' => array(
-							'rule' => array(
+	public $validate = [
+			'course_id' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'user_id' => array(
-					'numeric' => array(
-							'rule' => array(
+										]
+			],
+			'user_id' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'title' => array(
-					'notBlank' => array(
-							'rule' => array(
+										]
+			],
+			'title' => [
+					'notBlank' => [
+							'rule' => [
 									'notBlank'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'status' => array(
-					'notBlank' => array(
-							'rule' => array(
+										]
+			],
+			'status' => [
+					'notBlank' => [
+							'rule' => [
 									'notBlank'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'timelimit' => array(
-					'numeric' => array(
-						'rule' => array('range', 0, 101),
+										]
+			],
+			'timelimit' => [
+					'numeric' => [
+						'rule' => ['range', 0, 101],
 						'message' => '1-100の整数で入力して下さい。',
 						'allowEmpty' => true,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'pass_rate' => array(
-					'numeric' => array(
-						'rule' => array('range', 0, 101),
+										]
+			],
+			'pass_rate' => [
+					'numeric' => [
+						'rule' => ['range', 0, 101],
 						'message' => '1-100の整数で入力して下さい。',
 						'allowEmpty' => true,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'question_count' => array(
-					'numeric' => array(
-						'rule' => array('range', 0, 101),
+										]
+			],
+			'question_count' => [
+					'numeric' => [
+						'rule' => ['range', 0, 101],
 						'message' => '1-100の整数で入力して下さい。',
 						'allowEmpty' => true,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'kind' => array(
-					'notBlank' => array(
-							'rule' => array(
+										]
+			],
+			'kind' => [
+					'notBlank' => [
+							'rule' => [
 									'notBlank'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'sort_no' => array(
-					'numeric' => array(
-							'rule' => array(
+										]
+			],
+			'sort_no' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-	);
+										]
+			],
+	];
 
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
@@ -148,30 +148,30 @@ class Content extends AppModel
 	 *
 	 * @var array
 	 */
-	public $belongsTo = array(
-			'Course' => array(
+	public $belongsTo = [
+			'Course' => [
 					'className' => 'Course',
 					'foreignKey' => 'course_id',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
-			),
-			'User' => array(
+			],
+			'User' => [
 					'className' => 'User',
 					'foreignKey' => 'user_id',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
-			)
-	);
+			]
+	];
 
 	/**
 	 * hasMany associations
 	 *
 	 * @var array
 	 */
-	public $hasMany = array(
-	);
+	public $hasMany = [
+	];
 
 	/**
 	 * 学習履歴付きコンテンツ一覧を取得
@@ -214,11 +214,11 @@ class Content extends AppModel
   ORDER BY Content.sort_no
 EOF;
 
-		$params = array(
+		$params = [
 				'user_id' => $user_id,
 				'course_id' => $course_id,
 				'role' => $role
-		);
+		];
 
 		$data = $this->query($sql, $params);
 
@@ -236,10 +236,10 @@ EOF;
 		{
 			$sql = "UPDATE ib_contents SET sort_no = :sort_no WHERE id= :id";
 
-			$params = array(
+			$params = [
 					'sort_no' => ($i+1),
 					'id' => $id_list[$i]
-			);
+			];
 
 			$this->query($sql, $params);
 		}
@@ -253,12 +253,12 @@ EOF;
 	 */
 	public function getNextSortNo($course_id)
 	{
-		$options = array(
+		$options = [
 			'fields' => 'MAX(Content.sort_no) as sort_no',
-			'conditions' => array(
+			'conditions' => [
 				'Content.course_id' => $course_id
-			)
-		);
+			]
+		];
 		
 		$data = $this->find('first', $options);
 		

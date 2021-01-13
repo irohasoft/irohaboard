@@ -24,34 +24,34 @@ class UsersCourse extends AppModel
 	 *
 	 * @var array
 	 */
-	public $validate = array(
-			'user_id' => array(
-					'numeric' => array(
-							'rule' => array(
+	public $validate = [
+			'user_id' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'course_id' => array(
-					'numeric' => array(
-							'rule' => array(
+										]
+			],
+			'course_id' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			)
-	);
+										]
+			]
+	];
 
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
@@ -61,22 +61,22 @@ class UsersCourse extends AppModel
 	 *
 	 * @var array
 	 */
-	public $belongsTo = array(
-			'User' => array(
+	public $belongsTo = [
+			'User' => [
 					'className' => 'User',
 					'foreignKey' => 'user_id',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
-			),
-			'Course' => array(
+			],
+			'Course' => [
 					'className' => 'Course',
 					'foreignKey' => 'course_id',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
-			)
-	);
+			]
+	];
 
 
 	/**
@@ -123,9 +123,9 @@ class UsersCourse extends AppModel
   ORDER BY Course.sort_no asc
 EOF;
 
-		$params = array(
+		$params = [
 			'user_id' => $user_id
-		);
+		];
 
 		$data = $this->query($sql, $params);
 

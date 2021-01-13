@@ -22,18 +22,18 @@ class SettingsController extends AppController {
  *
  * @var array
  */
-	public $components = array(
-		'Security' => array(
+	public $components = [
+		'Security' => [
 			'csrfUseOnce' => false,
-		),
-	);
+		],
+	];
 
 	/**
 	 * システム設定項目を表示
 	 */
 	public function admin_index()
 	{
-		if ($this->request->is(array('post', 'put')))
+		if ($this->request->is(['post', 'put']))
 		{
 			if(Configure::read('demo_mode'))
 				return;

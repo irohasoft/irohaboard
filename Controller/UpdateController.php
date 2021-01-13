@@ -12,21 +12,21 @@ App::uses('AppController', 'Controller');
 class UpdateController extends AppController
 {
 	var $name = 'Update';
-	var $uses = array();
-	var $helpers = array('Html');
+	var $uses = [];
+	var $helpers = ['Html'];
 	var $err_msg = '';
 	var $db   = null;
 	var $path = '';
 	
-	public $components = array(
+	public $components = [
 		'Session',
-		'Auth' => array(
-			'allowedActions' => array(
+		'Auth' => [
+			'allowedActions' => [
 				'index',
 				'error',
-			)
-		)
-	);
+			]
+		]
+	];
 	
 	/**
 	 * アップデート
@@ -91,7 +91,7 @@ class UpdateController extends AppController
 	{
 		$statements = file_get_contents($this->path);
 		$statements = explode(';', $statements);
-		$err_statements = array();
+		$err_statements = [];
 		
 		foreach ($statements as $statement)
 		{

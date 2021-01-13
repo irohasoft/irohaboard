@@ -24,34 +24,34 @@ class Info extends AppModel
 	 *
 	 * @var array
 	 */
-	public $validate = array(
-			'title' => array(
-					'notBlank' => array(
-							'rule' => array(
+	public $validate = [
+			'title' => [
+					'notBlank' => [
+							'rule' => [
 									'notBlank'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'user_id' => array(
-					'numeric' => array(
-							'rule' => array(
+										]
+			],
+			'user_id' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-	);
+										]
+			],
+	];
 	
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
@@ -61,8 +61,8 @@ class Info extends AppModel
 	 *
 	 * @var array
 	 */
-	public $hasAndBelongsToMany = array(
-			'Group' => array(
+	public $hasAndBelongsToMany = [
+			'Group' => [
 					'className' => 'Group',
 					'joinTable' => 'infos_groups',
 					'foreignKey' => 'info_id',
@@ -74,8 +74,8 @@ class Info extends AppModel
 					'limit' => '',
 					'offset' => '',
 					'finderQuery' => ''
-	 		)
-	);
+	 		]
+	];
 	
 	/**
 	 * お知らせ一覧を取得（エイリアス）
@@ -102,37 +102,37 @@ class Info extends AppModel
 		App::import('Model', 'UsersGroup');
 		$this->UsersGroup = new UsersGroup();
 		
-		$groups = $this->UsersGroup->find('all', array(
-			'conditions' => array(
+		$groups = $this->UsersGroup->find('all', [
+			'conditions' => [
 				'user_id' => $user_id
-			)
-		));
+			]
+		]);
 		
 		// 自分自身が所属するグループのIDの配列を作成
-		$group_id_list = array();
+		$group_id_list = [];
 		
 		foreach ($groups as $group)
 		{
 			$group_id_list[count($group_id_list)] = $group['Group']['id'];
 		}
 		
-		$option = array(
-			'fields' => array('Info.id', 'Info.title', 'Info.created'),
-			'conditions' => array('OR' => array(
-				array('InfoGroup.group_id' => null), 
-				array('InfoGroup.group_id' => $group_id_list)
-			)),
-			'joins' => array(
-				array(
+		$option = [
+			'fields' => ['Info.id', 'Info.title', 'Info.created'],
+			'conditions' => ['OR' => [
+				['InfoGroup.group_id' => null], 
+				['InfoGroup.group_id' => $group_id_list]
+			]],
+			'joins' => [
+				[
 					'type' => 'LEFT OUTER',
 					'alias' => 'InfoGroup',
 					'table' => 'ib_infos_groups',
 					'conditions' => 'Info.id = InfoGroup.info_id'
-				),
-			),
-			'group' => array('Info.id', 'Info.title', 'Info.created'),
-			'order' => array('Info.created' => 'desc'),
-		);
+				],
+			],
+			'group' => ['Info.id', 'Info.title', 'Info.created'],
+			'order' => ['Info.created' => 'desc'],
+		];
 		
 		if($limit)
 			$option['limit'] = $limit;

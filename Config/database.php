@@ -10,7 +10,7 @@
 
 class DATABASE_CONFIG {
 
-	public $default = array(
+	public $default = [
 		'datasource' => 'Database/Mysql',
 		'persistent' => true,
 		'host' => 'localhost',
@@ -19,5 +19,5 @@ class DATABASE_CONFIG {
 		'database' => 'irohaboard',
 		'prefix' => 'ib_',
 		'encoding' => 'utf8'
-	);
+	];
 }

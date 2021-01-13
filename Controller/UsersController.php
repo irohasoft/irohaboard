@@ -18,23 +18,23 @@ App::uses('AppController', 'Controller');
  */
 class UsersController extends AppController
 {
-	public $components = array(
+	public $components = [
 			'Session',
 			'Paginator',
-			'Security' => array(
+			'Security' => [
 				'csrfUseOnce' => false,
-				'unlockedActions' => array('login', 'admin_login'),
-			),
+				'unlockedActions' => ['login', 'admin_login'],
+			],
 			'Search.Prg',
 			'Cookie',
-			'Auth' => array(
-					'allowedActions' => array(
+			'Auth' => [
+					'allowedActions' => [
 							'index',
 							'login',
 							'logout'
-					)
-			)
-	);
+					]
+			]
+	];
 	
 	/**
 	 * ホーム画面（受講コース一覧）へリダイレクト
@@ -68,9 +68,9 @@ class UsersController extends AppController
 		{
 			$this->Flash->error(__('ユーザを削除できませんでした'));
 		}
-		return $this->redirect(array(
+		return $this->redirect([
 				'action' => 'index'
-		));
+		]);
 	}
 
 	/**
@@ -83,10 +83,10 @@ class UsersController extends AppController
 		$this->request->allowMethod('post', 'delete');
 		$this->User->deleteUserRecords($user_id);
 		$this->Flash->success(__('学習履歴を削除しました'));
-		return $this->redirect(array(
+		return $this->redirect([
 			'action' => 'edit',
 			$user_id
-		));
+		]);
 	}
 
 	/**
@@ -202,14 +202,14 @@ class UsersController extends AppController
 		//$this->User->virtualFields['group_title']  = 'group_title';		// 外部結合テーブルのフィールドによるソート用
 		//$this->User->virtualFields['course_title'] = 'course_title';		// 外部結合テーブルのフィールドによるソート用
 		
-		$this->paginate = array(
-			'User' => array(
-				'fields' => array('*',
+		$this->paginate = [
+			'User' => [
+				'fields' => ['*',
 					// 所属グループ一覧 ※パフォーマンス改善
 					'(SELECT group_concat(g.title order by g.id SEPARATOR \', \') as group_title  FROM ib_users_groups  ug INNER JOIN ib_groups  g ON g.id = ug.group_id  WHERE ug.user_id = User.id) as group_title',
 					// 受講コース一覧   ※パフォーマンス改善
 					'(SELECT group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id WHERE uc.user_id = User.id) as course_title',
-				),
+				],
 				'conditions' => $conditions,
 				'limit' => 20,
 				'order' => 'created desc',
@@ -225,7 +225,7 @@ class UsersController extends AppController
 							'conditions' => 'User.id = UserGroup.user_id')
 				)
 */
-		));
+		]];
 
 		// ユーザ一覧を取得
 		try
@@ -258,10 +258,10 @@ class UsersController extends AppController
 		
 		$username = '';
 		
-		if ($this->request->is(array(
+		if ($this->request->is([
 				'post',
 				'put'
-		)))
+		]))
 		{
 			if(Configure::read('demo_mode'))
 				return;
@@ -275,9 +275,9 @@ class UsersController extends AppController
 
 				unset($this->request->data['User']['new_password']);
 
-				return $this->redirect(array(
+				return $this->redirect([
 						'action' => 'index'
-				));
+				]);
 			}
 			else
 			{
@@ -286,11 +286,11 @@ class UsersController extends AppController
 		}
 		else
 		{
-			$options = array(
-				'conditions' => array(
+			$options = [
+				'conditions' => [
 					'User.' . $this->User->primaryKey => $user_id
-				)
-			);
+				]
+			];
 			$this->request->data = $this->User->find('first', $options);
 			
 			if($this->request->data)
@@ -308,10 +308,10 @@ class UsersController extends AppController
 	 */
 	public function setting()
 	{
-		if ($this->request->is(array(
+		if ($this->request->is([
 				'post',
 				'put'
-		)))
+		]))
 		{
 			if(Configure::read('demo_mode'))
 				return;
@@ -344,11 +344,11 @@ class UsersController extends AppController
 		}
 		else
 		{
-			$options = array(
-				'conditions' => array(
+			$options = [
+				'conditions' => [
 						'User.' . $this->User->primaryKey => $this->Auth->user('id')
-				)
-			);
+				]
+			];
 			$this->request->data = $this->User->find('first', $options);
 		}
 	}
@@ -402,10 +402,10 @@ class UsersController extends AppController
 		
 		$err_msg = '';
 		
-		if ($this->request->is(array(
+		if ($this->request->is([
 				'post',
 				'put'
-		)))
+		]))
 		{
 			//------------------------------//
 			//	CSVファイルの読み込み		//
@@ -451,11 +451,11 @@ class UsersController extends AppController
 					
 					$is_new = false;
 					
-					$options = array(
-						'conditions' => array(
+					$options = [
+						'conditions' => [
 							'User.username' => $row[COL_LOGINID]
-						)
-					);
+						]
+					];
 					
 					//------------------------------//
 					//	ユーザ情報の作成			//
@@ -465,8 +465,8 @@ class UsersController extends AppController
 					// 指定したログインIDのユーザが存在しない場合、新規追加とする
 					if(!$data)
 					{
-						$data = array();
-						$data['User'] = array();
+						$data = [];
+						$data['User'] = [];
 						$this->User->create();
 						$data['User']['created'] = date('Y-m-d H:i:s');
 						$is_new = true;
@@ -493,8 +493,8 @@ class UsersController extends AppController
 					//----------------------------------//
 					//	所属グループ・受講コースの割当	//
 					//----------------------------------//
-					$data['Group']['Group'] = array();		// 所属グループの割当の初期化
-					$data['Course']['Course'] = array();	// 受講コースの割当の初期化
+					$data['Group']['Group'] = [];		// 所属グループの割当の初期化
+					$data['Course']['Course'] = [];	// 受講コースの割当の初期化
 					
 					// 所属グループの割当
 					for($n=0; $n < $group_count; $n++)
@@ -562,9 +562,9 @@ class UsersController extends AppController
 				{
 					$ds->commit();
 					$this->Flash->success(__('インポートが完了しました'));
-					return $this->redirect(array(
+					return $this->redirect([
 						'action' => 'index'
-					));
+					]);
 				}
 			}
 			catch (Exception $e)
@@ -599,14 +599,14 @@ class UsersController extends AppController
 		//------------------------------//
 		//	ヘッダー行の作成			//
 		//------------------------------//
-		$header = array(
+		$header = [
 			__('ログインID'),
 			__('パスワード'),
 			__('氏名'),
 			__('権限'),
 			__('メールアドレス'),
 			__('備考'),
-		);
+		];
 		
 		for($n=0; $n < $group_count; $n++)
 		{
@@ -636,15 +636,15 @@ class UsersController extends AppController
 		{
 			// ユーザ情報を取得
 			$this->User->recursive = 1;
-			$rows = $this->User->find('all', array('limit'=> $limit, 'page'=> $page));
+			$rows = $this->User->find('all', ['limit'=> $limit, 'page'=> $page]);
 			
 			foreach($rows as $row)
 			{
 				//------------------------------//
 				//	出力するデータを作成		//
 				//------------------------------//
-				$groups  = array();
-				$courses = array();
+				$groups  = [];
+				$courses = [];
 				
 				for($n=0; $n < $group_count; $n++)
 					$groups[count($groups)] = '';
@@ -671,14 +671,14 @@ class UsersController extends AppController
 				}
 				
 				// 出力行を作成
-				$line = array(
+				$line = [
 					$row['User']['username'],							// ユーザ名
 					'',													// パスワード
 					$row['User']['name'],								// 氏名
 					Configure::read('user_role.'.$row['User']['role']),	// 権限
 					$row['User']['email'],								// メールアドレス
 					$row['User']['comment'],							// 備考
-				);
+				];
 				
 				// 所属グループを出力
 				for($n=0; $n < $group_count; $n++)

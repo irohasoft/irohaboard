@@ -18,8 +18,8 @@ App::uses('AppController', 'Controller');
  */
 class UsersCoursesController extends AppController
 {
-	public $components = array(
-	);
+	public $components = [
+	];
 
 	/**
 	 * 受講コース一覧（ホーム画面）を表示
@@ -30,11 +30,11 @@ class UsersCoursesController extends AppController
 		
 		// 全体のお知らせの取得
 		$this->loadModel('Setting');
-		$data = $this->Setting->find('all', array(
-			'conditions' => array(
+		$data = $this->Setting->find('all', [
+			'conditions' => [
 				'Setting.setting_key' => 'information'
-			)
-		));
+			]
+		]);
 		
 		$info = $data[0]['Setting']['setting_value'];
 		

@@ -22,72 +22,72 @@ class User extends AppModel
 {
 	public $order = "User.name"; 
 
-	public $validate = array(
-		'username' => array(
-				array(
+	public $validate = [
+		'username' => [
+				[
 						'rule' => 'isUnique',
 						'message' => 'ログインIDが重複しています'
-				),
-				array(
+				],
+				[
 						'rule' => 'alphaNumericMB',
 						'message' => 'ログインIDは英数字で入力して下さい'
-				),
-				array(
-						'rule' => array(
+				],
+				[
+						'rule' => [
 								'between',
 								4,
 								32
-						),
+						],
 						'message' => 'ログインIDは4文字以上32文字以内で入力して下さい'
-				)
-		),
-		'name' => array(
-			'notBlank' => array(
-				'rule' => array(
+				]
+		],
+		'name' => [
+			'notBlank' => [
+				'rule' => [
 						'notBlank'
-				),
+				],
 				'message' => '氏名が入力されていません'
-			)
-		),
-		'role' => array(
-			'notBlank' => array(
-				'rule' => array(
+			]
+		],
+		'role' => [
+			'notBlank' => [
+				'rule' => [
 						'notBlank'
-				),
+				],
 				'message' => '権限が指定されていません'
-			)
-		),
-		'password' => array(
-				array(
+			]
+		],
+		'password' => [
+				[
 						'rule' => 'alphaNumericMB',
 						'message' => 'パスワードは英数字で入力して下さい'
-				),
-				array(
-						'rule' => array(
+				],
+				[
+						'rule' => [
 								'between',
 								4,
 								32
-						),
+						],
 						'message' => 'パスワードは4文字以上32文字以内で入力して下さい'
-				)
-		),
-		'new_password' => array(
-				array(
+				]
+		],
+		'new_password' => [
+				[
 						'rule' => 'alphaNumericMB',
 						'message' => 'パスワードは英数字で入力して下さい',
 						'allowEmpty' => true
-				),
-				array(
-						'rule' => array(
+				],
+				[
+						'rule' => [
 								'between',
 								4,
 								32
-						),
+						],
 						'message' => 'パスワードは4文字以上32文字以内で入力して下さい',
 						'allowEmpty' => true
-				)
-		)
-	);
+				]
+		]
+	];
 
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
@@ -97,15 +97,15 @@ class User extends AppModel
 	 *
 	 * @var array
 	 */
-	public $belongsTo = array(
-	);
+	public $belongsTo = [
+	];
 
 	/**
 	 * hasMany associations
 	 *
 	 * @var array
 	 */
-	public $hasMany = array(
+	public $hasMany = [
 	/*
 			'Content' => array(
 					'className' => 'Content',
@@ -121,15 +121,15 @@ class User extends AppModel
 					'counterQuery' => ''
 			)
 	*/
-	);
+	];
 
 	/**
 	 * hasAndBelongsToMany associations
 	 *
 	 * @var array
 	 */
-	public $hasAndBelongsToMany = array(
-			'Course' => array(
+	public $hasAndBelongsToMany = [
+			'Course' => [
 					'className' => 'Course',
 					'joinTable' => 'users_courses',
 					'foreignKey' => 'user_id',
@@ -141,8 +141,8 @@ class User extends AppModel
 					'limit' => '',
 					'offset' => '',
 					'finderQuery' => ''
-			),
-			'Group' => array(
+			],
+			'Group' => [
 					'className' => 'Group',
 					'joinTable' => 'users_groups',
 					'foreignKey' => 'user_id',
@@ -154,10 +154,10 @@ class User extends AppModel
 					'limit' => '',
 					'offset' => '',
 					'finderQuery' => ''
-	 		)
-	);
+	 		]
+	];
 
-	public function beforeSave($options = array())
+	public function beforeSave($options = [])
 	{
 		if (isset($this->data[$this->alias]['password']))
 		{
@@ -169,20 +169,20 @@ class User extends AppModel
 	/**
 	 * 検索用
 	 */
-	public $actsAs = array(
+	public $actsAs = [
 		'Search.Searchable'
-	);
+	];
 
-	public $filterArgs = array(
-		'username' => array(
+	public $filterArgs = [
+		'username' => [
 			'type' => 'like',
 			'field' => 'User.username'
-		),
-		'name' => array(
+		],
+		'name' => [
 			'type' => 'like',
 			'field' => 'User.name'
-		),
-	);
+		],
+	];
 
 	/**
 	 * 学習履歴の削除
@@ -193,14 +193,14 @@ class User extends AppModel
 	{
 		$sql = 'DELETE FROM ib_records_questions WHERE record_id IN (SELECT id FROM ib_records WHERE user_id = :user_id)';
 		
-		$params = array(
+		$params = [
 			'user_id' => $user_id,
-		);
+		];
 		
 		$this->query($sql, $params);
 		
 		App::import('Model', 'Record');
 		$this->Record = new Record();
-		$this->Record->deleteAll(array('Record.user_id' => $user_id), false);
+		$this->Record->deleteAll(['Record.user_id' => $user_id], false);
 	}
 }

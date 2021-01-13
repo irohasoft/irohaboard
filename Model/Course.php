@@ -28,34 +28,34 @@ class Course extends AppModel
 	 *
 	 * @var array
 	 */
-	public $validate = array(
-			'title' => array(
-					'notBlank' => array(
-							'rule' => array(
+	public $validate = [
+			'title' => [
+					'notBlank' => [
+							'rule' => [
 									'notBlank'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'sort_no' => array(
-					'numeric' => array(
-							'rule' => array(
+										]
+			],
+			'sort_no' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			)
-	);
+										]
+			]
+	];
 	
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
@@ -65,16 +65,16 @@ class Course extends AppModel
 	 *
 	 * @var array
 	 */
-	public $belongsTo = array(
-	);
+	public $belongsTo = [
+	];
 
 	/**
 	 * hasMany associations
 	 *
 	 * @var array
 	 */
-	public $hasMany = array(
-			'Content' => array(
+	public $hasMany = [
+			'Content' => [
 					'className' => 'Content',
 					'foreignKey' => 'course_id',
 					'dependent' => false,
@@ -86,8 +86,8 @@ class Course extends AppModel
 					'exclusive' => '',
 					'finderQuery' => '',
 					'counterQuery' => ''
-			)
-	);
+			]
+	];
 
 	/**
 	 * hasAndBelongsToMany associations
@@ -123,10 +123,10 @@ class Course extends AppModel
 		{
 			$sql = "UPDATE ib_courses SET sort_no = :sort_no WHERE id= :id";
 
-			$params = array(
+			$params = [
 					'sort_no' => ($i+1),
 					'id' => $id_list[$i]
-			);
+			];
 
 			$this->query($sql, $params);
 		}
@@ -143,10 +143,10 @@ class Course extends AppModel
 	{
 		$has_right = false;
 		
-		$params = array(
+		$params = [
 			'user_id'   => $user_id,
 			'course_id' => $course_id
-		);
+		];
 		
 		$sql = <<<EOF
 SELECT count(*) as cnt
@@ -176,9 +176,9 @@ EOF;
 	// コースの削除
 	public function deleteCourse($course_id)
 	{
-		$params = array(
+		$params = [
 			'course_id' => $course_id
-		);
+		];
 		
 		// テスト問題の削除
 		$sql = "DELETE FROM ib_contents_questions WHERE content_id IN (SELECT id FROM  ib_contents WHERE course_id = :course_id);";

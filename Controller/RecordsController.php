@@ -19,31 +19,31 @@ App::uses('AppController',		'Controller');
 class RecordsController extends AppController
 {
 
-	public $components = array(
+	public $components = [
 			'Paginator',
 			'Search.Prg'
-	);
+	];
 
 	//public $presetVars = true;
 
-	public $paginate = array();
+	public $paginate = [];
 	
-	public $presetVars = array(
-		array(
+	public $presetVars = [
+		[
 			'name' => 'name', 
 			'type' => 'value',
 			'field' => 'User.name'
-		), 
-		array(
+		], 
+		[
 			'name' => 'username',
 			'type' => 'like',
 			'field' => 'User.username'
-		), 
-		array(
+		], 
+		[
 			'name' => 'contenttitle', 'type' => 'like',
 			'field' => 'Content.title'
-		)
-	);
+		]
+	];
 
 	/**
 	 * 学習履歴一覧を表示
@@ -80,32 +80,32 @@ class RecordsController extends AppController
 		
 		// コンテンツ種別：学習の場合
 		if($content_category == "study")
-			$conditions['Content.kind'] = array('text', 'html', 'movie', 'url');
+			$conditions['Content.kind'] = ['text', 'html', 'movie', 'url'];
 		
 		// コンテンツ種別：テストの場合
 		if($content_category == "test")
-			$conditions['Content.kind'] = array('test');
+			$conditions['Content.kind'] = ['test'];
 		
 		$from_date	= (isset($this->request->query['from_date'])) ? 
 			$this->request->query['from_date'] : 
-				array(
+				[
 					'year' => date('Y', strtotime("-1 month")),
 					'month' => date('m', strtotime("-1 month")), 
 					'day' => date('d', strtotime("-1 month"))
-				);
+				];
 		
 		$to_date	= (isset($this->request->query['to_date'])) ? 
 			$this->request->query['to_date'] : 
-				array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
+				['year' => date('Y'), 'month' => date('m'), 'day' => date('d')];
 		
 		if($contenttitle != "")
 			$conditions['Content.title like'] = '%'.$contenttitle.'%';
 		
 		// 学習日付による絞り込み
-		$conditions['Record.created BETWEEN ? AND ?'] = array(
+		$conditions['Record.created BETWEEN ? AND ?'] = [
 			implode("/", $from_date), 
 			implode("/", $to_date).' 23:59:59'
-		);
+		];
 		
 		// CSV出力モードの場合
 		if(@$this->request->query['cmd']=='csv')
@@ -124,15 +124,15 @@ class RecordsController extends AppController
 			
 			$fp = fopen('php://output','w');
 			
-			$options = array(
+			$options = [
 				'conditions'	=> $conditions,
 				'order'			=> 'Record.created desc'
-			);
+			];
 			
 			$this->Record->recursive = 0;
 			$rows = $this->Record->find('all', $options);
 			
-			$header = array(
+			$header = [
 				__('ログインID'),
 				__('氏名'),
 				__('コース'),
@@ -143,14 +143,14 @@ class RecordsController extends AppController
 				__('理解度'),
 				__('学習時間'),
 				__('学習日時')
-			);
+			];
 			
 			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
 			fputcsv($fp, $header);
 			
 			foreach($rows as $row)
 			{
-				$row = array(
+				$row = [
 					$row['User']['username'], 
 					$row['User']['name'], 
 					$row['Course']['title'], 
@@ -161,7 +161,7 @@ class RecordsController extends AppController
 					Configure::read('record_understanding.'.$row['Record']['understanding']), 
 					Utils::getHNSBySec($row['Record']['study_sec']), 
 					Utils::getYMDHN($row['Record']['created']),
-				);
+				];
 				
 				mb_convert_variables("SJIS-WIN", "UTF-8", $row);
 				
@@ -218,14 +218,14 @@ class RecordsController extends AppController
 		
 		// コンテンツ情報を取得
 		$this->loadModel('Content');
-		$content = $this->Content->find('first', array(
-			'conditions' => array(
+		$content = $this->Content->find('first', [
+			'conditions' => [
 				'Content.id' => $content_id
-			)
-		));
+			]
+		]);
 		
 		$this->Record->create();
-		$data = array(
+		$data = [
 //				'group_id' => $this->Session->read('Auth.User.Group.id'),
 			'user_id'		=> $this->Auth->user('id'),
 			'course_id'		=> $content['Course']['id'],
@@ -234,16 +234,16 @@ class RecordsController extends AppController
 			'understanding'	=> $understanding,
 			'is_passed'		=> -1,
 			'is_complete'	=> $is_complete
-		);
+		];
 		
 		if ($this->Record->save($data))
 		{
 			$this->Flash->success(__('学習履歴を保存しました'));
-			return $this->redirect(array(
+			return $this->redirect([
 				'controller' => 'contents',
 				'action' => 'index',
 				$content['Course']['id']
-			));
+			]);
 		}
 		else
 		{

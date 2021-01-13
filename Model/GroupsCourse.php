@@ -24,34 +24,34 @@ class GroupsCourse extends AppModel
 	 *
 	 * @var array
 	 */
-	public $validate = array(
-			'group_id' => array(
-					'numeric' => array(
-							'rule' => array(
+	public $validate = [
+			'group_id' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'course_id' => array(
-					'numeric' => array(
-							'rule' => array(
+										]
+			],
+			'course_id' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			)
-	);
+										]
+			]
+	];
 
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
@@ -61,20 +61,20 @@ class GroupsCourse extends AppModel
 	 *
 	 * @var array
 	 */
-	public $belongsTo = array(
-			'Group' => array(
+	public $belongsTo = [
+			'Group' => [
 					'className' => 'Group',
 					'foreignKey' => 'group_id',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
-			),
-			'Course' => array(
+			],
+			'Course' => [
 					'className' => 'Course',
 					'foreignKey' => 'course_id',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
-			)
-	);
+			]
+	];
 }

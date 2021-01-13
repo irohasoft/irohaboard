@@ -9,7 +9,7 @@
  */
 
 // Custom Config
-$config['dummy']		= array();
+$config['dummy']		= [];
 
 /*
 // PC向け理解度ボタンラベル

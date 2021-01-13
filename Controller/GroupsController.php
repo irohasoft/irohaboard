@@ -12,12 +12,12 @@ App::uses('AppController', 'Controller');
 
 class GroupsController extends AppController
 {
-	public $components = array(
+	public $components = [
 		'Paginator',
-		'Security' => array(
+		'Security' => [
 			'csrfUseOnce' => false,
-		),
-	);
+		],
+	];
 
 	/**
 	 * グループ一覧を表示
@@ -27,16 +27,16 @@ class GroupsController extends AppController
 		$this->Group->recursive = 0;
 		$this->Group->virtualFields['course_title'] = 'GroupCourse.course_title'; // 外部結合テーブルのフィールドによるソート用
 		
-		$this->Paginator->settings = array(
-			'fields' => array('*', 'GroupCourse.course_title'),
+		$this->Paginator->settings = [
+			'fields' => ['*', 'GroupCourse.course_title'],
 			'limit' => 20,
 			'order' => 'created desc',
-			'joins' => array(
-				array('type' => 'LEFT OUTER', 'alias' => 'GroupCourse',
+			'joins' => [
+				['type' => 'LEFT OUTER', 'alias' => 'GroupCourse',
 						'table' => '(SELECT gc.group_id, group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_groups_courses gc INNER JOIN ib_courses c ON c.id = gc.course_id  GROUP BY gc.group_id)',
-						'conditions' => 'Group.id = GroupCourse.group_id')
-			)
-		);
+						'conditions' => 'Group.id = GroupCourse.group_id']
+			]
+		];
 		
 		$this->set('groups', $this->Paginator->paginate());
 	}
@@ -60,17 +60,17 @@ class GroupsController extends AppController
 		{
 			throw new NotFoundException(__('Invalid group'));
 		}
-		if ($this->request->is(array(
+		if ($this->request->is([
 				'post',
 				'put'
-		)))
+		]))
 		{
 			if ($this->Group->save($this->request->data))
 			{
 				$this->Flash->success(__('グループ情報を保存しました'));
-				return $this->redirect(array(
+				return $this->redirect([
 						'action' => 'index'
-				));
+				]);
 			}
 			else
 			{
@@ -79,11 +79,11 @@ class GroupsController extends AppController
 		}
 		else
 		{
-			$options = array(
-				'conditions' => array(
+			$options = [
+				'conditions' => [
 					'Group.' . $this->Group->primaryKey => $group_id
-				)
-			);
+				]
+			];
 			$this->request->data = $this->Group->find('first', $options);
 		}
 		
@@ -111,8 +111,8 @@ class GroupsController extends AppController
 		{
 			$this->Flash->error(__('The group could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array(
+		return $this->redirect([
 				'action' => 'index'
-		));
+		]);
 	}
 }

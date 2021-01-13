@@ -18,21 +18,21 @@ class CoursesController extends AppController
 	 *
 	 * @var array
 	 */
-	public $components = array(
-		'Security' => array(
+	public $components = [
+		'Security' => [
 			'csrfUseOnce' => false,
-			'unlockedActions' => array('admin_order')
-		),
-	);
+			'unlockedActions' => ['admin_order']
+		],
+	];
 
 	/**
 	 * コース一覧を表示
 	 */
 	public function admin_index()
 	{
-		$courses = $this->Course->find('all', array(
-			'order' => array('Course.sort_no' => 'asc')
-		));
+		$courses = $this->Course->find('all', [
+			'order' => ['Course.sort_no' => 'asc']
+		]);
 		$this->set(compact('courses'));
 	}
 
@@ -55,10 +55,10 @@ class CoursesController extends AppController
 		{
 			throw new NotFoundException(__('Invalid course'));
 		}
-		if ($this->request->is(array(
+		if ($this->request->is([
 			'post',
 			'put'
-		)))
+		]))
 		{
 			if(Configure::read('demo_mode'))
 				return;
@@ -69,9 +69,9 @@ class CoursesController extends AppController
 			if ($this->Course->save($this->request->data))
 			{
 				$this->Flash->success(__('コースが保存されました'));
-				return $this->redirect(array(
+				return $this->redirect([
 					'action' => 'index'
-				));
+				]);
 			}
 			else
 			{
@@ -80,11 +80,11 @@ class CoursesController extends AppController
 		}
 		else
 		{
-			$options = array(
-				'conditions' => array(
+			$options = [
+				'conditions' => [
 					'Course.' . $this->Course->primaryKey => $course_id
-				)
-			);
+				]
+			];
 			$this->request->data = $this->Course->find('first', $options);
 		}
 	}
@@ -108,9 +108,9 @@ class CoursesController extends AppController
 		$this->Course->deleteCourse($course_id);
 		$this->Flash->success(__('コースが削除されました'));
 
-		return $this->redirect(array(
+		return $this->redirect([
 				'action' => 'index'
-		));
+		]);
 	}
 
 	/**

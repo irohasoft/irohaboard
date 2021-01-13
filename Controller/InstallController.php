@@ -12,24 +12,24 @@ App::uses('AppController', 'Controller');
 class InstallController extends AppController
 {
 	var $name = 'Install';
-	var $uses = array();
-	var $helpers = array('Html');
+	var $uses = [];
+	var $helpers = ['Html'];
 	var $err_msg = '';
 	var $db   = null;
 	var $path = '';
 	
-	public $components = array(
+	public $components = [
 			'Session',
-			'Auth' => array(
-					'allowedActions' => array(
+			'Auth' => [
+					'allowedActions' => [
 							'index',
 							'installed',
 							'complete',
 							'error',
 							'add'
-					)
-			)
-	);
+					]
+			]
+	];
 	
 	/**
 	 * AppController の beforeFilter をオーバーライド ※インストールできなくなる為、この function を消さないこと
@@ -211,7 +211,7 @@ class InstallController extends AppController
 	{
 		$statements = file_get_contents($this->path);
 		$statements = explode(';', $statements);
-		$err_statements = array();
+		$err_statements = [];
 		
 		foreach ($statements as $statement)
 		{
@@ -246,11 +246,11 @@ class InstallController extends AppController
 	private function __createRootAccount($password)
 	{
 		// 管理者アカウントの存在確認
-		$options = array(
-			'conditions' => array(
+		$options = [
+			'conditions' => [
 				'User.role' => 'admin'
-			)
-		);
+			]
+		];
 		
 		$this->loadModel('User');
 		$data = $this->User->find('first', $options);
@@ -259,13 +259,13 @@ class InstallController extends AppController
 		if(!$data)
 		{
 			// 管理者アカウントが１つも存在しない場合、初期管理者アカウント root を作成
-			$data = array(
+			$data = [
 				'username' => 'root',
 				'password' => $password,
 				'name' => 'root',
 				'role' => 'admin',
 				'email' => 'info@example.com'
-			);
+			];
 
 			$this->User->save($data);
 		}

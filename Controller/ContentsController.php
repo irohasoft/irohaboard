@@ -19,13 +19,13 @@ App::uses('AppController', 'Controller');
 class ContentsController extends AppController
 {
 
-	public $components = array(
-		'Security' => array(
+	public $components = [
+		'Security' => [
 			'validatePost' => false,
 			'csrfUseOnce' => false,
-			'unlockedActions' => array('admin_order', 'admin_preview', 'admin_upload_image'),
-		),
-	);
+			'unlockedActions' => ['admin_order', 'admin_preview', 'admin_upload_image'],
+		],
+	];
 
 	/**
 	 * 学習コンテンツ一覧を表示
@@ -38,11 +38,11 @@ class ContentsController extends AppController
 		
 		// コースの情報を取得
 		$this->loadModel('Course');
-		$course = $this->Course->find('first', array(
-			'conditions' => array(
+		$course = $this->Course->find('first', [
+			'conditions' => [
 				'Course.id' => $course_id
-			)
-		));
+			]
+		]);
 		
 		// ロールを取得
 		$role = $this->Auth->user('role');
@@ -82,11 +82,11 @@ class ContentsController extends AppController
 		// ヘッダー、フッターを非表示
 		$this->layout = '';
 
-		$options = array(
-			'conditions' => array(
+		$options = [
+			'conditions' => [
 				'Content.' . $this->Content->primaryKey => $content_id
-			)
-		);
+			]
+		];
 		
 		$content = $this->Content->find('first', $options);
 		
@@ -109,18 +109,18 @@ class ContentsController extends AppController
 		$this->autoRender = FALSE;
 		if($this->request->is('ajax'))
 		{
-			$data = array(
-				'Content' => array(
+			$data = [
+				'Content' => [
 					'id'     => 0,
 					'title'  => $this->data['content_title'],
 					'kind'   => $this->data['content_kind'],
 					'url'    => $this->data['content_url'],
 					'body'  => $this->data['content_body']
-				),
-				'Course' => array(
+				],
+				'Course' => [
 					'id'     => 0,
-				)
-			);
+				]
+			];
 			
 			$this->Session->write("Iroha.preview_content", $data);
 		}
@@ -156,11 +156,11 @@ class ContentsController extends AppController
 		}
 		
 		// コンテンツ情報を取得
-		$content = $this->Content->find('first', array(
-			'conditions' => array(
+		$content = $this->Content->find('first', [
+			'conditions' => [
 				'Content.id' => $content_id
-			)
-		));
+			]
+		]);
 		
 		$this->request->allowMethod('post', 'delete');
 		
@@ -168,7 +168,7 @@ class ContentsController extends AppController
 		{
 			// コンテンツに紐づくテスト問題も削除
 			$this->LoadModel('ContentsQuestion');
-			$this->ContentsQuestion->deleteAll(array('ContentsQuestion.content_id' => $content_id), false);
+			$this->ContentsQuestion->deleteAll(['ContentsQuestion.content_id' => $content_id], false);
 			$this->request->allowMethod('post', 'delete');
 			$this->Flash->success(__('コンテンツが削除されました'));
 		}
@@ -177,9 +177,9 @@ class ContentsController extends AppController
 			$this->Flash->error(__('The content could not be deleted. Please, try again.'));
 		}
 		
-		return $this->redirect(array(
+		return $this->redirect([
 			'action' => 'index/' . $content['Course']['id']
-		));
+		]);
 	}
 
 	/**
@@ -194,23 +194,23 @@ class ContentsController extends AppController
 		$this->Content->recursive = 0;
 
 		// コースの情報を取得
-		$course = $this->Content->Course->find('first', array(
-			'conditions' => array(
+		$course = $this->Content->Course->find('first', [
+			'conditions' => [
 				'Course.id' => $course_id
-			)
-		));
+			]
+		]);
 
-		$contents = $this->Content->find('all', array(
-			'conditions' => array('Content.course_id' => $course_id),
-			'order' => array('Content.sort_no' => 'asc')
-		));
+		$contents = $this->Content->find('all', [
+			'conditions' => ['Content.course_id' => $course_id],
+			'order' => ['Content.sort_no' => 'asc']
+		]);
 
 		// コース情報を取得
-		$course = $this->Content->Course->find('first', array(
-			'conditions' => array(
+		$course = $this->Content->Course->find('first', [
+			'conditions' => [
 				'Course.id' => $course_id
-			)
-		));
+			]
+		]);
 		
 		$this->set(compact('contents', 'course'));
 	}
@@ -241,10 +241,10 @@ class ContentsController extends AppController
 			throw new NotFoundException(__('Invalid content'));
 		}
 		
-		if ($this->request->is(array(
+		if ($this->request->is([
 				'post',
 				'put'
-		)))
+		]))
 		{
 			if(Configure::read('demo_mode'))
 				return;
@@ -260,9 +260,9 @@ class ContentsController extends AppController
 			if ($this->Content->save($this->request->data))
 			{
 				$this->Flash->success(__('コンテンツが保存されました'));
-				return $this->redirect( array(
+				return $this->redirect( [
 					'action' => 'index/' . $course_id
-				));
+				]);
 			}
 			else
 			{
@@ -271,20 +271,20 @@ class ContentsController extends AppController
 		}
 		else
 		{
-			$options = array(
-				'conditions' => array(
+			$options = [
+				'conditions' => [
 					'Content.' . $this->Content->primaryKey => $content_id
-				)
-			);
+				]
+			];
 			$this->request->data = $this->Content->find('first', $options);
 		}
 		
 		// コース情報を取得
-		$course = $this->Content->Course->find('first', array(
-			'conditions' => array(
+		$course = $this->Content->Course->find('first', [
+			'conditions' => [
 				'Course.id' => $course_id
-			)
-		));
+			]
+		]);
 		
 		$courses = $this->Content->Course->find('list');
 		$this->set(compact('course', 'courses'));
@@ -346,10 +346,10 @@ class ContentsController extends AppController
 		
 		$original_file_name = '';
 		
-		if ($this->request->is(array(
+		if ($this->request->is([
 				'post',
 				'put'
-		)))
+		]))
 		{
 			if(Configure::read('demo_mode'))
 				return;
@@ -427,10 +427,10 @@ class ContentsController extends AppController
 	{
 		$this->autoRender = FALSE;
 		
-		if ($this->request->is(array(
+		if ($this->request->is([
 				'post',
 				'put'
-		)))
+		]))
 		{
 			App::import ( "Vendor", "FileUpload" );
 			$fileUpload = new FileUpload();
@@ -452,7 +452,7 @@ class ContentsController extends AppController
 			$result = $fileUpload->saveFile( $file_name );											//	ファイルの保存
 			
 			//debug($result);
-			$response = $result ? array($file_url) : array(false);
+			$response = $result ? [$file_url] : [false];
 			echo json_encode($response);
 		}
 	}
@@ -490,15 +490,15 @@ class ContentsController extends AppController
 	 */
 	public function admin_copy($course_id, $content_id)
 	{
-		$options = array(
-			'conditions' => array(
+		$options = [
+			'conditions' => [
 				'Content.' . $this->Content->primaryKey => $content_id
-			)
-		);
+			]
+		];
 		
 		// コンテンツのコピー
 		$data = $this->Content->find('first', $options);
-		$row  = $this->Content->find('first', array("fields" => "MAX(Content.id) as max_id"));
+		$row  = $this->Content->find('first', ["fields" => "MAX(Content.id) as max_id"]);
 		$new_content_id = $row[0]['max_id'] + 1;
 		
 		$data['Content']['id'] = $new_content_id;
@@ -511,17 +511,17 @@ class ContentsController extends AppController
 		
 		// テスト問題のコピー
 		$this->LoadModel('ContentsQuestion');
-		$contentsQuestions = $this->ContentsQuestion->find('all', array(
-			'conditions' => array(
+		$contentsQuestions = $this->ContentsQuestion->find('all', [
+			'conditions' => [
 				'content_id' => $content_id
-			),
-			'order' => array('ContentsQuestion.sort_no' => 'asc')
-		));
+			],
+			'order' => ['ContentsQuestion.sort_no' => 'asc']
+		]);
 		
 		$sort_no = 1;
 		foreach ($contentsQuestions as $contentsQuestion)
 		{
-			$row = $this->ContentsQuestion->find('first', array("fields" => "MAX(ContentsQuestion.id) as max_id"));
+			$row = $this->ContentsQuestion->find('first', ["fields" => "MAX(ContentsQuestion.id) as max_id"]);
 			$new_question_id = $row[0]['max_id'] + 1;
 			
 			$contentsQuestion['ContentsQuestion']['id']			= null;
@@ -538,9 +538,9 @@ class ContentsController extends AppController
 			$sort_no++;
 		}
 		
-		return $this->redirect(array(
+		return $this->redirect([
 			'action' => 'index',
 			$course_id
-		));
+		]);
 	}
 }

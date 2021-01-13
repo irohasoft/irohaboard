@@ -54,7 +54,7 @@ class Utils
 		$file = new SplFileObject($meta['uri']);
 		$file->setFlags(SplFileObject::READ_CSV);
 		
-		$csv  = array();
+		$csv  = [];
 		 
 		foreach($file as $line) {
 			$csv[] = $line;

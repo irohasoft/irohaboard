@@ -24,12 +24,12 @@ class InfosController extends AppController
 	 *
 	 * @var array
 	 */
-	public $components = array(
+	public $components = [
 		'Paginator',
-		'Security' => array(
+		'Security' => [
 			'csrfUseOnce' => false,
-		),
-	);
+		],
+	];
 
 	/**
 	 * お知らせ一覧を表示（受講者側）
@@ -55,11 +55,11 @@ class InfosController extends AppController
 		{
 			throw new NotFoundException(__('Invalid info'));
 		}
-		$options = array(
-			'conditions' => array(
+		$options = [
+			'conditions' => [
 				'Info.' . $this->Info->primaryKey => $info_id
-			)
-		);
+			]
+		];
 		$this->set('info', $this->Info->find('first', $options));
 	}
 
@@ -70,16 +70,16 @@ class InfosController extends AppController
 	{
 		$this->Info->virtualFields['group_title'] = 'InfoGroup.group_title'; // 外部結合テーブルのフィールドによるソート用
 		
-		$this->Paginator->settings = array(
-			'fields' => array('*', 'InfoGroup.group_title'),
+		$this->Paginator->settings = [
+			'fields' => ['*', 'InfoGroup.group_title'],
 			'limit' => 20,
 			'order' => 'Info.created desc',
-			'joins' => array(
-				array('type' => 'LEFT OUTER', 'alias' => 'InfoGroup',
+			'joins' => [
+				['type' => 'LEFT OUTER', 'alias' => 'InfoGroup',
 						'table' => '(SELECT ug.info_id, group_concat(g.title order by g.id SEPARATOR \', \') as group_title FROM ib_infos_groups ug INNER JOIN ib_groups g ON g.id = ug.group_id GROUP BY ug.info_id)',
-						'conditions' => 'Info.id = InfoGroup.info_id'),
-			)
-		);
+						'conditions' => 'Info.id = InfoGroup.info_id'],
+			]
+		];
 		
 		$result = $this->paginate();
 		
@@ -105,10 +105,10 @@ class InfosController extends AppController
 		{
 			throw new NotFoundException(__('Invalid info'));
 		}
-		if ($this->request->is(array(
+		if ($this->request->is([
 				'post',
 				'put'
-		)))
+		]))
 		{
 			if(Configure::read('demo_mode'))
 				return;
@@ -119,9 +119,9 @@ class InfosController extends AppController
 			if ($this->Info->save($this->request->data))
 			{
 				$this->Flash->success(__('お知らせが保存されました'));
-				return $this->redirect(array(
+				return $this->redirect([
 						'action' => 'index'
-				));
+				]);
 			}
 			else
 			{
@@ -130,11 +130,11 @@ class InfosController extends AppController
 		}
 		else
 		{
-			$options = array(
-				'conditions' => array(
+			$options = [
+				'conditions' => [
 					'Info.' . $this->Info->primaryKey => $info_id
-				)
-			);
+				]
+			];
 			$this->request->data = $this->Info->find('first', $options);
 		}
 		
@@ -162,8 +162,8 @@ class InfosController extends AppController
 		{
 			$this->Flash->error(__('The info could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array(
+		return $this->redirect([
 				'action' => 'index'
-		));
+		]);
 	}
 }

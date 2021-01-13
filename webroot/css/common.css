@@ -363,6 +363,11 @@ form .required .control-label:after
 	margin:10px;
 }
 
+.users-courses-index h4
+{
+	font-weight			: bold;
+}
+
 /* スマートフォン用 */
 @media only screen and (max-width:800px)
 {

@@ -13,7 +13,7 @@
 			</p>
 		</div>
 		<div class="panel-footer text-center">
-			<button class="btn btn-primary" onclick="location.href='<?= Router::url(array('controller' => 'users', 'action' => 'login', 'admin' => true)) ?>'">管理者ログイン画面へ</button>
+			<button class="btn btn-primary" onclick="location.href='<?= Router::url(['controller' => 'users', 'action' => 'login', 'admin' => true]) ?>'">管理者ログイン画面へ</button>
 		</div>
 	</div>
 </div>

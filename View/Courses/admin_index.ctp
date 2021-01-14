@@ -25,7 +25,7 @@
 				});
 
 				$.ajax({
-					url: "<?= Router::url(array('action' => 'order')) ?>",
+					url: "<?= Router::url(['action' => 'order']) ?>",
 					type: "POST",
 					data: { id_list : id_list },
 					dataType: "text",
@@ -48,7 +48,7 @@
 <div class="admin-courses-index">
 	<div class="ib-page-title"><?= __('コース一覧'); ?></div>
 	<div class="buttons_container">
-		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?= Router::url(array('action' => 'add')) ?>'">+ 追加</button>
+		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?= Router::url(['action' => 'add']) ?>'">+ 追加</button>
 	</div>
 
 	<div class="alert alert-warning"><?= __('ドラッグアンドドロップでコースの並び順が変更できます。'); ?></div>
@@ -66,20 +66,20 @@
 	<tr>
 		<td>
 			<?php 
-				echo $this->Html->link($course['Course']['title'], array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));
-				echo $this->Form->hidden('id', array('id'=>'', 'class'=>'course_id', 'value'=>$course['Course']['id']));
+				echo $this->Html->link($course['Course']['title'], ['controller' => 'contents', 'action' => 'index', $course['Course']['id']]);
+				echo $this->Form->hidden('id', ['id'=>'', 'class'=>'course_id', 'value'=>$course['Course']['id']]);
 			?>
 		</td>
 		<td class="ib-col-date"><?= h(Utils::getYMDHN($course['Course']['created'])); ?>&nbsp;</td>
 		<td class="ib-col-date"><?= h(Utils::getYMDHN($course['Course']['modified'])); ?>&nbsp;</td>
 		<td class="ib-col-action">
-			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(array('action' => 'edit', $course['Course']['id'])) ?>'"><?= __('編集')?></button>
+			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(['action' => 'edit', $course['Course']['id']]) ?>'"><?= __('編集')?></button>
 			<?php
 			if($loginedUser['role']=='admin')
 			{
 				echo $this->Form->postLink(__('削除'),
-					array('action' => 'delete', $course['Course']['id']),
-					array('class'=>'btn btn-danger'),
+					['action' => 'delete', $course['Course']['id']],
+					['class'=>'btn btn-danger'],
 					__('[%s] を削除してもよろしいですか?', $course['Course']['title'])
 				);
 			}?>

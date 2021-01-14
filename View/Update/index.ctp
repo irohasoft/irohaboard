@@ -1,5 +1,5 @@
 <?php
-$url = Router::url(array('controller' => 'users', 'action' => 'login'));
+$url = Router::url(['controller' => 'users', 'action' => 'login']);
 $url = str_replace('/users/', '/admin/users/', $url);
 ?>
 <div class="update-index">

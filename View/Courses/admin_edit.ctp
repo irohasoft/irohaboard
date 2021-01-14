@@ -1,6 +1,6 @@
 <?= $this->element('admin_menu');?>
 <div class="admin-courses-edit">
-<?= $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
+<?= $this->Html->link(__('<< 戻る'), ['action' => 'index'])?>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<?= ($this->action == 'admin_edit') ? __('編集') :  __('新規コース'); ?>
@@ -9,7 +9,7 @@
 			<?= $this->Form->create('Course', Configure::read('form_defaults')); ?>
 			<?php
 				echo $this->Form->input('id');
-				echo $this->Form->input('title',	array('label' => __('コース名')));
+				echo $this->Form->input('title',	['label' => __('コース名')]);
 				/*
 				echo $this->Form->input('opened',	array(
 					'type' => 'datetime',
@@ -21,8 +21,8 @@
 					'style' => 'width:initial; display: inline;'
 				));
 				*/
-				echo $this->Form->input('introduction',	array('label' => __('コース紹介')));
-				echo $this->Form->input('comment',		array('label' => __('備考')));
+				echo $this->Form->input('introduction',	['label' => __('コース紹介')]);
+				echo $this->Form->input('comment',		['label' => __('備考')]);
 			?>
 			<div class="form-group">
 				<div class="col col-sm-9 col-sm-offset-3">

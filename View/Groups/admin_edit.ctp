@@ -1,13 +1,13 @@
 <?= $this->element('admin_menu');?>
 <?= $this->Html->css( 'select2.min.css');?>
 <?= $this->Html->script( 'select2.min.js');?>
-<?php $this->Html->scriptStart(array('inline' => false)); ?>
+<?php $this->Html->scriptStart(['inline' => false]); ?>
 	$(function (e) {
 		$('#CourseCourse').select2({placeholder: "<?= __('受講するコースを選択して下さい。(複数選択可)')?>", closeOnSelect: <?= (Configure::read('close_on_select') ? 'true' : 'false'); ?>,});
 	});
 <?php $this->Html->scriptEnd(); ?>
 <div class="admin-groups-edit">
-<?= $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
+<?= $this->Html->link(__('<< 戻る'), ['action' => 'index'])?>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<?= ($this->action == 'admin_edit') ? __('編集') :  __('新規グループ'); ?>
@@ -16,9 +16,9 @@
 			<?= $this->Form->create('Group', Configure::read('form_defaults')); ?>
 			<?php
 				echo $this->Form->input('id');
-				echo $this->Form->input('title',	array('label' => __('グループ名')));
-				echo $this->Form->input('Course',	array('label' => __('受講コース'),		'size' => 20));
-				echo $this->Form->input('comment',	array('label' => __('備考')));
+				echo $this->Form->input('title',	['label' => __('グループ名')]);
+				echo $this->Form->input('Course',	['label' => __('受講コース'),		'size' => 20]);
+				echo $this->Form->input('comment',	['label' => __('備考')]);
 			?>
 			<div class="form-group">
 				<div class="col col-sm-9 col-sm-offset-3">

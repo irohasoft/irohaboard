@@ -132,9 +132,9 @@
 <div class="admin-contents-questions-edit">
 	<div class="ib-breadcrumb">
 	<?php 
-		$this->Html->addCrumb('コース一覧',  array('controller' => 'courses', 'action' => 'index'));
-		$this->Html->addCrumb($content['Course']['title'],  array('controller' => 'contents', 'action' => 'index', $content['Course']['id']));
-		$this->Html->addCrumb($content['Content']['title'], array('controller' => 'contents_questions', 'action' => 'index', $content['Content']['id']));
+		$this->Html->addCrumb('コース一覧',  ['controller' => 'courses', 'action' => 'index']);
+		$this->Html->addCrumb($content['Course']['title'],  ['controller' => 'contents', 'action' => 'index', $content['Course']['id']]);
+		$this->Html->addCrumb($content['Content']['title'], ['controller' => 'contents_questions', 'action' => 'index', $content['Content']['id']]);
 		
 		echo $this->Html->getCrumbs(' / ');
 	?>
@@ -147,8 +147,8 @@
 			<?= $this->Form->create('ContentsQuestion', Configure::read('form_defaults')); ?>
 			<?php
 				echo $this->Form->input('id');
-				echo $this->Form->input('title',	array('label' => __('タイトル')));
-				echo $this->Form->input('body',		array('label' => __('問題文')));
+				echo $this->Form->input('title',	['label' => __('タイトル')]);
+				echo $this->Form->input('body',		['label' => __('問題文')]);
 			?>
 			<div class="form-group required">
 				<label for="ContentsQuestionOptions" class="col col-sm-3 control-label">選択肢／正解</label>
@@ -159,24 +159,24 @@
 				<button class="btn" onclick="add_option();return false;">＋</button>
 				<button class="btn" onclick="del_option();return false;">−</button><br>
 			<?php
-				echo $this->Form->input('option_list',	array('label' => __('選択肢／正解'), 
+				echo $this->Form->input('option_list',	['label' => __('選択肢／正解'), 
 					'type' => 'select',
 					'label' => false,
 					'multiple' => true,
 					'size' => 5,
 					'onchange' => 'update_correct()'
-				));
-				echo $this->Form->hidden('options',		array('label' => __('選択肢')));
+				]);
+				echo $this->Form->hidden('options',		['label' => __('選択肢')]);
 			?>
 				</div>
 			</div>
 			<?php
 				echo "<div class='' style='display:none;'>";
-				echo $this->Form->input('correct',	array('label' => __('正解')));
+				echo $this->Form->input('correct',	['label' => __('正解')]);
 				echo "</div>";
-				echo $this->Form->input('score',	array('label' => __('得点')));
-				echo $this->Form->input('explain',	array('label' => __('解説')));
-				echo $this->Form->input('comment',	array('label' => __('備考')));
+				echo $this->Form->input('score',	['label' => __('得点')]);
+				echo $this->Form->input('explain',	['label' => __('解説')]);
+				echo $this->Form->input('comment',	['label' => __('備考')]);
 			?>
 			<div class="form-group">
 				<div class="col col-sm-9 col-sm-offset-3">

@@ -1,6 +1,6 @@
 <?= $this->element('admin_menu');?>
 <div class="admin-users-import">
-<?= $this->Html->link(__('<< 戻る'), array('action' => 'index'))?>
+<?= $this->Html->link(__('<< 戻る'), ['action' => 'index'])?>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			インポート
@@ -26,8 +26,8 @@
 				</tr>
 			</table>
 			<?php
-				echo $this->Form->create('User',array('type'=>'file'));
-				echo $this->Form->input('csvfile',array('label'=>'','type'=>'file'));
+				echo $this->Form->create('User',['type'=>'file']);
+				echo $this->Form->input('csvfile',['label'=>'','type'=>'file']);
 				echo $this->Form->submit('インポート', Configure::read('form_submit_defaults'));
 				echo $this->Form->end();
 			?>

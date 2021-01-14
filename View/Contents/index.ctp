@@ -30,10 +30,10 @@
 	// 管理者による学習履歴表示の場合、パンくずリストを表示しない
 	if(!$is_admin_record)
 	{
-		$this->Html->addCrumb('<< '.__('コース一覧'), array(
+		$this->Html->addCrumb('<< '.__('コース一覧'), [
 			'controller' => 'users_courses',
 			'action' => 'index'
-		));
+		]);
 		echo $this->Html->getCrumbs(' / ');
 	}
 	?>
@@ -45,7 +45,7 @@
 	<?php if($course['Course']['introduction']!='') {?>
 	<div class="well">
 		<?php
-		$introduction = $this->Text->autoLinkUrls($course['Course']['introduction'], array( 'target' => '_blank'));
+		$introduction = $this->Text->autoLinkUrls($course['Course']['introduction'], [ 'target' => '_blank']);
 		$introduction = nl2br($introduction);
 		echo $introduction;
 	?>
@@ -78,11 +78,11 @@
 			case 'test': // テスト
 				$icon  = 'glyphicon glyphicon-check text-danger';
 				$title_link = $this->Html->link(
-					$content['Content']['title'], array(
+					$content['Content']['title'], [
 					'controller' => 'contents_questions',
 					'action' => 'index',
 					$content['Content']['id']
-				));
+				]);
 				$kind  = Configure::read('content_kind.'.$content['Content']['kind']);
 
 				// テスト結果が存在する場合、テスト結果へのリンクを出力
@@ -91,12 +91,12 @@
 					$result = Configure::read('record_result.'.$content[0]['is_passed']);
 					
 					$understanding = $this->Html->link(
-						$result, array(
+						$result, [
 						'controller' => 'contents_questions',
 						'action' => 'record',
 						$content['Content']['id'],
 						$content['Record']['record_id']
-					));
+					]);
 				}
 				break;
 			case 'file': // 配布資料
@@ -111,20 +111,20 @@
 				$title_link = $this->Html->link(
 					$content['Content']['title'], 
 					$url,
-					array(
+					[
 						'target'=>'_blank',
 						'download' => $content['Content']['file_name']
-					)
+					]
 				);
 				break;
 			default : // その他（学習）
 				$icon  = 'glyphicon glyphicon-play-circle text-info';
 				$title_link = $this->Html->link(
-					$content['Content']['title'], array(
+					$content['Content']['title'], [
 					'controller' => 'contents',
 					'action' => 'view',
 					$content['Content']['id']
-				));
+				]);
 				$kind  =  __('学習'); // 一律学習と表記
 				$understanding = h(Configure::read('record_understanding.'.$content[0]['understanding']));
 				break;

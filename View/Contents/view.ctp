@@ -31,8 +31,8 @@
 		echo $this->fetch('script-embedded');
 	?>
 	<script>
-	var URL_RECORDS_ADD		= '<?= Router::url(array('controller' => 'records', 'action' => 'add', $content['Content']['id']))?>'; // 学習履歴保存用URL
-	var URL_CONTNES_INDEX	= '<?= Router::url(array('action' => 'index', $content['Course']['id']))?>'; // コンテンツ一覧画面
+	var URL_RECORDS_ADD		= '<?= Router::url(['controller' => 'records', 'action' => 'add', $content['Content']['id']])?>'; // 学習履歴保存用URL
+	var URL_CONTNES_INDEX	= '<?= Router::url(['action' => 'index', $content['Course']['id']])?>'; // コンテンツ一覧画面
 	var BUTTON_PC_LIST		= <?= json_encode(Configure::read('record_understanding_pc')) ?>;
 	var BUTTON_SPN_LIST		= <?= json_encode(Configure::read('record_understanding_spn')) ?>;
 	</script>

@@ -27,11 +27,11 @@
 			if(val=='url')
 				val = 'file';
 			
-			//window.open('<?= Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/'+val, '_upload', 'width=650,height=500,resizable=no');
+			//window.open('<?= Router::url(['controller' => 'contents', 'action' => 'upload'])?>/'+val, '_upload', 'width=650,height=500,resizable=no');
 			$('#uploadDialog').modal('show');
 
 			//モーダル画面にiframeを追加する
-			$("#uploadFrame").attr("src", "<?= Router::url(array('controller' => 'contents', 'action' => 'upload'))?>/" + val);
+			$("#uploadFrame").attr("src", "<?= Router::url(['controller' => 'contents', 'action' => 'upload'])?>/" + val);
 			return false;
 		});
 
@@ -100,7 +100,7 @@
 		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
 		
 		$.ajax({
-			url: "<?= Router::url(array('action' => 'preview')) ?>",
+			url: "<?= Router::url(['action' => 'preview']) ?>",
 			type: "POST",
 			data: {
 				content_title : $("#ContentTitle").val(),
@@ -112,7 +112,7 @@
 			success : function(response){
 				//通信成功時の処理
 				//alert(response);
-				var url = '<?= Router::url(array('controller' => 'contents', 'action' => 'preview'))?>'.replace('admin/', '');
+				var url = '<?= Router::url(['controller' => 'contents', 'action' => 'preview'])?>'.replace('admin/', '');
 				
 				window.open(url, '_preview', 'width=1000,height=700,resizable=no');
 			},
@@ -142,8 +142,8 @@
 
 <div class="admin-contents-edit">
 	<?php
-		$this->Html->addCrumb(__('コース一覧'), array('controller' => 'courses', 'action' => 'index'));
-		$this->Html->addCrumb($course['Course']['title'],  array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));
+		$this->Html->addCrumb(__('コース一覧'), ['controller' => 'courses', 'action' => 'index']);
+		$this->Html->addCrumb($course['Course']['title'],  ['controller' => 'contents', 'action' => 'index', $course['Course']['id']]);
 
 		echo $this->Html->getCrumbs(' / ');
 	?>
@@ -155,8 +155,8 @@
 			<?= $this->Form->create('Content', Configure::read('form_defaults')); ?>
 			<?php
 				echo $this->Form->input('id');
-				echo $this->Form->input('title',	array('label' => __('コンテンツ名')));
-				echo $this->Form->input('kind',	array(
+				echo $this->Form->input('title',	['label' => __('コンテンツ名')]);
+				echo $this->Form->input('kind',	[
 					'type' => 'radio',
 					'before' => '<label class="col col-sm-3 control-label">'.__('コンテンツ種別').'</label>',
 					'separator'=>"<br>",
@@ -164,43 +164,43 @@
 					'legend' => false,
 					'class' => false,
 					'options' => Configure::read('content_kind_comment')
-					)
+					]
 				);
 
 				echo "<div class='kind kind-movie kind-url kind-file'>";
-				echo $this->Form->input('url',		array('label' => __('URL'), 'class' => 'form-control form-control-upload'));
+				echo $this->Form->input('url',		['label' => __('URL'), 'class' => 'form-control form-control-upload']);
 				echo "</div>";
 				
 				// 配布資料
 				echo "<div class='kind kind-file'>";
-				echo $this->Form->input('file_name', array('label' => __('ファイル名'), 'class' => 'form-control-filename', 'readonly' => 'readonly'));
+				echo $this->Form->input('file_name', ['label' => __('ファイル名'), 'class' => 'form-control-filename', 'readonly' => 'readonly']);
 				echo "</div>";
 
 				// テキスト・リッチテキスト
 				echo "<div class='kind kind-text kind-html'>";
-				echo $this->Form->input('body',		array('label' => __('内容')));
+				echo $this->Form->input('body',		['label' => __('内容')]);
 				echo "</div>";
 
 				// テスト用設定 start
 				echo "<span class='kind kind-test'>";
-				echo $this->Form->input('timelimit', array(
+				echo $this->Form->input('timelimit', [
 					'label' => __('制限時間 (1-100分)'),
 					'after' => '<div class="col col-sm-3"></div><div class="col col-sm-9 status-exp">'.__('指定した場合、制限時間を過ぎると自動的に採点されます。').'</div>',
-				));
+				]);
 				
-				echo $this->Form->input('pass_rate', array(
+				echo $this->Form->input('pass_rate', [
 					'label' => __('合格とする得点率 (1-100%)'),
 					'after' => '<div class="col col-sm-3"></div><div class="col col-sm-9 status-exp">'.__('指定した場合、合否の判定が行われ、指定しない場合は無条件に合格となります。').'</div>',
-				));
+				]);
 				
 				// ランダム出題用
-				echo $this->Form->input('question_count', array(
+				echo $this->Form->input('question_count', [
 					'label' => __('出題数 (1-100問)'),
 					'after' => '<div class="col col-sm-3"></div><div class="col col-sm-9 status-exp">'.__('指定した場合、登録した問題の中からランダムに出題され、指定しない場合は全問出題されます。').'</div>',
-				));
+				]);
 				
 				// 問題が不正解時の表示
-				echo $this->Form->input('wrong_mode', array(
+				echo $this->Form->input('wrong_mode', [
 					'type'		=> 'radio',
 					'div'		=> 'form-group required',
 					'before'	=> '<label class="col col-sm-3 control-label">'.__('不正解時の表示').'</label>',
@@ -210,13 +210,13 @@
 					'class'		=> false,
 					'default'	=> 2,
 					'options'	=> Configure::read('wrong_mode')
-					)
+					]
 				);
 				echo "</span>";
 				// テスト用設定 end
 
 				// ステータス
-				echo $this->Form->input('status', array(
+				echo $this->Form->input('status', [
 					'type'		=> 'radio',
 					'before'	=> '<label class="col col-sm-3 control-label">'.__('ステータス').'</label>',
 					'after'		=> '<div class="col col-sm-3"></div><div class="col col-sm-9 status-exp">'.__('[非公開]と設定した場合、管理者権限でログインした場合のみ表示されます。').'</div>',
@@ -225,21 +225,21 @@
 					'class'		=> false,
 					'default'	=> 1,
 					'options'	=> Configure::read('content_status')
-					)
+					]
 				);
 
 				// コンテンツ移動用
 				if(($this->action == 'admin_edit'))
 				{
-					echo $this->Form->input('course_id', array(
+					echo $this->Form->input('course_id', [
 						'label' => __('所属コース'),
 						'value'=>$course['Course']['id'],
 						'after' => '<div class="col col-sm-3"></div><span class="status-exp">'.__('　変更することで他のコースにコンテンツを移動できます。').'</span>',
-					));
+					]);
 				}
 
 				echo "<span class='kind kind-text kind-html kind-movie kind-url kind-file kind-test'>";
-				echo $this->Form->input('comment', array('label' => __('備考')));
+				echo $this->Form->input('comment', ['label' => __('備考')]);
 				echo "</span>";
 			?>
 			<div class="form-group">

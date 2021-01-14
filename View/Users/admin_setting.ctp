@@ -7,16 +7,16 @@
 		<div class="panel-body">
 			<?php
 				echo $this->Form->create('User', Configure::read('form_defaults'));
-				echo $this->Form->input('User.new_password', array(
+				echo $this->Form->input('User.new_password', [
 					'label' => __('新しいパスワード'),
 					'type' => 'password',
 					'autocomplete' => 'new-password'
-				));
-				echo $this->Form->input('User.new_password2', array(
+				]);
+				echo $this->Form->input('User.new_password2', [
 					'label' => __('新しいパスワード (確認用)'),
 					'type' => 'password',
 					'autocomplete' => 'new-password'
-				));
+				]);
 			?>
 			<div class="form-group">
 				<div class="col col-sm-9 col-sm-offset-3">

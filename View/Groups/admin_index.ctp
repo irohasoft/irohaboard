@@ -2,7 +2,7 @@
 <div class="admin-groups-index">
 	<div class="ib-page-title"><?= __('グループ一覧'); ?></div>
 	<div class="buttons_container">
-		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?= Router::url(array('action' => 'add')) ?>'">+ 追加</button>
+		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?= Router::url(['action' => 'add']) ?>'">+ 追加</button>
 	</div>
 	
 	<table>
@@ -23,10 +23,10 @@
 		<td class="ib-col-date"><?= h(Utils::getYMDHN($group['Group']['created'])); ?>&nbsp;</td>
 		<td class="ib-col-date"><?= h(Utils::getYMDHN($group['Group']['modified'])); ?>&nbsp;</td>
 		<td class="ib-col-action">
-			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(array('action' => 'edit', $group['Group']['id'])) ?>'"><?= __('編集')?></button>
+			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(['action' => 'edit', $group['Group']['id']]) ?>'"><?= __('編集')?></button>
 			<?= $this->Form->postLink(__('削除'), 
-					array('action' => 'delete', $group['Group']['id']), 
-					array('class'=>'btn btn-danger'), 
+					['action' => 'delete', $group['Group']['id']], 
+					['class'=>'btn btn-danger'], 
 					__('[%s] を削除してもよろしいですか?', $group['Group']['title'])
 			); ?>
 		</td>

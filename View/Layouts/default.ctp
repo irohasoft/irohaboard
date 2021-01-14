@@ -82,9 +82,9 @@
 			<a href="<?= $this->Html->url('/')?>"><?= h($this->Session->read('Setting.title')); ?></a>
 		</div>
 		<?php if(@$loginedUser) {?>
-		<div class="ib-navi-item ib-right"><?= $this->Html->link(__('ログアウト'), array('controller' => 'users', 'action' => 'logout')); ?></div>
+		<div class="ib-navi-item ib-right"><?= $this->Html->link(__('ログアウト'), ['controller' => 'users', 'action' => 'logout']); ?></div>
 		<div class="ib-navi-sepa ib-right"></div>
-		<div class="ib-navi-item ib-right"><?= $this->Html->link(__('設定'), array('controller' => 'users', 'action' => 'setting')); ?></div>
+		<div class="ib-navi-item ib-right"><?= $this->Html->link(__('設定'), ['controller' => 'users', 'action' => 'setting']); ?></div>
 		<div class="ib-navi-sepa ib-right"></div>
 		<div class="ib-navi-item ib-right"><?= __('ようこそ').' '.h($loginedUser["name"]).' '.__('さん'); ?></div>
 		<?php }?>

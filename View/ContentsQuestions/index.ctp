@@ -4,12 +4,12 @@
 	// 管理者による学習履歴表示モードの場合、コース一覧リンクを表示しない
 	if($is_admin_record)
 	{
-		$course_url = array('controller' => 'contents', 'action' => 'record', $record['Course']['id'], $record['Record']['user_id']);
+		$course_url = ['controller' => 'contents', 'action' => 'record', $record['Course']['id'], $record['Record']['user_id']];
 	}
 	else
 	{
-		$course_url = array('controller' => 'contents', 'action' => 'index', $content['Course']['id']);
-		$this->Html->addCrumb(__('コース一覧'), array('controller' => 'users_courses', 'action' => 'index'));
+		$course_url = ['controller' => 'contents', 'action' => 'index', $content['Course']['id']];
+		$this->Html->addCrumb(__('コース一覧'), ['controller' => 'users_courses', 'action' => 'index']);
 	}
 	
 	$this->Html->addCrumb($content['Course']['title'], $course_url);
@@ -70,7 +70,7 @@
 		$question_index = 1; // 設問番号
 		
 		// 問題IDをキーに問題の成績が参照できる配列を作成
-		$question_records = array();
+		$question_records = [];
 		if($is_record)
 		{
 			foreach ($record['RecordsQuestion'] as $rec)
@@ -148,13 +148,13 @@
 				if($is_correct)
 				{
 //					$correct_tag = sprintf('<p class="correct-text bg-success">%s : %s</p>',__('正解'), $correct_label);
-					$result_tag  = sprintf('<p>%s<span class="result-currect">%s</span></p>', $this->Html->image('correct.png', array('width'=>'60','height'=>'60')), __('正解'));
+					$result_tag  = sprintf('<p>%s<span class="result-currect">%s</span></p>', $this->Html->image('correct.png', ['width'=>'60','height'=>'60']), __('正解'));
 					
 					$explain_tag = getExplain($question['explain']);
 				}
 				else
 				{
-					$result_tag  = sprintf('<p>%s<span class="result-wrong">%s</span></p>', $this->Html->image('wrong.png', array('width'=>'60','height'=>'60')), __('不正解'));
+					$result_tag  = sprintf('<p>%s<span class="result-wrong">%s</span></p>', $this->Html->image('wrong.png', ['width'=>'60','height'=>'60']), __('不正解'));
 					
 					// 不正解時の表示
 					switch($wrong_mode)

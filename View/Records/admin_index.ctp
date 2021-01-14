@@ -4,7 +4,7 @@
 	function openRecord(course_id, user_id)
 	{
 		window.open(
-			'<?= Router::url(array('controller' => 'contents', 'action' => 'record')) ?>/'+course_id+'/'+user_id,
+			'<?= Router::url(['controller' => 'contents', 'action' => 'record']) ?>/'+course_id+'/'+user_id,
 			'irohaboard_record',
 			'width=1100, height=700, menubar=no, toolbar=no, scrollbars=yes'
 		);
@@ -13,7 +13,7 @@
 	function openTestRecord(content_id, record_id)
 	{
 		window.open(
-			'<?= Router::url(array('controller' => 'contents_questions', 'action' => 'record')) ?>/'+content_id+'/'+record_id,
+			'<?= Router::url(['controller' => 'contents_questions', 'action' => 'record']) ?>/'+content_id+'/'+record_id,
 			'irohaboard_record',
 			'width=1100, height=700, menubar=no, toolbar=no, scrollbars=yes'
 		);
@@ -33,25 +33,25 @@
 		<?php
 			echo $this->Form->create('Record');
 			echo '<div class="ib-search-buttons">';
-			echo $this->Form->submit(__('検索'),	array('class' => 'btn btn-info', 'div' => false));
+			echo $this->Form->submit(__('検索'),	['class' => 'btn btn-info', 'div' => false]);
 			echo $this->Form->hidden('cmd');
 			echo '<button type="button" class="btn btn-default" onclick="downloadCSV()">'.__('CSV出力').'</button>';
 			echo '</div>';
 			
 			echo '<div class="ib-row">';
-			echo $this->Form->input('course_id',		array('label' => __('コース :'), 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
-			echo $this->Form->input('content_category',	array('label' => __('コンテンツ種別 :'), 'options'=>Configure::read('content_category'), 'selected'=>$content_category, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
-			echo $this->Form->input('contenttitle',		array('label' => __('コンテンツ名 :'), 'value'=>$contenttitle, 'class'=>'form-control'));
+			echo $this->Form->input('course_id',		['label' => __('コース :'), 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control']);
+			echo $this->Form->input('content_category',	['label' => __('コンテンツ種別 :'), 'options'=>Configure::read('content_category'), 'selected'=>$content_category, 'empty' => '全て', 'required'=>false, 'class'=>'form-control']);
+			echo $this->Form->input('contenttitle',		['label' => __('コンテンツ名 :'), 'value'=>$contenttitle, 'class'=>'form-control']);
 			echo '</div>';
 			
 			echo '<div class="ib-row">';
-			echo $this->Form->input('group_id',		array('label' => __('グループ :'), 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control'));
-			echo $this->Form->input('username',		array('label' => __('ログインID :'), 'value'=>$username, 'class'=>'form-control'));
-			echo $this->Form->input('name',			array('label' => __('氏名 :'), 'value'=>$name, 'class'=>'form-control'));
+			echo $this->Form->input('group_id',		['label' => __('グループ :'), 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control']);
+			echo $this->Form->input('username',		['label' => __('ログインID :'), 'value'=>$username, 'class'=>'form-control']);
+			echo $this->Form->input('name',			['label' => __('氏名 :'), 'value'=>$name, 'class'=>'form-control']);
 			echo '</div>';
 			
 			echo '<div class="ib-search-date-container">';
-			echo $this->Form->input('from_date', array(
+			echo $this->Form->input('from_date', [
 				'type' => 'date',
 				'dateFormat' => 'YMD',
 				'monthNames' => false,
@@ -63,8 +63,8 @@
 				'class'=>'form-control',
 				'style' => 'display: inline;',
 				'value' => $from_date
-			));
-			echo $this->Form->input('to_date', array(
+			]);
+			echo $this->Form->input('to_date', [
 				'type' => 'date',
 				'dateFormat' => 'YMD',
 				'monthNames' => false,
@@ -76,7 +76,7 @@
 				'class'=>'form-control',
 				'style' => 'display: inline;',
 				'value' => $to_date
-			));
+			]);
 			echo '</div>';
 			echo $this->Form->end();
 		?>

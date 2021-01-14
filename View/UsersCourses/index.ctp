@@ -5,7 +5,7 @@
 			<?php if($info!=""){?>
 			<div class="well">
 				<?php
-				$info = $this->Text->autoLinkUrls($info, array( 'target' => '_blank'));
+				$info = $this->Text->autoLinkUrls($info, [ 'target' => '_blank']);
 				$info = nl2br($info);
 				echo $info;
 				?>
@@ -18,12 +18,12 @@
 			<?php foreach ($infos as $info): ?>
 			<tr>
 				<td width="100" valign="top"><?= h(Utils::getYMD($info['Info']['created'])); ?></td>
-				<td><?= $this->Html->link($info['Info']['title'], array('controller' => 'infos', 'action' => 'view', $info['Info']['id'])); ?></td>
+				<td><?= $this->Html->link($info['Info']['title'], ['controller' => 'infos', 'action' => 'view', $info['Info']['id']]); ?></td>
 			</tr>
 			<?php endforeach; ?>
 			</tbody>
 			</table>
-			<div class="text-right"><?= $this->Html->link(__('一覧を表示'), array('controller' => 'infos', 'action' => 'index')); ?></div>
+			<div class="text-right"><?= $this->Html->link(__('一覧を表示'), ['controller' => 'infos', 'action' => 'index']); ?></div>
 			<?php }?>
 			<?= $no_info;?>
 		</div>
@@ -34,7 +34,7 @@
 		<ul class="list-group">
 		<?php foreach ($courses as $course): ?>
 		<?php //debug($course)?>
-			<a href="<?= Router::url(array('controller' => 'contents', 'action' => 'index', $course['Course']['id']));?>" class="list-group-item">
+			<a href="<?= Router::url(['controller' => 'contents', 'action' => 'index', $course['Course']['id']]);?>" class="list-group-item">
 				<?php if($course[0]['left_cnt']!=0){?>
 				<button type="button" class="btn btn-danger btn-rest"><?= __('残り')?> <span class="badge"><?= h($course[0]['left_cnt']); ?></span></button>
 				<?php }?>

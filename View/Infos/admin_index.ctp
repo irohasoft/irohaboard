@@ -2,7 +2,7 @@
 <div class="admin-infos-index">
 	<div class="ib-page-title"><?= __('お知らせ一覧'); ?></div>
 	<div class="buttons_container">
-		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?= Router::url(array('action' => 'add')) ?>'">+ 追加</button>
+		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?= Router::url(['action' => 'add']) ?>'">+ 追加</button>
 	</div>
 	<table cellpadding="0" cellspacing="0">
 	<thead>
@@ -22,10 +22,10 @@
 		<td class="ib-col-date"><?= Utils::getYMDHN($info['Info']['created']); ?>&nbsp;</td>
 		<td class="ib-col-date"><?= Utils::getYMDHN($info['Info']['modified']); ?>&nbsp;</td>
 		<td class="ib-col-action">
-			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(array('action' => 'edit', $info['Info']['id'])) ?>'"><?= __('編集')?></button>
+			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(['action' => 'edit', $info['Info']['id']]) ?>'"><?= __('編集')?></button>
 			<?= $this->Form->postLink(__('削除'), 
-					array('action' => 'delete', $info['Info']['id']), 
-					array('class'=>'btn btn-danger'), 
+					['action' => 'delete', $info['Info']['id']], 
+					['class'=>'btn btn-danger'], 
 					__('[%s] を削除してもよろしいですか?', $info['Info']['title'])
 			); ?>
 		</td>

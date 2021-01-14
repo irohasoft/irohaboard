@@ -1,15 +1,15 @@
 <div class="infos-view">
 	<div class="breadcrumb">
 	<?php
-	$this->Html->addCrumb('HOME', array(
+	$this->Html->addCrumb('HOME', [
 			'controller' => 'users_courses',
 			'action' => 'index'
-	));
+	]);
 
-	$this->Html->addCrumb(__('お知らせ一覧'), array(
+	$this->Html->addCrumb(__('お知らせ一覧'), [
 		'controller' => 'infos',
 		'action' => 'index'
-	));
+	]);
 
 	echo $this->Html->getCrumbs(' / ');
 	

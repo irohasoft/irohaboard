@@ -1,10 +1,10 @@
 <div class="infos-index">
 	<div class="breadcrumb">
 	<?php
-	$this->Html->addCrumb('HOME', array(
+	$this->Html->addCrumb('HOME', [
 		'controller' => 'users_courses',
 		'action' => 'index'
-	));
+	]);
 	echo $this->Html->getCrumbs(' / ');
 	?>
 	</div>
@@ -22,7 +22,7 @@
 			<?php foreach ($infos as $info): ?>
 			<tr>
 				<td width="100" valign="top"><?= h(Utils::getYMD($info['Info']['created'])); ?>&nbsp;</td>
-				<td><?= $this->Html->link($info['Info']['title'], array('action' => 'view', $info['Info']['id'])); ?>&nbsp;</td>
+				<td><?= $this->Html->link($info['Info']['title'], ['action' => 'view', $info['Info']['id']]); ?>&nbsp;</td>
 			</tr>
 			<?php endforeach; ?>
 			</tbody>

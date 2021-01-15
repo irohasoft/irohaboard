@@ -23,21 +23,21 @@ App::import('Vendor', 'Utils');
 class AppController extends Controller
 {
 	public $components = [
-			'DebugKit.Toolbar',
-			'Session',
-			'Flash',
-			'Auth' => [
-					'loginRedirect' => [
-							'controller' => 'users_courses',
-							'action' => 'index'
-					],
-					'logoutRedirect' => [
-							'controller' => 'users',
-							'action' => 'login',
-							'home'
-					],
-					'authError' => false
-			]
+		'DebugKit.Toolbar',
+		'Session',
+		'Flash',
+		'Auth' => [
+			'loginRedirect' => [
+				'controller' => 'users_courses',
+				'action' => 'index'
+			],
+			'logoutRedirect' => [
+				'controller' => 'users',
+				'action' => 'login',
+				'home'
+			],
+			'authError' => false
+		]
 	];
 	
 	//public $helpers = array('Session');
@@ -50,6 +50,9 @@ class AppController extends Controller
 	
 	public $uses = ['Setting'];
 	
+	/**
+	 * コールバック（コントローラのアクションロジック実行前に実行）
+	 */
 	public function beforeFilter()
 	{
 		$this->set('loginedUser', $this->readAuthUser());
@@ -60,7 +63,7 @@ class AppController extends Controller
 			if($this->readSession('Setting.app_dir')!=APP_DIR)
 			{
 				// セッション内の設定情報を削除
-				$this->Session->delete('Setting');
+				$this->deleteSession('Setting');
 				
 				// 他のサイトとのログイン情報の混合を避けるため、強制ログアウト
 				if($this->readAuthUser())
@@ -79,13 +82,13 @@ class AppController extends Controller
 			
 			$this->writeSession('Setting.app_dir', APP_DIR);
 			
-			foreach ($settings as $key => $value)
+			foreach($settings as $key => $value)
 			{
 				$this->writeSession('Setting.'.$key, $value);
 			}
 		}
 		
-		if ($this->getParam('admin'))
+		if($this->getParam('admin'))
 		{
 			// role が admin, manager, editor, teacher以外の場合、強制ログアウトする
 			if($this->readAuthUser())
@@ -155,6 +158,7 @@ class AppController extends Controller
 
 	/**
 	 * セッションの取得
+	 * @param string $key キー
 	 */
 	protected function readSession($key)
 	{
@@ -163,6 +167,7 @@ class AppController extends Controller
 
 	/**
 	 * セッションの削除
+	 * @param string $key キー
 	 */
 	protected function deleteSession($key)
 	{
@@ -171,6 +176,7 @@ class AppController extends Controller
 
 	/**
 	 * セッションの存在確認
+	 * @param string $key キー
 	 */
 	protected function hasSession($key)
 	{
@@ -179,6 +185,8 @@ class AppController extends Controller
 
 	/**
 	 * セッションの保存
+	 * @param string $key キー
+	 * @param string $value 値
 	 */
 	protected function writeSession($key, $value)
 	{
@@ -187,6 +195,7 @@ class AppController extends Controller
 
 	/**
 	 * ログインユーザ情報の取得
+	 * @param string $key キー
 	 */
 	protected function readAuthUser($key = null)
 	{
@@ -198,6 +207,7 @@ class AppController extends Controller
 
 	/**
 	 * クエリストリングの取得
+	 * @param string $key キー
 	 */
 	protected function getQuery($key = null)
 	{
@@ -214,6 +224,7 @@ class AppController extends Controller
 
 	/**
 	 * クエリストリングの存在確認
+	 * @param string $key キー
 	 */
 	protected function hasQuery($key)
 	{
@@ -223,6 +234,7 @@ class AppController extends Controller
 
 	/**
 	 * リクエストパラメータの取得
+	 * @param string $key キー
 	 */
 	protected function getParam($key)
 	{
@@ -239,6 +251,7 @@ class AppController extends Controller
 
 	/**
 	 * POSTデータの取得
+	 * @param string $key キー
 	 */
 	protected function getData($key = null)
 	{
@@ -255,6 +268,8 @@ class AppController extends Controller
 
 	/**
 	 * POSTデータの上書き
+	 * @param string $key キー
+	 * @param string $value 値
 	 */
 	protected function setData($key, $value)
 	{
@@ -270,6 +285,8 @@ class AppController extends Controller
 
 	/**
 	 * ログの保存
+	 * @param string $log_type ログの種類
+	 * @param string $log_content ログの内容
 	 */
 	function writeLog($log_type, $log_content)
 	{
@@ -280,7 +297,6 @@ class AppController extends Controller
 			'user_ip'     => $_SERVER['REMOTE_ADDR'],
 			'user_agent'  => $_SERVER['HTTP_USER_AGENT']
 		];
-		
 		
 		$this->loadModel('Log');
 		$this->Log->create();

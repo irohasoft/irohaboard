@@ -20,8 +20,8 @@ class RecordsController extends AppController
 {
 
 	public $components = [
-			'Paginator',
-			'Search.Prg'
+		'Paginator',
+		'Search.Prg'
 	];
 
 	//public $presetVars = true;
@@ -179,7 +179,7 @@ class RecordsController extends AppController
 			{
 				$result = $this->paginate();
 			}
-			catch (Exception $e)
+			catch(Exception $e)
 			{
 				$this->request->params['named']['page']=1;
 				$result = $this->paginate();
@@ -217,11 +217,7 @@ class RecordsController extends AppController
 		
 		// コンテンツ情報を取得
 		$this->loadModel('Content');
-		$content = $this->Content->find('first', [
-			'conditions' => [
-				'Content.id' => $content_id
-			]
-		]);
+		$content = $this->Content->findById($content_id);
 		
 		$this->Record->create();
 		$data = [
@@ -234,7 +230,7 @@ class RecordsController extends AppController
 			'is_complete'	=> $is_complete
 		];
 		
-		if ($this->Record->save($data))
+		if($this->Record->save($data))
 		{
 			$this->Flash->success(__('学習履歴を保存しました'));
 			return $this->redirect([

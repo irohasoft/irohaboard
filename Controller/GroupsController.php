@@ -56,21 +56,17 @@ class GroupsController extends AppController
 	 */
 	public function admin_edit($group_id = null)
 	{
-		if ($this->action == 'edit' && ! $this->Group->exists($group_id))
+		if($this->action=='edit' && !$this->Group->exists($group_id))
 		{
 			throw new NotFoundException(__('Invalid group'));
 		}
-		if ($this->request->is([
-				'post',
-				'put'
-		]))
+		
+		if($this->request->is(['post', 'put']))
 		{
-			if ($this->Group->save($this->request->data))
+			if($this->Group->save($this->request->data))
 			{
 				$this->Flash->success(__('グループ情報を保存しました'));
-				return $this->redirect([
-						'action' => 'index'
-				]);
+				return $this->redirect(['action' => 'index']);
 			}
 			else
 			{
@@ -79,12 +75,7 @@ class GroupsController extends AppController
 		}
 		else
 		{
-			$options = [
-				'conditions' => [
-					'Group.' . $this->Group->primaryKey => $group_id
-				]
-			];
-			$this->request->data = $this->Group->find('first', $options);
+			$this->request->data = $this->Group->findById($group_id);
 		}
 		
 		$courses = $this->Group->Course->find('list');
@@ -98,12 +89,15 @@ class GroupsController extends AppController
 	public function admin_delete($group_id = null)
 	{
 		$this->Group->id = $group_id;
-		if (! $this->Group->exists())
+		
+		if(!$this->Group->exists())
 		{
 			throw new NotFoundException(__('Invalid group'));
 		}
+		
 		$this->request->allowMethod('post', 'delete');
-		if ($this->Group->delete())
+		
+		if($this->Group->delete())
 		{
 			$this->Flash->success(__('グループ情報を削除しました'));
 		}
@@ -111,8 +105,7 @@ class GroupsController extends AppController
 		{
 			$this->Flash->error(__('The group could not be deleted. Please, try again.'));
 		}
-		return $this->redirect([
-				'action' => 'index'
-		]);
+		
+		return $this->redirect(['action' => 'index']);
 	}
 }

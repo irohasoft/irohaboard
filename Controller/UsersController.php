@@ -19,21 +19,21 @@ App::uses('AppController', 'Controller');
 class UsersController extends AppController
 {
 	public $components = [
-			'Session',
-			'Paginator',
-			'Security' => [
-				'csrfUseOnce' => false,
-				'unlockedActions' => ['login', 'admin_login'],
-			],
-			'Search.Prg',
-			'Cookie',
-			'Auth' => [
-					'allowedActions' => [
-							'index',
-							'login',
-							'logout'
-					]
+		'Session',
+		'Paginator',
+		'Security' => [
+			'csrfUseOnce' => false,
+			'unlockedActions' => ['login', 'admin_login'],
+		],
+		'Search.Prg',
+		'Cookie',
+		'Auth' => [
+			'allowedActions' => [
+				'index',
+				'login',
+				'logout'
 			]
+		]
 	];
 	
 	/**
@@ -55,12 +55,15 @@ class UsersController extends AppController
 			return;
 		
 		$this->User->id = $user_id;
-		if (! $this->User->exists())
+		
+		if(!$this->User->exists())
 		{
 			throw new NotFoundException(__('Invalid user'));
 		}
+		
 		$this->request->allowMethod('post', 'delete');
-		if ($this->User->delete())
+		
+		if($this->User->delete())
 		{
 			$this->Flash->success(__('ユーザが削除されました'));
 		}
@@ -68,9 +71,8 @@ class UsersController extends AppController
 		{
 			$this->Flash->error(__('ユーザを削除できませんでした'));
 		}
-		return $this->redirect([
-				'action' => 'index'
-		]);
+		
+		return $this->redirect(['action' => 'index']);
 	}
 
 	/**
@@ -83,10 +85,7 @@ class UsersController extends AppController
 		$this->request->allowMethod('post', 'delete');
 		$this->User->deleteUserRecords($user_id);
 		$this->Flash->success(__('学習履歴を削除しました'));
-		return $this->redirect([
-			'action' => 'edit',
-			$user_id
-		]);
+		return $this->redirect(['action' => 'edit', $user_id]);
 	}
 
 	/**
@@ -232,7 +231,7 @@ class UsersController extends AppController
 		{
 			$users = $this->paginate();
 		}
-		catch (Exception $e)
+		catch(Exception $e)
 		{
 			// 指定したページが存在しなかった場合（主に検索条件変更時に発生）、1ページ目を設定
 			$this->request->params['named']['page'] = 1;
@@ -251,33 +250,28 @@ class UsersController extends AppController
 	 */
 	public function admin_edit($user_id = null)
 	{
-		if ($this->action == 'admin_edit' && ! $this->User->exists($user_id))
+		if($this->action=='admin_edit' && !$this->User->exists($user_id))
 		{
 			throw new NotFoundException(__('Invalid user'));
 		}
 		
 		$username = '';
 		
-		if ($this->request->is([
-				'post',
-				'put'
-		]))
+		if($this->request->is(['post', 'put']))
 		{
 			if(Configure::read('demo_mode'))
 				return;
 			
-			if ($this->request->data['User']['new_password'] !== '')
+			if($this->request->data['User']['new_password'] !== '')
 				$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
 
-			if ($this->User->save($this->request->data))
+			if($this->User->save($this->request->data))
 			{
 				$this->Flash->success(__('ユーザ情報が保存されました'));
 
 				unset($this->request->data['User']['new_password']);
 
-				return $this->redirect([
-						'action' => 'index'
-				]);
+				return $this->redirect(['action' => 'index']);
 			}
 			else
 			{
@@ -286,12 +280,7 @@ class UsersController extends AppController
 		}
 		else
 		{
-			$options = [
-				'conditions' => [
-					'User.' . $this->User->primaryKey => $user_id
-				]
-			];
-			$this->request->data = $this->User->find('first', $options);
+			$this->request->data = $this->User->findById($user_id);
 			
 			if($this->request->data)
 				$username = $this->request->data['User']['username'];
@@ -308,10 +297,7 @@ class UsersController extends AppController
 	 */
 	public function setting()
 	{
-		if ($this->request->is([
-				'post',
-				'put'
-		]))
+		if($this->request->is(['post', 'put']))
 		{
 			if(Configure::read('demo_mode'))
 				return;
@@ -328,7 +314,7 @@ class UsersController extends AppController
 			{
 				$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
 				
-				if ($this->User->save($this->request->data))
+				if($this->User->save($this->request->data))
 				{
 					$this->Flash->success(__('パスワードが保存されました'));
 				}
@@ -344,12 +330,7 @@ class UsersController extends AppController
 		}
 		else
 		{
-			$options = [
-				'conditions' => [
-						'User.' . $this->User->primaryKey => $this->readAuthUser('id')
-				]
-			];
-			$this->request->data = $this->User->find('first', $options);
+			$this->request->data = $this->User->findById($this->readAuthUser('id'));
 		}
 	}
 
@@ -402,10 +383,7 @@ class UsersController extends AppController
 		
 		$err_msg = '';
 		
-		if ($this->request->is([
-				'post',
-				'put'
-		]))
+		if($this->request->is(['post', 'put']))
 		{
 			//------------------------------//
 			//	CSVファイルの読み込み		//
@@ -451,16 +429,10 @@ class UsersController extends AppController
 					
 					$is_new = false;
 					
-					$options = [
-						'conditions' => [
-							'User.username' => $row[COL_LOGINID]
-						]
-					];
-					
 					//------------------------------//
 					//	ユーザ情報の作成			//
 					//------------------------------//
-					$data = $this->User->find('first', $options);
+					$data = $this->User->findByUsername($row[COL_LOGINID]);
 					
 					// 指定したログインIDのユーザが存在しない場合、新規追加とする
 					if(!$data)
@@ -562,12 +534,10 @@ class UsersController extends AppController
 				{
 					$ds->commit();
 					$this->Flash->success(__('インポートが完了しました'));
-					return $this->redirect([
-						'action' => 'index'
-					]);
+					return $this->redirect(['action' => 'index']);
 				}
 			}
-			catch (Exception $e)
+			catch(Exception $e)
 			{
 				$ds->rollback();
 				$this->Flash->error(__('インポートに失敗しました'));

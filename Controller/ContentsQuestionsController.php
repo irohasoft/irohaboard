@@ -40,11 +40,7 @@ class ContentsQuestionsController extends AppController
 		//	コンテンツ情報を取得		//
 		//------------------------------//
 		$this->loadModel('Content');
-		$content = $this->Content->find('first', [
-			'conditions' => [
-				'Content.id' => $content_id
-			]
-		]);
+		$content = $this->Content->findById($content_id);
 		
 		//------------------------------//
 		//	権限チェック				//
@@ -54,7 +50,7 @@ class ContentsQuestionsController extends AppController
 		{
 			$this->loadModel('Course');
 			
-			if(! $this->Course->hasRight($this->readAuthUser('id'), $content['Content']['course_id']))
+			if(!$this->Course->hasRight($this->readAuthUser('id'), $content['Content']['course_id']))
 				throw new NotFoundException(__('Invalid access'));
 		}
 		
@@ -67,9 +63,7 @@ class ContentsQuestionsController extends AppController
 		{
 			// テスト結果情報を取得
 			$this->loadModel('Record');
-			$record = $this->Record->find('first', [
-				'conditions' => ['Record.id' => $record_id],
-			]);
+			$record = $this->Record->findById($record_id);
 			
 			// 受講者によるテスト結果表示の場合、自身のテスト結果か確認
 			if(
@@ -92,6 +86,8 @@ class ContentsQuestionsController extends AppController
 				'conditions' => ['content_id' => $content_id, 'ContentsQuestion.id' => $question_id_list],
 				'order' => ['FIELD(ContentsQuestion.id,'.implode(',', $question_id_list).')'] // 指定したID順で並び替え
 			]);
+			
+			//debug($contentsQuestions);
 		}
 		else if($this->readSession('Iroha.RondomQuestions.'.$content_id.'.id_list') != null) // 既にランダム出題情報がセッション上にある場合
 		{
@@ -117,7 +113,7 @@ class ContentsQuestionsController extends AppController
 			// 問題IDの一覧を作成
 			$question_id_list = [];
 			
-			foreach ($contentsQuestions as $contentsQuestion)
+			foreach($contentsQuestions as $contentsQuestion)
 			{
 				$question_id_list[count($question_id_list)] = $contentsQuestion['ContentsQuestion']['id'];
 			}
@@ -137,7 +133,7 @@ class ContentsQuestionsController extends AppController
 		//------------------------------//
 		//	採点処理					//
 		//------------------------------//
-		if ($this->request->is('post'))
+		if($this->request->is('post'))
 		{
 			$details	= [];								// 成績詳細情報
 			$full_score	= 0;									// 最高点
@@ -149,7 +145,7 @@ class ContentsQuestionsController extends AppController
 			//	成績の詳細情報の作成		//
 			//------------------------------//
 			$i = 0;
-			foreach ($contentsQuestions as $contentsQuestion)
+			foreach($contentsQuestions as $contentsQuestion)
 			{
 				$question_id	= $contentsQuestion['ContentsQuestion']['id'];		// 問題ID
 				$answer			= $this->getData('answer_' . $question_id);			// 解答
@@ -174,7 +170,7 @@ class ContentsQuestionsController extends AppController
 					$is_correct	= ($answer == $correct) ? 1 : 0;
 				}
 				
-				if ($is_correct == 1)
+				if($is_correct == 1)
 					$my_score += $score;
 				
 				// 問題の正誤
@@ -216,13 +212,13 @@ class ContentsQuestionsController extends AppController
 			//------------------------------//
 			//	テスト結果の保存			//
 			//------------------------------//
-			if ($this->Record->save($data))
+			if($this->Record->save($data))
 			{
 				$this->loadModel('RecordsQuestion');
 				$record_id = $this->Record->getLastInsertID();
 				
 				// 問題単位の成績を保存
-				foreach ($details as $detail)
+				foreach($details as $detail)
 				{
 					$this->RecordsQuestion->create();
 					$detail['record_id'] = $record_id;
@@ -276,21 +272,12 @@ class ContentsQuestionsController extends AppController
 		$content_id = intval($content_id);
 		
 		$this->ContentsQuestion->recursive = 0;
-		$contentsQuestions = $this->ContentsQuestion->find('all', [
-			'conditions' => [
-				'content_id' => $content_id
-			],
-			'order' => ['ContentsQuestion.sort_no' => 'asc']
-		]);
+		$contentsQuestions = $this->ContentsQuestion->findAllByContentId($content_id, null, ['ContentsQuestion.sort_no' => 'asc']);
 		
 		// コンテンツ情報を取得
 		$this->loadModel('Content');
 		
-		$content = $this->Content->find('first', [
-			'conditions' => [
-				'Content.id' => $content_id
-			]
-		]);
+		$content = $this->Content->findById($content_id);
 		
 		$this->set(compact('content', 'contentsQuestions'));
 	}
@@ -314,7 +301,7 @@ class ContentsQuestionsController extends AppController
 	{
 		$content_id = intval($content_id);
 		
-		if ($this->action == 'edit' && ! $this->Post->exists($question_id))
+		if($this->action=='edit' && !$this->Post->exists($question_id))
 		{
 			throw new NotFoundException(__('Invalid contents question'));
 		}
@@ -322,28 +309,21 @@ class ContentsQuestionsController extends AppController
 		// コンテンツ情報を取得
 		$this->loadModel('Content');
 		
-		$content = $this->Content->find('first', [
-			'conditions' => [
-				'Content.id' => $content_id
-			]
-		]);
+		$content = $this->Content->findById($content_id);
 		
-		if ($this->request->is([
-				'post',
-				'put'
-		]))
+		if($this->request->is(['post', 'put']))
 		{
-			if ($question_id == null)
+			if($question_id == null)
 			{
 				$this->request->data['ContentsQuestion']['user_id'] = $this->readAuthUser('id');
 				$this->request->data['ContentsQuestion']['content_id'] = $content_id;
 				$this->request->data['ContentsQuestion']['sort_no']   = $this->ContentsQuestion->getNextSortNo($content_id);
 			}
 			
-			if (! $this->ContentsQuestion->validates())
+			if(!$this->ContentsQuestion->validates())
 				return;
 			
-			if ($this->ContentsQuestion->save($this->request->data))
+			if($this->ContentsQuestion->save($this->request->data))
 			{
 				$this->Flash->success(__('問題が保存されました'));
 				return $this->redirect([
@@ -359,11 +339,7 @@ class ContentsQuestionsController extends AppController
 		}
 		else
 		{
-			$options = [ 'conditions' => [
-				'ContentsQuestion.' . $this->ContentsQuestion->primaryKey => $question_id
-			]];
-			
-			$this->request->data = $this->ContentsQuestion->find('first', $options);
+			$this->request->data = $this->ContentsQuestion->findById($question_id);
 		}
 		
 		$this->set(compact('content'));
@@ -376,7 +352,8 @@ class ContentsQuestionsController extends AppController
 	public function admin_delete($question_id = null)
 	{
 		$this->ContentsQuestion->id = $question_id;
-		if (! $this->ContentsQuestion->exists())
+		
+		if(!$this->ContentsQuestion->exists())
 		{
 			throw new NotFoundException(__('Invalid contents question'));
 		}
@@ -384,13 +361,9 @@ class ContentsQuestionsController extends AppController
 		$this->request->allowMethod('post', 'delete');
 		
 		// 問題情報を取得
-		$question = $this->ContentsQuestion->find('first', [
-			'conditions' => [
-				'ContentsQuestion.id' => $question_id
-			]
-		]);
+		$question = $this->ContentsQuestion->findById($question_id);
 		
-		if ($this->ContentsQuestion->delete())
+		if($this->ContentsQuestion->delete())
 		{
 			$this->Flash->success(__('問題が削除されました'));
 			return $this->redirect([
@@ -403,9 +376,7 @@ class ContentsQuestionsController extends AppController
 		{
 			$this->Flash->error(__('The contents question could not be deleted. Please, try again.'));
 		}
-		return $this->redirect([
-				'action' => 'index'
-		]);
+		return $this->redirect(['action' => 'index']);
 	}
 
 	/**

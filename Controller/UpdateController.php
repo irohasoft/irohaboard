@@ -7,6 +7,7 @@
  * @link          http://irohaboard.irohasoft.jp
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
+
 App::uses('AppController', 'Controller');
 
 class UpdateController extends AppController
@@ -31,7 +32,7 @@ class UpdateController extends AppController
 	/**
 	 * アップデート
 	 */
-	function index()
+	public function index()
 	{
 		try
 		{
@@ -67,7 +68,7 @@ class UpdateController extends AppController
 				return;
 			}
 		}
-		catch (Exception $e)
+		catch(Exception $e)
 		{
 			$this->err_msg = 'データベースへの接続に失敗しました。<br>Config / database.php ファイル内のデータベースの設定を確認して下さい。';
 			$this->error();
@@ -78,7 +79,7 @@ class UpdateController extends AppController
 	/**
 	 * アップデートエラーメッセージを表示
 	 */
-	function error()
+	public function error()
 	{
 		$this->set('loginedUser', $this->readAuthUser());
 		$this->set('body', $this->err_msg);
@@ -93,15 +94,15 @@ class UpdateController extends AppController
 		$statements = explode(';', $statements);
 		$err_statements = [];
 		
-		foreach ($statements as $statement)
+		foreach($statements as $statement)
 		{
-			if (trim($statement) != '')
+			if(trim($statement) != '')
 			{
 				try
 				{
 					$this->db->query($statement);
 				}
-				catch (Exception $e)
+				catch(Exception $e)
 				{
 					// レコード重複追加エラー
 					if($e->errorInfo[0]=='23000')

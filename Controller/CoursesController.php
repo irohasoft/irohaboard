@@ -51,14 +51,12 @@ class CoursesController extends AppController
 	 */
 	public function admin_edit($course_id = null)
 	{
-		if ($this->action == 'edit' && ! $this->Course->exists($course_id))
+		if($this->action=='edit' && !$this->Course->exists($course_id))
 		{
 			throw new NotFoundException(__('Invalid course'));
 		}
-		if ($this->request->is([
-			'post',
-			'put'
-		]))
+		
+		if($this->request->is(['post', 'put']))
 		{
 			if(Configure::read('demo_mode'))
 				return;
@@ -66,12 +64,10 @@ class CoursesController extends AppController
 			// 作成者を設定
 			$this->request->data['Course']['user_id'] = $this->readAuthUser('id');
 			
-			if ($this->Course->save($this->request->data))
+			if($this->Course->save($this->request->data))
 			{
 				$this->Flash->success(__('コースが保存されました'));
-				return $this->redirect([
-					'action' => 'index'
-				]);
+				return $this->redirect(['action' => 'index']);
 			}
 			else
 			{
@@ -80,12 +76,7 @@ class CoursesController extends AppController
 		}
 		else
 		{
-			$options = [
-				'conditions' => [
-					'Course.' . $this->Course->primaryKey => $course_id
-				]
-			];
-			$this->request->data = $this->Course->find('first', $options);
+			$this->request->data = $this->Course->findById($course_id);
 		}
 	}
 
@@ -99,7 +90,7 @@ class CoursesController extends AppController
 			return;
 		
 		$this->Course->id = $course_id;
-		if (! $this->Course->exists())
+		if(!$this->Course->exists())
 		{
 			throw new NotFoundException(__('Invalid course'));
 		}
@@ -108,9 +99,7 @@ class CoursesController extends AppController
 		$this->Course->deleteCourse($course_id);
 		$this->Flash->success(__('コースが削除されました'));
 
-		return $this->redirect([
-				'action' => 'index'
-		]);
+		return $this->redirect(['action' => 'index']);
 	}
 
 	/**

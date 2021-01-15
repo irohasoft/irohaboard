@@ -3,9 +3,9 @@
  * iroha Board Project
  *
  * @author        Kotaro Miura
- * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
- * @link          http://irohaboard.irohasoft.jp
- * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ * @copyright     2015-2021 iroha Soft, Inc. (https://irohasoft.jp)
+ * @link          https://irohaboard.irohasoft.jp
+ * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 ?>
@@ -102,7 +102,7 @@
 	</div>
 	
 	<div class="irohasoft">
-		Powered by <a href="http://irohaboard.irohasoft.jp/">iroha Board</a>
+		Powered by <a href="https://irohaboard.irohasoft.jp/">iroha Board</a>
 	</div>
 	
 	<?= $this->element('sql_dump'); ?>

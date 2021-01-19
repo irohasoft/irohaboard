@@ -27,15 +27,8 @@ class AppController extends Controller
 		'Session',
 		'Flash',
 		'Auth' => [
-			'loginRedirect' => [
-				'controller' => 'users_courses',
-				'action' => 'index'
-			],
-			'logoutRedirect' => [
-				'controller' => 'users',
-				'action' => 'login',
-				'home'
-			],
+			'loginRedirect' => ['controller' => 'users_courses', 'action' => 'index'],
+			'logoutRedirect' => ['controller' => 'users','action' => 'login','home'],
 			'authError' => false
 		]
 	];
@@ -109,42 +102,18 @@ class AppController extends Controller
 				}
 			}
 			
-			$this->Auth->loginAction = [
-					'controller' => 'users',
-					'action' => 'login',
-					'admin' => true
-			];
-			$this->Auth->loginRedirect = [
-					'controller' => 'users',
-					'action' => 'index',
-					'admin' => true
-			];
-			$this->Auth->logoutRedirect = [
-					'controller' => 'users',
-					'action' => 'login',
-					'admin' => true
-			];
+			$this->Auth->loginAction = ['controller' => 'users','action' => 'login','admin' => true];
+			$this->Auth->loginRedirect = ['controller' => 'users','action' => 'index','admin' => true];
+			$this->Auth->logoutRedirect = ['controller' => 'users','action' => 'login','admin' => true];
 			
 			// グループモデルを共通で保持する
 			$this->loadModel('Group');
 		}
 		else
 		{
-			$this->Auth->loginAction = [
-					'controller' => 'users',
-					'action' => 'login',
-					'admin' => false
-			];
-			$this->Auth->loginRedirect = [
-					'controller' => 'users',
-					'action' => 'index',
-					'admin' => false
-			];
-			$this->Auth->logoutRedirect = [
-					'controller' => 'users',
-					'action' => 'login',
-					'admin' => false
-			];
+			$this->Auth->loginAction = ['controller' => 'users', 'action' => 'login', 'admin' => false];
+			$this->Auth->loginRedirect = ['controller' => 'users', 'action' => 'index', 'admin' => false];
+			$this->Auth->logoutRedirect = ['controller' => 'users', 'action' => 'login', 'admin' => false];
 		}
 	}
 

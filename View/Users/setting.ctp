@@ -26,13 +26,11 @@
 					'type' => 'password',
 					'autocomplete' => 'new-password'
 				]);
+				echo Configure::read('form_submit_before')
+					.$this->Form->submit(__('保存'), Configure::read('form_submit_defaults'))
+					.Configure::read('form_submit_after');
+				echo $this->Form->end();
 			?>
-			<div class="form-group">
-				<div class="col col-sm-9 col-sm-offset-3">
-					<?= $this->Form->submit(__('保存'), Configure::read('form_submit_defaults')); ?>
-				</div>
-			</div>
-			<?= $this->Form->end(); ?>
 		</div>
 	</div>
 </div>

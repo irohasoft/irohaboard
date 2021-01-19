@@ -14,41 +14,17 @@
 			<?= ($this->action == 'admin_edit') ? __('編集') :  __('新規お知らせ'); ?>
 		</div>
 		<div class="panel-body">
-			<?= $this->Form->create('Info', Configure::read('form_defaults')); ?>
 			<?php
+				echo $this->Form->create('Info', Configure::read('form_defaults'));
 				echo $this->Form->input('id');
 				echo $this->Form->input('title',	['label' => __('タイトル')]);
 				echo $this->Form->input('body',		['label' => __('本文')]);
-				/*
-				echo $this->Form->input('opened', array(
-					'type' => 'date',
-					'dateFormat' => 'YMD',
-					'monthNames' => false,
-					'timeFormat' => '24',
-					'separator' => ' / ',
-					'label'=> '公開開始日 : ',
-					'style' => 'width:initial; display: inline;'
-				));
-
-				echo $this->Form->input('closed', array(
-					'type' => 'date',
-					'dateFormat' => 'YMD',
-					'monthNames' => false,
-					'timeFormat' => '24',
-					'separator' => ' / ',
-					'label'=> '公開終了日 : ',
-					'style' => 'width:initial; display: inline;'
-				));
-				*/
 				echo $this->Form->input('Group',	['label' => __('対象グループ'),	'size' => 20]);
-
+				echo Configure::read('form_submit_before')
+					.$this->Form->submit(__('保存'), Configure::read('form_submit_defaults'))
+					.Configure::read('form_submit_after');
+				echo $this->Form->end();
 			?>
-			<div class="form-group">
-				<div class="col col-sm-9 col-sm-offset-3">
-					<?= $this->Form->submit(__('保存'), Configure::read('form_submit_defaults')); ?>
-				</div>
-			</div>
-			<?= $this->Form->end(); ?>
 		</div>
 	</div>
 </div>

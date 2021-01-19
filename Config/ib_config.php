@@ -140,6 +140,13 @@ $config['form_submit_defaults'] = [
 	'class' => 'btn btn-primary'
 ];
 
+$config['form_submit_before'] = 
+	 '<div class="form-group">'
+	.'  <div class="col col-sm-9 col-sm-offset-3">';
+
+$config['form_submit_after'] = 
+	 '  </div>'
+	.'</div>';
 
 $config['theme_colors'] = [
 	'#337ab7' => 'default',

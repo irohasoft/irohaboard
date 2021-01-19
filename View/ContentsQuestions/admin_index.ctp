@@ -92,9 +92,9 @@
 			if($loginedUser['role']=='admin')
 			{
 				echo $this->Form->postLink(__('削除'), 
-						['action' => 'delete', $contentsQuestion['ContentsQuestion']['id']], 
-						['class'=>'btn btn-danger'], 
-						__('[%s] を削除してもよろしいですか?', $contentsQuestion['ContentsQuestion']['title'])
+					['action' => 'delete', $contentsQuestion['ContentsQuestion']['id']], 
+					['class'=>'btn btn-danger'], 
+					__('[%s] を削除してもよろしいですか?', $contentsQuestion['ContentsQuestion']['title'])
 				); 
 				echo $this->Form->hidden('id', ['id'=>'', 'class'=>'target_id', 'value'=>$contentsQuestion['ContentsQuestion']['id']]);
 			}

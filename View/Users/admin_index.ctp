@@ -57,15 +57,11 @@
 		<td class="ib-col-action">
 			<button type="button" class="btn btn-success"
 				onclick="location.href='<?= Router::url(['action' => 'edit', $user['User']['id']]) ?>'"><?= __('編集')?></button>
-			<?php
-
-echo $this->Form->postLink(__('削除'), [
-				'action' => 'delete',
-				$user['User']['id']
-		], [
-				'class' => 'btn btn-danger'
-		], __('[%s] を削除してもよろしいですか?', $user['User']['name']));
-		?>
+			<?= $this->Form->postLink(__('削除'),
+					['action' => 'delete', $user['User']['id']],
+					['class' => 'btn btn-danger'],
+					__('[%s] を削除してもよろしいですか?', $user['User']['name'])
+			);?>
 		</td>
 		<?php }?>
 	</tr>

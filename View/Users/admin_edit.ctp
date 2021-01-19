@@ -51,12 +51,10 @@
 				
 				if($this->request->data)
 				{
-					echo $this->Form->postLink(__('学習履歴を削除'), [
-						'action' => 'clear',
-						$this->request->data['User']['id']
-					], [
-						'class' => 'btn btn-default pull-right btn-clear'
-					], __('学習履歴を削除してもよろしいですか？', $this->request->data['User']['name']));
+					echo $this->Form->postLink(__('学習履歴を削除'),
+						['action' => 'clear', $this->request->data['User']['id']],
+						['class' => 'btn btn-default pull-right btn-clear'],
+						__('学習履歴を削除してもよろしいですか？', $this->request->data['User']['name']));
 				}
 			?>
 		</div>

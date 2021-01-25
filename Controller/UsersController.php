@@ -102,8 +102,8 @@ class UsersController extends AppController
 	 */
 	public function login()
 	{
-		$username = "";
-		$password = "";
+		$username = '';
+		$password = '';
 		
 		// 自動ログイン処理
 		// Check cookie's login info.
@@ -192,10 +192,10 @@ class UsersController extends AppController
 			$this->writeSession('Iroha.group_id', intval($this->getQuery('group_id')));
 		
 		// GETパラメータから検索条件を抽出
-		$group_id	= ($this->hasQuery('group_id')) ? $this->getQuery('group_id') : $this->readSession('Iroha.group_id');
+		$group_id = ($this->hasQuery('group_id')) ? $this->getQuery('group_id') : $this->readSession('Iroha.group_id');
 		
 		// 独自の検索条件を追加（指定したグループに所属するユーザを検索）
-		if($group_id != "")
+		if($group_id != '')
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 		
 		//$this->User->virtualFields['group_title']  = 'group_title';		// 外部結合テーブルのフィールドによるソート用
@@ -268,9 +268,7 @@ class UsersController extends AppController
 			if($this->User->save($this->request->data))
 			{
 				$this->Flash->success(__('ユーザ情報が保存されました'));
-
 				unset($this->request->data['User']['new_password']);
-
 				return $this->redirect(['action' => 'index']);
 			}
 			else
@@ -466,7 +464,7 @@ class UsersController extends AppController
 					//	所属グループ・受講コースの割当	//
 					//----------------------------------//
 					$data['Group']['Group'] = [];		// 所属グループの割当の初期化
-					$data['Course']['Course'] = [];	// 受講コースの割当の初期化
+					$data['Course']['Course'] = [];		// 受講コースの割当の初期化
 					
 					// 所属グループの割当
 					for($n=0; $n < $group_count; $n++)

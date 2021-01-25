@@ -67,16 +67,16 @@ class RecordsController extends AppController
 		$to_date			= $this->getQuery('to_date');
 		
 		// グループが指定されている場合、指定したグループに所属するユーザの履歴を抽出
-		if($group_id != "")
+		if($group_id != '')
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 		
-		if($course_id != "")
+		if($course_id != '')
 			$conditions['Course.id'] = $course_id;
 		
-		if($username != "")
+		if($username != '')
 			$conditions['User.username like'] = '%'.$username.'%';
 		
-		if($name != "")
+		if($name != '')
 			$conditions['User.name like'] = '%'.$name.'%';
 		
 		// コンテンツ種別：学習の場合
@@ -97,7 +97,7 @@ class RecordsController extends AppController
 		if(!$to_date)
 			$to_date = ['year' => date('Y'), 'month' => date('m'), 'day' => date('d')];
 		
-		if($contenttitle != "")
+		if($contenttitle != '')
 			$conditions['Content.title like'] = '%'.$contenttitle.'%';
 		
 		// 学習日付による絞り込み

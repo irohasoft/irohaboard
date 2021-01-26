@@ -122,7 +122,6 @@
 				$option_index++;
 			}
 			
-
 			//------------------------------//
 			//	正解、解説情報を出力		//
 			//------------------------------//
@@ -143,7 +142,7 @@
 				{
 					$correct_label .= ($correct_label=='') ? $option_list[$correct_no - 1] : ', '.$option_list[$correct_no - 1];
 				}
-								
+				
 				// 正解時は、解説のみを表示
 				if($is_correct)
 				{
@@ -167,7 +166,6 @@
 							$explain_tag = getExplain($question['explain']);
 							break;
 					}
-					
 				}
 			}
 			?>

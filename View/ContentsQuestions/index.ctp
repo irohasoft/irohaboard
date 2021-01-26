@@ -218,7 +218,10 @@ function getExplain($explain)
 {
 	$tag = '';
 	
-	if($explain!='')
+	$check = str_replace(['<p>','</p>','<br>'], '', $explain);
+	
+	// pタグ、brタグのみの場合、解説を表示しない
+	if($check != '')
 	{
 		$tag = sprintf('<div class="correct-text bg-danger">%s : %s</div>', __('解説'), $explain);
 	}

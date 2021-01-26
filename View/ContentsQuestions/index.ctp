@@ -1,3 +1,26 @@
+<?php $this->start('css-embedded'); ?>
+<style type='text/css'>
+	<?php if($is_admin_record) { // 管理者による学習履歴表示モードの場合、ロゴのリンクを無効化 ?>
+	.ib-navi-item
+	{
+		display: none;
+	}
+	
+	.ib-logo a
+	{
+		pointer-events: none;
+	}
+	<?php }?>
+</style>
+<?php $this->end(); ?>
+
+<?php $this->start('script-embedded'); ?>
+<script>
+	var TIMELIMIT_SEC	= parseInt('<?= $content['Content']['timelimit'] ?>') * 60;	// 制限時間（単位：秒）
+	var IS_RECORD		= '<?= $is_record ?>';										// テスト結果表示フラグ
+</script>
+<?= $this->Html->script('contents_questions.js?20190401');?>
+<?php $this->end(); ?>
 <div class="contents-questions-index">
 	<div class="breadcrumb">
 	<?php
@@ -17,32 +40,7 @@
 	echo $this->Html->getCrumbs(' / ');
 	?>
 	</div>
-	
 	<div id="lblStudySec" class="btn btn-info"></div>
-	<?php $this->start('css-embedded'); ?>
-	<style type='text/css'>
-		<?php if($is_admin_record) { // 管理者による学習履歴表示モードの場合、ロゴのリンクを無効化 ?>
-		.ib-navi-item
-		{
-			display: none;
-		}
-		
-		.ib-logo a
-		{
-			pointer-events: none;
-		}
-		<?php }?>
-	</style>
-	<?php $this->end(); ?>
-	
-	<?php $this->start('script-embedded'); ?>
-	<script>
-	var TIMELIMIT_SEC	= parseInt('<?= $content['Content']['timelimit'] ?>') * 60;	// 制限時間（単位：秒）
-	var IS_RECORD		= '<?= $is_record ?>';										// テスト結果表示フラグ
-	</script>
-	<?= $this->Html->script('contents_questions.js?20190401');?>
-	<?php $this->end(); ?>
-	
 	<!-- テスト結果ヘッダ表示 -->
 	<?php if($is_record){ ?>
 		<?php
@@ -71,6 +69,7 @@
 		
 		// 問題IDをキーに問題の成績が参照できる配列を作成
 		$question_records = [];
+		
 		if($is_record)
 		{
 			foreach ($record['RecordsQuestion'] as $rec)
@@ -78,9 +77,10 @@
 				$question_records[$rec['question_id']] = $rec;
 			}
 		}
+		
+		echo $this->Form->create('ContentsQuestion');
 	?>
-	<?= $this->Form->create('ContentsQuestion'); ?>
-		<?php foreach ($contentsQuestions as $contentsQuestion){ ?>
+		<?php foreach ($contentsQuestions as $contentsQuestion) { ?>
 			<?php
 			$question		= $contentsQuestion['ContentsQuestion'];	// 問題情報
 			$title			= $question['title'];						// 問題のタイトル
@@ -147,9 +147,7 @@
 				// 正解時は、解説のみを表示
 				if($is_correct)
 				{
-//					$correct_tag = sprintf('<p class="correct-text bg-success">%s : %s</p>',__('正解'), $correct_label);
 					$result_tag  = sprintf('<p>%s<span class="result-currect">%s</span></p>', $this->Html->image('correct.png', ['width'=>'60','height'=>'60']), __('正解'));
-					
 					$explain_tag = getExplain($question['explain']);
 				}
 				else
@@ -196,7 +194,7 @@
 				</div>
 			</div>
 			<?php $question_index++;?>
-		<?php } ?>
+		<?php }?>
 		
 		<?php
 			echo '<div class="form-inline"><!--start-->';

@@ -172,7 +172,7 @@ class FileUpload
 	//------------------------------//
 	//	MB等の単位をバイト数に変換	//
 	//------------------------------//
-	function getBytes($str)
+	public function getBytes($str)
 	{
 		preg_match('/(\d+)(\w+)/', $str, $matches);
 		

@@ -183,10 +183,10 @@
 						<!--選択肢-->
 						<?= $option_tag; ?>
 					</div>
-					<!--正解-->
-					<?= $correct_tag ?>
 					<!--正誤画像-->
 					<?= $result_tag ?>
+					<!--正解-->
+					<?= $correct_tag ?>
 					<!--解説文-->
 					<?= $explain_tag ?>
 				</div>

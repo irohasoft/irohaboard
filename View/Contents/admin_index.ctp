@@ -1,4 +1,4 @@
-<?php echo $this->element('admin_menu');?>
+<?= $this->element('admin_menu');?>
 <?php $this->start('script-embedded'); ?>
 <script>
 	$(function(){
@@ -25,7 +25,7 @@
 				});
 
 				$.ajax({
-					url: "<?php echo Router::url(array('action' => 'order')) ?>",
+					url: "<?= Router::url(['action' => 'order']) ?>",
 					type: "POST",
 					data: { id_list : id_list },
 					dataType: "text",
@@ -49,26 +49,26 @@
 <div class="admin-contents-index">
 	<div class="ib-breadcrumb">
 	<?php
-		$this->Html->addCrumb(__('コース一覧'), array('controller' => 'courses', 'action' => 'index'));
+		$this->Html->addCrumb(__('コース一覧'), ['controller' => 'courses', 'action' => 'index']);
 		$this->Html->addCrumb(h($course['Course']['title']));
 
 		echo $this->Html->getCrumbs(' / ');
 	?>
 	</div>
-	<div class="ib-page-title"><?php echo __('コンテンツ一覧'); ?></div>
+	<div class="ib-page-title"><?= __('コンテンツ一覧'); ?></div>
 	<div class="buttons_container">
-		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?php echo Router::url(array('action' => 'add', $course['Course']['id'])) ?>'">+ 追加</button>
+		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?= Router::url(['action' => 'add', $course['Course']['id']]) ?>'">+ 追加</button>
 	</div>
-	<div class="alert alert-warning"><?php echo __('ドラッグアンドドロップでコンテンツの並び順が変更できます。'); ?></div>
+	<div class="alert alert-warning"><?= __('ドラッグアンドドロップでコンテンツの並び順が変更できます。'); ?></div>
 	<table id='sortable-table'>
 	<thead>
 	<tr>
-		<th><?php echo __('コンテンツ名'); ?></th>
-		<th nowrap><?php echo __('コンテンツ種別'); ?></th>
-		<th class="text-center"><?php echo __('ステータス'); ?></th>
-		<th class="ib-col-date"><?php echo __('作成日時'); ?></th>
-		<th class="ib-col-date"><?php echo __('更新日時'); ?></th>
-		<th class="ib-col-action"><?php echo __('Actions'); ?></th>
+		<th><?= __('コンテンツ名'); ?></th>
+		<th nowrap><?= __('コンテンツ種別'); ?></th>
+		<th class="text-center"><?= __('ステータス'); ?></th>
+		<th class="ib-col-date"><?= __('作成日時'); ?></th>
+		<th class="ib-col-date"><?= __('更新日時'); ?></th>
+		<th class="ib-col-action"><?= __('Actions'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -77,7 +77,7 @@
 		switch($content['Content']['kind'])
 		{
 			case 'test':
-				$title = $this->Html->link($content['Content']['title'], array('controller' => 'contents_questions', 'action' => 'index', $content['Content']['id']));
+				$title = $this->Html->link($content['Content']['title'], ['controller' => 'contents_questions', 'action' => 'index', $content['Content']['id']]);
 				break;
 			default :
 				$title = h($content['Content']['title']);
@@ -85,22 +85,22 @@
 		}
 	?>
 	<tr>
-		<td><?php echo $title; ?></td>
-		<td><?php echo h(Configure::read('content_kind.'.$content['Content']['kind'])); ?>&nbsp;</td>
-		<td class="text-center"><?php echo h(Configure::read('content_status.'.$content['Content']['status'])); ?>&nbsp;</td>
-		<td class="ib-col-date"><?php echo Utils::getYMDHN($content['Content']['created']); ?>&nbsp;</td>
-		<td class="ib-col-date"><?php echo Utils::getYMDHN($content['Content']['modified']); ?>&nbsp;</td>
+		<td><?= $title; ?></td>
+		<td><?= h(Configure::read('content_kind.'.$content['Content']['kind'])); ?>&nbsp;</td>
+		<td class="text-center"><?= h(Configure::read('content_status.'.$content['Content']['status'])); ?>&nbsp;</td>
+		<td class="ib-col-date"><?= Utils::getYMDHN($content['Content']['created']); ?>&nbsp;</td>
+		<td class="ib-col-date"><?= Utils::getYMDHN($content['Content']['modified']); ?>&nbsp;</td>
 		<td class="ib-col-action">
-			<button type="button" class="btn btn-success" onclick="location.href='<?php echo Router::url(array('action' => 'edit', $course['Course']['id'], $content['Content']['id'])) ?>'"><?php echo __('編集')?></button>
-			<button type="button" class="btn btn-info" onclick="location.href='<?php echo Router::url(array('action' => 'copy', $course['Course']['id'], $content['Content']['id'])) ?>'"><?php echo __('複製')?></button>
+			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(['action' => 'edit', $course['Course']['id'], $content['Content']['id']]) ?>'"><?= __('編集')?></button>
+			<button type="button" class="btn btn-info" onclick="location.href='<?= Router::url(['action' => 'copy', $course['Course']['id'], $content['Content']['id']]) ?>'"><?= __('複製')?></button>
 			<?php
-			echo $this->Form->hidden('id', array('id'=>'', 'class'=>'content_id', 'value'=>$content['Content']['id']));
+			echo $this->Form->hidden('id', ['id'=>'', 'class'=>'content_id', 'value'=>$content['Content']['id']]);
 			
 			if($loginedUser['role']=='admin')
 			{
 				echo $this->Form->postLink(__('削除'),
-					array('action' => 'delete', $content['Content']['id']),
-					array('class'=>'btn btn-danger'),
+					['action' => 'delete', $content['Content']['id']],
+					['class'=>'btn btn-danger'],
 					__('[%s] を削除してもよろしいですか?', $content['Content']['title'])
 				);
 			}?>

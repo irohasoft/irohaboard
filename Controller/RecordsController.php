@@ -3,9 +3,9 @@
  * iroha Board Project
  *
  * @author        Kotaro Miura
- * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
- * @link          http://irohaboard.irohasoft.jp
- * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ * @copyright     2015-2021 iroha Soft, Inc. (https://irohasoft.jp)
+ * @link          https://irohaboard.irohasoft.jp
+ * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 App::uses('AppController',		'Controller');
@@ -19,31 +19,31 @@ App::uses('AppController',		'Controller');
 class RecordsController extends AppController
 {
 
-	public $components = array(
-			'Paginator',
-			'Search.Prg'
-	);
+	public $components = [
+		'Paginator',
+		'Search.Prg'
+	];
 
 	//public $presetVars = true;
 
-	public $paginate = array();
+	public $paginate = [];
 	
-	public $presetVars = array(
-		array(
+	public $presetVars = [
+		[
 			'name' => 'name', 
 			'type' => 'value',
 			'field' => 'User.name'
-		), 
-		array(
+		], 
+		[
 			'name' => 'username',
 			'type' => 'like',
 			'field' => 'User.username'
-		), 
-		array(
+		], 
+		[
 			'name' => 'contenttitle', 'type' => 'like',
 			'field' => 'Content.title'
-		)
-	);
+		]
+	];
 
 	/**
 	 * 学習履歴一覧を表示
@@ -57,58 +57,57 @@ class RecordsController extends AppController
 		// ただしアソシエーションテーブルには対応していないため、独自に検索条件を設定する必要がある
 		$conditions = $this->Record->parseCriteria($this->Prg->parsedParams());
 		
-		$group_id			= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : "";
-		$course_id			= (isset($this->request->query['course_id'])) ? $this->request->query['course_id'] : "";
-		$username			= (isset($this->request->query['username'])) ? $this->request->query['username'] : "";
-		$name				= (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
-		$content_category	= (isset($this->request->query['content_category'])) ? $this->request->query['content_category'] : "";
-		$contenttitle		= (isset($this->request->query['contenttitle'])) ? $this->request->query['contenttitle'] : "";
-		
+		$group_id			= $this->getQuery('group_id');
+		$course_id			= $this->getQuery('course_id');
+		$username			= $this->getQuery('username');
+		$name				= $this->getQuery('name');
+		$content_category	= $this->getQuery('content_category');
+		$contenttitle		= $this->getQuery('contenttitle');
+		$from_date			= $this->getQuery('from_date');
+		$to_date			= $this->getQuery('to_date');
 		
 		// グループが指定されている場合、指定したグループに所属するユーザの履歴を抽出
-		if($group_id != "")
+		if($group_id != '')
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 		
-		if($course_id != "")
+		if($course_id != '')
 			$conditions['Course.id'] = $course_id;
 		
-		if($username != "")
+		if($username != '')
 			$conditions['User.username like'] = '%'.$username.'%';
 		
-		if($name != "")
+		if($name != '')
 			$conditions['User.name like'] = '%'.$name.'%';
 		
 		// コンテンツ種別：学習の場合
 		if($content_category == "study")
-			$conditions['Content.kind'] = array('text', 'html', 'movie', 'url');
+			$conditions['Content.kind'] = ['text', 'html', 'movie', 'url'];
 		
 		// コンテンツ種別：テストの場合
 		if($content_category == "test")
-			$conditions['Content.kind'] = array('test');
+			$conditions['Content.kind'] = ['test'];
 		
-		$from_date	= (isset($this->request->query['from_date'])) ? 
-			$this->request->query['from_date'] : 
-				array(
-					'year' => date('Y', strtotime("-1 month")),
-					'month' => date('m', strtotime("-1 month")), 
-					'day' => date('d', strtotime("-1 month"))
-				);
+		if(!$from_date)
+			$from_date = [
+				'year' => date('Y', strtotime("-1 month")),
+				'month' => date('m', strtotime("-1 month")), 
+				'day' => date('d', strtotime("-1 month"))
+			];
 		
-		$to_date	= (isset($this->request->query['to_date'])) ? 
-			$this->request->query['to_date'] : 
-				array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'));
+		if(!$to_date)
+			$to_date = ['year' => date('Y'), 'month' => date('m'), 'day' => date('d')];
 		
-		if($contenttitle != "")
+		if($contenttitle != '')
 			$conditions['Content.title like'] = '%'.$contenttitle.'%';
 		
 		// 学習日付による絞り込み
-		$conditions['Record.created BETWEEN ? AND ?'] = array(
+		$conditions['Record.created BETWEEN ? AND ?'] = [
 			implode("/", $from_date), 
 			implode("/", $to_date).' 23:59:59'
-		);
+		];
 		
 		// CSV出力モードの場合
-		if(@$this->request->query['cmd']=='csv')
+		if($this->getQuery('cmd')=='csv')
 		{
 			$this->autoRender = false;
 
@@ -124,15 +123,15 @@ class RecordsController extends AppController
 			
 			$fp = fopen('php://output','w');
 			
-			$options = array(
+			$options = [
 				'conditions'	=> $conditions,
 				'order'			=> 'Record.created desc'
-			);
+			];
 			
 			$this->Record->recursive = 0;
 			$rows = $this->Record->find('all', $options);
 			
-			$header = array(
+			$header = [
 				__('ログインID'),
 				__('氏名'),
 				__('コース'),
@@ -143,14 +142,14 @@ class RecordsController extends AppController
 				__('理解度'),
 				__('学習時間'),
 				__('学習日時')
-			);
+			];
 			
 			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
 			fputcsv($fp, $header);
 			
 			foreach($rows as $row)
 			{
-				$row = array(
+				$row = [
 					$row['User']['username'], 
 					$row['User']['name'], 
 					$row['Course']['title'], 
@@ -161,7 +160,7 @@ class RecordsController extends AppController
 					Configure::read('record_understanding.'.$row['Record']['understanding']), 
 					Utils::getHNSBySec($row['Record']['study_sec']), 
 					Utils::getYMDHN($row['Record']['created']),
-				);
+				];
 				
 				mb_convert_variables("SJIS-WIN", "UTF-8", $row);
 				
@@ -180,7 +179,7 @@ class RecordsController extends AppController
 			{
 				$result = $this->paginate();
 			}
-			catch (Exception $e)
+			catch(Exception $e)
 			{
 				$this->request->params['named']['page']=1;
 				$result = $this->paginate();
@@ -218,32 +217,27 @@ class RecordsController extends AppController
 		
 		// コンテンツ情報を取得
 		$this->loadModel('Content');
-		$content = $this->Content->find('first', array(
-			'conditions' => array(
-				'Content.id' => $content_id
-			)
-		));
+		$content = $this->Content->findById($content_id);
 		
 		$this->Record->create();
-		$data = array(
-//				'group_id' => $this->Session->read('Auth.User.Group.id'),
-			'user_id'		=> $this->Auth->user('id'),
+		$data = [
+			'user_id'		=> $this->readAuthUser('id'),
 			'course_id'		=> $content['Course']['id'],
 			'content_id'	=> $content_id,
 			'study_sec'		=> $study_sec,
 			'understanding'	=> $understanding,
 			'is_passed'		=> -1,
 			'is_complete'	=> $is_complete
-		);
+		];
 		
-		if ($this->Record->save($data))
+		if($this->Record->save($data))
 		{
 			$this->Flash->success(__('学習履歴を保存しました'));
-			return $this->redirect(array(
+			return $this->redirect([
 				'controller' => 'contents',
 				'action' => 'index',
 				$content['Course']['id']
-			));
+			]);
 		}
 		else
 		{

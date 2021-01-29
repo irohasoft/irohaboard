@@ -1,29 +1,27 @@
-<?php echo $this->element('admin_menu');?>
+<?= $this->element('admin_menu');?>
 <div class="admin-users-setting">
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<?php echo __('設定')?>
+			<?= __('設定')?>
 		</div>
 		<div class="panel-body">
 			<?php
 				echo $this->Form->create('User', Configure::read('form_defaults'));
-				echo $this->Form->input('User.new_password', array(
+				echo $this->Form->input('User.new_password', [
 					'label' => __('新しいパスワード'),
 					'type' => 'password',
 					'autocomplete' => 'new-password'
-				));
-				echo $this->Form->input('User.new_password2', array(
+				]);
+				echo $this->Form->input('User.new_password2', [
 					'label' => __('新しいパスワード (確認用)'),
 					'type' => 'password',
 					'autocomplete' => 'new-password'
-				));
+				]);
+				echo Configure::read('form_submit_before')
+					.$this->Form->submit(__('保存'), Configure::read('form_submit_defaults'))
+					.Configure::read('form_submit_after');
+				echo $this->Form->end();
 			?>
-			<div class="form-group">
-				<div class="col col-sm-9 col-sm-offset-3">
-					<?php echo $this->Form->submit(__('保存'), Configure::read('form_submit_defaults')); ?>
-				</div>
-			</div>
-			<?php echo $this->Form->end(); ?>
 		</div>
 	</div>
 </div>

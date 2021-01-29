@@ -1,11 +1,11 @@
 <div class="text-center">
 <?php
-echo $this->Paginator->counter(array(
+echo $this->Paginator->counter([
 	'format' => __('合計').' : {:count}'.__('件').'　{:page} / {:pages}'.__('ページ')
-));
+]);
 ?>
 </div>
 <div class="text-center">
-	<?php echo $this->Paginator->pagination(array('ul' => 'pagination')); ?>
+	<?= $this->Paginator->pagination(['ul' => 'pagination']); ?>
 </div>
 

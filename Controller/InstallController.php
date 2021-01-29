@@ -3,45 +3,46 @@
  * iroha Board Project
  *
  * @author        Kotaro Miura
- * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
- * @link          http://irohaboard.irohasoft.jp
- * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ * @copyright     2015-2021 iroha Soft, Inc. (https://irohasoft.jp)
+ * @link          https://irohaboard.irohasoft.jp
+ * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
+
 App::uses('AppController', 'Controller');
 
 class InstallController extends AppController
 {
 	var $name = 'Install';
-	var $uses = array();
-	var $helpers = array('Html');
+	var $uses = [];
+	var $helpers = ['Html'];
 	var $err_msg = '';
 	var $db   = null;
 	var $path = '';
 	
-	public $components = array(
-			'Session',
-			'Auth' => array(
-					'allowedActions' => array(
-							'index',
-							'installed',
-							'complete',
-							'error',
-							'add'
-					)
-			)
-	);
+	public $components = [
+		'Session',
+		'Auth' => [
+			'allowedActions' => [
+				'index',
+				'installed',
+				'complete',
+				'error',
+				'add'
+			]
+		]
+	];
 	
 	/**
 	 * AppController の beforeFilter をオーバーライド ※インストールできなくなる為、この function を消さないこと
 	 */
-	function beforeFilter()
+	public function beforeFilter()
 	{
 	}
 	
 	/**
 	 * インストール
 	 */
-	function index()
+	public function index()
 	{
 		try
 		{
@@ -55,7 +56,7 @@ class InstallController extends AppController
 			$data = $this->db->query($sql);
 			
 			// apache_get_modules が存在する場合のみ、Apache のモジュールチェックを行う
-			if (function_exists('apache_get_modules'))
+			if(function_exists('apache_get_modules'))
 			{
 				// mod_rewrite 存在チェック
 				if(!$this->__apache_module_loaded('mod_rewrite'))
@@ -99,7 +100,7 @@ class InstallController extends AppController
 			}
 			
 			// ユーザテーブルが存在する場合、インストール済みと判断
-			if (count($data) > 0)
+			if(count($data) > 0)
 			{
 				$this->render('installed');
 			}
@@ -138,7 +139,7 @@ class InstallController extends AppController
 				}
 			}
 		}
-		catch (Exception $e)
+		catch(Exception $e)
 		{
 			$this->err_msg = 'データベースへの接続に失敗しました。データベース設定ファイル(Config/database.php)をご確認ください。';
 			$this->error();
@@ -149,25 +150,25 @@ class InstallController extends AppController
 	/**
 	 * インストール済みメッセージを表示
 	 */
-	function installed()
+	public function installed()
 	{
-		$this->set('loginedUser', $this->Auth->user());
+		$this->set('loginedUser', $this->readAuthUser());
 	}
 	
 	/**
 	 * インストール完了メッセージを表示
 	 */
-	function complete()
+	public function complete()
 	{
-		$this->set('loginedUser', $this->Auth->user());
+		$this->set('loginedUser', $this->readAuthUser());
 	}
 	
 	/**
 	 * インストールエラーメッセージを表示
 	 */
-	function error()
+	public function error()
 	{
-		$this->set('loginedUser', $this->Auth->user());
+		$this->set('loginedUser', $this->readAuthUser());
 		$this->set('body', $this->err_msg);
 	}
 	
@@ -211,17 +212,17 @@ class InstallController extends AppController
 	{
 		$statements = file_get_contents($this->path);
 		$statements = explode(';', $statements);
-		$err_statements = array();
+		$err_statements = [];
 		
-		foreach ($statements as $statement)
+		foreach($statements as $statement)
 		{
-			if (trim($statement) != '')
+			if(trim($statement) != '')
 			{
 				try
 				{
 					$this->db->query($statement);
 				}
-				catch (Exception $e)
+				catch(Exception $e)
 				{
 					// カラム重複追加エラー
 					if($e->errorInfo[0]=='42S21')
@@ -246,26 +247,20 @@ class InstallController extends AppController
 	private function __createRootAccount($password)
 	{
 		// 管理者アカウントの存在確認
-		$options = array(
-			'conditions' => array(
-				'User.role' => 'admin'
-			)
-		);
-		
 		$this->loadModel('User');
-		$data = $this->User->find('first', $options);
+		$data = $this->User->findByRole('admin');
 		
 		//debug($data);
 		if(!$data)
 		{
 			// 管理者アカウントが１つも存在しない場合、初期管理者アカウント root を作成
-			$data = array(
+			$data = [
 				'username' => 'root',
 				'password' => $password,
 				'name' => 'root',
 				'role' => 'admin',
 				'email' => 'info@example.com'
-			);
+			];
 
 			$this->User->save($data);
 		}

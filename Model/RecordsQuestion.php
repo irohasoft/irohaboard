@@ -3,9 +3,9 @@
  * iroha Board Project
  *
  * @author        Kotaro Miura
- * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
- * @link          http://irohaboard.irohasoft.jp
- * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ * @copyright     2015-2021 iroha Soft, Inc. (https://irohasoft.jp)
+ * @link          https://irohaboard.irohasoft.jp
+ * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 App::uses('AppModel', 'Model');
@@ -25,47 +25,47 @@ class RecordsQuestion extends AppModel
 	 *
 	 * @var array
 	 */
-	public $validate = array(
-			'record_id' => array(
-					'numeric' => array(
-							'rule' => array(
+	public $validate = [
+			'record_id' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'question_id' => array(
-					'numeric' => array(
-							'rule' => array(
+										]
+			],
+			'question_id' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			),
-			'score' => array(
-					'numeric' => array(
-							'rule' => array(
+										]
+			],
+			'score' => [
+					'numeric' => [
+							'rule' => [
 									'numeric'
-							)
+							]
 					// 'message' => 'Your custom message here',
 					// 'allowEmpty' => false,
 					// 'required' => false,
 					// 'last' => false, // Stop validation after this rule
 					// 'on' => 'create', // Limit validation to 'create' or
 					// 'update' operations
-										)
-			)
-	);
+										]
+			]
+	];
 	
 	// The Associations below have been created with all possible keys, those
 	// that are not needed can be removed
@@ -75,20 +75,20 @@ class RecordsQuestion extends AppModel
 	 *
 	 * @var array
 	 */
-	public $belongsTo = array(
-			'Record' => array(
+	public $belongsTo = [
+			'Record' => [
 					'className' => 'Record',
 					'foreignKey' => 'record_id',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
-			),
-			'ContentsQuestion' => array(
+			],
+			'ContentsQuestion' => [
 					'className' => 'ContentsQuestion',
 					'foreignKey' => 'question_id',
 					'conditions' => '',
 					'fields' => '',
 					'order' => ''
-			)
-	);
+			]
+	];
 }

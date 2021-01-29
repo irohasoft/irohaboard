@@ -9,9 +9,9 @@
 	  *
 	  * @var array
 	  */
-	 public $app_tags = array(
+	 public $app_tags = [
 		 'help', 'helpText', 'helpList', 'example'
-	 );
+	 ];
   
 	 /**
 	  * $options に self::$app_tags で定義されたキーがあった場合、
@@ -22,12 +22,12 @@
 	  * @return string
 	  * @throws Exception
 	  */
-	 public function input($fieldName, $options = array())
+	 public function input($fieldName, $options = [])
 	 {
 		 foreach ($options as $key => $value) {
 			 if (in_array($key, $this->app_tags)) {
 				 if (method_exists($this, $key)) {
-					 $options = call_user_func(array($this, $key), $options);
+					 $options = call_user_func([$this, $key], $options);
 				 } else {
 					 throw new Exception(sprintf('AppFormHelper::%s()がありません。', $key));
 				 }
@@ -38,7 +38,7 @@
 		 return parent::input($fieldName, $options);
 	 }
 
-	public function bs_input($fieldName, $options = array())
+	public function bs_input($fieldName, $options = [])
 	{
 		$options['label'] = false;
 		
@@ -79,7 +79,7 @@
 	  */
 	 protected function helpText(Array $options)
 	 {
-		 $helptext = String::insert('<p class="help-text">:helptext</p>', array('helptext' => $options['helpText']));
+		 $helptext = String::insert('<p class="help-text">:helptext</p>', ['helptext' => $options['helpText']]);
 		 if (array_key_exists('after', $options)) {
 			 $options['after'] .= $helptext;
 		 } else {
@@ -102,7 +102,7 @@
 	 protected function helpList(Array $options)
 	 {
   
-		 $ul = $this->Html->nestedList($options['helpList'], array('class' => 'help-list'));
+		 $ul = $this->Html->nestedList($options['helpList'], ['class' => 'help-list']);
   
 		 if (array_key_exists('after', $options)) {
 			 $options['after'] .= $ul;
@@ -125,7 +125,7 @@
 	  */
 	 protected function example(Array $options)
 	 {
-		 $text = String::insert('<p class="example">入力例) :text</p>', array('text' => $options['example']));
+		 $text = String::insert('<p class="example">入力例) :text</p>', ['text' => $options['example']]);
 		 if (array_key_exists('after', $options)) {
 			 // 入力例はinputの直後に表示
 			 $options['after'] = $text . $options['after'];

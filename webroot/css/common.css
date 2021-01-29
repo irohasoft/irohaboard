@@ -3,9 +3,9 @@
  * iroha Board Project
  *
  * @author        Kotaro Miura
- * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
- * @link          http://irohaboard.irohasoft.jp
- * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ * @copyright     2015-2021 iroha Soft, Inc. (https://irohasoft.jp)
+ * @link          https://irohaboard.irohasoft.jp
+ * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 body
@@ -363,6 +363,11 @@ form .required .control-label:after
 	margin:10px;
 }
 
+.users-courses-index h4
+{
+	font-weight			: bold;
+}
+
 /* スマートフォン用 */
 @media only screen and (max-width:800px)
 {
@@ -446,5 +451,15 @@ form .required .control-label:after
 	.contents-questions-index img
 	{
 		max-width			: 100%;
+	}
+
+	.ib-logo
+	{
+		width				:100%;
+	}
+
+	.ib-navi-sepa
+	{
+		margin				: 2px;
 	}
 }

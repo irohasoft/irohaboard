@@ -5,7 +5,7 @@
 		</div>
 		<div class="panel-body">
 			<p class="msg">
-				<?php echo h($body); ?>
+				<?= h($body); ?>
 			</p>
 		</div>
 	</div>

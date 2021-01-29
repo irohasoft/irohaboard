@@ -228,6 +228,7 @@ CREATE TABLE IF NOT EXISTS `ib_contents` (
   `timelimit` int(8) DEFAULT NULL,
   `pass_rate` int(8) DEFAULT NULL,
   `question_count` int(8) DEFAULT NULL,
+  `wrong_mode` int(1) NOT NULL DEFAULT '1',
   `status` int(1) NOT NULL DEFAULT '1',
   `opened` datetime DEFAULT NULL,
   `created` datetime NOT NULL,

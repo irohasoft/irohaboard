@@ -3,12 +3,13 @@
  * iroha Board Project
  *
  * @author        Kotaro Miura
- * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
- * @link          http://irohaboard.irohasoft.jp
- * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ * @copyright     2015-2021 iroha Soft, Inc. (https://irohasoft.jp)
+ * @link          https://irohaboard.irohasoft.jp
+ * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 App::uses('AppController', 'Controller');
+
 /**
  * Settings Controller
  *
@@ -22,27 +23,27 @@ class SettingsController extends AppController {
  *
  * @var array
  */
-	public $components = array(
-		'Security' => array(
+	public $components = [
+		'Security' => [
 			'csrfUseOnce' => false,
-		),
-	);
+		],
+	];
 
 	/**
 	 * システム設定項目を表示
 	 */
 	public function admin_index()
 	{
-		if ($this->request->is(array('post', 'put')))
+		if($this->request->is(['post', 'put']))
 		{
 			if(Configure::read('demo_mode'))
 				return;
 			
-			$this->Setting->setSettings($this->request->data['Setting']);
+			$this->Setting->setSettings($this->getData('Setting'));
 			
-			foreach ($this->request->data['Setting'] as $key => $value)
+			foreach($this->getData('Setting') as $key => $value)
 			{
-				$this->Session->Write('Setting.'.$key, $value);
+				$this->writeSession('Setting.'.$key, $value);
 			}
 			
 			$this->Flash->success(__('設定が保存されました'));

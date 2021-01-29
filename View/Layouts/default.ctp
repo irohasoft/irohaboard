@@ -3,18 +3,18 @@
  * iroha Board Project
  *
  * @author        Kotaro Miura
- * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
- * @link          http://irohaboard.irohasoft.jp
- * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ * @copyright     2015-2021 iroha Soft, Inc. (https://irohasoft.jp)
+ * @link          https://irohaboard.irohasoft.jp
+ * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<?php echo $this->Html->charset(); ?>
+	<?= $this->Html->charset(); ?>
 	
-	<title><?php echo h($this->Session->read('Setting.title')); ?></title>
+	<title><?= h($this->Session->read('Setting.title')); ?></title>
 	<meta name="application-name" content="iroha Board">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<?php
@@ -65,7 +65,7 @@
 	<style>
 		.ib-theme-color
 		{
-			background-color	: <?php echo h($this->Session->read('Setting.color')); ?>;
+			background-color	: <?= h($this->Session->read('Setting.color')); ?>;
 			color				: white;
 		}
 		
@@ -79,32 +79,32 @@
 <body>
 	<div class="header ib-theme-color">
 		<div class="ib-logo ib-left">
-			<a href="<?php echo $this->Html->url('/')?>"><?php echo h($this->Session->read('Setting.title')); ?></a>
+			<a href="<?= $this->Html->url('/')?>"><?= h($this->Session->read('Setting.title')); ?></a>
 		</div>
 		<?php if(@$loginedUser) {?>
-		<div class="ib-navi-item ib-right"><?php echo $this->Html->link(__('ログアウト'), array('controller' => 'users', 'action' => 'logout')); ?></div>
+		<div class="ib-navi-item ib-right"><?= $this->Html->link(__('ログアウト'), ['controller' => 'users', 'action' => 'logout']); ?></div>
 		<div class="ib-navi-sepa ib-right"></div>
-		<div class="ib-navi-item ib-right"><?php echo $this->Html->link(__('設定'), array('controller' => 'users', 'action' => 'setting')); ?></div>
+		<div class="ib-navi-item ib-right"><?= $this->Html->link(__('設定'), ['controller' => 'users', 'action' => 'setting']); ?></div>
 		<div class="ib-navi-sepa ib-right"></div>
-		<div class="ib-navi-item ib-right"><?php echo __('ようこそ').' '.h($loginedUser["name"]).' '.__('さん'); ?></div>
+		<div class="ib-navi-item ib-right"><?= __('ようこそ').' '.h($loginedUser["name"]).' '.__('さん'); ?></div>
 		<?php }?>
 	</div>
 	
 	<div id="container">
 		<div id="content" class="row">
-			<?php echo $this->Session->flash(); ?>
-			<?php echo $this->fetch('content'); ?>
+			<?= $this->Session->flash(); ?>
+			<?= $this->fetch('content'); ?>
 		</div>
 	</div>
 	
 	<div class="ib-theme-color text-center">
-		<?php echo h($this->Session->read('Setting.copyright')); ?>
+		<?= h($this->Session->read('Setting.copyright')); ?>
 	</div>
 	
 	<div class="irohasoft">
-		Powered by <a href="http://irohaboard.irohasoft.jp/">iroha Board</a>
+		Powered by <a href="https://irohaboard.irohasoft.jp/">iroha Board</a>
 	</div>
 	
-	<?php echo $this->element('sql_dump'); ?>
+	<?= $this->element('sql_dump'); ?>
 </body>
 </html>

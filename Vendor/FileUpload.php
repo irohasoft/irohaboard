@@ -3,9 +3,9 @@
  * iroha Board Project
  *
  * @author        Kotaro Miura
- * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
- * @link          http://irohaboard.irohasoft.jp
- * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ * @copyright     2015-2021 iroha Soft, Inc. (https://irohasoft.jp)
+ * @link          https://irohaboard.irohasoft.jp
+ * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 // ファイルアップクラス
@@ -172,7 +172,7 @@ class FileUpload
 	//------------------------------//
 	//	MB等の単位をバイト数に変換	//
 	//------------------------------//
-	function getBytes($str)
+	public function getBytes($str)
 	{
 		preg_match('/(\d+)(\w+)/', $str, $matches);
 		

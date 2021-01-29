@@ -3,9 +3,9 @@
  * iroha Board Project
  *
  * @author        Kotaro Miura
- * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
- * @link          http://irohaboard.irohasoft.jp
- * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ * @copyright     2015-2021 iroha Soft, Inc. (https://irohasoft.jp)
+ * @link          https://irohaboard.irohasoft.jp
+ * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 App::uses('AppController', 'Controller');
@@ -24,12 +24,12 @@ class InfosController extends AppController
 	 *
 	 * @var array
 	 */
-	public $components = array(
+	public $components = [
 		'Paginator',
-		'Security' => array(
+		'Security' => [
 			'csrfUseOnce' => false,
-		),
-	);
+		],
+	];
 
 	/**
 	 * お知らせ一覧を表示（受講者側）
@@ -38,7 +38,7 @@ class InfosController extends AppController
 	{
 		// お知らせ一覧を取得
 		$this->loadModel('Info');
-		$this->paginate = $this->Info->getInfoOption($this->Auth->user('id'));
+		$this->paginate = $this->Info->getInfoOption($this->readAuthUser('id'));
 		
 		$infos = $this->paginate();
 		
@@ -51,16 +51,12 @@ class InfosController extends AppController
 	 */
 	public function view($info_id = null)
 	{
-		if (! $this->Info->exists($info_id))
+		if(!$this->Info->exists($info_id))
 		{
 			throw new NotFoundException(__('Invalid info'));
 		}
-		$options = array(
-			'conditions' => array(
-				'Info.' . $this->Info->primaryKey => $info_id
-			)
-		);
-		$this->set('info', $this->Info->find('first', $options));
+		
+		$this->set('info', $this->Info->findById($info_id));
 	}
 
 	/**
@@ -70,16 +66,16 @@ class InfosController extends AppController
 	{
 		$this->Info->virtualFields['group_title'] = 'InfoGroup.group_title'; // 外部結合テーブルのフィールドによるソート用
 		
-		$this->Paginator->settings = array(
-			'fields' => array('*', 'InfoGroup.group_title'),
+		$this->Paginator->settings = [
+			'fields' => ['*', 'InfoGroup.group_title'],
 			'limit' => 20,
 			'order' => 'Info.created desc',
-			'joins' => array(
-				array('type' => 'LEFT OUTER', 'alias' => 'InfoGroup',
+			'joins' => [
+				['type' => 'LEFT OUTER', 'alias' => 'InfoGroup',
 						'table' => '(SELECT ug.info_id, group_concat(g.title order by g.id SEPARATOR \', \') as group_title FROM ib_infos_groups ug INNER JOIN ib_groups g ON g.id = ug.group_id GROUP BY ug.info_id)',
-						'conditions' => 'Info.id = InfoGroup.info_id'),
-			)
-		);
+						'conditions' => 'Info.id = InfoGroup.info_id'],
+			]
+		];
 		
 		$result = $this->paginate();
 		
@@ -101,27 +97,23 @@ class InfosController extends AppController
 	 */
 	public function admin_edit($info_id = null)
 	{
-		if ($this->action == 'admin_edit' && ! $this->Info->exists($info_id))
+		if($this->action=='admin_edit' && !$this->Info->exists($info_id))
 		{
 			throw new NotFoundException(__('Invalid info'));
 		}
-		if ($this->request->is(array(
-				'post',
-				'put'
-		)))
+		
+		if($this->request->is(['post', 'put']))
 		{
 			if(Configure::read('demo_mode'))
 				return;
 			
 			// 作成者を設定
-			$this->request->data['Info']['user_id'] = $this->Auth->user('id');
+			$this->request->data['Info']['user_id'] = $this->readAuthUser('id');
 			
-			if ($this->Info->save($this->request->data))
+			if($this->Info->save($this->request->data))
 			{
 				$this->Flash->success(__('お知らせが保存されました'));
-				return $this->redirect(array(
-						'action' => 'index'
-				));
+				return $this->redirect(['action' => 'index']);
 			}
 			else
 			{
@@ -130,12 +122,7 @@ class InfosController extends AppController
 		}
 		else
 		{
-			$options = array(
-				'conditions' => array(
-					'Info.' . $this->Info->primaryKey => $info_id
-				)
-			);
-			$this->request->data = $this->Info->find('first', $options);
+			$this->request->data = $this->Info->findById($info_id);
 		}
 		
 		$groups = $this->Group->find('list');
@@ -149,12 +136,15 @@ class InfosController extends AppController
 	public function admin_delete($info_id = null)
 	{
 		$this->Info->id = $info_id;
-		if (! $this->Info->exists())
+		
+		if(!$this->Info->exists())
 		{
 			throw new NotFoundException(__('Invalid info'));
 		}
+		
 		$this->request->allowMethod('post', 'delete');
-		if ($this->Info->delete())
+		
+		if($this->Info->delete())
 		{
 			$this->Flash->success(__('お知らせが削除されました'));
 		}
@@ -162,8 +152,7 @@ class InfosController extends AppController
 		{
 			$this->Flash->error(__('The info could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array(
-				'action' => 'index'
-		));
+		
+		return $this->redirect(['action' => 'index']);
 	}
 }

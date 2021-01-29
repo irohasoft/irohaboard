@@ -3,9 +3,9 @@
  * iroha Board Project
  *
  * @author        Kotaro Miura
- * @copyright     2015-2016 iroha Soft, Inc. (http://irohasoft.jp)
- * @link          http://irohaboard.irohasoft.jp
- * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
+ * @copyright     2015-2021 iroha Soft, Inc. (https://irohasoft.jp)
+ * @link          https://irohaboard.irohasoft.jp
+ * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 App::uses('AppController', 'Controller');
@@ -18,23 +18,16 @@ App::uses('AppController', 'Controller');
  */
 class UsersCoursesController extends AppController
 {
-	public $components = array(
-	);
-
 	/**
 	 * 受講コース一覧（ホーム画面）を表示
 	 */
 	public function index()
 	{
-		$user_id = $this->Auth->user('id');
+		$user_id = $this->readAuthUser('id');
 		
 		// 全体のお知らせの取得
 		$this->loadModel('Setting');
-		$data = $this->Setting->find('all', array(
-			'conditions' => array(
-				'Setting.setting_key' => 'information'
-			)
-		));
+		$data = $this->Setting->findAllBySettingKey('information');
 		
 		$info = $data[0]['Setting']['setting_value'];
 		

@@ -452,4 +452,14 @@ form .required .control-label:after
 	{
 		max-width			: 100%;
 	}
+
+	.ib-logo
+	{
+		width				:100%;
+	}
+
+	.ib-navi-sepa
+	{
+		margin				: 2px;
+	}
 }

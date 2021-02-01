@@ -30,9 +30,7 @@ class CoursesController extends AppController
 	 */
 	public function admin_index()
 	{
-		$courses = $this->Course->find('all', [
-			'order' => ['Course.sort_no' => 'asc']
-		]);
+		$courses = $this->Course->find()->order(['Course.sort_no' => 'asc'])->all();
 		$this->set(compact('courses'));
 	}
 
@@ -76,7 +74,7 @@ class CoursesController extends AppController
 		}
 		else
 		{
-			$this->request->data = $this->Course->findById($course_id);
+			$this->request->data = $this->Course->get($course_id);
 		}
 	}
 

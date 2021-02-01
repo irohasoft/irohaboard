@@ -27,9 +27,9 @@ class UsersCoursesController extends AppController
 		
 		// 全体のお知らせの取得
 		$this->loadModel('Setting');
-		$data = $this->Setting->findAllBySettingKey('information');
+		$data = $this->Setting->find()->where(['Setting.setting_key' => 'information'])->first();
 		
-		$info = $data[0]['Setting']['setting_value'];
+		$info = $data['Setting']['setting_value'];
 		
 		// お知らせ一覧を取得
 		$this->loadModel('Info');

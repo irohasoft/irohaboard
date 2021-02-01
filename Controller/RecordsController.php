@@ -217,7 +217,7 @@ class RecordsController extends AppController
 		
 		// コンテンツ情報を取得
 		$this->loadModel('Content');
-		$content = $this->Content->findById($content_id);
+		$content = $this->Content->get($content_id);
 		
 		$this->Record->create();
 		$data = [

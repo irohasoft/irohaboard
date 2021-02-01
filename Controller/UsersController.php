@@ -278,7 +278,7 @@ class UsersController extends AppController
 		}
 		else
 		{
-			$this->request->data = $this->User->findById($user_id);
+			$this->request->data = $this->User->get($user_id);
 			
 			if($this->request->data)
 				$username = $this->request->data['User']['username'];
@@ -328,7 +328,7 @@ class UsersController extends AppController
 		}
 		else
 		{
-			$this->request->data = $this->User->findById($this->readAuthUser('id'));
+			$this->request->data = $this->User->get($this->readAuthUser('id'));
 		}
 	}
 
@@ -430,7 +430,7 @@ class UsersController extends AppController
 					//------------------------------//
 					//	ユーザ情報の作成			//
 					//------------------------------//
-					$data = $this->User->findByUsername($row[COL_LOGINID]);
+					$data = $this->User->find()->where(['User.username' => $row[COL_LOGINID]])->first();
 					
 					// 指定したログインIDのユーザが存在しない場合、新規追加とする
 					if(!$data)
@@ -596,7 +596,7 @@ class UsersController extends AppController
 		
 		// パフォーマンスの改善の為、一定件数に分割してデータを取得
 		$limit      = 500;
-		$user_count = $this->User->find('count');	// ユーザ数を取得
+		$user_count = $this->User->find()->count();	// ユーザ数を取得
 		$page_size  = ceil($user_count / $limit);	// ページ数（ユーザ数 / ページ単位）
 		
 		// ページ単位でユーザを取得
@@ -604,7 +604,7 @@ class UsersController extends AppController
 		{
 			// ユーザ情報を取得
 			$this->User->recursive = 1;
-			$rows = $this->User->find('all', ['limit'=> $limit, 'page'=> $page]);
+			$rows = $this->User->find()->limit($limit)->page($page)->all();
 			
 			foreach($rows as $row)
 			{
@@ -659,7 +659,6 @@ class UsersController extends AppController
 				{
 					$line[count($line)] = $courses[$n];
 				}
-				
 				
 				// CSV出力
 				mb_convert_variables('SJIS-win', 'UTF-8', $line);

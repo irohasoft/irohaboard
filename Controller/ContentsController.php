@@ -38,7 +38,7 @@ class ContentsController extends AppController
 		
 		// コースの情報を取得
 		$this->loadModel('Course');
-		$course = $this->Course->findById($course_id);
+		$course = $this->Course->get($course_id);
 		
 		// ロールを取得
 		$role = $this->readAuthUser('role');
@@ -78,7 +78,7 @@ class ContentsController extends AppController
 		// ヘッダー、フッターを非表示
 		$this->layout = '';
 
-		$content = $this->Content->findById($content_id);
+		$content = $this->Content->get($content_id);
 		
 		// コンテンツの閲覧権限の確認
 		$this->loadModel('Course');
@@ -148,7 +148,7 @@ class ContentsController extends AppController
 		}
 		
 		// コンテンツ情報を取得
-		$content = $this->Content->findById($content_id);
+		$content = $this->Content->get($content_id);
 		
 		$this->request->allowMethod('post', 'delete');
 		
@@ -180,12 +180,15 @@ class ContentsController extends AppController
 		$this->Content->recursive = 0;
 
 		// コースの情報を取得
-		$course = $this->Content->Course->findById($course_id);
+		$course = $this->Content->Course->get($course_id);
 
-		$contents = $this->Content->findAllByCourseId($course_id, null, ['Content.sort_no' => 'asc']);
+		$contents = $this->Content->find()
+			->where(['Course.id' => $course_id])
+			->order(['Content.sort_no' => 'asc'])
+			->all();
 
 		// コース情報を取得
-		$course = $this->Content->Course->findById($course_id);
+		$course = $this->Content->Course->get($course_id);
 		
 		$this->set(compact('contents', 'course'));
 	}
@@ -241,11 +244,11 @@ class ContentsController extends AppController
 		}
 		else
 		{
-			$this->request->data = $this->Content->findById($content_id);
+			$this->request->data = $this->Content->get($content_id);
 		}
 		
 		// コース情報を取得
-		$course = $this->Content->Course->findById($course_id);
+		$course = $this->Content->Course->get($course_id);
 		$courses = $this->Content->Course->find('list');
 		
 		$this->set(compact('course', 'courses'));
@@ -417,7 +420,7 @@ class ContentsController extends AppController
 		if($this->request->is('ajax'))
 		{
 			$this->Content->setOrder($this->data['id_list']);
-			return "OK";
+			return 'OK';
 		}
 	}
 
@@ -440,8 +443,11 @@ class ContentsController extends AppController
 	public function admin_copy($course_id, $content_id)
 	{
 		// コンテンツのコピー
-		$data = $this->Content->findById($content_id);
-		$row  = $this->Content->find('first', ["fields" => "MAX(Content.id) as max_id"]);
+		$data = $this->Content->get($content_id);
+		$row  = $this->Content->find()
+			->select(['MAX(Content.id) as max_id'])
+			->first();
+		
 		$new_content_id = $row[0]['max_id'] + 1;
 		
 		$data['Content']['id'] = $new_content_id;
@@ -454,13 +460,19 @@ class ContentsController extends AppController
 		
 		// テスト問題のコピー
 		$this->LoadModel('ContentsQuestion');
-		$contentsQuestions = $this->ContentsQuestion->findAllByContentId($content_id, null, ['ContentsQuestion.sort_no' => 'asc']);
+		$contentsQuestions = $this->ContentsQuestion->find()
+			->where(['content_id' => $content_id])
+			->order(['ContentsQuestion.sort_no' => 'asc'])
+			->all();
 		
 		$sort_no = 1;
 		
 		foreach($contentsQuestions as $contentsQuestion)
 		{
-			$row = $this->ContentsQuestion->find('first', ["fields" => "MAX(ContentsQuestion.id) as max_id"]);
+			$row = $this->ContentsQuestion->find()
+				->select('MAX(ContentsQuestion.id) as max_id')
+				->first();
+			
 			$new_question_id = $row[0]['max_id'] + 1;
 			
 			$contentsQuestion['ContentsQuestion']['id']			= null;

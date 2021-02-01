@@ -56,7 +56,7 @@ class InfosController extends AppController
 			throw new NotFoundException(__('Invalid info'));
 		}
 		
-		$this->set('info', $this->Info->findById($info_id));
+		$this->set('info', $this->Info->get($info_id));
 	}
 
 	/**
@@ -122,7 +122,7 @@ class InfosController extends AppController
 		}
 		else
 		{
-			$this->request->data = $this->Info->findById($info_id);
+			$this->request->data = $this->Info->get($info_id);
 		}
 		
 		$groups = $this->Group->find('list');

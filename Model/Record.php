@@ -77,7 +77,7 @@ class Record extends AppModel
 					'dependent' => false,
 					'conditions' => '',
 					'fields' => '',
-					'order' => '',
+					'order' => 'RecordsQuestion.id',
 					'limit' => '',
 					'offset' => '',
 					'exclusive' => '',

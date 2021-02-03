@@ -74,6 +74,13 @@ class AppModel extends Model
 		return $this;
 	}
 
+	public function group($param)
+	{
+		$this->query['group'] = $param;
+		
+		return $this;
+	}
+
 	public function limit($param)
 	{
 		$this->query['limit'] = $param;

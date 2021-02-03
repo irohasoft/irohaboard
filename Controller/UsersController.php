@@ -198,34 +198,18 @@ class UsersController extends AppController
 		if($group_id != '')
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 		
-		//$this->User->virtualFields['group_title']  = 'group_title';		// 外部結合テーブルのフィールドによるソート用
-		//$this->User->virtualFields['course_title'] = 'course_title';		// 外部結合テーブルのフィールドによるソート用
-		
 		$this->paginate = [
-			'User' => [
-				'fields' => ['*',
-					// 所属グループ一覧 ※パフォーマンス改善
-					'(SELECT group_concat(g.title order by g.id SEPARATOR \', \') as group_title  FROM ib_users_groups  ug INNER JOIN ib_groups  g ON g.id = ug.group_id  WHERE ug.user_id = User.id) as group_title',
-					// 受講コース一覧   ※パフォーマンス改善
-					'(SELECT group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id WHERE uc.user_id = User.id) as course_title',
-				],
-				'conditions' => $conditions,
-				'limit' => 20,
-				'order' => 'created desc',
-/*
-				'joins' => array(
-					// 受講コースをカンマ区切りで取得
-					array('type' => 'LEFT OUTER', 'alias' => 'UserCourse',
-							'table' => '(SELECT uc.user_id, group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id  GROUP BY uc.user_id)',
-							'conditions' => 'User.id = UserCourse.user_id'),
-					// 所属グループをカンマ区切りで取得
-					array('type' => 'LEFT OUTER', 'alias' => 'UserGroup',
-							'table' => '(SELECT ug.user_id, group_concat(g.title order by g.id SEPARATOR \', \') as group_title FROM ib_users_groups ug INNER JOIN ib_groups g ON g.id = ug.group_id GROUP BY ug.user_id)',
-							'conditions' => 'User.id = UserGroup.user_id')
-				)
-*/
-		]];
-
+			'fields' => ['*',
+				// 所属グループ一覧 ※パフォーマンス改善
+				'(SELECT group_concat(g.title order by g.id SEPARATOR \', \') as group_title  FROM ib_users_groups  ug INNER JOIN ib_groups  g ON g.id = ug.group_id  WHERE ug.user_id = User.id) as group_title',
+				// 受講コース一覧   ※パフォーマンス改善
+				'(SELECT group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id WHERE uc.user_id = User.id) as course_title',
+			],
+			'conditions' => $conditions,
+			'limit' => 20,
+			'order' => 'created desc',
+		];
+		
 		// ユーザ一覧を取得
 		try
 		{
@@ -430,7 +414,9 @@ class UsersController extends AppController
 					//------------------------------//
 					//	ユーザ情報の作成			//
 					//------------------------------//
-					$data = $this->User->find()->where(['User.username' => $row[COL_LOGINID]])->first();
+					$data = $this->User->find()
+						->where(['User.username' => $row[COL_LOGINID]])
+						->first();
 					
 					// 指定したログインIDのユーザが存在しない場合、新規追加とする
 					if(!$data)
@@ -604,7 +590,10 @@ class UsersController extends AppController
 		{
 			// ユーザ情報を取得
 			$this->User->recursive = 1;
-			$rows = $this->User->find()->limit($limit)->page($page)->all();
+			$rows = $this->User->find()
+				->limit($limit)
+				->page($page)
+				->all();
 			
 			foreach($rows as $row)
 			{

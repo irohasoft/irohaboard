@@ -184,7 +184,7 @@ class ContentsController extends AppController
 
 		$contents = $this->Content->find()
 			->where(['Course.id' => $course_id])
-			->order(['Content.sort_no' => 'asc'])
+			->order('Content.sort_no asc')
 			->all();
 
 		// コース情報を取得
@@ -462,7 +462,7 @@ class ContentsController extends AppController
 		$this->LoadModel('ContentsQuestion');
 		$contentsQuestions = $this->ContentsQuestion->find()
 			->where(['content_id' => $content_id])
-			->order(['ContentsQuestion.sort_no' => 'asc'])
+			->order('ContentsQuestion.sort_no asc')
 			->all();
 		
 		$sort_no = 1;

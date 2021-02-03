@@ -16,8 +16,8 @@ App::uses('AppController', 'Controller');
  * @property Setting $Setting
  * @property PaginatorComponent $Paginator
  */
-class SettingsController extends AppController {
-
+class SettingsController extends AppController
+{
 /**
  * Components
  *

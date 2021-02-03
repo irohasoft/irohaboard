@@ -27,7 +27,9 @@ class UsersCoursesController extends AppController
 		
 		// 全体のお知らせの取得
 		$this->loadModel('Setting');
-		$data = $this->Setting->find()->where(['Setting.setting_key' => 'information'])->first();
+		$data = $this->Setting->find()
+			->where(['Setting.setting_key' => 'information'])
+			->first();
 		
 		$info = $data['Setting']['setting_value'];
 		
@@ -35,16 +37,16 @@ class UsersCoursesController extends AppController
 		$this->loadModel('Info');
 		$infos = $this->Info->getInfos($user_id, 2);
 		
-		$no_info = "";
+		$no_info = '';
 		
 		// 全体のお知らせもお知らせも存在しない場合
-		if(($info=="") && count($infos)==0)
+		if(($info=='') && count($infos)==0)
 			$no_info = __('お知らせはありません');
 		
 		// 受講コース情報の取得
 		$courses = $this->UsersCourse->getCourseRecord($user_id);
 		
-		$no_record = "";
+		$no_record = '';
 		
 		if(count($courses)==0)
 			$no_record = __('受講可能なコースはありません');

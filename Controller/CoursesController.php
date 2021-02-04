@@ -30,6 +30,9 @@ class CoursesController extends AppController
 	 */
 	public function admin_index()
 	{
+		// 不要なリレーションを解除
+		$this->Course->recursive = 0;
+		
 		$courses = $this->Course->find()
 			->order('Course.sort_no asc')
 			->all();

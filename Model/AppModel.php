@@ -21,6 +21,7 @@ App::uses('Model', 'Model');
 class AppModel extends Model
 {
 	private $params = []; // メソッドチェーン を使用した場合に find() で使用するパラメータ
+	private $is_object = false; // 連想配列をオブジェクトに変換するかどうか（実験的実装）
 	
 	/**
 	 * 英数字チェック（マルチバイト対応）
@@ -121,6 +122,24 @@ class AppModel extends Model
 	 */
 	public function all()
 	{
+		if($this->is_object)
+		{
+			$data = parent::find('all', $this->params);
+			
+			// 連想配列[Model][field] を [field] に変更
+			foreach($data as &$row)
+			{
+				$row = array_merge($row, $row[$this->name]);
+				unset($row[$this->name]);
+			}
+			
+			// [Model][field] を 削除
+			$object= new stdClass();
+			$data = $this->_array_to_object($data, $object);
+			
+			return $data;
+		}
+		
 		return parent::find('all', $this->params);
 	}
 
@@ -129,6 +148,22 @@ class AppModel extends Model
 	 */
 	public function first()
 	{
+		if($this->is_object)
+		{
+			$data = parent::find('first', $this->params);
+			
+			// 連想配列[Model][field] を [field] に変更
+			$data = array_merge($data, $data[$this->name]);
+			
+			// [Model][field] を 削除
+			unset($data[$this->name]);
+			
+			$object= new stdClass();
+			$data = $this->_array_to_object($data, $object);
+			
+			return $data;
+		}
+		
 		return parent::find('first', $this->params);
 	}
 
@@ -138,5 +173,38 @@ class AppModel extends Model
 	public function count()
 	{
 		return parent::find('count', $this->params);
+	}
+	
+	/**
+	 * 取得形式をオブジェクトに指定
+	 */
+	public function object()
+	{
+		$this->is_object = true;
+		return $this;
+	}
+	
+	/**
+	 * 配列をオブジェクトに変換
+	 */
+	private function _array_to_object($array, &$obj)
+	{
+		foreach($array as $key => $value)
+		{
+			if(is_array($value))
+			{
+				// データが複数かつ連想配列の場合、オブジェクト名の最後に sをつける
+				if(is_string($key))
+					$key .= 's';
+				
+				$obj->{strtolower($key)} = new stdClass();
+				$this->_array_to_object($value, $obj->{strtolower($key)});
+			}
+			else
+			{
+				$obj->{strtolower($key)} = $value;
+			}
+		}
+		return $obj;
 	}
 }

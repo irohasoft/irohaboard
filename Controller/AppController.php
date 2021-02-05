@@ -33,7 +33,6 @@ class AppController extends Controller
 		]
 	];
 	
-	//public $helpers = array('Session');
 	public $helpers = [
 		'Session',
 		'Html' => ['className' => 'BoostCake.BoostCakeHtml'],
@@ -41,8 +40,8 @@ class AppController extends Controller
 		'Paginator' => ['className' => 'BoostCake.BoostCakePaginator'],
 	];
 	
-	public $uses = ['Setting'];
-	
+	public $uses = ['Setting', 'Group'];
+
 	/**
 	 * コールバック（コントローラのアクションロジック実行前に実行）
 	 */
@@ -105,9 +104,6 @@ class AppController extends Controller
 			$this->Auth->loginAction = ['controller' => 'users','action' => 'login','admin' => true];
 			$this->Auth->loginRedirect = ['controller' => 'users','action' => 'index','admin' => true];
 			$this->Auth->logoutRedirect = ['controller' => 'users','action' => 'login','admin' => true];
-			
-			// グループモデルを共通で保持する
-			$this->loadModel('Group');
 		}
 		else
 		{

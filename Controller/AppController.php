@@ -41,13 +41,14 @@ class AppController extends Controller
 	];
 	
 	public $uses = ['Setting', 'Group'];
+	public $viewClass = 'App'; // 独自のビュークラスを指定
 
 	/**
 	 * コールバック（コントローラのアクションロジック実行前に実行）
 	 */
 	public function beforeFilter()
 	{
-		$this->set('loginedUser', $this->readAuthUser());
+		$this->set('loginedUser', $this->readAuthUser()); // ログインユーザ情報（旧バージョン用）
 		
 		// 他のサイトの設定が存在する場合、設定情報及びログイン情報をクリア
 		if($this->hasSession('Setting'))

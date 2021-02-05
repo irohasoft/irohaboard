@@ -20,7 +20,7 @@ App::uses('Model', 'Model');
  */
 class AppModel extends Model
 {
-	private $params = []; // メソッドチェーン を使用した場合に find() で使用するパラメータ
+	private $options = []; // メソッドチェーン を使用した場合に find() で使用するパラメータ
 	private $is_object = false; // 連想配列をオブジェクトに変換するかどうか（実験的実装）
 	
 	/**
@@ -49,18 +49,18 @@ class AppModel extends Model
 	 * 既存の find() メソッドを上書き
 	 * 
 	 * @param string $type 取得形式（指定した場合は、通常の動きとなる。省略した場合はメソッドチェーンを利用し、最後に all(), fisrt() をつけてデータを取得）
-	 * @param array $params 各種条件（$type を指定した場合のみ指定可能）
+	 * @param array $options 各種条件（$type を指定した場合のみ指定可能）
 	 * @return array type を指定した場合は取得結果、省略した場合はメソッドチェーン用にインスタンスを返す
 	 */
-	public function find($type = null, $params = [])
+	public function find($type = null, $options = [])
 	{
 		if($type == null)
 		{
-			$this->params = [];
+			$this->options = [];
 			return $this;
 		}
 		
-		return parent::find($type, $params);
+		return parent::find($type, $options);
 	}
 
 	/**
@@ -68,7 +68,7 @@ class AppModel extends Model
 	 */
 	public function select($value)
 	{
-		$this->params['fields'] = $value;
+		$this->options['fields'] = $value;
 		return $this;
 	}
 
@@ -77,7 +77,7 @@ class AppModel extends Model
 	 */
 	public function where($value)
 	{
-		$this->params['conditions'] = $value;
+		$this->options['conditions'] = $value;
 		return $this;
 	}
 
@@ -86,7 +86,7 @@ class AppModel extends Model
 	 */
 	public function order($value)
 	{
-		$this->params['order'] = $value;
+		$this->options['order'] = $value;
 		return $this;
 	}
 
@@ -95,7 +95,7 @@ class AppModel extends Model
 	 */
 	public function group($value)
 	{
-		$this->params['group'] = $value;
+		$this->options['group'] = $value;
 		return $this;
 	}
 
@@ -104,7 +104,7 @@ class AppModel extends Model
 	 */
 	public function limit($value)
 	{
-		$this->params['limit'] = $value;
+		$this->options['limit'] = $value;
 		return $this;
 	}
 
@@ -113,7 +113,7 @@ class AppModel extends Model
 	 */
 	public function page($value)
 	{
-		$this->params['page'] = $value;
+		$this->options['page'] = $value;
 		return $this;
 	}
 
@@ -124,7 +124,7 @@ class AppModel extends Model
 	{
 		if($this->is_object)
 		{
-			$data = parent::find('all', $this->params);
+			$data = parent::find('all', $this->options);
 			
 			// 連想配列[Model][field] を [field] に変更
 			foreach($data as &$row)
@@ -140,7 +140,7 @@ class AppModel extends Model
 			return $data;
 		}
 		
-		return parent::find('all', $this->params);
+		return parent::find('all', $this->options);
 	}
 
 	/**
@@ -150,7 +150,7 @@ class AppModel extends Model
 	{
 		if($this->is_object)
 		{
-			$data = parent::find('first', $this->params);
+			$data = parent::find('first', $this->options);
 			
 			// 連想配列[Model][field] を [field] に変更
 			$data = array_merge($data, $data[$this->name]);
@@ -164,7 +164,7 @@ class AppModel extends Model
 			return $data;
 		}
 		
-		return parent::find('first', $this->params);
+		return parent::find('first', $this->options);
 	}
 
 	/**
@@ -172,13 +172,13 @@ class AppModel extends Model
 	 */
 	public function count()
 	{
-		return parent::find('count', $this->params);
+		return parent::find('count', $this->options);
 	}
 	
 	/**
 	 * 取得形式をオブジェクトに指定
 	 */
-	public function object()
+	public function convert()
 	{
 		$this->is_object = true;
 		return $this;

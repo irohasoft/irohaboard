@@ -107,7 +107,7 @@ class RecordsController extends AppController
 		];
 		
 		// CSV出力モードの場合
-		if($this->getQuery('cmd')=='csv')
+		if($this->getQuery('cmd') == 'csv')
 		{
 			$this->autoRender = false;
 

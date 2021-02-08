@@ -225,11 +225,11 @@ class InstallController extends AppController
 				catch(Exception $e)
 				{
 					// カラム重複追加エラー
-					if($e->errorInfo[0]=='42S21')
+					if($e->errorInfo[0] == '42S21')
 						continue;
 					
 					// ビュー重複追加エラー
-					if($e->errorInfo[0]=='42S01')
+					if($e->errorInfo[0] == '42S01')
 						continue;
 					
 					$error_msg = sprintf("%s\n[Error Code]%s\n[Error Code2]%s\n[SQL]%s", $e->errorInfo[2], $e->errorInfo[0], $e->errorInfo[1], $statement);

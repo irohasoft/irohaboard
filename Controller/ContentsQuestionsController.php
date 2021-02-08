@@ -302,7 +302,7 @@ class ContentsQuestionsController extends AppController
 	{
 		$content_id = intval($content_id);
 		
-		if($this->action=='edit' && !$this->Post->exists($question_id))
+		if(($this->action == 'edit') && !$this->Post->exists($question_id))
 		{
 			throw new NotFoundException(__('Invalid contents question'));
 		}

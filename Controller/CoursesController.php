@@ -54,7 +54,7 @@ class CoursesController extends AppController
 	 */
 	public function admin_edit($course_id = null)
 	{
-		if($this->action=='edit' && !$this->Course->exists($course_id))
+		if(($this->action == 'edit') && !$this->Course->exists($course_id))
 		{
 			throw new NotFoundException(__('Invalid course'));
 		}

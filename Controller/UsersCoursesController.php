@@ -40,7 +40,7 @@ class UsersCoursesController extends AppController
 		$no_info = '';
 		
 		// 全体のお知らせもお知らせも存在しない場合
-		if(($info=='') && count($infos)==0)
+		if(($info == '') && (count($infos) == 0))
 			$no_info = __('お知らせはありません');
 		
 		// 受講コース情報の取得
@@ -48,7 +48,7 @@ class UsersCoursesController extends AppController
 		
 		$no_record = '';
 		
-		if(count($courses)==0)
+		if(count($courses) == 0)
 			$no_record = __('受講可能なコースはありません');
 		
 		$this->set(compact('courses', 'no_record', 'info', 'infos', 'no_info'));

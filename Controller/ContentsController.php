@@ -214,7 +214,7 @@ class ContentsController extends AppController
 	{
 		$course_id = intval($course_id);
 		
-		if($this->action=='admin_edit' && !$this->Content->exists($content_id))
+		if(($this->action == 'admin_edit') && !$this->Content->exists($content_id))
 		{
 			throw new NotFoundException(__('Invalid content'));
 		}

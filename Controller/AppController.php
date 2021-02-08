@@ -182,7 +182,7 @@ class AppController extends Controller
 		
 		$val = $this->request->query[$key];
 		
-		if($val==null)
+		if($val == null)
 			return '';
 		
 		return $val;
@@ -208,7 +208,7 @@ class AppController extends Controller
 		
 		$val = $this->request->params[$key];
 		
-		if($val==null)
+		if($val == null)
 			return '';
 		
 		return $val;

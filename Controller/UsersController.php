@@ -234,7 +234,7 @@ class UsersController extends AppController
 	 */
 	public function admin_edit($user_id = null)
 	{
-		if($this->action=='admin_edit' && !$this->User->exists($user_id))
+		if(($this->action == 'admin_edit') && !$this->User->exists($user_id))
 		{
 			throw new NotFoundException(__('Invalid user'));
 		}
@@ -432,7 +432,7 @@ class UsersController extends AppController
 					$data['User']['username'] = $row[COL_LOGINID];
 					
 					// パスワード
-					if($row[COL_PASSWORD]=='')
+					if($row[COL_PASSWORD] == '')
 					{
 						unset($data['User']['password']);
 					}
@@ -457,12 +457,12 @@ class UsersController extends AppController
 					{
 						$title = @$row[COL_GROUP + $n];
 						
-						if($title=='')
+						if($title == '')
 							continue;
 						
 						$group = Utils::getIdByTitle($group_list, $title);
 						
-						if($group==null)
+						if($group == null)
 							continue;
 						
 						$data['Group']['Group'][count($data['Group']['Group'])] = $group;
@@ -473,12 +473,12 @@ class UsersController extends AppController
 					{
 						$title = @$row[COL_COURSE + $n];
 						
-						if($title=='')
+						if($title == '')
 							continue;
 						
 						$course = Utils::getIdByTitle($course_list, $title);
 						
-						if($course==null)
+						if($course == null)
 							continue;
 						
 						$data['Course']['Course'][count($data['Course']['Course'])] = $course;

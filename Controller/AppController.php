@@ -81,7 +81,7 @@ class AppController extends Controller
 			}
 		}
 		
-		if($this->getParam('admin'))
+		if($this->isAdminPage())
 		{
 			// role が admin, manager, editor, teacher以外の場合、強制ログアウトする
 			if($this->readAuthUser())
@@ -257,6 +257,15 @@ class AppController extends Controller
 		{
 			$this->request->data = $value;
 		}
+	}
+
+	/**
+	 * 管理画面のアクセスか確認
+	 * @return bool true : 管理画面, false : 受講者画面
+	 */
+	protected function isAdminPage()
+	{
+		return (isset($this->request->params['admin']));
 	}
 
 	/**

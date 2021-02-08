@@ -172,6 +172,17 @@ class AppController extends Controller
 	}
 
 	/**
+	 * ログイン確認
+	 * @return bool true : ログイン済み, false : ログインしていない
+	 */
+	protected function isLogined()
+	{
+		$val =  $this->Auth->user();
+		
+		return  ($val != null);
+	}
+
+	/**
 	 * クエリストリングの取得
 	 * @param string $key キー
 	 */

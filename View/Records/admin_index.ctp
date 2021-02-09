@@ -39,15 +39,15 @@
 			echo '</div>';
 			
 			echo '<div class="ib-row">';
-			echo $this->Form->input('course_id',		['label' => __('コース :'), 'options'=>$courses, 'selected'=>$course_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control']);
-			echo $this->Form->input('content_category',	['label' => __('コンテンツ種別 :'), 'options'=>Configure::read('content_category'), 'selected'=>$content_category, 'empty' => '全て', 'required'=>false, 'class'=>'form-control']);
-			echo $this->Form->input('contenttitle',		['label' => __('コンテンツ名 :'), 'value'=>$contenttitle, 'class'=>'form-control']);
+			echo $this->Form->input('course_id',		['label' => __('コース :'), 'options' => $courses, 'empty' => '全て', 'required' => false, 'class'=>'form-control']);
+			echo $this->Form->input('content_category',	['label' => __('コンテンツ種別 :'), 'options' => Configure::read('content_category'), 'empty' => '全て', 'selected' => $content_category, 'class'=>'form-control']);
+			echo $this->Form->input('content_title',	['label' => __('コンテンツ名 :'), 'class'=>'form-control']);
 			echo '</div>';
 			
 			echo '<div class="ib-row">';
-			echo $this->Form->input('group_id',		['label' => __('グループ :'), 'options'=>$groups, 'selected'=>$group_id, 'empty' => '全て', 'required'=>false, 'class'=>'form-control']);
-			echo $this->Form->input('username',		['label' => __('ログインID :'), 'value'=>$username, 'class'=>'form-control']);
-			echo $this->Form->input('name',			['label' => __('氏名 :'), 'value'=>$name, 'class'=>'form-control']);
+			echo $this->Form->input('group_id',		['label' => __('グループ :'), 'options' => $groups, 'empty' => '全て', 'selected' => $group_id, 'class'=>'form-control']);
+			echo $this->Form->input('username',		['label' => __('ログインID :'), 'class'=>'form-control']);
+			echo $this->Form->input('name',			['label' => __('氏名 :'), 'class'=>'form-control']);
 			echo '</div>';
 			
 			echo '<div class="ib-search-date-container">';

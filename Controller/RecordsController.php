@@ -24,27 +24,6 @@ class RecordsController extends AppController
 		'Search.Prg'
 	];
 
-	//public $presetVars = true;
-
-	public $paginate = [];
-	
-	public $presetVars = [
-		[
-			'name' => 'name', 
-			'type' => 'value',
-			'field' => 'User.name'
-		], 
-		[
-			'name' => 'username',
-			'type' => 'like',
-			'field' => 'User.username'
-		], 
-		[
-			'name' => 'contenttitle', 'type' => 'like',
-			'field' => 'Content.title'
-		]
-	];
-
 	/**
 	 * 学習履歴一覧を表示
 	 */
@@ -53,31 +32,19 @@ class RecordsController extends AppController
 		// SearchPluginの呼び出し
 		$this->Prg->commonProcess();
 		
-		// Model の filterArgs に定義した内容にしたがって検索条件を作成
-		// ただしアソシエーションテーブルには対応していないため、独自に検索条件を設定する必要がある
+		// モデルの filterArgs で定義した内容にしたがって検索条件を作成
+		// ただし独自の検索条件は別途追加する必要がある
 		$conditions = $this->Record->parseCriteria($this->Prg->parsedParams());
 		
+		// 独自の検索条件
 		$group_id			= $this->getQuery('group_id');
-		$course_id			= $this->getQuery('course_id');
-		$username			= $this->getQuery('username');
-		$name				= $this->getQuery('name');
 		$content_category	= $this->getQuery('content_category');
-		$contenttitle		= $this->getQuery('contenttitle');
 		$from_date			= $this->getQuery('from_date');
 		$to_date			= $this->getQuery('to_date');
 		
 		// グループが指定されている場合、指定したグループに所属するユーザの履歴を抽出
 		if($group_id != '')
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
-		
-		if($course_id != '')
-			$conditions['Course.id'] = $course_id;
-		
-		if($username != '')
-			$conditions['User.username like'] = '%'.$username.'%';
-		
-		if($name != '')
-			$conditions['User.name like'] = '%'.$name.'%';
 		
 		// コンテンツ種別：学習の場合
 		if($content_category == "study")
@@ -96,9 +63,6 @@ class RecordsController extends AppController
 		
 		if(!$to_date)
 			$to_date = ['year' => date('Y'), 'month' => date('m'), 'day' => date('d')];
-		
-		if($contenttitle != '')
-			$conditions['Content.title like'] = '%'.$contenttitle.'%';
 		
 		// 学習日付による絞り込み
 		$conditions['Record.created BETWEEN ? AND ?'] = [
@@ -177,29 +141,18 @@ class RecordsController extends AppController
 			
 			try
 			{
-				$result = $this->paginate();
+				$records = $this->paginate();
 			}
 			catch(Exception $e)
 			{
 				$this->request->params['named']['page']=1;
-				$result = $this->paginate();
+				$records = $this->paginate();
 			}
 			
-			$this->set('records', $result);
+			$groups = $this->Group->find('list');
+			$courses = $this->Record->Course->find('list');
 			
-			$this->loadModel('Group');
-			$this->loadModel('Course');
-			
-			$this->set('groups',     $this->Group->find('list'));
-			$this->set('courses',    $this->Course->find('list'));
-			$this->set('group_id',   $group_id);
-			$this->set('course_id',  $course_id);
-			$this->set('name',       $name);
-			$this->set('username',   $username);
-			$this->set('content_category',	$content_category);
-			$this->set('contenttitle',		$contenttitle);
-			$this->set('from_date', $from_date);
-			$this->set('to_date', $to_date);
+			$this->set(compact('records', 'groups', 'group_id', 'courses', 'content_category', 'from_date', 'to_date'));
 		}
 	}
 

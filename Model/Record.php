@@ -125,6 +125,26 @@ class Record extends AppModel
 		'Search.Searchable'
 	];
 
+	/**
+	 * 検索条件
+	 * https://github.com/CakeDC/search/blob/master/Docs/Home.md
+	 */
 	public $filterArgs = [
+		'course_id' => [
+			'type' => 'value',
+			'field' => 'course_id'
+		],
+		'content_title' => [
+			'type' => 'like',
+			'field' => 'Content.title'
+		],
+		'username' => [
+			'type' => 'like',
+			'field' => 'User.username'
+		],
+		'name' => [
+			'type' => 'like',
+			'field' => 'User.name'
+		],
 	];
 }

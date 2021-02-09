@@ -13,36 +13,18 @@ App::uses('AppModel', 'Model');
  * Setting Model
  *
  */
-class Setting extends AppModel {
-
-/**
- * Validation rules
- *
- * @var array
- */
+class Setting extends AppModel
+{
+	/**
+	 * バリデーションルール
+	 * https://book.cakephp.org/2/ja/models/data-validation.html
+	 * @var array
+	 */
 	public $validate = [
-		'setting_key' => [
-			'notBlank' => [
-				'rule' => ['notBlank'],
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			],
-		],
-		'setting_value' => [
-			'notBlank' => [
-				'rule' => ['notBlank'],
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			],
-		],
-	];
-	
+		'setting_key'   => ['notBlank' => ['rule' => ['notBlank']]],
+		'setting_value' => ['notBlank' => ['rule' => ['notBlank']]]
+	];	
+
 	/**
 	 * システム設定の値を取得
 	 * @param int $setting_key 設定キー
@@ -58,7 +40,7 @@ SELECT setting_value
  WHERE setting_key = :setting_key
 EOF;
 		$params = [
-				'setting_key' => $setting_key
+			'setting_key' => $setting_key
 		];
 		
 		$data = $this->query($sql, $params);

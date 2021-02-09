@@ -21,81 +21,37 @@ App::uses('AppModel', 'Model');
  */
 class Group extends AppModel
 {
-	public $order = "Group.title";  
+	public $order = "Group.title"; // デフォルトのソート条件
 
 	/**
-	 * Validation rules
-	 *
+	 * バリデーションルール
+	 * https://book.cakephp.org/2/ja/models/data-validation.html
 	 * @var array
 	 */
 	public $validate = [
-			'title' => [
-					'notBlank' => [
-							'rule' => [
-									'notBlank'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'status' => [
-					'numeric' => [
-							'rule' => [
-									'numeric'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			]
+		'title'  => ['notBlank' => ['rule' => ['notBlank']]],
+		'status' => ['numeric'  => ['rule' => ['numeric']]]
 	];
-	
-	// The Associations below have been created with all possible keys, those
-	// that are not needed can be removed
-	
+
 	/**
-	 * hasMany associations
-	 *
+	 * アソシエーションの設定
+	 * https://book.cakephp.org/2/ja/models/associations-linking-models-together.html
 	 * @var array
 	 */
-	/*
-	public $hasMany = array(
-			'User' => array(
-					'className' => 'User',
-					'foreignKey' => 'group_id',
-					'dependent' => false,
-					'conditions' => '',
-					'fields' => '',
-					'order' => '',
-					'limit' => '',
-					'offset' => '',
-					'exclusive' => '',
-					'finderQuery' => '',
-					'counterQuery' => ''
-			)
-	);
-	*/
 	public $hasAndBelongsToMany = [
-			'Course' => [
-					'className' => 'Course',
-					'joinTable' => 'groups_courses',
-					'foreignKey' => 'group_id',
-					'associationForeignKey' => 'course_id',
-					'unique' => 'keepExisting',
-					'conditions' => '',
-					'fields' => '',
-					'order' => '',
-					'limit' => '',
-					'offset' => '',
-					'finderQuery' => ''
-			],
+		'Course' => [
+			'className' => 'Course',
+			'joinTable' => 'groups_courses',
+			'foreignKey' => 'group_id',
+			'associationForeignKey' => 'course_id',
+			'unique' => 'keepExisting',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => ''
+		],
 	];
 	
 	/**

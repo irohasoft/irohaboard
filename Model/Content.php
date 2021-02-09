@@ -20,157 +20,85 @@ App::uses('AppModel', 'Model');
  */
 class Content extends AppModel
 {
-
 	/**
-	 * Validation rules
-	 *
+	 * バリデーションルール
+	 * https://book.cakephp.org/2/ja/models/data-validation.html
 	 * @var array
 	 */
 	public $validate = [
-			'course_id' => [
-					'numeric' => [
-							'rule' => [
-									'numeric'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'user_id' => [
-					'numeric' => [
-							'rule' => [
-									'numeric'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'title' => [
-					'notBlank' => [
-							'rule' => [
-									'notBlank'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'status' => [
-					'notBlank' => [
-							'rule' => [
-									'notBlank'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'timelimit' => [
-					'numeric' => [
-						'rule' => ['range', 0, 101],
-						'message' => '1-100の整数で入力して下さい。',
-						'allowEmpty' => true,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'pass_rate' => [
-					'numeric' => [
-						'rule' => ['range', 0, 101],
-						'message' => '1-100の整数で入力して下さい。',
-						'allowEmpty' => true,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'question_count' => [
-					'numeric' => [
-						'rule' => ['range', 0, 101],
-						'message' => '1-100の整数で入力して下さい。',
-						'allowEmpty' => true,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'kind' => [
-					'notBlank' => [
-							'rule' => [
-									'notBlank'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'sort_no' => [
-					'numeric' => [
-							'rule' => [
-									'numeric'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
+		'course_id' => [
+			'numeric' => [
+				'rule' => ['numeric']
+			]
+		],
+		'user_id' => [
+			'numeric' => [
+				'rule' => ['numeric']
+			]
+		],
+		'title' => [
+			'notBlank' => [
+				'rule' => ['notBlank']
+			]
+		],
+		'status' => [
+			'notBlank' => [
+				'rule' => ['notBlank']
+			]
+		],
+		'timelimit' => [
+			'numeric' => [
+			'rule' => ['range', 0, 101],
+			'message' => '1-100の整数で入力して下さい。',
+			'allowEmpty' => true,
+			]
+		],
+		'pass_rate' => [
+			'numeric' => [
+			'rule' => ['range', 0, 101],
+			'message' => '1-100の整数で入力して下さい。',
+			'allowEmpty' => true,
+			]
+		],
+		'question_count' => [
+			'numeric' => [
+			'rule' => ['range', 0, 101],
+			'message' => '1-100の整数で入力して下さい。',
+			'allowEmpty' => true,
+			]
+		],
+		'kind' => [
+			'notBlank' => [
+				'rule' => ['notBlank']
+			]
+		],
+		'sort_no' => [
+			'numeric' => [
+				'rule' => ['numeric']
+			]
+		],
 	];
 
-	// The Associations below have been created with all possible keys, those
-	// that are not needed can be removed
-
 	/**
-	 * belongsTo associations
-	 *
+	 * アソシエーションの設定
+	 * https://book.cakephp.org/2/ja/models/associations-linking-models-together.html
 	 * @var array
 	 */
 	public $belongsTo = [
-			'Course' => [
-					'className' => 'Course',
-					'foreignKey' => 'course_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			],
-			'User' => [
-					'className' => 'User',
-					'foreignKey' => 'user_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			]
-	];
-
-	/**
-	 * hasMany associations
-	 *
-	 * @var array
-	 */
-	public $hasMany = [
+		'Course' => [
+			'className' => 'Course',
+			'foreignKey' => 'course_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		],
+		'User' => [
+			'className' => 'User',
+			'foreignKey' => 'user_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		]
 	];
 
 	/**

@@ -18,117 +18,57 @@ App::uses('AppModel', 'Model');
  */
 class ContentsQuestion extends AppModel
 {
-
 	/**
-	 * Validation rules
-	 *
+	 * バリデーションルール
+	 * https://book.cakephp.org/2/ja/models/data-validation.html
 	 * @var array
 	 */
 	public $validate = [
-			'content_id' => [
-					'numeric' => [
-							'rule' => [
-									'numeric'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'question_type' => [
-					'notBlank' => [
-							'rule' => [
-									'notBlank'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'body' => [
-					'notBlank' => [
-							'rule' => [
-									'notBlank'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			/*
-			'correct' => array(
-					'notBlank' => array(
-							'rule' => array(
-									'notBlank'
-							)
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										)
-			),
-			*/
-			'score' => [
-					'numeric' => [
-							'rule' => [
-									'range', -1, 101
-							],
-					'message' => '0-100の整数で入力して下さい。',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'sort_no' => [
-					'numeric' => [
-							'rule' => [
-									'numeric'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'option_list' => [
-				'rule' => ['multiple', [
-					'min' => 1,
-				]],
-				'message' => '正解を選択してください'
+		'content_id' => [
+			'numeric' => [
+				'rule' => ['numeric']
 			]
+		],
+		'question_type' => [
+			'notBlank' => [
+				'rule' => ['notBlank']
+			]
+		],
+		'body' => [
+			'notBlank' => [
+				'rule' => ['notBlank']
+			]
+		],
+		'score' => [
+			'numeric' => [
+				'rule' => ['range', -1, 101],
+				'message' => '0-100の整数で入力して下さい。',
+			]
+		],
+		'sort_no' => [
+			'numeric' => [
+				'rule' => ['numeric']
+			]
+		],
+		'option_list' => [
+			'rule' => ['multiple', ['min' => 1,]],
+			'message' => '正解を選択してください'
+		]
 	];
 	
-	// The Associations below have been created with all possible keys, those
-	// that are not needed can be removed
-	
 	/**
-	 * belongsTo associations
-	 *
+	 * アソシエーションの設定
+	 * https://book.cakephp.org/2/ja/models/associations-linking-models-together.html
 	 * @var array
 	 */
 	public $belongsTo = [
-			'Content' => [
-					'className' => 'Content',
-					'foreignKey' => 'content_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			]
+		'Content' => [
+			'className' => 'Content',
+			'foreignKey' => 'content_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		]
 	];
 
 	/**
@@ -143,7 +83,7 @@ class ContentsQuestion extends AppModel
 			$sql = "UPDATE ib_contents_questions SET sort_no = :sort_no WHERE id= :id";
 
 			$params = [
-					'sort_no' => ($i+1),
+					'sort_no' => ($i + 1),
 					'id' => $id_list[$i]
 			];
 

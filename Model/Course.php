@@ -21,96 +21,38 @@ App::uses('AppModel', 'Model');
  */
 class Course extends AppModel
 {
-	public $order = "Course.sort_no";  
+	public $order = "Course.sort_no"; // デフォルトのソート条件
 
 	/**
-	 * Validation rules
-	 *
+	 * バリデーションルール
+	 * https://book.cakephp.org/2/ja/models/data-validation.html
 	 * @var array
 	 */
 	public $validate = [
-			'title' => [
-					'notBlank' => [
-							'rule' => [
-									'notBlank'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'sort_no' => [
-					'numeric' => [
-							'rule' => [
-									'numeric'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			]
-	];
-	
-	// The Associations below have been created with all possible keys, those
-	// that are not needed can be removed
-	
-	/**
-	 * belongsTo associations
-	 *
-	 * @var array
-	 */
-	public $belongsTo = [
+		'title'   => ['notBlank' => ['rule' => ['notBlank']]],
+		'sort_no' => ['numeric'  => ['rule' => ['numeric']]]
 	];
 
 	/**
-	 * hasMany associations
-	 *
+	 * アソシエーションの設定
+	 * https://book.cakephp.org/2/ja/models/associations-linking-models-together.html
 	 * @var array
 	 */
 	public $hasMany = [
-			'Content' => [
-					'className' => 'Content',
-					'foreignKey' => 'course_id',
-					'dependent' => false,
-					'conditions' => '',
-					'fields' => '',
-					'order' => '',
-					'limit' => '',
-					'offset' => '',
-					'exclusive' => '',
-					'finderQuery' => '',
-					'counterQuery' => ''
-			]
+		'Content' => [
+			'className' => 'Content',
+			'foreignKey' => 'course_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		]
 	];
-
-	/**
-	 * hasAndBelongsToMany associations
-	 *
-	 * @var array
-	 */
-	 /*
-	public $hasAndBelongsToMany = array(
-			'User' => array(
-					'className' => 'User',
-					'joinTable' => 'users_courses',
-					'foreignKey' => 'course_id',
-					'associationForeignKey' => 'user_id',
-					'unique' => 'keepExisting',
-					'conditions' => '',
-					'fields' => '',
-					'order' => '',
-					'limit' => '',
-					'offset' => '',
-					'finderQuery' => ''
-			)
-	);
-	*/
 
 	/**
 	 * コースの並べ替え

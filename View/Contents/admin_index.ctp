@@ -93,17 +93,11 @@
 		<td class="ib-col-action">
 			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(['action' => 'edit', $course['Course']['id'], $content['Content']['id']]) ?>'"><?= __('編集')?></button>
 			<button type="button" class="btn btn-info" onclick="location.href='<?= Router::url(['action' => 'copy', $course['Course']['id'], $content['Content']['id']]) ?>'"><?= __('複製')?></button>
-			<?php
-			echo $this->Form->hidden('id', ['id'=>'', 'class'=>'content_id', 'value'=>$content['Content']['id']]);
-			
-			if($loginedUser['role']=='admin')
-			{
-				echo $this->Form->postLink(__('削除'),
-					['action' => 'delete', $content['Content']['id']],
-					['class'=>'btn btn-danger'],
-					__('[%s] を削除してもよろしいですか?', $content['Content']['title'])
-				);
-			}?>
+			<?php if($loginedUser['role'] == 'admin') {?>
+			<?= $this->Form->postLink(__('削除'), ['action' => 'delete', $content['Content']['id']], ['class'=>'btn btn-danger'], 
+				__('[%s] を削除してもよろしいですか?', $content['Content']['title']));?>
+			<?php }?>
+			<?= $this->Form->hidden('id', ['id'=>'', 'class'=>'content_id', 'value'=>$content['Content']['id']]);?>
 		</td>
 	</tr>
 	<?php endforeach; ?>

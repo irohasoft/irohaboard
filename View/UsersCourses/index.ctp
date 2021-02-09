@@ -2,13 +2,13 @@
 	<div class="panel panel-success">
 		<div class="panel-heading"><?= __('お知らせ'); ?></div>
 		<div class="panel-body">
-			<?php if($info!=""){?>
+			<?php if($info != ''){?>
 			<div class="well">
-				<?php
+			<?php
 				$info = $this->Text->autoLinkUrls($info, [ 'target' => '_blank']);
 				$info = nl2br($info);
 				echo $info;
-				?>
+			?>
 			</div>
 			<?php }?>
 			
@@ -35,7 +35,7 @@
 		<?php foreach ($courses as $course): ?>
 		<?php //debug($course)?>
 			<a href="<?= Router::url(['controller' => 'contents', 'action' => 'index', $course['Course']['id']]);?>" class="list-group-item">
-				<?php if($course[0]['left_cnt']!=0){?>
+				<?php if($course[0]['left_cnt'] != 0){?>
 				<button type="button" class="btn btn-danger btn-rest"><?= __('残り')?> <span class="badge"><?= h($course[0]['left_cnt']); ?></span></button>
 				<?php }?>
 				<h4 class="list-group-item-heading"><?= h($course['Course']['title']);?></h4>

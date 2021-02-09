@@ -88,17 +88,11 @@
 		<td class="ib-col-date"><?= Utils::getYMDHN($contentsQuestion['ContentsQuestion']['modified']); ?>&nbsp;</td>
 		<td class="actions text-center">
 			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(['action' => 'edit', $contentsQuestion['Content']['id'], $contentsQuestion['ContentsQuestion']['id']]) ?>'">編集</button>
-			<?php
-			if($loginedUser['role']=='admin')
-			{
-				echo $this->Form->postLink(__('削除'), 
-					['action' => 'delete', $contentsQuestion['ContentsQuestion']['id']], 
-					['class'=>'btn btn-danger'], 
-					__('[%s] を削除してもよろしいですか?', $contentsQuestion['ContentsQuestion']['title'])
-				); 
-				echo $this->Form->hidden('id', ['id'=>'', 'class'=>'target_id', 'value'=>$contentsQuestion['ContentsQuestion']['id']]);
-			}
-			?>
+			<?php if($loginedUser['role'] == 'admin') {?>
+			<?= $this->Form->postLink(__('削除'), ['action' => 'delete', $contentsQuestion['ContentsQuestion']['id']], ['class'=>'btn btn-danger'], 
+					__('[%s] を削除してもよろしいですか?', $contentsQuestion['ContentsQuestion']['title'])); ?>
+			<?php }?>
+			<?= $this->Form->hidden('id', ['id'=>'', 'class'=>'target_id', 'value'=>$contentsQuestion['ContentsQuestion']['id']]);?>
 		</td>
 	</tr>
 	<?php endforeach; ?>

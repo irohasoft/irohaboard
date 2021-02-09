@@ -16,47 +16,47 @@
 			<?= ($this->request->data) ? __('編集') :  __('新規ユーザ'); ?>
 		</div>
 		<div class="panel-body">
-			<?php
-				echo $this->Form->create('User', Configure::read('form_defaults'));
-				
-				$password_label = ($this->request->data) ? __('新しいパスワード') : __('パスワード');
-				
-				echo $this->Form->input('id');
-				echo $this->Form->input('username',				['label' => __('ログインID')]);
-				echo $this->Form->input('User.new_password',	['label' => $password_label, 'type' => 'password', 'autocomplete' => 'new-password']);
-				echo $this->Form->input('name',					['label' => __('氏名')]);
-				
-				// root アカウント、もしくは admin 権限以外の場合、権限変更を許可しない
-				$disabled = (($username == 'root')||($loginedUser['role']!='admin'));
-				
-				echo $this->Form->input('role',	[
-					'type' => 'radio',
-					'before' => '<label class="col col-sm-3 control-label">権限</label>',
-					'separator'=>"　", 
-					'disabled'=>$disabled, 
-					'legend' => false,
-					'class' => false,
-					'options' => Configure::read('user_role')
-					]
-				);
-				
-				echo $this->Form->input('email',				['label' => __('メールアドレス')]);
-				echo $this->Form->input('Group',				['label' => __('所属グループ'),	'size' => 20]);
-				echo $this->Form->input('Course',				['label' => __('受講コース'),		'size' => 20]);
-				echo $this->Form->input('comment',				['label' => __('備考')]);
-				echo Configure::read('form_submit_before')
-					.$this->Form->submit(__('保存'), Configure::read('form_submit_defaults'))
-					.Configure::read('form_submit_after');
-				echo $this->Form->end();
-				
-				if($this->request->data)
-				{
-					echo $this->Form->postLink(__('学習履歴を削除'),
-						['action' => 'clear', $this->request->data['User']['id']],
-						['class' => 'btn btn-default pull-right btn-clear'],
-						__('学習履歴を削除してもよろしいですか？', $this->request->data['User']['name']));
-				}
-			?>
+		<?php
+			echo $this->Form->create('User', Configure::read('form_defaults'));
+			
+			$password_label = ($this->request->data) ? __('新しいパスワード') : __('パスワード');
+			
+			echo $this->Form->input('id');
+			echo $this->Form->input('username',				['label' => __('ログインID')]);
+			echo $this->Form->input('User.new_password',	['label' => $password_label, 'type' => 'password', 'autocomplete' => 'new-password']);
+			echo $this->Form->input('name',					['label' => __('氏名')]);
+			
+			// root アカウント、もしくは admin 権限以外の場合、権限変更を許可しない
+			$disabled = (($username == 'root') || ($loginedUser['role'] != 'admin'));
+			
+			echo $this->Form->input('role',	[
+				'type' => 'radio',
+				'before' => '<label class="col col-sm-3 control-label">権限</label>',
+				'separator'=>"　", 
+				'disabled'=>$disabled, 
+				'legend' => false,
+				'class' => false,
+				'options' => Configure::read('user_role')
+				]
+			);
+			
+			echo $this->Form->input('email',				['label' => __('メールアドレス')]);
+			echo $this->Form->input('Group',				['label' => __('所属グループ'),	'size' => 20]);
+			echo $this->Form->input('Course',				['label' => __('受講コース'),		'size' => 20]);
+			echo $this->Form->input('comment',				['label' => __('備考')]);
+			echo Configure::read('form_submit_before')
+				.$this->Form->submit(__('保存'), Configure::read('form_submit_defaults'))
+				.Configure::read('form_submit_after');
+			echo $this->Form->end();
+			
+			if($this->request->data)
+			{
+				echo $this->Form->postLink(__('学習履歴を削除'),
+					['action' => 'clear', $this->request->data['User']['id']],
+					['class' => 'btn btn-default pull-right btn-clear'],
+					__('学習履歴を削除してもよろしいですか？', $this->request->data['User']['name']));
+			}
+		?>
 		</div>
 	</div>
 </div>

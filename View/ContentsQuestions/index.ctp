@@ -44,8 +44,8 @@
 	<!-- テスト結果ヘッダ表示 -->
 	<?php if($is_record){ ?>
 		<?php
-			$result_color  = ($record['Record']['is_passed']==1) ? 'text-primary' : 'text-danger';
-			$result_label  = ($record['Record']['is_passed']==1) ? __('合格') : __('不合格');
+			$result_color  = ($record['Record']['is_passed'] == 1) ? 'text-primary' : 'text-danger';
+			$result_label  = ($record['Record']['is_passed'] == 1) ? __('合格') : __('不合格');
 		?>
 		<table class="result-table">
 			<caption><?= __('テスト結果'); ?></caption>
@@ -80,7 +80,7 @@
 		
 		echo $this->Form->create('ContentsQuestion');
 	?>
-		<?php foreach ($contentsQuestions as $contentsQuestion) { ?>
+		<?php foreach ($contentsQuestions as $contentsQuestion): ?>
 			<?php
 			$question		= $contentsQuestion['ContentsQuestion'];	// 問題情報
 			$title			= $question['title'];						// 問題のタイトル
@@ -112,7 +112,7 @@
 				}
 				else
 				{
-					$is_checked = (@$answer_list[0]==$option_index) ? 'checked' : '';
+					$is_checked = (@$answer_list[0] == $option_index) ? 'checked' : '';
 					// 選択肢ラジオボタン
 					$option_tag .= sprintf('<input type="radio" value="%s" name="data[answer_%s]" %s %s> %s<br>',
 							$option_index, $question_id, $is_checked, $is_disabled, h($option));
@@ -132,7 +132,7 @@
 			// テスト結果表示モードの場合
 			if($is_record)
 			{
-				$is_correct	= (@$question_records[$question_id]['is_correct']=='1');
+				$is_correct	= (@$question_records[$question_id]['is_correct'] == '1');
 				$wrong_mode	= $content['Content']['wrong_mode'];
 				
 				// 正解番号から正解ラベルへ変換
@@ -140,7 +140,7 @@
 				
 				foreach($correct_list as $correct_no)
 				{
-					$correct_label .= ($correct_label=='') ? $option_list[$correct_no - 1] : ', '.$option_list[$correct_no - 1];
+					$correct_label .= ($correct_label == '') ? $option_list[$correct_no - 1] : ', '.$option_list[$correct_no - 1];
 				}
 				
 				// 正解時は、解説のみを表示
@@ -192,7 +192,7 @@
 				</div>
 			</div>
 			<?php $question_index++;?>
-		<?php }?>
+		<?php endforeach; ?>
 		
 		<?php
 			echo '<div class="form-inline"><!--start-->';

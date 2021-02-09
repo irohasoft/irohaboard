@@ -65,24 +65,19 @@
 	<?php foreach ($courses as $course): ?>
 	<tr>
 		<td>
-			<?php 
-				echo $this->Html->link($course['Course']['title'], ['controller' => 'contents', 'action' => 'index', $course['Course']['id']]);
-				echo $this->Form->hidden('id', ['id'=>'', 'class'=>'course_id', 'value'=>$course['Course']['id']]);
-			?>
+		<?php 
+			echo $this->Html->link($course['Course']['title'], ['controller' => 'contents', 'action' => 'index', $course['Course']['id']]);
+			echo $this->Form->hidden('id', ['id'=>'', 'class'=>'course_id', 'value'=>$course['Course']['id']]);
+		?>
 		</td>
 		<td class="ib-col-date"><?= h(Utils::getYMDHN($course['Course']['created'])); ?>&nbsp;</td>
 		<td class="ib-col-date"><?= h(Utils::getYMDHN($course['Course']['modified'])); ?>&nbsp;</td>
 		<td class="ib-col-action">
 			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(['action' => 'edit', $course['Course']['id']]) ?>'"><?= __('編集')?></button>
-			<?php
-			if($loginedUser['role']=='admin')
-			{
-				echo $this->Form->postLink(__('削除'),
-					['action' => 'delete', $course['Course']['id']],
-					['class'=>'btn btn-danger'],
-					__('[%s] を削除してもよろしいですか?', $course['Course']['title'])
-				);
-			}?>
+			<?php if($loginedUser['role'] == 'admin') {?>
+			<?= $this->Form->postLink(__('削除'), ['action' => 'delete', $course['Course']['id']], ['class'=>'btn btn-danger'], 
+				__('[%s] を削除してもよろしいですか?', $course['Course']['title']));?>
+			<?php }?>
 		</td>
 	</tr>
 	<?php endforeach; ?>

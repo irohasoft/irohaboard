@@ -30,56 +30,56 @@
 <div class="admin-records-index">
 	<div class="ib-page-title"><?= __('学習履歴一覧'); ?></div>
 	<div class="ib-horizontal">
-		<?php
-			echo $this->Form->create('Record');
-			echo '<div class="ib-search-buttons">';
-			echo $this->Form->submit(__('検索'),	['class' => 'btn btn-info', 'div' => false]);
-			echo $this->Form->hidden('cmd');
-			echo '<button type="button" class="btn btn-default" onclick="downloadCSV()">'.__('CSV出力').'</button>';
-			echo '</div>';
-			
-			echo '<div class="ib-row">';
-			echo $this->Form->input('course_id',		['label' => __('コース :'), 'options' => $courses, 'empty' => '全て', 'required' => false, 'class'=>'form-control']);
-			echo $this->Form->input('content_category',	['label' => __('コンテンツ種別 :'), 'options' => Configure::read('content_category'), 'empty' => '全て', 'selected' => $content_category, 'class'=>'form-control']);
-			echo $this->Form->input('content_title',	['label' => __('コンテンツ名 :'), 'class'=>'form-control']);
-			echo '</div>';
-			
-			echo '<div class="ib-row">';
-			echo $this->Form->input('group_id',		['label' => __('グループ :'), 'options' => $groups, 'empty' => '全て', 'selected' => $group_id, 'class'=>'form-control']);
-			echo $this->Form->input('username',		['label' => __('ログインID :'), 'class'=>'form-control']);
-			echo $this->Form->input('name',			['label' => __('氏名 :'), 'class'=>'form-control']);
-			echo '</div>';
-			
-			echo '<div class="ib-search-date-container">';
-			echo $this->Form->input('from_date', [
-				'type' => 'date',
-				'dateFormat' => 'YMD',
-				'monthNames' => false,
-				'timeFormat' => '24',
-				'minYear' => date('Y') - 5,
-				'maxYear' => date('Y'),
-				'separator' => ' / ',
-				'label'=> __('対象日時 : '),
-				'class'=>'form-control',
-				'style' => 'display: inline;',
-				'value' => $from_date
-			]);
-			echo $this->Form->input('to_date', [
-				'type' => 'date',
-				'dateFormat' => 'YMD',
-				'monthNames' => false,
-				'timeFormat' => '24',
-				'minYear' => date('Y') - 5,
-				'maxYear' => date('Y'),
-				'separator' => ' / ',
-				'label'=> '～',
-				'class'=>'form-control',
-				'style' => 'display: inline;',
-				'value' => $to_date
-			]);
-			echo '</div>';
-			echo $this->Form->end();
-		?>
+	<?php
+		echo $this->Form->create('Record');
+		echo '<div class="ib-search-buttons">';
+		echo $this->Form->submit(__('検索'),	['class' => 'btn btn-info', 'div' => false]);
+		echo $this->Form->hidden('cmd');
+		echo '<button type="button" class="btn btn-default" onclick="downloadCSV()">'.__('CSV出力').'</button>';
+		echo '</div>';
+		
+		echo '<div class="ib-row">';
+		echo $this->Form->input('course_id',		['label' => __('コース :'), 'options' => $courses, 'empty' => '全て', 'required' => false, 'class'=>'form-control']);
+		echo $this->Form->input('content_category',	['label' => __('コンテンツ種別 :'), 'options' => Configure::read('content_category'), 'empty' => '全て', 'selected' => $content_category, 'class'=>'form-control']);
+		echo $this->Form->input('content_title',	['label' => __('コンテンツ名 :'), 'class'=>'form-control']);
+		echo '</div>';
+		
+		echo '<div class="ib-row">';
+		echo $this->Form->input('group_id',		['label' => __('グループ :'), 'options' => $groups, 'empty' => '全て', 'selected' => $group_id, 'class'=>'form-control']);
+		echo $this->Form->input('username',		['label' => __('ログインID :'), 'class'=>'form-control']);
+		echo $this->Form->input('name',			['label' => __('氏名 :'), 'class'=>'form-control']);
+		echo '</div>';
+		
+		echo '<div class="ib-search-date-container">';
+		echo $this->Form->input('from_date', [
+			'type' => 'date',
+			'dateFormat' => 'YMD',
+			'monthNames' => false,
+			'timeFormat' => '24',
+			'minYear' => date('Y') - 5,
+			'maxYear' => date('Y'),
+			'separator' => ' / ',
+			'label'=> __('対象日時 : '),
+			'class'=>'form-control',
+			'style' => 'display: inline;',
+			'value' => $from_date
+		]);
+		echo $this->Form->input('to_date', [
+			'type' => 'date',
+			'dateFormat' => 'YMD',
+			'monthNames' => false,
+			'timeFormat' => '24',
+			'minYear' => date('Y') - 5,
+			'maxYear' => date('Y'),
+			'separator' => ' / ',
+			'label'=> '～',
+			'class'=>'form-control',
+			'style' => 'display: inline;',
+			'value' => $to_date
+		]);
+		echo '</div>';
+		echo $this->Form->end();
+	?>
 	</div>
 	<table cellpadding="0" cellspacing="0">
 	<thead>

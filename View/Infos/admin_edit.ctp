@@ -14,17 +14,17 @@
 			<?= ($this->action == 'admin_edit') ? __('編集') :  __('新規お知らせ'); ?>
 		</div>
 		<div class="panel-body">
-			<?php
-				echo $this->Form->create('Info', Configure::read('form_defaults'));
-				echo $this->Form->input('id');
-				echo $this->Form->input('title',	['label' => __('タイトル')]);
-				echo $this->Form->input('body',		['label' => __('本文')]);
-				echo $this->Form->input('Group',	['label' => __('対象グループ'),	'size' => 20]);
-				echo Configure::read('form_submit_before')
-					.$this->Form->submit(__('保存'), Configure::read('form_submit_defaults'))
-					.Configure::read('form_submit_after');
-				echo $this->Form->end();
-			?>
+		<?php
+			echo $this->Form->create('Info', Configure::read('form_defaults'));
+			echo $this->Form->input('id');
+			echo $this->Form->input('title',	['label' => __('タイトル')]);
+			echo $this->Form->input('body',		['label' => __('本文')]);
+			echo $this->Form->input('Group',	['label' => __('対象グループ'),	'size' => 20]);
+			echo Configure::read('form_submit_before')
+				.$this->Form->submit(__('保存'), Configure::read('form_submit_defaults'))
+				.Configure::read('form_submit_after');
+			echo $this->Form->end();
+		?>
 		</div>
 	</div>
 </div>

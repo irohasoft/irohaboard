@@ -80,11 +80,11 @@ class ContentsQuestion extends AppModel
 	{
 		for($i=0; $i< count($id_list); $i++)
 		{
-			$sql = "UPDATE ib_contents_questions SET sort_no = :sort_no WHERE id= :id";
+			$sql = "UPDATE ib_contents_questions SET sort_no = :sort_no WHERE id = :id";
 
 			$params = [
-					'sort_no' => ($i + 1),
-					'id' => $id_list[$i]
+				'sort_no' => ($i + 1),
+				'id' => $id_list[$i]
 			];
 
 			$this->query($sql, $params);
@@ -99,14 +99,10 @@ class ContentsQuestion extends AppModel
 	 */
 	public function getNextSortNo($content_id)
 	{
-		$options = [
-			'fields' => 'MAX(ContentsQuestion.sort_no) as sort_no',
-			'conditions' => [
-				'ContentsQuestion.content_id' => $content_id
-			]
-		];
-		
-		$data = $this->find('first', $options);
+		$data = $this->find()
+			->select('MAX(ContentsQuestion.sort_no) as sort_no')
+			->where(['ContentsQuestion.content_id' => $content_id])
+			->first();
 		
 		$sort_no = $data[0]['sort_no'] + 1;
 		

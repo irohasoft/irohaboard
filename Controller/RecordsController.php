@@ -18,7 +18,6 @@ App::uses('AppController',		'Controller');
  */
 class RecordsController extends AppController
 {
-
 	public $components = [
 		'Paginator',
 		'Search.Prg'
@@ -39,8 +38,6 @@ class RecordsController extends AppController
 		// 独自の検索条件
 		$group_id			= $this->getQuery('group_id');
 		$content_category	= $this->getQuery('content_category');
-		$from_date			= $this->getQuery('from_date');
-		$to_date			= $this->getQuery('to_date');
 		
 		// グループが指定されている場合、指定したグループに所属するユーザの履歴を抽出
 		if($group_id != '')
@@ -54,21 +51,11 @@ class RecordsController extends AppController
 		if($content_category == "test")
 			$conditions['Content.kind'] = ['test'];
 		
-		if(!$from_date)
-			$from_date = [
-				'year' => date('Y', strtotime("-1 month")),
-				'month' => date('m', strtotime("-1 month")), 
-				'day' => date('d', strtotime("-1 month"))
-			];
+		// 対象日時による絞り込み
+		$from_date	= ($this->getQuery('from_date')) ? implode('-', $this->getQuery('from_date')) : date('Y-m-d', strtotime('-1 month'));
+		$to_date	= ($this->getQuery('to_date'))   ? implode('-', $this->getQuery('to_date'))   : date('Y-m-d');
 		
-		if(!$to_date)
-			$to_date = ['year' => date('Y'), 'month' => date('m'), 'day' => date('d')];
-		
-		// 学習日付による絞り込み
-		$conditions['Record.created BETWEEN ? AND ?'] = [
-			implode("/", $from_date), 
-			implode("/", $to_date).' 23:59:59'
-		];
+		$conditions['Record.created BETWEEN ? AND ?'] = [$from_date, $to_date.' 23:59:59'];
 		
 		// CSV出力モードの場合
 		if($this->getQuery('cmd') == 'csv')
@@ -87,13 +74,12 @@ class RecordsController extends AppController
 			
 			$fp = fopen('php://output','w');
 			
-			$options = [
-				'conditions'	=> $conditions,
-				'order'			=> 'Record.created desc'
-			];
-			
 			$this->Record->recursive = 0;
-			$rows = $this->Record->find('all', $options);
+			
+			$rows = $this->Record->find()
+				->where($conditions)
+				->order('Record.created desc')
+				->all();
 			
 			$header = [
 				__('ログインID'),

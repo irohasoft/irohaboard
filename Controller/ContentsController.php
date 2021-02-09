@@ -92,83 +92,6 @@ class ContentsController extends AppController
 	}
 
 	/**
-	 * プレビュー用に入力内容をセッションに保存
-	 */
-	public function admin_preview()
-	{
-		$this->autoRender = FALSE;
-		
-		if($this->request->is('ajax'))
-		{
-			$data = [
-				'Content' => [
-					'id'	 => 0,
-					'title'  => $this->getData('content_title'),
-					'kind'	 => $this->getData('content_kind'),
-					'url'	 => $this->getData('content_url'),
-					'body'	 => $this->getData('content_body')
-				],
-				'Course' => [
-					'id'	 => 0,
-				]
-			];
-			
-			$this->writeSession("Iroha.preview_content", $data);
-		}
-	}
-
-	/**
-	 * セッションに保存された情報を元にプレビュー
-	 */
-	public function preview()
-	{
-		// ヘッダー、フッターを非表示
-		$this->layout = '';
-		$this->set('content', $this->readSession('Iroha.preview_content'));
-		$this->render('view');
-	}
-
-
-
-	/**
-	 * コンテンツの削除
-	 *
-	 * @param int $content_id 削除するコンテンツのID
-	 */
-	public function admin_delete($content_id)
-	{
-		if(Configure::read('demo_mode'))
-			return;
-		
-		$this->Content->id = $content_id;
-		
-		if(!$this->Content->exists())
-		{
-			throw new NotFoundException(__('Invalid content'));
-		}
-		
-		// コンテンツ情報を取得
-		$content = $this->Content->get($content_id);
-		
-		$this->request->allowMethod('post', 'delete');
-		
-		if($this->Content->delete())
-		{
-			// コンテンツに紐づくテスト問題も削除
-			$this->LoadModel('ContentsQuestion');
-			$this->ContentsQuestion->deleteAll(['ContentsQuestion.content_id' => $content_id], false);
-			$this->request->allowMethod('post', 'delete');
-			$this->Flash->success(__('コンテンツが削除されました'));
-		}
-		else
-		{
-			$this->Flash->error(__('The content could not be deleted. Please, try again.'));
-		}
-		
-		return $this->redirect(['action' => 'index', $content['Course']['id']]);
-	}
-
-	/**
 	 * コンテンツ一覧の表示
 	 *
 	 * @param int $course_id コースID
@@ -183,7 +106,7 @@ class ContentsController extends AppController
 		$course = $this->Content->Course->get($course_id);
 
 		$contents = $this->Content->find()
-			->where(['Course.id' => $course_id])
+			->where(['Content.course_id' => $course_id])
 			->order('Content.sort_no asc')
 			->all();
 
@@ -252,6 +175,81 @@ class ContentsController extends AppController
 		$courses = $this->Content->Course->find('list');
 		
 		$this->set(compact('course', 'courses'));
+	}
+
+	/**
+	 * コンテンツの削除
+	 *
+	 * @param int $content_id 削除するコンテンツのID
+	 */
+	public function admin_delete($content_id)
+	{
+		if(Configure::read('demo_mode'))
+			return;
+		
+		$this->Content->id = $content_id;
+		
+		if(!$this->Content->exists())
+		{
+			throw new NotFoundException(__('Invalid content'));
+		}
+		
+		// コンテンツ情報を取得
+		$content = $this->Content->get($content_id);
+		
+		$this->request->allowMethod('post', 'delete');
+		
+		if($this->Content->delete())
+		{
+			// コンテンツに紐づくテスト問題も削除
+			$this->LoadModel('ContentsQuestion');
+			$this->ContentsQuestion->deleteAll(['ContentsQuestion.content_id' => $content_id], false);
+			$this->request->allowMethod('post', 'delete');
+			$this->Flash->success(__('コンテンツが削除されました'));
+		}
+		else
+		{
+			$this->Flash->error(__('The content could not be deleted. Please, try again.'));
+		}
+		
+		return $this->redirect(['action' => 'index', $content['Course']['id']]);
+	}
+
+	/**
+	 * プレビュー用に入力内容をセッションに保存
+	 */
+	public function admin_preview()
+	{
+		$this->autoRender = FALSE;
+		
+		if($this->request->is('ajax'))
+		{
+			$data = [
+				'Content' => [
+					'id'	 => 0,
+					'title'  => $this->getData('content_title'),
+					'kind'	 => $this->getData('content_kind'),
+					'url'	 => $this->getData('content_url'),
+					'body'	 => $this->getData('content_body')
+				],
+				'Course' => [
+					'id'	 => 0,
+				]
+			];
+			
+			$this->writeSession("Iroha.preview_content", $data);
+		}
+	}
+
+	/**
+	 * セッションに保存された情報を元にプレビュー
+	 */
+	public function preview()
+	{
+		// ヘッダー、フッターを非表示
+		$this->layout = '';
+		$this->set('content', $this->readSession('Iroha.preview_content'));
+		$this->render('view');
 	}
 
 	/**
@@ -367,11 +365,10 @@ class ContentsController extends AppController
 			}
 		}
 
-		$this->set('mode',					$mode);
-		$this->set('file_url',				$file_url);
-		$this->set('file_name',				$original_file_name);
-		$this->set('upload_extensions',		join(', ', $upload_extensions));
-		$this->set('upload_maxsize',		$upload_maxsize);
+		$file_name = $original_file_name;
+		$upload_extensions = join(', ', $upload_extensions);
+		
+		$this->set(compact('mode', 'file_url', 'file_name', 'upload_extensions', 'upload_maxsize'));
 	}
 	
 	/**

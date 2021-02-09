@@ -45,50 +45,6 @@ class UsersController extends AppController
 	}
 
 	/**
-	 * ユーザの削除
-	 *
-	 * @param int $user_id 削除するユーザのID
-	 */
-	public function admin_delete($user_id = null)
-	{
-		if(Configure::read('demo_mode'))
-			return;
-		
-		$this->User->id = $user_id;
-		
-		if(!$this->User->exists())
-		{
-			throw new NotFoundException(__('Invalid user'));
-		}
-		
-		$this->request->allowMethod('post', 'delete');
-		
-		if($this->User->delete())
-		{
-			$this->Flash->success(__('ユーザが削除されました'));
-		}
-		else
-		{
-			$this->Flash->error(__('ユーザを削除できませんでした'));
-		}
-		
-		return $this->redirect(['action' => 'index']);
-	}
-
-	/**
-	 * ユーザの学習履歴のクリア
-	 *
-	 * @param int $user_id 学習履歴をクリアするユーザのID
-	 */
-	public function admin_clear($user_id)
-	{
-		$this->request->allowMethod('post', 'delete');
-		$this->User->deleteUserRecords($user_id);
-		$this->Flash->success(__('学習履歴を削除しました'));
-		return $this->redirect(['action' => 'edit', $user_id]);
-	}
-
-	/**
 	 * ログアウト
 	 */
 	public function logout()
@@ -168,15 +124,6 @@ class UsersController extends AppController
 	}
 
 	/**
-	 * ユーザを追加（編集画面へ）
-	 */
-	public function admin_add()
-	{
-		$this->admin_edit();
-		$this->render('admin_edit');
-	}
-
-	/**
 	 * ユーザ一覧を表示
 	 */
 	public function admin_index()
@@ -229,6 +176,15 @@ class UsersController extends AppController
 	}
 
 	/**
+	 * ユーザを追加（編集画面へ）
+	 */
+	public function admin_add()
+	{
+		$this->admin_edit();
+		$this->render('admin_edit');
+	}
+
+	/**
 	 * ユーザ情報編集
 	 * @param int $user_id 編集対象のユーザのID
 	 */
@@ -272,6 +228,50 @@ class UsersController extends AppController
 		$groups = $this->User->Group->find('list');
 		
 		$this->set(compact('courses', 'groups', 'username'));
+	}
+
+	/**
+	 * ユーザの削除
+	 *
+	 * @param int $user_id 削除するユーザのID
+	 */
+	public function admin_delete($user_id = null)
+	{
+		if(Configure::read('demo_mode'))
+			return;
+		
+		$this->User->id = $user_id;
+		
+		if(!$this->User->exists())
+		{
+			throw new NotFoundException(__('Invalid user'));
+		}
+		
+		$this->request->allowMethod('post', 'delete');
+		
+		if($this->User->delete())
+		{
+			$this->Flash->success(__('ユーザが削除されました'));
+		}
+		else
+		{
+			$this->Flash->error(__('ユーザを削除できませんでした'));
+		}
+		
+		return $this->redirect(['action' => 'index']);
+	}
+
+	/**
+	 * ユーザの学習履歴のクリア
+	 *
+	 * @param int $user_id 学習履歴をクリアするユーザのID
+	 */
+	public function admin_clear($user_id)
+	{
+		$this->request->allowMethod('post', 'delete');
+		$this->User->deleteUserRecords($user_id);
+		$this->Flash->success(__('学習履歴を削除しました'));
+		return $this->redirect(['action' => 'edit', $user_id]);
 	}
 
 	/**

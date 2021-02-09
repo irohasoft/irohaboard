@@ -85,7 +85,7 @@ class Group extends AppModel
 	 */
 	public function getGroupList()
 	{
-		$groups = $this->find('all');
+		$groups = $this->find()-all();
 		$data   = ["0" => "全て"];
 		
 		for($i=0; $i< count($groups); $i++)

@@ -143,9 +143,9 @@ class Content extends AppModel
 EOF;
 
 		$params = [
-				'user_id' => $user_id,
-				'course_id' => $course_id,
-				'role' => $role
+			'user_id' => $user_id,
+			'course_id' => $course_id,
+			'role' => $role
 		];
 
 		$data = $this->query($sql, $params);
@@ -162,11 +162,11 @@ EOF;
 	{
 		for($i=0; $i< count($id_list); $i++)
 		{
-			$sql = "UPDATE ib_contents SET sort_no = :sort_no WHERE id= :id";
+			$sql = "UPDATE ib_contents SET sort_no = :sort_no WHERE id = :id";
 
 			$params = [
-					'sort_no' => ($i+1),
-					'id' => $id_list[$i]
+				'sort_no' => ($i + 1),
+				'id' => $id_list[$i]
 			];
 
 			$this->query($sql, $params);
@@ -181,14 +181,10 @@ EOF;
 	 */
 	public function getNextSortNo($course_id)
 	{
-		$options = [
-			'fields' => 'MAX(Content.sort_no) as sort_no',
-			'conditions' => [
-				'Content.course_id' => $course_id
-			]
-		];
-		
-		$data = $this->find('first', $options);
+		$data = $this->find()
+			->select('MAX(Content.sort_no) as sort_no')
+			->where(['Content.course_id' => $course_id])
+			->first();
 		
 		$sort_no = $data[0]['sort_no'] + 1;
 		

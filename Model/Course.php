@@ -66,8 +66,8 @@ class Course extends AppModel
 			$sql = "UPDATE ib_courses SET sort_no = :sort_no WHERE id= :id";
 
 			$params = [
-					'sort_no' => ($i+1),
-					'id' => $id_list[$i]
+				'sort_no' => ($i + 1),
+				'id' => $id_list[$i]
 			];
 
 			$this->query($sql, $params);
@@ -79,7 +79,7 @@ class Course extends AppModel
 	 * 
 	 * @param int $user_id   アクセス者のユーザID
 	 * @param int $course_id アクセス先のコースのID
-	 * @return bool          true: アクセス可能, false : アクセス不可
+	 * @return bool true: アクセス可能, false : アクセス不可
 	 */
 	public function hasRight($user_id, $course_id)
 	{
@@ -98,7 +98,7 @@ SELECT count(*) as cnt
 EOF;
 		$data = $this->query($sql, $params);
 		
-		if($data[0][0]["cnt"] > 0)
+		if($data[0][0]['cnt'] > 0)
 			$has_right = true;
 		
 		$sql = <<<EOF
@@ -115,7 +115,11 @@ EOF;
 		return $has_right;
 	}
 	
-	// コースの削除
+	/**
+	 * コースの削除
+	 * 
+	 * @param int $course_id 削除するコースのID
+	 */
 	public function deleteCourse($course_id)
 	{
 		$params = [

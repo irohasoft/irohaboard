@@ -50,7 +50,9 @@ class SettingsController extends AppController
 		}
 		
 		$this->Setting->recursive = 0;
-		$this->set('settings',		$this->Setting->getSettings());
-		$this->set('colors',		Configure::read('theme_colors'));
+		$settings = $this->Setting->getSettings();
+		$colors = Configure::read('theme_colors');
+		
+		$this->set(compact('settings', 'colors'));
 	}
 }

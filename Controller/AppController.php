@@ -53,7 +53,7 @@ class AppController extends Controller
 		// 他のサイトの設定が存在する場合、設定情報及びログイン情報をクリア
 		if($this->hasSession('Setting'))
 		{
-			if($this->readSession('Setting.app_dir')!=APP_DIR)
+			if($this->readSession('Setting.app_dir') != APP_DIR)
 			{
 				// セッション内の設定情報を削除
 				$this->deleteSession('Setting');
@@ -87,10 +87,10 @@ class AppController extends Controller
 			if($this->readAuthUser())
 			{
 				if(
-					($this->readAuthUser('role')!='admin')&&
-					($this->readAuthUser('role')!='manager')&&
-					($this->readAuthUser('role')!='editor')&&
-					($this->readAuthUser('role')!='teacher')
+					($this->readAuthUser('role') != 'admin')&&
+					($this->readAuthUser('role') != 'manager')&&
+					($this->readAuthUser('role') != 'editor')&&
+					($this->readAuthUser('role') != 'teacher')
 				)
 				{
 					if($this->Cookie)

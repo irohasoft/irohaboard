@@ -68,7 +68,7 @@ class ContentsQuestionsController extends AppController
 			// 受講者によるテスト結果表示の場合、自身のテスト結果か確認
 			if(
 				($this->action == 'record')&&
-				($record['Record']['user_id']!=$this->readAuthUser('id'))
+				($record['Record']['user_id'] != $this->readAuthUser('id'))
 			)
 			{
 				throw new NotFoundException(__('Invalid access'));
@@ -399,7 +399,7 @@ class ContentsQuestionsController extends AppController
 	private function isMultiCorrect($answers, $corrects)
 	{
 		// 解答数と正解数が一致しない場合、不合格
-		if(count($answers)!=count($corrects))
+		if(count($answers) != count($corrects))
 			return false;
 		
 		// 解答が正解に含まれるか確認

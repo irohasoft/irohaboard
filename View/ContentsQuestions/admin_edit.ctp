@@ -14,7 +14,7 @@
 		txt	= document.all("option");
 		opt	= document.all("data[ContentsQuestion][option_list][]").options;
 		
-		if(txt.value=="")
+		if(txt.value == '')
 		{
 			alert("選択肢を入力してください");
 			return false;
@@ -26,7 +26,7 @@
 			return false;
 		}
 		
-		if(opt.length==10)
+		if(opt.length == 10)
 		{
 			alert("選択肢の数が最大値を超えています");
 			return false;
@@ -61,7 +61,7 @@
 		
 		for(var i=0; i<opt.length; i++)
 		{
-			if(txt.value=="")
+			if(txt.value == '')
 			{
 				txt.value = opt[i].value;
 			}
@@ -108,7 +108,7 @@
 			}
 		});
 		
-		if($("#ContentsQuestionOptions").val()=="")
+		if($("#ContentsQuestionOptions").val() == '')
 			return;
 		
 		var options = $("#ContentsQuestionOptions").val().split('|');

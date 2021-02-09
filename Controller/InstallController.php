@@ -118,7 +118,7 @@ class InstallController extends AppController
 						return;
 					}
 					
-					if($password!=$password2)
+					if($password != $password2)
 					{
 						// エラー出力
 						$this->Flash->error('パスワードと確認用パスワードが一致しません');

@@ -352,7 +352,7 @@ form .required .control-label:after
 .install-complete .panel-info,
 .install-error .panel-danger
 {
-	margin:20px;
+	margin				: 20px;
 }
 
 .install-index p.msg,
@@ -360,12 +360,17 @@ form .required .control-label:after
 .install-complete p.msg,
 .install-error p.msg
 {
-	margin:10px;
+	margin				: 10px;
 }
 
 .users-courses-index h4
 {
 	font-weight			: bold;
+}
+
+.col-exp
+{
+	font-weight			: normal;
 }
 
 /* スマートフォン用 */

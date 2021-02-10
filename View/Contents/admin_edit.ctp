@@ -155,92 +155,53 @@
 		<?php
 			echo $this->Form->create('Content', Configure::read('form_defaults'));
 			echo $this->Form->input('id');
-			echo $this->Form->input('title',	['label' => __('コンテンツ名')]);
-			echo $this->Form->input('kind',	[
-				'type' => 'radio',
-				'before' => '<label class="col col-sm-3 control-label">'.__('コンテンツ種別').'</label>',
-				'separator'=>"<br>",
-				'disabled'=>false,
-				'legend' => false,
-				'class' => false,
-				'options' => Configure::read('content_kind_comment')
-				]
-			);
+			echo $this->Form->input('title', ['label' => __('コンテンツ名')]);
+			echo $this->Form->inputRadio('kind', ['label' => __('コンテンツ種別'), 'separator'=>"<br>", 'options' => Configure::read('content_kind_comment')]);
 
-			echo "<div class='kind kind-movie kind-url kind-file'>";
-			echo $this->Form->input('url',		['label' => __('URL'), 'class' => 'form-control form-control-upload']);
-			echo "</div>";
+			// URL
+			echo '<div class="kind kind-movie kind-url kind-file">';
+			echo $this->Form->input('url', ['label' => __('URL'), 'class' => 'form-control form-control-upload']);
+			echo '</div>';
 			
 			// 配布資料
-			echo "<div class='kind kind-file'>";
+			echo '<div class="kind kind-file">';
 			echo $this->Form->input('file_name', ['label' => __('ファイル名'), 'class' => 'form-control-filename', 'readonly' => 'readonly']);
-			echo "</div>";
+			echo '</div>';
 
-			// テキスト・リッチテキスト
-			echo "<div class='kind kind-text kind-html'>";
+			// リッチテキスト
+			echo '<div class="kind kind-text kind-html">';
 			echo $this->Form->input('body',		['label' => __('内容')]);
-			echo "</div>";
+			echo '</div>';
 
 			// テスト用設定 start
-			echo "<span class='kind kind-test'>";
-			echo $this->Form->input('timelimit', [
-				'label' => __('制限時間 (1-100分)'),
-				'after' => '<div class="col col-sm-3"></div><div class="col col-sm-9 status-exp">'.__('指定した場合、制限時間を過ぎると自動的に採点されます。').'</div>',
-			]);
-			
-			echo $this->Form->input('pass_rate', [
-				'label' => __('合格とする得点率 (1-100%)'),
-				'after' => '<div class="col col-sm-3"></div><div class="col col-sm-9 status-exp">'.__('指定した場合、合否の判定が行われ、指定しない場合は無条件に合格となります。').'</div>',
-			]);
+			echo '<span class="kind kind-test">';
+			echo $this->Form->inputExp('timelimit', ['label' => __('制限時間 (1-100分)')], __('指定した場合、制限時間を過ぎると自動的に採点されます。'));
+			echo $this->Form->inputExp('pass_rate', ['label' => __('合格とする得点率 (1-100%)')], __('指定した場合、合否の判定が行われ、指定しない場合は無条件に合格となります。'));
 			
 			// ランダム出題用
-			echo $this->Form->input('question_count', [
-				'label' => __('出題数 (1-100問)'),
-				'after' => '<div class="col col-sm-3"></div><div class="col col-sm-9 status-exp">'.__('指定した場合、登録した問題の中からランダムに出題され、指定しない場合は全問出題されます。').'</div>',
-			]);
+			echo $this->Form->inputExp('question_count', ['label' => __('出題数 (1-100問)')], __('指定した場合、登録した問題の中からランダムに出題され、指定しない場合は全問出題されます。'));
 			
 			// 問題が不正解時の表示
-			echo $this->Form->input('wrong_mode', [
-				'type'		=> 'radio',
-				'div'		=> 'form-group required',
-				'before'	=> '<label class="col col-sm-3 control-label">'.__('不正解時の表示').'</label>',
-				'after'		=> '<div class="col col-sm-3"></div><div class="col col-sm-9 status-exp">'.__('テスト結果画面にて不正解の問題の表示方法を指定します。正解時は解説のみが表示されます。').'</div>',
-				'separator'	=> '　', 
-				'legend'	=> false,
-				'class'		=> false,
-				'default'	=> 2,
-				'options'	=> Configure::read('wrong_mode')
-				]
-			);
-			echo "</span>";
+			echo $this->Form->inputRadio('wrong_mode', ['label' => __('不正解時の表示'), 'options' => Configure::read('wrong_mode'), 'default'	=> 2],
+				__('テスト結果画面にて不正解の問題の表示方法を指定します。正解時は解説のみが表示されます。'));
+			
+			echo '</span>';
 			// テスト用設定 end
 
 			// ステータス
-			echo $this->Form->input('status', [
-				'type'		=> 'radio',
-				'before'	=> '<label class="col col-sm-3 control-label">'.__('ステータス').'</label>',
-				'after'		=> '<div class="col col-sm-3"></div><div class="col col-sm-9 status-exp">'.__('[非公開]と設定した場合、管理者権限でログインした場合のみ表示されます。').'</div>',
-				'separator'	=> '　', 
-				'legend'	=> false,
-				'class'		=> false,
-				'default'	=> 1,
-				'options'	=> Configure::read('content_status')
-				]
-			);
+			echo $this->Form->inputRadio('status', ['label' => __('ステータス'), 'options' => Configure::read('content_status'), 'default'	=> 1],
+				__('[非公開]と設定した場合、管理者権限でログインした場合のみ表示されます。'));
 
 			// コンテンツ移動用
-			if(($this->action == 'admin_edit'))
+			if($this->action == 'admin_edit')
 			{
-				echo $this->Form->input('course_id', [
-					'label' => __('所属コース'),
-					'value'=>$course['Course']['id'],
-					'after' => '<div class="col col-sm-3"></div><span class="status-exp">'.__('　変更することで他のコースにコンテンツを移動できます。').'</span>',
-				]);
+				echo $this->Form->inputExp('course_id', ['label' => __('所属コース'), 'value' => $course['Course']['id']],
+					__('変更することで他のコースにコンテンツを移動できます。'));
 			}
 
-			echo "<span class='kind kind-text kind-html kind-movie kind-url kind-file kind-test'>";
+			echo '<span class="kind kind-text kind-html kind-movie kind-url kind-file kind-test">';
 			echo $this->Form->input('comment', ['label' => __('備考')]);
-			echo "</span>";
+			echo '</span>';
 			echo Configure::read('form_submit_before')
 				.'<button id="btnPreview" class="btn btn-default" value="プレビュー" onclick="preview(); return false;" type="submit">プレビュー</button>'
 				.$this->Form->submit(__('保存'), Configure::read('form_submit_defaults'))
@@ -252,10 +213,10 @@
 </div>
 
 <!--ファイルアップロードダイアログ-->
-<div class="modal fade" id="uploadDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-id='1'>
+<div class="modal fade" id="uploadDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-id='1">
 	<div class="modal-dialog">
 		<div class="modal-content" style="width:660px;">
-			<div class="modal-body" id='modal-body_1'>
+			<div class="modal-body" id='modal-body_1">
 				<iframe id="uploadFrame" width="100%" style="height: 440px;" scrolling="no" frameborder="no"></iframe>
 			</div>
 		</div>

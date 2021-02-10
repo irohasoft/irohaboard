@@ -29,16 +29,7 @@
 			// root アカウント、もしくは admin 権限以外の場合、権限変更を許可しない
 			$disabled = (($username == 'root') || ($loginedUser['role'] != 'admin'));
 			
-			echo $this->Form->input('role',	[
-				'type' => 'radio',
-				'before' => '<label class="col col-sm-3 control-label">権限</label>',
-				'separator'=>"　", 
-				'disabled'=>$disabled, 
-				'legend' => false,
-				'class' => false,
-				'options' => Configure::read('user_role')
-				]
-			);
+			echo $this->Form->inputRadio('role',	['label' => __('権限'), 'options' => Configure::read('user_role')]);
 			
 			echo $this->Form->input('email',				['label' => __('メールアドレス')]);
 			echo $this->Form->input('Group',				['label' => __('所属グループ'),	'size' => 20]);

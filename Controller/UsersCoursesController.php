@@ -26,7 +26,6 @@ class UsersCoursesController extends AppController
 		$user_id = $this->readAuthUser('id');
 		
 		// 全体のお知らせの取得
-		$this->loadModel('Setting');
 		$data = $this->Setting->find()
 			->where(['Setting.setting_key' => 'information'])
 			->first();

@@ -84,32 +84,32 @@ class User extends AppModel
 	 * @var array
 	 */
 	public $hasAndBelongsToMany = [
-			'Course' => [
-					'className' => 'Course',
-					'joinTable' => 'users_courses',
-					'foreignKey' => 'user_id',
-					'associationForeignKey' => 'course_id',
-					'unique' => 'keepExisting',
-					'conditions' => '',
-					'fields' => '',
-					'order' => '',
-					'limit' => '',
-					'offset' => '',
-					'finderQuery' => ''
-			],
-			'Group' => [
-					'className' => 'Group',
-					'joinTable' => 'users_groups',
-					'foreignKey' => 'user_id',
-					'associationForeignKey' => 'group_id',
-					'unique' => 'keepExisting',
-					'conditions' => '',
-					'fields' => '',
-					'order' => '',
-					'limit' => '',
-					'offset' => '',
-					'finderQuery' => ''
-	 		]
+		'Course' => [
+			'className' => 'Course',
+			'joinTable' => 'users_courses',
+			'foreignKey' => 'user_id',
+			'associationForeignKey' => 'course_id',
+			'unique' => 'keepExisting',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => ''
+		],
+		'Group' => [
+			'className' => 'Group',
+			'joinTable' => 'users_groups',
+			'foreignKey' => 'user_id',
+			'associationForeignKey' => 'group_id',
+			'unique' => 'keepExisting',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => ''
+	 	]
 	];
 
 	public function beforeSave($options = [])

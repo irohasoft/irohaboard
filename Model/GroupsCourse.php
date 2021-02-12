@@ -34,19 +34,19 @@ class GroupsCourse extends AppModel
 	 * @var array
 	 */
 	public $belongsTo = [
-			'Group' => [
-					'className' => 'Group',
-					'foreignKey' => 'group_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			],
-			'Course' => [
-					'className' => 'Course',
-					'foreignKey' => 'course_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			]
+		'Group' => [
+			'className' => 'Group',
+			'foreignKey' => 'group_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		],
+		'Course' => [
+			'className' => 'Course',
+			'foreignKey' => 'course_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		]
 	];
 }

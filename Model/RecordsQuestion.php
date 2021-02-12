@@ -37,19 +37,19 @@ class RecordsQuestion extends AppModel
 	 * @var array
 	 */
 	public $belongsTo = [
-			'Record' => [
-					'className' => 'Record',
-					'foreignKey' => 'record_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			],
-			'ContentsQuestion' => [
-					'className' => 'ContentsQuestion',
-					'foreignKey' => 'question_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			]
+		'Record' => [
+			'className' => 'Record',
+			'foreignKey' => 'record_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		],
+		'ContentsQuestion' => [
+			'className' => 'ContentsQuestion',
+			'foreignKey' => 'question_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		]
 	];
 }

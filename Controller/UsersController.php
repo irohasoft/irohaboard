@@ -45,15 +45,6 @@ class UsersController extends AppController
 	}
 
 	/**
-	 * ログアウト
-	 */
-	public function logout()
-	{
-		$this->Cookie->delete('Auth');
-		$this->redirect($this->Auth->logout());
-	}
-
-	/**
 	 * ログイン
 	 */
 	public function login()
@@ -121,6 +112,15 @@ class UsersController extends AppController
 		}
 		
 		$this->set(compact('username', 'password'));
+	}
+
+	/**
+	 * ログアウト
+	 */
+	public function logout()
+	{
+		$this->Cookie->delete('Auth');
+		$this->redirect($this->Auth->logout());
 	}
 
 	/**

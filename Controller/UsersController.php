@@ -302,7 +302,7 @@ class UsersController extends AppController
 				}
 				else
 				{
-					$this->Flash->error(__('The user could not be saved. Please, try again.'));
+					$this->Flash->error(__('パスワードが保存できませんでした'));
 				}
 			}
 			else

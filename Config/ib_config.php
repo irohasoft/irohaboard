@@ -174,3 +174,7 @@ $config['theme_colors'] = [
 $config['import_group_count']  = 10;
 $config['import_course_count'] = 20;
 
+// webroot/index.php でアプリケーション名が設定されていない場合、ここで設定
+if (!defined('APP_NAME')) {
+	define('APP_NAME', 'iroha Board');
+}

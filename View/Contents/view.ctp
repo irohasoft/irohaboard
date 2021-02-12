@@ -4,7 +4,7 @@
 	<?= $this->Html->charset(); ?>
 	
 	<title><?= $content['Content']['title']; ?></title>
-	<meta name="application-name" content="iroha Board">
+	<meta name="application-name" content="<?= APP_NAME; ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<?php

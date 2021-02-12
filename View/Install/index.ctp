@@ -1,10 +1,10 @@
 <div class="install-index">
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			iroha Board Installer
+			<?= APP_NAME; ?> Installer
 		</div>
 		<div class="panel-body">
-			<p class="msg">iroha Board のインストール及び管理者アカウントの作成を行います。</p>
+			<p class="msg"><?= APP_NAME; ?> のインストール及び管理者アカウントの作成を行います。</p>
 			<p class="msg">作成する管理者アカウント(root)のパスワードを入力し、「インストール」ボタンをクリックしてください。</p>
 			<p class="msg">パスワードは4文字以上32文字以内で、英数字のみを使用してください。</p>
 		</div>

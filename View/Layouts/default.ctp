@@ -14,7 +14,7 @@
 	<?= $this->Html->charset(); ?>
 	
 	<title><?= h($this->Session->read('Setting.title')); ?></title>
-	<meta name="application-name" content="iroha Board">
+	<meta name="application-name" content="<?= APP_NAME; ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<?php
 		// 管理画面フラグ（ログイン画面は例外とする）

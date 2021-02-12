@@ -1,7 +1,7 @@
 <div class="install-installed">
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			iroha Board Installer
+			<?= APP_NAME; ?> Installer
 		</div>
 		<div class="panel-body">
 			<p class="msg">既にインストールされています。</p>

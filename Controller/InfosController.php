@@ -1,11 +1,7 @@
 <?php
 /**
- * iroha Board Project
- *
  * @author        Kotaro Miura
  * @copyright     2015-2021 iroha Soft, Inc. (https://irohasoft.jp)
- * @link          https://irohaboard.irohasoft.jp
- * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 App::uses('AppController', 'Controller');
@@ -18,7 +14,6 @@ App::uses('AppController', 'Controller');
  */
 class InfosController extends AppController
 {
-
 	/**
 	 * Components
 	 *
@@ -42,21 +37,29 @@ class InfosController extends AppController
 		
 		$infos = $this->paginate();
 		
-		$this->set('infos', $infos);
+		$this->set(compact('infos'));
 	}
 
 	/**
 	 * お知らせの内容を表示
 	 * @param string $info_id 表示するお知らせのID
 	 */
-	public function view($info_id = null)
+	public function view($info_id)
 	{
 		if(!$this->Info->exists($info_id))
 		{
 			throw new NotFoundException(__('Invalid info'));
 		}
 		
-		$this->set('info', $this->Info->findById($info_id));
+		// お知らせの閲覧権限の確認
+		if(!$this->Info->hasRight($this->readAuthUser('id'), $info_id))
+		{
+			throw new NotFoundException(__('Invalid access'));
+		}
+		
+		$info = $this->Info->get($info_id);
+		
+		$this->set(compact('info'));
 	}
 
 	/**
@@ -77,9 +80,9 @@ class InfosController extends AppController
 			]
 		];
 		
-		$result = $this->paginate();
+		$infos = $this->paginate();
 		
-		$this->set('infos', $result);
+		$this->set(compact('infos'));
 	}
 
 	/**
@@ -97,7 +100,7 @@ class InfosController extends AppController
 	 */
 	public function admin_edit($info_id = null)
 	{
-		if($this->action=='admin_edit' && !$this->Info->exists($info_id))
+		if(($this->action == 'admin_edit') && !$this->Info->exists($info_id))
 		{
 			throw new NotFoundException(__('Invalid info'));
 		}
@@ -122,7 +125,7 @@ class InfosController extends AppController
 		}
 		else
 		{
-			$this->request->data = $this->Info->findById($info_id);
+			$this->request->data = $this->Info->get($info_id);
 		}
 		
 		$groups = $this->Group->find('list');

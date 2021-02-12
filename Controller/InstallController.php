@@ -1,11 +1,7 @@
 <?php
 /**
- * iroha Board Project
- *
  * @author        Kotaro Miura
  * @copyright     2015-2021 iroha Soft, Inc. (https://irohasoft.jp)
- * @link          https://irohaboard.irohasoft.jp
- * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 App::uses('AppController', 'Controller');
@@ -118,7 +114,7 @@ class InstallController extends AppController
 						return;
 					}
 					
-					if($password!=$password2)
+					if($password != $password2)
 					{
 						// エラー出力
 						$this->Flash->error('パスワードと確認用パスワードが一致しません');
@@ -225,11 +221,11 @@ class InstallController extends AppController
 				catch(Exception $e)
 				{
 					// カラム重複追加エラー
-					if($e->errorInfo[0]=='42S21')
+					if($e->errorInfo[0] == '42S21')
 						continue;
 					
 					// ビュー重複追加エラー
-					if($e->errorInfo[0]=='42S01')
+					if($e->errorInfo[0] == '42S01')
 						continue;
 					
 					$error_msg = sprintf("%s\n[Error Code]%s\n[Error Code2]%s\n[SQL]%s", $e->errorInfo[2], $e->errorInfo[0], $e->errorInfo[1], $statement);

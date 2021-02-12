@@ -23,11 +23,8 @@
 		<td class="ib-col-date"><?= Utils::getYMDHN($info['Info']['modified']); ?>&nbsp;</td>
 		<td class="ib-col-action">
 			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(['action' => 'edit', $info['Info']['id']]) ?>'"><?= __('編集')?></button>
-			<?= $this->Form->postLink(__('削除'), 
-					['action' => 'delete', $info['Info']['id']], 
-					['class'=>'btn btn-danger'], 
-					__('[%s] を削除してもよろしいですか?', $info['Info']['title'])
-			); ?>
+			<?= $this->Form->postLink(__('削除'), ['action' => 'delete', $info['Info']['id']], ['class'=>'btn btn-danger'], 
+					__('[%s] を削除してもよろしいですか?', $info['Info']['title']));?>
 		</td>
 	</tr>
 	<?php endforeach; ?>

@@ -33,7 +33,6 @@ class AppController extends Controller
 		]
 	];
 	
-	//public $helpers = array('Session');
 	public $helpers = [
 		'Session',
 		'Html' => ['className' => 'BoostCake.BoostCakeHtml'],
@@ -41,19 +40,20 @@ class AppController extends Controller
 		'Paginator' => ['className' => 'BoostCake.BoostCakePaginator'],
 	];
 	
-	public $uses = ['Setting'];
-	
+	public $uses = ['Setting', 'Group'];
+	public $viewClass = 'App'; // 独自のビュークラスを指定
+
 	/**
 	 * コールバック（コントローラのアクションロジック実行前に実行）
 	 */
 	public function beforeFilter()
 	{
-		$this->set('loginedUser', $this->readAuthUser());
+		$this->set('loginedUser', $this->readAuthUser()); // ログインユーザ情報（旧バージョン用）
 		
 		// 他のサイトの設定が存在する場合、設定情報及びログイン情報をクリア
 		if($this->hasSession('Setting'))
 		{
-			if($this->readSession('Setting.app_dir')!=APP_DIR)
+			if($this->readSession('Setting.app_dir') != APP_DIR)
 			{
 				// セッション内の設定情報を削除
 				$this->deleteSession('Setting');
@@ -81,16 +81,16 @@ class AppController extends Controller
 			}
 		}
 		
-		if($this->getParam('admin'))
+		if($this->isAdminPage())
 		{
 			// role が admin, manager, editor, teacher以外の場合、強制ログアウトする
 			if($this->readAuthUser())
 			{
 				if(
-					($this->readAuthUser('role')!='admin')&&
-					($this->readAuthUser('role')!='manager')&&
-					($this->readAuthUser('role')!='editor')&&
-					($this->readAuthUser('role')!='teacher')
+					($this->readAuthUser('role') != 'admin')&&
+					($this->readAuthUser('role') != 'manager')&&
+					($this->readAuthUser('role') != 'editor')&&
+					($this->readAuthUser('role') != 'teacher')
 				)
 				{
 					if($this->Cookie)
@@ -105,9 +105,6 @@ class AppController extends Controller
 			$this->Auth->loginAction = ['controller' => 'users','action' => 'login','admin' => true];
 			$this->Auth->loginRedirect = ['controller' => 'users','action' => 'index','admin' => true];
 			$this->Auth->logoutRedirect = ['controller' => 'users','action' => 'login','admin' => true];
-			
-			// グループモデルを共通で保持する
-			$this->loadModel('Group');
 		}
 		else
 		{
@@ -175,6 +172,17 @@ class AppController extends Controller
 	}
 
 	/**
+	 * ログイン確認
+	 * @return bool true : ログイン済み, false : ログインしていない
+	 */
+	protected function isLogined()
+	{
+		$val =  $this->Auth->user();
+		
+		return  ($val != null);
+	}
+
+	/**
 	 * クエリストリングの取得
 	 * @param string $key キー
 	 */
@@ -185,7 +193,7 @@ class AppController extends Controller
 		
 		$val = $this->request->query[$key];
 		
-		if($val==null)
+		if($val == null)
 			return '';
 		
 		return $val;
@@ -211,7 +219,7 @@ class AppController extends Controller
 		
 		$val = $this->request->params[$key];
 		
-		if($val==null)
+		if($val == null)
 			return '';
 		
 		return $val;
@@ -249,6 +257,15 @@ class AppController extends Controller
 		{
 			$this->request->data = $value;
 		}
+	}
+
+	/**
+	 * 管理画面のアクセスか確認
+	 * @return bool true : 管理画面, false : 受講者画面
+	 */
+	protected function isAdminPage()
+	{
+		return (isset($this->request->params['admin']));
 	}
 
 	/**

@@ -21,96 +21,38 @@ App::uses('AppModel', 'Model');
  */
 class Course extends AppModel
 {
-	public $order = "Course.sort_no";  
+	public $order = "Course.sort_no"; // デフォルトのソート条件
 
 	/**
-	 * Validation rules
-	 *
+	 * バリデーションルール
+	 * https://book.cakephp.org/2/ja/models/data-validation.html
 	 * @var array
 	 */
 	public $validate = [
-			'title' => [
-					'notBlank' => [
-							'rule' => [
-									'notBlank'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'sort_no' => [
-					'numeric' => [
-							'rule' => [
-									'numeric'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			]
-	];
-	
-	// The Associations below have been created with all possible keys, those
-	// that are not needed can be removed
-	
-	/**
-	 * belongsTo associations
-	 *
-	 * @var array
-	 */
-	public $belongsTo = [
+		'title'   => ['notBlank' => ['rule' => ['notBlank']]],
+		'sort_no' => ['numeric'  => ['rule' => ['numeric']]]
 	];
 
 	/**
-	 * hasMany associations
-	 *
+	 * アソシエーションの設定
+	 * https://book.cakephp.org/2/ja/models/associations-linking-models-together.html
 	 * @var array
 	 */
 	public $hasMany = [
-			'Content' => [
-					'className' => 'Content',
-					'foreignKey' => 'course_id',
-					'dependent' => false,
-					'conditions' => '',
-					'fields' => '',
-					'order' => '',
-					'limit' => '',
-					'offset' => '',
-					'exclusive' => '',
-					'finderQuery' => '',
-					'counterQuery' => ''
-			]
+		'Content' => [
+			'className' => 'Content',
+			'foreignKey' => 'course_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		]
 	];
-
-	/**
-	 * hasAndBelongsToMany associations
-	 *
-	 * @var array
-	 */
-	 /*
-	public $hasAndBelongsToMany = array(
-			'User' => array(
-					'className' => 'User',
-					'joinTable' => 'users_courses',
-					'foreignKey' => 'course_id',
-					'associationForeignKey' => 'user_id',
-					'unique' => 'keepExisting',
-					'conditions' => '',
-					'fields' => '',
-					'order' => '',
-					'limit' => '',
-					'offset' => '',
-					'finderQuery' => ''
-			)
-	);
-	*/
 
 	/**
 	 * コースの並べ替え
@@ -124,8 +66,8 @@ class Course extends AppModel
 			$sql = "UPDATE ib_courses SET sort_no = :sort_no WHERE id= :id";
 
 			$params = [
-					'sort_no' => ($i+1),
-					'id' => $id_list[$i]
+				'sort_no' => ($i + 1),
+				'id' => $id_list[$i]
 			];
 
 			$this->query($sql, $params);
@@ -137,7 +79,7 @@ class Course extends AppModel
 	 * 
 	 * @param int $user_id   アクセス者のユーザID
 	 * @param int $course_id アクセス先のコースのID
-	 * @return bool          true: アクセス可能, false : アクセス不可
+	 * @return bool true: アクセス可能, false : アクセス不可
 	 */
 	public function hasRight($user_id, $course_id)
 	{
@@ -156,7 +98,7 @@ SELECT count(*) as cnt
 EOF;
 		$data = $this->query($sql, $params);
 		
-		if($data[0][0]["cnt"] > 0)
+		if($data[0][0]['cnt'] > 0)
 			$has_right = true;
 		
 		$sql = <<<EOF
@@ -173,7 +115,11 @@ EOF;
 		return $has_right;
 	}
 	
-	// コースの削除
+	/**
+	 * コースの削除
+	 * 
+	 * @param int $course_id 削除するコースのID
+	 */
 	public function deleteCourse($course_id)
 	{
 		$params = [

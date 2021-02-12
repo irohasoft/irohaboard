@@ -1,11 +1,7 @@
 <?php
 /**
- * iroha Board Project
- *
  * @author        Kotaro Miura
  * @copyright     2015-2021 iroha Soft, Inc. (https://irohasoft.jp)
- * @link          https://irohaboard.irohasoft.jp
- * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
 App::uses('AppController', 'Controller');
@@ -16,8 +12,8 @@ App::uses('AppController', 'Controller');
  * @property Setting $Setting
  * @property PaginatorComponent $Paginator
  */
-class SettingsController extends AppController {
-
+class SettingsController extends AppController
+{
 /**
  * Components
  *
@@ -50,7 +46,9 @@ class SettingsController extends AppController {
 		}
 		
 		$this->Setting->recursive = 0;
-		$this->set('settings',		$this->Setting->getSettings());
-		$this->set('colors',		Configure::read('theme_colors'));
+		$settings = $this->Setting->getSettings();
+		$colors = Configure::read('theme_colors');
+		
+		$this->set(compact('settings', 'colors'));
 	}
 }

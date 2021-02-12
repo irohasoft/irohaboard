@@ -18,31 +18,9 @@ App::uses('AppController',		'Controller');
  */
 class RecordsController extends AppController
 {
-
 	public $components = [
 		'Paginator',
 		'Search.Prg'
-	];
-
-	//public $presetVars = true;
-
-	public $paginate = [];
-	
-	public $presetVars = [
-		[
-			'name' => 'name', 
-			'type' => 'value',
-			'field' => 'User.name'
-		], 
-		[
-			'name' => 'username',
-			'type' => 'like',
-			'field' => 'User.username'
-		], 
-		[
-			'name' => 'contenttitle', 'type' => 'like',
-			'field' => 'Content.title'
-		]
 	];
 
 	/**
@@ -53,31 +31,17 @@ class RecordsController extends AppController
 		// SearchPluginの呼び出し
 		$this->Prg->commonProcess();
 		
-		// Model の filterArgs に定義した内容にしたがって検索条件を作成
-		// ただしアソシエーションテーブルには対応していないため、独自に検索条件を設定する必要がある
+		// モデルの filterArgs で定義した内容にしたがって検索条件を作成
+		// ただし独自の検索条件は別途追加する必要がある
 		$conditions = $this->Record->parseCriteria($this->Prg->parsedParams());
 		
+		// 独自の検索条件
 		$group_id			= $this->getQuery('group_id');
-		$course_id			= $this->getQuery('course_id');
-		$username			= $this->getQuery('username');
-		$name				= $this->getQuery('name');
 		$content_category	= $this->getQuery('content_category');
-		$contenttitle		= $this->getQuery('contenttitle');
-		$from_date			= $this->getQuery('from_date');
-		$to_date			= $this->getQuery('to_date');
 		
 		// グループが指定されている場合、指定したグループに所属するユーザの履歴を抽出
 		if($group_id != '')
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
-		
-		if($course_id != '')
-			$conditions['Course.id'] = $course_id;
-		
-		if($username != '')
-			$conditions['User.username like'] = '%'.$username.'%';
-		
-		if($name != '')
-			$conditions['User.name like'] = '%'.$name.'%';
 		
 		// コンテンツ種別：学習の場合
 		if($content_category == "study")
@@ -87,27 +51,14 @@ class RecordsController extends AppController
 		if($content_category == "test")
 			$conditions['Content.kind'] = ['test'];
 		
-		if(!$from_date)
-			$from_date = [
-				'year' => date('Y', strtotime("-1 month")),
-				'month' => date('m', strtotime("-1 month")), 
-				'day' => date('d', strtotime("-1 month"))
-			];
+		// 対象日時による絞り込み
+		$from_date	= ($this->getQuery('from_date')) ? implode('-', $this->getQuery('from_date')) : date('Y-m-d', strtotime('-1 month'));
+		$to_date	= ($this->getQuery('to_date'))   ? implode('-', $this->getQuery('to_date'))   : date('Y-m-d');
 		
-		if(!$to_date)
-			$to_date = ['year' => date('Y'), 'month' => date('m'), 'day' => date('d')];
-		
-		if($contenttitle != '')
-			$conditions['Content.title like'] = '%'.$contenttitle.'%';
-		
-		// 学習日付による絞り込み
-		$conditions['Record.created BETWEEN ? AND ?'] = [
-			implode("/", $from_date), 
-			implode("/", $to_date).' 23:59:59'
-		];
+		$conditions['Record.created BETWEEN ? AND ?'] = [$from_date, $to_date.' 23:59:59'];
 		
 		// CSV出力モードの場合
-		if($this->getQuery('cmd')=='csv')
+		if($this->getQuery('cmd') == 'csv')
 		{
 			$this->autoRender = false;
 
@@ -123,13 +74,12 @@ class RecordsController extends AppController
 			
 			$fp = fopen('php://output','w');
 			
-			$options = [
-				'conditions'	=> $conditions,
-				'order'			=> 'Record.created desc'
-			];
-			
 			$this->Record->recursive = 0;
-			$rows = $this->Record->find('all', $options);
+			
+			$rows = $this->Record->find()
+				->where($conditions)
+				->order('Record.created desc')
+				->all();
 			
 			$header = [
 				__('ログインID'),
@@ -177,29 +127,18 @@ class RecordsController extends AppController
 			
 			try
 			{
-				$result = $this->paginate();
+				$records = $this->paginate();
 			}
 			catch(Exception $e)
 			{
 				$this->request->params['named']['page']=1;
-				$result = $this->paginate();
+				$records = $this->paginate();
 			}
 			
-			$this->set('records', $result);
+			$groups = $this->Group->find('list');
+			$courses = $this->Record->Course->find('list');
 			
-			$this->loadModel('Group');
-			$this->loadModel('Course');
-			
-			$this->set('groups',     $this->Group->find('list'));
-			$this->set('courses',    $this->Course->find('list'));
-			$this->set('group_id',   $group_id);
-			$this->set('course_id',  $course_id);
-			$this->set('name',       $name);
-			$this->set('username',   $username);
-			$this->set('content_category',	$content_category);
-			$this->set('contenttitle',		$contenttitle);
-			$this->set('from_date', $from_date);
-			$this->set('to_date', $to_date);
+			$this->set(compact('records', 'groups', 'group_id', 'courses', 'content_category', 'from_date', 'to_date'));
 		}
 	}
 
@@ -217,7 +156,7 @@ class RecordsController extends AppController
 		
 		// コンテンツ情報を取得
 		$this->loadModel('Content');
-		$content = $this->Content->findById($content_id);
+		$content = $this->Content->get($content_id);
 		
 		$this->Record->create();
 		$data = [

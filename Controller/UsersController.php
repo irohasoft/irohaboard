@@ -45,59 +45,6 @@ class UsersController extends AppController
 	}
 
 	/**
-	 * ユーザの削除
-	 *
-	 * @param int $user_id 削除するユーザのID
-	 */
-	public function admin_delete($user_id = null)
-	{
-		if(Configure::read('demo_mode'))
-			return;
-		
-		$this->User->id = $user_id;
-		
-		if(!$this->User->exists())
-		{
-			throw new NotFoundException(__('Invalid user'));
-		}
-		
-		$this->request->allowMethod('post', 'delete');
-		
-		if($this->User->delete())
-		{
-			$this->Flash->success(__('ユーザが削除されました'));
-		}
-		else
-		{
-			$this->Flash->error(__('ユーザを削除できませんでした'));
-		}
-		
-		return $this->redirect(['action' => 'index']);
-	}
-
-	/**
-	 * ユーザの学習履歴のクリア
-	 *
-	 * @param int $user_id 学習履歴をクリアするユーザのID
-	 */
-	public function admin_clear($user_id)
-	{
-		$this->request->allowMethod('post', 'delete');
-		$this->User->deleteUserRecords($user_id);
-		$this->Flash->success(__('学習履歴を削除しました'));
-		return $this->redirect(['action' => 'edit', $user_id]);
-	}
-
-	/**
-	 * ログアウト
-	 */
-	public function logout()
-	{
-		$this->Cookie->delete('Auth');
-		$this->redirect($this->Auth->logout());
-	}
-
-	/**
 	 * ログイン
 	 */
 	public function login()
@@ -168,12 +115,12 @@ class UsersController extends AppController
 	}
 
 	/**
-	 * ユーザを追加（編集画面へ）
+	 * ログアウト
 	 */
-	public function admin_add()
+	public function logout()
 	{
-		$this->admin_edit();
-		$this->render('admin_edit');
+		$this->Cookie->delete('Auth');
+		$this->redirect($this->Auth->logout());
 	}
 
 	/**
@@ -198,34 +145,18 @@ class UsersController extends AppController
 		if($group_id != '')
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 		
-		//$this->User->virtualFields['group_title']  = 'group_title';		// 外部結合テーブルのフィールドによるソート用
-		//$this->User->virtualFields['course_title'] = 'course_title';		// 外部結合テーブルのフィールドによるソート用
-		
 		$this->paginate = [
-			'User' => [
-				'fields' => ['*',
-					// 所属グループ一覧 ※パフォーマンス改善
-					'(SELECT group_concat(g.title order by g.id SEPARATOR \', \') as group_title  FROM ib_users_groups  ug INNER JOIN ib_groups  g ON g.id = ug.group_id  WHERE ug.user_id = User.id) as group_title',
-					// 受講コース一覧   ※パフォーマンス改善
-					'(SELECT group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id WHERE uc.user_id = User.id) as course_title',
-				],
-				'conditions' => $conditions,
-				'limit' => 20,
-				'order' => 'created desc',
-/*
-				'joins' => array(
-					// 受講コースをカンマ区切りで取得
-					array('type' => 'LEFT OUTER', 'alias' => 'UserCourse',
-							'table' => '(SELECT uc.user_id, group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id  GROUP BY uc.user_id)',
-							'conditions' => 'User.id = UserCourse.user_id'),
-					// 所属グループをカンマ区切りで取得
-					array('type' => 'LEFT OUTER', 'alias' => 'UserGroup',
-							'table' => '(SELECT ug.user_id, group_concat(g.title order by g.id SEPARATOR \', \') as group_title FROM ib_users_groups ug INNER JOIN ib_groups g ON g.id = ug.group_id GROUP BY ug.user_id)',
-							'conditions' => 'User.id = UserGroup.user_id')
-				)
-*/
-		]];
-
+			'fields' => ['*',
+				// 所属グループ一覧 ※パフォーマンス改善
+				'(SELECT group_concat(g.title order by g.id SEPARATOR \', \') as group_title  FROM ib_users_groups  ug INNER JOIN ib_groups  g ON g.id = ug.group_id  WHERE ug.user_id = User.id) as group_title',
+				// 受講コース一覧   ※パフォーマンス改善
+				'(SELECT group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id WHERE uc.user_id = User.id) as course_title',
+			],
+			'conditions' => $conditions,
+			'limit' => 20,
+			'order' => 'created desc',
+		];
+		
 		// ユーザ一覧を取得
 		try
 		{
@@ -245,12 +176,21 @@ class UsersController extends AppController
 	}
 
 	/**
+	 * ユーザを追加（編集画面へ）
+	 */
+	public function admin_add()
+	{
+		$this->admin_edit();
+		$this->render('admin_edit');
+	}
+
+	/**
 	 * ユーザ情報編集
 	 * @param int $user_id 編集対象のユーザのID
 	 */
 	public function admin_edit($user_id = null)
 	{
-		if($this->action=='admin_edit' && !$this->User->exists($user_id))
+		if(($this->action == 'admin_edit') && !$this->User->exists($user_id))
 		{
 			throw new NotFoundException(__('Invalid user'));
 		}
@@ -278,7 +218,7 @@ class UsersController extends AppController
 		}
 		else
 		{
-			$this->request->data = $this->User->findById($user_id);
+			$this->request->data = $this->User->get($user_id);
 			
 			if($this->request->data)
 				$username = $this->request->data['User']['username'];
@@ -288,6 +228,50 @@ class UsersController extends AppController
 		$groups = $this->User->Group->find('list');
 		
 		$this->set(compact('courses', 'groups', 'username'));
+	}
+
+	/**
+	 * ユーザの削除
+	 *
+	 * @param int $user_id 削除するユーザのID
+	 */
+	public function admin_delete($user_id = null)
+	{
+		if(Configure::read('demo_mode'))
+			return;
+		
+		$this->User->id = $user_id;
+		
+		if(!$this->User->exists())
+		{
+			throw new NotFoundException(__('Invalid user'));
+		}
+		
+		$this->request->allowMethod('post', 'delete');
+		
+		if($this->User->delete())
+		{
+			$this->Flash->success(__('ユーザが削除されました'));
+		}
+		else
+		{
+			$this->Flash->error(__('ユーザを削除できませんでした'));
+		}
+		
+		return $this->redirect(['action' => 'index']);
+	}
+
+	/**
+	 * ユーザの学習履歴のクリア
+	 *
+	 * @param int $user_id 学習履歴をクリアするユーザのID
+	 */
+	public function admin_clear($user_id)
+	{
+		$this->request->allowMethod('post', 'delete');
+		$this->User->deleteUserRecords($user_id);
+		$this->Flash->success(__('学習履歴を削除しました'));
+		return $this->redirect(['action' => 'edit', $user_id]);
 	}
 
 	/**
@@ -318,7 +302,7 @@ class UsersController extends AppController
 				}
 				else
 				{
-					$this->Flash->error(__('The user could not be saved. Please, try again.'));
+					$this->Flash->error(__('パスワードが保存できませんでした'));
 				}
 			}
 			else
@@ -328,7 +312,7 @@ class UsersController extends AppController
 		}
 		else
 		{
-			$this->request->data = $this->User->findById($this->readAuthUser('id'));
+			$this->request->data = $this->User->get($this->readAuthUser('id'));
 		}
 	}
 
@@ -430,7 +414,9 @@ class UsersController extends AppController
 					//------------------------------//
 					//	ユーザ情報の作成			//
 					//------------------------------//
-					$data = $this->User->findByUsername($row[COL_LOGINID]);
+					$data = $this->User->find()
+						->where(['User.username' => $row[COL_LOGINID]])
+						->first();
 					
 					// 指定したログインIDのユーザが存在しない場合、新規追加とする
 					if(!$data)
@@ -446,7 +432,7 @@ class UsersController extends AppController
 					$data['User']['username'] = $row[COL_LOGINID];
 					
 					// パスワード
-					if($row[COL_PASSWORD]=='')
+					if($row[COL_PASSWORD] == '')
 					{
 						unset($data['User']['password']);
 					}
@@ -471,12 +457,12 @@ class UsersController extends AppController
 					{
 						$title = @$row[COL_GROUP + $n];
 						
-						if($title=='')
+						if($title == '')
 							continue;
 						
 						$group = Utils::getIdByTitle($group_list, $title);
 						
-						if($group==null)
+						if($group == null)
 							continue;
 						
 						$data['Group']['Group'][count($data['Group']['Group'])] = $group;
@@ -487,12 +473,12 @@ class UsersController extends AppController
 					{
 						$title = @$row[COL_COURSE + $n];
 						
-						if($title=='')
+						if($title == '')
 							continue;
 						
 						$course = Utils::getIdByTitle($course_list, $title);
 						
-						if($course==null)
+						if($course == null)
 							continue;
 						
 						$data['Course']['Course'][count($data['Course']['Course'])] = $course;
@@ -596,7 +582,7 @@ class UsersController extends AppController
 		
 		// パフォーマンスの改善の為、一定件数に分割してデータを取得
 		$limit      = 500;
-		$user_count = $this->User->find('count');	// ユーザ数を取得
+		$user_count = $this->User->find()->count();	// ユーザ数を取得
 		$page_size  = ceil($user_count / $limit);	// ページ数（ユーザ数 / ページ単位）
 		
 		// ページ単位でユーザを取得
@@ -604,7 +590,10 @@ class UsersController extends AppController
 		{
 			// ユーザ情報を取得
 			$this->User->recursive = 1;
-			$rows = $this->User->find('all', ['limit'=> $limit, 'page'=> $page]);
+			$rows = $this->User->find()
+				->limit($limit)
+				->page($page)
+				->all();
 			
 			foreach($rows as $row)
 			{
@@ -659,7 +648,6 @@ class UsersController extends AppController
 				{
 					$line[count($line)] = $courses[$n];
 				}
-				
 				
 				// CSV出力
 				mb_convert_variables('SJIS-win', 'UTF-8', $line);

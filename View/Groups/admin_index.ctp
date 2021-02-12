@@ -4,7 +4,6 @@
 	<div class="buttons_container">
 		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?= Router::url(['action' => 'add']) ?>'">+ 追加</button>
 	</div>
-	
 	<table>
 	<thead>
 	<tr>
@@ -24,11 +23,8 @@
 		<td class="ib-col-date"><?= h(Utils::getYMDHN($group['Group']['modified'])); ?>&nbsp;</td>
 		<td class="ib-col-action">
 			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(['action' => 'edit', $group['Group']['id']]) ?>'"><?= __('編集')?></button>
-			<?= $this->Form->postLink(__('削除'), 
-					['action' => 'delete', $group['Group']['id']], 
-					['class'=>'btn btn-danger'], 
-					__('[%s] を削除してもよろしいですか?', $group['Group']['title'])
-			); ?>
+			<?= $this->Form->postLink(__('削除'), ['action' => 'delete', $group['Group']['id']], ['class'=>'btn btn-danger'], 
+					__('[%s] を削除してもよろしいですか?', $group['Group']['title']));?>
 		</td>
 	</tr>
 	<?php endforeach; ?>

@@ -31,7 +31,7 @@
 		var file_url	= '<?= $file_url?>';
 		var file_name	= '<?= $file_name?>';
 		
-		if(mode=='complete')
+		if(mode == 'complete')
 		{
 			$('#btnUpload').hide();
 			parent.setURL(file_url, file_name);
@@ -64,7 +64,7 @@
 			var files = event.originalEvent.dataTransfer.files;
 			$("#ContentFile")[0].files = files;
 			
-			if($("#ContentFile")[0].files.length==0)
+			if($("#ContentFile")[0].files.length == 0)
 			{
 				alert('このブラウザはファイルのドロップをサポートしておりません。');
 				return;

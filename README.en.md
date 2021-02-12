@@ -14,7 +14,7 @@ https://demoib.irohasoft.com/
 
 ## Installation
 1. Download and extract the CakePHP source filese.
-https://github.com/cakephp/cakephp/releases/tag/2.10.20
+https://github.com/cakephp/cakephp/releases/tag/2.10.24
 2. Download and extract the iroha Board source files.
 https://github.com/irohasoft/irohaboard/releases
 3. Replace the CakePHP's app directory with the iroha Board's source files.

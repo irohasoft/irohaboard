@@ -25,7 +25,7 @@
 <div class="contents-index">
 	<div class="ib-breadcrumb">
 	<?php
-	$is_admin_record = ($this->action=='admin_record');
+	$is_admin_record = ($this->action == 'admin_record');
 	
 	// 管理者による学習履歴表示の場合、パンくずリストを表示しない
 	if(!$is_admin_record)
@@ -42,9 +42,9 @@
 	<div class="panel panel-info">
 	<div class="panel-heading"><?= h($course['Course']['title']); ?></div>
 	<div class="panel-body">
-	<?php if($course['Course']['introduction']!='') {?>
+	<?php if($course['Course']['introduction'] != '') {?>
 	<div class="well">
-		<?php
+	<?php
 		$introduction = $this->Text->autoLinkUrls($course['Course']['introduction'], [ 'target' => '_blank']);
 		$introduction = nl2br($introduction);
 		echo $introduction;
@@ -64,9 +64,8 @@
 			</tr>
 		</thead>
 		<tbody>
+	<?php foreach ($contents as $content): ?>
 	<?php
-	foreach ($contents as $content)
-	{
 		$icon			= ''; // アイコン用クラス
 		$title_link		= ''; // コンテンツタイトル（リンク付き）
 		$kind			= Configure::read('content_kind.'.$content['Content']['kind']); // 学習種別
@@ -104,7 +103,7 @@
 				$url = $content['Content']['url'];
 				
 				// 相対URLの場合、絶対URLに変更する
-				if(mb_substr($url, 0, 1)=='/')
+				if(mb_substr($url, 0, 1) == '/')
 					$url = FULL_BASE_URL.$url;
 				
 				$icon  = 'glyphicon glyphicon-file text-success';
@@ -134,11 +133,11 @@
 		if($is_admin_record)
 			$title_link = h($content['Content']['title']);
 		
-		if($content['Content']['status']==0)
+		if($content['Content']['status'] == 0)
 			$title_link .= ' <span class="status-closed">(非公開)</span>';
 		
 		?>
-		<?php if($content['Content']['kind']=='label') { // ラベルの場合、タイトルのみ表示 ?>
+		<?php if($content['Content']['kind'] == 'label') { // ラベルの場合、タイトルのみ表示 ?>
 		<tr>
 			<td colspan="7" class="content-label"><?= h($content['Content']['title']); ?>&nbsp;</td>
 		</tr>
@@ -152,10 +151,8 @@
 			<td class="ib-col-center"><?= h($content['Record']['study_count']); ?>&nbsp;</td>
 			<td nowrap class="ib-col-center"><?= $understanding; ?></td>
 		</tr>
-		<?php
-		}
-	}
-	?>
+		<?php }?>
+	<?php endforeach; ?>
 	</tbody>
 	</table>
 

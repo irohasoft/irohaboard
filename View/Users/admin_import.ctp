@@ -14,16 +14,16 @@
 			<br>
 			CSVの形式 ( * : 必須項目)
 			<table class="ib-table-csv">
-				<tr>
-					<th>ログインID*</th>
-					<th>パスワード</th>
-					<th>氏名*</th>
-					<th>権限 (受講者 / 管理者)*</th>
-					<th>メールアドレス</th>
-					<th>備考</th>
-					<th>所属グループ・・・<?= Configure::read('import_group_count');?>列</th>
-					<th>受講コース・・・<?= Configure::read('import_course_count');?>列</th>
-				</tr>
+			<tr>
+				<th>ログインID*</th>
+				<th>パスワード</th>
+				<th>氏名*</th>
+				<th>権限 (受講者 / 管理者)*</th>
+				<th>メールアドレス</th>
+				<th>備考</th>
+				<th>所属グループ・・・<?= Configure::read('import_group_count');?>列</th>
+				<th>受講コース・・・<?= Configure::read('import_course_count');?>列</th>
+			</tr>
 			</table>
 			<?php
 				echo $this->Form->create('User',['type'=>'file']);

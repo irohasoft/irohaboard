@@ -7,7 +7,6 @@
  * @link          https://irohaboard.irohasoft.jp
  * @license       https://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,11 +14,11 @@
 	<?= $this->Html->charset(); ?>
 	
 	<title><?= h($this->Session->read('Setting.title')); ?></title>
-	<meta name="application-name" content="iroha Board">
+	<meta name="application-name" content="<?= APP_NAME; ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<?php
 		// 管理画面フラグ（ログイン画面は例外とする）
-		$is_admin_page = (($this->params['admin']==1)&&($this->params['action']!='admin_login'));
+		$is_admin_page = (($this->params['admin'] == 1) && ($this->params['action'] != 'admin_login'));
 		
 		// 受講者向け画面及び、管理システムのログイン画面のみ viewport を設定（スマートフォン対応）
 		if(!$is_admin_page)
@@ -81,12 +80,12 @@
 		<div class="ib-logo ib-left">
 			<a href="<?= $this->Html->url('/')?>"><?= h($this->Session->read('Setting.title')); ?></a>
 		</div>
-		<?php if(@$loginedUser) {?>
-		<div class="ib-navi-item ib-right"><?= $this->Html->link(__('ログアウト'), ['controller' => 'users', 'action' => 'logout']); ?></div>
-		<div class="ib-navi-sepa ib-right"></div>
-		<div class="ib-navi-item ib-right"><?= $this->Html->link(__('設定'), ['controller' => 'users', 'action' => 'setting']); ?></div>
-		<div class="ib-navi-sepa ib-right"></div>
-		<div class="ib-navi-item ib-right"><?= __('ようこそ').' '.h($loginedUser["name"]).' '.__('さん'); ?></div>
+		<?php if(isset($loginedUser)) {?>
+		<div class="ib-navi-item ib-right ib-navi-logout"><?= $this->Html->link(__('ログアウト'), ['controller' => 'users', 'action' => 'logout']); ?></div>
+		<div class="ib-navi-sepa ib-right ib-navi-sepa-1 "></div>
+		<div class="ib-navi-item ib-right ib-navi-setting"><?= $this->Html->link(__('設定'), ['controller' => 'users', 'action' => 'setting']); ?></div>
+		<div class="ib-navi-sepa ib-right ib-navi-sepa-2"></div>
+		<div class="ib-navi-item ib-right ib-navi-welcome"><?= __('ようこそ').' '.h($loginedUser['name']).' '.__('さん'); ?></div>
 		<?php }?>
 	</div>
 	

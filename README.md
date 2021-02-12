@@ -16,7 +16,7 @@ https://demoib.irohasoft.com/
 
 ## インストール方法
 1. CakePHP のソースをダウンロードし、解凍します。
-https://github.com/cakephp/cakephp/releases/tag/2.10.20
+https://github.com/cakephp/cakephp/releases/tag/2.10.24
 2. iroha Board のソースをダウンロードし、解凍します。
 https://github.com/irohasoft/irohaboard/releases
 3. CakePHP の app ディレクトリ内のソースを iroha Board のソースに差し替えます。

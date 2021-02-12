@@ -30,9 +30,12 @@ class CoursesController extends AppController
 	 */
 	public function admin_index()
 	{
-		$courses = $this->Course->find('all', [
-			'order' => ['Course.sort_no' => 'asc']
-		]);
+		// 不要なリレーションを解除
+		$this->Course->recursive = 0;
+		
+		$courses = $this->Course->find()
+			->order('Course.sort_no asc')
+			->all();
 		$this->set(compact('courses'));
 	}
 
@@ -51,7 +54,7 @@ class CoursesController extends AppController
 	 */
 	public function admin_edit($course_id = null)
 	{
-		if($this->action=='edit' && !$this->Course->exists($course_id))
+		if(($this->action == 'edit') && !$this->Course->exists($course_id))
 		{
 			throw new NotFoundException(__('Invalid course'));
 		}
@@ -76,7 +79,7 @@ class CoursesController extends AppController
 		}
 		else
 		{
-			$this->request->data = $this->Course->findById($course_id);
+			$this->request->data = $this->Course->get($course_id);
 		}
 	}
 

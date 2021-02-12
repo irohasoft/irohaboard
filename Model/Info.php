@@ -18,63 +18,35 @@ App::uses('AppModel', 'Model');
  */
 class Info extends AppModel
 {
-
 	/**
-	 * Validation rules
-	 *
+	 * バリデーションルール
+	 * https://book.cakephp.org/2/ja/models/data-validation.html
 	 * @var array
 	 */
 	public $validate = [
-			'title' => [
-					'notBlank' => [
-							'rule' => [
-									'notBlank'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
-			'user_id' => [
-					'numeric' => [
-							'rule' => [
-									'numeric'
-							]
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										]
-			],
+		'title'   => ['notBlank' => ['rule' => ['notBlank']]],
+		'user_id' => ['numeric'  => ['rule' => ['numeric']]],
 	];
 	
-	// The Associations below have been created with all possible keys, those
-	// that are not needed can be removed
-	
 	/**
-	 * belongsTo associations
-	 *
+	 * アソシエーションの設定
+	 * https://book.cakephp.org/2/ja/models/associations-linking-models-together.html
 	 * @var array
 	 */
 	public $hasAndBelongsToMany = [
-			'Group' => [
-					'className' => 'Group',
-					'joinTable' => 'infos_groups',
-					'foreignKey' => 'info_id',
-					'associationForeignKey' => 'group_id',
-					'unique' => 'keepExisting',
-					'conditions' => '',
-					'fields' => '',
-					'order' => '',
-					'limit' => '',
-					'offset' => '',
-					'finderQuery' => ''
-	 		]
+		'Group' => [
+			'className' => 'Group',
+			'joinTable' => 'infos_groups',
+			'foreignKey' => 'info_id',
+			'associationForeignKey' => 'group_id',
+			'unique' => 'keepExisting',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => ''
+	 	]
 	];
 	
 	/**
@@ -99,38 +71,12 @@ class Info extends AppModel
 	 */
 	public function getInfoOption($user_id, $limit = null)
 	{
-		App::import('Model', 'UsersGroup');
-		$this->UsersGroup = new UsersGroup();
-		
-		$groups = $this->UsersGroup->find('all', [
-			'conditions' => [
-				'user_id' => $user_id
-			]
-		]);
-		
-		// 自分自身が所属するグループのIDの配列を作成
-		$group_id_list = [];
-		
-		foreach ($groups as $group)
-		{
-			$group_id_list[count($group_id_list)] = $group['Group']['id'];
-		}
-		
+		// 閲覧可能なお知らせを取得
+		$info_id_list = $this->getInfoIdList($user_id, $limit);
+
 		$option = [
 			'fields' => ['Info.id', 'Info.title', 'Info.created'],
-			'conditions' => ['OR' => [
-				['InfoGroup.group_id' => null], 
-				['InfoGroup.group_id' => $group_id_list]
-			]],
-			'joins' => [
-				[
-					'type' => 'LEFT OUTER',
-					'alias' => 'InfoGroup',
-					'table' => 'ib_infos_groups',
-					'conditions' => 'Info.id = InfoGroup.info_id'
-				],
-			],
-			'group' => ['Info.id', 'Info.title', 'Info.created'],
+			'conditions' => ['Info.id IN' => $info_id_list],
 			'order' => ['Info.created' => 'desc'],
 		];
 		
@@ -138,5 +84,58 @@ class Info extends AppModel
 			$option['limit'] = $limit;
 		
 		return $option;
+	}
+
+	/**
+	 * お知らせへのアクセス権限チェック
+	 * 
+	 * @param int $user_id   アクセス者のユーザID
+	 * @param int $course_id アクセス先のコースのID
+	 * @return bool true: アクセス可能, false : アクセス不可
+	 */
+	public function hasRight($user_id, $info_id)
+	{
+		$info_id_list = $this->getInfoIdList($user_id);
+		
+		return in_array($info_id, $info_id_list);
+	}
+	
+	/**
+	 * 閲覧可能なお知らせのIDリストを取得
+	 * @param int $user_id ユーザID
+	 * @return array お知らせIDリスト
+	 */
+	private function getInfoIdList($user_id, $limit = null)
+	{
+		$sql = <<<EOF
+	SELECT
+		Info.id
+	FROM
+		ib_infos AS Info
+		LEFT OUTER JOIN ib_infos_groups AS InfoGroup ON ( Info.id = InfoGroup.info_id ) 
+	WHERE
+		InfoGroup.group_id IS NULL 
+		OR InfoGroup.group_id IN ( SELECT group_id FROM ib_users_groups WHERE user_id = :user_id ) 
+	GROUP BY
+		Info.id
+	ORDER BY Info.created desc
+EOF;
+		if($limit)
+			$sql .= ' LIMIT '.intval($limit);
+
+		$params = [
+			'user_id' => $user_id,
+		];
+		
+		$infos = $this->query($sql, $params);
+		
+		$info_id_list = [];
+		
+		foreach ($infos as $info)
+		{
+			$info_id_list[] = $info['Info']['id'];
+		}
+		
+		return $info_id_list;
 	}
 }

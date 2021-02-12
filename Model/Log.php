@@ -5,16 +5,13 @@ App::uses('AppModel', 'Model');
  *
  * @property User $User
  */
-class Log extends AppModel {
-
-
-	// The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * belongsTo associations
- *
- * @var array
- */
+class Log extends AppModel
+{
+	/**
+	 * アソシエーションの設定
+	 * https://book.cakephp.org/2/ja/models/associations-linking-models-together.html
+	 * @var array
+	 */
 	public $belongsTo = [
 		'User' => [
 			'className' => 'User',

@@ -182,14 +182,14 @@
 			echo $this->Form->inputExp('question_count', ['label' => __('出題数 (1-100問)')], __('指定した場合、登録した問題の中からランダムに出題され、指定しない場合は全問出題されます。'));
 			
 			// 問題が不正解時の表示
-			echo $this->Form->inputRadio('wrong_mode', ['label' => __('不正解時の表示'), 'options' => Configure::read('wrong_mode'), 'default'	=> 2],
+			echo $this->Form->inputRadio('wrong_mode', ['label' => __('不正解時の表示'), 'options' => Configure::read('wrong_mode'), 'default' => 2],
 				__('テスト結果画面にて不正解の問題の表示方法を指定します。正解時は解説のみが表示されます。'));
 			
 			echo '</span>';
 			// テスト用設定 end
 
 			// ステータス
-			echo $this->Form->inputRadio('status', ['label' => __('ステータス'), 'options' => Configure::read('content_status'), 'default'	=> 1],
+			echo $this->Form->inputRadio('status', ['label' => __('ステータス'), 'options' => Configure::read('content_status'), 'default' => 1],
 				__('[非公開]と設定した場合、管理者権限でログインした場合のみ表示されます。'));
 
 			// コンテンツ移動用
@@ -213,10 +213,10 @@
 </div>
 
 <!--ファイルアップロードダイアログ-->
-<div class="modal fade" id="uploadDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-id='1">
+<div class="modal fade" id="uploadDialog">
 	<div class="modal-dialog">
 		<div class="modal-content" style="width:660px;">
-			<div class="modal-body" id='modal-body_1">
+			<div class="modal-body">
 				<iframe id="uploadFrame" width="100%" style="height: 440px;" scrolling="no" frameborder="no"></iframe>
 			</div>
 		</div>

@@ -76,7 +76,7 @@ class Info extends AppModel
 
 		$option = [
 			'fields' => ['Info.id', 'Info.title', 'Info.created'],
-			'conditions' => ['Info.id IN ' => $info_id_list],
+			'conditions' => ['Info.id IN' => $info_id_list],
 			'order' => ['Info.created' => 'desc'],
 		];
 		

@@ -60,4 +60,66 @@ class AppHelper extends Helper
 		
 		return $this->input($fieldName, $options);
 	}
+
+	/**
+	 * 検索フィールド
+	 * @param string $fieldName フィールド名
+	 * @param array $additional_options 追加オプション
+	 * @return string 出力タグ
+	 */
+	public function searchField($fieldName, $additional_options = [])
+	{
+		// デフォルトオプション
+		$options = [
+			'class'=>'form-control',
+			'required' => false
+		];
+
+		// 追加オプション
+		foreach($additional_options as $key => $value)
+		{
+			$options[$key] = $value;
+		}
+		
+		if(isset($options['label']))
+			$options['label'] .= ' :';
+		
+		return $this->input($fieldName, $options);
+	}
+
+	/**
+	 * 日付指定リストボックスの出力
+	 * @param string $fieldName フィールド名
+	 * @param array $additional_options 追加オプション
+	 * @return string 出力タグ
+	 */
+	public function searchDate($fieldName, $additional_options = [])
+	{
+		// デフォルトオプション
+		$options = [
+			'type' => 'date',
+			'dateFormat' => 'YMD',
+			'monthNames' => false,
+			'timeFormat' => '24',
+			'minYear' => date('Y') - 5,
+			'maxYear' => date('Y'),
+			'separator' => ' / ',
+			'class'=>'form-control',
+			'style' => 'display: inline;',
+		];
+		
+		// 追加オプション
+		foreach($additional_options as $key => $value)
+		{
+			$options[$key] = $value;
+		}
+		
+		if(isset($options['label']))
+		{
+			if($options['label'] != '～')
+				$options['label'] .=  ' :';
+		}
+		
+		return $this->input($fieldName, $options);
+	}
 }

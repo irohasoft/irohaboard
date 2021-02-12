@@ -11,17 +11,15 @@
 	<div class="ib-horizontal">
 	<?php
 		echo $this->Form->create('User');
-		echo $this->Form->input('group_id',		[
-			'label' => 'グループ : ', 
-			'options'=>$groups, 
-			'selected'=>$group_id, 
-			'empty' => '全て', 
-			'required'=>false, 
-			'class' => 'form-control',
+		echo $this->Form->searchField('group_id', [
+			'label'    => __('グループ'),
+			'options'  => $groups, 
+			'selected' => $group_id, 
+			'empty'    => '全て', 
 			'onchange' => 'submit(this.form);'
 		]);
-		echo $this->Form->input('username',		['label' => __('ログインID : '), 'required' => false]);
-		echo $this->Form->input('name',			['label' => __('氏名 : '), 'required' => false]);
+		echo $this->Form->searchField('username',		['label' => __('ログインID')]);
+		echo $this->Form->searchField('name',			['label' => __('氏名')]);
 		echo $this->Form->submit(__('検索'),	['class' => 'btn btn-info btn-add']);
 		echo $this->Form->end();
 	?>

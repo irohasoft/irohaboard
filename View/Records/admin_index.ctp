@@ -39,44 +39,20 @@
 		echo '</div>';
 		
 		echo '<div class="ib-row">';
-		echo $this->Form->input('course_id',		['label' => __('コース :'), 'options' => $courses, 'empty' => '全て', 'required' => false, 'class'=>'form-control']);
-		echo $this->Form->input('content_category',	['label' => __('コンテンツ種別 :'), 'options' => Configure::read('content_category'), 'empty' => '全て', 'selected' => $content_category, 'class'=>'form-control']);
-		echo $this->Form->input('content_title',	['label' => __('コンテンツ名 :'), 'class'=>'form-control']);
+		echo $this->Form->searchField('course_id',			['label' => __('コース'), 'options' => $courses, 'empty' => '全て']);
+		echo $this->Form->searchField('content_category',	['label' => __('コンテンツ種別'), 'options' => Configure::read('content_category'), 'empty' => '全て', 'selected' => $content_category]);
+		echo $this->Form->searchField('content_title',		['label' => __('コンテンツ名')]);
 		echo '</div>';
 		
 		echo '<div class="ib-row">';
-		echo $this->Form->input('group_id',		['label' => __('グループ :'), 'options' => $groups, 'empty' => '全て', 'selected' => $group_id, 'class'=>'form-control']);
-		echo $this->Form->input('username',		['label' => __('ログインID :'), 'class'=>'form-control']);
-		echo $this->Form->input('name',			['label' => __('氏名 :'), 'class'=>'form-control']);
+		echo $this->Form->searchField('group_id',	['label' => __('グループ'), 'options' => $groups, 'empty' => '全て', 'selected' => $group_id]);
+		echo $this->Form->searchField('username',	['label' => __('ログインID')]);
+		echo $this->Form->searchField('name',		['label' => __('氏名')]);
 		echo '</div>';
 		
 		echo '<div class="ib-search-date-container">';
-		echo $this->Form->input('from_date', [
-			'type' => 'date',
-			'dateFormat' => 'YMD',
-			'monthNames' => false,
-			'timeFormat' => '24',
-			'minYear' => date('Y') - 5,
-			'maxYear' => date('Y'),
-			'separator' => ' / ',
-			'label'=> __('対象日時 : '),
-			'class'=>'form-control',
-			'style' => 'display: inline;',
-			'value' => $from_date
-		]);
-		echo $this->Form->input('to_date', [
-			'type' => 'date',
-			'dateFormat' => 'YMD',
-			'monthNames' => false,
-			'timeFormat' => '24',
-			'minYear' => date('Y') - 5,
-			'maxYear' => date('Y'),
-			'separator' => ' / ',
-			'label'=> '～',
-			'class'=>'form-control',
-			'style' => 'display: inline;',
-			'value' => $to_date
-		]);
+		echo $this->Form->searchDate('from_date', ['label'=> __('対象日時'), 'value' => $from_date]);
+		echo $this->Form->searchDate('to_date',   ['label'=> __('～'), 'value' => $to_date]);
 		echo '</div>';
 		echo $this->Form->end();
 	?>

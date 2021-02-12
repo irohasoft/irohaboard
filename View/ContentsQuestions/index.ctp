@@ -64,6 +64,7 @@
 		</table>
 	<?php }?>
 	
+	<!-- 問題一覧 -->
 	<?php
 		$question_index = 1; // 設問番号
 		
@@ -94,17 +95,23 @@
 			$option_index	= 1;										// 選択肢番号
 			$option_list	= explode('|', $question['options']);		// 選択肢リスト
 			$correct_list	= explode(',', $question['correct']);		// 正解リスト
-			$answer_list	= explode(',', @$question_records[$question_id]['answer']); // 選択した解答リスト
+			$answer_list	= [];										// 選択した解答リスト
+			
+			// 解答済みの場合、解答リストを作成
+			if(isset($question_records[$question_id]))
+				$answer_list = explode(',', $question_records[$question_id]['answer']);
 			
 			foreach($option_list as $option)
 			{
+				$is_checked = '';
+				
 				// テスト結果履歴モードの場合、ラジオボタンを無効化
 				$is_disabled = $is_record ? 'disabled' : '';
 				
 				// 複数選択(順不同)問題の場合
 				if(count($correct_list) > 1)
 				{
-					$is_checked = (in_array($option_index, $answer_list)) ? " checked" : "";
+					$is_checked = (in_array($option_index, $answer_list)) ? ' checked' : '';
 					
 					// 選択肢チェックボックス
 					$option_tag .= sprintf('<input type="checkbox" value="%s" name="data[answer_%s][]" %s %s> %s<br>',
@@ -112,12 +119,14 @@
 				}
 				else
 				{
-					$is_checked = (@$answer_list[0] == $option_index) ? 'checked' : '';
+					// 解答リストがある場合
+					if(count($answer_list) > 0)
+						$is_checked = ($answer_list[0] == $option_index) ? 'checked' : '';
+					
 					// 選択肢ラジオボタン
 					$option_tag .= sprintf('<input type="radio" value="%s" name="data[answer_%s]" %s %s> %s<br>',
 							$option_index, $question_id, $is_checked, $is_disabled, h($option));
 				}
-				
 				
 				$option_index++;
 			}
@@ -128,11 +137,16 @@
 			$explain_tag	= ''; // 解説用タグ
 			$correct_tag	= ''; // 正解用タグ
 			$result_tag		= ''; // 正誤用タグ
+			$is_correct		= false; // 正誤
 			
 			// テスト結果表示モードの場合
 			if($is_record)
 			{
-				$is_correct	= (@$question_records[$question_id]['is_correct'] == '1');
+				// 正誤判定
+				if(isset($question_records[$question_id]['is_correct']))
+					$is_correct = ($question_records[$question_id]['is_correct'] == '1');
+				
+				// 不正解時の表示モード
 				$wrong_mode	= $content['Content']['wrong_mode'];
 				
 				// 正解番号から正解ラベルへ変換

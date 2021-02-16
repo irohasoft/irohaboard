@@ -444,7 +444,7 @@ class UsersController extends AppController
 					$data['User']['name'] = $row[COL_NAME];											// 氏名
 					$data['User']['role'] = Utils::getKeyByValue('user_role', $row[COL_ROLE]);		// 権限
 					$data['User']['email'] = $row[COL_EMAIL];										// メールアドレス
-					$data['User']['comment'] = @$row[COL_COMMENT];									// 備考
+					$data['User']['comment'] = Utils::issetOr($row[COL_COMMENT]);					// 備考
 					
 					//----------------------------------//
 					//	所属グループ・受講コースの割当	//
@@ -455,7 +455,7 @@ class UsersController extends AppController
 					// 所属グループの割当
 					for($n=0; $n < $group_count; $n++)
 					{
-						$title = @$row[COL_GROUP + $n];
+						$title = Utils::issetOr($row[COL_GROUP + $n], '');
 						
 						if($title == '')
 							continue;
@@ -471,7 +471,7 @@ class UsersController extends AppController
 					// 受講コースの割当
 					for($n=0; $n < $course_count; $n++)
 					{
-						$title = @$row[COL_COURSE + $n];
+						$title = Utils::issetOr($row[COL_COURSE + $n], '');
 						
 						if($title == '')
 							continue;

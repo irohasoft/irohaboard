@@ -18,11 +18,13 @@ App::uses('AppController', 'Controller');
  */
 class ContentsQuestionsController extends AppController
 {
-
 	public $components = [
 		'Security' => [
 			'validatePost' => false,
 			'csrfUseOnce' => false,
+			//'csrfCheck' => false,
+			'csrfExpires' => '+3 hours',
+			'csrfLimit' => 10000,
 			'unlockedActions' => ['admin_order', 'index']
 		],
 	];
@@ -76,6 +78,7 @@ class ContentsQuestionsController extends AppController
 			
 			// テスト結果に紐づく問題ID一覧（出題順）を作成
 			$question_id_list = [];
+			
 			foreach($record['RecordsQuestion'] as $question)
 			{
 				$question_id_list[count($question_id_list)] = $question['question_id'];
@@ -388,6 +391,7 @@ class ContentsQuestionsController extends AppController
 	public function admin_order()
 	{
 		$this->autoRender = FALSE;
+		
 		if($this->request->is('ajax'))
 		{
 			$this->ContentsQuestion->setOrder($this->data['id_list']);

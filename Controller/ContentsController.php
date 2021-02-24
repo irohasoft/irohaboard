@@ -23,6 +23,8 @@ class ContentsController extends AppController
 		'Security' => [
 			'validatePost' => false,
 			'csrfUseOnce' => false,
+			'csrfExpires' => '+3 hours',
+			'csrfLimit' => 10000,
 			'unlockedActions' => ['admin_order', 'admin_preview', 'admin_upload_image'],
 		],
 	];

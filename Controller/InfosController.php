@@ -23,6 +23,8 @@ class InfosController extends AppController
 		'Paginator',
 		'Security' => [
 			'csrfUseOnce' => false,
+			'csrfExpires' => '+3 hours',
+			'csrfLimit' => 10000,
 		],
 	];
 

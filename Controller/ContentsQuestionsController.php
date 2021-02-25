@@ -77,11 +77,12 @@ class ContentsQuestionsController extends AppController
 			}
 			
 			// テスト結果に紐づく問題ID一覧（出題順）を作成
-			$question_id_list = [];
+			// 問題が存在しない場合のエラーを防ぐため、0を追加
+			$question_id_list = [0];
 			
 			foreach($record['RecordsQuestion'] as $question)
 			{
-				$question_id_list[count($question_id_list)] = $question['question_id'];
+				$question_id_list[] = $question['question_id'];
 			}
 			
 			// 問題ID一覧を元に問題情報を取得
@@ -116,7 +117,7 @@ class ContentsQuestionsController extends AppController
 			
 			foreach($contentsQuestions as $contentsQuestion)
 			{
-				$question_id_list[count($question_id_list)] = $contentsQuestion['ContentsQuestion']['id'];
+				$question_id_list[] = $contentsQuestion['ContentsQuestion']['id'];
 			}
 			
 			// ランダム出題情報を一時的にセッションに格納（リロードによる変化や、採点時の問題情報との矛盾を防ぐため）

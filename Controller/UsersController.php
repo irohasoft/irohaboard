@@ -465,7 +465,7 @@ class UsersController extends AppController
 						if($group == null)
 							continue;
 						
-						$data['Group']['Group'][count($data['Group']['Group'])] = $group;
+						$data['Group']['Group'][] = $group;
 					}
 					
 					// 受講コースの割当
@@ -481,7 +481,7 @@ class UsersController extends AppController
 						if($course == null)
 							continue;
 						
-						$data['Course']['Course'][count($data['Course']['Course'])] = $course;
+						$data['Course']['Course'][] = $course;
 					}
 					
 					$data['User']['modified'] = date('Y-m-d H:i:s');
@@ -564,12 +564,12 @@ class UsersController extends AppController
 		
 		for($n=0; $n < $group_count; $n++)
 		{
-			$header[count($header)] = __('グループ').($n+1);
+			$header[] = __('グループ').($n+1);
 		}
 		
 		for($n=0; $n < $course_count; $n++)
 		{
-			$header[count($header)] = __('コース').($n+1);
+			$header[] = __('コース').($n+1);
 		}
 		
 		// ヘッダー行をCSV出力
@@ -604,10 +604,10 @@ class UsersController extends AppController
 				$courses = [];
 				
 				for($n=0; $n < $group_count; $n++)
-					$groups[count($groups)] = '';
+					$groups[] = '';
 				
 				for($n=0; $n < $course_count; $n++)
-					$courses[count($courses)] = '';
+					$courses[] = '';
 				
 				$i = 0;
 				
@@ -640,13 +640,13 @@ class UsersController extends AppController
 				// 所属グループを出力
 				for($n=0; $n < $group_count; $n++)
 				{
-					$line[count($line)] = $groups[$n];
+					$line[] = $groups[$n];
 				}
 				
 				// 受講コースを出力
 				for($n=0; $n < $course_count; $n++)
 				{
-					$line[count($line)] = $courses[$n];
+					$line[] = $courses[$n];
 				}
 				
 				// CSV出力

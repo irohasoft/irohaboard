@@ -260,12 +260,36 @@ class AppController extends Controller
 	}
 
 	/**
-	 * 管理画面のアクセスか確認
+	 * 管理画面へのアクセスかを確認
 	 * @return bool true : 管理画面, false : 受講者画面
 	 */
 	protected function isAdminPage()
 	{
 		return (isset($this->request->params['admin']));
+	}
+
+	/**
+	 * 編集画面へのアクセスかを確認
+	 */
+	protected function isEditPage()
+	{
+		return (($this->action == 'edit') || ($this->action == 'admin_edit'));
+	}
+
+	/**
+	 * テスト結果画面へのアクセスかを確認
+	 */
+	protected function isRecordPage()
+	{
+		return (($this->action == 'record') || ($this->action == 'admin_record'));
+	}
+
+	/**
+	 * ログイン画面へのアクセスかを確認
+	 */
+	protected function isLoginPage()
+	{
+		return (($this->action == 'login') || ($this->action == 'admin_login'));
 	}
 
 	/**

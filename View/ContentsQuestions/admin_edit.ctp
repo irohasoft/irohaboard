@@ -141,7 +141,7 @@
 	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<?= ($this->action == 'admin_edit') ? __('編集') :  __('新規問題'); ?>
+			<?= $this->isEditPage() ? __('編集') :  __('新規問題'); ?>
 		</div>
 		<div class="panel-body">
 			<?php

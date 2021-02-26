@@ -68,10 +68,7 @@ class ContentsQuestionsController extends AppController
 			$record = $this->Record->get($record_id);
 			
 			// 受講者によるテスト結果表示の場合、自身のテスト結果か確認
-			if(
-				($this->action == 'record')&&
-				($record['Record']['user_id'] != $this->readAuthUser('id'))
-			)
+			if($this->isRecordPage() && ($record['Record']['user_id'] != $this->readAuthUser('id')))
 			{
 				throw new NotFoundException(__('Invalid access'));
 			}
@@ -238,8 +235,8 @@ class ContentsQuestionsController extends AppController
 			}
 		}
 		
-		$is_record = (($this->action == 'record') || ($this->action == 'admin_record'));	// テスト結果表示フラグ
-		$is_admin_record = ($this->action == 'admin_record');
+		$is_record = $this->isRecordPage();	// テスト結果表示フラグ
+		$is_admin_record = $this->isAdminPage() && $this->isRecordPage();
 		
 		$this->set(compact('content', 'contentsQuestions', 'record', 'is_record', 'is_admin_record'));
 	}
@@ -306,7 +303,7 @@ class ContentsQuestionsController extends AppController
 	{
 		$content_id = intval($content_id);
 		
-		if(($this->action == 'edit') && !$this->Post->exists($question_id))
+		if($this->isEditPage() && !$this->ContentsQuestion->exists($question_id))
 		{
 			throw new NotFoundException(__('Invalid contents question'));
 		}

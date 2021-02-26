@@ -56,7 +56,7 @@ class GroupsController extends AppController
 	 */
 	public function admin_edit($group_id = null)
 	{
-		if(($this->action == 'edit') && !$this->Group->exists($group_id))
+		if($this->isEditPage() && !$this->Group->exists($group_id))
 		{
 			throw new NotFoundException(__('Invalid group'));
 		}

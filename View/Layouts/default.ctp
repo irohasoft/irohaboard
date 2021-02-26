@@ -17,8 +17,8 @@
 	<meta name="application-name" content="<?= APP_NAME; ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<?php
-		// 管理画面フラグ（ログイン画面は例外とする）
-		$is_admin_page = (($this->params['admin'] == 1) && ($this->params['action'] != 'admin_login'));
+		// 管理画面か確認、ただしログイン画面は例外とする
+		$is_admin_page = $this->isAdminPage() && !$this->isLoginPage();
 		
 		// 受講者向け画面及び、管理システムのログイン画面のみ viewport を設定（スマートフォン対応）
 		if(!$is_admin_page)

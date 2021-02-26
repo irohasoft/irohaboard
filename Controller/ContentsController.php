@@ -46,7 +46,7 @@ class ContentsController extends AppController
 		$role = $this->readAuthUser('role');
 		
 		// 管理者かつ、学習履歴表示モードの場合、
-		if($this->action == 'admin_record')
+		if($this->isAdminPage() &&  $this->isRecordPage())
 		{
 			$contents = $this->Content->getContentRecord($user_id, $course_id, $role);
 		}
@@ -139,7 +139,7 @@ class ContentsController extends AppController
 	{
 		$course_id = intval($course_id);
 		
-		if(($this->action == 'admin_edit') && !$this->Content->exists($content_id))
+		if($this->isEditPage() && !$this->Content->exists($content_id))
 		{
 			throw new NotFoundException(__('Invalid content'));
 		}
@@ -150,7 +150,7 @@ class ContentsController extends AppController
 				return;
 			
 			// 新規追加の場合、コンテンツの作成者と所属コースを指定
-			if($this->action == 'admin_add')
+			if(!$this->isEditPage())
 			{
 				$this->request->data['Content']['user_id']	 = $this->readAuthUser('id');
 				$this->request->data['Content']['course_id'] = $course_id;

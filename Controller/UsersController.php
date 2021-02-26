@@ -190,7 +190,7 @@ class UsersController extends AppController
 	 */
 	public function admin_edit($user_id = null)
 	{
-		if(($this->action == 'admin_edit') && !$this->User->exists($user_id))
+		if($this->isEditPage() && !$this->User->exists($user_id))
 		{
 			throw new NotFoundException(__('Invalid user'));
 		}

@@ -190,7 +190,7 @@ class UsersController extends AppController
 	 */
 	public function admin_edit($user_id = null)
 	{
-		if(($this->action == 'admin_edit') && !$this->User->exists($user_id))
+		if($this->isEditPage() && !$this->User->exists($user_id))
 		{
 			throw new NotFoundException(__('Invalid user'));
 		}
@@ -444,7 +444,7 @@ class UsersController extends AppController
 					$data['User']['name'] = $row[COL_NAME];											// 氏名
 					$data['User']['role'] = Utils::getKeyByValue('user_role', $row[COL_ROLE]);		// 権限
 					$data['User']['email'] = $row[COL_EMAIL];										// メールアドレス
-					$data['User']['comment'] = @$row[COL_COMMENT];									// 備考
+					$data['User']['comment'] = Utils::issetOr($row[COL_COMMENT]);					// 備考
 					
 					//----------------------------------//
 					//	所属グループ・受講コースの割当	//
@@ -455,7 +455,7 @@ class UsersController extends AppController
 					// 所属グループの割当
 					for($n=0; $n < $group_count; $n++)
 					{
-						$title = @$row[COL_GROUP + $n];
+						$title = Utils::issetOr($row[COL_GROUP + $n], '');
 						
 						if($title == '')
 							continue;
@@ -465,13 +465,13 @@ class UsersController extends AppController
 						if($group == null)
 							continue;
 						
-						$data['Group']['Group'][count($data['Group']['Group'])] = $group;
+						$data['Group']['Group'][] = $group;
 					}
 					
 					// 受講コースの割当
 					for($n=0; $n < $course_count; $n++)
 					{
-						$title = @$row[COL_COURSE + $n];
+						$title = Utils::issetOr($row[COL_COURSE + $n], '');
 						
 						if($title == '')
 							continue;
@@ -481,7 +481,7 @@ class UsersController extends AppController
 						if($course == null)
 							continue;
 						
-						$data['Course']['Course'][count($data['Course']['Course'])] = $course;
+						$data['Course']['Course'][] = $course;
 					}
 					
 					$data['User']['modified'] = date('Y-m-d H:i:s');
@@ -564,12 +564,12 @@ class UsersController extends AppController
 		
 		for($n=0; $n < $group_count; $n++)
 		{
-			$header[count($header)] = __('グループ').($n+1);
+			$header[] = __('グループ').($n+1);
 		}
 		
 		for($n=0; $n < $course_count; $n++)
 		{
-			$header[count($header)] = __('コース').($n+1);
+			$header[] = __('コース').($n+1);
 		}
 		
 		// ヘッダー行をCSV出力
@@ -604,10 +604,10 @@ class UsersController extends AppController
 				$courses = [];
 				
 				for($n=0; $n < $group_count; $n++)
-					$groups[count($groups)] = '';
+					$groups[] = '';
 				
 				for($n=0; $n < $course_count; $n++)
-					$courses[count($courses)] = '';
+					$courses[] = '';
 				
 				$i = 0;
 				
@@ -640,13 +640,13 @@ class UsersController extends AppController
 				// 所属グループを出力
 				for($n=0; $n < $group_count; $n++)
 				{
-					$line[count($line)] = $groups[$n];
+					$line[] = $groups[$n];
 				}
 				
 				// 受講コースを出力
 				for($n=0; $n < $course_count; $n++)
 				{
-					$line[count($line)] = $courses[$n];
+					$line[] = $courses[$n];
 				}
 				
 				// CSV出力

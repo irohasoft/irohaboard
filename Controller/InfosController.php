@@ -23,6 +23,8 @@ class InfosController extends AppController
 		'Paginator',
 		'Security' => [
 			'csrfUseOnce' => false,
+			'csrfExpires' => '+3 hours',
+			'csrfLimit' => 10000,
 		],
 	];
 
@@ -100,7 +102,7 @@ class InfosController extends AppController
 	 */
 	public function admin_edit($info_id = null)
 	{
-		if(($this->action == 'admin_edit') && !$this->Info->exists($info_id))
+		if($this->isEditPage() && !$this->Info->exists($info_id))
 		{
 			throw new NotFoundException(__('Invalid info'));
 		}

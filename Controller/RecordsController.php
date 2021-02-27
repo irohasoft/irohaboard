@@ -44,16 +44,16 @@ class RecordsController extends AppController
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 		
 		// コンテンツ種別：学習の場合
-		if($content_category == "study")
+		if($content_category == 'study')
 			$conditions['Content.kind'] = ['text', 'html', 'movie', 'url'];
 		
 		// コンテンツ種別：テストの場合
-		if($content_category == "test")
+		if($content_category == 'test')
 			$conditions['Content.kind'] = ['test'];
 		
 		// 対象日時による絞り込み
-		$from_date	= ($this->getQuery('from_date')) ? implode('-', $this->getQuery('from_date')) : date('Y-m-d', strtotime('-1 month'));
-		$to_date	= ($this->getQuery('to_date'))   ? implode('-', $this->getQuery('to_date'))   : date('Y-m-d');
+		$from_date	= ($this->hasQuery('from_date')) ? implode('-', $this->getQuery('from_date')) : date('Y-m-d', strtotime('-1 month'));
+		$to_date	= ($this->hasQuery('to_date'))   ? implode('-', $this->getQuery('to_date'))   : date('Y-m-d');
 		
 		$conditions['Record.created BETWEEN ? AND ?'] = [$from_date, $to_date.' 23:59:59'];
 		
@@ -63,8 +63,8 @@ class RecordsController extends AppController
 			$this->autoRender = false;
 
 			// メモリサイズ、タイムアウト時間を設定
-			ini_set("memory_limit", '512M');
-			ini_set("max_execution_time", (60 * 10));
+			ini_set('memory_limit', '512M');
+			ini_set('max_execution_time', (60 * 10));
 
 			// Content-Typeを指定
 			$this->response->type('csv');
@@ -94,7 +94,7 @@ class RecordsController extends AppController
 				__('学習日時')
 			];
 			
-			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
+			mb_convert_variables('SJIS-WIN', 'UTF-8', $header);
 			fputcsv($fp, $header);
 			
 			foreach($rows as $row)
@@ -112,7 +112,7 @@ class RecordsController extends AppController
 					Utils::getYMDHN($row['Record']['created']),
 				];
 				
-				mb_convert_variables("SJIS-WIN", "UTF-8", $row);
+				mb_convert_variables('SJIS-WIN', 'UTF-8', $row);
 				
 				fputcsv($fp, $row);
 			}

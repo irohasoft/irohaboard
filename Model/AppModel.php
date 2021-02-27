@@ -131,7 +131,7 @@ class AppModel extends Model
 			
 			// [Model][field] を 削除
 			$object= new stdClass();
-			$data = $this->_array_to_object($data, $object);
+			$data = $this->_arrayToObject($data, $object);
 			
 			return $data;
 		}
@@ -155,7 +155,7 @@ class AppModel extends Model
 			unset($data[$this->name]);
 			
 			$object= new stdClass();
-			$data = $this->_array_to_object($data, $object);
+			$data = $this->_arrayToObject($data, $object);
 			
 			return $data;
 		}
@@ -170,7 +170,31 @@ class AppModel extends Model
 	{
 		return parent::find('count', $this->options);
 	}
-	
+
+	/**
+	 * クエリの結果を配列で返す
+	 * 
+	 * @param string $sql SQL
+	 * @param array $params SQL用パラメータ
+	 * @param string $table_name テーブル名
+	 * @param string $field_name フィールド名
+	 * @return array クエリの結果
+	 */
+	public function queryList($sql, $params, $table_name, $field_name)
+	{
+		$data = $this->query($sql, $params);
+		
+		$list = [];
+		
+		for($i=0; $i< count($data); $i++)
+		{
+			$list[$i] = $data[$i][$table_name][$field_name];
+		}
+		
+		return $list;
+	}
+
+
 	/**
 	 * 取得形式をオブジェクトに指定
 	 */
@@ -183,7 +207,7 @@ class AppModel extends Model
 	/**
 	 * 配列をオブジェクトに変換
 	 */
-	private function _array_to_object($array, &$obj)
+	private function _arrayToObject($array, &$obj)
 	{
 		foreach($array as $key => $value)
 		{
@@ -194,7 +218,7 @@ class AppModel extends Model
 					$key .= 's';
 				
 				$obj->{strtolower($key)} = new stdClass();
-				$this->_array_to_object($value, $obj->{strtolower($key)});
+				$this->_arrayToObject($value, $obj->{strtolower($key)});
 			}
 			else
 			{

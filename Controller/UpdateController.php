@@ -117,7 +117,7 @@ class UpdateController extends AppController
 						continue;
 					
 					$error_msg = sprintf("%s\n[Error Code]%s\n[Error Code2]%s\n[SQL]%s", $e->errorInfo[2], $e->errorInfo[0], $e->errorInfo[1], $statement);
-					$err_statements[count($err_statements)] = $error_msg;
+					$err_statements[] = $error_msg;
 				}
 			}
 		}

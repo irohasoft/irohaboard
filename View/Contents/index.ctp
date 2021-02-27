@@ -1,4 +1,7 @@
 <?php $this->start('css-embedded'); ?>
+<?php
+$is_admin_record = $this->isAdminPage() && $this->isRecordPage();
+?>
 <style>
 @media only screen and (max-width:800px)
 {	.responsive-table tbody td:nth-of-type(2):before { width: 100px; display: inline-block; content: "<?= __('種別').' : '?>";}
@@ -9,7 +12,7 @@
 	.responsive-table tbody td:nth-of-type(7):before { content: "<?= __('理解度').' : '?>"; }
 }
 
-<?php if($this->action=='admin_record') { // 学習履歴表示モードの場合、メニューを表示しない ?>
+<?php if($is_admin_record) { // 管理者による学習履歴表示の場合、メニューを表示しない ?>
 .ib-navi-item
 {
 	display					: none;
@@ -25,8 +28,6 @@
 <div class="contents-index">
 	<div class="ib-breadcrumb">
 	<?php
-	$is_admin_record = ($this->action == 'admin_record');
-	
 	// 管理者による学習履歴表示の場合、パンくずリストを表示しない
 	if(!$is_admin_record)
 	{

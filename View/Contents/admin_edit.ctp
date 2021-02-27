@@ -149,7 +149,7 @@
 	?>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<?= ($this->action == 'admin_edit') ? __('編集') :  __('新規コンテンツ'); ?>
+			<?= $this->isEditPage() ? __('編集') :  __('新規コンテンツ'); ?>
 		</div>
 		<div class="panel-body">
 		<?php
@@ -193,7 +193,7 @@
 				__('[非公開]と設定した場合、管理者権限でログインした場合のみ表示されます。'));
 
 			// コンテンツ移動用
-			if($this->action == 'admin_edit')
+			if($this->isEditPage())
 			{
 				echo $this->Form->inputExp('course_id', ['label' => __('所属コース'), 'value' => $course['Course']['id']],
 					__('変更することで他のコースにコンテンツを移動できます。'));

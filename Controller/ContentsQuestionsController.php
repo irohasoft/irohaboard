@@ -18,11 +18,13 @@ App::uses('AppController', 'Controller');
  */
 class ContentsQuestionsController extends AppController
 {
-
 	public $components = [
 		'Security' => [
 			'validatePost' => false,
 			'csrfUseOnce' => false,
+			//'csrfCheck' => false,
+			'csrfExpires' => '+3 hours',
+			'csrfLimit' => 10000,
 			'unlockedActions' => ['admin_order', 'index']
 		],
 	];
@@ -66,19 +68,18 @@ class ContentsQuestionsController extends AppController
 			$record = $this->Record->get($record_id);
 			
 			// 受講者によるテスト結果表示の場合、自身のテスト結果か確認
-			if(
-				($this->action == 'record')&&
-				($record['Record']['user_id'] != $this->readAuthUser('id'))
-			)
+			if($this->isRecordPage() && ($record['Record']['user_id'] != $this->readAuthUser('id')))
 			{
 				throw new NotFoundException(__('Invalid access'));
 			}
 			
 			// テスト結果に紐づく問題ID一覧（出題順）を作成
-			$question_id_list = [];
+			// 問題が存在しない場合のエラーを防ぐため、0を追加
+			$question_id_list = [0];
+			
 			foreach($record['RecordsQuestion'] as $question)
 			{
-				$question_id_list[count($question_id_list)] = $question['question_id'];
+				$question_id_list[] = $question['question_id'];
 			}
 			
 			// 問題ID一覧を元に問題情報を取得
@@ -113,7 +114,7 @@ class ContentsQuestionsController extends AppController
 			
 			foreach($contentsQuestions as $contentsQuestion)
 			{
-				$question_id_list[count($question_id_list)] = $contentsQuestion['ContentsQuestion']['id'];
+				$question_id_list[] = $contentsQuestion['ContentsQuestion']['id'];
 			}
 			
 			// ランダム出題情報を一時的にセッションに格納（リロードによる変化や、採点時の問題情報との矛盾を防ぐため）
@@ -234,8 +235,8 @@ class ContentsQuestionsController extends AppController
 			}
 		}
 		
-		$is_record = (($this->action == 'record') || ($this->action == 'admin_record'));	// テスト結果表示フラグ
-		$is_admin_record = ($this->action == 'admin_record');
+		$is_record = $this->isRecordPage();	// テスト結果表示フラグ
+		$is_admin_record = $this->isAdminPage() && $this->isRecordPage();
 		
 		$this->set(compact('content', 'contentsQuestions', 'record', 'is_record', 'is_admin_record'));
 	}
@@ -302,7 +303,7 @@ class ContentsQuestionsController extends AppController
 	{
 		$content_id = intval($content_id);
 		
-		if(($this->action == 'edit') && !$this->Post->exists($question_id))
+		if($this->isEditPage() && !$this->ContentsQuestion->exists($question_id))
 		{
 			throw new NotFoundException(__('Invalid contents question'));
 		}
@@ -388,6 +389,7 @@ class ContentsQuestionsController extends AppController
 	public function admin_order()
 	{
 		$this->autoRender = FALSE;
+		
 		if($this->request->is('ajax'))
 		{
 			$this->ContentsQuestion->setOrder($this->data['id_list']);

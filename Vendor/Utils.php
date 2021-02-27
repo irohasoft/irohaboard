@@ -7,13 +7,6 @@
 // ユーティリティクラス
 class Utils
 {
-	//------------------------------//
-	//	コンストラクタ				//
-	//------------------------------//
-	public function Utils()
-	{
-	}
-	
 	/**
 	 * 対象日時から時間を切り取って返す
 	 * 
@@ -139,6 +132,18 @@ class Utils
 	public static function getNewPassword($digit)
 	{
 		return substr(str_shuffle('23456789abcdefghijkmnopqrstuvwxyz'), 0, $digit);
+	}
+	
+	/**
+	 * 未定義エラー回避用
+	 * 
+	 * @param string $check 対象の文字列
+	 * @param string $alternate 未定義の場合に返す文字列
+	 * @return string 生成したパスワード
+	 */
+	function issetOr(&$check, $alternate = null) 
+	{
+		return (isset($check)) ? $check : $alternate;
 	}
 }
 

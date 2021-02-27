@@ -65,7 +65,7 @@ class Group extends AppModel
 		$sql = "SELECT user_id FROM ib_users_groups WHERE group_id = :group_id";
 		$params = ['group_id' => $group_id];
 
-		$list = $this->query_list($sql, $params, 'ib_users_groups', 'user_id');
+		$list = $this->queryList($sql, $params, 'ib_users_groups', 'user_id');
 
 		return $list;
 	}

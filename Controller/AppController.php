@@ -185,16 +185,17 @@ class AppController extends Controller
 	/**
 	 * クエリストリングの取得
 	 * @param string $key キー
+	 * @param string $default キーが存在しない場合に返す値
 	 */
-	protected function getQuery($key)
+	protected function getQuery($key, $default = '')
 	{
 		if(!isset($this->request->query[$key]))
-			return '';
+			return $default;
 		
 		$val = $this->request->query[$key];
 		
 		if($val == null)
-			return '';
+			return $default;
 		
 		return $val;
 	}
@@ -211,16 +212,17 @@ class AppController extends Controller
 	/**
 	 * ルート要素とリクエストパラメータを取得
 	 * @param string $key キー
+	 * @param string $default キーが存在しない場合に返す値
 	 */
-	protected function getParam($key)
+	protected function getParam($key, $default = '')
 	{
 		if(!isset($this->request->params[$key]))
-			return '';
+			return $default;
 		
 		$val = $this->request->params[$key];
 		
 		if($val == null)
-			return '';
+			return $default;
 		
 		return $val;
 	}
@@ -228,16 +230,17 @@ class AppController extends Controller
 	/**
 	 * POSTデータの取得
 	 * @param string $key キー
+	 * @param string $default キーが存在しない場合に返す値
 	 */
-	protected function getData($key = null)
+	protected function getData($key = null, $default = null)
 	{
 		$val = $this->request->data;
 		
 		if(!$val)
-			return null;
+			return $default;
 		
 		if($key)
-			$val = empty($val[$key]) ? null :$val[$key];
+			$val = empty($val[$key]) ? $default :$val[$key];
 		
 		return $val;
 	}
@@ -260,12 +263,36 @@ class AppController extends Controller
 	}
 
 	/**
-	 * 管理画面のアクセスか確認
+	 * 管理画面へのアクセスかを確認
 	 * @return bool true : 管理画面, false : 受講者画面
 	 */
 	protected function isAdminPage()
 	{
 		return (isset($this->request->params['admin']));
+	}
+
+	/**
+	 * 編集画面へのアクセスかを確認
+	 */
+	protected function isEditPage()
+	{
+		return (($this->action == 'edit') || ($this->action == 'admin_edit'));
+	}
+
+	/**
+	 * テスト結果画面へのアクセスかを確認
+	 */
+	protected function isRecordPage()
+	{
+		return (($this->action == 'record') || ($this->action == 'admin_record'));
+	}
+
+	/**
+	 * ログイン画面へのアクセスかを確認
+	 */
+	protected function isLoginPage()
+	{
+		return (($this->action == 'login') || ($this->action == 'admin_login'));
 	}
 
 	/**

@@ -59,8 +59,8 @@ class UsersCourse extends AppModel
 	public function getCourseRecord($user_id)
 	{
 		$sql = <<<EOF
- SELECT Course.*, Course.id, Course.title, first_date, last_date,
-       (ifnull(content_cnt, 0) - ifnull(study_cnt, 0) ) as left_cnt
+ SELECT Course.*, Record.first_date, Record.last_date,
+       (ifnull(ContentCount.content_cnt, 0) - ifnull(StudyCount.study_cnt, 0)) as left_cnt #未受講コンテンツ数
    FROM ib_courses Course
    LEFT OUTER JOIN
        (SELECT h.course_id, h.user_id,
@@ -72,25 +72,25 @@ class UsersCourse extends AppModel
      ON Record.course_id   = Course.id
     AND Record.user_id     =:user_id
    LEFT OUTER JOIN
-		(SELECT course_id, COUNT(*) as study_cnt
-		   FROM
-			(SELECT r.course_id, r.content_id, COUNT(*)
-			   FROM ib_records r
-			  INNER JOIN ib_contents c ON r.content_id = c.id AND r.course_id = c.course_id
-			  WHERE r.user_id = :user_id
-			    AND status = 1
-			  GROUP BY r.course_id, r.content_id) as c
-		 GROUP BY course_id) StudyCount
-     ON StudyCount.course_id   = Course.id
+        (SELECT course_id, COUNT(*) as study_cnt #受講済コンテンツ数をコース別に集計
+           FROM
+            (SELECT r.course_id, r.content_id, COUNT(*) as cnt #学習履歴をコンテンツ別に集計
+               FROM ib_records r
+              INNER JOIN ib_contents c ON r.content_id = c.id AND r.course_id = c.course_id
+              WHERE r.user_id = :user_id
+                AND c.status = 1
+              GROUP BY r.course_id, r.content_id) as c
+          GROUP BY course_id) StudyCount
+     ON StudyCount.course_id = Course.id
    LEFT OUTER JOIN
-		(SELECT course_id, COUNT(*) as content_cnt
-		   FROM ib_contents
-		  WHERE kind NOT IN ('label', 'file')
-		    AND status = 1
-		  GROUP BY course_id) ContentCount
+        (SELECT course_id, COUNT(*) as content_cnt #コンテンツ数をコース別に集計
+           FROM ib_contents
+          WHERE kind NOT IN ('label', 'file')
+            AND status = 1
+          GROUP BY course_id) ContentCount
      ON ContentCount.course_id   = Course.id
-  WHERE id IN (SELECT course_id FROM ib_users_groups ug INNER JOIN ib_groups_courses gc ON ug.group_id = gc.group_id WHERE user_id = :user_id)
-     OR id IN (SELECT course_id FROM ib_users_courses WHERE user_id = :user_id)
+  WHERE id IN (SELECT course_id FROM ib_users_groups ug INNER JOIN ib_groups_courses gc ON ug.group_id = gc.group_id WHERE user_id = :user_id) #グループ受講登録
+     OR id IN (SELECT course_id FROM ib_users_courses WHERE user_id = :user_id) #個人別受講登録
   ORDER BY Course.sort_no asc
 EOF;
 

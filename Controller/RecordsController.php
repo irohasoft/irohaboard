@@ -52,8 +52,8 @@ class RecordsController extends AppController
 			$conditions['Content.kind'] = ['test'];
 		
 		// 対象日時による絞り込み
-		$from_date	= ($this->getQuery('from_date')) ? implode('-', $this->getQuery('from_date')) : date('Y-m-d', strtotime('-1 month'));
-		$to_date	= ($this->getQuery('to_date'))   ? implode('-', $this->getQuery('to_date'))   : date('Y-m-d');
+		$from_date	= ($this->hasQuery('from_date')) ? implode('-', $this->getQuery('from_date')) : date('Y-m-d', strtotime('-1 month'));
+		$to_date	= ($this->hasQuery('to_date'))   ? implode('-', $this->getQuery('to_date'))   : date('Y-m-d');
 		
 		$conditions['Record.created BETWEEN ? AND ?'] = [$from_date, $to_date.' 23:59:59'];
 		

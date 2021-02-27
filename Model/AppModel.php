@@ -170,7 +170,31 @@ class AppModel extends Model
 	{
 		return parent::find('count', $this->options);
 	}
-	
+
+	/**
+	 * クエリの結果を配列で返す
+	 * 
+	 * @param string $sql SQL
+	 * @param array $params SQL用パラメータ
+	 * @param string $table_name テーブル名
+	 * @param string $field_name フィールド名
+	 * @return array クエリの結果
+	 */
+	public function queryList($sql, $params, $table_name, $field_name)
+	{
+		$data = $this->query($sql, $params);
+		
+		$list = [];
+		
+		for($i=0; $i< count($data); $i++)
+		{
+			$list[$i] = $data[$i][$table_name][$field_name];
+		}
+		
+		return $list;
+	}
+
+
 	/**
 	 * 取得形式をオブジェクトに指定
 	 */

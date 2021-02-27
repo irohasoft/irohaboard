@@ -131,7 +131,7 @@ class AppModel extends Model
 			
 			// [Model][field] を 削除
 			$object= new stdClass();
-			$data = $this->_array_to_object($data, $object);
+			$data = $this->_arrayToObject($data, $object);
 			
 			return $data;
 		}
@@ -155,7 +155,7 @@ class AppModel extends Model
 			unset($data[$this->name]);
 			
 			$object= new stdClass();
-			$data = $this->_array_to_object($data, $object);
+			$data = $this->_arrayToObject($data, $object);
 			
 			return $data;
 		}
@@ -207,7 +207,7 @@ class AppModel extends Model
 	/**
 	 * 配列をオブジェクトに変換
 	 */
-	private function _array_to_object($array, &$obj)
+	private function _arrayToObject($array, &$obj)
 	{
 		foreach($array as $key => $value)
 		{
@@ -218,7 +218,7 @@ class AppModel extends Model
 					$key .= 's';
 				
 				$obj->{strtolower($key)} = new stdClass();
-				$this->_array_to_object($value, $obj->{strtolower($key)});
+				$this->_arrayToObject($value, $obj->{strtolower($key)});
 			}
 			else
 			{

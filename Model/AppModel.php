@@ -164,6 +164,14 @@ class AppModel extends Model
 	}
 
 	/**
+	 * find('list')の結果を返す
+	 */
+	public function toList()
+	{
+		return parent::find('list', $this->options);
+	}
+
+	/**
 	 * find('count')の結果を返す
 	 */
 	public function count()

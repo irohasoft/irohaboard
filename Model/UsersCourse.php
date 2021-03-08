@@ -60,7 +60,7 @@ class UsersCourse extends AppModel
 	{
 		$sql = <<<EOF
  SELECT Course.*, Record.first_date, Record.last_date,
-       (ifnull(ContentCount.content_cnt, 0) - ifnull(StudyCount.study_cnt, 0)) as left_cnt #未受講コンテンツ数
+       (ifnull(ContentCount.content_cnt, 0) - ifnull(CompleteCount.complete_cnt, 0)) as left_cnt #未受講コンテンツ数
    FROM ib_courses Course
    LEFT OUTER JOIN
        (SELECT h.course_id, h.user_id,
@@ -72,16 +72,27 @@ class UsersCourse extends AppModel
      ON Record.course_id   = Course.id
     AND Record.user_id     =:user_id
    LEFT OUTER JOIN
-        (SELECT course_id, COUNT(*) as study_cnt #受講済コンテンツ数をコース別に集計
+        (SELECT course_id, COUNT(*) as complete_cnt #受講済コンテンツ数をコース別に集計
            FROM
-            (SELECT r.course_id, r.content_id, COUNT(*) as cnt #学習履歴をコンテンツ別に集計
-               FROM ib_records r
-              INNER JOIN ib_contents c ON r.content_id = c.id AND r.course_id = c.course_id
-              WHERE r.user_id = :user_id
-                AND c.status = 1
-              GROUP BY r.course_id, r.content_id) as c
-          GROUP BY course_id) StudyCount
-     ON StudyCount.course_id = Course.id
+          (SELECT
+                r.course_id, r.content_id, c.kind,
+                ( SELECT h1.is_passed   FROM ib_records h1 WHERE h1.content_id = r.content_id ORDER BY h1.created DESC LIMIT 1 ) AS is_passed,  #最新のテスト結果
+                ( SELECT h2.is_complete FROM ib_records h2 WHERE h2.content_id = r.content_id ORDER BY h2.created DESC LIMIT 1 ) AS is_complete #最新の完了フラグ
+            FROM
+                ib_records r
+                INNER JOIN ib_contents c ON r.content_id = c.id AND r.course_id = c.course_id
+            WHERE c.kind NOT IN ('label', 'file')
+              AND c.status = 1
+              AND r.user_id = :user_id
+            GROUP BY
+                r.course_id, r.content_id
+          ) as LastRecord
+          WHERE (
+              (LastRecord.is_complete = 1 AND LastRecord.kind != 'test') OR 
+              (LastRecord.is_passed   = 1 AND LastRecord.kind  = 'test')
+          ) #コンテンツの最新の学習履歴が学習コンテンツの場合、完了、テストの場合、合格済のもの
+          GROUP BY course_id) CompleteCount
+     ON CompleteCount.course_id = Course.id
    LEFT OUTER JOIN
         (SELECT course_id, COUNT(*) as content_cnt #コンテンツ数をコース別に集計
            FROM ib_contents

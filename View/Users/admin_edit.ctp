@@ -13,13 +13,13 @@
 <?= $this->Html->link(__('<< 戻る'), ['action' => 'index'])?>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<?= ($this->request->data) ? __('編集') :  __('新規ユーザ'); ?>
+			<?= $this->isEditPage() ? __('編集') :  __('新規ユーザ'); ?>
 		</div>
 		<div class="panel-body">
 		<?php
 			echo $this->Form->create('User', Configure::read('form_defaults'));
 			
-			$password_label = ($this->request->data) ? __('新しいパスワード') : __('パスワード');
+			$password_label = $this->isEditPage() ? __('新しいパスワード') : __('パスワード');
 			
 			echo $this->Form->input('id');
 			echo $this->Form->input('username',				['label' => __('ログインID')]);
@@ -32,8 +32,8 @@
 			echo $this->Form->inputRadio('role',	['label' => __('権限'), 'options' => Configure::read('user_role')]);
 			
 			echo $this->Form->input('email',				['label' => __('メールアドレス')]);
-			echo $this->Form->input('Group',				['label' => __('所属グループ'),	'size' => 20]);
-			echo $this->Form->input('Course',				['label' => __('受講コース'),		'size' => 20]);
+			echo $this->Form->input('Group',				['label' => __('所属グループ')]);
+			echo $this->Form->input('Course',				['label' => __('受講コース')]);
 			echo $this->Form->input('comment',				['label' => __('備考')]);
 			echo Configure::read('form_submit_before')
 				.$this->Form->submit(__('保存'), Configure::read('form_submit_defaults'))

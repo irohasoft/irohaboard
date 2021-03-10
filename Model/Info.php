@@ -136,6 +136,10 @@ EOF;
 			$info_id_list[] = $info['Info']['id'];
 		}
 		
+		// 該当するお知らせIDが1件も存在しない場合、エラー防止のため、ダミーIDを追加
+		if(count($info_id_list) == 0)
+			$info_id_list[] = 0;
+		
 		return $info_id_list;
 	}
 }

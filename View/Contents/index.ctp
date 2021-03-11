@@ -151,7 +151,7 @@ $is_admin_record = $this->isAdminPage() && $this->isRecordPage();
 			<td class="ib-col-center" nowrap><?= h($kind); ?>&nbsp;</td>
 			<td class="ib-col-date"><?= Utils::getYMD($content['Record']['first_date']); ?>&nbsp;</td>
 			<td class="ib-col-date"><?= Utils::getYMD($content['Record']['last_date']); ?>&nbsp;</td>
-			<td class="ib-col-center"><?= h(Utils::getHNSBySec($content['Record']['study_sec'])); ?>&nbsp;</td>
+			<td class="ib-col-center"><?= str_replace('00:00:00', '', Utils::getHNSBySec($content['Record']['study_sec'])); ?>&nbsp;</td>
 			<td class="ib-col-center"><?= h($content['Record']['study_count']); ?>&nbsp;</td>
 			<td nowrap class="ib-col-center"><?= $understanding; ?></td>
 			<td class="ib-col-center"><?= ($content['CompleteRecord']['is_complete'] == 1) ? '<span class="glyphicon glyphicon-ok text-muted"></span>' : ''; ?></td>

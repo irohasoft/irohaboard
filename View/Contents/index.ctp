@@ -10,6 +10,7 @@ $is_admin_record = $this->isAdminPage() && $this->isRecordPage();
 	.responsive-table tbody td:nth-of-type(5):before { content: "<?= __('学習時間').' : '?>"; }
 	.responsive-table tbody td:nth-of-type(6):before { content: "<?= __('学習回数').' : '?>"; }
 	.responsive-table tbody td:nth-of-type(7):before { content: "<?= __('理解度').' : '?>"; }
+	.responsive-table tbody td:nth-of-type(8):before { content: "<?= __('完了').' : '?>"; }
 }
 
 <?php if($is_admin_record) { // 管理者による学習履歴表示の場合、メニューを表示しない ?>
@@ -62,6 +63,7 @@ $is_admin_record = $this->isAdminPage() && $this->isRecordPage();
 				<th nowrap class="ib-col-center"><?= __('学習時間'); ?></th>
 				<th nowrap class="ib-col-center"><?= __('学習回数'); ?></th>
 				<th nowrap class="ib-col-center"><?= __('理解度'); ?></th>
+				<th nowrap class="ib-col-center">完了</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -137,10 +139,11 @@ $is_admin_record = $this->isAdminPage() && $this->isRecordPage();
 		if($content['Content']['status'] == 0)
 			$title_link .= ' <span class="status-closed">(非公開)</span>';
 		
+		//debug($content);
 		?>
 		<?php if($content['Content']['kind'] == 'label') { // ラベルの場合、タイトルのみ表示 ?>
 		<tr>
-			<td colspan="7" class="content-label"><?= h($content['Content']['title']); ?>&nbsp;</td>
+			<td colspan="8" class="content-label"><?= h($content['Content']['title']); ?>&nbsp;</td>
 		</tr>
 		<?php }else{?>
 		<tr>
@@ -151,6 +154,7 @@ $is_admin_record = $this->isAdminPage() && $this->isRecordPage();
 			<td class="ib-col-center"><?= h(Utils::getHNSBySec($content['Record']['study_sec'])); ?>&nbsp;</td>
 			<td class="ib-col-center"><?= h($content['Record']['study_count']); ?>&nbsp;</td>
 			<td nowrap class="ib-col-center"><?= $understanding; ?></td>
+			<td class="ib-col-center"><?= ($content['CompleteRecord']['is_complete'] == 1) ? '<span class="glyphicon glyphicon-ok text-muted"></span>' : ''; ?></td>
 		</tr>
 		<?php }?>
 	<?php endforeach; ?>

@@ -40,8 +40,8 @@
 				<?php }?>
 				<h4 class="list-group-item-heading"><?= h($course['Course']['title']);?></h4>
 				<p class="list-group-item-text">
-					<span><?= __('学習開始日').': '.Utils::getYMD($course['Record']['first_date']); ?></span>
-					<span><?= __('最終学習日').': '.Utils::getYMD($course['Record']['last_date']); ?></span>
+					<span class="first-date"><?= __('学習開始日').': '.Utils::getYMD($course['Record']['first_date']); ?></span>
+					<span class="last-date"><?= __('前回学習日').': '.Utils::getYMD($course['Record']['last_date']); ?></span>
 				</p>
 			</a>
 		<?php endforeach; ?>

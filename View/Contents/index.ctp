@@ -63,7 +63,7 @@ $is_admin_record = $this->isAdminPage() && $this->isRecordPage();
 				<th nowrap class="ib-col-center"><?= __('学習時間'); ?></th>
 				<th nowrap class="ib-col-center"><?= __('学習回数'); ?></th>
 				<th nowrap class="ib-col-center"><?= __('理解度'); ?></th>
-				<th nowrap class="ib-col-center">完了</th>
+				<th nowrap class="ib-col-center"><?= __('完了'); ?></th>
 			</tr>
 		</thead>
 		<tbody>

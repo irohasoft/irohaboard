@@ -203,7 +203,7 @@
 			echo $this->Form->input('comment', ['label' => __('備考')]);
 			echo '</span>';
 			echo Configure::read('form_submit_before')
-				.'<button id="btnPreview" class="btn btn-default" value="プレビュー" onclick="preview(); return false;" type="submit">プレビュー</button>'
+				.'<button id="btnPreview" class="btn btn-default" onclick="preview(); return false;">プレビュー</button> '
 				.$this->Form->submit(__('保存'), Configure::read('form_submit_defaults'))
 				.Configure::read('form_submit_after');
 			echo $this->Form->end();

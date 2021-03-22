@@ -42,15 +42,6 @@ class InstallController extends AppController
 	{
 		try
 		{
-			App::import('Model','ConnectionManager');
-			
-			$this->db   = ConnectionManager::getDataSource('default');
-			$cdd = new DATABASE_CONFIG();
-			
-			//debug($db);
-			$sql = "SHOW TABLES FROM `".$cdd->default['database']."` LIKE 'ib_users'";
-			$data = $this->db->query($sql);
-			
 			// apache_get_modules が存在する場合のみ、Apache のモジュールチェックを行う
 			if(function_exists('apache_get_modules'))
 			{
@@ -94,6 +85,25 @@ class InstallController extends AppController
 				$this->render('error');
 				return;
 			}
+		}
+		catch(Exception $e)
+		{
+			$this->err_msg = '各種モジュール（mod_rewrite, mod_headers, mbstring, pdo_mysql）チェック中にエラーが発生いたしました。';
+			$this->error();
+			$this->render('error');
+			return;
+		}
+		
+		try
+		{
+			App::import('Model','ConnectionManager');
+			
+			$this->db   = ConnectionManager::getDataSource('default');
+			$cdd = new DATABASE_CONFIG();
+			
+			//debug($db);
+			$sql = "SHOW TABLES FROM `".$cdd->default['database']."` LIKE 'ib_users'";
+			$data = $this->db->query($sql);
 			
 			// ユーザテーブルが存在する場合、インストール済みと判断
 			if(count($data) > 0)

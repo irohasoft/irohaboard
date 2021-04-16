@@ -302,11 +302,22 @@ class AppController extends Controller
 	 */
 	protected function writeLog($log_type, $log_content)
 	{
+		// ロードバランサー対応
+		if(!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+		{
+			$ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+			$ip  = $ips[0];
+		}
+		else
+		{
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
+
 		$data = [
 			'log_type'    => $log_type,
 			'log_content' => $log_content,
 			'user_id'     => $this->readAuthUser('id'),
-			'user_ip'     => $_SERVER['REMOTE_ADDR'],
+			'user_ip'     => $ip,
 			'user_agent'  => $_SERVER['HTTP_USER_AGENT']
 		];
 		

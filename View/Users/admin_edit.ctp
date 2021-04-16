@@ -40,7 +40,8 @@
 				.Configure::read('form_submit_after');
 			echo $this->Form->end();
 			
-			if($this->request->data)
+			// 編集の場合のみ、学習履歴削除ボタンを表示
+			if($this->isEditPage())
 			{
 				echo $this->Form->postLink(__('学習履歴を削除'),
 					['action' => 'clear', $this->request->data['User']['id']],

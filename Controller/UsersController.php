@@ -59,7 +59,7 @@ class UsersController extends AppController
 			// クッキー上のアカウントでログイン
 			$this->request->data = $this->Cookie->read('Auth');
 			
-			if($this->Auth->login())
+			if($this->_login())
 			{
 				// 最終ログイン日時を保存
 				$this->User->id = $this->readAuthUser('id');
@@ -76,7 +76,7 @@ class UsersController extends AppController
 		// 通常ログイン処理
 		if($this->request->is('post'))
 		{
-			if($this->Auth->login())
+			if($this->_login())
 			{
 				if(isset($this->data['User']['remember_me']))
 				{
@@ -112,6 +112,35 @@ class UsersController extends AppController
 		}
 		
 		$this->set(compact('username', 'password'));
+	}
+
+	/**
+	 * bcrypt パスワード対応ログイン
+	 */
+	private function _login()
+	{
+		$username = $this->request->data['User']['username'];
+		$user = $this->User->findByUsername($username);
+		$hash = $user['User']['password'];
+		
+		// 先頭文字列で bcrypt によるハッシュ値かどうか判定
+		if(substr($hash, 0, 1) == '$')
+		{
+			// bcrypt パスワードの認証
+			$password = $this->request->data['User']['password'];
+			
+			if(password_verify($password, $hash))
+			{
+				return $this->Auth->login($user['User']);
+			}
+		}
+		else
+		{
+			// 通常(SHA-1)パスワードの認証
+			return $this->Auth->login();
+		}
+		
+		return false;
 	}
 
 	/**

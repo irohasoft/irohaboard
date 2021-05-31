@@ -26,30 +26,6 @@ class Setting extends AppModel
 	];	
 
 	/**
-	 * システム設定の値を取得
-	 * @param int $setting_key 設定キー
-	 * @return string 設定値
-	 */
-	public function getSettingValue($setting_key)
-	{
-		$setting_value = "";
-		
-		$sql = <<<EOF
-SELECT setting_value
-  FROM ib_settings
- WHERE setting_key = :setting_key
-EOF;
-		$params = [
-			'setting_key' => $setting_key
-		];
-		
-		$data = $this->query($sql, $params);
-		
-		
-		return $setting_value;
-	}
-	
-	/**
 	 * システム設定の値のリストを取得
 	 * @return array 設定値リスト（連想配列）
 	 */

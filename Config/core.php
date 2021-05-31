@@ -230,6 +230,7 @@
 	Configure::write('Session', [
 		'defaults' => 'php',
 		'cookie' => 'AppSession', // セッション用のクッキー名
+		'cookieTimeout' => 1440, // 1 day
 	]);
 
 /**

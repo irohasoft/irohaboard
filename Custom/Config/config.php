@@ -28,3 +28,6 @@ $config['record_understanding_spn'] = array(
 
 // 独自のテーマカラーを追加する場合には、以下のコメントを解除し、カラーコードを変更してください。
 //$config['theme_colors'][] = ['#000000' => 'custom'];
+
+// 配布資料でアップロード可能な拡張子を追加する場合は、以下のコメントを解除し、拡張子を変更してください。
+//$config['upload_extensions'][] = '.abc';

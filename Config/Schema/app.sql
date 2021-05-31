@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `ib_records_questions` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `record_id` int(8) NOT NULL DEFAULT '0',
   `question_id` int(8) NOT NULL DEFAULT '0',
-  `answer` varchar(200) DEFAULT NULL,
+  `answer` varchar(2000) DEFAULT NULL,
   `correct` varchar(200) DEFAULT NULL,
   `is_correct` smallint(1) DEFAULT '0',
   `score` int(8) NOT NULL DEFAULT '0',

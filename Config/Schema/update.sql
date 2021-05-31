@@ -40,3 +40,4 @@ ALTER TABLE ib_records ADD INDEX idx_created(created);
 ALTER TABLE ib_contents ADD COLUMN wrong_mode int(1) NOT NULL DEFAULT 1 AFTER question_count;
 
 ALTER TABLE ib_contents_questions MODIFY options varchar(2000);
+ALTER TABLE ib_records_questions MODIFY answer varchar(2000);

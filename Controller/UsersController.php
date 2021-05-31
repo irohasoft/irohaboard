@@ -123,8 +123,10 @@ class UsersController extends AppController
 		$user = $this->User->findByUsername($username);
 		$hash = $user['User']['password'];
 		
-		if(substr($hash, 0, 1)=='$')
+		// 先頭文字列で bcrypt によるハッシュ値かどうか判定
+		if(substr($hash, 0, 1) == '$')
 		{
+			// bcrypt パスワードの認証
 			$password = $this->request->data['User']['password'];
 			
 			if(password_verify($password, $hash))
@@ -134,6 +136,7 @@ class UsersController extends AppController
 		}
 		else
 		{
+			// 通常(SHA-1)パスワードの認証
 			return $this->Auth->login();
 		}
 		

@@ -38,7 +38,7 @@ class InstallController extends AppController
 	/**
 	 * インストール
 	 */
-	public function index()
+	public function index($mode = null)
 	{
 		try
 		{
@@ -98,11 +98,20 @@ class InstallController extends AppController
 		{
 			App::import('Model','ConnectionManager');
 			
-			$this->db   = ConnectionManager::getDataSource('default');
-			$cdd = new DATABASE_CONFIG();
+			// テストモードの場合、テスト用のデータベースを参照
+			if($mode == 'test')
+			{
+				$this->db   = ConnectionManager::getDataSource('test');
+				$cdd = new DATABASE_CONFIG();
+				$sql = "SHOW TABLES FROM `".$cdd->test['database']."` LIKE 'ib_users'";
+			}
+			else
+			{
+				$this->db   = ConnectionManager::getDataSource('default');
+				$cdd = new DATABASE_CONFIG();
+				$sql = "SHOW TABLES FROM `".$cdd->default['database']."` LIKE 'ib_users'";
+			}
 			
-			//debug($db);
-			$sql = "SHOW TABLES FROM `".$cdd->default['database']."` LIKE 'ib_users'";
 			$data = $this->db->query($sql);
 			
 			// ユーザテーブルが存在する場合、インストール済みと判断

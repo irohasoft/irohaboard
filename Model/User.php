@@ -151,6 +151,7 @@ class User extends AppModel
 	 */
 	public function deleteUserRecords($user_id)
 	{
+		// 学習履歴詳細レコードを先に削除
 		$sql = 'DELETE FROM ib_records_questions WHERE record_id IN (SELECT id FROM ib_records WHERE user_id = :user_id)';
 		
 		$params = [
@@ -159,8 +160,8 @@ class User extends AppModel
 		
 		$this->query($sql, $params);
 		
-		App::import('Model', 'Record');
-		$this->Record = new Record();
-		$this->Record->deleteAll(['Record.user_id' => $user_id], false);
+		// 学習履歴レコードを削除
+		$sql = 'DELETE FROM ib_records WHERE user_id = :user_id';
+		$this->query($sql, $params);
 	}
 }

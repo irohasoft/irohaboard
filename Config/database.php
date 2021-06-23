@@ -12,18 +12,4 @@ class DATABASE_CONFIG
 		'prefix' => 'ib_', // 変更しないでください
 		'encoding' => 'utf8'
 	];
-
-/*
-	// ユニットテストで使用するデータベース（注意：データが初期化されます）
-	public $test = [
-		'datasource' => 'Database/Mysql',
-		'persistent' => true,
-		'host' => 'localhost',
-		'login' => 'root',
-		'password' => '',
-		'database' => 'irohaboard_test',
-		'prefix' => 'ib_',
-		'encoding' => 'utf8'
-	];
-*/
 }

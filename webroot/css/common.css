@@ -373,6 +373,11 @@ form .required .control-label:after
 	font-weight			: normal;
 }
 
+.form-horizontal .control-label
+{
+	padding-top			: 5px;
+}
+
 /* スマートフォン用 */
 @media only screen and (max-width:800px)
 {

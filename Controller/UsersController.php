@@ -119,6 +119,10 @@ class UsersController extends AppController
 	 */
 	private function _login()
 	{
+		// POSTデータにログインIDが含まれていない場合、認証失敗とする
+		if(!isset($this->request->data['User']['username']))
+			return false;
+		
 		$username = $this->request->data['User']['username'];
 		$user = $this->User->findByUsername($username);
 		

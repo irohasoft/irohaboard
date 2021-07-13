@@ -15,7 +15,45 @@ class Utils
 	 */
 	public static function getYMD($str)
 	{
-		return substr($str, 0, 10);
+		if(!$str)
+			return '';
+		
+		$day = new DateTime($str);
+		$ret = $day->format('Y/m/d');
+		
+		return $ret;
+	}
+
+	/**
+	 * 対象日時から時間を切り取って返す
+	 * 
+	 * @param string $str 対象日時（YYYY-MM-DD HH:MM:SS）
+	 * @return string 日付 DD-MM-YYYY
+	 */
+	public static function getDMY($str)
+	{
+		if(!$str)
+			return '';
+		
+		$day = new DateTime($str);
+		$ret =  $day->format('d/m/Y');
+		return $ret;
+	}
+
+	/**
+	 * 対象日時から時間を切り取って返す
+	 * 
+	 * @param string $str 対象日時（YYYY-MM-DD HH:MM:SS）
+	 * @return string 日付 MM-DD-YYYY
+	 */
+	public static function getMDY($str)
+	{
+		if(!$str)
+			return '';
+		
+		$day = new DateTime($str);
+		$ret =  $day->format('m/d/Y');
+		return $ret;
 	}
 
 	/**
@@ -26,7 +64,13 @@ class Utils
 	 */
 	public static function getYMDHN($str)
 	{
-		return substr($str, 0, 16);
+		if(!$str)
+			return '';
+		
+		$day = new DateTime($str);
+		$ret = $day->format('Y-m-d H:i');
+		
+		return $ret;
 	}
 	
 	/**

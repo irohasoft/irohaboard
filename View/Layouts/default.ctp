@@ -26,10 +26,10 @@
 		
 		echo $this->Html->meta('icon');
 
-		echo $this->Html->css('cake.generic');
+		//echo $this->Html->css('cake.generic');
 		echo $this->Html->css('jquery-ui');
 		echo $this->Html->css('bootstrap.min');
-		echo $this->Html->css('common.css?20200701');
+		echo $this->Html->css('common.css?20210701');
 		
 		// 管理画面用CSS
 		if($is_admin_page)

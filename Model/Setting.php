@@ -23,7 +23,7 @@ class Setting extends AppModel
 	public $validate = [
 		'setting_key'   => ['notBlank' => ['rule' => ['notBlank']]],
 		'setting_value' => ['notBlank' => ['rule' => ['notBlank']]]
-	];	
+	];
 
 	/**
 	 * システム設定の値のリストを取得
@@ -42,7 +42,7 @@ class Setting extends AppModel
 		
 		return $result;
 	}
-	
+
 	/**
 	 * システム設定を保存
 	 * @param array 保存する設定値リスト（連想配列）

@@ -28,13 +28,21 @@ class UpdateController extends AppController
 	/**
 	 * アップデート
 	 */
-	public function index()
+	public function index($mode = null)
 	{
 		try
 		{
 			App::import('Model','ConnectionManager');
 
-			$this->db   = ConnectionManager::getDataSource('default');
+			// テストモードの場合、テスト用のデータベースを参照
+			if($mode == 'test')
+			{
+				$this->db   = ConnectionManager::getDataSource('test');
+			}
+			else
+			{
+				$this->db   = ConnectionManager::getDataSource('default');
+			}
 
 			// パッケージアップデート用クエリ
 			$this->path = APP.'Config'.DS.'Schema'.DS.'update.sql';
@@ -45,7 +53,6 @@ class UpdateController extends AppController
 			$err_custom = $this->__executeSQLScript();
 			
 			$err_statements = array_merge($err_update, $err_custom);
-			
 			
 			if(count($err_statements) > 0)
 			{

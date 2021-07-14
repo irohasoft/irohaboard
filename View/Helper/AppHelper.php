@@ -47,8 +47,8 @@ class AppHelper extends Helper
 		$options['div'] = 'form-group required';
 		$options['before'] = '<label class="col col-sm-3 control-label">'.$options['label'].'</label>';
 		
-		if($exp!='')
-			$options['after'] = '<div class="col col-sm-3"></div><div class="col col-sm-9 col-exp status-exp">'.$exp.'</div>';
+		if($exp != '')
+			$options['after'] = '<div class="col col-sm-3">&nbsp;</div><div class="col col-sm-9 col-exp status-exp">'.$exp.'</div>';
 		
 		$options['separator'] = (isset($options['separator'])) ? $options['separator'] : '　';
 		

@@ -119,8 +119,17 @@ class UsersController extends AppController
 	 */
 	private function _login()
 	{
+		// POSTデータにログインIDが含まれていない場合、認証失敗とする
+		if(!isset($this->request->data['User']['username']))
+			return false;
+		
 		$username = $this->request->data['User']['username'];
 		$user = $this->User->findByUsername($username);
+		
+		// 指定したユーザが存在しない場合、認証失敗とする
+		if(!$user)
+			return false;
+		
 		$hash = $user['User']['password'];
 		
 		// 先頭文字列で bcrypt によるハッシュ値かどうか判定

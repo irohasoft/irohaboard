@@ -77,13 +77,28 @@ if (!defined('CONFIG')) {
  * The following line differs from its sibling
  * /lib/Cake/Console/Templates/skel/webroot/index.php
  */
-//define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'lib');
 
-// cake ディレクトリが webroot の1階層上に存在する場合
-//define('CAKE_CORE_INCLUDE_PATH', dirname(dirname(dirname(__FILE__))).DS.'cake'.DS.'lib');
+// app と同じ階層に lib ディレクトリが存在しない場合、上の階層の cake/lib ディレクトリを検索する (旧バージョン対応)
+$lib_path = dirname(dirname(dirname(__FILE__))).DS.'lib';
 
-// cake ディレクトリが webroot の2階層上に存在する場合
-//define('CAKE_CORE_INCLUDE_PATH', dirname(dirname(dirname(dirname(__FILE__)))).DS.'cake'.DS.'lib');
+if(!file_exists($lib_path))
+{
+	// 1階層上の cake/lib ディレクトリ
+	$lib_path = dirname(dirname(dirname(__FILE__))).DS.'cake'.DS.'lib';
+	
+	if(file_exists($lib_path))
+	{
+		define('CAKE_CORE_INCLUDE_PATH', $lib_path);
+	}
+	
+	// 2階層上の cake/lib ディレクトリ
+	$lib_path = dirname(dirname(dirname(__FILE__))).DS.'cake'.DS.'lib';
+	
+	if(!defined('CAKE_CORE_INCLUDE_PATH') && (file_exists($lib_path)))
+	{
+		define('CAKE_CORE_INCLUDE_PATH', $lib_path);
+	}
+}
 
 /**
  * This auto-detects CakePHP as a composer installed library.
@@ -94,7 +109,6 @@ $dispatcher = 'Cake' . DS . 'Console' . DS . 'ShellDispatcher.php';
 if (!defined('CAKE_CORE_INCLUDE_PATH') && file_exists($vendorPath . DS . $dispatcher)) {
 	define('CAKE_CORE_INCLUDE_PATH', $vendorPath);
 }
-
 
 
 /**

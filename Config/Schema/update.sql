@@ -41,3 +41,8 @@ ALTER TABLE ib_contents ADD COLUMN wrong_mode int(1) NOT NULL DEFAULT 1 AFTER qu
 
 ALTER TABLE ib_contents_questions MODIFY options varchar(2000);
 ALTER TABLE ib_records_questions MODIFY answer varchar(2000);
+
+ALTER TABLE ib_users MODIFY COLUMN created datetime DEFAULT NULL;
+ALTER TABLE ib_users_courses MODIFY COLUMN created datetime DEFAULT NULL;
+ALTER TABLE ib_groups_courses MODIFY COLUMN created datetime DEFAULT NULL;
+ALTER TABLE ib_records_questions MODIFY COLUMN created datetime DEFAULT NULL;

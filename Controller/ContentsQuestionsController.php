@@ -400,7 +400,15 @@ class ContentsQuestionsController extends AppController
 	// 複数選択問題の正誤判定
 	private function isMultiCorrect($answers, $corrects)
 	{
-		// 解答数と正解数が一致しない場合、不合格
+		// 解答が設定されていない場合、不正解
+		if(!isset($answers))
+			return false;
+		
+		// 解答がnullの場合、不正解
+		if($answers == null)
+			return false;
+		
+		// 解答数と正解数が一致しない場合、不正解
 		if(count($answers) != count($corrects))
 			return false;
 		

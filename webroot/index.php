@@ -21,6 +21,23 @@ if (version_compare(PHP_VERSION, '5.4.0') <= 0)
 	exit;
 }
 
+// ロードバランサー対応
+if (isset($_SERVER['HTTP_X_FORWARDED_HOST']))
+{
+	// 1.2.3.4, 1.2.3.4 形式をカンマで分解
+	$host_list = explode(',', $_SERVER['HTTP_X_FORWARDED_HOST']);
+	
+	$_SERVER['HTTP_HOST'] = trim($host_list[count($host_list) - 1]); // 先頭のIPアドレスを設定
+	
+	if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']))
+	{
+		if ($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+		{
+			$_SERVER['HTTPS'] = 'on'; // HTTPSアクセスを強制
+		}
+	}
+}
+
 /**
  * Use the DS to separate the directories in other defines
  */

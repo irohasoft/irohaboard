@@ -101,7 +101,7 @@
 	</div>
 	
 	<div class="irohasoft">
-		Powered by <a href="https://irohaboard.irohasoft.jp/">iroha Board</a>
+		Powered by <a href="https://irohaboard.irohasoft.jp/"><?= APP_NAME; ?></a>
 	</div>
 	
 	<?= $this->element('sql_dump'); ?>

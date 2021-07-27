@@ -44,19 +44,17 @@ class AppHelper extends Helper
 	public function inputRadio($fieldName, $options = [], $exp = '')
 	{
 		$options['type'] = 'radio';
-		$options['div'] = 'form-group required';
-		$options['before'] = '<label class="col col-sm-3 control-label">'.$options['label'].'</label>';
+		
+		$options['div'] = (isset($options['div'])) ? $options['div'] : 'form-group required';
+		$options['before'] = (isset($options['before'])) ? $options['before'] : '<label class="col col-sm-3 control-label">'.$options['label'].'</label>';
+		$options['separator'] = (isset($options['separator'])) ? $options['separator'] : '　';
+		$options['legend'] = (isset($options['legend'])) ? $options['legend'] : false;
+		$options['class'] = (isset($options['class'])) ? $options['class'] : false;
+		$options['default'] = (isset($options['default'])) ? $options['default'] : null;
 		
 		if($exp != '')
 			$options['after'] = '<div class="col col-sm-3">&nbsp;</div><div class="col col-sm-9 col-exp status-exp">'.$exp.'</div>';
 		
-		$options['separator'] = (isset($options['separator'])) ? $options['separator'] : '　';
-		
-		$options['legend'] = false;
-		$options['class'] = false;
-		
-		if(isset($options['default']))
-			$options['default'] = $options['default'];
 		
 		return $this->input($fieldName, $options);
 	}

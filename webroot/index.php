@@ -39,6 +39,9 @@ if(isset($_SERVER['HTTP_X_FORWARDED_HOST']))
 	}
 }
 
+// HTTPSアクセスを強制する場合コメントアウトを解除してください
+//$_SERVER['HTTPS'] = 'on';
+
 /**
  * Use the DS to separate the directories in other defines
  */

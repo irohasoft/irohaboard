@@ -156,4 +156,33 @@ class AppHelper extends Helper
 		
 		return $this->input($fieldName, $options);
 	}
+
+	/**
+	 * 説明用ブロックの出力
+	 * @param string $label ラベル
+	 * @param string $content 内容
+	 * @param bool $is_bold 太字
+	 * @param string $block_class クラス
+	 * @return string 出力タグ
+	 */
+	public static function block($label, $content, $is_bold = false, $block_class = '')
+	{
+		$content = $is_bold ? '<h5>'.$content.'</h5>' : $content;
+		
+		$tag = 
+			'<div class="form-group '.$block_class.'">'.
+			'  <label for="UserRegistNo" class="col col-sm-3 control-label">'.$label.'</label>'.
+			'  <div class="col col-sm-9">'.$content.'</div>'.
+			'</div>';
+		
+		return $tag;
+	}
+
+/*
+	private function getHyphenName($str)
+	{
+		$str = str_replace('_', '-', $str);
+		return $str;
+	}
+*/
 }

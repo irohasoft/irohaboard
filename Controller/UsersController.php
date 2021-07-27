@@ -59,7 +59,7 @@ class UsersController extends AppController
 			// クッキー上のアカウントでログイン
 			$this->request->data = $this->Cookie->read('Auth');
 			
-			if($this->_login())
+			if($this->Auth->login())
 			{
 				// 最終ログイン日時を保存
 				$this->User->id = $this->readAuthUser('id');
@@ -76,7 +76,7 @@ class UsersController extends AppController
 		// 通常ログイン処理
 		if($this->request->is('post'))
 		{
-			if($this->_login())
+			if($this->Auth->login())
 			{
 				if(isset($this->data['User']['remember_me']))
 				{
@@ -115,7 +115,7 @@ class UsersController extends AppController
 	}
 
 	/**
-	 * bcrypt パスワード対応ログイン
+	 * bcrypt パスワード対応ログイン（将来使用予定）
 	 */
 	private function _login()
 	{

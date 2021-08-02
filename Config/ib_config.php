@@ -175,6 +175,7 @@ $config['import_group_count']  = 10;
 $config['import_course_count'] = 20;
 
 $config['show_admin_link'] = false;
+$config['open_link_same_window'] = false;
 
 // webroot/index.php でアプリケーション名が設定されていない場合、ここで設定
 if (!defined('APP_NAME')) {

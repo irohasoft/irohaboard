@@ -50,9 +50,17 @@ class UpdateController extends AppController
 			
 			// カスタマイズ用クエリ
 			$this->path = APP.'Custom'.DS.'Config'.DS.'custom.sql';
-			$err_custom = $this->__executeSQLScript();
 			
-			$err_statements = array_merge($err_update, $err_custom);
+			// カスタマイズ用クエリが存在する場合
+			if(file_exists($this->path))
+			{
+				$err_custom = $this->__executeSQLScript();
+				$err_statements = array_merge($err_update, $err_custom);
+			}
+			else
+			{
+				$err_statements = $err_update;
+			}
 			
 			if(count($err_statements) > 0)
 			{

@@ -353,7 +353,7 @@ CREATE TABLE IF NOT EXISTS `ib_enquetes` (
   `today_goal_cleared` int(8) DEFAULT NULL,
   `today_false_reason` varchar(200) DEFAULT NULL,
   `next_goal` varchar(200) NOT NULL,
-  `today_impressions` varchar(200) NOT NULL,
+  `today_impressions` varchar(600) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)

@@ -89,8 +89,8 @@ class Enquete extends AppModel
 			),
 			*/
 			'Maxlength' => array(
-				'rule' => array('maxLength', 200),
-				'message' => '入力は200文字以下にしてください．'
+				'rule' => array('maxLength', 500),
+				'message' => '入力は500文字以下にしてください．'
 			)
 		)
 

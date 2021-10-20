@@ -114,7 +114,7 @@
 				//通信成功時の処理
 				var url = '<?= Router::url(['controller' => 'contents', 'action' => 'preview', 'admin' => false])?>';
 				
-				window.open(url, '_preview', 'width=1000,height=700,resizable=no');
+				window.open(url, '_preview', 'width=1200, height=700, resizable=yes');
 			},
 			error: function() {
 				//通信失敗時の処理

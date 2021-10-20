@@ -1,9 +1,19 @@
 <?= $this->element('admin_menu');?>
+<?php $this->start('script-embedded'); ?>
+<script>
+	function downloadCSV()
+	{
+		$('#UserCmd').val('export');
+		$('#UserAdminIndexForm').submit();
+		$('#UserCmd').val('');
+	}
+</script>
+<?php $this->end(); ?>
 <div class="admin-users-index">
 	<div class="ib-page-title"><?= __('ユーザ一覧'); ?></div>
 	<div class="buttons_container">
 		<?php if($loginedUser['role'] == 'admin') { ?>
-		<button type="button" class="btn btn-primary btn-export" onclick="location.href='<?= Router::url(['action' => 'export']) ?>'">エクスポート</button>
+		<button type="button" class="btn btn-primary btn-export" onclick="downloadCSV();">エクスポート</button>
 		<button type="button" class="btn btn-primary btn-import" onclick="location.href='<?= Router::url(['action' => 'import']) ?>'">インポート</button>
 		<button type="button" class="btn btn-primary btn-add" onclick="location.href='<?= Router::url(['action' => 'add']) ?>'">+ 追加</button>
 		<?php }?>
@@ -20,6 +30,7 @@
 		]);
 		echo $this->Form->searchField('username',		['label' => __('ログインID')]);
 		echo $this->Form->searchField('name',			['label' => __('氏名')]);
+		echo $this->Form->hidden('cmd');
 		echo $this->Form->submit(__('検索'),	['class' => 'btn btn-info btn-add']);
 		echo $this->Form->end();
 	?>

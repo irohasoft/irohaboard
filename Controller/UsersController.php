@@ -24,6 +24,7 @@ class UsersController extends AppController
 		'Security' => [
 			'csrfUseOnce' => false,
 			'unlockedActions' => ['login', 'admin_login'],
+			'unlockedFields' => ['cmd'],
 		],
 		'Search.Prg',
 		'Cookie',
@@ -195,22 +196,30 @@ class UsersController extends AppController
 			'order' => 'created desc',
 		];
 		
-		// ユーザ一覧を取得
-		try
+		// CSV出力モードの場合
+		if($this->getQuery('cmd') == 'export')
 		{
-			$users = $this->paginate();
+			$this->admin_export($conditions);
 		}
-		catch(Exception $e)
+		else
 		{
-			// 指定したページが存在しなかった場合（主に検索条件変更時に発生）、1ページ目を設定
-			$this->request->params['named']['page'] = 1;
-			$users = $this->paginate();
+			// ユーザ一覧を取得
+			try
+			{
+				$users = $this->paginate();
+			}
+			catch(Exception $e)
+			{
+				// 指定したページが存在しなかった場合（主に検索条件変更時に発生）、1ページ目を設定
+				$this->request->params['named']['page'] = 1;
+				$users = $this->paginate();
+			}
+			
+			// グループ一覧を取得
+			$groups = $this->Group->find('list');
+			
+			$this->set(compact('groups', 'users', 'group_id'));
 		}
-		
-		// グループ一覧を取得
-		$groups = $this->Group->find('list');
-		
-		$this->set(compact('groups', 'users', 'group_id'));
 	}
 
 	/**
@@ -572,7 +581,7 @@ class UsersController extends AppController
 	/**
 	 * ユーザ情報のエクスポート
 	 */
-	public function admin_export()
+	private function admin_export($conditions)
 	{
 		$group_count  = Configure::read('import_group_count');		// 所属グループの列数
 		$course_count = Configure::read('import_course_count');		// 受講コースの列数
@@ -620,7 +629,7 @@ class UsersController extends AppController
 		
 		// パフォーマンスの改善の為、一定件数に分割してデータを取得
 		$limit      = 500;
-		$user_count = $this->User->find()->count();	// ユーザ数を取得
+		$user_count = $this->User->find('count', ['conditions' => $conditions]);	// ユーザ数を取得
 		$page_size  = ceil($user_count / $limit);	// ページ数（ユーザ数 / ページ単位）
 		
 		// ページ単位でユーザを取得
@@ -628,10 +637,11 @@ class UsersController extends AppController
 		{
 			// ユーザ情報を取得
 			$this->User->recursive = 1;
-			$rows = $this->User->find()
-				->limit($limit)
-				->page($page)
-				->all();
+			$rows = $this->User->find('all',[
+				'conditions' => $conditions,
+				'limit' => $limit,
+				'page' => $page
+			]);
 			
 			foreach($rows as $row)
 			{

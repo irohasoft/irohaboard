@@ -25,7 +25,7 @@ class ContentsController extends AppController
 			'csrfUseOnce' => false,
 			'csrfExpires' => '+3 hours',
 			'csrfLimit' => 10000,
-			'unlockedActions' => ['admin_order', 'admin_preview', 'admin_upload_image'],
+			'unlockedActions' => ['admin_order'],
 		],
 	];
 
@@ -46,7 +46,7 @@ class ContentsController extends AppController
 		$role = $this->readAuthUser('role');
 		
 		// 管理者かつ、学習履歴表示モードの場合、
-		if($this->isAdminPage() &&  $this->isRecordPage())
+		if($this->isAdminPage() && $this->isRecordPage())
 		{
 			$contents = $this->Content->getContentRecord($user_id, $course_id, $role);
 		}
@@ -261,10 +261,9 @@ class ContentsController extends AppController
 	 */
 	public function admin_upload($file_type)
 	{
-		header("X-Frame-Options: SAMEORIGIN");
+		header('X-Frame-Options: SAMEORIGIN');
 		
-		//$this->layout = "";
-		App::import ( "Vendor", "FileUpload" );
+		App::import ('Vendor', 'FileUpload');
 
 		$fileUpload = new FileUpload();
 

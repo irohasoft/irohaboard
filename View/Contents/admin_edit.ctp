@@ -10,27 +10,24 @@
 	{
 		$url = $('.form-control-upload');
 
+		// アップロードボタンを追加
 		$url.after('<input id="btnUpload" type="button" value="ファイルを指定">');
 
+		// アップロードボタンクリック時の処理
 		$("#btnUpload").click(function() {
-			var val = $('input[name="data[Content][kind]"]:checked').val();
+			var content_kind = $('input[name="data[Content][kind]"]:checked').val();
 			
-			if(!val)
+			if(!content_kind)
 				return false;
 			
-			if(
-				(val == 'text')||
-				(val == 'test')
-			)
-				return false;
-			
-			if(val == 'url')
-				val = 'file';
+			// 動画以外の場合には一律ファイルに変更
+			if(content_kind != 'movie')
+				content_kind = 'file';
 			
 			$('#uploadDialog').modal('show');
 
 			//モーダル画面にiframeを追加する
-			$("#uploadFrame").attr("src", "<?= Router::url(['controller' => 'contents', 'action' => 'upload'])?>/" + val);
+			$('#uploadFrame').attr('src', '<?= Router::url(['controller' => 'contents', 'action' => 'upload'])?>/' + content_kind);
 			return false;
 		});
 
@@ -39,10 +36,10 @@
 		});
 
 		// 保存時、コード表示モードの場合、解除する（編集中の内容を反映するため）
-		$("form").submit( function() {
-			var val = $('input[name="data[Content][kind]"]:checked').val();
+		$('form').submit( function() {
+			var content_kind = $('input[name="data[Content][kind]"]:checked').val();
 			
-			if(val == 'html')
+			if(content_kind == 'html')
 			{
 				if ($('#ContentBody').summernote('codeview.isActivated'))
 				{
@@ -54,75 +51,79 @@
 		render();
 	});
 	
+	// コンテンツ種別によって画面の表示要素を制御
 	function render()
 	{
 		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
 		
-		$(".kind").hide();
-		$(".kind-" + content_kind).show();
-		$("#btnPreview").hide();
+		$('.kind').hide();
+		$('.kind-' + content_kind).show();
+		$('#btnPreview').hide();
 		
 		switch(content_kind)
 		{
 			case 'text': // テキスト
-				$("#ContentBody").summernote('destroy');
+				$('#ContentBody').summernote('destroy');
 				// テキストが存在しない場合、空文字にする。
-				if($('<span>').html($("#ContentBody").val()).text() == '')
-					$("#ContentBody").val("");
-				$("#btnPreview").show();
+				if($('<span>').html($('#ContentBody').val()).text() == '')
+					$('#ContentBody').val('');
+				$('#btnPreview').show();
 				break;
 			case 'html': // リッチテキスト
 				// リッチテキストエディタを起動
 				CommonUtil.setRichTextEditor('#ContentBody', <?= Configure::read('upload_image_maxsize') ?>, '<?= $this->webroot ?>');
-				$("#btnPreview").show();
+				$('#btnPreview').show();
 				break;
 			case 'movie': // 動画
-				$(".form-control-upload").css('width', '80%');
-				$("#btnUpload").show();
-				$("#btnPreview").show();
+				$('.form-control-upload').css('width', '80%');
+				$('#btnUpload').show();
+				$('#btnPreview').show();
 				break;
-			case 'url':
-				$(".form-control-upload").css('width', '100%');
-				$("#btnUpload").hide();
-				$("#btnPreview").show();
+			case 'url': // URL
+				$('.form-control-upload').css('width', '100%');
+				$('#btnUpload').hide();
+				$('#btnPreview').show();
 				break;
-			case 'file':
-				$(".form-control-upload").css('width', '80%');
-				$("#btnUpload").show();
+			case 'file': // 配布資料
+				$('.form-control-upload').css('width', '80%');
+				$('#btnUpload').show();
 				break;
-			case 'test':
+			case 'test': // テスト
 				break;
 		}
 	}
 	
+	// コンテンツのプレビュー
 	function preview()
 	{
 		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
+		var content_key  = $('input[name="data[_Token][key]"]').val();
 		
 		$.ajax({
-			url: "<?= Router::url(['action' => 'preview']) ?>",
-			type: "POST",
-			data: {
-				content_title : $("#ContentTitle").val(),
+			url  : '<?= Router::url(['action' => 'preview']) ?>',
+			type : 'POST',
+			data : {
+				content_title : $('#ContentTitle').val(),
 				content_kind  : $('input[name="data[Content][kind]"]:checked').val(),
-				content_url   : $("#ContentUrl").val(),
-				content_body  : $("#ContentBody").val(),
+				content_url   : $('#ContentUrl').val(),
+				content_body  : $('#ContentBody').val(),
+				_Token        : { key : content_key },
 			},
-			dataType: "text",
-			success : function(response){
+			dataType: 'text',
+			success : function(response) {
 				//通信成功時の処理
-				//alert(response);
-				var url = '<?= Router::url(['controller' => 'contents', 'action' => 'preview'])?>'.replace('admin/', '');
+				var url = '<?= Router::url(['controller' => 'contents', 'action' => 'preview', 'admin' => false])?>';
 				
-				window.open(url, '_preview', 'width=1000,height=700,resizable=no');
+				window.open(url, '_preview', 'width=1200, height=700, resizable=yes');
 			},
-			error: function(){
+			error: function() {
 				//通信失敗時の処理
 				//alert('通信失敗');
 			}
 		});
 	}
 	
+	// アップロードされたファイルのURLを設定
 	function setURL(url, file_name)
 	{
 		$('.form-control-upload').val(url);
@@ -133,7 +134,8 @@
 		$('#uploadDialog').modal('hide');
 	}
 	
-	function closeDialog(url, file_name)
+	// アップロード画面を非表示にする
+	function closeDialog()
 	{
 		$('#uploadDialog').modal('hide');
 	}
@@ -179,7 +181,7 @@
 			echo $this->Form->inputExp('pass_rate', ['label' => __('合格とする得点率 (1-100%)')], __('指定した場合、合否の判定が行われ、指定しない場合は無条件に合格となります。'));
 			
 			// ランダム出題用
-			echo $this->Form->inputExp('question_count', ['label' => __('出題数 (1-100問)')], __('指定した場合、登録した問題の中からランダムに出題され、指定しない場合は全問出題されます。'));
+			echo $this->Form->inputExp('question_count', ['label' => __('出題数 (1-100問)')], __('指定した場合、登録した問題の中からランダムに出題され、指定しない場合は問題一覧画面の並び順で全問出題されます。'));
 			
 			// 問題が不正解時の表示
 			echo $this->Form->inputRadio('wrong_mode', ['label' => __('不正解時の表示'), 'options' => Configure::read('wrong_mode'), 'default' => 2],
@@ -192,16 +194,19 @@
 			echo $this->Form->inputRadio('status', ['label' => __('ステータス'), 'options' => Configure::read('content_status'), 'default' => 1],
 				__('[非公開]と設定した場合、管理者権限でログインした場合のみ表示されます。'));
 
-			// コンテンツ移動用
+			// コンテンツ移動用（編集の場合のみ）
 			if($this->isEditPage())
 			{
 				echo $this->Form->inputExp('course_id', ['label' => __('所属コース'), 'value' => $course['Course']['id']],
 					__('変更することで他のコースにコンテンツを移動できます。'));
 			}
 
+			// 備考
 			echo '<span class="kind kind-text kind-html kind-movie kind-url kind-file kind-test">';
 			echo $this->Form->input('comment', ['label' => __('備考')]);
 			echo '</span>';
+			
+			// 保存ボタン
 			echo Configure::read('form_submit_before')
 				.'<button id="btnPreview" class="btn btn-default" onclick="preview(); return false;">プレビュー</button> '
 				.$this->Form->submit(__('保存'), Configure::read('form_submit_defaults'))

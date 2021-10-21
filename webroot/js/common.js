@@ -34,7 +34,10 @@ CommonUtility.prototype.setRichTextEditor = function (selector, upload_image_max
 			onImageUpload: function(files)
 			{
 				var data = new FormData();
-				data.append("file", files[0]);
+				var image_key= $('input[name="data[_Token][key]"]').val();
+				
+				data.append('file', files[0]);
+				data.append('data[_Token][key]', image_key);
 				
 				$.ajax({
 					data: data,

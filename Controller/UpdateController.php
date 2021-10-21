@@ -6,6 +6,10 @@
 
 App::uses('AppController', 'Controller');
 
+/**
+ * Update Controller
+ * https://book.cakephp.org/2/ja/controllers.html
+ */
 class UpdateController extends AppController
 {
 	var $name = 'Update';
@@ -15,6 +19,10 @@ class UpdateController extends AppController
 	var $db   = null;
 	var $path = '';
 	
+	/**
+	 * 使用するコンポーネント
+	 * https://book.cakephp.org/2/ja/core-libraries/toc-components.html
+	 */
 	public $components = [
 		'Session',
 		'Auth' => [
@@ -50,9 +58,17 @@ class UpdateController extends AppController
 			
 			// カスタマイズ用クエリ
 			$this->path = APP.'Custom'.DS.'Config'.DS.'custom.sql';
-			$err_custom = $this->__executeSQLScript();
 			
-			$err_statements = array_merge($err_update, $err_custom);
+			// カスタマイズ用クエリが存在する場合
+			if(file_exists($this->path))
+			{
+				$err_custom = $this->__executeSQLScript();
+				$err_statements = array_merge($err_update, $err_custom);
+			}
+			else
+			{
+				$err_statements = $err_update;
+			}
 			
 			if(count($err_statements) > 0)
 			{

@@ -10,8 +10,16 @@
 
 App::uses('AppController', 'Controller');
 
+/**
+ * Groups Controller
+ * https://book.cakephp.org/2/ja/controllers.html
+ */
 class GroupsController extends AppController
 {
+	/**
+	 * 使用するコンポーネント
+	 * https://book.cakephp.org/2/ja/core-libraries/toc-components.html
+	 */
 	public $components = [
 		'Paginator',
 		'Security' => [

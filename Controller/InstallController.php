@@ -6,6 +6,10 @@
 
 App::uses('AppController', 'Controller');
 
+/**
+ * Install Controller
+ * https://book.cakephp.org/2/ja/controllers.html
+ */
 class InstallController extends AppController
 {
 	var $name = 'Install';
@@ -15,6 +19,10 @@ class InstallController extends AppController
 	var $db   = null;
 	var $path = '';
 	
+	/**
+	 * 使用するコンポーネント
+	 * https://book.cakephp.org/2/ja/core-libraries/toc-components.html
+	 */
 	public $components = [
 		'Session',
 		'Auth' => [
@@ -281,6 +289,9 @@ class InstallController extends AppController
 		}
 	}
 	
+	/**
+	 * Apache のモジュールのロードをチェック
+	 */
 	private function __apache_module_loaded($module_name)
 	{
 		$modules = apache_get_modules();

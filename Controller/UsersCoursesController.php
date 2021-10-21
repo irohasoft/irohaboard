@@ -12,9 +12,7 @@ App::uses('AppController', 'Controller');
 
 /**
  * UsersCourses Controller
- *
- * @property UsersCourse $UsersCourse
- * @property PaginatorComponent $Paginator
+ * https://book.cakephp.org/2/ja/controllers.html
  */
 class UsersCoursesController extends AppController
 {

@@ -6,6 +6,10 @@
 
 App::uses('AppController', 'Controller');
 
+/**
+ * Update Controller
+ * https://book.cakephp.org/2/ja/controllers.html
+ */
 class UpdateController extends AppController
 {
 	var $name = 'Update';
@@ -15,6 +19,10 @@ class UpdateController extends AppController
 	var $db   = null;
 	var $path = '';
 	
+	/**
+	 * 使用するコンポーネント
+	 * https://book.cakephp.org/2/ja/core-libraries/toc-components.html
+	 */
 	public $components = [
 		'Session',
 		'Auth' => [

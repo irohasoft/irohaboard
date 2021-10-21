@@ -12,13 +12,14 @@ App::uses('AppController', 'Controller');
 
 /**
  * Contents Controller
- *
- * @property Content $Content
- * @property PaginatorComponent $Paginator
+ * https://book.cakephp.org/2/ja/controllers.html
  */
 class ContentsController extends AppController
 {
-
+	/**
+	 * 使用するコンポーネント
+	 * https://book.cakephp.org/2/ja/core-libraries/toc-components.html
+	 */
 	public $components = [
 		'Security' => [
 			'validatePost' => false,

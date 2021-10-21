@@ -13,15 +13,14 @@ App::import('Vendor', 'Utils');
 
 /**
  * Application Controller
- *
- * Add your application-wide methods in the class below, your controllers
- * will inherit them.
- *
- * @package app.Controller
- * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
+ * https://book.cakephp.org/2/ja/controllers.html
  */
 class AppController extends Controller
 {
+	/**
+	 * 使用するコンポーネント
+	 * https://book.cakephp.org/2/ja/core-libraries/toc-components.html
+	 */
 	public $components = [
 		'DebugKit.Toolbar',
 		'Session',
@@ -33,6 +32,10 @@ class AppController extends Controller
 		]
 	];
 	
+	/**
+	 * 使用するヘルパー
+	 * https://book.cakephp.org/2/ja/core-libraries/toc-helpers.html
+	 */
 	public $helpers = [
 		'Session',
 		'Html' => ['className' => 'BoostCake.BoostCakeHtml'],

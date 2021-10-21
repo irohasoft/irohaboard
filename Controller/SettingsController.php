@@ -8,17 +8,14 @@ App::uses('AppController', 'Controller');
 
 /**
  * Settings Controller
- *
- * @property Setting $Setting
- * @property PaginatorComponent $Paginator
+ * https://book.cakephp.org/2/ja/controllers.html
  */
 class SettingsController extends AppController
 {
-/**
- * Components
- *
- * @var array
- */
+	/**
+	 * 使用するコンポーネント
+	 * https://book.cakephp.org/2/ja/core-libraries/toc-components.html
+	 */
 	public $components = [
 		'Security' => [
 			'csrfUseOnce' => false,

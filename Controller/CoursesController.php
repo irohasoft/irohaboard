@@ -10,13 +10,15 @@
 
 App::uses('AppController', 'Controller');
 
+/**
+ * Courses Controller
+ * https://book.cakephp.org/2/ja/controllers.html
+ */
 class CoursesController extends AppController
 {
-
 	/**
-	 * Components
-	 *
-	 * @var array
+	 * 使用するコンポーネント
+	 * https://book.cakephp.org/2/ja/core-libraries/toc-components.html
 	 */
 	public $components = [
 		'Security' => [

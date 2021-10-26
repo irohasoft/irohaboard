@@ -122,6 +122,8 @@ class InstallController extends AppController
 			
 			$data = $this->db->query($sql);
 			
+			$this->set('username', '');
+			
 			// ユーザテーブルが存在する場合、インストール済みと判断
 			if(count($data) > 0)
 			{
@@ -131,8 +133,23 @@ class InstallController extends AppController
 			{
 				if($this->request->data)
 				{
+					$username	= $this->request->data['User']['username'];
 					$password	= $this->request->data['User']['password'];
 					$password2	= $this->request->data['User']['password2'];
+					
+					$this->set('username', $username);
+					
+					if((strlen($username) < 4)||(strlen($username) > 32))
+					{
+						$this->Flash->error('ログインIDは4文字以上32文字以内で入力して下さい');
+						return;
+					}
+					
+					if(!preg_match("/^[a-zA-Z0-9]+$/", $username))
+					{
+						$this->Flash->error('ログインIDは英数字で入力して下さい');
+						return;
+					}
 					
 					if((strlen($password) < 4)||(strlen($password) > 32))
 					{
@@ -158,7 +175,7 @@ class InstallController extends AppController
 					$this->__install();
 					
 					// 初期管理者アカウントの存在確認および作成
-					$this->__createRootAccount($password);
+					$this->__createRootAccount($username, $password);
 				}
 			}
 		}
@@ -267,7 +284,7 @@ class InstallController extends AppController
 	/**
 	 * rootアカウントの作成
 	 */
-	private function __createRootAccount($password)
+	private function __createRootAccount($username, $password)
 	{
 		// 管理者アカウントの存在確認
 		$this->loadModel('User');
@@ -278,11 +295,10 @@ class InstallController extends AppController
 		{
 			// 管理者アカウントが１つも存在しない場合、初期管理者アカウント root を作成
 			$data = [
-				'username' => 'root',
+				'username' => $username,
 				'password' => $password,
-				'name' => 'root',
+				'name' => $username,
 				'role' => 'admin',
-				'email' => 'info@example.com'
 			];
 
 			$this->User->save($data);

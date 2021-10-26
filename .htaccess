@@ -1,8 +1,16 @@
+#Restrict access by IP address
+#order deny,allow
+#deny from all
+#allow from 12.12.12.12
+
 <IfModule mod_rewrite.c>
 	RewriteEngine on
 	RewriteRule ^$ webroot/ [L]
 	RewriteRule (.*) webroot/$1 [L]
 </IfModule>
 
+
 #For the avoidance of IE attack
 Header always set X-Content-Type-Options nosniff
+
+

@@ -8,10 +8,8 @@
 <script>
 	$(document).ready(function()
 	{
-		$url = $('.form-control-upload');
-
 		// アップロードボタンを追加
-		$url.after('<input id="btnUpload" type="button" value="ファイルを指定">');
+		$('.form-control-upload').after('<input id="btnUpload" type="button" value="ファイルを指定">');
 
 		// アップロードボタンクリック時の処理
 		$("#btnUpload").click(function() {
@@ -20,17 +18,19 @@
 			if(!content_kind)
 				return false;
 			
-			// 動画以外の場合には一律ファイルに変更
+			// 動画以外の場合にはアップロードの種別を一律ファイルに変更
 			if(content_kind != 'movie')
 				content_kind = 'file';
 			
+			// アップロード画面を表示
 			$('#uploadDialog').modal('show');
 
-			//モーダル画面にiframeを追加する
+			// アップロード用のページを指定
 			$('#uploadFrame').attr('src', '<?= Router::url(['controller' => 'contents', 'action' => 'upload'])?>/' + content_kind);
 			return false;
 		});
 
+		// コンテンツ種別の変更時の処理
 		$('input[name="data[Content][kind]"]:radio').change( function() {
 			render();
 		});
@@ -48,6 +48,7 @@
 			}
 		});
 
+		// 初期表示
 		render();
 	});
 	
@@ -57,7 +58,7 @@
 		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
 		
 		$('.kind').hide();
-		$('.kind-' + content_kind).show();
+		$('.kind-' + content_kind).show(); // コンテンツ種別に紐づく項目のみを表示
 		$('#btnPreview').hide();
 		
 		switch(content_kind)
@@ -99,6 +100,7 @@
 		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
 		var content_key  = $('input[name="data[_Token][key]"]').val();
 		
+		// プレビュー内容を保存
 		$.ajax({
 			url  : '<?= Router::url(['action' => 'preview']) ?>',
 			type : 'POST',

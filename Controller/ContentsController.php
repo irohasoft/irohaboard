@@ -374,7 +374,7 @@ class ContentsController extends AppController
 	}
 	
 	/**
-	 * リッチテキストエディタ(Summernote) からPOSTされた画像を保存
+	 * リッチテキストエディタ(Summernote) から送信された画像を保存
 	 *
 	 * @return string アップロードした画像のURL(JSON形式)
 	 */
@@ -382,11 +382,12 @@ class ContentsController extends AppController
 	{
 		$this->autoRender = FALSE;
 		
-		if($this->request->is(['post', 'put']))
+		if($this->request->is('ajax'))
 		{
-			App::import ( "Vendor", "FileUpload" );
+			App::import ('Vendor', 'FileUpload');
 			$fileUpload = new FileUpload();
 			
+			// アップロード可能な拡張子とファイルサイズを指定
 			$upload_extensions = (array)Configure::read('upload_image_extensions');
 			$upload_maxsize = Configure::read('upload_image_maxsize');
 			
@@ -394,14 +395,14 @@ class ContentsController extends AppController
 			$fileUpload->setMaxSize($upload_maxsize);
 			$fileUpload->readFile( $this->getParam('form')['file'] );								//	ファイルの読み込み
 			
-			$new_name = date("YmdHis").$fileUpload->getExtension( $fileUpload->getFileName() );		//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
+			$new_name = date('YmdHis').$fileUpload->getExtension( $fileUpload->getFileName() );		//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
 
-			$file_name = WWW_ROOT."uploads".DS.$new_name;											//	ファイルのパス
+			$file_name = WWW_ROOT.'uploads'.DS.$new_name;											//	ファイルのパス
 			$file_url = $this->webroot.'uploads/'.$new_name;										//	ファイルのURL
 
 			$result = $fileUpload->saveFile( $file_name );											//	ファイルの保存
 			
-			//debug($result);
+			// 画像のURLをJSON形式で出力
 			$response = $result ? [$file_url] : [false];
 			echo json_encode($response);
 		}

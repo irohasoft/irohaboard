@@ -282,7 +282,7 @@ class InstallController extends AppController
 	}
 	
 	/**
-	 * rootアカウントの作成
+	 * 管理者アカウントの作成
 	 */
 	private function __createRootAccount($username, $password)
 	{
@@ -293,7 +293,7 @@ class InstallController extends AppController
 		//debug($data);
 		if(!$data)
 		{
-			// 管理者アカウントが１つも存在しない場合、初期管理者アカウント root を作成
+			// 管理者アカウントが存在しない場合のみ、初期管理者アカウントを作成
 			$data = [
 				'username' => $username,
 				'password' => $password,

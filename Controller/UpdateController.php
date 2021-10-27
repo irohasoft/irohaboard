@@ -115,33 +115,38 @@ class UpdateController extends AppController
 		
 		foreach($statements as $statement)
 		{
-			if(trim($statement) != '')
+			// クエリが空の場合、実行しない
+			if(trim($statement) == '')
+				continue;
+			
+			// 先頭が#の場合、コメントのため実行しない
+			if(substr(trim($statement), 0, 1) == '#')
+				continue;
+			
+			try
 			{
-				try
-				{
-					$this->db->query($statement);
-				}
-				catch(Exception $e)
-				{
-					// レコード重複追加エラー
-					if($e->errorInfo[0] == '23000')
-						continue;
-					
-					// カラム重複追加エラー
-					if($e->errorInfo[0] == '42S21')
-						continue;
-					
-					// ビュー重複追加エラー
-					if($e->errorInfo[0] == '42S01')
-						continue;
-					
-					// インデックス重複追加エラー
-					if($e->errorInfo[0] == '42000')
-						continue;
-					
-					$error_msg = sprintf("%s\n[Error Code]%s\n[Error Code2]%s\n[SQL]%s", $e->errorInfo[2], $e->errorInfo[0], $e->errorInfo[1], $statement);
-					$err_statements[] = $error_msg;
-				}
+				$this->db->query($statement);
+			}
+			catch(Exception $e)
+			{
+				// レコード重複追加エラー
+				if($e->errorInfo[0] == '23000')
+					continue;
+				
+				// カラム重複追加エラー
+				if($e->errorInfo[0] == '42S21')
+					continue;
+				
+				// ビュー重複追加エラー
+				if($e->errorInfo[0] == '42S01')
+					continue;
+				
+				// インデックス重複追加エラー
+				if($e->errorInfo[0] == '42000')
+					continue;
+				
+				$error_msg = sprintf("%s\n[Error Code]%s\n[Error Code2]%s\n[SQL]%s", $e->errorInfo[2], $e->errorInfo[0], $e->errorInfo[1], $statement);
+				$err_statements[] = $error_msg;
 			}
 		}
 		

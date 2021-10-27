@@ -119,9 +119,8 @@ class UpdateController extends AppController
 			if(trim($statement) == '')
 				continue;
 			
-			// 先頭が#の場合、コメントのため実行しない
-			if(substr(trim($statement), 0, 1) == '#')
-				continue;
+			// %salt% を置換（パスワード更新用）
+			$statement = str_replace('%salt%', Configure::read('Security.salt'), $statement);
 			
 			try
 			{

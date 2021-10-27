@@ -48,7 +48,7 @@ ALTER TABLE ib_groups_courses MODIFY COLUMN created datetime DEFAULT NULL;
 ALTER TABLE ib_records_questions MODIFY COLUMN created datetime DEFAULT NULL;
 
 # 管理者アカウントのパスワードの復旧方法
-# 1. UPDATE文の前の#を削除し、復旧したい管理者のログインIDとパスワードを設定します。
+# 1. UPDATE文の前の#を削除し、「復旧したい管理者のログインID」と「パスワード」を対象のものに置換します。
 # 2. ファイルを保存後、ブラウザで /update を実行します。
 # 3. #を元の状態に戻し、ファイルを保存します。
 #UPDATE ib_users SET `password` = SHA1(CONCAT('%salt%', '新しいパスワード')) WHERE username = '復旧したい管理者のログインID';

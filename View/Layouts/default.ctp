@@ -100,9 +100,11 @@
 		<?= h($this->readSession('Setting.copyright')); ?>
 	</div>
 	
+	<?php if(isset($loginedUser)) {?>
 	<div class="irohasoft">
 		Powered by <a href="https://irohaboard.irohasoft.jp/"><?= APP_NAME; ?></a>
 	</div>
+	<?php }?>
 	
 	<?= $this->element('sql_dump'); ?>
 </body>

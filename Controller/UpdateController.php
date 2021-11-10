@@ -36,21 +36,13 @@ class UpdateController extends AppController
 	/**
 	 * アップデート
 	 */
-	public function index($mode = null)
+	public function index()
 	{
 		try
 		{
 			App::import('Model','ConnectionManager');
 
-			// テストモードの場合、テスト用のデータベースを参照
-			if($mode == 'test')
-			{
-				$this->db   = ConnectionManager::getDataSource('test');
-			}
-			else
-			{
-				$this->db   = ConnectionManager::getDataSource('default');
-			}
+			$this->db   = ConnectionManager::getDataSource('default');
 
 			// パッケージアップデート用クエリ
 			$this->path = APP.'Config'.DS.'Schema'.DS.'update.sql';

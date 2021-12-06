@@ -26,7 +26,7 @@ class UsersController extends AppController
 		'Security' => [
 			'csrfUseOnce' => false,
 			'unlockedActions' => ['login', 'admin_login'],
-			'unlockedFields' => ['cmd'],
+			'unlockedFields' => ['cmd', 'csvfile.full_path'],
 		],
 		'Search.Prg',
 		'Cookie',

@@ -185,7 +185,7 @@ class Utils
 	 * @param string $alternate 未定義の場合に返す文字列
 	 * @return string 生成したパスワード
 	 */
-	function issetOr(&$check, $alternate = null) 
+	public static function issetOr(&$check, $alternate = null) 
 	{
 		return (isset($check)) ? $check : $alternate;
 	}

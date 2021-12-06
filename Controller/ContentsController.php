@@ -345,11 +345,12 @@ class ContentsController extends AppController
 			else
 			{
 				$original_file_name = $this->getData('Content')['file']['name'];
+				$str = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 4);
 
-				//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
-				$new_name = date("YmdHis").$fileUpload->getExtension( $fileUpload->getFileName() );
+				// ファイル名：YYYYMMDDHHNNSS形式＋ランダムな4桁の文字列＋"既存の拡張子"
+				$new_name = date('YmdHis').$str.$fileUpload->getExtension( $fileUpload->getFileName() );
 
-				$file_name = WWW_ROOT."uploads".DS.$new_name;										//	ファイルのパス
+				$file_name = WWW_ROOT.'uploads'.DS.$new_name;										//	ファイルのパス
 				$file_url = $this->webroot.'uploads/'.$new_name;									//	ファイルのURL
 
 				$result = $fileUpload->saveFile( $file_name );										//	ファイルの保存

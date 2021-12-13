@@ -29,6 +29,7 @@ class UsersController extends AppController
 			'unlockedFields' => ['cmd', 'csvfile.full_path'],
 		],
 		'Search.Prg',
+		'Cookie',
 		'Auth' => [
 			'allowedActions' => [
 				'index',
@@ -66,6 +67,7 @@ class UsersController extends AppController
 				// 最終ログイン日時を保存
 				$this->User->id = $this->readAuthUser('id');
 				$this->User->saveField('last_logined', date(date('Y-m-d H:i:s')));
+				$this->writeCookie('LoginStatus', 'logined');
 				return $this->redirect( $this->Auth->redirect());
 			}
 			else
@@ -94,6 +96,7 @@ class UsersController extends AppController
 				$this->User->id = $this->readAuthUser('id');
 				$this->User->saveField('last_logined', date(date('Y-m-d H:i:s')));
 				$this->writeLog('user_logined', '');
+				$this->writeCookie('LoginStatus', 'logined');
 				$this->deleteSession('Auth.redirect');
 				$this->redirect($this->Auth->redirect());
 			}
@@ -160,6 +163,7 @@ class UsersController extends AppController
 	public function logout()
 	{
 		$this->deleteCookie('Auth');
+		$this->deleteCookie('LoginStatus');
 		$this->redirect($this->Auth->logout());
 	}
 

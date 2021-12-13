@@ -62,6 +62,9 @@ class ContentsController extends AppController
 			$contents = $this->Content->getContentRecord($this->readAuthUser('id'), $course_id, $role);
 		}
 		
+		// アップロードファイル参照用
+		$this->writeCookie('LoginStatus', 'logined');
+		
 		$this->set(compact('course', 'contents'));
 	}
 

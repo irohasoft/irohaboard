@@ -29,7 +29,6 @@ class UsersController extends AppController
 			'unlockedFields' => ['cmd', 'csvfile.full_path'],
 		],
 		'Search.Prg',
-		'Cookie',
 		'Auth' => [
 			'allowedActions' => [
 				'index',
@@ -57,10 +56,10 @@ class UsersController extends AppController
 		
 		// 自動ログイン処理
 		// Check cookie's login info.
-		if($this->Cookie->check('Auth'))
+		if($this->hasCookie('Auth'))
 		{
 			// クッキー上のアカウントでログイン
-			$this->request->data = $this->Cookie->read('Auth');
+			$this->request->data = $this->readCookie('Auth');
 			
 			if($this->Auth->login())
 			{
@@ -72,7 +71,7 @@ class UsersController extends AppController
 			else
 			{
 				// ログインに失敗した場合、クッキーを削除
-				$this->Cookie->delete('Auth');
+				$this->deleteCookie('Auth');
 			}
 		}
 		
@@ -88,7 +87,7 @@ class UsersController extends AppController
 					
 					// Save login info to cookie.
 					$cookie = $this->request->data;
-					$this->Cookie->write( 'Auth', $cookie, true, '+2 weeks');
+					$this->writeCookie('Auth', $cookie, true, '+2 weeks');
 				}
 				
 				// 最終ログイン日時を保存
@@ -160,7 +159,7 @@ class UsersController extends AppController
 	 */
 	public function logout()
 	{
-		$this->Cookie->delete('Auth');
+		$this->deleteCookie('Auth');
 		$this->redirect($this->Auth->logout());
 	}
 

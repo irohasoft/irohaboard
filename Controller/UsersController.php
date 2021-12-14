@@ -21,7 +21,6 @@ class UsersController extends AppController
 	 * https://book.cakephp.org/2/ja/core-libraries/toc-components.html
 	 */
 	public $components = [
-		'Session',
 		'Paginator',
 		'Security' => [
 			'csrfUseOnce' => false,
@@ -29,7 +28,6 @@ class UsersController extends AppController
 			'unlockedFields' => ['cmd', 'csvfile.full_path'],
 		],
 		'Search.Prg',
-		'Cookie',
 		'Auth' => [
 			'allowedActions' => [
 				'index',

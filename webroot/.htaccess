@@ -10,6 +10,14 @@ Options -Indexes
 #RewriteCond %{REMOTE_ADDR} !^12.12.12.12$
 #RewriteRule ^.*$ - [F,L]
 
+#Restrict access by User Agent
+#RewriteCond %{HTTP_USER_AGENT} ^.*(spider|bot|python).*$ [NC]
+#RewriteRule ^.*$ - [F,L]
+
+#Restrict access by URL
+#RewriteCond %{REQUEST_URI} ^.*(vendor|phpunit|\.env).*$ [NC]
+#RewriteRule ^.*$ - [F,L]
+
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteCond %{REQUEST_FILENAME} !-d

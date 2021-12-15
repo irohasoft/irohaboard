@@ -1,4 +1,15 @@
 Options -Indexes
+
+#Restrict access by IP address
+#order deny,allow
+#deny from all
+#allow from 12.12.12.12
+
+#Restrict access to admin system by IP address
+#RewriteCond %{REQUEST_URI} ^.*/admin.*$ [NC]
+#RewriteCond %{REMOTE_ADDR} !^12.12.12.12$
+#RewriteRule ^.*$ - [F,L]
+
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteCond %{REQUEST_FILENAME} !-d

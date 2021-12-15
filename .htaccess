@@ -1,16 +1,3 @@
-#Restrict access by IP address
-#order deny,allow
-#deny from all
-#allow from 12.12.12.12
-
-#Restrict access to admin system by IP address
-#<IfModule mod_rewrite.c>
-#	RewriteEngine On
-#	RewriteCond %{REQUEST_URI} admin(.*)
-#	RewriteCond %{REMOTE_ADDR} !^12.12.12.12$
-#	RewriteRule (.*) /403.html [F]
-#</IfModule>
-
 <IfModule mod_rewrite.c>
 	RewriteEngine on
 	RewriteRule ^$ webroot/ [L]

@@ -399,7 +399,10 @@ class ContentsController extends AppController
 			$fileUpload->setMaxSize($upload_maxsize);
 			$fileUpload->readFile( $this->getParam('form')['file'] );								//	ファイルの読み込み
 			
-			$new_name = date('YmdHis').$fileUpload->getExtension( $fileUpload->getFileName() );		//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
+			$str = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 4);
+			
+			// ファイル名：YYYYMMDDHHNNSS形式＋ランダムな4桁の文字列＋"既存の拡張子"
+			$new_name = date('YmdHis').$str.$fileUpload->getExtension( $fileUpload->getFileName() );
 
 			$file_name = WWW_ROOT.'uploads'.DS.$new_name;											//	ファイルのパス
 			$file_url = $this->webroot.'uploads/'.$new_name;										//	ファイルのURL

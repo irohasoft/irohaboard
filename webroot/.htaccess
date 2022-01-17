@@ -18,6 +18,19 @@ Options -Indexes
 #RewriteCond %{REQUEST_URI} ^.*(vendor|phpunit|\.env).*$ [NC]
 #RewriteRule ^.*$ - [F,L]
 
+#Restrict access by language
+#RewriteCond %{HTTP:Accept-Language} !^(ja|en).*$ [NC]
+#RewriteRule ^.*$ - [F,L]
+
+#Restrict access for PHPs
+RewriteCond %{REQUEST_URI} !^.*(index.php|pi.php)$
+RewriteCond %{REQUEST_URI} ^.*(.php).*$ [NC]
+RewriteRule ^.*$ - [F,L]
+
+RewriteCond %{REQUEST_URI} ^.*(.cgi|.py).*$ [NC]
+RewriteRule ^.*$ - [F,L]
+
+
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteCond %{REQUEST_FILENAME} !-d

@@ -24,7 +24,6 @@ class InstallController extends AppController
 	 * https://book.cakephp.org/2/ja/core-libraries/toc-components.html
 	 */
 	public $components = [
-		'Session',
 		'Auth' => [
 			'allowedActions' => [
 				'index',

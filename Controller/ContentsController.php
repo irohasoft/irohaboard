@@ -62,6 +62,9 @@ class ContentsController extends AppController
 			$contents = $this->Content->getContentRecord($this->readAuthUser('id'), $course_id, $role);
 		}
 		
+		// アップロードファイル参照用
+		$this->writeCookie('LoginStatus', 'logined');
+		
 		$this->set(compact('course', 'contents'));
 	}
 
@@ -345,11 +348,12 @@ class ContentsController extends AppController
 			else
 			{
 				$original_file_name = $this->getData('Content')['file']['name'];
+				$str = substr(str_shuffle('abcdefghijklmnopqrstuvwxyz'), 0, 4);
 
-				//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
-				$new_name = date("YmdHis").$fileUpload->getExtension( $fileUpload->getFileName() );
+				// ファイル名：YYYYMMDDHHNNSS形式＋ランダムな4桁の文字列＋"既存の拡張子"
+				$new_name = date('YmdHis').$str.$fileUpload->getExtension( $fileUpload->getFileName() );
 
-				$file_name = WWW_ROOT."uploads".DS.$new_name;										//	ファイルのパス
+				$file_name = WWW_ROOT.'uploads'.DS.$new_name;										//	ファイルのパス
 				$file_url = $this->webroot.'uploads/'.$new_name;									//	ファイルのURL
 
 				$result = $fileUpload->saveFile( $file_name );										//	ファイルの保存
@@ -395,7 +399,10 @@ class ContentsController extends AppController
 			$fileUpload->setMaxSize($upload_maxsize);
 			$fileUpload->readFile( $this->getParam('form')['file'] );								//	ファイルの読み込み
 			
-			$new_name = date('YmdHis').$fileUpload->getExtension( $fileUpload->getFileName() );		//	ファイル名：YYYYMMDDHHNNSS形式＋"既存の拡張子"
+			$str = substr(str_shuffle('abcdefghijklmnopqrstuvwxyz'), 0, 4);
+			
+			// ファイル名：YYYYMMDDHHNNSS形式＋ランダムな4桁の文字列＋"既存の拡張子"
+			$new_name = date('YmdHis').$str.$fileUpload->getExtension( $fileUpload->getFileName() );
 
 			$file_name = WWW_ROOT.'uploads'.DS.$new_name;											//	ファイルのパス
 			$file_url = $this->webroot.'uploads/'.$new_name;										//	ファイルのURL

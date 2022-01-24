@@ -24,6 +24,7 @@ class AppController extends Controller
 	public $components = [
 		'DebugKit.Toolbar',
 		'Session',
+		'Cookie',
 		'Flash',
 		'Auth' => [
 			'loginRedirect' => ['controller' => 'users_courses', 'action' => 'index'],
@@ -160,6 +161,43 @@ class AppController extends Controller
 	protected function writeSession($key, $value)
 	{
 		$this->Session->write($key, $value);
+	}
+
+	/**
+	 * クッキーの取得
+	 * @param string $key キー
+	 */
+	protected function readCookie($key)
+	{
+		return $this->Cookie->read($key);
+	}
+
+	/**
+	 * クッキーの削除
+	 * @param string $key キー
+	 */
+	protected function deleteCookie($key)
+	{
+		$this->Cookie->delete($key);
+	}
+
+	/**
+	 * クッキーの存在確認
+	 * @param string $key キー
+	 */
+	protected function hasCookie($key)
+	{
+		return $this->Cookie->check($key);
+	}
+
+	/**
+	 * クッキーの保存
+	 * @param string $key キー
+	 * @param string $value 値
+	 */
+	protected function writeCookie($key, $value, $secure = true, $expires = '+2 weeks')
+	{
+		$this->Cookie->write($key, $value, $secure, $expires);
 	}
 
 	/**

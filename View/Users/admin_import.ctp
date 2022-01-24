@@ -26,6 +26,9 @@
 			</tr>
 			</table>
 			<?php
+				// PHP8.1対応
+				$this->Form->unlockField('csvfile.full_path');
+				
 				echo $this->Form->create('User',['type'=>'file']);
 				echo $this->Form->input('csvfile',['label'=>'','type'=>'file']);
 				echo $this->Form->submit('インポート', Configure::read('form_submit_defaults'));

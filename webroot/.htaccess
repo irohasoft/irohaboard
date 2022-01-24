@@ -23,12 +23,12 @@ Options -Indexes
 #RewriteRule ^.*$ - [F,L]
 
 #Restrict access for PHPs
-RewriteCond %{REQUEST_URI} !^.*(index.php|pi.php)$
-RewriteCond %{REQUEST_URI} ^.*(.php).*$ [NC]
-RewriteRule ^.*$ - [F,L]
+#RewriteCond %{REQUEST_URI} !^.*(index.php|pi.php)$
+#RewriteCond %{REQUEST_URI} ^.*(.php).*$ [NC]
+#RewriteRule ^.*$ - [F,L]
 
-RewriteCond %{REQUEST_URI} ^.*(.cgi|.py).*$ [NC]
-RewriteRule ^.*$ - [F,L]
+#RewriteCond %{REQUEST_URI} ^.*(.cgi|.py)$ [NC]
+#RewriteRule ^.*$ - [F,L]
 
 
 <IfModule mod_rewrite.c>

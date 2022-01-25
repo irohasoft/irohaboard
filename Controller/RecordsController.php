@@ -47,11 +47,17 @@ class RecordsController extends AppController
 		
 		// コンテンツ種別：学習の場合
 		if($content_category == 'study')
+		{
 			$conditions['Content.kind'] = ['text', 'html', 'movie', 'url'];
-		
-		// コンテンツ種別：テストの場合
-		if($content_category == 'test')
-			$conditions['Content.kind'] = ['test'];
+		}
+		// テスト（test）等、学習以外のコンテンツ種別の場合
+		if(
+			($content_category != '')&&
+			($content_category != 'study')
+		)
+		{
+			$conditions['Content.kind'] = $content_category;
+		}
 		
 		// 対象日時による絞り込み
 		$from_date	= ($this->hasQuery('from_date')) ? implode('-', $this->getQuery('from_date')) : date('Y-m-d', strtotime('-1 month'));

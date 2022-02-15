@@ -149,7 +149,7 @@ class ContentsQuestionsController extends AppController
 			foreach($contentsQuestions as $contentsQuestion)
 			{
 				$question_id	= $contentsQuestion['ContentsQuestion']['id'];		// 問題ID
-				$answer			= $this->getData('answer_' . $question_id);			// 解答
+				$answer			= $this->getData('answer_'.$question_id);			// 解答
 				$correct		= $contentsQuestion['ContentsQuestion']['correct'];	// 正解
 				$corrects		= explode(',', $correct);							// 複数選択
 				
@@ -160,14 +160,14 @@ class ContentsQuestionsController extends AppController
 				// 複数選択問題の場合
 				if(count($corrects) > 1)
 				{
-					$answers	= $this->getData('answer_'.$question_id);
-					$answer		= @implode(',', $answers);
-					$is_correct	= $this->isMultiCorrect($answers, $corrects) ? 1 : 0;
-					//debug($is_correct);
+					// 全ての解答と正解が一致するか確認
+					$is_correct	= $this->isMultiCorrect($answer, $corrects) ? 1 : 0;
+					
+					// データベース格納用に解答をカンマ区切りの文字列に変更
+					$answer		= is_array($answer) ? implode(',', $answer) : null;
 				}
 				else
 				{
-					$answer		= $this->getData('answer_'.$question_id);
 					$is_correct	= ($answer == $correct) ? 1 : 0;
 				}
 				

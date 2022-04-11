@@ -250,6 +250,6 @@ CREATE TABLE IF NOT EXISTS `ib_cake_sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `ib_settings` VALUES ('1', 'title', 'システム名', 'iroha Board');
-INSERT INTO `ib_settings` VALUES ('2', 'copyright', 'コピーライト', 'Copyright (C) 2016-2021 iroha Soft Co.,Ltd. All rights reserved.');
+INSERT INTO `ib_settings` VALUES ('2', 'copyright', 'コピーライト', 'Copyright (C) 2016-2022 iroha Soft Co.,Ltd. All rights reserved.');
 INSERT INTO `ib_settings` VALUES ('3', 'color', 'テーマカラー', '#337ab7');
 INSERT INTO `ib_settings` VALUES ('4', 'information', 'お知らせ', '全体のお知らせを表示します。\r\nこのお知らせは管理機能の「システム設定」にて変更可能です。');

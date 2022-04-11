@@ -22,7 +22,7 @@
 	var MSG_REST_TIME	= '<?php echo __('残り時間') ?>';
 	var MSG_TIME		= '<?php echo __('経過') ?>';
 </script>
-<?= $this->Html->script('contents_questions.js?20190401');?>
+<?= $this->Html->script('contents_questions.js?20220401');?>
 <?php $this->end(); ?>
 <div class="contents-questions-index">
 	<div class="breadcrumb">

@@ -46,7 +46,7 @@ function setStudySec()
 		}
 		
 		var restSec = TIMELIMIT_SEC - _studySec;
-		var rest = moment("2000/01/01").add('seconds', restSec ).format('HH:mm:ss');
+		var rest = CommonUtil.getHHMMSSbySec(restSec);
 		
 		if(typeof MSG_REST_TIME == 'undefined')
 		{
@@ -65,7 +65,7 @@ function setStudySec()
 	}
 	else
 	{
-		var passed = moment("2000/01/01").add('seconds', _studySec ).format('HH:mm:ss');
+		var passed = CommonUtil.getHHMMSSbySec(_studySec);
 		
 		if(typeof MSG_TIME == 'undefined')
 		{

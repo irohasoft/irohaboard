@@ -18,7 +18,7 @@ $config['content_kind']		= [
 	'movie'		=> '動画',
 	'url'		=> 'URL',
 	'file'		=> '配布資料',
-	'test'		=> 'テスト'
+	'test'		=> 'テスト',
 ];
 
 $config['content_kind_comment']		= [
@@ -28,12 +28,12 @@ $config['content_kind_comment']		= [
 	'movie'		=> '動画 <span>(動画をアップロードします。HTML5のVIDEOタグで再生できるものに限られます。)</span>',
 	'url'		=> 'URL <span>(外部のWebページを学習項目として追加します。)</span>',
 	'file'		=> '配布資料 <span>(配布したいファイルをアップロードします。)</span>',
-	'test'		=> 'テスト <span>(テストを作成します。問題はテスト作成後、別画面にて追加します。)'
+	'test'		=> 'テスト <span>(テストを作成します。問題はテスト作成後、別画面にて追加します。)</span>',
 ];
 
 $config['content_category']	= [
 	'study'		=> '学習',
-	'test'		=> 'テスト'
+	'test'		=> 'テスト',
 ];
 
 $config['wrong_mode']	= ['0' => '正解と解説を表示しない', '1' => '正解と解説を表示する', '2' => '解説のみ表示する'];

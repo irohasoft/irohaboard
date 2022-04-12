@@ -195,9 +195,9 @@ class AppController extends Controller
 	 * @param string $key キー
 	 * @param string $value 値
 	 */
-	protected function writeCookie($key, $value, $secure = true, $expires = '+2 weeks')
+	protected function writeCookie($key, $value, $encrypt = true, $expires = '+2 weeks')
 	{
-		$this->Cookie->write($key, $value, $secure, $expires);
+		$this->Cookie->write($key, $value, $encrypt, $expires);
 	}
 
 	/**

@@ -136,7 +136,7 @@ class ContentsQuestionsController extends AppController
 		//------------------------------//
 		if($this->request->is('post'))
 		{
-			$details	= [];								// 成績詳細情報
+			$details	= [];									// 成績詳細情報
 			$full_score	= 0;									// 最高点
 			$pass_score	= 0;									// 合格基準点
 			$my_score	= 0;									// 得点
@@ -145,44 +145,46 @@ class ContentsQuestionsController extends AppController
 			//------------------------------//
 			//	成績の詳細情報の作成		//
 			//------------------------------//
-			$i = 0;
 			foreach($contentsQuestions as $contentsQuestion)
 			{
 				$question_id	= $contentsQuestion['ContentsQuestion']['id'];		// 問題ID
-				$answer			= $this->getData('answer_' . $question_id);			// 解答
-				$correct		= $contentsQuestion['ContentsQuestion']['correct'];	// 正解
-				$corrects		= explode(',', $correct);							// 複数選択
+				$answer			= $this->getData('answer_'.$question_id);			// 解答（複数選択問題の場合、配列）
 				
-				$is_correct		= ($answer == $correct) ? 1 : 0;					// 正誤判定
+				$correct		= $contentsQuestion['ContentsQuestion']['correct'];	// 正解
+				$corrects		= explode(',', $correct);							// 複数選択問題の正解（配列）
+				
 				$score			= $contentsQuestion['ContentsQuestion']['score'];	// 配点
-				$full_score += $score;												// 合計点（配点の合計）
+				
 				
 				// 複数選択問題の場合
 				if(count($corrects) > 1)
 				{
-					$answers	= $this->getData('answer_'.$question_id);
-					$answer		= @implode(',', $answers);
-					$is_correct	= $this->isMultiCorrect($answers, $corrects) ? 1 : 0;
-					//debug($is_correct);
+					// 全ての解答と正解が一致するか確認
+					$is_correct	= $this->isMultiCorrect($answer, $corrects) ? 1 : 0;
+					
+					// データベース格納用に解答をカンマ区切りの文字列に変更
+					$answer		= is_array($answer) ? implode(',', $answer) : null;
 				}
 				else
 				{
-					$answer		= $this->getData('answer_'.$question_id);
 					$is_correct	= ($answer == $correct) ? 1 : 0;
 				}
 				
+				// 合計点（配点の合計）
+				$full_score += $score;
+				
+				// 得点（正解した問題の配点の合計）
 				if($is_correct == 1)
 					$my_score += $score;
 				
 				// 問題の正誤
-				$details[$i] = [
+				$details[] = [
 					'question_id'	=> $question_id,	// 問題ID
 					'answer'		=> $answer,			// 解答
 					'correct'		=> $correct,		// 正解
 					'is_correct'	=> $is_correct,		// 正誤
 					'score'			=> $score,			// 配点
 				];
-				$i++;
 			}
 			
 			// 合格基準得点

@@ -41,8 +41,7 @@
 		echo $this->Html->script('jquery-1.9.1.min.js');
 		echo $this->Html->script('jquery-ui-1.9.2.min.js');
 		echo $this->Html->script('bootstrap.min.js');
-		echo $this->Html->script('moment.js');
-		echo $this->Html->script('common.js?20211001');
+		echo $this->Html->script('common.js?20220401');
 		
 		// 管理画面用スクリプト
 		if($is_admin_page)

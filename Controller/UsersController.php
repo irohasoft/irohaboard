@@ -176,15 +176,15 @@ class UsersController extends AppController
 		// Model の filterArgs に定義した内容にしたがって検索条件を作成
 		$conditions = $this->User->parseCriteria($this->Prg->parsedParams());
 		
-		// 選択中のグループをセッションから取得
+		// グループが指定されている場合、選択中のグループのグループIDをセッションに保存
 		if($this->hasQuery('group_id'))
 			$this->writeSession('Iroha.group_id', intval($this->getQuery('group_id')));
 		
-		// GETパラメータから検索条件を抽出
+		// GETパラメータもしくはセッションから検索対象のグループIDを取得
 		$group_id = ($this->hasQuery('group_id')) ? $this->getQuery('group_id') : $this->readSession('Iroha.group_id');
 		
-		// 独自の検索条件を追加（指定したグループに所属するユーザを検索）
-		if($group_id != '')
+		// グループIDが指定されている場合、指定したグループに所属するユーザを検索
+		if(($group_id != '') && ($group_id != 0))
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 		
 		$this->paginate = [

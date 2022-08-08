@@ -334,30 +334,30 @@ class UsersController extends AppController
 			if(Configure::read('demo_mode'))
 				return;
 			
-			$this->request->data['User']['id'] = $this->readAuthUser('id');
+			$data = $this->getData('User');
 			
-			if($this->request->data['User']['new_password'] != $this->request->data['User']['new_password2'])
+			if($data['new_password'] == '')
+			{
+				$this->Flash->error(__('パスワードを入力して下さい'));
+				return;
+			}
+			
+			if($data['new_password'] != $data['new_password2'])
 			{
 				$this->Flash->error(__('入力された「パスワード」と「パスワード（確認用）」が一致しません'));
 				return;
 			}
-
-			if($this->request->data['User']['new_password'] !== '')
+			
+			$data['password'] = $data['new_password'];
+			$data['id'] = $this->readAuthUser('id');
+			
+			if($this->User->save($data))
 			{
-				$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
-				
-				if($this->User->save($this->request->data))
-				{
-					$this->Flash->success(__('パスワードが保存されました'));
-				}
-				else
-				{
-					$this->Flash->error(__('パスワードが保存できませんでした'));
-				}
+				$this->Flash->success(__('パスワードが変更されました'));
 			}
 			else
 			{
-				$this->Flash->error(__('パスワードを入力して下さい'));
+				$this->Flash->error(__('パスワードを保存できませんでした'));
 			}
 		}
 		else

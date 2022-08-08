@@ -132,7 +132,7 @@
 <div class="admin-contents-questions-edit">
 	<div class="ib-breadcrumb">
 	<?php 
-		$this->Html->addCrumb('コース一覧',  ['controller' => 'courses', 'action' => 'index']);
+		$this->Html->addCrumb(__('コース一覧'),  ['controller' => 'courses', 'action' => 'index']);
 		$this->Html->addCrumb($content['Course']['title'],  ['controller' => 'contents', 'action' => 'index', $content['Course']['id']]);
 		$this->Html->addCrumb($content['Content']['title'], ['controller' => 'contents_questions', 'action' => 'index', $content['Content']['id']]);
 		

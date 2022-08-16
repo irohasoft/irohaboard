@@ -632,7 +632,7 @@ class UsersController extends AppController
 		
 		// パフォーマンスの改善の為、一定件数に分割してデータを取得
 		$limit      = 500;
-		$user_count = $this->User->find('count', ['conditions' => $conditions]);	// ユーザ数を取得
+		$user_count = $this->User->find()->where($conditions)->count();	// ユーザ数を取得
 		$page_size  = ceil($user_count / $limit);	// ページ数（ユーザ数 / ページ単位）
 		
 		// ページ単位でユーザを取得
@@ -640,11 +640,11 @@ class UsersController extends AppController
 		{
 			// ユーザ情報を取得
 			$this->User->recursive = 1;
-			$rows = $this->User->find('all',[
-				'conditions' => $conditions,
-				'limit' => $limit,
-				'page' => $page
-			]);
+			$rows = $this->User->find()
+				->where($conditions)
+				->limit($limit)
+				->page($page)
+				->all();
 			
 			foreach($rows as $row)
 			{

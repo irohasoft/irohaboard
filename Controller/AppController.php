@@ -359,7 +359,7 @@ class AppController extends Controller
 			'log_content' => $log_content,
 			'user_id'     => $this->readAuthUser('id'),
 			'user_ip'     => $ip,
-			'user_agent'  => $_SERVER['HTTP_USER_AGENT']
+			'user_agent'  => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
 		];
 		
 		$this->loadModel('Log');

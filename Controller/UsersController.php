@@ -176,15 +176,15 @@ class UsersController extends AppController
 		// Model の filterArgs に定義した内容にしたがって検索条件を作成
 		$conditions = $this->User->parseCriteria($this->Prg->parsedParams());
 		
-		// 選択中のグループをセッションから取得
+		// グループが指定されている場合、選択中のグループのグループIDをセッションに保存
 		if($this->hasQuery('group_id'))
 			$this->writeSession('Iroha.group_id', intval($this->getQuery('group_id')));
 		
-		// GETパラメータから検索条件を抽出
+		// GETパラメータもしくはセッションから検索対象のグループIDを取得
 		$group_id = ($this->hasQuery('group_id')) ? $this->getQuery('group_id') : $this->readSession('Iroha.group_id');
 		
-		// 独自の検索条件を追加（指定したグループに所属するユーザを検索）
-		if($group_id != '')
+		// グループIDが指定されている場合、指定したグループに所属するユーザを検索
+		if(($group_id != '') && ($group_id != 0))
 			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
 		
 		$this->paginate = [
@@ -334,30 +334,30 @@ class UsersController extends AppController
 			if(Configure::read('demo_mode'))
 				return;
 			
-			$this->request->data['User']['id'] = $this->readAuthUser('id');
+			$data = $this->getData('User');
 			
-			if($this->request->data['User']['new_password'] != $this->request->data['User']['new_password2'])
+			if($data['new_password'] == '')
+			{
+				$this->Flash->error(__('パスワードを入力して下さい'));
+				return;
+			}
+			
+			if($data['new_password'] != $data['new_password2'])
 			{
 				$this->Flash->error(__('入力された「パスワード」と「パスワード（確認用）」が一致しません'));
 				return;
 			}
-
-			if($this->request->data['User']['new_password'] !== '')
+			
+			$data['password'] = $data['new_password'];
+			$data['id'] = $this->readAuthUser('id');
+			
+			if($this->User->save($data))
 			{
-				$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
-				
-				if($this->User->save($this->request->data))
-				{
-					$this->Flash->success(__('パスワードが保存されました'));
-				}
-				else
-				{
-					$this->Flash->error(__('パスワードが保存できませんでした'));
-				}
+				$this->Flash->success(__('パスワードが変更されました'));
 			}
 			else
 			{
-				$this->Flash->error(__('パスワードを入力して下さい'));
+				$this->Flash->error(__('パスワードを保存できませんでした'));
 			}
 		}
 		else
@@ -632,7 +632,7 @@ class UsersController extends AppController
 		
 		// パフォーマンスの改善の為、一定件数に分割してデータを取得
 		$limit      = 500;
-		$user_count = $this->User->find('count', ['conditions' => $conditions]);	// ユーザ数を取得
+		$user_count = $this->User->find()->where($conditions)->count();	// ユーザ数を取得
 		$page_size  = ceil($user_count / $limit);	// ページ数（ユーザ数 / ページ単位）
 		
 		// ページ単位でユーザを取得
@@ -640,11 +640,11 @@ class UsersController extends AppController
 		{
 			// ユーザ情報を取得
 			$this->User->recursive = 1;
-			$rows = $this->User->find('all',[
-				'conditions' => $conditions,
-				'limit' => $limit,
-				'page' => $page
-			]);
+			$rows = $this->User->find()
+				->where($conditions)
+				->limit($limit)
+				->page($page)
+				->all();
 			
 			foreach($rows as $row)
 			{

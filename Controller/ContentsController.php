@@ -40,8 +40,7 @@ class ContentsController extends AppController
 		$course_id = intval($course_id);
 		
 		// コースの情報を取得
-		$this->loadModel('Course');
-		$course = $this->Course->get($course_id);
+		$course = $this->fetchTable('Course')->get($course_id);
 		
 		// ロールを取得
 		$role = $this->readAuthUser('role');
@@ -54,7 +53,7 @@ class ContentsController extends AppController
 		else
 		{
 			// コースの閲覧権限の確認
-			if(!$this->Course->hasRight($this->readAuthUser('id'), $course_id))
+			if(!$this->fetchTable('Course')->hasRight($this->readAuthUser('id'), $course_id))
 			{
 				throw new NotFoundException(__('Invalid access'));
 			}
@@ -87,9 +86,7 @@ class ContentsController extends AppController
 		$content = $this->Content->get($content_id);
 		
 		// コンテンツの閲覧権限の確認
-		$this->loadModel('Course');
-		
-		if(!$this->Course->hasRight($this->readAuthUser('id'), $content['Content']['course_id']))
+		if(!$this->fetchTable('Course')->hasRight($this->readAuthUser('id'), $content['Content']['course_id']))
 		{
 			throw new NotFoundException(__('Invalid access'));
 		}
@@ -208,8 +205,7 @@ class ContentsController extends AppController
 		if($this->Content->delete())
 		{
 			// コンテンツに紐づくテスト問題も削除
-			$this->LoadModel('ContentsQuestion');
-			$this->ContentsQuestion->deleteAll(['ContentsQuestion.content_id' => $content_id], false);
+			$this->fetchTable('ContentsQuestion')->deleteAll(['ContentsQuestion.content_id' => $content_id], false);
 			$this->request->allowMethod('post', 'delete');
 			$this->Flash->success(__('コンテンツが削除されました'));
 		}
@@ -466,8 +462,7 @@ class ContentsController extends AppController
 		$this->Content->save($data);
 		
 		// テスト問題のコピー
-		$this->LoadModel('ContentsQuestion');
-		$contentsQuestions = $this->ContentsQuestion->find()
+		$contentsQuestions = $this->fetchTable('ContentsQuestion')->find()
 			->where(['content_id' => $content_id])
 			->order('ContentsQuestion.sort_no asc')
 			->all();

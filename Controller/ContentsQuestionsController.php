@@ -43,8 +43,8 @@ class ContentsQuestionsController extends AppController
 		//------------------------------//
 		//	コンテンツ情報を取得		//
 		//------------------------------//
-		$this->loadModel('Content');
-		$content = $this->Content->get($content_id);
+		$this->fetchTable('Content');
+		$content = $this->fetchTable('Content')->get($content_id);
 		
 		//------------------------------//
 		//	権限チェック				//
@@ -52,9 +52,7 @@ class ContentsQuestionsController extends AppController
 		// 管理者以外の場合、コンテンツの閲覧権限の確認
 		if(!$this->isAdminPage())
 		{
-			$this->loadModel('Course');
-			
-			if(!$this->Course->hasRight($this->readAuthUser('id'), $content['Content']['course_id']))
+			if(!$this->fetchTable('Course')->hasRight($this->readAuthUser('id'), $content['Content']['course_id']))
 				throw new NotFoundException(__('Invalid access'));
 		}
 		
@@ -66,7 +64,7 @@ class ContentsQuestionsController extends AppController
 		if($record_id != null) // テスト結果表示モードの場合
 		{
 			// テスト結果情報を取得
-			$this->loadModel('Record');
+			$this->fetchTable('Record');
 			$record = $this->Record->get($record_id);
 			
 			// 受講者によるテスト結果表示の場合、自身のテスト結果か確認
@@ -196,7 +194,7 @@ class ContentsQuestionsController extends AppController
 			// テスト実施時間
 			$study_sec = $this->getData('ContentsQuestion')['study_sec'];
 			
-			$this->loadModel('Record');
+			$this->fetchTable('Record');
 			$this->Record->create();
 			
 			// 追加する成績情報
@@ -217,7 +215,7 @@ class ContentsQuestionsController extends AppController
 			//------------------------------//
 			if($this->Record->save($data))
 			{
-				$this->loadModel('RecordsQuestion');
+				$this->fetchTable('RecordsQuestion');
 				$record_id = $this->Record->getLastInsertID();
 				
 				// 問題単位の成績を保存
@@ -281,9 +279,9 @@ class ContentsQuestionsController extends AppController
 			->all();
 		
 		// コンテンツ情報を取得
-		$this->loadModel('Content');
+		$this->fetchTable('Content');
 		
-		$content = $this->Content->get($content_id);
+		$content = $this->fetchTable('Content')->get($content_id);
 		
 		$this->set(compact('content', 'contentsQuestions'));
 	}
@@ -313,9 +311,7 @@ class ContentsQuestionsController extends AppController
 		}
 
 		// コンテンツ情報を取得
-		$this->loadModel('Content');
-		
-		$content = $this->Content->get($content_id);
+		$content = $this->fetchTable('Content')->get($content_id);
 		
 		if($this->request->is(['post', 'put']))
 		{

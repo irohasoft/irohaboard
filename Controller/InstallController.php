@@ -276,8 +276,7 @@ class InstallController extends AppController
 	private function __createRootAccount($username, $password)
 	{
 		// 管理者アカウントの存在確認
-		$this->loadModel('User');
-		$data = $this->User->findByRole('admin');
+		$data = $this->fetchTable('User')->findByRole('admin');
 		
 		//debug($data);
 		if(!$data)
@@ -290,7 +289,7 @@ class InstallController extends AppController
 				'role' => 'admin',
 			];
 
-			$this->User->save($data);
+			$this->fetchTable('User')->save($data);
 		}
 	}
 	

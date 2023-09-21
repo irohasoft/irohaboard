@@ -17,44 +17,69 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-if (!defined('DS')) {
-	define('DS', DIRECTORY_SEPARATOR);
+if (!defined("DS")) {
+    define("DS", DIRECTORY_SEPARATOR);
 }
 
-$dispatcher = 'Cake' . DS . 'Console' . DS . 'ShellDispatcher.php';
+$dispatcher = "Cake" . DS . "Console" . DS . "ShellDispatcher.php";
 
-if (function_exists('ini_set')) {
-	$root = dirname(dirname(dirname(__FILE__)));
-	$appDir = basename(dirname(dirname(__FILE__)));
-	$install = $root . DS . 'lib';
-	//$composerInstall = $root . DS . $appDir . DS . 'Vendor' . DS . 'cakephp' . DS . 'cakephp' . DS . 'lib';
+if (function_exists("ini_set")) {
+    $root = dirname(dirname(dirname(__FILE__)));
+    $appDir = basename(dirname(dirname(__FILE__)));
+    $install = $root . DS . "lib";
+    //$composerInstall = $root . DS . $appDir . DS . 'Vendor' . DS . 'cakephp' . DS . 'cakephp' . DS . 'lib';
 
-	if (file_exists(dirname(dirname(dirname(__FILE__))).DS.'cake'.DS.'lib')) {
-		// cake ディレクトリが webroot の1階層上に存在する場合．デフォルトはこの状態．
-		$composerInstall = dirname(dirname(dirname(__FILE__))).DS.'cake'.DS.'lib';
-	} elseif (file_exists(dirname(dirname(__FILE__)).DS.'cake'.DS.'lib')) {
-		// cake ディレクトリが webroot と同じ階層に存在する場合
-		$composerInstall = dirname(dirname(__FILE__)).DS.'cake'.DS.'lib';
-	} elseif (file_exists(dirname(dirname(dirname(dirname(__FILE__)))).DS.'cake'.DS.'lib')) {
-		// cake ディレクトリが webroot の2階層上に存在する場合
-		$composerInstall = dirname(dirname(dirname(dirname(__FILE__)))).DS.'cake'.DS.'lib';
-	} else {
-		trigger_error('Cake directory not found.', E_USER_ERROR);
-	}
+    if (
+        file_exists(
+            dirname(dirname(dirname(__FILE__))) . DS . "cake" . DS . "lib"
+        )
+    ) {
+        // cake ディレクトリが webroot の1階層上に存在する場合．デフォルトはこの状態．
+        $composerInstall =
+            dirname(dirname(dirname(__FILE__))) . DS . "cake" . DS . "lib";
+    } elseif (
+        file_exists(dirname(dirname(__FILE__)) . DS . "cake" . DS . "lib")
+    ) {
+        // cake ディレクトリが webroot と同じ階層に存在する場合
+        $composerInstall =
+            dirname(dirname(__FILE__)) . DS . "cake" . DS . "lib";
+    } elseif (
+        file_exists(
+            dirname(dirname(dirname(dirname(__FILE__)))) .
+                DS .
+                "cake" .
+                DS .
+                "lib"
+        )
+    ) {
+        // cake ディレクトリが webroot の2階層上に存在する場合
+        $composerInstall =
+            dirname(dirname(dirname(dirname(__FILE__)))) .
+            DS .
+            "cake" .
+            DS .
+            "lib";
+    } else {
+        trigger_error("Cake directory not found.", E_USER_ERROR);
+    }
 
-	// the following lines differ from its sibling
-	// /lib/Cake/Console/Templates/skel/Console/cake.php
-	if (file_exists($composerInstall . DS . $dispatcher)) {
-		$install = $composerInstall;
-	}
+    // the following lines differ from its sibling
+    // /lib/Cake/Console/Templates/skel/Console/cake.php
+    if (file_exists($composerInstall . DS . $dispatcher)) {
+        $install = $composerInstall;
+    }
 
-	ini_set('include_path', $install . PATH_SEPARATOR . ini_get('include_path'));
-	unset($root, $appDir, $install, $composerInstall);
+    ini_set(
+        "include_path",
+        $install . PATH_SEPARATOR . ini_get("include_path")
+    );
+    unset($root, $appDir, $install, $composerInstall);
 }
 
 if (!include $dispatcher) {
-	trigger_error('Could not locate CakePHP core files.', E_USER_ERROR);
+    trigger_error("Could not locate CakePHP core files.", E_USER_ERROR);
 }
 unset($dispatcher);
 
 return ShellDispatcher::run($argv);
+

@@ -8,15 +8,17 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-.admin-student_view-index{}
+.admin-student_view-index {
+}
 
-.admin-group_view-index{}
+.admin-group_view-index {
+}
 
 .student-block {
-  margin-top:    30px;
+  margin-top: 30px;
   margin-bottom: 70px;
   padding: 10px;
-  border: solid #CCCCCC;
+  border: solid #cccccc;
 }
 
 .student-view {
@@ -55,15 +57,15 @@
   min-width: 10em;
 }
 
-.record-table{
+.record-table {
   float: left;
-  width : 100%;
-  overflow-x : scroll;
+  width: 100%;
+  overflow-x: scroll;
 }
 
 .soap-item {
-  margin:1px;
-  padding:0px;
+  margin: 1px;
+  padding: 0px;
   margin-left: 1.2em; /* ブロック全体を 1.2em（1.2文字）分右に */
   text-indent: -1.2em; /* 先頭の1行のみ 1.2em（1.2文字）分左に */
   max-width: 45em;

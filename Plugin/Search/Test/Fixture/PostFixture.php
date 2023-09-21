@@ -12,41 +12,60 @@
 /**
  * Post Fixture
  */
-class PostFixture extends CakeTestFixture {
+class PostFixture extends CakeTestFixture
+{
+    /**
+     * Fields
+     *
+     * @var array $fields
+     */
+    public $fields = [
+        "id" => ["type" => "integer", "key" => "primary"],
+        "title" => ["type" => "string", "null" => false],
+        "slug" => ["type" => "string", "null" => false],
+        "views" => ["type" => "integer", "null" => false],
+        "comments" => [
+            "type" => "integer",
+            "null" => false,
+            "default" => "0",
+            "length" => 10,
+        ],
+        "created" => ["type" => "datetime", "null" => true, "default" => null],
+        "updated" => ["type" => "datetime", "null" => true, "default" => null],
+    ];
 
-/**
- * Fields
- *
- * @var array $fields
- */
-	public $fields = array(
-		'id' => array('type' => 'integer', 'key' => 'primary'),
-		'title' => array('type' => 'string', 'null' => false),
-		'slug' => array('type' => 'string', 'null' => false),
-		'views' => array('type' => 'integer', 'null' => false),
-		'comments' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
-		'updated' => array('type' => 'datetime', 'null' => true, 'default' => null),
-	);
-
-/**
- * Records
- *
- * @var array $records
- */
-	public $records = array(
-		array('id' => 1, 'title' => 'First Post',
-			'slug' => 'first_post', 'views' => 2, 'comments' => 1,
-			'created' => '2007-03-18 10:39:23', 'updated' => '2007-03-18 10:41:31'
-		),
-		array('id' => 2, 'title' => 'Second Post',
-			'slug' => 'second_post', 'views' => 1, 'comments' => 2,
-			'created' => '2007-03-18 10:41:23', 'updated' => '2007-03-18 10:43:31'
-		),
-		array('id' => 3, 'title' => 'Third Post',
-			'slug' => 'third_post', 'views' => 2, 'comments' => 3,
-			'created' => '2007-03-18 10:43:23', 'updated' => '2007-03-18 10:45:31'
-		),
-	);
-
+    /**
+     * Records
+     *
+     * @var array $records
+     */
+    public $records = [
+        [
+            "id" => 1,
+            "title" => "First Post",
+            "slug" => "first_post",
+            "views" => 2,
+            "comments" => 1,
+            "created" => "2007-03-18 10:39:23",
+            "updated" => "2007-03-18 10:41:31",
+        ],
+        [
+            "id" => 2,
+            "title" => "Second Post",
+            "slug" => "second_post",
+            "views" => 1,
+            "comments" => 2,
+            "created" => "2007-03-18 10:41:23",
+            "updated" => "2007-03-18 10:43:31",
+        ],
+        [
+            "id" => 3,
+            "title" => "Third Post",
+            "slug" => "third_post",
+            "views" => 2,
+            "comments" => 3,
+            "created" => "2007-03-18 10:43:23",
+            "updated" => "2007-03-18 10:45:31",
+        ],
+    ];
 }

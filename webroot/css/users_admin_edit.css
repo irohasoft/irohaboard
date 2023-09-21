@@ -8,46 +8,45 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-.admin-users-edit{
+.admin-users-edit {
   /*
   width : 800px;
   height : 800px;*/
 }
 
-.index-block{
-  width : 100px;
+.index-block {
+  width: 100px;
 }
 
-.pic-block{
+.pic-block {
   /*height : 400px;*/
-  width : 400px;
-  float : left;
+  width: 400px;
+  float: left;
 }
 
-.info-input-block{
+.info-input-block {
   /*height : 600px;*/
-  width : 400px;
-  float : left;
+  width: 400px;
+  float: left;
 }
 
-.info-input-label{
-
+.info-input-label {
 }
 
-.info-input{
-  float : left;
-  width : 300px;
-  margin-bottom : 10px;
+.info-input {
+  float: left;
+  width: 300px;
+  margin-bottom: 10px;
 }
 
-input#UserNewPassword{
-  width : 300px;
+input#UserNewPassword {
+  width: 300px;
 }
 
-input#UserEmail{
-  width : 300px;
+input#UserEmail {
+  width: 300px;
 }
 
-.btn-delete{
-  margin-left:1em;
+.btn-delete {
+  margin-left: 1em;
 }

@@ -17,68 +17,71 @@
  *
  * @since         DebugKit 0.1
  */
-class DebugPanel {
+class DebugPanel
+{
+    /**
+     * Defines which plugin this panel is from so the element can be located.
+     *
+     * @var string
+     */
+    public $plugin = "DebugKit";
 
-/**
- * Defines which plugin this panel is from so the element can be located.
- *
- * @var string
- */
-	public $plugin = 'DebugKit';
+    /**
+     * Defines the title for displaying on the toolbar. If null, the class name will be used.
+     * Overriding this allows you to define a custom name in the toolbar.
+     *
+     * @var string
+     */
+    public $title = null;
 
-/**
- * Defines the title for displaying on the toolbar. If null, the class name will be used.
- * Overriding this allows you to define a custom name in the toolbar.
- *
- * @var string
- */
-	public $title = null;
+    /**
+     * Panel's css files
+     *
+     * @var array
+     */
+    public $css = [];
 
-/**
- * Panel's css files
- *
- * @var array
- */
-	public $css = array();
+    /**
+     * Panel's javascript files
+     *
+     * @var array
+     */
+    public $javascript = [];
 
-/**
- * Panel's javascript files
- *
- * @var array
- */
-	public $javascript = array();
+    /**
+     * Provide a custom element name for this panel. If null, the underscored version of the class
+     * name will be used.
+     *
+     * @var string
+     */
+    public $elementName = null;
 
-/**
- * Provide a custom element name for this panel. If null, the underscored version of the class
- * name will be used.
- *
- * @var string
- */
-	public $elementName = null;
+    /**
+     * Empty constructor
+     */
+    public function __construct()
+    {
+    }
 
-/**
- * Empty constructor
- */
-	public function __construct() {
-	}
+    /**
+     * startup the panel
+     *
+     * Pull information from the controller / request
+     *
+     * @param \Controller|object $controller Controller reference.
+     * @return void
+     */
+    public function startup(Controller $controller)
+    {
+    }
 
-/**
- * startup the panel
- *
- * Pull information from the controller / request
- *
- * @param \Controller|object $controller Controller reference.
- * @return void
- */
-	public function startup(Controller $controller) {
-	}
-
-/**
- * Prepare output vars before Controller Rendering.
- *
- * @param \Controller|object $controller Controller reference.
- * @return void
- */
-	public function beforeRender(Controller $controller) {
-	}
+    /**
+     * Prepare output vars before Controller Rendering.
+     *
+     * @param \Controller|object $controller Controller reference.
+     * @return void
+     */
+    public function beforeRender(Controller $controller)
+    {
+    }
 }

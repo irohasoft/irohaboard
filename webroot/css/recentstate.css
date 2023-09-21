@@ -8,87 +8,89 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-.under-element{
+.under-element {
   clear: both;
 }
 
-.user_name{
+.user_name {
   font-size: 20px;
-  float : left;
+  float: left;
   height: 400px;
-  width : 250px;
-  padding-right : 50px;
+  width: 250px;
+  padding-right: 50px;
 }
 
-.group-block{
-  padding-top : 100px;
-  padding-left : 100px;
-  width  : 800px;
-  height : 400px;
+.group-block {
+  padding-top: 100px;
+  padding-left: 100px;
+  width: 800px;
+  height: 400px;
 }
 
-.group-btn{
-  width : 200px;
+.group-btn {
+  width: 200px;
   font-size: 24px;
 }
 
-.group-btn-block{
-  width : 300px;
-  padding-right : 100px;
-  float : left;
-  height : 50px;
+.group-btn-block {
+  width: 300px;
+  padding-right: 100px;
+  float: left;
+  height: 50px;
 }
 
-.student-search-block{
-  float  : left;
-  width  : 800px;
-  height : 50px;
+.student-search-block {
+  float: left;
+  width: 800px;
+  height: 50px;
 }
 
-.index-block{
-  float  : left;
-  width  : 800px;
+.index-block {
+  float: left;
+  width: 800px;
 }
 
-.student-block{
-  float : left;
-  width : 200px;
-  height : 200px;
-  padding-bottom : 50px;
+.student-block {
+  float: left;
+  width: 200px;
+  height: 200px;
+  padding-bottom: 50px;
   text-align: center;
 }
 
-.pic-block{
+.pic-block {
   margin-left: auto;
   margin-right: auto;
-  width : 150px;
+  width: 150px;
   height: 150px;
 }
 
-.number-block{}
-
-.name-block{}
-
-.student-search-input-label{
-  float : left;
-  height : 40px;
-  padding-left : 100px;
-  padding-top : 5px;
+.number-block {
 }
 
-.student-search-input{
-  float : left;
-  width : 100px;
+.name-block {
 }
 
-.student-search-input-btn{
-  position : relative;
-  top : 10px;
-  left : 10px;
+.student-search-input-label {
+  float: left;
+  height: 40px;
+  padding-left: 100px;
+  padding-top: 5px;
 }
 
-.white-width{
-  float : left;
-  padding-right : 100px;
-  padding-top : 40px;
+.student-search-input {
+  float: left;
+  width: 100px;
+}
+
+.student-search-input-btn {
+  position: relative;
+  top: 10px;
+  left: 10px;
+}
+
+.white-width {
+  float: left;
+  padding-right: 100px;
+  padding-top: 40px;
 }

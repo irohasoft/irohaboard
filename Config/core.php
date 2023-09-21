@@ -22,8 +22,8 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-	//if($_SERVER['SERVER_NAME']=='localhost')
-	//	Configure::write('debug', 2);
+//if($_SERVER['SERVER_NAME']=='localhost')
+//	Configure::write('debug', 2);
 
 /**
  * Configure the Error handler used to handle errors for your application. By default
@@ -40,11 +40,11 @@
  *
  * @see ErrorHandler for more information on error handling and configuration.
  */
-	Configure::write('Error', array(
-		'handler' => 'ErrorHandler::handleError',
-		'level' => E_ALL & ~E_DEPRECATED & ~E_STRICT,
-		'trace' => true
-	));
+Configure::write("Error", [
+    "handler" => "ErrorHandler::handleError",
+    "level" => E_ALL & ~E_DEPRECATED & ~E_STRICT,
+    "trace" => true,
+]);
 
 /**
  * Configure the Exception handler used for uncaught exceptions. By default,
@@ -66,16 +66,16 @@
  *
  * @see ErrorHandler for more information on exception handling and configuration.
  */
-	Configure::write('Exception', array(
-		'handler' => 'ErrorHandler::handleException',
-		'renderer' => 'ExceptionRenderer',
-		'log' => true
-	));
+Configure::write("Exception", [
+    "handler" => "ErrorHandler::handleException",
+    "renderer" => "ExceptionRenderer",
+    "log" => true,
+]);
 
 /**
  * Application wide charset encoding
  */
-	Configure::write('App.encoding', 'UTF-8');
+Configure::write("App.encoding", "UTF-8");
 
 /**
  * To configure CakePHP *not* to use mod_rewrite and to
@@ -96,7 +96,7 @@
  * included primarily as a development convenience - and
  * thus not recommended for production applications.
  */
-	//Configure::write('App.baseUrl', env('SCRIPT_NAME'));
+//Configure::write('App.baseUrl', env('SCRIPT_NAME'));
 
 /**
  * To configure CakePHP to use a particular domain URL
@@ -105,25 +105,25 @@
  * will override the automatic detection of full base URL and can be
  * useful when generating links from the CLI (e.g. sending emails)
  */
-	//Configure::write('App.fullBaseUrl', 'http://example.com');
+//Configure::write('App.fullBaseUrl', 'http://example.com');
 
 /**
  * Web path to the public images directory under webroot.
  * If not set defaults to 'img/'
  */
-	//Configure::write('App.imageBaseUrl', 'img/');
+//Configure::write('App.imageBaseUrl', 'img/');
 
 /**
  * Web path to the CSS files directory under webroot.
  * If not set defaults to 'css/'
  */
-	//Configure::write('App.cssBaseUrl', 'css/');
+//Configure::write('App.cssBaseUrl', 'css/');
 
 /**
  * Web path to the js files directory under webroot.
  * If not set defaults to 'js/'
  */
-	//Configure::write('App.jsBaseUrl', 'js/');
+//Configure::write('App.jsBaseUrl', 'js/');
 
 /**
  * Uncomment the define below to use CakePHP prefix routes.
@@ -140,12 +140,12 @@
  *	`admin_index()` and `/admin/controller/index`
  *	`manager_index()` and `/manager/controller/index`
  */
-	Configure::write('Routing.prefixes', array('admin'));
+Configure::write("Routing.prefixes", ["admin"]);
 
 /**
  * Turn off all caching application-wide.
  */
-	Configure::write('Cache.disable', true);
+Configure::write("Cache.disable", true);
 
 /**
  * Enable cache checking.
@@ -155,7 +155,7 @@
  * You can either set it controller-wide by setting public $cacheAction = true,
  * or in each action using $this->cacheAction = true.
  */
-	//Configure::write('Cache.check', true);
+//Configure::write('Cache.check', true);
 
 /**
  * Enable cache view prefixes.
@@ -165,7 +165,7 @@
  * for instance. Each version can then have its own view cache namespace.
  * Note: The final cache file name will then be `prefix_cachefilename`.
  */
-	//Configure::write('Cache.viewPrefix', 'prefix');
+//Configure::write('Cache.viewPrefix', 'prefix');
 
 /**
  * Session configuration.
@@ -203,17 +203,20 @@
  * To use database sessions, run the app/Config/Schema/sessions.php schema using
  * the cake shell command: cake schema create Sessions
  */
-	Configure::write('Session', array(
-		'defaults' => 'php'
-	));
+Configure::write("Session", [
+    "defaults" => "php",
+]);
 
 /**
  * A random string used in security hashing methods.
- */	Configure::write('Security.salt', '397110e45242a23e5802e78f4eec95a7bd39e0f0');
+ */ Configure::write(
+    "Security.salt",
+    "397110e45242a23e5802e78f4eec95a7bd39e0f0"
+);
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
- */	Configure::write('Security.cipherSeed', '303632386133653432646231373537');
+ */ Configure::write("Security.cipherSeed", "303632386133653432646231373537");
 
 /**
  * Apply timestamps with the last modified time to static assets (js, css, images).
@@ -223,7 +226,7 @@
  * Set to `true` to apply timestamps when debug > 0. Set to 'force' to always enable
  * timestamping regardless of debug value.
  */
-	//Configure::write('Asset.timestamp', true);
+//Configure::write('Asset.timestamp', true);
 
 /**
  * Compress CSS output by removing comments, whitespace, repeating tags, etc.
@@ -232,7 +235,7 @@
  *
  * To use, prefix the CSS link URL with '/ccss/' instead of '/css/' or use HtmlHelper::css().
  */
-	//Configure::write('Asset.filter.css', 'css.php');
+//Configure::write('Asset.filter.css', 'css.php');
 
 /**
  * Plug in your own custom JavaScript compressor by dropping a script in your webroot to handle the
@@ -240,20 +243,20 @@
  *
  * To use, prefix your JavaScript link URLs with '/cjs/' instead of '/js/' or use JsHelper::link().
  */
-	//Configure::write('Asset.filter.js', 'custom_javascript_output_filter.php');
+//Configure::write('Asset.filter.js', 'custom_javascript_output_filter.php');
 
 /**
  * The class name and database used in CakePHP's
  * access control lists.
  */
-	Configure::write('Acl.classname', 'DbAcl');
-	Configure::write('Acl.database', 'default');
+Configure::write("Acl.classname", "DbAcl");
+Configure::write("Acl.database", "default");
 
 /**
  * Uncomment this line and correct your server timezone to fix
  * any date & time related errors.
  */
-	//date_default_timezone_set('UTC');
+//date_default_timezone_set('UTC');
 
 /**
  * Cache Engine Configuration
@@ -326,16 +329,16 @@
  *       Please check the comments in bootstrap.php for more info on the cache engines available
  *       and their settings.
  */
-$engine = 'File';
+$engine = "File";
 
 // In development mode, caches should expire quickly.
-$duration = '+999 days';
-if (Configure::read('debug') > 0) {
-	$duration = '+10 seconds';
+$duration = "+999 days";
+if (Configure::read("debug") > 0) {
+    $duration = "+10 seconds";
 }
 
 // Prefix each application on the same server with a different string, to avoid Memcache and APC conflicts.
-$prefix = 'irohaboard_';
+$prefix = "irohaboard_";
 
 /**
  * Configure the cache used for general framework caching. Path information,

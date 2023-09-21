@@ -16,25 +16,26 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-require_once dirname(__FILE__) . DS . 'DebugkitGroupTestCase.php';
+require_once dirname(__FILE__) . DS . "DebugkitGroupTestCase.php";
 
 /**
  * DebugKitViewTestSuite class
  *
  * @since         DebugKit 1.0
  */
-class AllDebugKitWithoutViewTest extends DebugkitGroupTestCase {
+class AllDebugKitWithoutViewTest extends DebugkitGroupTestCase
+{
+    /**
+     * Assemble Test Suite
+     *
+     * @return PHPUnit_Framework_TestSuite the instance of PHPUnit_Framework_TestSuite
+     */
+    public static function suite()
+    {
+        $suite = new self();
+        $files = $suite->getTestFiles(null, "View");
+        $suite->addTestFiles($files);
 
-/**
- * Assemble Test Suite
- *
- * @return PHPUnit_Framework_TestSuite the instance of PHPUnit_Framework_TestSuite
- */
-	public static function suite() {
-		$suite = new self;
-		$files = $suite->getTestFiles(null, 'View');
-		$suite->addTestFiles($files);
-
-		return $suite;
-	}
+        return $suite;
+    }
 }

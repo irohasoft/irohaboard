@@ -1,5 +1,4 @@
-Named Params vs Querystring
-===========================
+# Named Params vs Querystring
 
 With the release of version **2.5.0** of the **Search** plugin the settings for the `Prg` component have been changed to use `querystring` by default instead of `named`.
 
@@ -25,9 +24,8 @@ public $components = array(
 );
 ```
 
-Why Query String instead of Named parameters?
---------------------------------------------
+## Why Query String instead of Named parameters?
 
-Using the [query string](http://en.wikipedia.org/wiki/Query_string) part of the URI is the correct way of passing parameters. Historically, `named` parameters were an alternative to passing arguments as part of the URL in *CakePHP*.
+Using the [query string](http://en.wikipedia.org/wiki/Query_string) part of the URI is the correct way of passing parameters. Historically, `named` parameters were an alternative to passing arguments as part of the URL in _CakePHP_.
 
-When you pass `named` parameters that contain special characters like `/` or `&`, they potentially break the URL. You would have to manually encode and decode these all the time. They also violate the [HTTP](http://tools.ietf.org/html/rfc3986#section-2.2) specification, as they are specific to *CakePHP*, and are no longer supported in version **3.0** of the framework.
+When you pass `named` parameters that contain special characters like `/` or `&`, they potentially break the URL. You would have to manually encode and decode these all the time. They also violate the [HTTP](http://tools.ietf.org/html/rfc3986#section-2.2) specification, as they are specific to _CakePHP_, and are no longer supported in version **3.0** of the framework.

@@ -1,5 +1,4 @@
-POST-Redirect-GET
-=================
+# POST-Redirect-GET
 
 Post/Redirect/Get (PRG) is a common design pattern for web developers to help avoid certain duplicate form submissions and allow user agents to behave more intuitively with bookmarks and the refresh button.
 

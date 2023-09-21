@@ -10,52 +10,51 @@
 
 /* custom.css */
 
-.custom-page-title
-{
+.custom-page-title {
   margin: 10px;
-	font-size			: 24px;
+  font-size: 24px;
 }
 
-.select-btn{
+.select-btn {
   display: inline-block;
   margin: 10px;
   font-size: 18px;
 }
 
-.current-setting{
+.current-setting {
   margin: 10px;
   padding 10px;
 }
-.current-address{
+.current-address {
   font-size: 20px;
 }
 
-#chart{
-  cursor : pointer;
+#chart {
+  cursor: pointer;
 }
 #chart-body,
-.pie-chart{
+.pie-chart {
   height: 400px;
   display: block;
   margin: 0 auto;
 }
-#chart-body{
+#chart-body {
   position: relative;
 }
 .labelOverlay {
-    width: 150px;
-    height: 100px;
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    text-align: center;
-    cursor: default;
+  width: 150px;
+  height: 100px;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+  cursor: default;
 }
 .labelOverlay p {
   line-height: 0.3;
-  padding:0;
+  padding: 0;
   margin: 8px;
 }
 .labelOverlay p.total-caption {

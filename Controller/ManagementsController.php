@@ -8,12 +8,13 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
- class ManagementsController extends AppController{
-   public function admin_index(){
+class ManagementsController extends AppController
+{
+    public function admin_index()
+    {
+    }
 
-   }
-
-   public function admin_other_index(){
-
-   }
- }
+    public function admin_other_index()
+    {
+    }
+}

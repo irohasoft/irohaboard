@@ -8,7 +8,7 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-App::uses('AppModel', 'Model');
+App::uses("AppModel", "Model");
 
 /**
  * Record Model
@@ -20,77 +20,72 @@ App::uses('AppModel', 'Model');
  */
 class Progress extends AppModel
 {
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public $validate = [
+        "title" => [
+            "notBlank" => [
+                "rule" => ["notBlank"],
+                // 'message' => 'Your custom message here',
+                // 'allowEmpty' => false,
+                // 'required' => false,
+                // 'last' => false, // Stop validation after this rule
+                // 'on' => 'create', // Limit validation to 'create' or
+                // 'update' operations
+            ],
+        ],
+    ];
 
-	/**
-	 * Validation rules
-	 *
-	 * @var array
-	 */
-	public $validate = array(
-    'title' => array(
-      'notBlank' => array(
-          'rule' => array(
-              'notBlank'
-          )
-      // 'message' => 'Your custom message here',
-      // 'allowEmpty' => false,
-      // 'required' => false,
-      // 'last' => false, // Stop validation after this rule
-      // 'on' => 'create', // Limit validation to 'create' or
-      // 'update' operations
-                )
-    ),
-	
-	);
+    // The Associations below have been created with all possible keys, those
+    // that are not needed can be removed
+    public $hasMany = [
+        "ProgressesDetail" => [
+            "className" => "ProgressesDetail",
+            "foreignKey" => "progress_id",
+            "dependent" => false,
+            "conditions" => "",
+            "fields" => "",
+            "order" => "",
+            "limit" => "",
+            "offset" => "",
+            "exclusive" => "",
+            "finderQuery" => "",
+            "counterQuery" => "",
+        ],
+    ];
 
-	// The Associations below have been created with all possible keys, those
-	// that are not needed can be removed
-	public $hasMany = array(
-			'ProgressesDetail' => array(
-					'className' => 'ProgressesDetail',
-					'foreignKey' => 'progress_id',
-					'dependent' => false,
-					'conditions' => '',
-					'fields' => '',
-					'order' => '',
-					'limit' => '',
-					'offset' => '',
-					'exclusive' => '',
-					'finderQuery' => '',
-					'counterQuery' => ''
-			)
-	);
+    /**
+     * belongsTo associations
+     *
+     * @var array
+     */
+    public $belongsTo = [
+        // 'User' => array(
+        // 		'className' => 'User',
+        // 		'foreignKey' => 'user_id',
+        // 		'conditions' => '',
+        // 		'fields' => '',
+        // 		'order' => ''
+        // )
+    ];
 
-	/**
-	 * belongsTo associations
-	 *
-	 * @var array
-	 */
-	public $belongsTo = array(
-			// 'User' => array(
-			// 		'className' => 'User',
-			// 		'foreignKey' => 'user_id',
-			// 		'conditions' => '',
-			// 		'fields' => '',
-			// 		'order' => ''
-			// )
-	);
+    /**
+     * 検索用
+     */
+    public $actsAs = ["Search.Searchable"];
 
-	/**
-	 * 検索用
-	 */
-	public $actsAs = array(
-		'Search.Searchable'
-	);
+    public $filterArgs = [];
 
-	public $filterArgs = array(
-  );
-  
-  public function deleteProgress($progress_id){
-    $this->deleteAll(array(
-      'Progress.id' => $progress_id
-    ), true);
-  }
-
-
+    public function deleteProgress($progress_id)
+    {
+        $this->deleteAll(
+            [
+                "Progress.id" => $progress_id,
+            ],
+            true
+        );
+    }
 }

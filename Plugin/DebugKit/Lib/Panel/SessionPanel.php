@@ -11,21 +11,22 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-App::uses('DebugPanel', 'DebugKit.Lib');
+App::uses("DebugPanel", "DebugKit.Lib");
 
 /**
  * Provides debug information on the Session contents.
  */
-class SessionPanel extends DebugPanel {
-
-/**
- * beforeRender callback
- *
- * @param Controller $controller Controller object.
- * @return array
- */
-	public function beforeRender(Controller $controller) {
-		$sessions = $controller->Toolbar->Session->read();
-		return $sessions;
-	}
+class SessionPanel extends DebugPanel
+{
+    /**
+     * beforeRender callback
+     *
+     * @param Controller $controller Controller object.
+     * @return array
+     */
+    public function beforeRender(Controller $controller)
+    {
+        $sessions = $controller->Toolbar->Session->read();
+        return $sessions;
+    }
 }

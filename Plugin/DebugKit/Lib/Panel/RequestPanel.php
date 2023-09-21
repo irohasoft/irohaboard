@@ -11,30 +11,31 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-App::uses('DebugPanel', 'DebugKit.Lib');
+App::uses("DebugPanel", "DebugKit.Lib");
 
 /**
  * Provides debug information on the Current request params.
  */
-class RequestPanel extends DebugPanel {
-
-/**
- * beforeRender callback - grabs request params
- *
- * @param Controller $controller The controller.
- * @return array
- */
-	public function beforeRender(Controller $controller) {
-		$out = array();
-		$out['params'] = $controller->request->params;
-		$out['url'] = $controller->request->url;
-		$out['query'] = $controller->request->query;
-		$out['data'] = $controller->request->data;
-		if (isset($controller->Cookie)) {
-			$out['cookie'] = $controller->Cookie->read();
-		}
-		$out['get'] = $_GET;
-		$out['currentRoute'] = Router::currentRoute();
-		return $out;
-	}
+class RequestPanel extends DebugPanel
+{
+    /**
+     * beforeRender callback - grabs request params
+     *
+     * @param Controller $controller The controller.
+     * @return array
+     */
+    public function beforeRender(Controller $controller)
+    {
+        $out = [];
+        $out["params"] = $controller->request->params;
+        $out["url"] = $controller->request->url;
+        $out["query"] = $controller->request->query;
+        $out["data"] = $controller->request->data;
+        if (isset($controller->Cookie)) {
+            $out["cookie"] = $controller->Cookie->read();
+        }
+        $out["get"] = $_GET;
+        $out["currentRoute"] = Router::currentRoute();
+        return $out;
+    }
 }

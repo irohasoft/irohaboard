@@ -5,20 +5,19 @@
  * @license  http://www.opensource.org/licenses/mit-license.php The MIT License
  * @link     http://www.alaxos.ch
  */
-class AclController extends AclAppController {
+class AclController extends AclAppController
+{
+    var $name = "Acl";
+    var $uses = null;
 
-	var $name = 'Acl';
-	var $uses = null;
-	
-	function index()
-	{
-	    $this->redirect('/admin/acl/aros');
-	}
-	
-	function admin_index()
-	{
-	    $this->redirect('/admin/acl/acos');
-	}
-	
+    function index()
+    {
+        $this->redirect("/admin/acl/aros");
+    }
+
+    function admin_index()
+    {
+        $this->redirect("/admin/acl/acos");
+    }
 }
 ?>

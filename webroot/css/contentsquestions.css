@@ -8,16 +8,15 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-.text-block object{
-  float : left;
-  width : 65%;
-  height : 850px;
+.text-block object {
+  float: left;
+  width: 65%;
+  height: 850px;
   overflow: scroll;
 }
-.quiz-block{
-  float : left;
-  width : 35%;
-  height : 850px;
+.quiz-block {
+  float: left;
+  width: 35%;
+  height: 850px;
   overflow: scroll;
 }
-

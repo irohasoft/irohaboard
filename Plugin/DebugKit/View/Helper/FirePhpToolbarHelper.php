@@ -12,94 +12,103 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-App::uses('ToolbarHelper', 'DebugKit.View/Helper');
-App::uses('FireCake', 'DebugKit.Lib');
+App::uses("ToolbarHelper", "DebugKit.View/Helper");
+App::uses("FireCake", "DebugKit.Lib");
 
 /**
  * FirePHP Toolbar Helper
  *
  * Injects the toolbar elements into non-HTML layouts via FireCake.
  */
-class FirePhpToolbarHelper extends ToolbarHelper {
+class FirePhpToolbarHelper extends ToolbarHelper
+{
+    /**
+     * settings property
+     *
+     * @var array
+     */
+    public $settings = ["format" => "firePHP", "forceEnable" => false];
 
-/**
- * settings property
- *
- * @var array
- */
-	public $settings = array('format' => 'firePHP', 'forceEnable' => false);
+    /**
+     * send method
+     *
+     * @return void
+     */
+    public function send()
+    {
+        $view = $this->_View;
+        $view->element(
+            "debug_toolbar",
+            ["disableTimer" => true],
+            ["plugin" => "DebugKit"]
+        );
+    }
 
-/**
- * send method
- *
- * @return void
- */
-	public function send() {
-		$view = $this->_View;
-		$view->element('debug_toolbar', array('disableTimer' => true), array('plugin' => 'DebugKit'));
-	}
+    /**
+     * Make neat array
+     *
+     * Wraps FireCake::dump() allowing panel elements to continue functioning.
+     *
+     * @param string $values The values.
+     * @return void
+     */
+    public function makeNeatArray($values)
+    {
+        FireCake::info($values);
+    }
 
-/**
- * Make neat array
- *
- * Wraps FireCake::dump() allowing panel elements to continue functioning.
- *
- * @param string $values The values.
- * @return void
- */
-	public function makeNeatArray($values) {
-		FireCake::info($values);
-	}
+    /**
+     * Create a simple message
+     *
+     * @param string $label Label of message
+     * @param string $message Message content
+     * @return void
+     */
+    public function message($label, $message)
+    {
+        FireCake::log($message, $label);
+    }
 
-/**
- * Create a simple message
- *
- * @param string $label Label of message
- * @param string $message Message content
- * @return void
- */
-	public function message($label, $message) {
-		FireCake::log($message, $label);
-	}
+    /**
+     * Generate a table with FireCake
+     *
+     * @param array $rows Rows to print
+     * @param array $headers Headers for table
+     * @param array $options Additional options and params
+     * @return void
+     */
+    public function table($rows, $headers, $options = [])
+    {
+        $title = $headers[0];
+        if (isset($options["title"])) {
+            $title = $options["title"];
+        }
+        foreach ($rows as $i => $row) {
+            $rows[$i] = array_values($row);
+        }
+        array_unshift($rows, $headers);
+        FireCake::table($title, $rows);
+    }
 
-/**
- * Generate a table with FireCake
- *
- * @param array $rows Rows to print
- * @param array $headers Headers for table
- * @param array $options Additional options and params
- * @return void
- */
-	public function table($rows, $headers, $options = array()) {
-		$title = $headers[0];
-		if (isset($options['title'])) {
-			$title = $options['title'];
-		}
-		foreach ($rows as $i => $row) {
-			$rows[$i] = array_values($row);
-		}
-		array_unshift($rows, $headers);
-		FireCake::table($title, $rows);
-	}
+    /**
+     * Start a panel which is a 'Group' in FirePHP
+     *
+     * @param string $title The panel tile.
+     * @param string $anchor The panel anchor (unused).
+     * @return void
+     */
+    public function panelStart($title, $anchor)
+    {
+        FireCake::group($title);
+    }
 
-/**
- * Start a panel which is a 'Group' in FirePHP
- *
- * @param string $title The panel tile.
- * @param string $anchor The panel anchor (unused).
- * @return void
- */
-	public function panelStart($title, $anchor) {
-		FireCake::group($title);
-	}
-
-/**
- * End a panel (Group)
- *
- * @return void
- */
-	public function panelEnd() {
-		FireCake::groupEnd();
-	}
-
+    /**
+     * End a panel (Group)
+     *
+     * @return void
+     */
+    public function panelEnd()
+    {
+        FireCake::groupEnd();
+    }
 }

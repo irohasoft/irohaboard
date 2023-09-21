@@ -10,137 +10,138 @@
 
 .admin-student_edit-index,
 .admin-group_edit-index {
-  margin-left:   50px;
-  margin-right:  50px;
+  margin-left: 50px;
+  margin-right: 50px;
   margin-bottom: 70px;
 }
 
-.member-input{
-  margin-top:    25px;
+.member-input {
+  margin-top: 25px;
   margin-bottom: 25px;
   width: 1100px;
   height: 500px;
-  border: solid #CCCCCC;
+  border: solid #cccccc;
 }
 
-.soap_input{
-  display : inline-block;
+.soap_input {
+  display: inline-block;
 }
 
-
-.soap_teacher{
-  width : 200px;
-  padding-right : 80px;
-  float : left;
+.soap_teacher {
+  width: 200px;
+  padding-right: 80px;
+  float: left;
 }
 
-.soap_current{
-  width : 200px;
-  float : left;
-  padding-left : 80px;
+.soap_current {
+  width: 200px;
+  float: left;
+  padding-left: 80px;
 }
 
-.info{
-  float : left;
-  width : 200px;
+.info {
+  float: left;
+  width: 200px;
   height: 400px;
-  padding-right : 50px;
+  padding-right: 50px;
 }
-.soap{
-  float : left;
-  width : 500px;
+.soap {
+  float: left;
+  width: 500px;
   height: 400px;
-  padding-right : 50px;
+  padding-right: 50px;
 }
-.enquete{
-  float : left;
-  width : 250px;
+.enquete {
+  float: left;
+  width: 250px;
   height: 400px;
   padding-top: 50px;
-  padding-right : 50px;
+  padding-right: 50px;
 }
 
-.under-element{
+.under-element {
   clear: both;
 }
 
-.user_name{
+.user_name {
   font-size: 20px;
 }
 
-.enquete_headline{
+.enquete_headline {
   font-size: 20px;
 }
 
-.group-block{
-  padding-top : 100px;
-  padding-left : 100px;
-  width  : 800px;
-  height : 400px;
+.group-block {
+  padding-top: 100px;
+  padding-left: 100px;
+  width: 800px;
+  height: 400px;
 }
 
-.group-btn{
-  width : 200px;
+.group-btn {
+  width: 200px;
   font-size: 24px;
 }
 
-.group-btn-block{
-  width : 300px;
-  padding-right : 100px;
-  float : left;
-  height : 50px;
+.group-btn-block {
+  width: 300px;
+  padding-right: 100px;
+  float: left;
+  height: 50px;
 }
 
-.student-search-block{
-  float  : left;
-  width  : 800px;
-  height : 50px;
+.student-search-block {
+  float: left;
+  width: 800px;
+  height: 50px;
 }
 
-.index-block{
-  float  : left;
-  width  : 800px;
+.index-block {
+  float: left;
+  width: 800px;
 }
 
-.student-block{
-  float : left;
-  width : 200px;
-  height : 200px;
-  padding-bottom : 50px;
+.student-block {
+  float: left;
+  width: 200px;
+  height: 200px;
+  padding-bottom: 50px;
   text-align: center;
 }
 
-.pic-block{
+.pic-block {
   margin-left: auto;
   margin-right: auto;
-  width : 150px;
+  width: 150px;
   height: 150px;
 }
 
-.number-block{}
-
-.name-block{}
-
-.student-search-input-label{
-  float : left;
-  height : 40px;
-  padding-left : 100px;
-  padding-top : 5px;
+.number-block {
 }
 
-.student-search-input{
-  float : left;
-  width : 100px;
+.name-block {
 }
 
-.student-search-input-btn{
-  position : relative;
-  top : 10px;
-  left : 10px;
+.student-search-input-label {
+  float: left;
+  height: 40px;
+  padding-left: 100px;
+  padding-top: 5px;
 }
 
-.white-width{
-  float : left;
-  padding-right : 100px;
-  padding-top : 40px;
+.student-search-input {
+  float: left;
+  width: 100px;
+}
+
+.student-search-input-btn {
+  position: relative;
+  top: 10px;
+  left: 10px;
+}
+
+.white-width {
+  float: left;
+  padding-right: 100px;
+  padding-top: 40px;
 }

@@ -20,7 +20,7 @@
 .bx-viewport {
   /*fix other elements on the page moving (on Chrome)*/
   -webkit-transform: translatez(0);
-  width:90% !important;
+  width: 90% !important;
   margin-right: 1%;
   margin-left: 7%;
   margin-right: 6%;
@@ -36,164 +36,163 @@
   background: #fff;
 }
 
-.student-photo{
-  position : relative;
-  top : -20px;
-  left : -20px;
+.student-photo {
+  position: relative;
+  top: -20px;
+  left: -20px;
   float: right;
-  z-index : 10;
+  z-index: 10;
 }
 
-.user-block{
+.user-block {
   border: 3px solid #666;
-  width : 80%;
+  width: 80%;
   margin: 0 auto;
   margin-bottom: 20px;
 }
 
-.user-info-block{
-  display : table;
-  font-size : 15px;
+.user-info-block {
+  display: table;
+  font-size: 15px;
   margin-bottom: 1%;
 }
 
-.user-info-block .user-info-block-element{
-  display : table-cell;
+.user-info-block .user-info-block-element {
+  display: table-cell;
   border: 1px solid #666;
 }
 
-.username{
-  width : 100px;
+.username {
+  width: 100px;
 }
 
-.name{
-  width : 150px;
+.name {
+  width: 150px;
 }
 
-.name-furigana{
-  width : 150px;
+.name-furigana {
+  width: 150px;
 }
 
-.period{
-  width : 50px;
+.period {
+  width: 50px;
 }
 
-.birthyear{
-  width : 100px;
+.birthyear {
+  width: 100px;
 }
 
-.os_type{
-  width : 70px;
+.os_type {
+  width: 70px;
 }
 
-
-.attendance-info{
-  display : table;
+.attendance-info {
+  display: table;
   /* margin-left: 20px; */
 }
 
-.attendance-date-block{
-  display : table-row;
+.attendance-date-block {
+  display: table-row;
 }
 
-.attendance-status{
-  display : table-row;
+.attendance-status {
+  display: table-row;
 }
 
-.date{
-  display : table-cell;
-  width : 100px;
+.date {
+  display: table-cell;
+  width: 100px;
   text-align: center;
   border: 1px solid #666;
 }
 
-.status{
-  display : table-cell;
-  width : 100px;
-  font-size : 20px;
+.status {
+  display: table-cell;
+  width: 100px;
+  font-size: 20px;
   text-align: center;
   border: 1px solid #666;
 }
 
-.enquete-info{
-  display : table;
+.enquete-info {
+  display: table;
   margin-right: 1%;
 }
 
-.enquete-header-block{
-  display : table-row;
+.enquete-header-block {
+  display: table-row;
 }
 
-.enquete-status{
-  display : table-row;
+.enquete-status {
+  display: table-row;
 }
 
-.enquete-header{
-  display : table-cell;
-  width : 100px;
+.enquete-header {
+  display: table-cell;
+  width: 100px;
   text-align: center;
-  background-color: #FFE4C4;
+  background-color: #ffe4c4;
   border: 1px solid #666;
 }
 
-.enquete-status{
-  display : table-cell;
-  width : 100px;
+.enquete-status {
+  display: table-cell;
+  width: 100px;
   /*
   font-size : 20px;
   text-align: center;*/
   border: 1px solid #666;
 }
 
-.soap-info{
-  display : table;
+.soap-info {
+  display: table;
   margin-right: 1%;
 }
 
-.soap-header-block{
-  display : table-row;
+.soap-header-block {
+  display: table-row;
 }
 
-.soap-status{
-  display : table-row;
+.soap-status {
+  display: table-row;
 }
 
-.soap-header{
-  display : table-cell;
-  width : 100px;
-  background-color: #FFFFBB;
+.soap-header {
+  display: table-cell;
+  width: 100px;
+  background-color: #ffffbb;
   text-align: center;
   border: 1px solid #666;
 }
 
-.soap-status{
-  display : table-cell;
-  width : 100px;
+.soap-status {
+  display: table-cell;
+  width: 100px;
   /*
   font-size : 20px;
   text-align: center;*/
   border: 1px solid #666;
 }
 
-.modal{
-    display: block;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    width: 100%;
+.modal {
+  display: block;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
-.modal__bg{
-    background: rgba(0,0,0,0.8);
-    height: 100vh;
-    position: absolute;
-    width: 100%;
+.modal__bg {
+  background: rgba(0, 0, 0, 0.8);
+  height: 100vh;
+  position: absolute;
+  width: 100%;
 }
-.modal__content{
-    background: #fff;
-    left: 50%;
-    padding: 40px;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    width: 60%;
+.modal__content {
+  background: #fff;
+  left: 50%;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
 }

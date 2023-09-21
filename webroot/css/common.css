@@ -8,236 +8,202 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-html
-{
-	height: 100%;
+html {
+  height: 100%;
 }
 
-body
-{
-	font-family: 'Apple TP', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', メイリオ, Meiryo, 'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	min-height: 100%;
-	display: flex;
-	flex-direction: column;
+body {
+  font-family: "Apple TP", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3",
+    メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.header
-{
-	width				: 100%;
-	display				: inline-block;
+.header {
+  width: 100%;
+  display: inline-block;
 }
 
-#main
-{
-	width: 100%;
-	flex: 1;
+#main {
+  width: 100%;
+  flex: 1;
 }
 
-.panel
-{
-	margin				: 10px;
+.panel {
+  margin: 10px;
 }
 
-#content
-{
-	text-align			: left;
-	min-height			: 600px;
-	width			: 100%;
-	margin				: auto;
+#content {
+  text-align: left;
+  min-height: 600px;
+  width: 100%;
+  margin: auto;
 }
 
-div.buttons_container
-{
-	padding				: 10px;
-	text-align			: right;
+div.buttons_container {
+  padding: 10px;
+  text-align: right;
 }
 
-
-#flashMessage
-{
-/*
+#flashMessage {
+  /*
 */
-	position			: absolute;
-	top					: 50px;
-	margin				: auto 25px;
-	width				: 95%;
-	max-width			: 1150px;
-	z-index				: 999999;
+  position: absolute;
+  top: 50px;
+  margin: auto 25px;
+  width: 95%;
+  max-width: 1150px;
+  z-index: 999999;
 }
 
-#header
-{
+#header {
 }
 
-.form-signin
-{
-	max-width			: 600px;
-	margin				: 0 auto;
-	margin-top			: 60px;
+.form-signin {
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 60px;
 }
 
-.form-signin .form-control
-{
-	position			: relative;
-	height				: auto;
-	-webkit-box-sizing	: border-box;
-	-moz-box-sizing		: border-box;
-	box-sizing			: border-box;
-	padding				: 20px;
-	font-size			: 16px;
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 20px;
+  font-size: 16px;
 }
 
-.form-signin .btn
-{
-	padding: 20px;
-	font-size: 22px;
-	font-weight: bold;
+.form-signin .btn {
+  padding: 20px;
+  font-size: 22px;
+  font-weight: bold;
 }
 
-
-form .required .control-label:after
-{
-	border-radius		: 0.25em;
-	color				: #fff;
-	display				: inline;
-	font-size			: 75%;
-	font-weight			: 700;
-	line-height			: 1;
-	padding				: 0.1em 0.5em;
-	margin-left			: 0.7em;
-	text-align			: center;
-	vertical-align		: baseline;
-	white-space			: nowrap;
-	background-color	: #d9534f;
-	content				: '必須';
+form .required .control-label:after {
+  border-radius: 0.25em;
+  color: #fff;
+  display: inline;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.1em 0.5em;
+  margin-left: 0.7em;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  background-color: #d9534f;
+  content: "必須";
 }
 
-.note-editor .modal-body
-{
-	margin				: 20px;
+.note-editor .modal-body {
+  margin: 20px;
 }
-.ib-navi-item
-{
-	padding				: 5px;
-	font-size			: 16px;
+.ib-navi-item {
+  padding: 5px;
+  font-size: 16px;
 }
 
-.ib-navi-item a
-{
-	color				: #fff;
+.ib-navi-item a {
+  color: #fff;
 }
 
-.ib-navi-sepa
-{
-	height				: 24px;
-	border-right		: 1px solid #ccc;
-	width				: 1px;
-	margin				: 5px;
-	padding				: 0px;
+.ib-navi-sepa {
+  height: 24px;
+  border-right: 1px solid #ccc;
+  width: 1px;
+  margin: 5px;
+  padding: 0px;
 }
 
-.ib-left
-{
-	float				: left;
+.ib-left {
+  float: left;
 }
 
-.ib-right
-{
-	float				: right;
+.ib-right {
+  float: right;
 }
 
-.ib-logo
-{
-	font-size			: 22px;
-	font-family			:'Arial';
-	padding-left		: 15px;
-	font-weight			: bold;
+.ib-logo {
+  font-size: 22px;
+  font-family: "Arial";
+  padding-left: 15px;
+  font-weight: bold;
 }
 
-.ib-page-title
-{
-	font-size			: 24px;
-	float				: left;
+.ib-page-title {
+  font-size: 24px;
+  float: left;
 }
 
-.ib-breadcrumb
-{
-	width				: 100%;
+.ib-breadcrumb {
+  width: 100%;
 }
 
-.breadcrumb
-{
-	padding				: 10px;
+.breadcrumb {
+  padding: 10px;
 }
 
-.ib-horizontal .input
-{
-	float				: left;
-	padding-left		: 10px;
-	padding-right		: 20px;
-	padding-top			: 0px;
-	padding-bottom		: 10px;
+.ib-horizontal .input {
+  float: left;
+  padding-left: 10px;
+  padding-right: 20px;
+  padding-top: 0px;
+  padding-bottom: 10px;
 }
 
-.ib-horizontal label
-{
-	float				: left;
-	text-align			: right;
-	padding-top			: 5px;
+.ib-horizontal label {
+  float: left;
+  text-align: right;
+  padding-top: 5px;
 }
 
-.ib-horizontal .text
-{
-	width				: 160px;
+.ib-horizontal .text {
+  width: 160px;
 }
 
-.ib-search-date-container
-{
-	width				: 800px;
-	height				: 60px;
+.ib-search-date-container {
+  width: 800px;
+  height: 60px;
 }
 
-.ib-search-date-container .date
-{
-	font-size			: 20px;
+.ib-search-date-container .date {
+  font-size: 20px;
 }
 
-.well
-{
-	background-color	: #fafafa;
-	padding				: 10px;
-	margin-bottom		: 10px;
+.well {
+  background-color: #fafafa;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
-.ib-col-date
-{
-	text-align			: center;
+.ib-col-date {
+  text-align: center;
 }
 
-.ib-col-center
-{
-	text-align			: center;
+.ib-col-center {
+  text-align: center;
 }
 
 .ib-col-datetime,
-.ib-col-action
-{
-	text-align			: center;
+.ib-col-action {
+  text-align: center;
 }
 
-.ib-table-csv
-{
-	width				: 90%;
+.ib-table-csv {
+  width: 90%;
 }
 
-.ib-table-csv th
-{
-	border				: 1px solid;
-	min-width			: 100px;
-	padding				: 5px;
+.ib-table-csv th {
+  border: 1px solid;
+  min-width: 100px;
+  padding: 5px;
 }
 
-/* start メニューの自動ボタン化を抑止 *//*
+/* start メニューの自動ボタン化を抑止 */ /*
 .nav>li
 {
 	float				: left;
@@ -247,196 +213,168 @@ form .required .control-label:after
 {
 	margin				: 0;
 }*/
-.navbar-nav>li>a
-{
-	padding-top			: 14.5px;
-	padding-bottom		: 14.5px;
+.navbar-nav > li > a {
+  padding-top: 14.5px;
+  padding-bottom: 14.5px;
 }
 /* end */
 
-.irohasoft
-{
-	font-size			: 10px;
-	color				: #aaa;
-	text-align			: center;
+.irohasoft {
+  font-size: 10px;
+  color: #aaa;
+  text-align: center;
 }
 
-.irohasoft a
-{
-	color				: #9ab;
-	display				: initial;
+.irohasoft a {
+  color: #9ab;
+  display: initial;
 }
 
-#sortable-table tbody
-{
-	cursor				: move;
+#sortable-table tbody {
+  cursor: move;
 }
 
-.content-label
-{
-	font-size			: 22px;
-	padding-bottom		: 0px;
+.content-label {
+  font-size: 22px;
+  padding-bottom: 0px;
 }
 
-.btn-rest
-{
-	float: right;
+.btn-rest {
+  float: right;
 }
 
-.status-closed
-{
-	color				: #666;
-	font-size			: 12px;
+.status-closed {
+  color: #666;
+  font-size: 12px;
 }
 
-.users-login #remember_me
-{
-	margin-left			: 10px;
+.users-login #remember_me {
+  margin-left: 10px;
 }
 
-.contents-questions-index .radio-group
-{
-	font-size			: 18px;
-	padding				: 10px;
-	line-height			: 180%;
+.contents-questions-index .radio-group {
+  font-size: 18px;
+  padding: 10px;
+  line-height: 180%;
 }
 
-.contents-questions-index input[type=radio]
-{
-	padding				: 10px;
+.contents-questions-index input[type="radio"] {
+  padding: 10px;
 }
 
-.contents-questions-index input[type=checkbox]
-{
-	float				: none;
+.contents-questions-index input[type="checkbox"] {
+  float: none;
 }
 
-.form-inline
-{
+.form-inline {
 }
 
-.contents-questions-index #lblStudySec
-{
-	position			: fixed;
-	top					: 50px;
-	right				: 20px;
-	display				: none;
+.contents-questions-index #lblStudySec {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  display: none;
 }
 
 .contents-questions-index .question-text,
-.contents-questions-index .correct-text
-{
-	padding				: 10px;
-	border-radius		: 6px;
+.contents-questions-index .correct-text {
+  padding: 10px;
+  border-radius: 6px;
 }
 
-.contents-questions-index img{
-	max-width			: 100%;
+.contents-questions-index img {
+  max-width: 100%;
 }
 
-.contents-questions-index .result-table
-{
-	margin				: 10px;
-	width				: 250px;
+.contents-questions-index .result-table {
+  margin: 10px;
+  width: 250px;
 }
 
 .install-index .panel-info,
 .install-installed .panel-info,
 .install-complete .panel-info,
-.install-error .panel-danger
-{
-	margin:20px;
+.install-error .panel-danger {
+  margin: 20px;
 }
 
 .install-index p.msg,
 .install-installed p.msg,
 .install-complete p.msg,
-.install-error p.msg
-{
-	margin:10px;
+.install-error p.msg {
+  margin: 10px;
 }
 
-.full-view
-{
-	width: 100%;
+.full-view {
+  width: 100%;
 }
 
 /* スマートフォン用 */
-@media only screen and (max-width:800px)
-{
-	#flashMessage
-	{
-		width				: initial;
-		right				: 0px;
-		left				: 0px;
-	}
+@media only screen and (max-width: 800px) {
+  #flashMessage {
+    width: initial;
+    right: 0px;
+    left: 0px;
+  }
 
-	.panel
-	{
-		margin				: 3px;
-		margin-bottom		: 10px;
-	}
+  .panel {
+    margin: 3px;
+    margin-bottom: 10px;
+  }
 
-	.list-group-item-text span
-	{
-		display				: block;
-	}
+  .list-group-item-text span {
+    display: block;
+  }
 
-	.responsive-table
-	{
-		display				: block;
-	}
+  .responsive-table {
+    display: block;
+  }
 
-	.responsive-table thead
-	{
-		display				: none;
-	}
+  .responsive-table thead {
+    display: none;
+  }
 
-	.responsive-table tbody
-	{
-		display				: block;
-	}
+  .responsive-table tbody {
+    display: block;
+  }
 
-	.responsive-table tbody tr
-	{
-		display				: block;
-		margin-bottom		: 1.5em;
-	}
+  .responsive-table tbody tr {
+    display: block;
+    margin-bottom: 1.5em;
+  }
 
-	.responsive-table tbody th,
-	.responsive-table tbody td
-	{
-		display				: list-item;
-		list-style			: none;
-		border				: none;
-	}
+  .responsive-table tbody th,
+  .responsive-table tbody td {
+    display: list-item;
+    list-style: none;
+    border: none;
+  }
 
-	.responsive-table tbody th
-	{
-		margin-bottom		: 5px;
-		list-style-type		: none;
-		color				: #fff;
-		background			: #000;
-	}
+  .responsive-table tbody th {
+    margin-bottom: 5px;
+    list-style-type: none;
+    color: #fff;
+    background: #000;
+  }
 
-	.responsive-table tbody td
-	{
-		margin-left			: 10px;
-		padding				: 0;
-	}
+  .responsive-table tbody td {
+    margin-left: 10px;
+    padding: 0;
+  }
 
-	.responsive-table a
-	{
-		font-size			: 18px;
-		font-weight			: bold;
-	}
+  .responsive-table a {
+    font-size: 18px;
+    font-weight: bold;
+  }
 
-	.responsive-table tbody td:before { width: 100px; display: inline-block;}
+  .responsive-table tbody td:before {
+    width: 100px;
+    display: inline-block;
+  }
 
-	.ib-col-center,
-	.ib-col-date
-	{
-		text-align			: left;
-		width				: 100%;
-	}
+  .ib-col-center,
+  .ib-col-date {
+    text-align: left;
+    width: 100%;
+  }
 }

@@ -12,81 +12,80 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-App::uses('DebugTimer', 'DebugKit.Lib');
-App::uses('DebugMemory', 'DebugKit.Lib');
-App::uses('Helper', 'View');
+App::uses("DebugTimer", "DebugKit.Lib");
+App::uses("DebugMemory", "DebugKit.Lib");
+App::uses("Helper", "View");
 
 /**
  * Class DebugTimerHelper
  *
  * Tracks time and memory usage while rendering view.
  */
-class DebugTimerHelper extends Helper {
+class DebugTimerHelper extends Helper
+{
+    /**
+     * Set to true when rendering is complete.
+     * Used to not add timers for rendering the toolbar.
+     *
+     * @var bool
+     */
+    protected $_renderComplete = false;
 
-/**
- * Set to true when rendering is complete.
- * Used to not add timers for rendering the toolbar.
- *
- * @var bool
- */
-	protected $_renderComplete = false;
+    /**
+     * Constructor
+     *
+     * @param View $View The view.
+     * @param array $settings The settings.
+     */
+    public function __construct(View $View, $settings = [])
+    {
+        parent::__construct($View, $settings);
+        DebugTimer::start("viewRender", __d("debug_kit", "Rendering View"));
+    }
 
-/**
- * Constructor
- *
- * @param View $View The view.
- * @param array $settings The settings.
- */
-	public function __construct(View $View, $settings = array()) {
-		parent::__construct($View, $settings);
-		DebugTimer::start(
-			'viewRender',
-			__d('debug_kit', 'Rendering View')
-		);
-	}
+    /**
+     * Sets a timer point before rendering a file.
+     *
+     * @param string $viewFile The view being rendered.
+     * @return void
+     */
+    public function beforeRenderFile($viewFile)
+    {
+        if ($this->_renderComplete) {
+            return;
+        }
+        DebugTimer::start(
+            "render_" . basename($viewFile),
+            __d("debug_kit", "Rendering %s", Debugger::trimPath($viewFile))
+        );
+    }
 
-/**
- * Sets a timer point before rendering a file.
- *
- * @param string $viewFile The view being rendered.
- * @return void
- */
-	public function beforeRenderFile($viewFile) {
-		if ($this->_renderComplete) {
-			return;
-		}
-		DebugTimer::start(
-			'render_' . basename($viewFile),
-			__d('debug_kit', 'Rendering %s',
-			Debugger::trimPath($viewFile))
-		);
-	}
+    /**
+     * Stops the timer point before rendering a file.
+     *
+     * @param string $viewFile The view being rendered
+     * @param string $content The contents of the view.
+     * @return void
+     */
+    public function afterRenderFile($viewFile, $content)
+    {
+        if ($this->_renderComplete) {
+            return;
+        }
+        DebugTimer::stop("render_" . basename($viewFile));
+    }
 
-/**
- * Stops the timer point before rendering a file.
- *
- * @param string $viewFile The view being rendered
- * @param string $content The contents of the view.
- * @return void
- */
-	public function afterRenderFile($viewFile, $content) {
-		if ($this->_renderComplete) {
-			return;
-		}
-		DebugTimer::stop('render_' . basename($viewFile));
-	}
-
-/**
- * Stop timers for rendering.
- *
- * @param string $layoutFile The layout file.
- * @return void
- */
-	public function afterLayout($layoutFile) {
-		DebugTimer::stop('viewRender');
-		DebugTimer::stop('controllerRender');
-		DebugMemory::record(__d('debug_kit', 'View render complete'));
-		$this->_renderComplete = true;
-	}
-
+    /**
+     * Stop timers for rendering.
+     *
+     * @param string $layoutFile The layout file.
+     * @return void
+     */
+    public function afterLayout($layoutFile)
+    {
+        DebugTimer::stop("viewRender");
+        DebugTimer::stop("controllerRender");
+        DebugMemory::record(__d("debug_kit", "View render complete"));
+        $this->_renderComplete = true;
+    }
 }

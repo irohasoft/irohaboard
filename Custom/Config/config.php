@@ -9,4 +9,4 @@
  */
 
 // Custom Config
-$config['dummy']		= array();
+$config["dummy"] = [];

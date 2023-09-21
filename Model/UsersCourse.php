@@ -8,7 +8,7 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-App::uses('AppModel', 'Model');
+App::uses("AppModel", "Model");
 
 /**
  * UsersCourse Model
@@ -18,76 +18,70 @@ App::uses('AppModel', 'Model');
  */
 class UsersCourse extends AppModel
 {
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public $validate = [
+        "user_id" => [
+            "numeric" => [
+                "rule" => ["numeric"],
+                // 'message' => 'Your custom message here',
+                // 'allowEmpty' => false,
+                // 'required' => false,
+                // 'last' => false, // Stop validation after this rule
+                // 'on' => 'create', // Limit validation to 'create' or
+                // 'update' operations
+            ],
+        ],
+        "course_id" => [
+            "numeric" => [
+                "rule" => ["numeric"],
+                // 'message' => 'Your custom message here',
+                // 'allowEmpty' => false,
+                // 'required' => false,
+                // 'last' => false, // Stop validation after this rule
+                // 'on' => 'create', // Limit validation to 'create' or
+                // 'update' operations
+            ],
+        ],
+    ];
 
-	/**
-	 * Validation rules
-	 *
-	 * @var array
-	 */
-	public $validate = array(
-			'user_id' => array(
-					'numeric' => array(
-							'rule' => array(
-									'numeric'
-							)
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										)
-			),
-			'course_id' => array(
-					'numeric' => array(
-							'rule' => array(
-									'numeric'
-							)
-					// 'message' => 'Your custom message here',
-					// 'allowEmpty' => false,
-					// 'required' => false,
-					// 'last' => false, // Stop validation after this rule
-					// 'on' => 'create', // Limit validation to 'create' or
-					// 'update' operations
-										)
-			)
-	);
+    // The Associations below have been created with all possible keys, those
+    // that are not needed can be removed
 
-	// The Associations below have been created with all possible keys, those
-	// that are not needed can be removed
+    /**
+     * belongsTo associations
+     *
+     * @var array
+     */
+    public $belongsTo = [
+        "User" => [
+            "className" => "User",
+            "foreignKey" => "user_id",
+            "conditions" => "",
+            "fields" => "",
+            "order" => "",
+        ],
+        "Course" => [
+            "className" => "Course",
+            "foreignKey" => "course_id",
+            "conditions" => "",
+            "fields" => "",
+            "order" => "",
+        ],
+    ];
 
-	/**
-	 * belongsTo associations
-	 *
-	 * @var array
-	 */
-	public $belongsTo = array(
-			'User' => array(
-					'className' => 'User',
-					'foreignKey' => 'user_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			),
-			'Course' => array(
-					'className' => 'Course',
-					'foreignKey' => 'course_id',
-					'conditions' => '',
-					'fields' => '',
-					'order' => ''
-			)
-	);
-
-
-	/**
-	 * 学習履歴付き受講コース一覧を取得
-	 * 
-	 * @param int $user_id ユーザのID
-	 * @return array 受講コース一覧
-	 */
-	public function getCourseRecord($user_id)
-	{
-		$sql = <<<EOF
+    /**
+     * 学習履歴付き受講コース一覧を取得
+     *
+     * @param int $user_id ユーザのID
+     * @return array 受講コース一覧
+     */
+    public function getCourseRecord($user_id)
+    {
+        $sql = <<<EOF
  SELECT Course.*, Course.id, Course.title, first_date, last_date,
        (ifnull(content_cnt, 0) - ifnull(study_cnt, 0) ) as left_cnt
    FROM ib_courses Course
@@ -123,12 +117,12 @@ class UsersCourse extends AppModel
   ORDER BY Course.sort_no asc
 EOF;
 
-		$params = array(
-			'user_id' => $user_id
-		);
+        $params = [
+            "user_id" => $user_id,
+        ];
 
-		$data = $this->query($sql, $params);
+        $data = $this->query($sql, $params);
 
-		return $data;
-	}
+        return $data;
+    }
 }

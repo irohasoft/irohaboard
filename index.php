@@ -8,4 +8,4 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-require 'webroot' . DIRECTORY_SEPARATOR . 'index.php';
+require "webroot" . DIRECTORY_SEPARATOR . "index.php";

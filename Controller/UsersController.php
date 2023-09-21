@@ -205,8 +205,9 @@ class UsersController extends AppController
 			$this->Session->write('Iroha.group_id', intval($this->request->query['group_id']));
 
 		// GETパラメータから検索条件を抽出
-		$group_id	= (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : $this->Session->read('Iroha.group_id');
-		$name				= (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
+		$group_id = (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : $this->Session->read('Iroha.group_id');
+		$name     = (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
+		$role     = ($this->request->query['role']) ? $this->request->query['role'] : 'user';
 
 		// 独自の検索条件を追加（指定したグループに所属するユーザを検索）
 		if($group_id != "")
@@ -231,8 +232,8 @@ class UsersController extends AppController
 					//'(SELECT group_concat(c.title order by c.id SEPARATOR \', \') as course_title FROM ib_users_courses uc INNER JOIN ib_courses c ON c.id = uc.course_id WHERE uc.user_id = User.id) as course_title',
 				),
 				'conditions' => $conditions,
-				'limit' => 1000,
-				'maxLimit' => 1000,
+				'limit' => 100,
+				'maxLimit' => 100,
 				'order' => 'username ASC',
 /*
 				'joins' => array(
@@ -248,38 +249,15 @@ class UsersController extends AppController
 */
 		));
 
-		// 受講生 -- user
+		// 取得するユーザ権限を指定
 		$user_conditions = array_merge($conditions,array(
-			'User.role' => 'user'
+			'User.role' => $role
 		));
 
 		$user_list = $this->User->find('all',array(
 			'conditions' => $user_conditions,
-			'order' => 'User.username asc'
-		));
-
-
-		// 管理者 -- admin
-
-		$admin_conditions = array_merge($conditions,array(
-			'User.role' => 'admin'
-		));
-
-		$admin_list = $this->User->find('all',array(
-			'conditions' => $admin_conditions,
-			'order' => 'User.username asc'
-		));
-
-
-		// 卒業生 -- graduate
-
-		$graduate_conditions = array_merge($conditions,array(
-			'User.role' => 'graduate'
-		));
-
-		$graduate_list = $this->User->find('all',array(
-			'conditions' => $graduate_conditions,
-			'order' => 'User.username asc'
+			'order' => 'User.username asc',
+			'recursive' => -1
 		));
 
 
@@ -297,8 +275,13 @@ class UsersController extends AppController
 
 		// グループ一覧を取得
 		$groups = $this->Group->find('list');
+		$roles = array(
+			'user'     => '受講生',
+			'admin'    => '管理者',
+			'graduate' => '卒業生'
+		);
 	
-		$this->set(compact('groups', 'user_list', 'admin_list', 'graduate_list' , 'group_id'));
+		$this->set(compact('groups', 'roles', 'role', 'user_list', 'group_id'));
 	}
 
 	/**

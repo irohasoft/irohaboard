@@ -205,7 +205,7 @@ class UsersController extends AppController
 		// GETパラメータから検索条件を抽出
 		$group_id = (isset($this->request->query['group_id'])) ? $this->request->query['group_id'] : $this->Session->read('Iroha.group_id');
 		$name     = (isset($this->request->query['name'])) ? $this->request->query['name'] : "";
-		$role     = ($this->request->query['role']) ? $this->request->query['role'] : 'user';
+		$role     = (isset($this->request->query['role'])) ? $this->request->query['role'] : 'user';
 
         // 独自の検索条件を追加（指定したグループに所属するユーザを検索）
         if ($group_id != "") {

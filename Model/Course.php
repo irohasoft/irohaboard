@@ -315,9 +315,30 @@ EOF;
         foreach ($all_courses as $course) {
             $course_id = $course["Course"]["id"];
             $course_title = $course["Course"]["title"];
-            $start_date = $this->Record->findStartDate($user_id, $course_id);
-            $last_date = $this->Record->findLastDate($user_id, $course_id);
-            $cleared_rate = $this->calcClearedRate($user_id, $course_id);
+            $dates = $this->Record->find("all", [
+                "fields" => ["created"],
+                "conditions" => [
+                    "course_id" => $course_id,
+                    "user_id" => $user_id,
+                ],
+                "recursive" => -1
+            ]);
+            $dates_data = array_map(function($datum){
+                return $datum["Record"]["created"];
+            }, $dates);
+
+            if(empty($dates_data)) {
+                $start_date = $last_date = null;
+                $cleared_rate = null;
+            } else {
+                $start_date = min($dates_data);
+                $last_date = max($dates_data);
+                $cleared_rate = $this->calcClearedRate($user_id, $course_id);
+            }
+
+            //$start_date = $this->Record->findStartDate($user_id, $course_id);
+            //$last_date = $this->Record->findLastDate($user_id, $course_id);
+            
             $cleared_rates[] = [
                 "course_title" => $course_title,
                 "start_date" => $start_date,

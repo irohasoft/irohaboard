@@ -206,6 +206,14 @@ function dis_item(obj, className){
 		</tbody>
 	</table>
 
-	<?php echo $this->element('paging');?>
+	<?php /*echo $this->element('paging');*/?>
+	<div class="imitated-paging" style="margin-left: 1em;">
+		<ul class="pagination">
+			<?php
+				$this->Paginator->options(array('class' => 'page-link'));
+				echo $this->Paginator->numbers(array('currentTag' => 'a class="page-link"'));
+			?>
+		</ul>
+	</div>
 	</div>
 </div>

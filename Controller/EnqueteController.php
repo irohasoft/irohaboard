@@ -337,8 +337,8 @@ class EnqueteController extends AppController
 
             $this->Paginator->settings["conditions"] = $conditions;
             $this->Paginator->settings["order"] = "Enquete.created desc";
-            $this->Paginator->settings["limit"] = 1000;
-            $this->Paginator->settings["maxLimit"] = 1000;
+            $this->Paginator->settings["limit"] = 100;
+            $this->Paginator->settings["maxLimit"] = 100;
             $this->Enquete->recursive = 0;
 
             try {
@@ -377,13 +377,6 @@ class EnqueteController extends AppController
         $this->loadModel("User");
         $this->loadModel("Attendance");
         $this->loadModel("Date");
-
-        $user_list = $this->User->find("all", [
-            "conditions" => [
-                "User.role" => "user",
-            ],
-            "order" => "User.id ASC",
-        ]);
 
         $last_day = $this->Date->getLastClassDate("Y-m-d");
 

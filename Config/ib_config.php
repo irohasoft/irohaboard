@@ -167,7 +167,7 @@ $config["import_course_count"] = 20;
 
 // student_img(顔写真ディレクトリ)のパス
 // $config['student_img'] = WWW_ROOT.'img'.DS;
-$config["student_img"] = "/var/www";
+$config["student_img"] = "/var/www/";
 
 // speech(音声ファイル)のパス
 $config["speech"] = WWW_ROOT . "speech" . DS;

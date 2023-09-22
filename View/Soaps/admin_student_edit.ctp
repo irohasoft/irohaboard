@@ -120,7 +120,7 @@
 		<div class = "enquete">
 			<div class = "enquete_headline"><?php echo __('今日の感想:');?></div>
 			<?php //$this->log($enquete_inputted[$user_id]['today_impressions']);?>
-			<?php echo $enquete_inputted[$user_id]['today_impressions'];?>
+			<?php echo h($enquete_inputted[$user_id]['today_impressions']);?>
 		</div>
   </div>
   <div class = "under_element"></div>

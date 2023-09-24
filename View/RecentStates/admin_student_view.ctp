@@ -33,7 +33,7 @@
           $last  = $cleared_rate['last_date'];
           $rate  = $cleared_rate['cleared_rate'];
         ?>
-        <?php if(!is_null($rate)){?>
+        <?php if(!is_null($title)){?>
           <tr>
             <td nowrap><?php echo h($title)?>&nbsp;<td/>
             <td nowrap><?php echo h($start)?>&nbsp;<td/>

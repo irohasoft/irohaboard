@@ -16,8 +16,17 @@ App::uses("User", "User");
 App::uses("Group", "Group");
 App::uses("Soap", "Soap");
 
+/**
+ * @property PaginatorComponent $Paginator
+ */
 class RecentStatesController extends AppController
 {
+    public $components = ["Paginator"];
+
+    public $paginate = [
+        "maxLimit" => 100,
+    ];
+
     public $helpers = ["Html", "Form"];
 
     public function admin_index()
@@ -68,9 +77,6 @@ class RecentStatesController extends AppController
         ]);
         $this->set("group_list", $group_list);
 
-        //$content_list = $this->Content->find("list");
-        //$this->set("content_list", $content_list);
-
         // 受講コース情報の取得
         $cleared_rates = $this->Course->findClearedRate($user_id);
         $this->set("cleared_rates", $cleared_rates);
@@ -88,13 +94,8 @@ class RecentStatesController extends AppController
         $this->loadModel("Content");
         $this->loadModel("Soap");
 
-        $name_list = $this->User->find("list");
-        $this->set("name_list", $name_list);
-
-        $username_list = $this->User->find("list", [
-            "fields" => "User.username",
-        ]);
-        $this->set("username_list", $username_list);
+        $members_info = $this->User->findAllUserInfoInGroup($group_id);
+        $this->set("members_info", $members_info);
 
         $group_list = $this->Group->find("list");
         $this->set("group_list", $group_list);
@@ -104,14 +105,6 @@ class RecentStatesController extends AppController
 
         $members = $this->User->findAllStudentInGroup($group_id);
         $this->set("members", $members);
-
-        // user_idとpic_pathの配列
-        $group_pic_paths = $this->User->findGroupPicPaths($members);
-        $this->set("group_pic_paths", $group_pic_paths);
-
-        // user_idと学年(grade)の配列
-        $members_grades = $this->User->findGroupGrade($members);
-        $this->set("members_grades", $members_grades);
 
         // user_idとコース名・合格率の配列
         $members_cleared_rates = $this->Course->findGroupClearedRate($members);
@@ -130,26 +123,30 @@ class RecentStatesController extends AppController
         $this->loadModel("Content");
         $this->loadModel("Soap");
 
-        $name_list = $this->User->find("list");
-        $this->set("name_list", $name_list);
-
-        $username_list = $this->User->find("list", [
-            "fields" => "User.username",
-        ]);
-        $this->set("username_list", $username_list);
-
         $group_list = $this->Group->find("list");
         $this->set("group_list", $group_list);
 
         $content_list = $this->Content->find("list");
         $this->set("content_list", $content_list);
 
-        $members = $this->User->getAllStudent();
-        $this->set("members", $members);
+        $this->Paginator->settings["fields"] = [
+            "id", "group_id", "username", "name", "birthyear", "pic_path",
+        ];
+        $this->Paginator->settings["conditions"] = [
+            "role" => "user",
+        ];
 
-        // user_idとpic_pathの配列
-        $group_pic_paths = $this->User->findGroupPicPaths($members);
-        $this->set("group_pic_paths", $group_pic_paths);
+        $this->Paginator->settings["limit"] = 20;
+        $this->Paginator->settings["maxLimit"] = 20;
+        $this->User->recursive = 0;
+
+        try {
+            $members = $this->paginate("User");
+        } catch (Exception $e) {
+            $this->request->params["named"]["page"] = 1;
+            $members = $this->paginate("User");
+        }
+        $this->set("members", $members);
 
         // user_idと学年(grade)の配列
         $members_grades = $this->User->findGroupGrade($members);
@@ -158,6 +155,7 @@ class RecentStatesController extends AppController
         // user_idとコース名・合格率の配列
         $members_cleared_rates = $this->Course->findGroupClearedRate($members);
         $this->set("members_cleared_rates", $members_cleared_rates);
+        $this->log($members_cleared_rates);
 
         // user_idと過去4回分SOAPの配列を作る
         $members_recent_soaps = $this->Soap->findGroupRecentSoaps($members);

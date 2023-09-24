@@ -1,21 +1,21 @@
 <?php echo $this->element('admin_menu');?>
 <?php echo $this->Html->css('soapview');?>
 <div class = "admin-group_view-index">
-  <?php if (empty($members)): ?>
+  <?php if (empty($members_info)): ?>
     <div class = "ib-page-title"><?php echo __('担当受講生がいません。')?></div>
   <?php endif ?>
-  <?php foreach($members as $member):?>
+  <?php foreach($members_info as $member_info):?>
   <div class = "student-block">
   <div class = "student-view">
-    <?php $user_id = $member['User']['id']; ?>
+    <?php $user_id = $member_info['id']; ?>
     <div class = "student-name">
-      <?php echo h($username_list[$user_id]);?><br/>
-      <?php echo h($name_list[$user_id]);?><br/>
-      <?php echo h($members_grades[$user_id]);?>
+      <?php echo h($member_info['username']);?><br/>
+      <?php echo h($member_info['name']);?><br/>
+      <?php echo h($member_info['grade']);?>
     </div>
     <div class = "student-photo">
       <?php
-        $pic_path = $group_pic_paths[$user_id];
+        $pic_path = $member_info['pic_path'];
         if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
           $pic_path = 'student_img/noPic.png';
         }
@@ -42,7 +42,7 @@
           $last  = $cleared_rate['last_date'];
           $rate  = $cleared_rate['cleared_rate'];
         ?>
-        <?php if(!is_null($rate)){?>
+        <?php if(!is_null($title)){?>
           <tr>
             <td nowrap><?php echo h($title)?>:&nbsp;<td/>
             <td nowrap><?php echo h($start)?>&nbsp;<td/>

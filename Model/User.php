@@ -359,7 +359,6 @@ class User extends AppModel
         ) {
             return "student_img/noPic.png";
         }
-        //$this->log($pic_path);
         return $pic_path;
     }
 
@@ -449,26 +448,13 @@ class User extends AppModel
             return null;
         }
 
-        $conditions = [];
+        $result = [];
         foreach ($members as $member):
             $user_id = $member["User"]["id"];
-            array_push($conditions, ["id" => $user_id]);
-        endforeach;
-
-        $data = $this->find("all", [
-            "fields" => ["id", "birthyear"],
-            "conditions" => ["OR" => $conditions],
-            "recursive" => -1,
-        ]);
-
-        $result = [];
-        foreach ($data as $datum) {
-            $user_id = $datum["User"]["id"];
-            $birthyear = $datum["User"]["birthyear"];
+            $birthyear = $member["User"]["birthyear"];
             $grade = $this->calcGrade($birthyear);
             $result += [$user_id => $grade];
-        }
-        //$this->log($result);
+        endforeach;
         return $result;
     }
 
@@ -507,5 +493,31 @@ class User extends AppModel
             "pic_path" => $data["User"]["pic_path"],
         ];
         return $info;
+    }
+
+    // グループに属するユーザ情報を取得
+    public function findAllUserInfoInGroup($group_id)
+    {
+        $data = $this->find("all", [
+            "fields" => ["id", "group_id", "username", "name", "birthyear", "pic_path"],
+            "conditions" => [
+                "role" => "user",
+                "OR" => [
+                    "group_id" => $group_id,
+                    "last_group" => $group_id,
+                ],
+            ],
+            "recursive" => -1,
+        ]);
+        return array_map(function($user_info){
+            return [
+                "id" =>$user_info["User"]["id"],
+                "group_id" => $user_info["User"]["group_id"],
+                "username" => $user_info["User"]["username"],
+                "name" => $user_info["User"]["name"],
+                "grade" => $this->calcGrade($user_info["User"]["birthyear"]),
+                "pic_path" => $user_info["User"]["pic_path"],
+            ];
+        }, $data);
     }
 }

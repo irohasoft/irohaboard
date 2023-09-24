@@ -99,11 +99,12 @@
 			<td><?php echo h($user['User']['name']); ?></td>
 			<td><?php echo h($user['User']['name_furigana']); ?></td>
 			<td nowrap><?php echo h(Configure::read('user_role.'.$user['User']['role'])); ?>&nbsp;</td>
-			<td><div class="reader" title="<?php echo h($user[0]['group_title']); ?>"><p><?php
-  	  $group_id = $user['User']['group_id'];
-  	  echo h($groups[$group_id]);
-
-  	  ?>&nbsp;</p></td>
+			<?php $group_id = $user['User']['group_id']; ?>
+			<td>
+				<div class="reader" title="<?php echo h($groups[$group_id]); ?>">
+					<p><?php echo h($groups[$group_id]); ?></p>
+	  			</div>
+	  		</td>
 			<td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['last_logined'])); ?>&nbsp;</td>
 			<!-- <td class="ib-col-datetime"><?php echo h(Utils::getYMDHN($user['User']['created'])); ?>&nbsp;</td> -->
 			<?php if($loginedUser['role']=='admin') {?>

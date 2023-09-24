@@ -60,25 +60,16 @@ class RecentStatesController extends AppController
 
         $this->set("user_id", $user_id);
 
-        $name_list = $this->User->find("list");
-        $this->set("name_list", $name_list);
+        $user_info = $this->User->findUserInfo($user_id);
+        $this->set("user_info", $user_info);
 
-        $username_list = $this->User->find("list", [
-            "fields" => "User.username",
+        $group_list = $this->Group->find("list", [
+            "recursive" => -1,
         ]);
-        $this->set("username_list", $username_list);
-
-        $group_list = $this->Group->find("list");
         $this->set("group_list", $group_list);
 
-        $content_list = $this->Content->find("list");
-        $this->set("content_list", $content_list);
-
-        $pic_path = $this->User->findUserPicPath($user_id);
-        $this->set("pic_path", $pic_path);
-
-        $grade = $this->User->findUserGrade($user_id);
-        $this->set("grade", $grade);
+        //$content_list = $this->Content->find("list");
+        //$this->set("content_list", $content_list);
 
         // 受講コース情報の取得
         $cleared_rates = $this->Course->findClearedRate($user_id);

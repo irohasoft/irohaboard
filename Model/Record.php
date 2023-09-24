@@ -119,6 +119,7 @@ class Record extends AppModel
     public function findStartDate($user_id, $course_id)
     {
         $data = $this->find("first", [
+            "fields" => ["created"],
             "conditions" => [
                 "user_id" => $user_id,
                 "course_id" => $course_id,
@@ -141,6 +142,7 @@ class Record extends AppModel
     public function findLastDate($user_id, $course_id)
     {
         $data = $this->find("first", [
+            "fields" => ["created"],
             "conditions" => [
                 "user_id" => $user_id,
                 "course_id" => $course_id,

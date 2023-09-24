@@ -488,4 +488,24 @@ class User extends AppModel
         }
         return $pin;
     }
+
+    // IDからユーザ情報を取得
+    public function findUserInfo($user_id)
+    {
+        $data = $this->find("first", [
+            "fields" => ["username", "name", "birthyear", "pic_path"],
+            "conditions" => ["id" => $user_id],
+            "recursive" => -1,
+        ]);
+
+        $grade = $this->calcGrade($data["User"]["birthyear"]);
+
+        $info = [
+            "username" => $data["User"]["username"],
+            "name" => $data["User"]["name"],
+            "grade" => $grade,
+            "pic_path" => $data["User"]["pic_path"],
+        ];
+        return $info;
+    }
 }

@@ -48,6 +48,7 @@ class UsersCoursesController extends AppController
             "conditions" => [
                 "Setting.setting_key" => "information",
             ],
+            "recursive" => -1,
         ]);
 
         $info = $data[0]["Setting"]["setting_value"];
@@ -97,6 +98,7 @@ class UsersCoursesController extends AppController
                         "Record.user_id" => $user_id,
                     ],
                     "order" => ["Record.created asc"],
+                    "recursive" => -1,
                 ])["Record"]["created"];
                 // 学習最終日
                 $latest_date = $this->Record->find("first", [
@@ -105,12 +107,14 @@ class UsersCoursesController extends AppController
                         "Record.user_id" => $user_id,
                     ],
                     "order" => ["Record.created desc"],
+                    "recursive" => -1,
                 ])["Record"]["created"];
 
                 $sum_content_cnt = $this->Content->find("count", [
                     "conditions" => [
                         "Content.course_id" => $course_id,
                     ],
+                    "recursive" => -1,
                 ]);
                 $did_content_cnt = $this->Record->find("count", [
                     "conditions" => [
@@ -118,6 +122,7 @@ class UsersCoursesController extends AppController
                         "Record.user_id" => $user_id,
                     ],
                     "fields" => "DISTINCT Record.content_id",
+                    "recursive" => -1,
                 ]);
                 $course["add_info"] = [
                     "sum_cnt" => $sum_content_cnt,
@@ -146,6 +151,7 @@ class UsersCoursesController extends AppController
                     "Record.user_id" => $user_id,
                 ],
                 "order" => ["Record.created asc"],
+                "recursive" => -1,
             ])["Record"]["created"];
             // 学習最終日
             $latest_date = $this->Record->find("first", [
@@ -154,11 +160,13 @@ class UsersCoursesController extends AppController
                     "Record.user_id" => $user_id,
                 ],
                 "order" => ["Record.created desc"],
+                "recursive" => -1,
             ])["Record"]["created"];
             $sum_content_cnt = $this->Content->find("count", [
                 "conditions" => [
                     "Content.course_id" => $course_id,
                 ],
+                "recursive" => -1,
             ]);
             $did_content_cnt = $this->Record->find("count", [
                 "conditions" => [
@@ -166,6 +174,7 @@ class UsersCoursesController extends AppController
                     "Record.user_id" => $user_id,
                 ],
                 "fileds" => "DISTINCT Record.content_id",
+                "recursive" => -1,
             ]);
             $tmp_arr["add_info"] = [
                 "sum_cnt" => $sum_content_cnt,

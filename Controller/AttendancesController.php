@@ -182,40 +182,11 @@ class AttendancesController extends AppController
         $this->loadModel("User");
         $this->loadModel("Date");
 
-        $members = $this->User->getAllStudent();
-        $period1_members = $this->User->find("all", [
-            "conditions" => [
-                "User.role" => "user",
-                "User.period" => 0,
-            ],
-            "order" => "User.username ASC",
-        ]);
-
-        $period2_members = $this->User->find("all", [
-            "conditions" => [
-                "User.role" => "user",
-                "User.period" => 1,
-            ],
-            "order" => "User.username ASC",
-        ]);
-
+        $period1_members = $this->User->findAllUserInfoInPeriod(0);
+        $period2_members = $this->User->findAllUserInfoInPeriod(1);
         $this->set(compact("period1_members", "period2_members"));
 
         $attendance_list = $this->Attendance->findAllUserAttendances();
-        $name_list = $this->User->find("list", [
-            "fields" => ["User.id", "User.name"],
-            "conditions" => [
-                "role" => "user",
-            ],
-            "order" => "User.id ASC",
-        ]);
-        $username_list = $this->User->find("list", [
-            "fields" => ["User.id", "User.username"],
-            "conditions" => [
-                "role" => "user",
-            ],
-            "order" => "User.id ASC",
-        ]);
 
         $date_list = $this->Date->getDateListUntilNextLecture("m月d日");
 
@@ -263,9 +234,6 @@ class AttendancesController extends AppController
             )
         );
 
-        $this->set("members", $members);
-        $this->set("name_list", $name_list);
-        $this->set("username_list", $username_list);
         $this->set("attendance_list", $attendance_list);
         $this->set("date_list", $date_list);
     }

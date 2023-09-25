@@ -430,6 +430,32 @@ class User extends AppModel
         return $grade;
     }
 
+    public function calcGradeSimply($birthyear)
+    {
+        if ($birthyear <= 0) {
+            return "-";
+        }
+        $this_year = date("Y");
+        $this_fiscal_year =
+            strtotime(date("Y-m-d")) < strtotime($this_year . "-04-01")
+                ? $this_year - 1
+                : $this_year;
+        $age = $this_fiscal_year - $birthyear;
+
+        if ($age <= 6) {
+            $grade = "未就学";
+        } elseif ($age <= 12) {
+            $grade = "小" . ($age - 6);
+        } elseif ($age <= 15) {
+            $grade = "中" . ($age - 12);
+        } elseif ($age <= 18) {
+            $grade = "高" . ($age - 15);
+        } else {
+            $grade = "高卒以上";
+        }
+        return $grade;
+    }
+
     public function findUserGrade($user_id)
     {
         $data = $this->find("all", [
@@ -516,6 +542,29 @@ class User extends AppModel
                 "username" => $user_info["User"]["username"],
                 "name" => $user_info["User"]["name"],
                 "grade" => $this->calcGrade($user_info["User"]["birthyear"]),
+                "pic_path" => $user_info["User"]["pic_path"],
+            ];
+        }, $data);
+    }
+
+    // 指定した時限に属するユーザ情報を取得
+    public function findAllUserInfoInPeriod($period)
+    {
+        $data = $this->find("all", [
+            "fields" => ["User.id", "User.name", "User.username", "User.birthyear", "User.pic_path"],
+            "conditions" => [
+                "User.role" => "user",
+                "User.period" => $period,
+            ],
+            "order" => "User.username ASC",
+        ]);
+
+        return array_map(function($user_info){
+            return [
+                "id" =>$user_info["User"]["id"],
+                "username" => $user_info["User"]["username"],
+                "name" => $user_info["User"]["name"],
+                "grade" => $this->calcGradeSimply($user_info["User"]["birthyear"]),
                 "pic_path" => $user_info["User"]["pic_path"],
             ];
         }, $data);

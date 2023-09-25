@@ -37,7 +37,7 @@ function downloadCSV()
 			<tr>
 				<th nowrap ><?php echo __('No.');?></th>
 				<th nowrap class="non-last-column ib-col-center"><?php echo __('受講生番号');?></th>
-				<th nowrap class="non-last-column"><?php echo __('氏名');?></th>
+				<th nowrap class="non-last-column"><?php echo __('氏名(学年)');?></th>
 			<?php
 				$no = 0;
 				$length = count($date_list);
@@ -56,7 +56,7 @@ function downloadCSV()
 		<?php
 		$tmp_cnt = 1;
 		foreach ($period1_members as $member):
-			$user_id = $member['User']['id'];
+			$user_id = $member['id'];
 			$attendance_info = $attendance_list[$user_id];
 			$img_src = $this->Html->url(array(
 				"controller" => "users",
@@ -66,10 +66,10 @@ function downloadCSV()
 		?>
 			<tr>
 				<td><?php echo h($tmp_cnt++);?></td>
-				<td nowrap class="ib-col-center"><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
+				<td nowrap class="ib-col-center"><?php echo h($member['username']); ?>&nbsp;</td>
 				<td nowrap>
-					<span data-toggle="tooltip" title='<img src="<?php echo $img_src; ?>" height="150" alt="<?php echo $name_list[$user_id]; ?>"/>'>
-						<?php echo h($name_list[$user_id]); ?>&nbsp;
+					<span data-toggle="tooltip" title='<img src="<?php echo $img_src; ?>" height="150" alt="<?php echo $member['name']; ?>"/>'>
+						<?php echo h($member['name']); ?>(<?php echo h($member['grade']); ?>)&nbsp;
 					</span>
 				</td>
 				<?php
@@ -168,7 +168,7 @@ function downloadCSV()
 		<?php
 		$tmp_cnt = 1;
 		foreach ($period2_members as $member):
-			$user_id = $member['User']['id'];
+			$user_id = $member['id'];
 			$attendance_info = $attendance_list[$user_id];
 			$img_src = $this->Html->url(array(
 				"controller" => "users",
@@ -178,10 +178,10 @@ function downloadCSV()
 		?>
 			<tr>
 				<td><?php echo h($tmp_cnt++);?></td>
-				<td nowrap class="ib-col-center"><?php echo h($username_list[$user_id]); ?>&nbsp;</td>
+				<td nowrap class="ib-col-center"><?php echo h($member['username']); ?>&nbsp;</td>
 				<td nowrap>
-					<span data-toggle="tooltip" title='<img src="<?php echo $img_src; ?>" height="150" alt="<?php echo $name_list[$user_id]; ?>"/>'>
-						<?php echo h($name_list[$user_id]); ?>&nbsp;
+					<span data-toggle="tooltip" title='<img src="<?php echo $img_src; ?>" height="150" alt="<?php echo $member['name']; ?>"/>'>
+						<?php echo h($member['name']); ?>(<?php echo h($member['grade']); ?>)&nbsp;
 					</span>
 				</td>
 				<?php

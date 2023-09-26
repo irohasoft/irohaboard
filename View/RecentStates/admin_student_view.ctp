@@ -4,15 +4,15 @@
 
   <div class = "student-view">
     <div class = "student-name">
-      <?php echo h($username_list[$user_id]);?><br/>
-      <?php echo h($name_list[$user_id]);?><br/>
-      <?php echo h($grade);?>
+      <?php echo h($user_info["username"]);?><br/>
+      <?php echo h($user_info["name"]);?><br/>
+      <?php echo h($user_info["grade"]);?>
     </div>
     <div class = "student-photo">
       <?php
-        $img_src = $this->Image->makeInlineImage(Configure::read('student_img').$pic_path);
+        $img_src = $this->Image->makeInlineImage(Configure::read('student_img').$user_info["pic_path"]);
       ?>
-      <img src="<?php echo $img_src; ?>" height="150" alt="<?php echo $pic_path ?>"/>
+      <img src="<?php echo $img_src; ?>" height="150" alt="<?php echo h($user_info["pic_path"]) ?>"/>
     </div>
     <div class = "student-progress">
       <div class="progress-meter">
@@ -33,7 +33,7 @@
           $last  = $cleared_rate['last_date'];
           $rate  = $cleared_rate['cleared_rate'];
         ?>
-        <?php if(!is_null($rate)){?>
+        <?php if(!is_null($title)){?>
           <tr>
             <td nowrap><?php echo h($title)?>&nbsp;<td/>
             <td nowrap><?php echo h($start)?>&nbsp;<td/>

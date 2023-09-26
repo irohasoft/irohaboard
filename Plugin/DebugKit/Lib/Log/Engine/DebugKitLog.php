@@ -14,36 +14,38 @@
 /**
  * A CakeLog listener which saves having to munge files or other configured loggers.
  */
-class DebugKitLog implements CakeLogInterface {
+class DebugKitLog implements CakeLogInterface
+{
+    /**
+     * logs
+     *
+     * @var array
+     */
+    public $logs = [];
 
-/**
- * logs
- *
- * @var array
- */
-	public $logs = array();
+    /**
+     * Makes the reverse link needed to get the logs later.
+     *
+     * @param array $options Options.
+     * @return \DebugKitLog
+     */
+    public function __construct($options)
+    {
+        $options["panel"]->logger = $this;
+    }
 
-/**
- * Makes the reverse link needed to get the logs later.
- *
- * @param array $options Options.
- * @return \DebugKitLog
- */
-	public function __construct($options) {
-		$options['panel']->logger = $this;
-	}
-
-/**
- * Captures log messages in memory
- *
- * @param string $type Type of log message.
- * @param string $message The log message.
- * @return void
- */
-	public function write($type, $message) {
-		if (!isset($this->logs[$type])) {
-			$this->logs[$type] = array();
-		}
-		$this->logs[$type][] = array(date('Y-m-d H:i:s'), (string)$message);
-	}
+    /**
+     * Captures log messages in memory
+     *
+     * @param string $type Type of log message.
+     * @param string $message The log message.
+     * @return void
+     */
+    public function write($type, $message)
+    {
+        if (!isset($this->logs[$type])) {
+            $this->logs[$type] = [];
+        }
+        $this->logs[$type][] = [date("Y-m-d H:i:s"), (string) $message];
+    }
 }

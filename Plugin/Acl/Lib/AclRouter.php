@@ -12,20 +12,19 @@ class AclRouter
      */
     static function aco_path($url)
     {
-        $r_url      = Router::url($url);
-        $r_url      = str_replace(Router::url('/'), '/', $r_url);
+        $r_url = Router::url($url);
+        $r_url = str_replace(Router::url("/"), "/", $r_url);
         $parsed_url = Router::parse($r_url);
-        
-        $aco_path = 'controllers/';
-        
-        if(!empty($parsed_url['plugin']))
-        {
-            $aco_path .= Inflector::camelize($parsed_url['plugin']) . '/';
+
+        $aco_path = "controllers/";
+
+        if (!empty($parsed_url["plugin"])) {
+            $aco_path .= Inflector::camelize($parsed_url["plugin"]) . "/";
         }
-        
-        $aco_path .= Inflector::camelize($parsed_url['controller']) . '/';
-        $aco_path .= $parsed_url['action'];
-        
+
+        $aco_path .= Inflector::camelize($parsed_url["controller"]) . "/";
+        $aco_path .= $parsed_url["action"];
+
         return $aco_path;
     }
 }

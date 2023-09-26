@@ -1,8 +1,6 @@
-Overview
-========
+# Overview
 
-PRG Component Features
-----------------------
+## PRG Component Features
 
 The [Prg Component](../../Controller/Component/PrgComponent.php) implements the PRG pattern so you can use it separately from search tasks when you need it.
 
@@ -35,20 +33,18 @@ public $components = array('Search.Prg' => array(
 ));
 ```
 
-PrgComponent::presetForm Options
---------------------------------
+## PrgComponent::presetForm Options
 
-* **paramType:** ```named``` or ```querystring```, by default ```named```.
-* **model:** Model name or null, by default ```null```.
+- **paramType:** `named` or `querystring`, by default `named`.
+- **model:** Model name or null, by default `null`.
 
-PrgComponent::commonProcess Options
------------------------------------
+## PrgComponent::commonProcess Options
 
-The ```commonProcess()``` method defined in the Prg component allows you to inject search in any controller with just 1-2 lines of additional code. You should pass the model name that is used for search. By default it is ```Controller::$modelClass```.
+The `commonProcess()` method defined in the Prg component allows you to inject search in any controller with just 1-2 lines of additional code. You should pass the model name that is used for search. By default it is `Controller::$modelClass`.
 
 Additional options parameters.
 
-* **form:** Search form name.
-* **keepPassed:** Parameter that describes if you need to merge ```passedArgs``` to the url where you will be redirected to after post.
-* **action:** Sometimes you want to have different actions for post and get. In this case you can define get action using this parameter.
-* **modelMethod:** Method used to filter named parameters, passed from the form. By default it is validateSearch, and it defined in Searchable behavior.
+- **form:** Search form name.
+- **keepPassed:** Parameter that describes if you need to merge `passedArgs` to the url where you will be redirected to after post.
+- **action:** Sometimes you want to have different actions for post and get. In this case you can define get action using this parameter.
+- **modelMethod:** Method used to filter named parameters, passed from the form. By default it is validateSearch, and it defined in Searchable behavior.

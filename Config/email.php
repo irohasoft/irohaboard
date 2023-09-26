@@ -25,21 +25,20 @@
  * from =>
  * The origin email. See CakeEmail::from() about the valid values
  */
-class EmailConfig {
+class EmailConfig
+{
+    public $default = [
+        "transport" => "Mail",
+        "from" => "you@localhost",
+        //'charset' => 'utf-8',
+        //'headerCharset' => 'utf-8',
+    ];
 
-	public $default = array(
-		'transport' => 'Mail',
-		'from' => 'you@localhost',
-		//'charset' => 'utf-8',
-		//'headerCharset' => 'utf-8',
-	);
-
-	public $gmail = array(
-		'host' => 'ssl://smtp.gmail.com',
-		'port' => 465,
-		'username' => 'sample@gmail.com',
-		'password' => '',
-		'transport' => 'Smtp'
-	);
-
+    public $gmail = [
+        "host" => "ssl://smtp.gmail.com",
+        "port" => 465,
+        "username" => "sample@gmail.com",
+        "password" => "",
+        "transport" => "Smtp",
+    ];
 }

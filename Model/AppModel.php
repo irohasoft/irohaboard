@@ -8,7 +8,7 @@
  * @license       http://www.gnu.org/licenses/gpl-3.0.en.html GPL License
  */
 
-App::uses('Model', 'Model');
+App::uses("Model", "Model");
 
 /**
  * Application model for Cake.

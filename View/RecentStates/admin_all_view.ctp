@@ -6,19 +6,19 @@
   <div class = "student-view">
     <?php $user_id = $member['User']['id']; ?>
     <div class = "student-name">
-      <?php echo h($username_list[$user_id]);?><br/>
-      <?php echo h($name_list[$user_id]);?><br/>
+      <?php echo h($member['User']['username']);?><br/>
+      <?php echo h($member['User']['name']);?><br/>
       <?php echo h($members_grades[$user_id]);?>
     </div>
     <div class = "student-photo">
       <?php
-        $img_src = $this->Html->url(array(
-          "controller" => "users",
-          "action" => "show_picture",
-          $user_id
-        ), false);
+        $pic_path = $member['User']['pic_path'];
+        if($pic_path === null or $pic_path === '' or $pic_path === 'student_img/'){
+          $pic_path = 'student_img/noPic.png';
+        }
+        $img_src = $this->Image->makeInlineImage(Configure::read('student_img').$pic_path);
       ?>
-      <img src="<?php echo $img_src; ?>" height="150" alt="<?php echo h($name_list[$user_id]); ?>"/>
+      <img src="<?php echo $img_src; ?>" height="150" alt="<?php echo h($member['User']['name']); ?>"/>
     </div>
     <div class = "student-progress">
       <div class="progress-meter">
@@ -39,7 +39,7 @@
           $last  = $cleared_rate['last_date'];
           $rate  = $cleared_rate['cleared_rate'];
         ?>
-        <?php if(!is_null($rate)){?>
+        <?php if(!is_null($title)){?>
           <tr>
             <td nowrap><?php echo h($title)?>:&nbsp;<td/>
             <td nowrap><?php echo h($start)?>&nbsp;<td/>
@@ -106,4 +106,13 @@
   </table>
   </div>
   <?php endforeach;?>
+  <?php /*echo $this->element('paging');*/?>
+	<div class="imitated-paging" style="margin-left: 1em;">
+		<ul class="pagination">
+			<?php
+				$this->Paginator->options(array('class' => 'page-link'));
+				echo $this->Paginator->numbers(array('currentTag' => 'a class="page-link"'));
+			?>
+		</ul>
+	</div>
 </div>

@@ -57,41 +57,41 @@
 	<?php } ?>
 
 	<div class = "attendance-block my-4 ">
-	  <div class = "attendance-info">
-	    <div class = "attendance-date-block rounded shadow-lg">
-			<div class = "attendance-date">
-	       <?php foreach($user_info as $row):?>
-	         <div class = "date">
-	           <?php
-	             $class_date = (new DateTime($row['Date']['date']))->format('m月d日');
-							 if(strtotime($row['Date']['date']) >= strtotime(date('Y-m-d'))){
+		<div class = "attendance-info">
+	    	<div class = "attendance-date-block rounded shadow-lg">
+				<div class = "attendance-date">
+	       			<?php foreach($user_info as $row):?>
+	        			<div class = "date">
+	           			<?php
+							$class_date = (new DateTime($row['Date']['date']))->format('m月d日');
+							if(strtotime($row['Date']['date']) >= strtotime(date('Y-m-d'))){
 								 $attendance_id = $row['Attendance']['id'];
 								 echo $this->Html->link($class_date, array('controller' => 'attendances', 'action' => 'edit', $attendance_id));
-							 }else{
-	             	 echo h($class_date);
-						 	 }
-	           ?>
-	         </div>
+							}else{
+	            				echo h($class_date);
+						 	}
+	        			?>
+	         			</div>
 					<?php endforeach;?>
-			</div>
-			<div class = "attendance-status">
-				<?php foreach($user_info as $row):?>
-					<div class = "status">
-	          <?php
+				</div>
+				<div class = "attendance-status">
+					<?php foreach($user_info as $row):?>
+						<div class = "status">
+	        			<?php
 							if(strtotime($row['Date']['date']) >= strtotime(date('Y-m-d'))){
 								switch($row['Attendance']['status']){
-    							case 0:
-        						echo __("欠席");
-        						break;
+    								case 0:
+        								echo __("欠席");
+        								break;
 									case 1:
 										echo __("出席済");
 										break;
-    							case 3:
-        						echo __("遅刻");
-        						break;
-    							case 4:
-        						echo __("早退");
-        						break;
+    								case 3:
+        								echo __("遅刻");
+        								break;
+    								case 4:
+        								echo __("早退");
+        								break;
 									case 5:
 										echo __("時限変更");
 										break;
@@ -100,16 +100,16 @@
 										break;
 								}
 							}else{
-	            	if($row['Attendance']['status'] != 1){
-	              	echo h('欠席');
-	            	}else{
-	              	echo h('出席');
-	            	}
+	            				if($row['Attendance']['status'] != 1){
+	            	  				echo h('欠席');
+	            				}else{
+	            	  				echo h('出席');
+	            				}
 							}
-	          ?>
-	        </div>
-				<?php endforeach;?>
-			</div>
+	        			?>
+	        			</div>
+					<?php endforeach;?>
+				</div>
 			</div>
 		</div>
 	</div>

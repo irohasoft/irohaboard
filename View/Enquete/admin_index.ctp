@@ -158,7 +158,7 @@ function dis_item(obj, className){
 	<table cellpadding="0" cellspacing="0">
 		<thead>
 			<tr>
-				<th nowrap　class="ib-col-center"><?php echo $this->Paginator->sort('Enquete.created','受講日')?>
+				<th nowrap　class="ib-col-center"><?php echo $this->Paginator->sort('Enquete.created','提出日時')?>
 				<th nowrap><?php echo $this->Paginator->sort('User.name', '氏名'); ?></th>
 				<th nowrap><?php echo $this->Paginator->sort('Enquete.group_id', '担当講師'); ?></th>
 				<th nowrap><?php echo $this->Paginator->sort('User.period', '所属'); ?></th>
@@ -182,7 +182,7 @@ function dis_item(obj, className){
 			}
 		?>
 			<tr>
-				<td nowrap><?php echo h(Utils::getYMD($record['Enquete']['created'])); ?>&nbsp;</td>
+				<td nowrap><?php echo h(Utils::getYMDHN($record['Enquete']['created'])); ?>&nbsp;</td>
 				<td nowrap>
 					<?php
 						echo $this->Html->link(h($record['User']['name']),

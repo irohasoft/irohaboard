@@ -19,6 +19,7 @@ $config['content_kind']		= [
 	'url'		=> 'URL',
 	'file'		=> '配布資料',
 	'test'		=> 'テスト',
+	'enquete'	=> 'アンケート',
 ];
 
 $config['content_kind_comment']		= [
@@ -29,11 +30,17 @@ $config['content_kind_comment']		= [
 	'url'		=> 'URL <span>(外部のWebページを学習項目として追加します。)</span>',
 	'file'		=> '配布資料 <span>(配布したいファイルをアップロードします。)</span>',
 	'test'		=> 'テスト <span>(テストを作成します。問題はテスト作成後、別画面にて追加します。)</span>',
+	'enquete'	=> 'アンケート <span>(アンケートを作成します。質問はアンケート作成後、別画面にて追加します。)',
 ];
 
 $config['content_category']	= [
 	'study'		=> '学習',
 	'test'		=> 'テスト',
+];
+
+$config['question_type']	= [
+	'single'	=> '選択形式',
+	'text'		=> '記述式',
 ];
 
 $config['wrong_mode']	= ['0' => '正解と解説を表示しない', '1' => '正解と解説を表示する', '2' => '解説のみ表示する'];

@@ -79,6 +79,9 @@
 			case 'test':
 				$title = $this->Html->link($content['Content']['title'], ['controller' => 'contents_questions', 'action' => 'index', $content['Content']['id']]);
 				break;
+			case 'enquete':
+				$title = $this->Html->link($content['Content']['title'], ['controller' => 'enquetes_questions', 'action' => 'index', $content['Content']['id']]);
+				break;
 			default :
 				$title = h($content['Content']['title']);
 				break;

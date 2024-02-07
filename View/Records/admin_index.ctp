@@ -19,6 +19,15 @@
 		);
 	}
 	
+	function openRecordEnquete(content_id, record_id)
+	{
+		window.open(
+			'<?= Router::url(['controller' => 'enquetes_questions', 'action' => 'record']) ?>/'+content_id+'/'+record_id,
+			'irohaboard_record',
+			'width=1100, height=700, menubar=no, toolbar=no, scrollbars=yes'
+		);
+	}
+	
 	function downloadCSV()
 	{
 		$("#RecordCmd").val("csv");
@@ -81,7 +90,11 @@
 		<td><?= h($record['Content']['title']); ?>&nbsp;</td>
 		<td class="ib-col-center"><?= h($record['Record']['score']); ?>&nbsp;</td>
 		<td class="ib-col-center"><?= h($record['Record']['pass_score']); ?>&nbsp;</td>
+		<?php if ($record['Content']['kind'] == 'enquete') {?>
+		<td class="ib-col-center"><a href="javascript:openRecordEnquete(<?= h($record['Content']['id']); ?>, <?= h($record['Record']['id']); ?>);">回答</a></td>
+		<?php } else {?>
 		<td nowrap class="ib-col-center"><a href="javascript:openTestRecord(<?= h($record['Content']['id']); ?>, <?= h($record['Record']['id']); ?>);"><?= Configure::read('record_result.'.$record['Record']['is_passed']); ?></a></td>
+		<?php }?>
 		<td nowrap class="ib-col-center"><?= h(Configure::read('record_understanding.'.$record['Record']['understanding'])); ?>&nbsp;</td>
 		<td class="ib-col-center"><?= h(Utils::getHNSBySec($record['Record']['study_sec'])); ?>&nbsp;</td>
 		<td class="ib-col-date"><?= h(Utils::getYMDHN($record['Record']['created'])); ?>&nbsp;</td>

@@ -38,14 +38,12 @@ class EnquetesQuestionsController extends AppController
 	 */
 	public function index($content_id, $record_id = null)
 	{
-		$this->loadModel('ContentsQuestion');
-		$this->ContentsQuestion->recursive = 0;
+		$this->fetchTable('ContentsQuestion')->recursive = 0;
 		
 		//------------------------------//
 		//	コンテンツ情報を取得		//
 		//------------------------------//
-		$this->loadModel('Content');
-		$content = $this->Content->get($content_id);
+		$content = $this->fetchTable('Content')->get($content_id);
 		
 		//------------------------------//
 		//	権限チェック				//
@@ -53,9 +51,7 @@ class EnquetesQuestionsController extends AppController
 		// 管理者以外の場合、コンテンツの閲覧権限の確認
 		if(!$this->isAdminPage())
 		{
-			$this->loadModel('Course');
-			
-			if(!$this->Course->hasRight($this->readAuthUser('id'), $content['Content']['course_id']))
+			if(!$this->fetchTable('Course')->hasRight($this->readAuthUser('id'), $content['Content']['course_id']))
 				throw new NotFoundException(__('Invalid access'));
 		}
 		
@@ -67,8 +63,7 @@ class EnquetesQuestionsController extends AppController
 		if($record_id != null) // テスト結果表示モードの場合
 		{
 			// テスト結果情報を取得
-			$this->loadModel('Record');
-			$record = $this->Record->get($record_id);
+			$record = $this->fetchTable('Record')->get($record_id);
 			
 			// 受講者によるテスト結果表示の場合、自身のテスト結果か確認
 			if(!$this->isAdminPage() && $this->isRecordPage() && ($record['Record']['user_id'] != $this->readAuthUser('id')))
@@ -86,7 +81,7 @@ class EnquetesQuestionsController extends AppController
 			}
 			
 			// 問題ID一覧を元に問題情報を取得
-			$contentsQuestions = $this->ContentsQuestion->find()
+			$contentsQuestions = $this->fetchTable('ContentsQuestion')->find()
 				->where(['content_id' => $content_id, 'ContentsQuestion.id' => $question_id_list])
 				->order('FIELD(ContentsQuestion.id,'.implode(',', $question_id_list).')')  // 指定したID順で並び替え
 				->all();
@@ -96,7 +91,7 @@ class EnquetesQuestionsController extends AppController
 		else // 通常の出題の場合
 		{
 			// 全ての問題情報を取得（通常の処理）
-			$contentsQuestions = $this->ContentsQuestion->find()
+			$contentsQuestions = $this->fetchTable('ContentsQuestion')->find()
 				->where(['content_id' => $content_id])
 				->order('ContentsQuestion.sort_no asc')
 				->all();
@@ -128,8 +123,7 @@ class EnquetesQuestionsController extends AppController
 			// テスト実施時間
 			$study_sec = $this->getData('ContentsQuestion')['study_sec'];
 			
-			$this->loadModel('Record');
-			$this->Record->create();
+			$this->fetchTable('Record')->create();
 			
 			// 追加する成績情報
 			$data = [
@@ -144,17 +138,16 @@ class EnquetesQuestionsController extends AppController
 			//------------------------------//
 			//	テスト結果の保存			//
 			//------------------------------//
-			if($this->Record->save($data))
+			if($this->fetchTable('Record')->save($data))
 			{
-				$this->loadModel('RecordsQuestion');
-				$record_id = $this->Record->getLastInsertID();
+				$record_id = $this->fetchTable('Record')->getLastInsertID();
 				
 				// 問題単位の成績を保存
 				foreach($details as $detail)
 				{
-					$this->RecordsQuestion->create();
+					$this->fetchTable('RecordsQuestion')->create();
 					$detail['record_id'] = $record_id;
-					$this->RecordsQuestion->save($detail);
+					$this->fetchTable('RecordsQuestion')->save($detail);
 				}
 				
 				// ランダム出題用の問題IDリストを削除
@@ -165,7 +158,7 @@ class EnquetesQuestionsController extends AppController
 				$this->redirect([
 					'action' => 'record',
 					$content_id,
-					$this->Record->getLastInsertID()
+					$this->fetchTable('Record')->getLastInsertID()
 				]);
 			}
 		}
@@ -205,18 +198,15 @@ class EnquetesQuestionsController extends AppController
 	{
 		$content_id = intval($content_id);
 		
-		$this->loadModel('ContentsQuestion');
-		$this->ContentsQuestion->recursive = 0;
+		$this->fetchTable('ContentsQuestion')->recursive = 0;
 		
-		$contentsQuestions = $this->ContentsQuestion->find()
+		$contentsQuestions = $this->fetchTable('ContentsQuestion')->find()
 			->where(['ContentsQuestion.content_id' => $content_id])
 			->order('ContentsQuestion.sort_no asc')
 			->all();
 			
 		// コンテンツ情報を取得
-		$this->loadModel('Content');
-		
-		$content = $this->Content->get($content_id);
+		$content = $this->fetchTable('Content')->get($content_id);
 		
 		$this->set(compact('content', 'contentsQuestions'));
 	}
@@ -240,18 +230,15 @@ class EnquetesQuestionsController extends AppController
 	{
 		$content_id = intval($content_id);
 		
-		$this->loadModel('ContentsQuestion');
-		unset($this->ContentsQuestion->validate['option_list']);
+		unset($this->fetchTable('ContentsQuestion')->validate['option_list']);
 		
-		if($this->isEditPage() && !$this->ContentsQuestion->exists($question_id))
+		if($this->isEditPage() && !$this->fetchTable('ContentsQuestion')->exists($question_id))
 		{
 			throw new NotFoundException(__('Invalid contents question'));
 		}
 
 		// コンテンツ情報を取得
-		$this->loadModel('Content');
-		
-		$content = $this->Content->get($content_id);
+		$content = $this->fetchTable('Content')->get($content_id);
 		
 		if($this->request->is(['post', 'put']))
 		{
@@ -259,13 +246,13 @@ class EnquetesQuestionsController extends AppController
 			{
 				$this->request->data['ContentsQuestion']['user_id'] = $this->readAuthUser('id');
 				$this->request->data['ContentsQuestion']['content_id'] = $content_id;
-				$this->request->data['ContentsQuestion']['sort_no']   = $this->ContentsQuestion->getNextSortNo($content_id);
+				$this->request->data['ContentsQuestion']['sort_no']   = $this->fetchTable('ContentsQuestion')->getNextSortNo($content_id);
 			}
 			
-			if(!$this->ContentsQuestion->validates())
+			if(!$this->fetchTable('ContentsQuestion')->validates())
 				return;
 			
-			if($this->ContentsQuestion->save($this->request->data))
+			if($this->fetchTable('ContentsQuestion')->save($this->request->data))
 			{
 				$this->Flash->success(__('質問が保存されました'));
 				
@@ -282,7 +269,7 @@ class EnquetesQuestionsController extends AppController
 		}
 		else
 		{
-			$this->request->data = $this->ContentsQuestion->get($question_id);
+			$this->request->data = $this->fetchTable('ContentsQuestion')->get($question_id);
 		}
 		
 		$this->set(compact('content'));
@@ -294,10 +281,9 @@ class EnquetesQuestionsController extends AppController
 	 */
 	public function admin_delete($question_id = null)
 	{
-		$this->loadModel('ContentsQuestion');
-		$this->ContentsQuestion->id = $question_id;
+		$this->fetchTable('ContentsQuestion')->id = $question_id;
 		
-		if(!$this->ContentsQuestion->exists())
+		if(!$this->fetchTable('ContentsQuestion')->exists())
 		{
 			throw new NotFoundException(__('Invalid contents question'));
 		}
@@ -305,9 +291,9 @@ class EnquetesQuestionsController extends AppController
 		$this->request->allowMethod('post', 'delete');
 		
 		// 問題情報を取得
-		$question = $this->ContentsQuestion->get($question_id);
+		$question = $this->fetchTable('ContentsQuestion')->get($question_id);
 		
-		if($this->ContentsQuestion->delete())
+		if($this->fetchTable('ContentsQuestion')->delete())
 		{
 			$this->Flash->success(__('質問が削除されました'));
 			
@@ -333,11 +319,9 @@ class EnquetesQuestionsController extends AppController
 	{
 		$this->autoRender = FALSE;
 		
-		$this->loadModel('ContentsQuestion');
-		
 		if($this->request->is('ajax'))
 		{
-			$this->ContentsQuestion->setOrder($this->data['id_list']);
+			$this->fetchTable('ContentsQuestion')->setOrder($this->data['id_list']);
 			return 'OK';
 		}
 	}

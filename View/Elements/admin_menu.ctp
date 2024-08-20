@@ -9,7 +9,7 @@
 			$is_active = ($this->name == 'Groups') ? ' active' : '';
 			echo '<li class="'.$is_active.'">'.$this->Html->link(__('グループ'), ['controller' => 'groups', 'action' => 'index']).'</li>';
 
-			$is_active = (($this->name == 'Courses') || ($this->name == 'Contents') || ($this->name == 'ContentsQuestions')) ? ' active' : '';
+			$is_active = (($this->name == 'Courses') || ($this->name == 'Contents') || ($this->name == 'ContentsQuestions') || ($this->name == 'EnquetesQuestions')) ? ' active' : '';
 			echo '<li class="'.$is_active.'">'.$this->Html->link(__('コース'), ['controller' => 'courses', 'action' => 'index']).'</li>';
 
 			$is_active = ($this->name == 'Infos') ? ' active' : '';

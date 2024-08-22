@@ -14,7 +14,7 @@ App::uses('AppController', 'Controller');
  * ContentsQuestions Controller
  * https://book.cakephp.org/2/ja/controllers.html
  */
-class ContentsQuestionsController extends AppController
+class EnquetesQuestionsController extends AppController
 {
 	/**
 	 * 使用するコンポーネント
@@ -38,12 +38,11 @@ class ContentsQuestionsController extends AppController
 	 */
 	public function index($content_id, $record_id = null)
 	{
-		$this->ContentsQuestion->recursive = 0;
+		$this->fetchTable('ContentsQuestion')->recursive = 0;
 		
 		//------------------------------//
 		//	コンテンツ情報を取得		//
 		//------------------------------//
-		$this->fetchTable('Content');
 		$content = $this->fetchTable('Content')->get($content_id);
 		
 		//------------------------------//
@@ -64,8 +63,7 @@ class ContentsQuestionsController extends AppController
 		if($record_id != null) // テスト結果表示モードの場合
 		{
 			// テスト結果情報を取得
-			$this->fetchTable('Record');
-			$record = $this->Record->get($record_id);
+			$record = $this->fetchTable('Record')->get($record_id);
 			
 			// 受講者によるテスト結果表示の場合、自身のテスト結果か確認
 			if(!$this->isAdminPage() && $this->isRecordPage() && ($record['Record']['user_id'] != $this->readAuthUser('id')))
@@ -83,47 +81,17 @@ class ContentsQuestionsController extends AppController
 			}
 			
 			// 問題ID一覧を元に問題情報を取得
-			$contentsQuestions = $this->ContentsQuestion->find()
+			$contentsQuestions = $this->fetchTable('ContentsQuestion')->find()
 				->where(['content_id' => $content_id, 'ContentsQuestion.id' => $question_id_list])
 				->order('FIELD(ContentsQuestion.id,'.implode(',', $question_id_list).')')  // 指定したID順で並び替え
 				->all();
 			
 			//debug($contentsQuestions);
 		}
-		else if($this->readSession('Iroha.RondomQuestions.'.$content_id.'.id_list') != null) // 既にランダム出題情報がセッション上にある場合
-		{
-			// セッションにランダム出題情報が存在する場合、その情報を使用
-			$question_id_list = $this->readSession('Iroha.RondomQuestions.'.$content_id.'.id_list');
-			
-			$contentsQuestions = $this->ContentsQuestion->find()
-				->where(['content_id' => $content_id, 'ContentsQuestion.id' => $question_id_list])
-				->order('FIELD(ContentsQuestion.id,'.implode(',', $question_id_list).')') // 指定したID順で並び替え
-				->all();
-		}
-		else if($content['Content']['question_count'] > 0) // ランダム出題の場合
-		{
-			// ランダム出題情報を取得
-			$contentsQuestions = $this->ContentsQuestion->find()
-				->where(['content_id' => $content_id])
-				->limit($content['Content']['question_count']) // 出題数
-				->order('rand()') // 乱数で並び替え
-				->all();
-			
-			// 問題IDの一覧を作成
-			$question_id_list = [];
-			
-			foreach($contentsQuestions as $contentsQuestion)
-			{
-				$question_id_list[] = $contentsQuestion['ContentsQuestion']['id'];
-			}
-			
-			// ランダム出題情報を一時的にセッションに格納（リロードによる変化や、採点時の問題情報との矛盾を防ぐため）
-			$this->writeSession('Iroha.RondomQuestions.'.$content_id.'.id_list', $question_id_list);
-		}
 		else // 通常の出題の場合
 		{
 			// 全ての問題情報を取得（通常の処理）
-			$contentsQuestions = $this->ContentsQuestion->find()
+			$contentsQuestions = $this->fetchTable('ContentsQuestion')->find()
 				->where(['content_id' => $content_id])
 				->order('ContentsQuestion.sort_no asc')
 				->all();
@@ -134,11 +102,7 @@ class ContentsQuestionsController extends AppController
 		//------------------------------//
 		if($this->request->is('post'))
 		{
-			$details	= [];									// 成績詳細情報
-			$full_score	= 0;									// 最高点
-			$pass_score	= 0;									// 合格基準点
-			$my_score	= 0;									// 得点
-			$pass_rate	= $content['Content']['pass_rate'];		// 合格得点率
+			$details	= [];								// 成績詳細情報
 			
 			//------------------------------//
 			//	成績の詳細情報の作成		//
@@ -146,93 +110,55 @@ class ContentsQuestionsController extends AppController
 			foreach($contentsQuestions as $contentsQuestion)
 			{
 				$question_id	= $contentsQuestion['ContentsQuestion']['id'];		// 問題ID
-				$answer			= $this->getData('answer_'.$question_id);			// 解答（複数選択問題の場合、配列）
-				
-				$correct		= $contentsQuestion['ContentsQuestion']['correct'];	// 正解
-				$corrects		= explode(',', $correct);							// 複数選択問題の正解（配列）
-				
-				$score			= $contentsQuestion['ContentsQuestion']['score'];	// 配点
-				
-				
-				// 複数選択問題の場合
-				if(count($corrects) > 1)
-				{
-					// 全ての解答と正解が一致するか確認
-					$is_correct	= $this->isMultiCorrect($answer, $corrects) ? 1 : 0;
-					
-					// データベース格納用に解答をカンマ区切りの文字列に変更
-					$answer		= is_array($answer) ? implode(',', $answer) : null;
-				}
-				else
-				{
-					$is_correct	= ($answer == $correct) ? 1 : 0;
-				}
-				
-				// 合計点（配点の合計）
-				$full_score += $score;
-				
-				// 得点（正解した問題の配点の合計）
-				if($is_correct == 1)
-					$my_score += $score;
-				
+				$answer			= $this->getData('answer_' . $question_id);			// 解答
+				$question_type  = $contentsQuestion['ContentsQuestion']['question_type'];
+
 				// 問題の正誤
 				$details[] = [
 					'question_id'	=> $question_id,	// 問題ID
 					'answer'		=> $answer,			// 解答
-					'correct'		=> $correct,		// 正解
-					'is_correct'	=> $is_correct,		// 正誤
-					'score'			=> $score,			// 配点
 				];
 			}
-			
-			// 合格基準得点
-			$pass_score = ($full_score * $pass_rate) / 100;
-			
-			// 合格基準得点を超えていた場合、合格とする
-			$is_passed = ($my_score >= $pass_score) ? 1 : 0;
 			
 			// テスト実施時間
 			$study_sec = $this->getData('ContentsQuestion')['study_sec'];
 			
-			$this->fetchTable('Record');
-			$this->Record->create();
+			$this->fetchTable('Record')->create();
 			
 			// 追加する成績情報
 			$data = [
 				'user_id'		=> $this->readAuthUser('id'),					// ログインユーザのユーザID
 				'course_id'		=> $content['Course']['id'],					// コースID
 				'content_id'	=> $content_id,									// コンテンツID
-				'full_score'	=> $full_score,									// 合計点
-				'pass_score'	=> $pass_score,									// 合格基準得点
-				'score'			=> $my_score,									// 得点
-				'is_passed'		=> $is_passed,									// 合否判定
 				'study_sec'		=> $study_sec,									// テスト実施時間
+				'is_passed'		=> 2,
 				'is_complete'	=> 1
 			];
 			
 			//------------------------------//
 			//	テスト結果の保存			//
 			//------------------------------//
-			if($this->Record->save($data))
+			if($this->fetchTable('Record')->save($data))
 			{
-				$this->fetchTable('RecordsQuestion');
-				$record_id = $this->Record->getLastInsertID();
+				$record_id = $this->fetchTable('Record')->getLastInsertID();
 				
 				// 問題単位の成績を保存
 				foreach($details as $detail)
 				{
-					$this->RecordsQuestion->create();
+					$this->fetchTable('RecordsQuestion')->create();
 					$detail['record_id'] = $record_id;
-					$this->RecordsQuestion->save($detail);
+					$this->fetchTable('RecordsQuestion')->save($detail);
 				}
 				
 				// ランダム出題用の問題IDリストを削除
 				$this->deleteSession('Iroha.RondomQuestions.'.$content_id.'.id_list');
 				
+				$this->Flash->success(__('回答内容を送信しました'));
+				
 				$this->redirect([
 					'action' => 'record',
 					$content_id,
-					$this->Record->getLastInsertID()
+					$this->fetchTable('Record')->getLastInsertID()
 				]);
 			}
 		}
@@ -272,15 +198,14 @@ class ContentsQuestionsController extends AppController
 	{
 		$content_id = intval($content_id);
 		
-		$this->ContentsQuestion->recursive = 0;
-		$contentsQuestions = $this->ContentsQuestion->find()
+		$this->fetchTable('ContentsQuestion')->recursive = 0;
+		
+		$contentsQuestions = $this->fetchTable('ContentsQuestion')->find()
 			->where(['ContentsQuestion.content_id' => $content_id])
 			->order('ContentsQuestion.sort_no asc')
 			->all();
-		
+			
 		// コンテンツ情報を取得
-		$this->fetchTable('Content');
-		
 		$content = $this->fetchTable('Content')->get($content_id);
 		
 		$this->set(compact('content', 'contentsQuestions'));
@@ -295,7 +220,7 @@ class ContentsQuestionsController extends AppController
 		$this->admin_edit($content_id);
 		$this->render('admin_edit');
 	}
-
+		
 	/**
 	 * 問題を編集
 	 * @param int $content_id 追加対象のコンテンツ(テスト)のID
@@ -305,7 +230,9 @@ class ContentsQuestionsController extends AppController
 	{
 		$content_id = intval($content_id);
 		
-		if($this->isEditPage() && !$this->ContentsQuestion->exists($question_id))
+		unset($this->fetchTable('ContentsQuestion')->validate['option_list']);
+		
+		if($this->isEditPage() && !$this->fetchTable('ContentsQuestion')->exists($question_id))
 		{
 			throw new NotFoundException(__('Invalid contents question'));
 		}
@@ -319,17 +246,18 @@ class ContentsQuestionsController extends AppController
 			{
 				$this->request->data['ContentsQuestion']['user_id'] = $this->readAuthUser('id');
 				$this->request->data['ContentsQuestion']['content_id'] = $content_id;
-				$this->request->data['ContentsQuestion']['sort_no']   = $this->ContentsQuestion->getNextSortNo($content_id);
+				$this->request->data['ContentsQuestion']['sort_no']   = $this->fetchTable('ContentsQuestion')->getNextSortNo($content_id);
 			}
 			
-			if(!$this->ContentsQuestion->validates())
+			if(!$this->fetchTable('ContentsQuestion')->validates())
 				return;
 			
-			if($this->ContentsQuestion->save($this->request->data))
+			if($this->fetchTable('ContentsQuestion')->save($this->request->data))
 			{
-				$this->Flash->success(__('問題が保存されました'));
+				$this->Flash->success(__('質問が保存されました'));
+				
 				return $this->redirect([
-					'controller' => 'contents_questions',
+					'controller' => 'enquetes_questions',
 					'action' => 'index',
 					$content_id
 				]);
@@ -341,7 +269,7 @@ class ContentsQuestionsController extends AppController
 		}
 		else
 		{
-			$this->request->data = $this->ContentsQuestion->get($question_id);
+			$this->request->data = $this->fetchTable('ContentsQuestion')->get($question_id);
 		}
 		
 		$this->set(compact('content'));
@@ -353,9 +281,9 @@ class ContentsQuestionsController extends AppController
 	 */
 	public function admin_delete($question_id = null)
 	{
-		$this->ContentsQuestion->id = $question_id;
+		$this->fetchTable('ContentsQuestion')->id = $question_id;
 		
-		if(!$this->ContentsQuestion->exists())
+		if(!$this->fetchTable('ContentsQuestion')->exists())
 		{
 			throw new NotFoundException(__('Invalid contents question'));
 		}
@@ -363,13 +291,14 @@ class ContentsQuestionsController extends AppController
 		$this->request->allowMethod('post', 'delete');
 		
 		// 問題情報を取得
-		$question = $this->ContentsQuestion->get($question_id);
+		$question = $this->fetchTable('ContentsQuestion')->get($question_id);
 		
-		if($this->ContentsQuestion->delete())
+		if($this->fetchTable('ContentsQuestion')->delete())
 		{
-			$this->Flash->success(__('問題が削除されました'));
+			$this->Flash->success(__('質問が削除されました'));
+			
 			return $this->redirect([
-				'controller' => 'contents_questions',
+				'controller' => 'enquetes_questions',
 				'action' => 'index',
 				$question['ContentsQuestion']['content_id']
 			]);
@@ -392,34 +321,8 @@ class ContentsQuestionsController extends AppController
 		
 		if($this->request->is('ajax'))
 		{
-			$this->ContentsQuestion->setOrder($this->data['id_list']);
+			$this->fetchTable('ContentsQuestion')->setOrder($this->data['id_list']);
 			return 'OK';
 		}
-	}
-
-	// 複数選択問題の正誤判定
-	private function isMultiCorrect($answers, $corrects)
-	{
-		// 解答が設定されていない場合、不正解
-		if(!isset($answers))
-			return false;
-		
-		// 解答がnullの場合、不正解
-		if($answers == null)
-			return false;
-		
-		// 解答数と正解数が一致しない場合、不正解
-		if(count($answers) != count($corrects))
-			return false;
-		
-		// 解答が正解に含まれるか確認
-		for($i =0; $i < count($answers); $i++)
-		{
-			if(!in_array($answers[$i], $corrects))
-				return false;
-		}
-		
-		// 全て含まれていれば正解
-		return true;
 	}
 }

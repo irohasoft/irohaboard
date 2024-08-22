@@ -304,6 +304,17 @@ class AppController extends Controller
 	}
 
 	/**
+	 * 指定したモデル名のモデルを返す（CakePHP4のfetchTableを実装）
+	 */
+	protected function fetchTable($modelClass)
+	{
+		if(!isset($this->{$modelClass}))
+			$this->loadModel($modelClass);
+		
+		return $this->{$modelClass};
+	}
+
+	/**
 	 * 管理画面へのアクセスかを確認
 	 * @return bool true : 管理画面, false : 受講者画面
 	 */
@@ -362,8 +373,7 @@ class AppController extends Controller
 			'user_agent'  => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
 		];
 		
-		$this->loadModel('Log');
-		$this->Log->create();
-		$this->Log->save($data);
+		$this->fetchTable('Log')->create();
+		$this->fetchTable('Log')->save($data);
 	}
 }

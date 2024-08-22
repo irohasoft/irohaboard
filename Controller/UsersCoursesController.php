@@ -31,8 +31,7 @@ class UsersCoursesController extends AppController
 		$info = $data['Setting']['setting_value'];
 		
 		// お知らせ一覧を取得
-		$this->loadModel('Info');
-		$infos = $this->Info->getInfos($user_id, 2);
+		$infos = $this->fetchTable('Info')->getInfos($user_id, 2);
 		
 		$no_info = '';
 		

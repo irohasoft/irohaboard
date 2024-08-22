@@ -44,6 +44,7 @@ ALTER TABLE ib_records_questions MODIFY answer varchar(2000);
 
 ALTER TABLE ib_users MODIFY COLUMN created datetime DEFAULT NULL;
 ALTER TABLE ib_users_courses MODIFY COLUMN created datetime DEFAULT NULL;
+ALTER TABLE ib_users_groups MODIFY COLUMN created datetime DEFAULT NULL;
 ALTER TABLE ib_groups_courses MODIFY COLUMN created datetime DEFAULT NULL;
 ALTER TABLE ib_records_questions MODIFY COLUMN created datetime DEFAULT NULL;
 

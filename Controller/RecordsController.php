@@ -163,8 +163,7 @@ class RecordsController extends AppController
 		$this->autoRender = FALSE;
 		
 		// コンテンツ情報を取得
-		$this->loadModel('Content');
-		$content = $this->Content->get($content_id);
+		$content = $this->fetchTable('Content')->get($content_id);
 		
 		$this->Record->create();
 		$data = [

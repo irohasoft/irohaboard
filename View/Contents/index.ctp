@@ -101,6 +101,31 @@ $is_admin_record = $this->isAdminPage() && $this->isRecordPage();
 					]);
 				}
 				break;
+			case 'enquete': // アンケート
+				$icon  = 'glyphicon glyphicon-check text-danger';
+				$kind  = Configure::read('content_kind.'.$content['Content']['kind']);
+
+				// アンケート結果が存在する場合、アンケート結果へのリンクを出力
+				if ($content['Record']['record_id'] != null)
+				{
+					$result = '回答';
+					
+					$understanding = $this->Html->link(
+						$result, [
+						'controller' => 'enquetes_questions',
+						'action' => 'record',
+						$content['Content']['id'],
+						$content['Record']['record_id']
+					]);
+				}
+				
+				$title_link = $this->Html->link(
+					$content['Content']['title'], [
+					'controller' => 'enquetes_questions',
+					'action' => 'index',
+					$content['Content']['id']
+				]);
+				break;
 			case 'file': // 配布資料
 				// 配布資料のURL
 				$url = $content['Content']['url'];

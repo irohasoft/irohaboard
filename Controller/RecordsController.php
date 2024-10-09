@@ -127,6 +127,150 @@ class RecordsController extends AppController
 			
 			fclose($fp);
 		}
+		// テスト結果／アンケート回答CSV出力機能
+		else if($this->getQuery('cmd') == 'csv_detail')
+		{
+			$conditions['ContentsQuestion.question_type != '] = 'label';
+			
+			$this->autoRender = false;
+
+			// メモリサイズ、タイムアウト時間を設定
+			ini_set('memory_limit', '512M');
+			ini_set('max_execution_time', (60 * 10));
+			
+			//Content-Typeを指定
+			
+			$this->response->type('csv');
+
+			header('Content-Type: text/csv');
+			header('Content-Disposition: attachment; filename="record_details.csv"');
+			
+			$fp = fopen('php://output','w');
+			
+			$options = [
+				'conditions' => $conditions
+			];
+			
+			$options['joins'] = [
+				[
+					'type' => 'LEFT',
+					'table' => 'ib_users',
+					'alias' => 'User',
+					'conditions' => '`User`.`id`=`Record`.`user_id`',
+				],
+				[
+					'type' => 'LEFT',
+					'table' => 'ib_courses',
+					'alias' => 'Course',
+					'conditions' => '`Course`.`id`=`Record`.`course_id`',
+				],
+				[
+					'type' => 'LEFT',
+					'table' => 'ib_contents',
+					'alias' => 'Content',
+					'conditions' => '`Content`.`id`=`Record`.`content_id`',
+				],
+			];
+			
+			$options['fields'] = [
+				'Course.title',
+				'Content.title',
+				'Content.kind',
+				'ContentsQuestion.title',
+				'ContentsQuestion.body',
+				'ContentsQuestion.question_type',
+				'ContentsQuestion.options',
+				'ContentsQuestion.sort_no',
+				'User.name',
+				'User.username',
+				'RecordsQuestion.answer',
+				'RecordsQuestion.is_correct',
+				'Record.created',
+				'Record.id',
+			];
+			
+			$options['order'] = ['User.name', 'Course.sort_no', 'Content.sort_no', 'Record.id', 'ContentsQuestion.sort_no'];
+			
+			//debug($options);
+			$this->loadModel('RecordsQuestion');
+			$rows = $this->RecordsQuestion->find('all', $options);
+			
+			$header = [
+				__('ログインID'),
+				__('氏名'),
+				__('コース'),
+				__('コンテンツ'),
+				__('番号'),
+				__('タイトル'),
+				__('問題/質問'),
+				__('解答/回答'),
+				__('正誤'),
+				__('学習日時')
+			];
+			
+			mb_convert_variables("SJIS-WIN", "UTF-8", $header);
+			
+			fputcsv($fp, $header);
+			
+			$record_id  = '';
+			$questno_no = '';
+			
+			foreach($rows as $row)
+			{
+				if($record_id!=$row['Record']['id'])
+				{
+					$questno_no = 1;
+				}
+				else
+				{
+					$questno_no++;
+				}
+				
+				$record_id	= $row['Record']['id'];
+				$answer = '';	// 解答/回答
+				$result = '';	// 正誤
+				
+				if($row['ContentsQuestion']['question_type'] == 'text') // 記述式の場合
+				{
+					$answer = $row['RecordsQuestion']['answer'];
+				}
+				else
+				{
+					$answer_no		= $row['RecordsQuestion']['answer'];
+					$option_list	= explode('|', $row['ContentsQuestion']['options']);		// 選択肢リスト
+					$answer_list	= explode(',', $row['RecordsQuestion']['answer']);			// 解答リスト
+					$answer_str_list= [];
+					
+					foreach($answer_list as $answer)
+					{
+						$answer_str_list[] = @$option_list[$answer - 1];
+					}
+					
+					$answer = implode("|", $answer_str_list);
+					$result = Configure::read('is_correct.'.$row['RecordsQuestion']['is_correct']);
+				}
+				
+				//debug(implode("/", $answer_str_list));
+				$row = [
+					$row['User']['username'], 
+					$row['User']['name'], 
+					$row['Course']['title'], 
+					$row['Content']['title'], 
+					$questno_no, 
+					$row['ContentsQuestion']['title'], 
+					strip_tags($row['ContentsQuestion']['body']), 
+					$answer, 
+					$result, 
+					Utils::getYMDHN($row['Record']['created']),
+				];
+				
+				mb_convert_variables("SJIS-WIN", "UTF-8", $row);
+				
+				fputcsv($fp, $row);
+			}
+			
+			fclose($fp);
+		}
 		else
 		{
 			$this->Paginator->settings['conditions'] = $conditions;

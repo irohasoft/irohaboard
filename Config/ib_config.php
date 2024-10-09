@@ -36,6 +36,7 @@ $config['content_kind_comment']		= [
 $config['content_category']	= [
 	'study'		=> '学習',
 	'test'		=> 'テスト',
+	'enquete'	=> 'アンケート',
 ];
 
 $config['question_type']	= [

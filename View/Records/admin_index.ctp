@@ -34,6 +34,14 @@
 		$("#RecordAdminIndexForm").submit();
 		$("#RecordCmd").val("");
 	}
+	
+	function downloadCSVDetail()
+	{
+		var url = '<?= Router::url(['action' => 'csv']) ?>/' + $('#MembersEventEventId').val() + '/' + $('#MembersEventStatus').val() + '/' + $('#MembersEventUsername').val();
+		$("#RecordCmd").val("csv_detail");
+		$("#RecordAdminIndexForm").submit();
+		$("#RecordCmd").val("");
+	}
 </script>
 <?php $this->end(); ?>
 <div class="admin-records-index">
@@ -45,6 +53,7 @@
 		echo $this->Form->submit(__('検索'),	['class' => 'btn btn-info', 'div' => false]);
 		echo $this->Form->hidden('cmd');
 		echo '<button type="button" class="btn btn-default" onclick="downloadCSV()">'.__('CSV出力').'</button>';
+		echo '<button type="button" class="btn btn-default" onclick="downloadCSVDetail()">'.__('CSV出力(詳細)').'</button>';
 		echo '</div>';
 		
 		echo '<div class="ib-row">';

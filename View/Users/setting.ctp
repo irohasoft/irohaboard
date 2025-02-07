@@ -1,10 +1,11 @@
 <div class="users-setting">
 	<div class="breadcrumb">
 	<?php
-	$this->Html->addCrumb('HOME', [
-		'controller' => 'users_courses',
-		'action' => 'index'
-	]);
+	$this->Html->addCrumb(
+		'<span class="glyphicon glyphicon-home" aria-hidden="true"></span> HOME',
+		['controller' => 'users_courses','action' => 'index'],
+		['escape' => false],
+	);
 	echo $this->Html->getCrumbs(' / ');
 	?>
 	</div>

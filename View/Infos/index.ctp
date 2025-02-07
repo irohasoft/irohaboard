@@ -1,15 +1,16 @@
 <div class="infos-index">
 	<div class="breadcrumb">
 	<?php
-	$this->Html->addCrumb('HOME', [
-		'controller' => 'users_courses',
-		'action' => 'index'
-	]);
+	$this->Html->addCrumb(
+		'<span class="glyphicon glyphicon-home" aria-hidden="true"></span> HOME',
+		['controller' => 'users_courses','action' => 'index'],
+		['escape' => false],
+	);
 	echo $this->Html->getCrumbs(' / ');
 	?>
 	</div>
 	<div class="panel panel-success">
-		<div class="panel-heading"><?= __('お知らせ一覧'); ?></div>
+		<div class="panel-heading"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <?= __('お知らせ一覧'); ?></div>
 		<div class="panel-body">
 			<table cellpadding="0" cellspacing="0">
 			<thead>

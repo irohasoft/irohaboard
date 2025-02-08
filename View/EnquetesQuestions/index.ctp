@@ -88,7 +88,11 @@
 	else
 	{
 		$course_url = ['controller' => 'contents', 'action' => 'index', $content['Course']['id']];
-		$this->Html->addCrumb(__('コース一覧'), ['controller' => 'users_courses', 'action' => 'index']);
+		$this->Html->addCrumb(
+			'<span class="glyphicon glyphicon-book" aria-hidden="true"></span> コース一覧',
+			['controller' => 'users_courses','action' => 'index'],
+			['escape' => false],
+		);
 	}
 	
 	$this->Html->addCrumb($content['Course']['title'], $course_url);

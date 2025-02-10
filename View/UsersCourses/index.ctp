@@ -1,6 +1,6 @@
 <div class="users-courses-index">
 	<div class="panel panel-success">
-		<div class="panel-heading"><?= __('お知らせ'); ?></div>
+		<div class="panel-heading"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <?= __('お知らせ'); ?></div>
 		<div class="panel-body">
 			<?php if($info != ''){?>
 			<div class="well">
@@ -30,7 +30,7 @@
 		</div>
 	</div>
 	<div class="panel panel-info">
-	<div class="panel-heading"><?= __('コース一覧'); ?></div>
+	<div class="panel-heading"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> <?= __('コース一覧')?></div>
 	<div class="panel-body">
 		<ul class="list-group">
 		<?php foreach ($courses as $course): ?>

@@ -27,15 +27,16 @@ $is_admin_record = $this->isAdminPage() && $this->isRecordPage();
 </style>
 <?php $this->end(); ?>
 <div class="contents-index">
-	<div class="ib-breadcrumb">
+	<div class="breadcrumb">
 	<?php
 	// 管理者による学習履歴表示の場合、パンくずリストを表示しない
 	if(!$is_admin_record)
 	{
-		$this->Html->addCrumb('<< '.__('コース一覧'), [
-			'controller' => 'users_courses',
-			'action' => 'index'
-		]);
+		$this->Html->addCrumb(
+			'<span class="glyphicon glyphicon-book" aria-hidden="true"></span> コース一覧',
+			['controller' => 'users_courses','action' => 'index'],
+			['escape' => false],
+		);
 		echo $this->Html->getCrumbs(' / ');
 	}
 	?>

@@ -16,66 +16,10 @@
 
 <?php $this->start('script-embedded'); ?>
 <script>
-	var TIMELIMIT_SEC	= parseInt('<?= $content['Content']['timelimit'] ?>') * 60;	// 制限時間（単位：秒）
 	var IS_RECORD		= '<?= $is_record ?>';										// テスト結果表示フラグ
-	var MSG_TIMELIMIT	= '<?= __('制限時間を過ぎましたので自動採点を行います。') ?>';
-	var MSG_REST_TIME	= '<?= __('残り時間') ?>';
-	var MSG_TIME		= '<?= __('経過') ?>';
-	
-	// 送信確認画面を表示
-	function showConfirm()
-	{
-		if(isComplete())
-		{
-			$('.modal-body').removeClass('bg-danger');
-			$('.answer-incomplete').hide();
-		}
-		else
-		{
-			$('.modal-body').addClass('bg-danger');
-			$('.answer-incomplete').show();
-		}
-		
-		$('#confirmModal').modal();
-	}
 
-	// 未回答チェック
-	function isComplete()
-	{
-		var cnt_radio = $('input[type="radio"]').length;
-		
-		for (var i=0; i < cnt_radio; i++)
-		{
-			var name = $('input[type="radio"]')[i].name;
-			var cnt  = $('input[name="' + name + '"]:checked').length;
-			
-			if(cnt == 0)
-				return false;
-		}
-		
-		var cnt_text = $('textarea').length;
-		
-		for (var i=0; i < cnt_text; i++)
-		{
-			var val = $($('textarea')[i]).val();
-			
-			if(val == '')
-				return false;
-		}
-		
-		return true;
-	}
-
-	// 回答データの送信
-	function sendData()
-	{
-		// 重複送信防止の為、ボタンを無効化
-		$('.btn').prop('disabled', true);
-		
-		$('form').submit();
-		return;
-	}
 </script>
+<?= $this->Html->script('contents_enquetes.js?20250201');?>
 <?php $this->end(); ?>
 <div class="contents-questions-index">
 	<div class="breadcrumb">
@@ -88,7 +32,11 @@
 	else
 	{
 		$course_url = ['controller' => 'contents', 'action' => 'index', $content['Course']['id']];
-		$this->Html->addCrumb(__('コース一覧'), ['controller' => 'users_courses', 'action' => 'index']);
+		$this->Html->addCrumb(
+			'<span class="glyphicon glyphicon-book" aria-hidden="true"></span> コース一覧',
+			['controller' => 'users_courses','action' => 'index'],
+			['escape' => false],
+		);
 	}
 	
 	$this->Html->addCrumb($content['Course']['title'], $course_url);

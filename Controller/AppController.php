@@ -132,7 +132,12 @@ class AppController extends Controller
 	 */
 	protected function readSession($key)
 	{
-		return $this->Session->read($key);
+		$val = $this->Session->read($key);
+
+		if($val == null)
+			return '';
+		
+		return $val;
 	}
 
 	/**
@@ -169,7 +174,12 @@ class AppController extends Controller
 	 */
 	protected function readCookie($key)
 	{
-		return $this->Cookie->read($key);
+		$val = $this->Cookie->read($key);
+		
+		if($val == null)
+			return '';
+		
+		return $val;
 	}
 
 	/**

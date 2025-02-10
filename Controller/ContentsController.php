@@ -471,7 +471,7 @@ class ContentsController extends AppController
 		
 		foreach($contentsQuestions as $contentsQuestion)
 		{
-			$row = $this->ContentsQuestion->find()
+			$row = $this->fetchTable('ContentsQuestion')->find()
 				->select('MAX(ContentsQuestion.id) as max_id')
 				->first();
 			
@@ -483,10 +483,10 @@ class ContentsController extends AppController
 			$contentsQuestion['ContentsQuestion']['content_id']	= $new_content_id;
 			$contentsQuestion['ContentsQuestion']['sort_no']	= $sort_no;
 			
-			$this->ContentsQuestion->validate = null;
+			$this->fetchTable('ContentsQuestion')->validate = null;
 			
-			$this->ContentsQuestion->create($contentsQuestion);
-			$this->ContentsQuestion->save();
+			$this->fetchTable('ContentsQuestion')->create($contentsQuestion);
+			$this->fetchTable('ContentsQuestion')->save();
 			
 			$sort_no++;
 		}

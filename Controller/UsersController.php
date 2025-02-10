@@ -185,7 +185,7 @@ class UsersController extends AppController
 		
 		// グループIDが指定されている場合、指定したグループに所属するユーザを検索
 		if(($group_id != '') && ($group_id != 0))
-			$conditions['User.id'] = $this->Group->getUserIdByGroupID($group_id);
+			$conditions['User.id'] = $this->fetchTable('Group')->getUserIdByGroupID($group_id);
 		
 		$this->paginate = [
 			'fields' => ['*',
@@ -219,7 +219,7 @@ class UsersController extends AppController
 			}
 			
 			// グループ一覧を取得
-			$groups = $this->Group->find('list');
+			$groups = $this->fetchTable('Group')->find('list');
 			
 			$this->set(compact('groups', 'users', 'group_id'));
 		}

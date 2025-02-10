@@ -75,7 +75,7 @@ class AppController extends Controller
 		// データベース内に格納された設定情報をセッションに格納
 		if(!$this->hasSession('Setting'))
 		{
-			$settings = $this->Setting->getSettings();
+			$settings = $this->fetchTable('Setting')->getSettings();
 			
 			$this->writeSession('Setting.app_dir', APP_DIR);
 			
@@ -132,7 +132,12 @@ class AppController extends Controller
 	 */
 	protected function readSession($key)
 	{
-		return $this->Session->read($key);
+		$val = $this->Session->read($key);
+
+		if($val == null)
+			return '';
+		
+		return $val;
 	}
 
 	/**
@@ -169,7 +174,12 @@ class AppController extends Controller
 	 */
 	protected function readCookie($key)
 	{
-		return $this->Cookie->read($key);
+		$val = $this->Cookie->read($key);
+
+		if($val == null)
+			return '';
+		
+		return $val;
 	}
 
 	/**

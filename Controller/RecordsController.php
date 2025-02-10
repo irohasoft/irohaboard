@@ -192,8 +192,7 @@ class RecordsController extends AppController
 			$options['order'] = ['User.name', 'Course.sort_no', 'Content.sort_no', 'Record.id', 'ContentsQuestion.sort_no'];
 			
 			//debug($options);
-			$this->loadModel('RecordsQuestion');
-			$rows = $this->RecordsQuestion->find('all', $options);
+			$rows = $this->fetchTable('RecordsQuestion')->find('all', $options);
 			
 			$header = [
 				__('ログインID'),
@@ -243,7 +242,7 @@ class RecordsController extends AppController
 					
 					foreach($answer_list as $answer)
 					{
-						$answer_str_list[] = @$option_list[$answer - 1];
+						$answer_str_list[] = (isset($option_list[$answer - 1])) ? $option_list[$answer - 1] : '';
 					}
 					
 					$answer = implode("|", $answer_str_list);
@@ -287,7 +286,7 @@ class RecordsController extends AppController
 				$records = $this->paginate();
 			}
 			
-			$groups = $this->Group->find('list');
+			$groups = $this->fetchTable('Group')->find('list');
 			$courses = $this->Record->Course->find('list');
 			
 			$this->set(compact('records', 'groups', 'group_id', 'courses', 'content_category', 'from_date', 'to_date'));

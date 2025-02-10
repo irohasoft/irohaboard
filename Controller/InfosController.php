@@ -126,7 +126,7 @@ class InfosController extends AppController
 			$this->request->data = $this->Info->get($info_id);
 		}
 		
-		$groups = $this->Group->find('list');
+		$groups = $this->fetchTable('Group')->find('list');
 		$this->set(compact('groups'));
 	}
 

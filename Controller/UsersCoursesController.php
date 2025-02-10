@@ -24,7 +24,7 @@ class UsersCoursesController extends AppController
 		$user_id = $this->readAuthUser('id');
 		
 		// 全体のお知らせの取得
-		$data = $this->Setting->find()
+		$data = $this->fetchTable('Setting')->find()
 			->where(['Setting.setting_key' => 'information'])
 			->first();
 		

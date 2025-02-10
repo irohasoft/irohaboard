@@ -237,12 +237,12 @@ class RecordsController extends AppController
 				{
 					$answer_no		= $row['RecordsQuestion']['answer'];
 					$option_list	= explode('|', $row['ContentsQuestion']['options']);		// 選択肢リスト
-					$answer_list	= explode(',', $row['RecordsQuestion']['answer']);			// 解答リスト
+					$answer_list	= explode(',', $row['RecordsQuestion']['answer']);		// 解答リスト
 					$answer_str_list= [];
 					
 					foreach($answer_list as $answer)
 					{
-						$answer_str_list[] = @$option_list[$answer - 1];
+						$answer_str_list[] = (isset($option_list[$answer - 1])) ? $option_list[$answer - 1] : '';
 					}
 					
 					$answer = implode("|", $answer_str_list);

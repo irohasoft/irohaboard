@@ -35,7 +35,7 @@
 		$this->Html->addCrumb(
 			'<span class="glyphicon glyphicon-book" aria-hidden="true"></span> コース一覧',
 			['controller' => 'users_courses','action' => 'index'],
-			['escape' => false],
+			['escape' => false]
 		);
 	}
 	

@@ -35,7 +35,7 @@ $is_admin_record = $this->isAdminPage() && $this->isRecordPage();
 		$this->Html->addCrumb(
 			'<span class="glyphicon glyphicon-book" aria-hidden="true"></span> コース一覧',
 			['controller' => 'users_courses','action' => 'index'],
-			['escape' => false],
+			['escape' => false]
 		);
 		echo $this->Html->getCrumbs(' / ');
 	}

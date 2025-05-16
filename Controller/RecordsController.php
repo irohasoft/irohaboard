@@ -232,6 +232,9 @@ class RecordsController extends AppController
 				if($row['ContentsQuestion']['question_type'] == 'text') // 記述式の場合
 				{
 					$answer = $row['RecordsQuestion']['answer'];
+					// 計算式をエスケープ
+					if(preg_match('/^\s*[=\+\-@]/', $answer))
+						$answer = "'" . $answer;
 				}
 				else
 				{
@@ -242,11 +245,14 @@ class RecordsController extends AppController
 					
 					foreach($answer_list as $answer)
 					{
-						$answer_str_list[] = (isset($option_list[$answer - 1])) ? $option_list[$answer - 1] : '';
+						$index = (int)$answer - 1;
+						$answer_str_list[] = (isset($option_list[$index])) ? $option_list[$index] : '';
 					}
 					
 					$answer = implode("|", $answer_str_list);
-					$result = Configure::read('is_correct.'.$row['RecordsQuestion']['is_correct']);
+					
+					if($row['Content']['kind'] == 'test')
+						$result = Configure::read('is_correct.'.$row['RecordsQuestion']['is_correct']);
 				}
 				
 				//debug(implode("/", $answer_str_list));

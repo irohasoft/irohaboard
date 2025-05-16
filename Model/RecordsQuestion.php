@@ -28,7 +28,8 @@ class RecordsQuestion extends AppModel
 	public $validate = [
 		'record_id'   => ['numeric' => ['rule' => ['numeric']]],
 		'question_id' => ['numeric' => ['rule' => ['numeric']]],
-		'score'       => ['numeric' => ['rule' => ['numeric']]]
+		'score'       => ['numeric' => ['rule' => ['numeric']]],
+		'answer'      => ['maxLength' => ['rule' => ['maxLength', 1000]]]
 	];
 	
 	/**

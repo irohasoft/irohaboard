@@ -13,7 +13,7 @@
 		echo $this->Html->css('jquery-ui');
 		echo $this->Html->css('bootstrap.min');
 		echo $this->Html->css('common.css');
-		echo $this->Html->css('contents_view.css?20200421');
+		echo $this->Html->css('contents_view.css?20250601');
 		echo $this->Html->css('custom.css');
 
 		echo $this->Html->script('jquery-1.9.1.min.js');
@@ -44,7 +44,14 @@
 			$body = '<iframe id="contentFrame" width="100%" height="100%" scrolling="yes" src="'.h($content['Content']['url']).'"></iframe>';
 			break;
 		case 'movie': // 動画コンテンツ
-			$body = '<video src="'.h($content['Content']['url']).'" controls width="100%" oncontextmenu="return false;"></video>';
+			$url = h($content['Content']['url']);
+
+			if(strpos($url, 'http') === false)
+			{
+				$url = Router::url(['controller' => 'contents', 'action' => 'file_movie', $content['Content']['id']]);
+			}
+
+			$body = '<video src="'.$url.'" controls width="100%" oncontextmenu="return false;"></video>';
 			break;
 		case 'text': // テキスト型コンテンツ
 			$body = h($content['Content']['body']);
@@ -53,6 +60,7 @@
 			break;
 		case 'html': // リッチテキストコンテンツ
 			$body = $content['Content']['body'];
+			//$body = str_replace('src="/uploads/', 'src="'.Router::url(['controller' => 'contents', 'action' => 'file_image']).'/', $body);
 			break;
 	}
 ?>

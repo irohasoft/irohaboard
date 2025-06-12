@@ -99,7 +99,14 @@
 	{
 		var content_kind = $('input[name="data[Content][kind]"]:checked').val();
 		var content_key  = $('input[name="data[_Token][key]"]').val();
-		
+		var content_url  = $('#ContentUrl').val();
+
+		if((content_kind == 'movie') && (!content_url.startsWith('http')))
+		{
+			file_name = content_url.split('/').pop();
+			content_url = '<?= Router::url(['controller' => 'contents', 'action' => 'preview_movie'], true)?>/' + file_name;
+		}
+
 		// プレビュー内容を保存
 		$.ajax({
 			url  : '<?= Router::url(['action' => 'preview']) ?>',
@@ -107,7 +114,7 @@
 			data : {
 				content_title : $('#ContentTitle').val(),
 				content_kind  : $('input[name="data[Content][kind]"]:checked').val(),
-				content_url   : $('#ContentUrl').val(),
+				content_url   : content_url,
 				content_body  : $('#ContentBody').val(),
 				_Token        : { key : content_key },
 			},

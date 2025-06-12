@@ -18,6 +18,7 @@
 			update: function(event, ui)
 			{
 				var id_list = new Array();
+				var token  = $('input[name="data[_Token][key]"]').val();
 
 				$('.course_id').each(function(index)
 				{
@@ -27,7 +28,7 @@
 				$.ajax({
 					url: "<?= Router::url(['action' => 'order']) ?>",
 					type: "POST",
-					data: { id_list : id_list },
+					data: { id_list : id_list, _Token : { key : token } },
 					dataType: "text",
 					success : function(response){
 						//通信成功時の処理
@@ -45,6 +46,7 @@
 	});
 </script>
 <?php $this->end(); ?>
+
 <div class="admin-courses-index">
 	<div class="ib-page-title"><?= __('コース一覧'); ?></div>
 	<div class="buttons_container">
@@ -83,4 +85,6 @@
 	<?php endforeach; ?>
 	</tbody>
 	</table>
+	<?= $this->Form->create('Course');?>
+	<?= $this->Form->end(); ?>
 </div>

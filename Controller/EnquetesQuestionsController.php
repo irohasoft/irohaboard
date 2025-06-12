@@ -27,7 +27,6 @@ class EnquetesQuestionsController extends AppController
 			//'csrfCheck' => false,
 			'csrfExpires' => '+3 hours',
 			'csrfLimit' => 10000,
-			'unlockedActions' => ['admin_order', 'index']
 		],
 	];
 
@@ -53,6 +52,12 @@ class EnquetesQuestionsController extends AppController
 		{
 			if(!$this->fetchTable('Course')->hasRight($this->readAuthUser('id'), $content['Content']['course_id']))
 				throw new NotFoundException(__('Invalid access'));
+		}
+		
+		// 管理者以外の場合、非公開コンテンツへのアクセスを禁止
+		if($this->readAuthUser('role') != 'admin' && $content['Content']['status'] != 1)
+		{
+			throw new NotFoundException(__('Invalid access'));
 		}
 		
 		//------------------------------//

@@ -23,7 +23,7 @@ class CoursesController extends AppController
 	public $components = [
 		'Security' => [
 			'csrfUseOnce' => false,
-			'unlockedActions' => ['admin_order']
+			'validatePost' => false,
 		],
 	];
 

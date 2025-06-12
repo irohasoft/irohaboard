@@ -20,7 +20,7 @@
 		echo $this->Html->script('jquery-ui-1.9.2.min.js');
 		echo $this->Html->script('bootstrap.min.js');
 		echo $this->Html->script('common.js');
-		echo $this->Html->script('contents_view.js?20200421');
+		echo $this->Html->script('contents_view.js?20250601');
 		echo $this->Html->script('custom.js');
 
 		echo $this->fetch('meta');
@@ -66,6 +66,8 @@
 			<span class='understanding-spn'></span>
 			<button type="button" class="btn btn-danger" onclick="finish(0);"><?= __('中断');?></button>
 			<button type="button" class="btn btn-default" onclick="finish(-1);"><?= __('戻る');?></button>
+			<?= $this->Form->create('Record', ['url' => ['action' => 'add']]);?>
+			<?= $this->Form->end(); ?>
 		</div>
 	</div>
 </div>

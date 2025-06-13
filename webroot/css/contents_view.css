@@ -22,6 +22,11 @@ html, body
 	height				: 100%;
 }
 
+.content-view video
+{
+	max-height			: 100%;
+}
+
 .content-title
 {
 	font-size			: 14px;

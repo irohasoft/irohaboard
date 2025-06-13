@@ -116,4 +116,33 @@ class AppView extends View
 	{
 		return (($this->action == 'login') || ($this->action == 'admin_login'));
 	}
+
+	/**
+	 * HTTPSかを確認
+	 */
+	protected function isHTTPS()
+	{
+		return (
+			!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off'
+		) || (
+			!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https'
+		) || (
+			!empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off'
+		) || (
+			!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443
+		);
+	}
+
+	/**
+	 * 接続元がローカルIPか確認
+	 */
+	protected function isLocalIP()
+	{
+		$ip = $_SERVER['REMOTE_ADDR'];
+		
+		if($ip == '::1')
+			return true;
+		
+		return preg_match('/^(127\.|10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/', $ip);
+	}
 }

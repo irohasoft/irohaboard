@@ -1,34 +1,35 @@
 Options -Indexes
 
-#Restrict access by IP address
+# Deny access by IP address
 #order deny,allow
 #deny from all
 #allow from 12.12.12.12
 
-#Restrict access to admin system by IP address
+# Deny access to admin system by IP address
 #RewriteCond %{REQUEST_URI} ^.*/admin.*$ [NC]
 #RewriteCond %{REMOTE_ADDR} !^12.12.12.12$
 #RewriteRule ^.*$ - [F,L]
 
-#Restrict access by User Agent
+# Deny access by User Agent
 #RewriteCond %{HTTP_USER_AGENT} ^.*(spider|bot|python).*$ [NC]
 #RewriteRule ^.*$ - [F,L]
 
-#Restrict access by URL
-#RewriteCond %{REQUEST_URI} ^.*(vendor|phpunit|\.env).*$ [NC]
-#RewriteRule ^.*$ - [F,L]
-
-#Restrict access by language
+# Deny access by language
 #RewriteCond %{HTTP:Accept-Language} !^(ja|en).*$ [NC]
 #RewriteRule ^.*$ - [F,L]
 
-#Restrict access for PHPs
-#RewriteCond %{REQUEST_URI} !^.*(index.php|pi.php)$
-#RewriteCond %{REQUEST_URI} ^.*(.php).*$ [NC]
-#RewriteRule ^.*$ - [F,L]
+# Deny access to dangerous files
+RewriteCond %{REQUEST_URI} (\.env|vendor|phpunit|\.git|\.sql|\.bak|\.ini|\.cgi|\.py) [NC]
+RewriteRule ^ - [F,L]
 
-#RewriteCond %{REQUEST_URI} ^.*(.cgi|.py)$ [NC]
-#RewriteRule ^.*$ - [F,L]
+# Deny any URI that contains wp-admin, wp-includes, or wp-content
+RewriteCond %{REQUEST_URI} (wp-admin|wp-includes|wp-content) [NC]
+RewriteRule ^ - [F,L]
+
+# Deny access to all .php files except index.php and test_pi.php
+RewriteCond %{REQUEST_URI} \.php$ [NC]
+RewriteCond %{REQUEST_URI} !/(index|test_pi)\.php$ [NC]
+RewriteRule ^ - [F,L]
 
 
 <IfModule mod_rewrite.c>

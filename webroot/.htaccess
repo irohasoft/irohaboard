@@ -32,6 +32,12 @@ RewriteCond %{REQUEST_URI} !/(index|test_pi)\.php$ [NC]
 RewriteRule ^ - [F,L]
 
 
+<IfModule mod_headers.c>
+	Header always set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+	Header always set Pragma "no-cache"
+	Header always set Expires 0
+</IfModule>
+
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteCond %{REQUEST_FILENAME} !-d

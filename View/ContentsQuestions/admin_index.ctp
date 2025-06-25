@@ -18,6 +18,7 @@
 			update: function(event, ui)
 			{
 				var id_list = new Array();
+				var token  = $('input[name="data[_Token][key]"]').val();
 
 				$('.target_id').each(function(index)
 				{
@@ -27,7 +28,7 @@
 				$.ajax({
 					url: "<?= Router::url(['action' => 'order']) ?>",
 					type: "POST",
-					data: { id_list : id_list },
+					data: { id_list : id_list, _Token : { key : token } },
 					dataType: "text",
 					success : function(response){
 						//通信成功時の処理
@@ -98,4 +99,6 @@
 	<?php endforeach; ?>
 	</tbody>
 	</table>
+	<?= $this->Form->create('ContentsQuestion');?>
+	<?= $this->Form->end(); ?>
 </div>

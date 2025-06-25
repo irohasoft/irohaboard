@@ -38,27 +38,60 @@ function finish(val)
 	$('.btn').prop('disabled', true);
 	
 	// プレビューの場合、学習履歴を保存しない
-	if(location.href.split('/')[location.href.split('/').length - 1] == 'preview')
+	if(location.href.split('/').pop() == 'preview')
 	{
 		window.close();
 		return;
 	}
 	
-	// 中断の場合
-	if(val==0)
-	{
-		location.href = URL_RECORDS_ADD + '/0/' + _studySec + '/0';
-		return;
-	}
-	
 	// 学習履歴を残さずに終了の場合
-	if(val==-1)
+	if(val == -1)
 	{
 		location.href = URL_CONTNES_INDEX;
 		return;
 	}
+
+	// 学習履歴を保存する場合
+	let is_complete = (val == 0) ? 0 : 1;
+	let studySec = _studySec || 0;
+	let understanding = (val > 0) ? val : 0;
+
+	// POST送信用フォーム作成
+	let form = document.createElement('form');
+	form.method = 'POST';
+	form.action = URL_RECORDS_ADD;
+
+	// トークンを取得
+	let token = document.querySelector('input[name="data[_Token][key]"]');
 	
-	// 学習履歴を残して終了の場合
-	location.href = URL_RECORDS_ADD + '/1/' + _studySec + '/' + val;
-	return;
+	// トークンをhiddenで付加
+	if(token)
+	{
+		let input = document.createElement('input');
+		input.type = 'hidden';
+		input.name = 'data[_Token][key]';
+		input.value = token.value;
+		form.appendChild(input);
+	}
+
+	// 送信データを作成
+	let inputs = {
+		'is_complete': is_complete,
+		'study_sec': studySec,
+		'understanding': understanding
+	};
+
+	// データをhiddenで付加
+	for(let key in inputs)
+	{
+		let input = document.createElement('input');
+		input.type = 'hidden';
+		input.name = key;
+		input.value = inputs[key];
+		form.appendChild(input);
+	}
+
+	// フォームを送信
+	document.body.appendChild(form);
+	form.submit();
 }

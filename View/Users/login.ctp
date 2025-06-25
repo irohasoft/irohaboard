@@ -15,8 +15,10 @@
 			</div>
 			<div class="form-group">
 				<?= $this->Form->input('password', ['label' => __('パスワード'), 'class'=>'form-control', 'value' => $password]);?>
-				<input type="checkbox" name="data[User][remember_me]" checked="checked" value="1" id="remember_me"><?= __('ログイン状態を保持')?>
+				<?php if($this->isHTTPS()) {?>
+				<input type="checkbox" name="data[User][remember_me]" value="1" id="remember_me"><?= __('ログイン状態を保持')?>
 				<?= $this->Form->unlockField('remember_me'); ?>
+				<?php }?>
 			</div>
 			<?= $this->Form->end(['label' => __('ログイン'), 'class'=>'btn btn-lg btn-primary btn-block']); ?>
 		</div>

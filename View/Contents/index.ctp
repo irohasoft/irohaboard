@@ -128,22 +128,23 @@ $is_admin_record = $this->isAdminPage() && $this->isRecordPage();
 				]);
 				break;
 			case 'file': // 配布資料
-				// 配布資料のURL
-				$url = $content['Content']['url'];
-				
-				// 相対URLの場合、絶対URLに変更する
-				if(mb_substr($url, 0, 1) == '/')
-					$url = FULL_BASE_URL.$url;
-				
 				$icon  = 'glyphicon glyphicon-file text-success';
 				$title_link = $this->Html->link(
 					$content['Content']['title'], 
-					$url,
 					[
-						'target'=>'_blank',
-						'download' => $content['Content']['file_name']
+						'controller' => 'contents',
+						'action' => 'file_download',
+						$content['Content']['id']
+					],
+					[
+						'target' => '_blank'
 					]
 				);
+				
+				// URLが指定されている場合はそのまま開く
+				if(strpos($content['Content']['url'], 'http') === 0)
+					$title_link = $this->Html->link($content['Content']['title'], $content['Content']['url'], ['target' => '_blank']);
+				
 				break;
 			default : // その他（学習）
 				$icon  = 'glyphicon glyphicon-play-circle text-info';

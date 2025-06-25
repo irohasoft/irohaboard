@@ -27,7 +27,6 @@ class EnquetesQuestionsController extends AppController
 			//'csrfCheck' => false,
 			'csrfExpires' => '+3 hours',
 			'csrfLimit' => 10000,
-			'unlockedActions' => ['admin_order', 'index']
 		],
 	];
 
@@ -53,6 +52,12 @@ class EnquetesQuestionsController extends AppController
 		{
 			if(!$this->fetchTable('Course')->hasRight($this->readAuthUser('id'), $content['Content']['course_id']))
 				throw new NotFoundException(__('Invalid access'));
+		}
+		
+		// 管理者以外の場合、非公開コンテンツへのアクセスを禁止
+		if($this->readAuthUser('role') != 'admin' && $content['Content']['status'] != 1)
+		{
+			throw new NotFoundException(__('Invalid access'));
 		}
 		
 		//------------------------------//
@@ -98,14 +103,14 @@ class EnquetesQuestionsController extends AppController
 		}
 		
 		//------------------------------//
-		//	採点処理					//
+		//	保存処理					//
 		//------------------------------//
 		if($this->request->is('post'))
 		{
-			$details	= [];								// 成績詳細情報
+			$details	= [];								// 回答詳細情報
 			
 			//------------------------------//
-			//	成績の詳細情報の作成		//
+			//	回答の詳細情報の作成		//
 			//------------------------------//
 			foreach($contentsQuestions as $contentsQuestion)
 			{
@@ -113,10 +118,11 @@ class EnquetesQuestionsController extends AppController
 				$answer			= $this->getData('answer_' . $question_id);			// 解答
 				$question_type  = $contentsQuestion['ContentsQuestion']['question_type'];
 
-				// 問題の正誤
+				// 回答内容
 				$details[] = [
 					'question_id'	=> $question_id,	// 問題ID
 					'answer'		=> $answer,			// 解答
+					'is_correct'	=> -1,				// 正誤
 				];
 			}
 			
@@ -125,7 +131,7 @@ class EnquetesQuestionsController extends AppController
 			
 			$this->fetchTable('Record')->create();
 			
-			// 追加する成績情報
+			// 追加する回答情報
 			$data = [
 				'user_id'		=> $this->readAuthUser('id'),					// ログインユーザのユーザID
 				'course_id'		=> $content['Course']['id'],					// コースID
@@ -136,13 +142,13 @@ class EnquetesQuestionsController extends AppController
 			];
 			
 			//------------------------------//
-			//	テスト結果の保存			//
+			//	アンケート結果の保存		//
 			//------------------------------//
 			if($this->fetchTable('Record')->save($data))
 			{
 				$record_id = $this->fetchTable('Record')->getLastInsertID();
 				
-				// 問題単位の成績を保存
+				// 問題単位の回答を保存
 				foreach($details as $detail)
 				{
 					$this->fetchTable('RecordsQuestion')->create();

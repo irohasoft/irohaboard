@@ -22,7 +22,14 @@ class RecordsController extends AppController
 	 */
 	public $components = [
 		'Paginator',
-		'Search.Prg'
+		'Search.Prg',
+		'Security' => [
+			'validatePost' => false,
+			'csrfUseOnce' => false,
+			'csrfExpires' => '+3 hours',
+			'csrfLimit' => 10000,
+			'unlockedFields' => ['add']
+		],
 	];
 
 	/**
@@ -232,6 +239,9 @@ class RecordsController extends AppController
 				if($row['ContentsQuestion']['question_type'] == 'text') // 記述式の場合
 				{
 					$answer = $row['RecordsQuestion']['answer'];
+					// 計算式をエスケープ
+					if(preg_match('/^\s*[=\+\-@]/', $answer))
+						$answer = "'" . $answer;
 				}
 				else
 				{
@@ -242,11 +252,14 @@ class RecordsController extends AppController
 					
 					foreach($answer_list as $answer)
 					{
-						$answer_str_list[] = (isset($option_list[$answer - 1])) ? $option_list[$answer - 1] : '';
+						$index = (int)$answer - 1;
+						$answer_str_list[] = (isset($option_list[$index])) ? $option_list[$index] : '';
 					}
 					
 					$answer = implode("|", $answer_str_list);
-					$result = Configure::read('is_correct.'.$row['RecordsQuestion']['is_correct']);
+					
+					if($row['Content']['kind'] == 'test')
+						$result = Configure::read('is_correct.'.$row['RecordsQuestion']['is_correct']);
 				}
 				
 				//debug(implode("/", $answer_str_list));
@@ -301,32 +314,55 @@ class RecordsController extends AppController
 	 * @param int $study_sec     学習時間
 	 * @param int $understanding 理解度
 	 */
-	public function add($content_id, $is_complete, $study_sec, $understanding)
+	public function add($content_id)
 	{
 		$this->autoRender = FALSE;
+		$this->request->allowMethod('post');
 		
+		$content_id = intval($content_id);
+		
+		// コンテンツが存在しない場合
+		if(!$this->fetchTable('Content')->exists($content_id))
+		{
+			throw new NotFoundException(__('Invalid content'));
+		}
+
 		// コンテンツ情報を取得
 		$content = $this->fetchTable('Content')->get($content_id);
 		
+		// コンテンツの閲覧権限の確認
+		if(!$this->fetchTable('Course')->hasRight($this->readAuthUser('id'), $content['Content']['course_id']))
+		{
+			throw new NotFoundException(__('Invalid access'));
+		}
+
+		// 管理者以外の場合、非公開コンテンツへのアクセスを禁止
+		if($this->readAuthUser('role') != 'admin' && $content['Content']['status'] != 1)
+		{
+			throw new NotFoundException(__('Invalid access'));
+		}
+		
+		// POSTデータを取得
+		$data = $this->getData();
+
+		// 学習履歴データを作成
 		$this->Record->create();
-		$data = [
+
+		$record_data = [
 			'user_id'		=> $this->readAuthUser('id'),
 			'course_id'		=> $content['Course']['id'],
 			'content_id'	=> $content_id,
-			'study_sec'		=> $study_sec,
-			'understanding'	=> $understanding,
+			'study_sec'		=> $data['study_sec'],
+			'understanding'	=> $data['understanding'],
 			'is_passed'		=> -1,
-			'is_complete'	=> $is_complete
+			'is_complete'	=> $data['is_complete']
 		];
 		
-		if($this->Record->save($data))
+		// 学習履歴を保存
+		if($this->Record->save($record_data))
 		{
 			$this->Flash->success(__('学習履歴を保存しました'));
-			return $this->redirect([
-				'controller' => 'contents',
-				'action' => 'index',
-				$content['Course']['id']
-			]);
+			return $this->redirect(['controller' => 'contents', 'action' => 'index', $content['Course']['id']]);
 		}
 		else
 		{

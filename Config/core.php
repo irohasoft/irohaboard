@@ -231,12 +231,19 @@
 		'defaults' => 'php',
 		'cookie' => 'AppSession', // セッション用のクッキー名
 		'cookieTimeout' => 1440, // 1 day
+		'ini' => [
+			'session.cookie_path' => '/' // クッキーのパス ※サブディレクトリにインストールする場合はディレクトリ名に変更してください（例：/elearning）
+		]
 	]);
 
+// パスワードのハッシュ生成用文字列
+// ※インストール前にランダムな文字列に変更してください。インストール後に変更するとログインできなくなります。
 /**
  * A random string used in security hashing methods.
  */	Configure::write('Security.salt', '397110e45242a23e5802e78f4eec95a7bd39e0f0');
 
+// 暗号化用数字
+// ※ランダムな数字に変更してください。
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */	Configure::write('Security.cipherSeed', '303632386133653432646231373537');

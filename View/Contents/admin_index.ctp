@@ -18,6 +18,7 @@
 			update: function(event, ui)
 			{
 				var id_list = new Array();
+				var token  = $('input[name="data[_Token][key]"]').val();
 
 				$('.content_id').each(function(index)
 				{
@@ -27,7 +28,7 @@
 				$.ajax({
 					url: "<?= Router::url(['action' => 'order']) ?>",
 					type: "POST",
-					data: { id_list : id_list },
+					data: { id_list : id_list, _Token : { key : token } },
 					dataType: "text",
 					success : function(response){
 						//通信成功時の処理
@@ -95,7 +96,7 @@
 		<td class="ib-col-date"><?= Utils::getYMDHN($content['Content']['modified']); ?>&nbsp;</td>
 		<td class="ib-col-action">
 			<button type="button" class="btn btn-success" onclick="location.href='<?= Router::url(['action' => 'edit', $course['Course']['id'], $content['Content']['id']]) ?>'"><?= __('編集')?></button>
-			<button type="button" class="btn btn-info" onclick="location.href='<?= Router::url(['action' => 'copy', $course['Course']['id'], $content['Content']['id']]) ?>'"><?= __('複製')?></button>
+			<?= $this->Form->postLink(__('複製'), ['action' => 'copy', $content['Course']['id'], $content['Content']['id']], ['class'=>'btn btn-info']);?>
 			<?php if($loginedUser['role'] == 'admin') {?>
 			<?= $this->Form->postLink(__('削除'), ['action' => 'delete', $content['Content']['id']], ['class'=>'btn btn-danger'], 
 				__('[%s] を削除してもよろしいですか?', $content['Content']['title']));?>
@@ -106,4 +107,6 @@
 	<?php endforeach; ?>
 	</tbody>
 	</table>
+	<?= $this->Form->create('Content');?>
+	<?= $this->Form->end(); ?>
 </div>

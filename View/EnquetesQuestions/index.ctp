@@ -87,12 +87,7 @@
 			switch($question_type)
 			{
 				case 'text':
-					// テスト結果履歴モードの場合、ラジオボタンを無効化
-					$is_disabled = $is_record ? 'disabled' : '';
-					
-					$answer_text = (count($answer_list) > 0) ? $answer_list[0] : '';
-					$option_tag = sprintf('<textarea name="answer_%s" %s class="form-control" rows="6">%s</textarea><br>', 
-						$question_id, $is_disabled, $answer_text);
+					$option_tag  = $is_record ? '<div class="well">'.nl2br(h($question_records[$question_id]['answer'])).'</div>' : sprintf('<textarea name="answer_%s" class="form-control" rows="6" maxlength="1000"></textarea><br>', $question_id);
 					break;
 				case 'single':
 					foreach($option_list as $option)

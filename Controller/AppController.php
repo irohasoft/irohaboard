@@ -64,6 +64,12 @@ class AppController extends Controller
 		}
 		*/
 		
+		// ログイン画面のみトークンチェックエラーをハンドリング
+		if(($this->action === 'login') || ($this->action === 'admin_login'))
+		{
+			$this->Security->blackHoleCallback = 'blackHole';
+		}
+		
 		// 他のサイトの設定が存在する場合、設定情報及びログイン情報をクリア
 		if($this->hasSession('Setting'))
 		{
@@ -134,6 +140,26 @@ class AppController extends Controller
 		
 		// 他のドメインからのiframeへの埋め込みの禁止
 		header("X-Frame-Options: SAMEORIGIN");
+	}
+
+	public function blackHole($type)
+	{
+		// CSRFエラー
+		if($type === 'csrf')
+		{
+			$this->Session->setFlash(__('トークンの有効期限が切れました。もう一度ログインしてください。'));
+			return $this->redirect(array('controller' => 'users', 'action' => 'login'));
+		}
+
+		// セキュリティエラー
+		if($type === 'secure')
+		{
+			$this->Session->setFlash(__('セッションの有効期限が切れました。もう一度ログインしてください。'));
+			return $this->redirect(array('controller' => 'users', 'action' => 'login'));
+		}
+
+		// 他のセキュリティ違反は BadRequest 扱い
+		throw new BadRequestException(__('不正なリクエストです。'));
 	}
 
 	/**

@@ -24,7 +24,6 @@ class UsersController extends AppController
 		'Paginator',
 		'Security' => [
 			'csrfUseOnce' => false,
-			'unlockedActions' => ['login', 'admin_login'],
 			'unlockedFields' => ['cmd'],
 		],
 		'Search.Prg',
@@ -100,7 +99,7 @@ class UsersController extends AppController
 			}
 			else
 			{
-				//$this->writeLog('login_error', $this->request->data['User']['username']);
+				$this->writeLog('login_error', $this->request->data['User']['username']);
 				$this->Flash->error(__('ログインID、もしくはパスワードが正しくありません'));
 			}
 		}

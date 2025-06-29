@@ -111,6 +111,9 @@ class UsersController extends AppController
 				$username = Configure::read('demo_login_id');
 				$password = Configure::read('demo_password');
 			}
+			
+			// 念のためログアウト
+			$this->Auth->logout();
 		}
 		
 		$this->set(compact('username', 'password'));

@@ -59,6 +59,21 @@ class UsersController extends AppController
 			// クッキー上のアカウントでログイン
 			$this->request->data = $this->readCookie('Auth');
 			
+			// ログインID、パスワードの形式が正しくない場合、クッキーを削除
+			if(
+				(!isset($this->request->data['User']['username'])) ||
+				(!isset($this->request->data['User']['password'])) ||
+				(!preg_match('/^[a-zA-Z0-9@_.+-]+$/', $this->request->data['User']['username'])) ||
+				(strlen($this->request->data['User']['username']) > 100) ||
+				(!preg_match('/^[a-zA-Z0-9@_.+-]+$/', $this->request->data['User']['password'])) ||
+				(strlen($this->request->data['User']['password']) > 100)
+			)
+			{
+				$this->set(compact('username', 'password'));
+				$this->deleteCookie('Auth');
+				return;
+			}
+
 			if($this->Auth->login())
 			{
 				// 最終ログイン日時を保存
@@ -77,6 +92,21 @@ class UsersController extends AppController
 		// 通常ログイン処理
 		if($this->request->is('post'))
 		{
+			// ログインID、パスワードの形式が正しくない場合、エラーを表示
+			if(
+				(!isset($this->request->data['User']['username'])) ||
+				(!isset($this->request->data['User']['password'])) ||
+				(!preg_match('/^[a-zA-Z0-9@_.+-]+$/', $this->request->data['User']['username'])) ||
+				(strlen($this->request->data['User']['username']) > 100) ||
+				(!preg_match('/^[a-zA-Z0-9@_.+-]+$/', $this->request->data['User']['password'])) ||
+				(strlen($this->request->data['User']['password']) > 100)
+			)
+			{
+				$this->set(compact('username', 'password'));
+				$this->Flash->error(__('ログインID、もしくはパスワードの形式が正しくありません'));
+				return;
+			}
+
 			if($this->Auth->login())
 			{
 				if(isset($this->data['User']['remember_me']))

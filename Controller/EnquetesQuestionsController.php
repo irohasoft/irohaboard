@@ -37,6 +37,9 @@ class EnquetesQuestionsController extends AppController
 	 */
 	public function index($content_id, $record_id = null)
 	{
+		$content_id = intval($content_id);
+		$record_id = ($record_id != null) ? intval($record_id) : null;
+		
 		$this->fetchTable('ContentsQuestion')->recursive = 0;
 		
 		//------------------------------//

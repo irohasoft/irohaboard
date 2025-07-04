@@ -37,6 +37,7 @@ class ContentsController extends AppController
 	public function index($course_id, $user_id = null)
 	{
 		$course_id = intval($course_id);
+		$user_id = ($user_id != null) ? intval($user_id) : null;
 		
 		// コースの情報を取得
 		$course = $this->fetchTable('Course')->get($course_id);

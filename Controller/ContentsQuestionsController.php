@@ -38,6 +38,9 @@ class ContentsQuestionsController extends AppController
 	public function index($content_id, $record_id = null)
 	{
 		$this->ContentsQuestion->recursive = 0;
+	
+		$content_id = intval($content_id);
+		$record_id = ($record_id != null) ? intval($record_id) : null;
 		
 		//------------------------------//
 		//	コンテンツ情報を取得		//
@@ -255,6 +258,9 @@ class ContentsQuestionsController extends AppController
 	 */
 	public function record($content_id, $record_id)
 	{
+		$content_id = intval($content_id);
+		$record_id = intval($record_id);
+		
 		$this->index($content_id, $record_id);
 		$this->render('index');
 	}

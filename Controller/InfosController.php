@@ -44,6 +44,8 @@ class InfosController extends AppController
 	 */
 	public function view($info_id)
 	{
+		$info_id = intval($info_id);
+		
 		if(!$this->Info->exists($info_id))
 		{
 			throw new NotFoundException(__('Invalid info'));

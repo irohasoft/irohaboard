@@ -14,7 +14,6 @@
 	<?= $this->Html->charset(); ?>
 	
 	<title><?= h($this->readSession('Setting.title')); ?></title>
-	<meta name="application-name" content="<?= APP_NAME; ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<?php
 		// 管理画面か確認、ただしログイン画面は例外とする
@@ -108,7 +107,7 @@
 		<?= h($this->readSession('Setting.copyright')); ?>
 	</footer>
 	
-	<?php if(isset($loginedUser)) {?>
+	<?php if(isset($loginedUser) && $this->isAdminPage()) {?>
 	<div class="irohasoft">
 		Powered by <a href="https://irohaboard.irohasoft.jp/"><?= APP_NAME; ?></a>
 	</div>

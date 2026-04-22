@@ -74,16 +74,36 @@ class UsersController extends AppController
 				return;
 			}
 
+			// ログイン試行回数制限チェック（同一ユーザ名で1時間以内に10回以上失敗していたらブロック）
+			$input_username = $this->request->data['User']['username'];
+
+			if($this->_isLoginBlocked($input_username))
+			{
+				// クッキーログインは自動処理のため、ユーザに Flash は出さずにクッキーだけ削除して
+				// 通常ログイン画面を表示する（次の手動ログイン試行でブロック告知される）
+				$this->writeLog('login_blocked', $input_username);
+				$this->set(compact('username', 'password'));
+				$this->deleteCookie('Auth');
+				return;
+			}
+
 			if($this->Auth->login())
 			{
 				// 最終ログイン日時を保存
 				$this->User->id = $this->readAuthUser('id');
 				$this->User->saveField('last_logined', date(date('Y-m-d H:i:s')));
+				$this->writeLog('user_logined', '');
 				$this->writeCookie('LoginStatus', 'logined');
 				return $this->redirect( $this->Auth->redirect());
 			}
 			else
 			{
+				// ブルートフォース速度低下のため、失敗時のみランダムスリープ（1.5〜2.5秒）
+				usleep(rand(1500000, 2500000));
+
+				// 失敗をログに記録（通常ログインと同じ基準でブロック判定の対象にする）
+				$this->writeLog('login_error', $input_username);
+
 				// ログインに失敗した場合、クッキーを削除
 				$this->deleteCookie('Auth');
 			}
@@ -104,6 +124,17 @@ class UsersController extends AppController
 			{
 				$this->set(compact('username', 'password'));
 				$this->Flash->error(__('ログインID、もしくはパスワードの形式が正しくありません'));
+				return;
+			}
+
+			// ログイン試行回数制限チェック（同一ユーザ名で1時間以内に10回以上失敗していたらブロック）
+			$input_username = $this->request->data['User']['username'];
+
+			if($this->_isLoginBlocked($input_username))
+			{
+				$this->writeLog('login_blocked', $input_username);
+				$this->Flash->error(__('ログイン試行回数が上限に達しました。1時間後に再度お試しください。'));
+				$this->set(compact('username', 'password'));
 				return;
 			}
 
@@ -129,7 +160,10 @@ class UsersController extends AppController
 			}
 			else
 			{
-				$this->writeLog('login_error', $this->request->data['User']['username']);
+				// ブルートフォース速度低下のため、失敗時のみランダムスリープ（1.5〜2.5秒）
+				usleep(rand(1500000, 2500000));
+
+				$this->writeLog('login_error', $input_username);
 				$this->Flash->error(__('ログインID、もしくはパスワードが正しくありません'));
 			}
 		}
@@ -380,10 +414,11 @@ class UsersController extends AppController
 				return;
 			}
 			
-			$data['password'] = $data['new_password'];
-			$data['id'] = $this->readAuthUser('id');
+			$save_data = [];
+			$save_data['password'] = $data['new_password'];
+			$save_data['id'] = $this->readAuthUser('id');
 			
-			if($this->User->save($data))
+			if($this->User->save($save_data))
 			{
 				$this->Flash->success(__('パスワードが変更されました'));
 			}
@@ -420,6 +455,34 @@ class UsersController extends AppController
 	public function admin_logout()
 	{
 		$this->logout();
+	}
+
+	/**
+	 * ログインブロック判定
+	 *
+	 * 直近1時間以内に同一ユーザ名で10回以上ログイン失敗している場合、ブロック対象とする
+	 *
+	 * @param string $username 試行されたユーザ名
+	 * @return bool true: ブロック対象, false: 通常処理続行
+	 */
+	private function _isLoginBlocked($username)
+	{
+		// ユーザ名が空の場合は後続のバリデーションで弾かれるため、ここではチェックしない
+		if($username === '')
+			return false;
+
+		$threshold_time = date('Y-m-d H:i:s', strtotime('-1 hour'));
+		$max_attempts   = 10;
+
+		$count = $this->fetchTable('Log')->find('count', [
+			'conditions' => [
+				'Log.log_type'    => 'login_error',
+				'Log.log_content' => $username,
+				'Log.created >='  => $threshold_time,
+			]
+		]);
+
+		return ($count >= $max_attempts);
 	}
 
 	/**
@@ -621,6 +684,26 @@ class UsersController extends AppController
 		$group_count  = Configure::read('import_group_count');		// 所属グループの列数
 		$course_count = Configure::read('import_course_count');		// 受講コースの列数
 		
+		/*
+		// 許可するIPアドレスの配列
+		$allowedIps = 
+		[
+			'123.123.123.123',
+			'::1'
+		];
+
+		// クライアントのIPを取得
+		$clientIp = $this->request->clientIp();
+		
+		// 許可されていないIPの場合はエラーを表示
+		if(!in_array($clientIp, $allowedIps))
+		{
+			$this->Flash->error(__('このIPアドレスからのエクスポートは許可されていません。'));
+			$this->writeLog('user_export_error', ''); // ログを記録
+			return $this->redirect(['action' => 'index']);
+		}
+		*/
+		
 		$this->autoRender = false;
 		Configure::write('debug', 0);
 
@@ -739,5 +822,6 @@ class UsersController extends AppController
 		}
 		
 		fclose($fp);
+		$this->writeLog('user_exported', ''); // ログを記録
 	}
 }

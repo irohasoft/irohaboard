@@ -22,6 +22,11 @@ Options -Indexes
 RewriteCond %{REQUEST_URI} (\.env|vendor|phpunit|\.git|\.sql|\.bak|\.ini|\.cgi|\.py) [NC]
 RewriteRule ^ - [F,L]
 
+# Deny access to /install and /update endpoints
+# RewriteCond %{REMOTE_ADDR} !^192\.168\.1\.
+# RewriteCond %{REMOTE_ADDR} !^203\.0\.113\.10$
+RewriteRule ^(admin/)?(install|update)(/|$) - [F,L,NC]
+
 # Deny any URI that contains wp-admin, wp-includes, or wp-content
 RewriteCond %{REQUEST_URI} (wp-admin|wp-includes|wp-content) [NC]
 RewriteRule ^ - [F,L]
@@ -31,6 +36,8 @@ RewriteCond %{REQUEST_URI} \.php$ [NC]
 RewriteCond %{REQUEST_URI} !/(index|test_pi)\.php$ [NC]
 RewriteRule ^ - [F,L]
 
+# Deny access to well-known files
+RewriteRule ^\.well-known/ - [R=404,L]
 
 <IfModule mod_headers.c>
 	Header always set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"

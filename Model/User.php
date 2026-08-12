@@ -9,7 +9,6 @@
  */
 
 App::uses('AppModel', 'Model');
-App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 
 /**
  * User Model
@@ -114,10 +113,17 @@ class User extends AppModel
 
 	public function beforeSave($options = [])
 	{
-		// ユーザ情報保存時に、パスワードをハッシュ値に変換
+		// ユーザ情報保存時に、パスワードを bcrypt ハッシュ値に変換
+		// （追加・編集・パスワード変更・インポート・インストールなど、save 経由はすべてここ経由）
 		if (isset($this->data[$this->alias]['password']))
 		{
-			$this->data[$this->alias]['password'] = AuthComponent::password($this->data[$this->alias]['password']);
+			$password = $this->data[$this->alias]['password'];
+
+			// 既に bcrypt ハッシュ（$2y$ 等）の場合は再ハッシュしない
+			if (substr($password, 0, 1) !== '$')
+			{
+				$this->data[$this->alias]['password'] = password_hash($password, PASSWORD_BCRYPT);
+			}
 		}
 		return true;
 	}

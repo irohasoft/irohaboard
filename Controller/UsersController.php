@@ -87,7 +87,7 @@ class UsersController extends AppController
 				return;
 			}
 
-			if($this->Auth->login())
+			if($this->_login())
 			{
 				// 最終ログイン日時を保存
 				$this->User->id = $this->readAuthUser('id');
@@ -138,7 +138,7 @@ class UsersController extends AppController
 				return;
 			}
 
-			if($this->Auth->login())
+			if($this->_login())
 			{
 				if(isset($this->data['User']['remember_me']))
 				{
@@ -184,41 +184,47 @@ class UsersController extends AppController
 	}
 
 	/**
-	 * bcrypt パスワード対応ログイン（将来使用予定）
+	 * bcrypt 基本・既存 SHA1 互換ログイン
+	 *
+	 * SHA1 で認証成功した場合は bcrypt へ自動再ハッシュする
 	 */
 	private function _login()
 	{
-		// POSTデータにログインIDが含まれていない場合、認証失敗とする
+		// POSTデータにログインID・パスワードが含まれていない場合、認証失敗とする
 		if(!isset($this->request->data['User']['username']))
 			return false;
-		
+
+		if(!isset($this->request->data['User']['password']))
+			return false;
+
 		$username = $this->request->data['User']['username'];
+		$password = $this->request->data['User']['password'];
 		$user = $this->User->findByUsername($username);
-		
+
 		// 指定したユーザが存在しない場合、認証失敗とする
 		if(!$user)
 			return false;
-		
+
 		$hash = $user['User']['password'];
-		
-		// 先頭文字列で bcrypt によるハッシュ値かどうか判定
-		if(substr($hash, 0, 1) == '$')
+
+		// 先頭文字で bcrypt ハッシュかどうか判定
+		if(substr($hash, 0, 1) === '$')
 		{
-			// bcrypt パスワードの認証
-			$password = $this->request->data['User']['password'];
-			
-			if(password_verify($password, $hash))
-			{
-				return $this->Auth->login($user['User']);
-			}
+			if(!password_verify($password, $hash))
+				return false;
+
+			return $this->Auth->login($user['User']);
 		}
-		else
-		{
-			// 通常(SHA-1)パスワードの認証
-			return $this->Auth->login();
-		}
-		
-		return false;
+
+		// 既存 SHA1（AuthComponent::password）での認証
+		if(!$this->Auth->login())
+			return false;
+
+		// 次回以降は bcrypt で認証できるようアップグレード
+		$this->User->id = $user['User']['id'];
+		$this->User->saveField('password', $password);
+
+		return true;
 	}
 
 	/**

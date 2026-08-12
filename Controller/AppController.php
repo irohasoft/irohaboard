@@ -32,7 +32,11 @@ class AppController extends Controller
 			'loginRedirect' => ['controller' => 'users_courses', 'action' => 'index'],
 			'logoutRedirect' => ['controller' => 'users','action' => 'login','home'],
 			'authError' => false
-		]
+		],
+		// 子コントローラは 'Security' => [...] と書くだけで AppSecurity が使われる
+		'Security' => [
+			'className' => 'AppSecurity',
+		],
 	];
 	
 	/**
@@ -42,7 +46,7 @@ class AppController extends Controller
 	public $helpers = [
 		'Session',
 		'Html' => ['className' => 'BoostCake.BoostCakeHtml'],
-		'Form' => ['className' => 'BoostCake.BoostCakeForm'],
+		'Form' => ['className' => 'AppBoostCakeForm'],
 		'Paginator' => ['className' => 'BoostCake.BoostCakePaginator'],
 	];
 	

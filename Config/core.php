@@ -242,6 +242,13 @@
  * A random string used in security hashing methods.
  */	Configure::write('Security.salt', '397110e45242a23e5802e78f4eec95a7bd39e0f0');
 
+/**
+ * フォーム改ざん防止トークンの方式
+ * - cake4: hash_hmac(sha1) + sessionId（CakePHP 4 FormProtection 相当）
+ * - cake2: 従来の CakePHP 2 SecurityComponent 方式
+ */
+	Configure::write('Security.formProtection', 'cake4');
+
 // 暗号化用数字
 // ※ランダムな数字に変更してください。
 /**

@@ -5,6 +5,7 @@
  */
 
 App::uses('AppController', 'Controller');
+App::uses('ForbiddenException', 'Exception');
 
 /**
  * Install Controller
@@ -40,6 +41,9 @@ class InstallController extends AppController
 	 */
 	public function beforeFilter()
 	{
+		if (Configure::read('deny_install_update_access')) {
+			throw new ForbiddenException();
+		}
 	}
 	
 	/**

@@ -5,6 +5,7 @@
  */
 
 App::uses('AppController', 'Controller');
+App::uses('ForbiddenException', 'Exception');
 
 /**
  * Update Controller
@@ -31,6 +32,13 @@ class UpdateController extends AppController
 			]
 		]
 	];
+	
+	public function beforeFilter()
+	{
+		if (Configure::read('deny_install_update_access')) {
+			throw new ForbiddenException();
+		}
+	}
 	
 	/**
 	 * アップデート

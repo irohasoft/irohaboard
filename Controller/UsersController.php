@@ -51,67 +51,50 @@ class UsersController extends AppController
 	{
 		$username = '';
 		$password = '';
-		
-		// 自動ログイン処理
-		// Check cookie's login info.
+
+		// 旧方式（平文パスワード Cookie）は破棄
 		if($this->hasCookie('Auth'))
+			$this->deleteCookie('Auth');
+
+		// トークン方式の自動ログイン
+		if($this->hasCookie('CookieAuth'))
 		{
-			// クッキー上のアカウントでログイン
-			$this->request->data = $this->readCookie('Auth');
-			
-			// ログインID、パスワードの形式が正しくない場合、クッキーを削除
-			if(
-				(!isset($this->request->data['User']['username'])) ||
-				(!isset($this->request->data['User']['password'])) ||
-				(!preg_match('/^[a-zA-Z0-9@_.+-]+$/', $this->request->data['User']['username'])) ||
-				(strlen($this->request->data['User']['username']) > 100) ||
-				(!preg_match('/^[a-zA-Z0-9@_.+-]+$/', $this->request->data['User']['password'])) ||
-				(strlen($this->request->data['User']['password']) > 100)
-			)
+			$cookie_value = $this->readCookie('CookieAuth');
+			$user = null;
+			try
 			{
-				$this->set(compact('username', 'password'));
-				$this->deleteCookie('Auth');
-				return;
+				$user = $this->fetchTable('UserToken')->authenticateRememberCookie($cookie_value);
+			}
+			catch(Exception $e)
+			{
+				// ib_user_tokens 未作成（/update 前）など
 			}
 
-			// ログイン試行回数制限チェック（同一ユーザ名で1時間以内に10回以上失敗していたらブロック）
-			$input_username = $this->request->data['User']['username'];
-
-			if($this->_isLoginBlocked($input_username))
+			// Remember Me は権限 user のみ許可
+			if($user && isset($user['role']) && $user['role'] === 'user')
 			{
-				// クッキーログインは自動処理のため、ユーザに Flash は出さずにクッキーだけ削除して
-				// 通常ログイン画面を表示する（次の手動ログイン試行でブロック告知される）
-				$this->writeLog('login_blocked', $input_username);
-				$this->set(compact('username', 'password'));
-				$this->deleteCookie('Auth');
-				return;
+				if($this->Auth->login($user))
+				{
+					// 最終ログイン日時を保存
+					$this->User->id = $this->readAuthUser('id');
+					$this->User->saveField('last_logined', date('Y-m-d H:i:s'));
+					$this->writeLog('user_logined', '');
+					$this->writeCookie('LoginStatus', 'logined');
+					return $this->redirect($this->Auth->redirect());
+				}
 			}
 
-			if($this->_login())
-			{
-				// 最終ログイン日時を保存
-				$this->User->id = $this->readAuthUser('id');
-				$this->User->saveField('last_logined', date(date('Y-m-d H:i:s')));
-				$this->writeLog('user_logined', '');
-				$this->writeCookie('LoginStatus', 'logined');
-				return $this->redirect( $this->Auth->redirect());
-			}
-			else
-			{
-				// ブルートフォース速度低下のため、失敗時のみランダムスリープ（1.5〜2.5秒）
-				usleep(rand(1500000, 2500000));
-
-				// 失敗をログに記録（通常ログインと同じ基準でブロック判定の対象にする）
-				$this->writeLog('login_error', $input_username);
-
-				// ログインに失敗した場合、クッキーを削除
-				$this->deleteCookie('Auth');
-			}
+			// 失敗時は Cookie を削除（不正・期限切れ・テーブル未作成など）
+			$this->deleteCookie('CookieAuth');
 		}
-		
+
 		// 通常ログイン処理
 		if($this->request->is('post'))
 		{
+			// HTTPS 以外ではログイン状態の保持を無効化
+			if(!$this->isHTTPS())
+				unset($this->request->data['User']['remember_me']);
+
 			// ログインID、パスワードの形式が正しくない場合、エラーを表示
 			if(
 				(!isset($this->request->data['User']['username'])) ||
@@ -140,19 +123,36 @@ class UsersController extends AppController
 
 			if($this->_login())
 			{
-				if(isset($this->data['User']['remember_me']))
+				// Remember Me は権限 user のみ発行
+				if(!empty($this->request->data['User']['remember_me']))
 				{
-					// Remove remember_me data.
-					unset( $this->request->data['User']['remember_me']);
-					
-					// Save login info to cookie.
-					$cookie = $this->request->data;
-					$this->writeCookie('Auth', $cookie, true, '+2 weeks');
+					if($this->readAuthUser('role') === 'user')
+					{
+						$days = (int)Configure::read('remember_token_expired_days');
+						if($days <= 0)
+							$days = 14;
+
+						// /update 前（ib_user_tokens 未作成）でもログイン自体は成功させる
+						try
+						{
+							$token = $this->fetchTable('UserToken')->issueRememberToken($this->readAuthUser('id'));
+							if($token)
+								$this->writeCookie('CookieAuth', $token, false, '+' . $days . ' days');
+						}
+						catch(Exception $e)
+						{
+							// テーブル未作成・モデル未配置時は Remember Me のみスキップ
+						}
+					}
+					else
+					{
+						$this->Flash->error(__('ログイン状態の保持は受講者のみ利用できます'));
+					}
 				}
-				
+
 				// 最終ログイン日時を保存
 				$this->User->id = $this->readAuthUser('id');
-				$this->User->saveField('last_logined', date(date('Y-m-d H:i:s')));
+				$this->User->saveField('last_logined', date('Y-m-d H:i:s'));
 				$this->writeLog('user_logined', '');
 				$this->writeCookie('LoginStatus', 'logined');
 				$this->deleteSession('Auth.redirect');
@@ -175,11 +175,11 @@ class UsersController extends AppController
 				$username = Configure::read('demo_login_id');
 				$password = Configure::read('demo_password');
 			}
-			
+
 			// 念のためログアウト
 			$this->Auth->logout();
 		}
-		
+
 		$this->set(compact('username', 'password'));
 	}
 
@@ -232,6 +232,20 @@ class UsersController extends AppController
 	 */
 	public function logout()
 	{
+		if($this->hasCookie('CookieAuth'))
+		{
+			try
+			{
+				$this->fetchTable('UserToken')->revokeByCookie($this->readCookie('CookieAuth'));
+			}
+			catch(Exception $e)
+			{
+				// ib_user_tokens 未作成（/update 前）など
+			}
+			$this->deleteCookie('CookieAuth');
+		}
+
+		// 旧方式 Cookie も念のため削除
 		$this->deleteCookie('Auth');
 		$this->deleteCookie('LoginStatus');
 		$this->redirect($this->Auth->logout());
@@ -323,12 +337,29 @@ class UsersController extends AppController
 		{
 			if(Configure::read('demo_mode'))
 				return;
-			
-			if($this->request->data['User']['new_password'] !== '')
+
+			$password_changed = ($this->request->data['User']['new_password'] !== '');
+			if($password_changed)
 				$this->request->data['User']['password'] = $this->request->data['User']['new_password'];
 
 			if($this->User->save($this->request->data))
 			{
+				if($password_changed)
+				{
+					// パスワード変更時は旧 Remember Me トークンを無効化
+					$target_user_id = !empty($this->request->data['User']['id'])
+						? $this->request->data['User']['id']
+						: $user_id;
+					try
+					{
+						$this->fetchTable('UserToken')->revokeAllForUser($target_user_id);
+					}
+					catch(Exception $e)
+					{
+						// ib_user_tokens 未作成（/update 前）など
+					}
+				}
+
 				$this->Flash->success(__('ユーザ情報が保存されました'));
 				unset($this->request->data['User']['new_password']);
 				return $this->redirect(['action' => 'index']);
@@ -426,6 +457,15 @@ class UsersController extends AppController
 			
 			if($this->User->save($save_data))
 			{
+				// パスワード変更時は旧 Remember Me トークンを無効化
+				try
+				{
+					$this->fetchTable('UserToken')->revokeAllForUser($save_data['id']);
+				}
+				catch(Exception $e)
+				{
+					// ib_user_tokens 未作成（/update 前）など
+				}
 				$this->Flash->success(__('パスワードが変更されました'));
 			}
 			else

@@ -240,6 +240,28 @@ CREATE TABLE IF NOT EXISTS `ib_contents` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for `ib_user_tokens`
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS `ib_user_tokens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `token_type` varchar(20) NOT NULL COMMENT 'remember / trusted_device',
+  `token_selector` varchar(32) NOT NULL COMMENT 'Cookie公開部（検索用）',
+  `token_hash` varchar(255) NOT NULL COMMENT 'Cookie秘密部のハッシュ',
+  `expired` datetime NOT NULL,
+  `last_used` datetime DEFAULT NULL,
+  `revoked` datetime DEFAULT NULL,
+  `user_ip` varchar(50) DEFAULT NULL,
+  `user_agent` varchar(1000) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_token_selector` (`token_selector`),
+  KEY `idx_user_type` (`user_id`, `token_type`),
+  KEY `idx_expired` (`expired`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for `ib_cake_sessions`
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS `ib_cake_sessions` (

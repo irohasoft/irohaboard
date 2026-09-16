@@ -15,8 +15,8 @@ iroha Board は日本で生まれたオープンソースのeラーニングシ�
 https://irohaboard.irohasoft.jp/
 
 ## 動作環境
-* PHP : 5.4以上
-* MySQL : 5.1以上
+* PHP : 5.6～8.4 (PHP 7.4以上を推奨)
+* MySQL(MariaDB) : 5.5以上
 * CakePHP : 2.10
 
 ## License

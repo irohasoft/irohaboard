@@ -15,10 +15,10 @@ if(!defined('APP_NAME'))
 }
 
 // PHPのバージョンチェック
-if(version_compare(PHP_VERSION, '5.4.0') <= 0)
+if(version_compare(PHP_VERSION, '5.6.0', '<'))
 {
 	header('Content-Type: text/html; charset=UTF-8');
-	echo 'ERROR-001 : '.APP_NAME.' の動作には 5.4.0 以上が必要です。現在のバージョンは ' . PHP_VERSION . ' です。\n';
+	echo 'ERROR-001 : '.APP_NAME.' の動作には PHP 5.6 以上が必要です。現在のバージョンは ' . PHP_VERSION . ' です。\n';
 	exit;
 }
 

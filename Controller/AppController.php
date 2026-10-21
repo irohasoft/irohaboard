@@ -25,6 +25,7 @@ class AppController extends Controller
 		'DebugKit.Toolbar',
 		'Session',
 		'Cookie' => [
+			'className' => 'AppCookie',
 			'httpOnly' => true
 		],
 		'Flash',
